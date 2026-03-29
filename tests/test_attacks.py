@@ -277,3 +277,29 @@ def test_recursive_injection_generates_4():
     prompts = atk.generate_prompts(TARGET)
     assert len(prompts) == 4
     assert any("simulate" in p.lower() or "imagine" in p.lower() for p in prompts)
+
+
+from blackteam.attacks.narrative_misdirection import NarrativeMisdirection
+from blackteam.attacks.fictional_professional import FictionalProfessional
+from blackteam.attacks.implication_chaining import ImplicationChaining
+
+
+def test_narrative_misdirection_turns():
+    atk = NarrativeMisdirection()
+    turns = atk.generate_turns(TARGET)
+    assert len(turns) == 4
+    assert "connect" in turns[0].lower() or "logically" in turns[0].lower()
+
+
+def test_fictional_professional_generates_3():
+    atk = FictionalProfessional()
+    prompts = atk.generate_prompts(TARGET)
+    assert len(prompts) == 3
+    assert any("david" in p.lower() or "novelist" in p.lower() for p in prompts)
+
+
+def test_implication_chaining_turns():
+    atk = ImplicationChaining()
+    turns = atk.generate_turns(TARGET)
+    assert len(turns) == 4
+    assert "lost" in turns[0].lower() or "rough" in turns[0].lower()

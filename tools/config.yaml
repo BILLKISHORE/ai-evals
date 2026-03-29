@@ -1,0 +1,26 @@
+# AI Blackteam Configuration
+# API keys are read from environment variables -- never commit secrets
+
+providers:
+  openai:
+    api_key: ${OPENAI_API_KEY}
+    default_model: gpt-5.4
+  anthropic:
+    api_key: ${ANTHROPIC_API_KEY}
+    default_model: claude-4.6-sonnet
+  google:
+    api_key: ${GOOGLE_API_KEY}
+    default_model: gemini-3.1-pro
+  deepseek:
+    api_key: ${DEEPSEEK_API_KEY}
+    default_model: deepseek-v3.2
+  ollama:
+    base_url: http://localhost:11434
+    default_model: llama4-scout
+
+defaults:
+  batch_rounds: 50
+  timeout_seconds: 30
+  save_raw_responses: true
+  experiments_dir: experiments
+  index_file: INDEX.md

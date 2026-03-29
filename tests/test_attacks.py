@@ -303,3 +303,13 @@ def test_implication_chaining_turns():
     turns = atk.generate_turns(TARGET)
     assert len(turns) == 4
     assert "lost" in turns[0].lower() or "rough" in turns[0].lower()
+
+
+from blackteam.attacks.response_constraints import ResponseConstraints
+
+
+def test_response_constraints_generates_5():
+    atk = ResponseConstraints()
+    prompts = atk.generate_prompts(TARGET)
+    assert len(prompts) == 5
+    assert any("no warnings" in p.lower() or "no disclaimers" in p.lower() for p in prompts)

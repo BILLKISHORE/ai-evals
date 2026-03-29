@@ -48,7 +48,7 @@ blackteam report --format json --output results.json
 | Ollama | Any local model (Llama 4, Qwen, Gemma) | None (local) |
 | HuggingFace | Any HF model | API token |
 
-## Attacks (20 built-in)
+## Attacks (24 built-in)
 
 | Attack | Mode | Description |
 |--------|------|-------------|
@@ -72,6 +72,10 @@ blackteam report --format json --output results.json
 | authority-chain | multi | CISO/professor authority building |
 | completion-exploit | single | Fake transcripts, JSON completion |
 | multi-modal-text | single | ASCII art, tables, code embedding |
+| skeleton-key | multi | Augment guidelines to warn instead of refuse (Microsoft) |
+| crescendo | multi | Progressive escalation via self-reference (USENIX) |
+| deceptive-delight | multi | Mix benign + harmful topics, expand harmful (Unit 42) |
+| bad-likert-judge | multi | Exploit evaluation capability via Likert scale (Unit 42) |
 
 ## Custom Plugins
 

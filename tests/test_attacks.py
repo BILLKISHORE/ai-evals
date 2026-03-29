@@ -185,3 +185,53 @@ def test_bad_likert_judge_turns():
     turns = atk.generate_turns(TARGET)
     assert len(turns) == 3
     assert "likert" in turns[0].lower() or "scale" in turns[0].lower()
+
+
+from blackteam.attacks.meta_prompting import MetaPrompting
+from blackteam.attacks.homoglyph_substitution import HomoglyphSubstitution
+from blackteam.attacks.bidirectional_text import BidirectionalText
+from blackteam.attacks.markdown_injection import MarkdownInjection
+from blackteam.attacks.false_dichotomy import FalseDichotomy
+from blackteam.attacks.goalpost_moving import GoalpostMoving
+
+
+def test_meta_prompting_generates_4():
+    atk = MetaPrompting()
+    prompts = atk.generate_prompts(TARGET)
+    assert len(prompts) == 4
+    assert any("bypass" in p.lower() or "filter" in p.lower() for p in prompts)
+
+
+def test_homoglyph_generates_5():
+    atk = HomoglyphSubstitution()
+    prompts = atk.generate_prompts(TARGET)
+    assert len(prompts) == 5
+    assert prompts[0] != TARGET
+
+
+def test_bidirectional_generates_4():
+    atk = BidirectionalText()
+    prompts = atk.generate_prompts(TARGET)
+    assert len(prompts) == 4
+    assert any("\u202e" in p or "\u2067" in p for p in prompts)
+
+
+def test_markdown_injection_generates_5():
+    atk = MarkdownInjection()
+    prompts = atk.generate_prompts(TARGET)
+    assert len(prompts) == 5
+    assert any("display:none" in p or "<!--" in p for p in prompts)
+
+
+def test_false_dichotomy_turns():
+    atk = FalseDichotomy()
+    turns = atk.generate_turns(TARGET)
+    assert len(turns) == 4
+    assert "information" in turns[0].lower() or "freely" in turns[0].lower()
+
+
+def test_goalpost_moving_turns():
+    atk = GoalpostMoving()
+    turns = atk.generate_turns(TARGET)
+    assert len(turns) == 5
+    assert "human behavior" in turns[0].lower() or "studying" in turns[0].lower()

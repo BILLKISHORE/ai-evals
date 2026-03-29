@@ -121,10 +121,6 @@ blackteam run -p anthropic -a encoding-obfuscation -t "target" --evaluator keywo
 
 This tool was built alongside real security research on Claude Sonnet 4 and 4.6. See the `experiments/` folder for 8 experiments covering 115 attack techniques with documented findings.
 
-## Author
-
-Bill Kishore -- a developer who likes breaking things to understand how they work. Currently exploring LLM safety evals, red teaming, and the weird gaps between how AI systems are designed and how they actually behave. Open to collaborating on AI safety research, evals, or anything that needs creative problem-solving. Reach out.
-
 ## License
 
 MIT

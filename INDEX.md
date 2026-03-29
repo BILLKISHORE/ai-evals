@@ -9,19 +9,21 @@ Last updated: 2026-03-29
 | ID | Title | Model(s) | Technique(s) | Severity | Status |
 |----|-------|----------|-------------|----------|--------|
 | [EXP-001](experiments/2026-03-29-claude-4.6-system-prompt-extraction/) | Claude Sonnet 4 System Prompt Extraction -- Metadata Leakage via Reframing | claude-sonnet-4-20250514 | system-prompt-extraction, context-manipulation, role-play-bypass | medium | documented |
+| [EXP-002](experiments/2026-03-29-claude-tool-use-exploitation/) | Claude Sonnet 4 Tool-Use Exploitation -- Progressive Normalization Bypass | claude-sonnet-4-20250514 | tool-use-exploitation, context-manipulation | high | documented |
 
 ## By Technique
 
-- **context-manipulation**: EXP-001
+- **context-manipulation**: EXP-001, EXP-002
 - **role-play-bypass**: EXP-001
 - **system-prompt-extraction**: EXP-001
+- **tool-use-exploitation**: EXP-002
 
 ## By Model
 
-- **claude-sonnet-4-20250514**: EXP-001
+- **claude-sonnet-4-20250514**: EXP-001, EXP-002
 
 ## Stats
-- Total experiments: 1
+- Total experiments: 2
 - Models tested: 1
-- Techniques used: 3
+- Techniques used: 4
 - Bug bounties submitted: 0

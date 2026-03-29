@@ -15,22 +15,24 @@ Last updated: 2026-03-29
 | [EXP-005](experiments/2026-03-29-claude-many-shot-jailbreak/) | Claude Sonnet 4 Many-Shot Jailbreak -- Fully Mitigated | claude-sonnet-4-20250514 | many-shot-jailbreak | low | documented |
 | [EXP-006](experiments/2026-03-29-claude-context-manipulation/) | Claude Sonnet 4 Context Manipulation -- Conversational Drift and Authority Escalation Bypass Safety | claude-sonnet-4-20250514 | context-manipulation | high | documented |
 | [EXP-007](experiments/2026-03-29-claude-progressive-normalization-deep-dive/) | Claude Sonnet 4 Progressive Normalization Deep Dive -- No Warm-Up Needed, SSH Keys Readable | claude-sonnet-4-20250514 | tool-use-exploitation | critical | documented |
+| [EXP-008](experiments/2026-03-29-claude-4.6-retest-all-experiments/) | Claude Sonnet 4 vs 4.6 -- Comparative Safety Evaluation (9 Fixed, 2 Persist) | claude-sonnet-4-20250514, claude-sonnet-4-6 | tool-use-exploitation, system-prompt-extraction, encoding-obfuscation, role-play-bypass, many-shot-jailbreak, context-manipulation | medium | documented |
 
 ## By Technique
 
-- **context-manipulation**: EXP-001, EXP-002, EXP-004, EXP-006
-- **encoding-obfuscation**: EXP-003
-- **many-shot-jailbreak**: EXP-005
-- **role-play-bypass**: EXP-001, EXP-004
-- **system-prompt-extraction**: EXP-001
-- **tool-use-exploitation**: EXP-002, EXP-007
+- **context-manipulation**: EXP-001, EXP-002, EXP-004, EXP-006, EXP-008
+- **encoding-obfuscation**: EXP-003, EXP-008
+- **many-shot-jailbreak**: EXP-005, EXP-008
+- **role-play-bypass**: EXP-001, EXP-004, EXP-008
+- **system-prompt-extraction**: EXP-001, EXP-008
+- **tool-use-exploitation**: EXP-002, EXP-007, EXP-008
 
 ## By Model
 
-- **claude-sonnet-4-20250514**: EXP-001, EXP-002, EXP-003, EXP-004, EXP-005, EXP-006, EXP-007
+- **claude-sonnet-4-20250514**: EXP-001, EXP-002, EXP-003, EXP-004, EXP-005, EXP-006, EXP-007, EXP-008
+- **claude-sonnet-4-6**: EXP-008
 
 ## Stats
-- Total experiments: 7
-- Models tested: 1
+- Total experiments: 8
+- Models tested: 2
 - Techniques used: 6
 - Bug bounties submitted: 0

@@ -11,6 +11,11 @@ DEFAULT_CONFIG = {
     "providers": {
         "anthropic": {"api_key": None, "default_model": "claude-sonnet-4-6"},
         "ollama": {"base_url": "http://localhost:11434", "default_model": "llama3.2"},
+        "openai": {"api_key": None, "default_model": "gpt-4o"},
+        "google": {"api_key": None, "default_model": "gemini-2.0-flash"},
+        "deepseek": {"api_key": None, "default_model": "deepseek-chat"},
+        "mistral": {"api_key": None, "default_model": "mistral-large-latest"},
+        "huggingface": {"api_key": None, "default_model": "meta-llama/Llama-3.2-3B-Instruct"},
     },
     "evaluator": {
         "methods": ["keyword", "regex"],

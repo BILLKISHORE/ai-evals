@@ -35,4 +35,4 @@ python tools/cli.py index
 
 ## Author
 
-Bill Kishore -- AI Security Researcher
+Bill Kishore -- a developer who likes breaking things to understand how they work. Currently exploring LLM safety evals, red teaming, and the weird gaps between how AI systems are designed and how they actually behave. Open to collaborating on AI safety research, evals, or anything that needs creative problem-solving. Reach out.

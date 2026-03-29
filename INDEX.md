@@ -11,21 +11,22 @@ Last updated: 2026-03-29
 | [EXP-001](experiments/2026-03-29-claude-4.6-system-prompt-extraction/) | Claude Sonnet 4 System Prompt Extraction -- Metadata Leakage via Reframing | claude-sonnet-4-20250514 | system-prompt-extraction, context-manipulation, role-play-bypass | medium | documented |
 | [EXP-002](experiments/2026-03-29-claude-tool-use-exploitation/) | Claude Sonnet 4 Tool-Use Exploitation -- Progressive Normalization Bypass | claude-sonnet-4-20250514 | tool-use-exploitation, context-manipulation | high | documented |
 | [EXP-003](experiments/2026-03-29-claude-encoding-obfuscation/) | Claude Sonnet 4 Encoding Obfuscation -- Safety Filter is Encoding-Aware | claude-sonnet-4-20250514 | encoding-obfuscation | low | documented |
+| [EXP-004](experiments/2026-03-29-claude-role-play-bypass/) | Claude Sonnet 4 Role-Play Bypass -- Multi-Turn Fiction Building Produces Functional Phishing Templates | claude-sonnet-4-20250514 | role-play-bypass, context-manipulation | high | documented |
 
 ## By Technique
 
-- **context-manipulation**: EXP-001, EXP-002
+- **context-manipulation**: EXP-001, EXP-002, EXP-004
 - **encoding-obfuscation**: EXP-003
-- **role-play-bypass**: EXP-001
+- **role-play-bypass**: EXP-001, EXP-004
 - **system-prompt-extraction**: EXP-001
 - **tool-use-exploitation**: EXP-002
 
 ## By Model
 
-- **claude-sonnet-4-20250514**: EXP-001, EXP-002, EXP-003
+- **claude-sonnet-4-20250514**: EXP-001, EXP-002, EXP-003, EXP-004
 
 ## Stats
-- Total experiments: 3
+- Total experiments: 4
 - Models tested: 1
 - Techniques used: 5
 - Bug bounties submitted: 0

@@ -15,7 +15,7 @@ class AnthropicProvider(BaseProvider):
         super().__init__(model)
 
     def default_model(self) -> str:
-        return "claude-sonnet-4-20250514"
+        return "claude-sonnet-4-6"
 
     def send_prompt(self, prompt: str, system_prompt: str | None = None) -> PromptResult:
         kwargs = {

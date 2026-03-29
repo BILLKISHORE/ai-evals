@@ -129,4 +129,4 @@ These findings document metadata leakage about Claude's safety architecture, not
 
 ---
 
-*Bill Kishore is an AI security researcher focused on LLM vulnerability assessment. This research was conducted as part of an ongoing project to systematically evaluate the safety architectures of frontier AI models.*
+*Bill Kishore is a developer exploring AI security and LLM red teaming. If you're working on AI safety or know someone who is, reach out -- I'm looking to contribute.*

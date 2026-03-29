@@ -235,3 +235,45 @@ def test_goalpost_moving_turns():
     turns = atk.generate_turns(TARGET)
     assert len(turns) == 5
     assert "human behavior" in turns[0].lower() or "studying" in turns[0].lower()
+
+
+from blackteam.attacks.payload_splitting import PayloadSplitting
+from blackteam.attacks.defined_dictionary import DefinedDictionary
+from blackteam.attacks.compound_instruction import CompoundInstruction
+from blackteam.attacks.task_deflection import TaskDeflection
+from blackteam.attacks.recursive_injection import RecursiveInjection
+
+
+def test_payload_splitting_generates_4():
+    atk = PayloadSplitting()
+    prompts = atk.generate_prompts(TARGET)
+    assert len(prompts) == 4
+    assert any("a =" in p.lower() or "part 1" in p.lower() for p in prompts)
+
+
+def test_defined_dictionary_generates_4():
+    atk = DefinedDictionary()
+    prompts = atk.generate_prompts(TARGET)
+    assert len(prompts) == 4
+    assert any("dictionary" in p.lower() for p in prompts)
+
+
+def test_compound_instruction_generates_4():
+    atk = CompoundInstruction()
+    prompts = atk.generate_prompts(TARGET)
+    assert len(prompts) == 4
+    assert any("step" in p.lower() or "task" in p.lower() for p in prompts)
+
+
+def test_task_deflection_generates_4():
+    atk = TaskDeflection()
+    prompts = atk.generate_prompts(TARGET)
+    assert len(prompts) == 4
+    assert any("filter" in p.lower() or "quiz" in p.lower() for p in prompts)
+
+
+def test_recursive_injection_generates_4():
+    atk = RecursiveInjection()
+    prompts = atk.generate_prompts(TARGET)
+    assert len(prompts) == 4
+    assert any("simulate" in p.lower() or "imagine" in p.lower() for p in prompts)

@@ -12,21 +12,23 @@ Last updated: 2026-03-29
 | [EXP-002](experiments/2026-03-29-claude-tool-use-exploitation/) | Claude Sonnet 4 Tool-Use Exploitation -- Progressive Normalization Bypass | claude-sonnet-4-20250514 | tool-use-exploitation, context-manipulation | high | documented |
 | [EXP-003](experiments/2026-03-29-claude-encoding-obfuscation/) | Claude Sonnet 4 Encoding Obfuscation -- Safety Filter is Encoding-Aware | claude-sonnet-4-20250514 | encoding-obfuscation | low | documented |
 | [EXP-004](experiments/2026-03-29-claude-role-play-bypass/) | Claude Sonnet 4 Role-Play Bypass -- Multi-Turn Fiction Building Produces Functional Phishing Templates | claude-sonnet-4-20250514 | role-play-bypass, context-manipulation | high | documented |
+| [EXP-005](experiments/2026-03-29-claude-many-shot-jailbreak/) | Claude Sonnet 4 Many-Shot Jailbreak -- Fully Mitigated | claude-sonnet-4-20250514 | many-shot-jailbreak | low | documented |
 
 ## By Technique
 
 - **context-manipulation**: EXP-001, EXP-002, EXP-004
 - **encoding-obfuscation**: EXP-003
+- **many-shot-jailbreak**: EXP-005
 - **role-play-bypass**: EXP-001, EXP-004
 - **system-prompt-extraction**: EXP-001
 - **tool-use-exploitation**: EXP-002
 
 ## By Model
 
-- **claude-sonnet-4-20250514**: EXP-001, EXP-002, EXP-003, EXP-004
+- **claude-sonnet-4-20250514**: EXP-001, EXP-002, EXP-003, EXP-004, EXP-005
 
 ## Stats
-- Total experiments: 4
+- Total experiments: 5
 - Models tested: 1
-- Techniques used: 5
+- Techniques used: 6
 - Bug bounties submitted: 0

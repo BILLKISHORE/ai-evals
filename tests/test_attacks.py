@@ -151,3 +151,37 @@ def test_conversation_derailment_turns():
     atk = ConversationDerailment()
     turns = atk.generate_turns(TARGET)
     assert len(turns) == 4
+
+
+from blackteam.attacks.skeleton_key import SkeletonKey
+from blackteam.attacks.crescendo import Crescendo
+from blackteam.attacks.deceptive_delight import DeceptiveDelight
+from blackteam.attacks.bad_likert_judge import BadLikertJudge
+
+
+def test_skeleton_key_turns():
+    atk = SkeletonKey()
+    turns = atk.generate_turns(TARGET)
+    assert len(turns) == 3
+    assert "warning" in turns[0].lower() or "Warning" in turns[0]
+
+
+def test_crescendo_turns():
+    atk = Crescendo()
+    turns = atk.generate_turns(TARGET)
+    assert len(turns) == 5
+    assert "history" in turns[0].lower()
+
+
+def test_deceptive_delight_turns():
+    atk = DeceptiveDelight()
+    turns = atk.generate_turns(TARGET)
+    assert len(turns) == 3
+    assert "story" in turns[0].lower() or "narrative" in turns[0].lower()
+
+
+def test_bad_likert_judge_turns():
+    atk = BadLikertJudge()
+    turns = atk.generate_turns(TARGET)
+    assert len(turns) == 3
+    assert "likert" in turns[0].lower() or "scale" in turns[0].lower()

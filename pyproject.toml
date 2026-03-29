@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "ai-blackteam"
+version = "0.1.0"
+description = "Automated LLM red team framework"
+authors = ["Bill Kishore <abillkishoreinico@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "blackteam", from = "src"}]
+
+[tool.poetry.scripts]
+blackteam = "blackteam.cli:cli"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+click = "^8.1"
+pyyaml = "^6.0"
+rich = "^13.0"
+anthropic = "^0.86"
+ollama = "^0.4"
+httpx = "^0.27"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

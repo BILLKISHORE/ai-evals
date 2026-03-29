@@ -14,6 +14,7 @@ Last updated: 2026-03-29
 | [EXP-004](experiments/2026-03-29-claude-role-play-bypass/) | Claude Sonnet 4 Role-Play Bypass -- Multi-Turn Fiction Building Produces Functional Phishing Templates | claude-sonnet-4-20250514 | role-play-bypass, context-manipulation | high | documented |
 | [EXP-005](experiments/2026-03-29-claude-many-shot-jailbreak/) | Claude Sonnet 4 Many-Shot Jailbreak -- Fully Mitigated | claude-sonnet-4-20250514 | many-shot-jailbreak | low | documented |
 | [EXP-006](experiments/2026-03-29-claude-context-manipulation/) | Claude Sonnet 4 Context Manipulation -- Conversational Drift and Authority Escalation Bypass Safety | claude-sonnet-4-20250514 | context-manipulation | high | documented |
+| [EXP-007](experiments/2026-03-29-claude-progressive-normalization-deep-dive/) | Claude Sonnet 4 Progressive Normalization Deep Dive -- No Warm-Up Needed, SSH Keys Readable | claude-sonnet-4-20250514 | tool-use-exploitation | critical | documented |
 
 ## By Technique
 
@@ -22,14 +23,14 @@ Last updated: 2026-03-29
 - **many-shot-jailbreak**: EXP-005
 - **role-play-bypass**: EXP-001, EXP-004
 - **system-prompt-extraction**: EXP-001
-- **tool-use-exploitation**: EXP-002
+- **tool-use-exploitation**: EXP-002, EXP-007
 
 ## By Model
 
-- **claude-sonnet-4-20250514**: EXP-001, EXP-002, EXP-003, EXP-004, EXP-005, EXP-006
+- **claude-sonnet-4-20250514**: EXP-001, EXP-002, EXP-003, EXP-004, EXP-005, EXP-006, EXP-007
 
 ## Stats
-- Total experiments: 6
+- Total experiments: 7
 - Models tested: 1
 - Techniques used: 6
 - Bug bounties submitted: 0

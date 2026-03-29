@@ -147,7 +147,7 @@ def batch(provider, model, attacks, target):
 
 
 @cli.command()
-@click.option("--format", "fmt", type=click.Choice(["markdown", "json"]), default="markdown")
+@click.option("--format", "fmt", type=click.Choice(["markdown", "json", "html"]), default="markdown")
 @click.option("--output", "-o", default=None, help="Output file path")
 def report(fmt, output):
     """Generate a report from stored results."""
@@ -160,6 +160,9 @@ def report(fmt, output):
 
     if fmt == "markdown":
         content = generate_markdown(storage)
+    elif fmt == "html":
+        from blackteam.reporter import generate_html
+        content = generate_html(storage)
     else:
         content = generate_json(storage)
 

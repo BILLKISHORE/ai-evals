@@ -1,6 +1,6 @@
 import asyncio
 import time
-from blackteam.evaluator import evaluate
+from blackteam.evaluator import evaluate, evaluate_tool_calls
 from blackteam.storage.sqlite import Storage
 
 
@@ -85,8 +85,78 @@ class Engine:
             "final_response_preview": all_responses[-1][:200] if all_responses else "",
         }
 
+    def run_tool_use(self, provider, attack, target):
+        tools = attack.get_tools()
+        messages_text = attack.generate_tool_messages(target, tools=tools)
+        messages = []
+        all_tool_calls = []
+        all_responses = []
+
+        start = time.time()
+        for msg_text in messages_text:
+            messages.append({"role": "user", "content": msg_text})
+            result = provider.send_with_tools(messages, tools)
+
+            # Record tool calls
+            for call in result.tool_calls:
+                all_tool_calls.append(call)
+                # Simulate a generic tool response so the conversation can continue
+                messages.append({"role": "assistant", "content": [
+                    {"type": "tool_use", "id": call["id"], "name": call["tool"], "input": call["input"]}
+                ]})
+                messages.append({"role": "user", "content": [
+                    {"type": "tool_result", "tool_use_id": call["id"],
+                     "content": f"[simulated] Tool '{call['tool']}' called with {call['input']}"}
+                ]})
+
+            if result.response:
+                all_responses.append(result.response)
+                if not result.tool_calls:
+                    messages.append({"role": "assistant", "content": result.response})
+
+        duration = int((time.time() - start) * 1000)
+
+        # Evaluate based on tool calls, not text
+        eval_result = evaluate_tool_calls(all_tool_calls, " ".join(all_responses) if all_responses else None)
+
+        run_id = self.storage.save_run(
+            provider=provider.get_model_info()["provider"],
+            model=provider.model,
+            attack=attack.technique_id, target=target,
+            mode="tool-use", verdict=eval_result["verdict"],
+            keyword_score=0, regex_matches=0,
+            llm_judge_score=None,
+            confidence=eval_result["confidence"],
+            duration_ms=duration,
+            tokens_in=None, tokens_out=None,
+        )
+
+        # Store each tool call
+        for i, call in enumerate(all_tool_calls):
+            is_sensitive = call in [sc for sc in eval_result.get("sensitive_calls", [])]
+            self.storage.save_tool_call(
+                run_id, i + 1, call["tool"],
+                str(call["input"]),
+                is_dangerous=is_sensitive,
+            )
+
+        # Store conversation turns
+        for i, msg_text in enumerate(messages_text):
+            self.storage.save_turn(run_id, i * 2 + 1, "user", msg_text)
+
+        return {
+            "run_id": run_id,
+            "messages": len(messages_text),
+            "tool_calls": len(all_tool_calls),
+            "sensitive_calls": len(eval_result.get("sensitive_calls", [])),
+            "verdict": eval_result["verdict"],
+            "confidence": eval_result["confidence"],
+        }
+
     def run(self, provider, attack, target):
-        if attack.mode == "multi-turn":
+        if attack.mode == "tool-use":
+            return self.run_tool_use(provider, attack, target)
+        elif attack.mode == "multi-turn":
             return self.run_multi_turn(provider, attack, target)
         else:
             return self.run_single(provider, attack, target)

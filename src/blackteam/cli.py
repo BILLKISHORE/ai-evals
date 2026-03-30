@@ -868,6 +868,132 @@ def dataset_stats():
     console.print(table)
 
 
+# ── Expand command group ─────────────────────────────────────────────
+
+
+@cli.group("expand")
+def expand_group():
+    """Template expansion: technique x category x difficulty attacks."""
+    pass
+
+
+@expand_group.command("count")
+def expand_count_cmd():
+    """Show expansion capacity."""
+    from blackteam.expander import expand_summary
+    s = expand_summary()
+    console.print(f"[bold]Template Expansion Capacity[/bold]")
+    console.print(f"  Techniques:   {s['techniques']}")
+    console.print(f"  Categories:   {s['categories']}")
+    console.print(f"  Difficulties: {s['difficulties']}")
+    console.print(f"  [bold green]Total attacks: {s['total_attacks']}[/bold green]")
+
+
+@expand_group.command("list")
+@click.option("--category", default=None, help="Filter by harm category")
+@click.option("--difficulty", default=None, help="Filter by difficulty (easy/medium/hard/extreme)")
+@click.option("--technique", default=None, help="Filter by technique ID")
+@click.option("--limit", default=50, type=int, help="Max rows to show")
+def expand_list(category, difficulty, technique, limit):
+    """List expanded attacks."""
+    from blackteam.expander import expand_attacks
+
+    cats = [category] if category else None
+    diffs = [difficulty] if difficulty else None
+    techs = [technique] if technique else None
+
+    attacks = expand_attacks(techniques=techs, categories=cats, difficulties=diffs)
+
+    table = Table(title=f"Expanded Attacks ({len(attacks)} total, showing {min(limit, len(attacks))})")
+    table.add_column("ID", style="cyan")
+    table.add_column("Category")
+    table.add_column("Difficulty")
+    table.add_column("Severity")
+
+    SEVERITY_COLORS = {"critical": "red", "high": "bright_red", "medium": "yellow", "low": "green"}
+
+    for atk in attacks[:limit]:
+        sev = atk.severity
+        color = SEVERITY_COLORS.get(sev, "white")
+        table.add_row(atk.technique_id, atk.category, atk.difficulty, f"[{color}]{sev}[/{color}]")
+
+    console.print(table)
+    if len(attacks) > limit:
+        console.print(f"[dim]...and {len(attacks) - limit} more. Use --limit to see more.[/dim]")
+
+
+@expand_group.command("run")
+@click.option("-p", "--provider", required=True)
+@click.option("-m", "--model", default=None)
+@click.option("--category", default=None, help="Filter by harm category")
+@click.option("--difficulty", default=None, help="Filter by difficulty")
+@click.option("--technique", default=None, help="Filter by technique")
+@click.option("--limit", default=None, type=int, help="Max attacks to run")
+@click.option("-w", "--workers", default=5, help="Parallel workers")
+@click.option("--quiet", is_flag=True)
+def expand_run(provider, model, category, difficulty, technique, limit, workers, quiet):
+    """Run expanded attacks against a model."""
+    from blackteam.expander import expand_attacks
+    from blackteam.engine import Engine
+    from rich.progress import Progress
+
+    config = load_config()
+    db_path = config.get("storage", {}).get("database", str(DEFAULT_DB_PATH))
+
+    provider_cls = provider_registry.get(provider)
+    if not provider_cls:
+        console.print(f"[red]Unknown provider: {provider}[/red]")
+        raise SystemExit(2)
+
+    api_key = config.get("providers", {}).get(provider, {}).get("api_key")
+    prov = provider_cls(model=model, api_key=api_key)
+
+    cats = [category] if category else None
+    diffs = [difficulty] if difficulty else None
+    techs = [technique] if technique else None
+
+    attacks = expand_attacks(techniques=techs, categories=cats, difficulties=diffs)
+    if limit:
+        attacks = attacks[:limit]
+
+    if not quiet:
+        console.print(f"\n[bold]Expanded run: {len(attacks)} attacks -> {prov.model}[/bold]\n")
+
+    engine = Engine(db_path=db_path)
+    counts = {"BYPASSED": 0, "BLOCKED": 0, "PARTIAL": 0, "UNCLEAR": 0}
+    total_start = time.time()
+
+    with Progress(console=console, disable=quiet) as progress:
+        task = progress.add_task("Running...", total=len(attacks))
+        for atk in attacks:
+            try:
+                results = engine.run(prov, atk, atk.target_prompt)
+                if isinstance(results, list):
+                    for r in results:
+                        counts[r["verdict"]] = counts.get(r["verdict"], 0) + 1
+                elif isinstance(results, dict):
+                    counts[results["verdict"]] = counts.get(results["verdict"], 0) + 1
+            except Exception:
+                pass
+            progress.advance(task)
+
+    total_elapsed = time.time() - total_start
+
+    if not quiet:
+        bypassed = counts.get("BYPASSED", 0)
+        blocked = counts.get("BLOCKED", 0)
+        partial = counts.get("PARTIAL", 0)
+        total = sum(counts.values())
+        console.print(
+            f"\nSummary: [red]{bypassed} BYPASSED[/red] | "
+            f"[green]{blocked} BLOCKED[/green] | "
+            f"[yellow]{partial} PARTIAL[/yellow] "
+            f"({total} total, {_format_duration(total_elapsed)})"
+        )
+
+    raise SystemExit(1 if counts.get("BYPASSED", 0) > 0 else 0)
+
+
 # ── Mega-sweep command ───────────────────────────────────────────────
 
 @cli.command("mega-sweep")

@@ -28,8 +28,8 @@ Thumbs.db
 # Responses with sensitive content
 experiments/*/responses/raw/
 
-# Bug bounty reports (private until disclosed)
-writeups/bug-bounties/drafts/
+# Writeups (personal, not for public repo)
+writeups/
 
 # Internal planning docs (not for public)
 docs/superpowers/

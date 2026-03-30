@@ -30,3 +30,6 @@ experiments/*/responses/raw/
 
 # Bug bounty reports (private until disclosed)
 writeups/bug-bounties/drafts/
+
+# Internal planning docs (not for public)
+docs/superpowers/

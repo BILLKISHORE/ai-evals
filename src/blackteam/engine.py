@@ -8,13 +8,13 @@ class Engine:
     def __init__(self, db_path=":memory:"):
         self.storage = Storage(db_path)
 
-    def run_single(self, provider, attack, target):
+    def run_single(self, provider, attack, target, system_prompt=None):
         results = []
         prompts = attack.generate_prompts(target)
 
         for prompt in prompts:
             start = time.time()
-            result = provider.send_prompt(prompt)
+            result = provider.send_prompt(prompt, system_prompt=system_prompt)
             duration = int((time.time() - start) * 1000)
 
             eval_result = evaluate(result.response, target)
@@ -44,7 +44,7 @@ class Engine:
 
         return results
 
-    def run_multi_turn(self, provider, attack, target):
+    def run_multi_turn(self, provider, attack, target, system_prompt=None):
         turns = attack.generate_turns(target)
         messages = []
         all_responses = []
@@ -52,7 +52,7 @@ class Engine:
         start = time.time()
         for turn_text in turns:
             messages.append({"role": "user", "content": turn_text})
-            result = provider.send_in_conversation(messages)
+            result = provider.send_in_conversation(messages, system_prompt=system_prompt)
             messages.append({"role": "assistant", "content": result.response})
             all_responses.append(result.response)
 
@@ -85,7 +85,7 @@ class Engine:
             "final_response_preview": all_responses[-1][:200] if all_responses else "",
         }
 
-    def run_tool_use(self, provider, attack, target):
+    def run_tool_use(self, provider, attack, target, system_prompt=None):
         tools = attack.get_tools()
         messages_text = attack.generate_tool_messages(target, tools=tools)
         messages = []
@@ -95,7 +95,7 @@ class Engine:
         start = time.time()
         for msg_text in messages_text:
             messages.append({"role": "user", "content": msg_text})
-            result = provider.send_with_tools(messages, tools)
+            result = provider.send_with_tools(messages, tools, system_prompt=system_prompt)
 
             # Record tool calls
             for call in result.tool_calls:
@@ -153,17 +153,17 @@ class Engine:
             "confidence": eval_result["confidence"],
         }
 
-    def run(self, provider, attack, target):
+    def run(self, provider, attack, target, system_prompt=None):
         if attack.mode == "tool-use":
-            return self.run_tool_use(provider, attack, target)
+            return self.run_tool_use(provider, attack, target, system_prompt=system_prompt)
         elif attack.mode == "multi-turn":
-            return self.run_multi_turn(provider, attack, target)
+            return self.run_multi_turn(provider, attack, target, system_prompt=system_prompt)
         else:
-            return self.run_single(provider, attack, target)
+            return self.run_single(provider, attack, target, system_prompt=system_prompt)
 
     # ── Async parallel execution ──────────────────────────────────────
 
-    async def run_batch_async(self, provider, attacks, target, max_workers=5, on_complete=None):
+    async def run_batch_async(self, provider, attacks, target, max_workers=5, on_complete=None, system_prompt=None):
         semaphore = asyncio.Semaphore(max_workers)
         results = []
         db_path = self.storage.db_path
@@ -171,10 +171,9 @@ class Engine:
         async def _run_one(attack):
             async with semaphore:
                 try:
-                    # Each thread gets its own Engine + Storage to avoid SQLite thread issues
                     def _run_in_thread():
                         thread_engine = Engine(db_path=db_path)
-                        return thread_engine.run(provider, attack, target)
+                        return thread_engine.run(provider, attack, target, system_prompt=system_prompt)
 
                     result = await asyncio.to_thread(_run_in_thread)
                     entry = {"attack": attack.technique_id, "results": result, "error": None}
@@ -189,7 +188,7 @@ class Engine:
         await asyncio.gather(*tasks)
         return results
 
-    def run_batch_parallel(self, provider, attacks, target, max_workers=5, on_complete=None):
+    def run_batch_parallel(self, provider, attacks, target, max_workers=5, on_complete=None, system_prompt=None):
         return asyncio.run(
-            self.run_batch_async(provider, attacks, target, max_workers, on_complete)
+            self.run_batch_async(provider, attacks, target, max_workers, on_complete, system_prompt=system_prompt)
         )

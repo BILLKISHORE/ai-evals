@@ -47,19 +47,60 @@ class Blackteam:
         attack = self._get_attack(attack_name)
         return self.engine.run(provider, attack, target, **kwargs)
 
-    def batch(self, provider_name, model, target, attacks=None, parallel=True, max_workers=5, **kwargs):
+    def batch(self, provider_name, model, target, attacks=None, parallel=True, max_workers=5, system_prompt=None, **kwargs):
         provider = self._get_provider(provider_name, model)
         attack_names = attacks or attack_registry.list()
         attack_objects = [self._get_attack(name) for name in attack_names]
 
         if parallel:
-            return self.engine.run_batch_parallel(provider, attack_objects, target, max_workers=max_workers)
+            return self.engine.run_batch_parallel(provider, attack_objects, target,
+                                                   max_workers=max_workers, system_prompt=system_prompt)
 
         results = []
         for attack in attack_objects:
-            result = self.engine.run(provider, attack, target, **kwargs)
+            result = self.engine.run(provider, attack, target, system_prompt=system_prompt, **kwargs)
             results.append({"attack": attack.technique_id, "results": result, "error": None})
         return results
+
+    def defend(self, provider_name, model, target, system_prompt, attacks=None, max_workers=5):
+        """Compare baseline vs defended safety scores.
+
+        Args:
+            provider_name: provider to test
+            model: model name
+            target: target behavior
+            system_prompt: defense system prompt to test
+            attacks: list of attack names (None = all)
+            max_workers: parallel workers
+
+        Returns:
+            dict with baseline, defended, and delta
+        """
+        baseline = self.batch(provider_name, model, target, attacks=attacks,
+                              max_workers=max_workers, system_prompt=None)
+        defended = self.batch(provider_name, model, target, attacks=attacks,
+                              max_workers=max_workers, system_prompt=system_prompt)
+
+        def _verdict(entry):
+            r = entry.get("results")
+            if r is None:
+                return "UNCLEAR"
+            if isinstance(r, list):
+                vs = [x["verdict"] for x in r]
+                return "BYPASSED" if "BYPASSED" in vs else "PARTIAL" if "PARTIAL" in vs else "BLOCKED"
+            return r.get("verdict", "UNCLEAR")
+
+        baseline_verdicts = {e["attack"]: _verdict(e) for e in baseline}
+        defended_verdicts = {e["attack"]: _verdict(e) for e in defended}
+
+        return {
+            "baseline": baseline_verdicts,
+            "defended": defended_verdicts,
+            "baseline_bypassed": sum(1 for v in baseline_verdicts.values() if v == "BYPASSED"),
+            "defended_bypassed": sum(1 for v in defended_verdicts.values() if v == "BYPASSED"),
+            "baseline_blocked": sum(1 for v in baseline_verdicts.values() if v == "BLOCKED"),
+            "defended_blocked": sum(1 for v in defended_verdicts.values() if v == "BLOCKED"),
+        }
 
     def list_attacks(self):
         return attack_registry.list()

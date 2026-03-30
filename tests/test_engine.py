@@ -9,7 +9,7 @@ class FakeProvider(BaseProvider):
     def send_prompt(self, prompt, system_prompt=None):
         return PromptResult(response="I can't help with that.", model="fake", provider="fake")
 
-    def send_in_conversation(self, messages):
+    def send_in_conversation(self, messages, system_prompt=None):
         return PromptResult(response="I can't help with that.", model="fake", provider="fake")
 
 
@@ -30,10 +30,10 @@ class FakeToolProvider(BaseProvider):
     def send_prompt(self, prompt, system_prompt=None):
         return PromptResult(response="ok", model="fake", provider="fake")
 
-    def send_in_conversation(self, messages):
+    def send_in_conversation(self, messages, system_prompt=None):
         return PromptResult(response="ok", model="fake", provider="fake")
 
-    def send_with_tools(self, messages, tools):
+    def send_with_tools(self, messages, tools, system_prompt=None):
         last_msg = messages[-1]
         content = last_msg["content"] if isinstance(last_msg["content"], str) else str(last_msg["content"])
         # Simulate: model tries to read whatever file is mentioned

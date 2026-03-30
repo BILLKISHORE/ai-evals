@@ -31,9 +31,12 @@ class OpenAIProvider(BaseProvider):
             latency_ms=ms,
         )
 
-    def send_in_conversation(self, messages):
+    def send_in_conversation(self, messages, system_prompt=None):
+        msgs = messages
+        if system_prompt:
+            msgs = [{"role": "system", "content": system_prompt}] + list(messages)
         start = time.time()
-        r = self._client.chat.completions.create(model=self.model, messages=messages, max_tokens=4096)
+        r = self._client.chat.completions.create(model=self.model, messages=msgs, max_tokens=4096)
         ms = (time.time() - start) * 1000
 
         return PromptResult(
@@ -44,11 +47,14 @@ class OpenAIProvider(BaseProvider):
             latency_ms=ms,
         )
 
-    def send_with_tools(self, messages, tools):
+    def send_with_tools(self, messages, tools, system_prompt=None):
         oai_tools = [{"type": "function", "function": {"name": t["name"], "description": t.get("description", ""), "parameters": t["input_schema"]}} for t in tools]
+        msgs = messages
+        if system_prompt:
+            msgs = [{"role": "system", "content": system_prompt}] + list(messages)
 
         start = time.time()
-        r = self._client.chat.completions.create(model=self.model, messages=messages, tools=oai_tools, max_tokens=4096)
+        r = self._client.chat.completions.create(model=self.model, messages=msgs, tools=oai_tools, max_tokens=4096)
         ms = (time.time() - start) * 1000
 
         msg = r.choices[0].message

@@ -31,7 +31,9 @@ class HuggingFaceProvider(BaseProvider):
             latency_ms=ms,
         )
 
-    def send_in_conversation(self, messages):
+    def send_in_conversation(self, messages, system_prompt=None):
+        if system_prompt:
+            messages = [{"role": "system", "content": system_prompt}] + list(messages)
         start = time.time()
         r = self._client.chat_completion(messages=messages, model=self.model, max_tokens=4096)
         ms = (time.time() - start) * 1000

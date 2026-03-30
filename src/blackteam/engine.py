@@ -1,3 +1,4 @@
+import asyncio
 import time
 from blackteam.evaluator import evaluate
 from blackteam.storage.sqlite import Storage
@@ -89,3 +90,33 @@ class Engine:
             return self.run_multi_turn(provider, attack, target)
         else:
             return self.run_single(provider, attack, target)
+
+    # ── Async parallel execution ──────────────────────────────────────
+
+    async def _run_attack_async(self, provider, attack, target, semaphore):
+        async with semaphore:
+            return await asyncio.to_thread(self.run, provider, attack, target)
+
+    async def run_batch_async(self, provider, attacks, target, max_workers=5, on_complete=None):
+        semaphore = asyncio.Semaphore(max_workers)
+        results = []
+
+        async def _run_one(attack):
+            try:
+                result = await self._run_attack_async(provider, attack, target, semaphore)
+                entry = {"attack": attack.technique_id, "results": result, "error": None}
+            except Exception as e:
+                entry = {"attack": attack.technique_id, "results": None, "error": str(e)}
+            results.append(entry)
+            if on_complete:
+                on_complete(entry)
+            return entry
+
+        tasks = [_run_one(attack) for attack in attacks]
+        await asyncio.gather(*tasks)
+        return results
+
+    def run_batch_parallel(self, provider, attacks, target, max_workers=5, on_complete=None):
+        return asyncio.run(
+            self.run_batch_async(provider, attacks, target, max_workers, on_complete)
+        )

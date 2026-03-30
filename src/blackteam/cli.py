@@ -147,10 +147,12 @@ def run(provider, model, attack, target, verbose, quiet):
 @click.option("-m", "--model", default=None)
 @click.option("--attacks", "attack_filter", default="all", help="Comma-separated attack names or 'all'")
 @click.option("-t", "--target", required=True)
+@click.option("-w", "--workers", default=5, help="Max parallel workers (default: 5)")
 @click.option("--verbose", is_flag=True, help="Show full response text")
 @click.option("--quiet", is_flag=True, help="Suppress output, exit 0=all blocked, 1=any bypassed")
-def batch(provider, model, attack_filter, target, verbose, quiet):
-    """Run multiple attacks against a model."""
+@click.option("--sequential", is_flag=True, help="Run attacks one at a time (no parallelism)")
+def batch(provider, model, attack_filter, target, workers, verbose, quiet, sequential):
+    """Run multiple attacks against a model (parallel by default)."""
     config = load_config()
     db_path = config.get("storage", {}).get("database", str(DEFAULT_DB_PATH))
 
@@ -169,50 +171,47 @@ def batch(provider, model, attack_filter, target, verbose, quiet):
     else:
         attack_names = [a.strip() for a in attack_filter.split(",")]
 
-    engine = Engine(db_path=db_path)
-
-    if not quiet:
-        console.print(f"\n[bold]Batch: {len(attack_names)} attacks against {prov.model}[/bold]")
-        console.print(f"Target: {target}\n")
-
-    total_start = time.time()
-    counts = {"BYPASSED": 0, "BLOCKED": 0, "PARTIAL": 0}
-
+    attacks = []
     for atk_name in attack_names:
         attack_cls = attack_registry.get(atk_name)
         if not attack_cls:
             if not quiet:
                 console.print(f"[yellow]Skipping unknown attack: {atk_name}[/yellow]")
             continue
+        attacks.append(attack_cls())
 
-        atk = attack_cls()
-        if not quiet:
-            console.print(f"Running [bold]{atk_name}[/bold]...")
+    engine = Engine(db_path=db_path)
 
-        atk_start = time.time()
-        results = engine.run(prov, atk, target)
-        atk_elapsed = time.time() - atk_start
+    if not quiet:
+        mode_label = "sequential" if sequential else f"parallel ({workers} workers)"
+        console.print(f"\n[bold]Batch: {len(attacks)} attacks against {prov.model} ({mode_label})[/bold]")
+        console.print(f"Target: {target}\n")
 
-        if isinstance(results, list):
-            for r in results:
-                counts[r["verdict"]] = counts.get(r["verdict"], 0) + 1
-                if not quiet:
-                    color = _verdict_color(r["verdict"])
-                    line = f"  [{color}]{r['verdict']}[/{color}] {r['prompt'][:60]}"
-                    if verbose:
-                        line += f"\n    {r.get('response_preview', '')}"
-                    console.print(line)
-        else:
-            counts[results["verdict"]] = counts.get(results["verdict"], 0) + 1
-            if not quiet:
-                color = _verdict_color(results["verdict"])
-                line = f"  [{color}]{results['verdict']}[/{color}] ({results.get('turns', 1)} turns)"
-                if verbose:
-                    line += f"\n    {results.get('final_response_preview', '')}"
-                console.print(line)
+    total_start = time.time()
+    counts = {"BYPASSED": 0, "BLOCKED": 0, "PARTIAL": 0}
 
-        if not quiet:
-            console.print(f"  [dim]{_format_duration(atk_elapsed)}[/dim]")
+    if sequential:
+        from rich.progress import Progress
+        with Progress(console=console, disable=quiet) as progress:
+            task = progress.add_task("Running attacks...", total=len(attacks))
+            for atk in attacks:
+                results = engine.run(prov, atk, target)
+                _tally_results(results, counts, atk.technique_id, verbose, quiet)
+                progress.advance(task)
+    else:
+        from rich.progress import Progress
+        completed = [0]
+        with Progress(console=console, disable=quiet) as progress:
+            task = progress.add_task("Running attacks...", total=len(attacks))
+
+            def on_complete(entry):
+                completed[0] += 1
+                progress.update(task, completed=completed[0])
+                _tally_results(entry.get("results"), counts, entry["attack"], verbose, quiet)
+                if entry.get("error") and not quiet:
+                    console.print(f"  [red]ERROR[/red] {entry['attack']}: {entry['error']}")
+
+            engine.run_batch_parallel(prov, attacks, target, max_workers=workers, on_complete=on_complete)
 
     total_elapsed = time.time() - total_start
     total = sum(counts.values())
@@ -230,6 +229,28 @@ def batch(provider, model, attack_filter, target, verbose, quiet):
 
     any_bypassed = counts.get("BYPASSED", 0) > 0
     raise SystemExit(1 if any_bypassed else 0)
+
+
+def _tally_results(results, counts, attack_name, verbose, quiet):
+    if results is None:
+        return
+    if isinstance(results, list):
+        for r in results:
+            counts[r["verdict"]] = counts.get(r["verdict"], 0) + 1
+            if not quiet:
+                color = _verdict_color(r["verdict"])
+                line = f"  [{color}]{r['verdict']}[/{color}] {attack_name}: {r['prompt'][:50]}"
+                if verbose:
+                    line += f"\n    {r.get('response_preview', '')}"
+                console.print(line)
+    elif isinstance(results, dict) and "verdict" in results:
+        counts[results["verdict"]] = counts.get(results["verdict"], 0) + 1
+        if not quiet:
+            color = _verdict_color(results["verdict"])
+            line = f"  [{color}]{results['verdict']}[/{color}] {attack_name} ({results.get('turns', 1)} turns)"
+            if verbose:
+                line += f"\n    {results.get('final_response_preview', '')}"
+            console.print(line)
 
 
 @cli.command()

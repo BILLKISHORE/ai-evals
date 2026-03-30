@@ -11,7 +11,7 @@ class MultiModalText(BaseAttack):
     severity = "medium"
     description = "ASCII art, tables, and code block embedding to hide intent in visual structure"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
-    mitre_atlas = ["AML.T0051.000"]
+    mitre_atlas = ["AML.T0051.000", "AML.T0068"]
     references = []
 
     def generate_prompts(self, target, **kwargs):

@@ -11,7 +11,7 @@ class TokenSmuggling(BaseAttack):
     severity = "medium"
     description = "Zero-width Unicode character injection to bypass tokenizer-level filters"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
-    mitre_atlas = ["AML.T0051.000"]
+    mitre_atlas = ["AML.T0051.000", "AML.T0068"]
     references = []
 
     def generate_prompts(self, target, **kwargs):

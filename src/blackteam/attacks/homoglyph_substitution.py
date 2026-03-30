@@ -37,7 +37,7 @@ class HomoglyphSubstitution(BaseAttack):
     severity = "medium"
     description = "Replace characters with visually identical Cyrillic and Greek lookalikes"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
-    mitre_atlas = ["AML.T0051.000"]
+    mitre_atlas = ["AML.T0051.000", "AML.T0068"]
     references = ["https://www.promptfoo.dev/docs/red-team/strategies/jailbreak/"]
 
     def generate_prompts(self, target, **kwargs):

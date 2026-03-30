@@ -55,3 +55,19 @@ def test_report_export_flag_exists():
     assert "--export" in result.output
     assert "promptfoo" in result.output
     assert "garak" in result.output
+
+
+def test_expand_count():
+    runner = CliRunner()
+    result = runner.invoke(cli, ["expand", "count"])
+    assert result.exit_code == 0
+    assert "Techniques:" in result.output
+    assert "Categories:" in result.output
+    assert "Total attacks:" in result.output
+
+
+def test_expand_list():
+    runner = CliRunner()
+    result = runner.invoke(cli, ["expand", "list", "--category", "phishing", "--limit", "5"])
+    assert result.exit_code == 0
+    assert "phishing" in result.output

@@ -84,3 +84,30 @@ def test_export_invalid_format():
         assert False, "Should have raised ValueError"
     except ValueError:
         pass
+
+
+def test_list_datasets():
+    bt = Blackteam(db_path=":memory:")
+    datasets = bt.list_datasets()
+    assert isinstance(datasets, dict)
+    assert len(datasets) >= 5
+    for name, info in datasets.items():
+        assert "name" in info
+        assert "license" in info
+
+
+def test_load_dataset_not_cached():
+    bt = Blackteam(db_path=":memory:")
+    try:
+        bt.load_dataset("advbench")
+    except FileNotFoundError:
+        pass  # expected if not cached
+
+
+def test_pull_dataset_unknown():
+    bt = Blackteam(db_path=":memory:")
+    try:
+        bt.pull_dataset("totally_fake_dataset_xyz")
+        assert False, "Should raise ValueError"
+    except ValueError:
+        pass

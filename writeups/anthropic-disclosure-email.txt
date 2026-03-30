@@ -107,7 +107,7 @@ DISCLOSURE
 
 I'm following responsible disclosure practices. I have not published the specific bypassed prompts publicly and will coordinate timing with your team.
 
-I'm happy to provide the full dataset (380 runs with complete conversation history) if helpful.
+Attached: haiku-benchmark-dataset.json (1.3 MB) -- the full dataset with all 380 runs, verdicts, confidence scores, and complete conversation history for all 45 bypassed runs (prompts + model responses).
 
 Best regards,
 Bill Kishore

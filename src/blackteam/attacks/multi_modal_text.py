@@ -7,6 +7,12 @@ class MultiModalText(BaseAttack):
     name = "Multi-Modal Text Simulation"
     technique_id = "multi-modal-text"
     mode = "single-turn"
+    category = "encoding"
+    severity = "medium"
+    description = "ASCII art, tables, and code block embedding to hide intent in visual structure"
+    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    mitre_atlas = ["AML.T0051.000"]
+    references = []
 
     def generate_prompts(self, target, **kwargs):
         ascii_box = (

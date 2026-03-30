@@ -7,6 +7,12 @@ class AuthorityChain(BaseAttack):
     name = "Authority Chain"
     technique_id = "authority-chain"
     mode = "multi-turn"
+    category = "social-engineering"
+    severity = "high"
+    description = "CISO and professor authority building to bypass safety via perceived legitimacy"
+    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    mitre_atlas = ["AML.T0051.000"]
+    references = []
 
     def generate_prompts(self, target, **kwargs):
         return [

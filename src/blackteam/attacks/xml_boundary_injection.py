@@ -7,6 +7,12 @@ class XmlBoundaryInjection(BaseAttack):
     name = "XML Boundary Injection"
     technique_id = "xml-boundary-injection"
     mode = "single-turn"
+    category = "prompt-injection"
+    severity = "high"
+    description = "Fake XML closing tags to escape system prompt boundaries"
+    owasp_llm = ["LLM01:2025 Prompt Injection", "LLM07:2025 System Prompt Leakage"]
+    mitre_atlas = ["AML.T0051.001"]
+    references = []
 
     def generate_prompts(self, target, **kwargs):
         return [

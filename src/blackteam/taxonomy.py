@@ -181,11 +181,11 @@ ATTACK_ATLAS_MAPPINGS = {
     # Injection attacks (web/API security)
     "ssrf-probing": ["AML.T0051"],
     "sql-injection": ["AML.T0051"],
-    "xss-injection": ["AML.T0051.000"],
+    "xss-injection": ["AML.T0051.000", "AML.T0067"],
     "indirect-injection": ["AML.T0051.001"],
     # Access control attacks
-    "bola-exploit": ["AML.T0051.000"],
-    "bfla-exploit": ["AML.T0051.000"],
+    "bola-exploit": ["AML.T0051.000", "AML.T0065"],
+    "bfla-exploit": ["AML.T0051.000", "AML.T0065"],
     "session-hijacking": ["AML.T0054", "AML.T0065"],
     "debug-mode-exploit": ["AML.T0054", "AML.T0051.000"],
     # Information disclosure attacks

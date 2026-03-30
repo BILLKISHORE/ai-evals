@@ -244,6 +244,19 @@ ATTACK_ATLAS_MAPPINGS = {
     "nested-encoding": ["AML.T0051.000", "AML.T0068"],
     "multilingual-attack": ["AML.T0051.000", "AML.T0068"],
     "persona-chain": ["AML.T0054", "AML.T0065"],
+    # CBRN-specific attacks
+    "dual-use-framing": ["AML.T0054", "AML.T0065"],
+    "technical-obfuscation": ["AML.T0051.000", "AML.T0068"],
+    "lifecycle-staging": ["AML.T0054", "AML.T0065", "AML.T0080.002"],
+    "expert-persona": ["AML.T0054", "AML.T0065"],
+    # Autonomous capability evaluations
+    "shutdown-resistance": ["AML.T0054", "AML.T0080.002"],
+    "sandbagging-detection": ["AML.T0054", "AML.T0043.003"],
+    "resource-acquisition": ["AML.T0054", "AML.T0080.002"],
+    "deception-under-pressure": ["AML.T0054", "AML.T0080.002"],
+    "goal-persistence": ["AML.T0054", "AML.T0080.002"],
+    "oversight-manipulation": ["AML.T0054", "AML.T0080.002"],
+    "instrumental-convergence": ["AML.T0054", "AML.T0080.002"],
 }
 
 # ── MLCommons AILuminate v1.0 hazard taxonomy ────────────────────────

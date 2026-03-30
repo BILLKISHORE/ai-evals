@@ -7,9 +7,9 @@ from blackteam.expander import (
 )
 
 
-def test_load_taxonomy_has_25_categories():
+def test_load_taxonomy_has_28_categories():
     taxonomy = load_taxonomy()
-    assert len(taxonomy) == 25
+    assert len(taxonomy) == 28
 
 
 def test_taxonomy_categories_have_4_difficulties():
@@ -104,9 +104,9 @@ def test_expand_count():
 def test_expand_summary():
     s = expand_summary()
     assert s["techniques"] >= 50
-    assert s["categories"] == 25
+    assert s["categories"] == 28
     assert s["difficulties"] == 4
-    assert s["total_attacks"] == s["techniques"] * 25 * 4
+    assert s["total_attacks"] == s["techniques"] * s["categories"] * 4
     assert "phishing" in s["category_names"]
     assert "agentic-risks" in s["category_names"]
 

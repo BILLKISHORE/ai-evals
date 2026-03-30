@@ -27,7 +27,9 @@ class OllamaProvider(BaseProvider):
         return PromptResult(response=r["message"]["content"], model=self.model,
                             provider="ollama", latency_ms=ms)
 
-    def send_in_conversation(self, messages):
+    def send_in_conversation(self, messages, system_prompt=None):
+        if system_prompt:
+            messages = [{"role": "system", "content": system_prompt}] + list(messages)
         start = time.time()
         r = self._client.chat(model=self.model, messages=messages)
         ms = (time.time() - start) * 1000

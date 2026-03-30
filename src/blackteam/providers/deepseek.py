@@ -31,7 +31,9 @@ class DeepSeekProvider(BaseProvider):
             latency_ms=ms,
         )
 
-    def send_in_conversation(self, messages):
+    def send_in_conversation(self, messages, system_prompt=None):
+        if system_prompt:
+            messages = [{"role": "system", "content": system_prompt}] + list(messages)
         start = time.time()
         r = self._client.chat.completions.create(model=self.model, messages=messages, max_tokens=4096)
         ms = (time.time() - start) * 1000

@@ -30,14 +30,18 @@ class GoogleProvider(BaseProvider):
             latency_ms=ms,
         )
 
-    def send_in_conversation(self, messages):
+    def send_in_conversation(self, messages, system_prompt=None):
+        config = {}
+        if system_prompt:
+            config["system_instruction"] = system_prompt
+
         contents = []
         for msg in messages:
             role = "model" if msg["role"] == "assistant" else "user"
             contents.append({"role": role, "parts": [{"text": msg["content"]}]})
 
         start = time.time()
-        r = self._client.models.generate_content(model=self.model, contents=contents)
+        r = self._client.models.generate_content(model=self.model, contents=contents, config=config)
         ms = (time.time() - start) * 1000
 
         return PromptResult(

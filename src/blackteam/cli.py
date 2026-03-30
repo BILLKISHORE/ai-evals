@@ -65,10 +65,14 @@ def _format_duration(seconds):
 @click.option("-m", "--model", default=None, help="Model name")
 @click.option("-a", "--attack", required=True, help="Attack name")
 @click.option("-t", "--target", required=True, help="Target behavior to test")
+@click.option("--system-prompt", default=None, help="System prompt to test as a defense")
+@click.option("--system-prompt-file", default=None, type=click.Path(exists=True), help="Read system prompt from file")
 @click.option("--verbose", is_flag=True, help="Show full response text")
 @click.option("--quiet", is_flag=True, help="Suppress output, exit 0=all blocked, 1=any bypassed")
-def run(provider, model, attack, target, verbose, quiet):
+def run(provider, model, attack, target, system_prompt, system_prompt_file, verbose, quiet):
     """Run a single attack against a model."""
+    if system_prompt_file:
+        system_prompt = open(system_prompt_file).read()
     config = load_config()
     db_path = config.get("storage", {}).get("database", str(DEFAULT_DB_PATH))
 
@@ -102,7 +106,7 @@ def run(provider, model, attack, target, verbose, quiet):
     with console.status(f"Testing {attack}...", spinner="dots") as status:
         if quiet:
             status.stop()
-        results = engine.run(prov, atk, target)
+        results = engine.run(prov, atk, target, system_prompt=system_prompt)
 
     total_elapsed = time.time() - total_start
 
@@ -153,12 +157,16 @@ def run(provider, model, attack, target, verbose, quiet):
 @click.option("-m", "--model", default=None)
 @click.option("--attacks", "attack_filter", default="all", help="Comma-separated attack names or 'all'")
 @click.option("-t", "--target", required=True)
+@click.option("--system-prompt", default=None, help="System prompt to test as a defense")
+@click.option("--system-prompt-file", default=None, type=click.Path(exists=True), help="Read system prompt from file")
 @click.option("-w", "--workers", default=5, help="Max parallel workers (default: 5)")
 @click.option("--verbose", is_flag=True, help="Show full response text")
 @click.option("--quiet", is_flag=True, help="Suppress output, exit 0=all blocked, 1=any bypassed")
 @click.option("--sequential", is_flag=True, help="Run attacks one at a time (no parallelism)")
-def batch(provider, model, attack_filter, target, workers, verbose, quiet, sequential):
+def batch(provider, model, attack_filter, target, system_prompt, system_prompt_file, workers, verbose, quiet, sequential):
     """Run multiple attacks against a model (parallel by default)."""
+    if system_prompt_file:
+        system_prompt = open(system_prompt_file).read()
     config = load_config()
     db_path = config.get("storage", {}).get("database", str(DEFAULT_DB_PATH))
 
@@ -201,7 +209,7 @@ def batch(provider, model, attack_filter, target, workers, verbose, quiet, seque
         with Progress(console=console, disable=quiet) as progress:
             task = progress.add_task("Running attacks...", total=len(attacks))
             for atk in attacks:
-                results = engine.run(prov, atk, target)
+                results = engine.run(prov, atk, target, system_prompt=system_prompt)
                 _tally_results(results, counts, atk.technique_id, verbose, quiet)
                 progress.advance(task)
     else:
@@ -217,7 +225,7 @@ def batch(provider, model, attack_filter, target, workers, verbose, quiet, seque
                 if entry.get("error") and not quiet:
                     console.print(f"  [red]ERROR[/red] {entry['attack']}: {entry['error']}")
 
-            engine.run_batch_parallel(prov, attacks, target, max_workers=workers, on_complete=on_complete)
+            engine.run_batch_parallel(prov, attacks, target, max_workers=workers, on_complete=on_complete, system_prompt=system_prompt)
 
     total_elapsed = time.time() - total_start
     total = sum(counts.values())
@@ -257,6 +265,179 @@ def _tally_results(results, counts, attack_name, verbose, quiet):
             if verbose:
                 line += f"\n    {results.get('final_response_preview', '')}"
             console.print(line)
+
+
+@cli.command()
+@click.option("-p", "--provider", required=True)
+@click.option("-m", "--model", default=None)
+@click.option("--attacks", "attack_filter", default="all", help="Comma-separated attack names or 'all'")
+@click.option("-t", "--target", required=True)
+@click.option("--system-prompt", default=None, help="System prompt defense to test")
+@click.option("--system-prompt-file", default=None, type=click.Path(exists=True), help="Read system prompt from file")
+@click.option("-w", "--workers", default=5, help="Max parallel workers")
+@click.option("--output", default=None, help="Save JSON comparison to file")
+def defend(provider, model, attack_filter, target, system_prompt, system_prompt_file, workers, output):
+    """Test a defense by comparing baseline vs defended safety scores.
+
+    Runs all attacks twice: once without system prompt (baseline), once with
+    the defense system prompt. Shows a comparison table with per-attack delta.
+    """
+    import json
+
+    if system_prompt_file:
+        system_prompt = open(system_prompt_file).read()
+    if not system_prompt:
+        console.print("[red]Provide --system-prompt or --system-prompt-file[/red]")
+        raise SystemExit(2)
+
+    config = load_config()
+    db_path = config.get("storage", {}).get("database", str(DEFAULT_DB_PATH))
+
+    provider_cls = provider_registry.get(provider)
+    if not provider_cls:
+        console.print(f"[red]Unknown provider: {provider}[/red]")
+        raise SystemExit(2)
+
+    provider_config = config.get("providers", {}).get(provider, {})
+    api_key = provider_config.get("api_key")
+    prov = provider_cls(model=model, api_key=api_key)
+
+    if attack_filter == "all":
+        attack_names = attack_registry.list()
+    else:
+        attack_names = [a.strip() for a in attack_filter.split(",")]
+
+    attack_objects = []
+    for atk_name in attack_names:
+        attack_cls = attack_registry.get(atk_name)
+        if attack_cls:
+            attack_objects.append(attack_cls())
+
+    engine = Engine(db_path=db_path)
+
+    # Phase 1: Baseline (no system prompt)
+    console.print(f"\n[bold]Phase 1: Baseline scan ({len(attack_objects)} attacks against {prov.model})[/bold]")
+    baseline_counts = {"BYPASSED": 0, "BLOCKED": 0, "PARTIAL": 0}
+    baseline_verdicts = {}
+
+    from rich.progress import Progress
+    with Progress(console=console) as progress:
+        task = progress.add_task("Baseline...", total=len(attack_objects))
+        completed = [0]
+
+        def on_baseline(entry):
+            completed[0] += 1
+            progress.update(task, completed=completed[0])
+            verdict = _extract_verdict(entry.get("results"))
+            baseline_verdicts[entry["attack"]] = verdict
+            baseline_counts[verdict] = baseline_counts.get(verdict, 0) + 1
+
+        engine.run_batch_parallel(prov, attack_objects, target, max_workers=workers, on_complete=on_baseline)
+
+    # Phase 2: Defended (with system prompt)
+    console.print(f"\n[bold]Phase 2: Defended scan (system prompt applied)[/bold]")
+    defended_counts = {"BYPASSED": 0, "BLOCKED": 0, "PARTIAL": 0}
+    defended_verdicts = {}
+
+    with Progress(console=console) as progress:
+        task = progress.add_task("Defended...", total=len(attack_objects))
+        completed = [0]
+
+        def on_defended(entry):
+            completed[0] += 1
+            progress.update(task, completed=completed[0])
+            verdict = _extract_verdict(entry.get("results"))
+            defended_verdicts[entry["attack"]] = verdict
+            defended_counts[verdict] = defended_counts.get(verdict, 0) + 1
+
+        engine.run_batch_parallel(prov, attack_objects, target, max_workers=workers,
+                                  on_complete=on_defended, system_prompt=system_prompt)
+
+    # Phase 3: Compare
+    console.print(f"\n")
+    table = Table(title=f"Defense Comparison -- {prov.model}")
+    table.add_column("Attack", style="cyan")
+    table.add_column("Baseline")
+    table.add_column("Defended")
+    table.add_column("Delta")
+
+    improved = 0
+    regressed = 0
+    verdict_rank = {"BLOCKED": 2, "PARTIAL": 1, "BYPASSED": 0, "UNCLEAR": 1}
+
+    for atk_name in sorted(baseline_verdicts.keys()):
+        base_v = baseline_verdicts.get(atk_name, "UNCLEAR")
+        def_v = defended_verdicts.get(atk_name, "UNCLEAR")
+        base_rank = verdict_rank.get(base_v, 1)
+        def_rank = verdict_rank.get(def_v, 1)
+
+        if def_rank > base_rank:
+            delta = "[green]+1[/green]"
+            improved += 1
+        elif def_rank < base_rank:
+            delta = "[red]-1[/red]"
+            regressed += 1
+        else:
+            delta = "[dim] 0[/dim]"
+
+        base_color = _verdict_color(base_v)
+        def_color = _verdict_color(def_v)
+        table.add_row(
+            atk_name[:30],
+            f"[{base_color}]{base_v}[/{base_color}]",
+            f"[{def_color}]{def_v}[/{def_color}]",
+            delta,
+        )
+
+    console.print(table)
+
+    base_bypassed = baseline_counts.get("BYPASSED", 0)
+    def_bypassed = defended_counts.get("BYPASSED", 0)
+    base_blocked = baseline_counts.get("BLOCKED", 0)
+    def_blocked = defended_counts.get("BLOCKED", 0)
+
+    console.print(f"\nBaseline: [red]{base_bypassed} BYPASSED[/red] | [green]{base_blocked} BLOCKED[/green]")
+    console.print(f"Defended: [red]{def_bypassed} BYPASSED[/red] | [green]{def_blocked} BLOCKED[/green]")
+
+    delta_blocked = def_blocked - base_blocked
+    total = len(baseline_verdicts)
+    pct = (delta_blocked / total * 100) if total > 0 else 0
+    if delta_blocked > 0:
+        console.print(f"Delta: [green]+{delta_blocked} attacks blocked ({pct:.0f}% improvement)[/green]")
+    elif delta_blocked < 0:
+        console.print(f"Delta: [red]{delta_blocked} attacks blocked ({pct:.0f}% regression)[/red]")
+    else:
+        console.print(f"Delta: 0 (no change)")
+
+    if output:
+        comparison = {
+            "model": prov.model, "provider": provider, "target": target,
+            "system_prompt": system_prompt[:200],
+            "baseline": {"bypassed": base_bypassed, "blocked": base_blocked, "verdicts": baseline_verdicts},
+            "defended": {"bypassed": def_bypassed, "blocked": def_blocked, "verdicts": defended_verdicts},
+            "improved": improved, "regressed": regressed,
+            "delta_blocked": delta_blocked,
+        }
+        with open(output, "w") as f:
+            json.dump(comparison, f, indent=2)
+        console.print(f"\nResults saved to: {output}")
+
+    raise SystemExit(1 if def_bypassed > 0 else 0)
+
+
+def _extract_verdict(results):
+    if results is None:
+        return "UNCLEAR"
+    if isinstance(results, list):
+        verdicts = [r["verdict"] for r in results]
+        if "BYPASSED" in verdicts:
+            return "BYPASSED"
+        if "PARTIAL" in verdicts:
+            return "PARTIAL"
+        return "BLOCKED"
+    if isinstance(results, dict):
+        return results.get("verdict", "UNCLEAR")
+    return "UNCLEAR"
 
 
 @cli.command()

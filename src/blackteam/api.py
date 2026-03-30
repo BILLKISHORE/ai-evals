@@ -11,13 +11,15 @@ Usage:
 
 from blackteam.config import load_config
 from blackteam.engine import Engine
-from blackteam.registry import attack_registry, provider_registry
+from blackteam.registry import attack_registry, provider_registry, dataset_registry
 import blackteam.attacks
 import blackteam.providers
+import blackteam.datasets
 
 
 attack_registry.discover(blackteam.attacks)
 provider_registry.discover(blackteam.providers)
+dataset_registry.discover(blackteam.datasets)
 
 
 class Blackteam:
@@ -118,3 +120,74 @@ class Blackteam:
                 f.write(content)
 
         return content
+
+    def list_datasets(self):
+        """List available datasets with metadata."""
+        result = {}
+        for name in dataset_registry.list():
+            cls = dataset_registry.get(name)
+            loader = cls()
+            info = loader.info()
+            result[name] = info
+        return result
+
+    def pull_dataset(self, dataset_id):
+        """Download and cache a dataset. Returns list of prompt dicts."""
+        cls = dataset_registry.get(dataset_id)
+        if not cls:
+            raise ValueError(f"Unknown dataset: {dataset_id}. Available: {dataset_registry.list()}")
+        loader = cls()
+        return loader.load()
+
+    def load_dataset(self, dataset_id):
+        """Load a cached dataset. Raises if not downloaded."""
+        cls = dataset_registry.get(dataset_id)
+        if not cls:
+            raise ValueError(f"Unknown dataset: {dataset_id}. Available: {dataset_registry.list()}")
+        loader = cls()
+        if not loader.is_cached():
+            raise FileNotFoundError(
+                f"Dataset '{dataset_id}' not downloaded. Run: blackteam dataset load {dataset_id}"
+            )
+        return loader.load_cache()
+
+    def run_dataset(self, dataset_id, provider_name, model, attacks=None, limit=None):
+        """Run attacks against a dataset's prompts.
+
+        Args:
+            dataset_id: dataset name from registry
+            provider_name: provider to test
+            model: model name
+            attacks: list of attack names (None = all single-turn)
+            limit: max prompts to run
+
+        Returns:
+            dict with counts and total
+        """
+        provider = self._get_provider(provider_name, model)
+        prompts = self.pull_dataset(dataset_id)
+        if limit:
+            prompts = prompts[:limit]
+
+        attack_names = attacks or attack_registry.list()
+        attack_objects = []
+        for name in attack_names:
+            cls = attack_registry.get(name)
+            if cls:
+                atk = cls()
+                if atk.mode == "single-turn":
+                    attack_objects.append(atk)
+
+        counts = {"BYPASSED": 0, "BLOCKED": 0, "PARTIAL": 0, "UNCLEAR": 0}
+
+        for p in prompts:
+            target = p["prompt"]
+            for atk in attack_objects:
+                try:
+                    results = self.engine.run_single(provider, atk, target)
+                    for r in results:
+                        counts[r["verdict"]] = counts.get(r["verdict"], 0) + 1
+                except Exception:
+                    pass
+
+        return {"counts": counts, "total": sum(counts.values())}

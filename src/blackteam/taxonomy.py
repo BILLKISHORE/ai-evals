@@ -178,6 +178,22 @@ ATTACK_ATLAS_MAPPINGS = {
     "agent-config-discovery": ["AML.T0084"],
     "agent-plugin-hijack": ["AML.T0053", "AML.T0080.002"],
     "agent-tool-credential-harvest": ["AML.T0098"],
+    # Injection attacks (web/API security)
+    "ssrf-probing": ["AML.T0051"],
+    "sql-injection": ["AML.T0051"],
+    "xss-injection": ["AML.T0051.000"],
+    "indirect-injection": ["AML.T0051.001"],
+    # Access control attacks
+    "bola-exploit": ["AML.T0051.000"],
+    "bfla-exploit": ["AML.T0051.000"],
+    "session-hijacking": ["AML.T0054", "AML.T0065"],
+    "debug-mode-exploit": ["AML.T0054", "AML.T0051.000"],
+    # Information disclosure attacks
+    "api-key-extraction": ["AML.T0083", "AML.T0056"],
+    "prompt-leaking": ["AML.T0056", "AML.T0069.002"],
+    "cross-session-leak": ["AML.T0056", "AML.T0080.002"],
+    # Availability attacks
+    "model-denial-of-service": ["AML.T0051.000", "AML.T0065"],
 }
 
 # ── MLCommons AILuminate v1.0 hazard taxonomy ────────────────────────

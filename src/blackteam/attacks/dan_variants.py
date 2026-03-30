@@ -7,6 +7,12 @@ class DanVariants(BaseAttack):
     name = "DAN Variants"
     technique_id = "dan-variants"
     mode = "single-turn"
+    category = "prompt-injection"
+    severity = "medium"
+    description = "DAN, EDUALC, Opposite Day, and Professor persona override attempts"
+    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    mitre_atlas = ["AML.T0051.000"]
+    references = []
 
     def generate_prompts(self, target, **kwargs):
         return [

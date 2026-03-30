@@ -5,15 +5,16 @@ from rich.table import Table
 
 from blackteam.config import load_config, set_config_value, DEFAULT_DB_PATH
 from blackteam.engine import Engine
-from blackteam.registry import provider_registry, attack_registry
+from blackteam.registry import provider_registry, attack_registry, dataset_registry
 
 console = Console()
 
 
 def _load_plugins():
-    from blackteam import providers, attacks
+    from blackteam import providers, attacks, datasets
     provider_registry.discover(providers)
     attack_registry.discover(attacks)
+    dataset_registry.discover(datasets)
 
 
 @click.group()
@@ -783,3 +784,215 @@ def benchmark(provider, model, run_all, models, workers, categories, threshold, 
             if not quiet:
                 console.print(f"\n[green]PASS: All models meet threshold {threshold}%[/green]")
             raise SystemExit(0)
+
+
+# ── Dataset commands ─────────────────────────────────────────────────
+
+@cli.group("dataset")
+def dataset_group():
+    """Manage external jailbreak datasets."""
+    pass
+
+
+@dataset_group.command("list")
+def dataset_list():
+    """Show available datasets."""
+    table = Table(title="Available Datasets")
+    table.add_column("Name")
+    table.add_column("License")
+    table.add_column("Cached")
+    table.add_column("Count")
+    table.add_column("Description")
+
+    for name in sorted(dataset_registry.list()):
+        loader_cls = dataset_registry.get(name)
+        loader = loader_cls()
+        info = loader.info()
+        cached = "[green]yes[/green]" if info["cached"] else "[dim]no[/dim]"
+        count = str(info["count"]) if info["count"] is not None else "-"
+        table.add_row(name, info["license"], cached, count, info["description"][:60])
+    console.print(table)
+
+
+@dataset_group.command("load")
+@click.argument("name", required=False)
+@click.option("--all", "load_all", is_flag=True, help="Download all datasets")
+def dataset_load(name, load_all):
+    """Download and cache a dataset (or all datasets)."""
+    names = sorted(dataset_registry.list()) if load_all else [name] if name else []
+    if not names:
+        console.print("[red]Specify a dataset name or --all[/red]")
+        raise SystemExit(2)
+
+    for ds_name in names:
+        loader_cls = dataset_registry.get(ds_name)
+        if not loader_cls:
+            console.print(f"[red]Unknown dataset: {ds_name}[/red]")
+            continue
+        loader = loader_cls()
+        try:
+            with console.status(f"Downloading {ds_name}..."):
+                items = loader.load()
+            console.print(f"  [green]{ds_name}[/green]: {len(items)} prompts cached")
+        except Exception as e:
+            console.print(f"  [red]{ds_name}[/red]: failed ({e})")
+
+
+@dataset_group.command("stats")
+def dataset_stats():
+    """Show prompt counts per category across all cached datasets."""
+    from collections import Counter
+    category_counts = Counter()
+    total = 0
+
+    for name in sorted(dataset_registry.list()):
+        loader_cls = dataset_registry.get(name)
+        loader = loader_cls()
+        if not loader.is_cached():
+            continue
+        items = loader.load_cache()
+        for item in items:
+            category_counts[item.get("category", "unknown")] += 1
+            total += 1
+
+    if not total:
+        console.print("[yellow]No cached datasets. Run: blackteam dataset load --all[/yellow]")
+        return
+
+    table = Table(title=f"Dataset Statistics ({total} total prompts)")
+    table.add_column("Category")
+    table.add_column("Count", justify="right")
+
+    for cat, count in category_counts.most_common():
+        table.add_row(cat, str(count))
+    console.print(table)
+
+
+# ── Mega-sweep command ───────────────────────────────────────────────
+
+@cli.command("mega-sweep")
+@click.option("-p", "--provider", required=True)
+@click.option("-m", "--model", default=None)
+@click.option("--dataset", "dataset_filter", default=None, help="Comma-separated dataset names or 'all'")
+@click.option("--mutations", default=None, help="Mutation types: encode,frame,difficulty (default: none)")
+@click.option("--attacks", "attack_filter", default="all", help="Comma-separated attack names or 'all'")
+@click.option("--categories", default=None, help="Filter to specific harm categories")
+@click.option("-w", "--workers", default=5, help="Max parallel workers")
+@click.option("--limit", default=None, type=int, help="Max prompts per dataset")
+@click.option("-o", "--output", default=None, help="Save JSON results to file")
+@click.option("--quiet", is_flag=True)
+@click.option("--dry-run", is_flag=True, help="Show what would run without running")
+def mega_sweep(provider, model, dataset_filter, mutations, attack_filter, categories, workers, limit, output, quiet, dry_run):
+    """Run attacks against dataset prompts with optional mutations."""
+    from blackteam.mutations import mutate, count_variants
+
+    config = load_config()
+    db_path = config.get("storage", {}).get("database", str(DEFAULT_DB_PATH))
+
+    provider_cls = provider_registry.get(provider)
+    if not provider_cls:
+        console.print(f"[red]Unknown provider: {provider}[/red]")
+        raise SystemExit(2)
+
+    api_key = config.get("providers", {}).get(provider, {}).get("api_key")
+    prov = provider_cls(model=model, api_key=api_key)
+
+    # Load attacks
+    if attack_filter == "all":
+        attacks = [(name, attack_registry.get(name)()) for name in attack_registry.list()]
+    else:
+        attacks = []
+        for name in attack_filter.split(","):
+            name = name.strip()
+            cls = attack_registry.get(name)
+            if cls:
+                attacks.append((name, cls()))
+
+    # Filter attacks that work with prompts (single-turn only for dataset sweeps)
+    attacks = [(n, a) for n, a in attacks if a.mode == "single-turn"]
+
+    # Load dataset prompts
+    prompts = []
+    if dataset_filter:
+        ds_names = sorted(dataset_registry.list()) if dataset_filter == "all" else [n.strip() for n in dataset_filter.split(",")]
+        for ds_name in ds_names:
+            loader_cls = dataset_registry.get(ds_name)
+            if not loader_cls:
+                console.print(f"[yellow]Unknown dataset: {ds_name}, skipping[/yellow]")
+                continue
+            loader = loader_cls()
+            items = loader.load()
+            prompts.extend(items)
+    else:
+        console.print("[red]Specify --dataset (comma-separated names or 'all')[/red]")
+        raise SystemExit(2)
+
+    # Filter by category
+    if categories:
+        cat_list = [c.strip() for c in categories.split(",")]
+        prompts = [p for p in prompts if p["category"] in cat_list]
+
+    # Apply limit
+    if limit:
+        prompts = prompts[:limit]
+
+    # Apply mutations
+    mutation_methods = [m.strip() for m in mutations.split(",")] if mutations else []
+    if mutation_methods:
+        expanded = []
+        for p in prompts:
+            variants = mutate(p["prompt"], methods=mutation_methods)
+            for v in variants:
+                expanded.append({**p, "prompt": v["prompt"], "mutation": v["mutation_name"]})
+        prompts = expanded
+
+    total_runs = len(prompts) * len(attacks)
+
+    if not quiet:
+        console.print(f"\n[bold]Mega-Sweep: {prov.model} ({provider})[/bold]")
+        console.print(f"Prompts: {len(prompts)} | Attacks: {len(attacks)} | Total runs: {total_runs}")
+
+    if dry_run:
+        console.print(f"\n[yellow]Dry run -- would execute {total_runs} attack runs[/yellow]")
+        console.print(f"Datasets: {dataset_filter}")
+        console.print(f"Mutations: {mutations or 'none'}")
+        console.print(f"Attacks: {len(attacks)} single-turn techniques")
+        raise SystemExit(0)
+
+    engine = Engine(db_path=db_path)
+    from rich.progress import Progress
+    completed = [0]
+    bypassed_count = [0]
+
+    with Progress(console=console, disable=quiet) as progress:
+        task = progress.add_task("Running...", total=total_runs)
+
+        for prompt_item in prompts:
+            for atk_name, atk in attacks:
+                try:
+                    results = engine.run_single(prov, atk, prompt_item["prompt"])
+                    for r in results:
+                        if r["verdict"] == "BYPASSED":
+                            bypassed_count[0] += 1
+                except Exception:
+                    pass
+                completed[0] += 1
+                progress.update(task, completed=completed[0])
+
+    if not quiet:
+        console.print(f"\n[bold]Complete:[/bold] {completed[0]} runs")
+        console.print(f"  Bypassed: [red]{bypassed_count[0]}[/red]")
+        console.print(f"  Blocked: [green]{completed[0] - bypassed_count[0]}[/green]")
+
+    if output:
+        from pathlib import Path
+        Path(output).write_text(json.dumps({
+            "model": prov.model,
+            "provider": provider,
+            "total_runs": completed[0],
+            "bypassed": bypassed_count[0],
+            "datasets": dataset_filter,
+            "mutations": mutations,
+        }, indent=2))
+        if not quiet:
+            console.print(f"Results saved to: {output}")

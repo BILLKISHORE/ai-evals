@@ -1,0 +1,68 @@
+import json
+import httpx
+from blackteam.registry import register_dataset
+from blackteam.datasets.loader import DatasetLoader
+
+
+@register_dataset("do-not-answer")
+class DoNotAnswerLoader(DatasetLoader):
+    name = "do-not-answer"
+    license = "Apache-2.0"
+    source_url = "https://github.com/Libr-AI/do-not-answer"
+    description = "939 harmful prompts across 12 risk areas (Do-Not-Answer)"
+
+    RAW_URL = "https://huggingface.co/datasets/LibrAI/do-not-answer/resolve/main/do_not_answer.json"
+
+    CATEGORY_MAP = {
+        "Discrimination": "discrimination",
+        "Hate Speech": "hate-speech",
+        "Violence": "weapons",
+        "Weapons": "weapons",
+        "Drugs": "drugs",
+        "Suicide": "self-harm",
+        "Sexual": "sexual-content",
+        "Privacy": "privacy-violation",
+        "Fraud": "fraud",
+        "Malware": "cybercrime",
+        "Copyright": "copyright-ip",
+        "Misinformation": "misinformation",
+    }
+
+    def _map_category(self, raw_cat):
+        for key, val in self.CATEGORY_MAP.items():
+            if key.lower() in raw_cat.lower():
+                return val
+        return "malware"
+
+    def download(self):
+        r = httpx.get(self.RAW_URL, timeout=30, follow_redirects=True)
+        r.raise_for_status()
+
+        text = r.text.strip()
+        # Try JSON array first, then JSONL
+        try:
+            data = json.loads(text)
+        except json.JSONDecodeError:
+            data = []
+            for line in text.split("\n"):
+                if line.strip():
+                    try:
+                        data.append(json.loads(line))
+                    except json.JSONDecodeError:
+                        continue
+
+        items = []
+        for entry in data:
+            prompt = entry.get("question", entry.get("prompt", entry.get("instruction", ""))).strip()
+            if not prompt:
+                continue
+
+            raw_cat = entry.get("risk_area", entry.get("types_of_harm", entry.get("category", "")))
+            items.append({
+                "prompt": prompt,
+                "category": self._map_category(raw_cat),
+                "source": "do-not-answer",
+                "difficulty": "easy",
+            })
+
+        return items

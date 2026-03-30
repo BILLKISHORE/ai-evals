@@ -10,7 +10,7 @@ class TaxonomyParaphrasing(BaseAttack):
     category = "social-engineering"
     severity = "medium"
     description = "Victim, researcher, and journalist persona framing"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2025 Prompt Injection", "LLM02:2025 Sensitive Information Disclosure"]
     mitre_atlas = ["AML.T0051.000", "AML.T0068"]
     references = []
 

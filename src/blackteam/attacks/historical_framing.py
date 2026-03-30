@@ -10,7 +10,7 @@ class HistoricalFraming(BaseAttack):
     category = "social-engineering"
     severity = "medium"
     description = "Documentary, museum, and textbook framing to legitimize harmful content"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2025 Prompt Injection", "LLM09:2025 Misinformation"]
     mitre_atlas = ["AML.T0054", "AML.T0065"]
     references = []
 

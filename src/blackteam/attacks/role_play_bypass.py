@@ -11,7 +11,7 @@ class RolePlayBypass(BaseAttack):
     severity = "high"
     description = "Character development and fiction building to normalize harmful requests"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
-    mitre_atlas = ["AML.T0051.000"]
+    mitre_atlas = ["AML.T0054", "AML.T0051.000"]
     references = []
 
     def generate_prompts(self, target, **kwargs):

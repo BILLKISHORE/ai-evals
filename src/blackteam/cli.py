@@ -1367,6 +1367,104 @@ def asl3(provider, model, domain, workers, limit, quiet):
     raise SystemExit(1 if any_bypassed else 0)
 
 
+# ── Code scanner command ─────────────────────────────────────────────
+
+SEVERITY_STYLES = {"critical": "bold red", "high": "red", "medium": "yellow", "low": "green"}
+
+
+@cli.command("scan")
+@click.argument("path", default=".")
+@click.option("--format", "fmt", type=click.Choice(["table", "json"]), default="table")
+@click.option("--severity", type=click.Choice(["critical", "high", "medium", "low"]), default=None,
+              help="Minimum severity to report")
+@click.option("--output", "-o", default=None, help="Save JSON results to file")
+def scan(path, fmt, severity, output):
+    """Scan source code for AI security vulnerabilities.
+
+    Detects LLM-specific issues: prompt injection vectors, secrets in prompts,
+    improper output handling (XSS, code exec, SQL injection), excessive agency,
+    and missing safety controls.
+
+    Examples:
+        blackteam scan .
+        blackteam scan src/ --severity high
+        blackteam scan app.py --format json -o findings.json
+    """
+    import json as json_mod
+    from pathlib import Path as P
+    from blackteam.scanner import scan_file, scan_directory, scan_summary
+
+    target = P(path)
+    if target.is_file():
+        findings = scan_file(str(target))
+    elif target.is_dir():
+        findings = scan_directory(str(target))
+    else:
+        console.print(f"[red]Path not found: {path}[/red]")
+        raise SystemExit(2)
+
+    # Filter by severity
+    severity_rank = {"critical": 4, "high": 3, "medium": 2, "low": 1}
+    if severity:
+        min_rank = severity_rank.get(severity, 0)
+        findings = [f for f in findings if severity_rank.get(f["severity"], 0) >= min_rank]
+
+    summary = scan_summary(findings)
+
+    if fmt == "json":
+        content = json_mod.dumps({"summary": summary, "findings": findings}, indent=2)
+        if output:
+            P(output).write_text(content)
+            console.print(f"Results saved to {output}")
+        else:
+            console.print(content)
+    else:
+        if not findings:
+            console.print(f"[green]No AI security vulnerabilities found in {path}[/green]")
+            raise SystemExit(0)
+
+        table = Table(title=f"AI Security Scan: {path} ({summary['total']} findings)")
+        table.add_column("Severity")
+        table.add_column("Rule")
+        table.add_column("File:Line", style="cyan")
+        table.add_column("Description")
+
+        for f in sorted(findings, key=lambda x: -severity_rank.get(x["severity"], 0)):
+            sev = f["severity"]
+            style = SEVERITY_STYLES.get(sev, "white")
+            file_loc = f"{P(f['file']).name}:{f['line']}"
+            table.add_row(
+                f"[{style}]{sev.upper()}[/{style}]",
+                f["rule_id"],
+                file_loc,
+                f["name"],
+            )
+
+        console.print(table)
+        console.print(f"\nSummary: {summary['total']} findings in {summary['files_affected']} files")
+
+        by_sev = summary["by_severity"]
+        parts = []
+        for s in ["critical", "high", "medium", "low"]:
+            if s in by_sev:
+                style = SEVERITY_STYLES.get(s, "white")
+                parts.append(f"[{style}]{by_sev[s]} {s}[/{style}]")
+        if parts:
+            console.print("  " + " | ".join(parts))
+
+        by_owasp = summary["by_owasp"]
+        if by_owasp:
+            console.print(f"  OWASP: {', '.join(f'{k}({v})' for k, v in sorted(by_owasp.items()))}")
+
+        if output:
+            content = json_mod.dumps({"summary": summary, "findings": findings}, indent=2)
+            P(output).write_text(content)
+            console.print(f"\nResults saved to {output}")
+
+    has_critical = any(f["severity"] == "critical" for f in findings)
+    raise SystemExit(1 if has_critical else 0)
+
+
 # ── Mega-sweep command ───────────────────────────────────────────────
 
 @cli.command("mega-sweep")

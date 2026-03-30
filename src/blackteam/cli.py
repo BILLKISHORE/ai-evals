@@ -401,3 +401,47 @@ def config_set(key, value):
     """Set a config value (e.g., providers.anthropic.api_key VALUE)."""
     set_config_value(key, value)
     console.print(f"Set {key}")
+
+
+@cli.command("taxonomy")
+def taxonomy():
+    """Show all attacks grouped by category with OWASP/MITRE mappings."""
+    from blackteam.api import Blackteam
+    bt = Blackteam.__new__(Blackteam)
+
+    categories = {}
+    for name in attack_registry.list():
+        cls = attack_registry.get(name)
+        attack = cls()
+        meta = attack.metadata()
+        cat = meta["category"] or "uncategorized"
+        if cat not in categories:
+            categories[cat] = []
+        categories[cat].append(meta)
+
+    SEVERITY_COLORS = {"critical": "red", "high": "bright_red", "medium": "yellow", "low": "green"}
+
+    for cat, attacks in sorted(categories.items()):
+        table = Table(title=f"[bold]{cat.upper()}[/bold] ({len(attacks)} attacks)")
+        table.add_column("Attack", style="cyan")
+        table.add_column("Severity")
+        table.add_column("Mode")
+        table.add_column("Description")
+        table.add_column("OWASP LLM")
+        table.add_column("References")
+
+        for a in sorted(attacks, key=lambda x: x["technique_id"]):
+            sev = a["severity"]
+            color = SEVERITY_COLORS.get(sev, "white")
+            refs = ", ".join(r.split("/")[-1][:20] for r in a.get("references", [])) or "-"
+            owasp = ", ".join(o.split(" ")[0] for o in a.get("owasp_llm", [])) or "-"
+            table.add_row(
+                a["technique_id"],
+                f"[{color}]{sev}[/{color}]",
+                a["mode"],
+                a["description"][:60],
+                owasp,
+                refs,
+            )
+        console.print(table)
+        console.print()

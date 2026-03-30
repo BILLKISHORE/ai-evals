@@ -133,7 +133,12 @@ def run(provider, model, attack, target, verbose, quiet):
         if not quiet:
             color = _verdict_color(results["verdict"])
             console.print(f"Verdict: [{color}]{results['verdict']}[/{color}]")
-            console.print(f"Turns: {results.get('turns', 1)}")
+            if "tool_calls" in results:
+                console.print(f"Messages: {results.get('messages', 0)}")
+                console.print(f"Tool calls: {results['tool_calls']}")
+                console.print(f"Sensitive calls: {results.get('sensitive_calls', 0)}")
+            else:
+                console.print(f"Turns: {results.get('turns', 1)}")
             console.print(f"Confidence: {results['confidence']:.2f}")
             if verbose:
                 console.print(f"Response: {results.get('final_response_preview', '')}")

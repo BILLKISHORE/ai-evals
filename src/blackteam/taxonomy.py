@@ -194,6 +194,40 @@ ATTACK_ATLAS_MAPPINGS = {
     "cross-session-leak": ["AML.T0056", "AML.T0080.002"],
     # Availability attacks
     "model-denial-of-service": ["AML.T0051.000", "AML.T0065"],
+    # Compliance attacks
+    "age-verification-bypass": ["AML.T0054", "AML.T0065"],
+    "gdpr-probing": ["AML.T0054", "AML.T0065"],
+    "terms-evasion": ["AML.T0054", "AML.T0065"],
+    "regulatory-bypass": ["AML.T0054", "AML.T0065"],
+    "copyright-extraction": ["AML.T0054", "AML.T0065"],
+    "medical-malpractice": ["AML.T0054", "AML.T0065"],
+    "legal-malpractice": ["AML.T0054", "AML.T0065"],
+    "financial-malpractice": ["AML.T0054", "AML.T0065"],
+    # Social engineering attacks
+    "pretexting": ["AML.T0054", "AML.T0065"],
+    "quid-pro-quo": ["AML.T0054", "AML.T0065"],
+    "watering-hole": ["AML.T0051.001", "AML.T0068"],
+    "trust-transfer": ["AML.T0054", "AML.T0065"],
+    "consensus-manipulation": ["AML.T0054", "AML.T0065"],
+    "time-pressure": ["AML.T0054", "AML.T0065"],
+    "authority-impersonation": ["AML.T0054", "AML.T0065"],
+    "gaslighting": ["AML.T0054", "AML.T0065", "AML.T0080.002"],
+    # Hallucination & reliability attacks
+    "fabrication-prompting": [],
+    "confidence-exploitation": [],
+    "citation-manipulation": [],
+    "knowledge-boundary": [],
+    "sycophancy-exploit": ["AML.T0043.003"],
+    "anchoring-bias": [],
+    "false-premise": [],
+    "selective-context": [],
+    # Multi-modal & encoding attacks
+    "morse-code": ["AML.T0043.003"],
+    "braille-encoding": ["AML.T0043.003"],
+    "emoji-substitution": ["AML.T0043.003"],
+    "phonetic-spelling": ["AML.T0043.003"],
+    "acronym-encoding": ["AML.T0043.003"],
+    "mixed-language": ["AML.T0043.003"],
 }
 
 # ── MLCommons AILuminate v1.0 hazard taxonomy ────────────────────────

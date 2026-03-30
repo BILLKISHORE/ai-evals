@@ -77,8 +77,7 @@ footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #333; color:
 
 def generate_html(storage):
     stats = storage.get_stats()
-    runs = storage.list_runs(limit=500)
-    runs.reverse()
+    runs = list(reversed(storage.list_runs(limit=500)))
 
     template = Template(HTML_TEMPLATE)
     return template.render(

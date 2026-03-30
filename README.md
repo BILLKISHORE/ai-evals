@@ -2,6 +2,18 @@
 
 Automated LLM red team framework. Test any model's safety with one command.
 
+## Why ai-blackteam
+
+Most eval tools run single-prompt probes. A 2025 multi-lab study (researchers from OpenAI, Anthropic, Google DeepMind) showed that adaptive attacks bypass 12 published defenses with >90% success rate -- even when those defenses originally reported near-zero attack rates. Single-attempt testing misses real vulnerabilities.
+
+ai-blackteam runs multi-turn, adaptive attacks that mirror real adversarial pressure:
+
+- **Vendor-neutral** -- tests 7 providers equally, not owned by any AI lab
+- **39 attack techniques** -- encoding, conversational, psychological, tool-use vectors
+- **Research-backed** -- implements published attacks from Microsoft Research, Palo Alto Unit 42, USENIX
+- **Multi-turn depth** -- crescendo, sunk-cost, context-manipulation attacks that exploit conversational memory over 10+ turns
+- **One command** -- sweep all models, all attacks, get a comparative safety report
+
 ## Install
 
 ```bash
@@ -148,6 +160,18 @@ blackteam run -p anthropic -a encoding-obfuscation -t "target" --evaluator keywo
 ## Research
 
 This tool was built alongside real security research on Claude Sonnet 4 and 4.6. See the `experiments/` folder for 10 experiments covering 150+ attack runs with documented findings.
+
+## Landscape
+
+| Tool | Focus | Limitation |
+|------|-------|------------|
+| Promptfoo | Eval CLI, YAML-driven | Acquired by OpenAI (Mar 2026) -- no longer vendor-neutral |
+| garak (NVIDIA) | 100+ automated probes | Single-prompt only, no multi-turn attacks |
+| DeepEval | RAG/agent metrics, 50+ evaluators | Broader but shallower adversarial depth |
+| AILuminate (MLCommons) | Industry benchmark, 24K prompts | Rates models but doesn't actively break them |
+| OpenAI Evals | First-party eval harness | Model-specific, not multi-provider |
+
+ai-blackteam fills the gap for independent, multi-provider, multi-turn adversarial testing. See [docs/research/llm-eval-landscape-2026.md](docs/research/llm-eval-landscape-2026.md) for the full competitive analysis.
 
 ## License
 

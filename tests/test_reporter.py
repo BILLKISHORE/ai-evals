@@ -1,6 +1,6 @@
 import tempfile
 from blackteam.storage.sqlite import Storage
-from blackteam.reporter import generate_markdown, generate_json
+from blackteam.reporter import generate_markdown, generate_json, generate_html
 
 
 def _make_storage_with_data():
@@ -25,3 +25,13 @@ def test_json_report():
     data = json.loads(report)
     assert data["stats"]["total_runs"] == 2
     assert len(data["runs"]) == 2
+
+
+def test_html_report():
+    db = _make_storage_with_data()
+    report = generate_html(db)
+    assert "<!DOCTYPE html>" in report
+    assert "BYPASSED" in report
+    assert "BLOCKED" in report
+    assert "Total Runs" in report
+    assert "ai-blackteam" in report.lower()

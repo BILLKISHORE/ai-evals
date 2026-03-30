@@ -37,3 +37,12 @@ class BaseAttack(ABC):
 
     def get_tools(self):
         return None
+
+    def get_tool_responses(self):
+        """Return custom simulated tool responses for XPIA attacks.
+
+        Override this to inject payloads into tool responses. Returns a dict
+        mapping tool_name to response content string. When present, the engine
+        uses these instead of generic "[simulated]" responses.
+        """
+        return None

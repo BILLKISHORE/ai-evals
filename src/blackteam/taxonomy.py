@@ -178,6 +178,10 @@ ATTACK_ATLAS_MAPPINGS = {
     "agent-config-discovery": ["AML.T0084"],
     "agent-plugin-hijack": ["AML.T0053", "AML.T0080.002"],
     "agent-tool-credential-harvest": ["AML.T0098"],
+    # XPIA (cross-domain prompt injection) attacks
+    "xpia-document": ["AML.T0051.001"],
+    "xpia-email": ["AML.T0051.001"],
+    "xpia-rag": ["AML.T0051.001"],
     # Injection attacks (web/API security)
     "ssrf-probing": ["AML.T0051"],
     "sql-injection": ["AML.T0051"],
@@ -309,6 +313,107 @@ HARM_TO_MLCOMMONS = {
     "hate-speech": "hte",
     "pii-extraction": "prv",
     "system-prompt-leakage": "prv",
+}
+
+
+# ── NIST AI Risk Management Framework (AI RMF 1.0) ──────────────────
+# https://www.nist.gov/artificial-intelligence/executive-order-safe-secure-and-trustworthy-artificial-intelligence
+
+NIST_AI_RMF = {
+    "govern": {
+        "name": "Govern",
+        "description": "Policies, processes, and accountability for AI risk management",
+    },
+    "map": {
+        "name": "Map",
+        "description": "Context establishment, risk identification, and impact assessment",
+    },
+    "measure": {
+        "name": "Measure",
+        "description": "Risk analysis, tracking, and quantification of AI system behavior",
+    },
+    "manage": {
+        "name": "Manage",
+        "description": "Risk response, mitigation, and continuous monitoring",
+    },
+}
+
+HARM_TO_NIST = {
+    "phishing": "measure",
+    "malware": "measure",
+    "weapons": "manage",
+    "drugs": "measure",
+    "self-harm": "manage",
+    "hate-speech": "measure",
+    "pii-extraction": "govern",
+    "system-prompt-leakage": "govern",
+    "cbrn": "manage",
+    "fraud": "measure",
+    "child-safety": "manage",
+    "copyright-ip": "govern",
+    "misinformation": "measure",
+    "radicalization": "manage",
+    "cybercrime": "measure",
+    "privacy-violation": "govern",
+    "discrimination": "measure",
+    "unqualified-advice": "measure",
+    "agentic-risks": "govern",
+    "social-engineering": "measure",
+    "regulatory-evasion": "govern",
+    "environmental-harm": "manage",
+    "election-interference": "manage",
+    "sexual-content": "manage",
+    "harassment": "manage",
+}
+
+# ── EU AI Act risk classification ────────────────────────────────────
+# https://artificialintelligenceact.eu/
+
+EU_AI_ACT_RISK = {
+    "unacceptable": {
+        "name": "Unacceptable Risk",
+        "description": "Prohibited: social scoring, real-time biometric identification, manipulation of vulnerable groups",
+    },
+    "high": {
+        "name": "High Risk",
+        "description": "Requires conformity assessment: critical infrastructure, education, employment, law enforcement",
+    },
+    "limited": {
+        "name": "Limited Risk",
+        "description": "Transparency obligations: chatbots, deepfakes, emotion recognition",
+    },
+    "minimal": {
+        "name": "Minimal Risk",
+        "description": "No specific obligations: spam filters, games, inventory management",
+    },
+}
+
+HARM_TO_EU_AI_ACT = {
+    "phishing": "high",
+    "malware": "high",
+    "weapons": "unacceptable",
+    "drugs": "high",
+    "self-harm": "high",
+    "hate-speech": "high",
+    "pii-extraction": "high",
+    "system-prompt-leakage": "limited",
+    "cbrn": "unacceptable",
+    "fraud": "high",
+    "child-safety": "unacceptable",
+    "copyright-ip": "limited",
+    "misinformation": "high",
+    "radicalization": "unacceptable",
+    "cybercrime": "high",
+    "privacy-violation": "high",
+    "discrimination": "high",
+    "unqualified-advice": "limited",
+    "agentic-risks": "high",
+    "social-engineering": "high",
+    "regulatory-evasion": "high",
+    "environmental-harm": "limited",
+    "election-interference": "unacceptable",
+    "sexual-content": "high",
+    "harassment": "high",
 }
 
 

@@ -772,6 +772,55 @@ def atlas_cmd():
     console.print(table)
 
 
+@cli.command("frameworks")
+def frameworks_cmd():
+    """Show regulatory framework mappings (NIST AI RMF, EU AI Act)."""
+    from blackteam.taxonomy import (
+        NIST_AI_RMF, HARM_TO_NIST,
+        EU_AI_ACT_RISK, HARM_TO_EU_AI_ACT,
+        MLCOMMONS_HAZARDS, HARM_TO_MLCOMMONS,
+    )
+
+    # NIST AI RMF
+    nist_table = Table(title="NIST AI Risk Management Framework")
+    nist_table.add_column("Function", style="bold cyan")
+    nist_table.add_column("Description")
+    for func_id, info in NIST_AI_RMF.items():
+        nist_table.add_row(info["name"], info["description"])
+    console.print(nist_table)
+    console.print()
+
+    # EU AI Act
+    eu_table = Table(title="EU AI Act Risk Classification")
+    eu_table.add_column("Risk Level", style="bold cyan")
+    eu_table.add_column("Description")
+    for level, info in EU_AI_ACT_RISK.items():
+        eu_table.add_row(info["name"], info["description"])
+    console.print(eu_table)
+    console.print()
+
+    # Harm category mapping
+    mapping = Table(title="Harm Category Regulatory Alignment")
+    mapping.add_column("Harm Category", style="cyan")
+    mapping.add_column("MLCommons")
+    mapping.add_column("NIST AI RMF")
+    mapping.add_column("EU AI Act")
+
+    all_cats = sorted(set(list(HARM_TO_MLCOMMONS.keys()) + list(HARM_TO_NIST.keys())))
+    for cat in all_cats:
+        mlc = HARM_TO_MLCOMMONS.get(cat, "-")
+        nist = HARM_TO_NIST.get(cat, "-")
+        eu = HARM_TO_EU_AI_ACT.get(cat, "-")
+        if mlc != "-":
+            mlc = f"{mlc} ({MLCOMMONS_HAZARDS[mlc]['name']})"
+        if nist != "-":
+            nist = NIST_AI_RMF[nist]["name"]
+        if eu != "-":
+            eu = EU_AI_ACT_RISK[eu]["name"]
+        mapping.add_row(cat, mlc, nist, eu)
+    console.print(mapping)
+
+
 @cli.command()
 @click.option("-p", "--provider", default=None, help="Provider name (omit for --all)")
 @click.option("-m", "--model", default=None, help="Model name")

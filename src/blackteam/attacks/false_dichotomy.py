@@ -7,6 +7,12 @@ class FalseDichotomy(BaseAttack):
     name = "False Dichotomy"
     technique_id = "false-dichotomy"
     mode = "multi-turn"
+    category = "social-engineering"
+    severity = "medium"
+    description = "Present false choice between harmful content from unreliable sources vs from model"
+    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    mitre_atlas = ["AML.T0051.000"]
+    references = ["https://www.promptfoo.dev/docs/red-team/strategies/jailbreak/"]
 
     def generate_prompts(self, target, **kwargs):
         return [

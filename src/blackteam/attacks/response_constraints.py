@@ -7,6 +7,12 @@ class ResponseConstraints(BaseAttack):
     name = "Response Constraints"
     technique_id = "response-constraints"
     mode = "single-turn"
+    category = "prompt-injection"
+    severity = "high"
+    description = "Suppress safety disclaimers via output formatting rules to prevent model from adding caveats"
+    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    mitre_atlas = ["AML.T0051.000"]
+    references = ["https://www.confident-ai.com/blog/how-to-jailbreak-llms"]
 
     def generate_prompts(self, target, **kwargs):
         return [

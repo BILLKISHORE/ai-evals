@@ -93,20 +93,23 @@ class Engine:
 
     # ── Async parallel execution ──────────────────────────────────────
 
-    async def _run_attack_async(self, provider, attack, target, semaphore):
-        async with semaphore:
-            return await asyncio.to_thread(self.run, provider, attack, target)
-
     async def run_batch_async(self, provider, attacks, target, max_workers=5, on_complete=None):
         semaphore = asyncio.Semaphore(max_workers)
         results = []
+        db_path = self.storage.db_path
 
         async def _run_one(attack):
-            try:
-                result = await self._run_attack_async(provider, attack, target, semaphore)
-                entry = {"attack": attack.technique_id, "results": result, "error": None}
-            except Exception as e:
-                entry = {"attack": attack.technique_id, "results": None, "error": str(e)}
+            async with semaphore:
+                try:
+                    # Each thread gets its own Engine + Storage to avoid SQLite thread issues
+                    def _run_in_thread():
+                        thread_engine = Engine(db_path=db_path)
+                        return thread_engine.run(provider, attack, target)
+
+                    result = await asyncio.to_thread(_run_in_thread)
+                    entry = {"attack": attack.technique_id, "results": result, "error": None}
+                except Exception as e:
+                    entry = {"attack": attack.technique_id, "results": None, "error": str(e)}
             results.append(entry)
             if on_complete:
                 on_complete(entry)

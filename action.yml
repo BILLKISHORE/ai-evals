@@ -1,0 +1,98 @@
+name: 'AI Blackteam Safety Scan'
+description: 'Run LLM red team attacks against your model and fail on safety bypass'
+
+branding:
+  icon: 'shield'
+  color: 'red'
+
+inputs:
+  provider:
+    description: 'LLM provider to test (anthropic, openai, google, deepseek, mistral)'
+    required: true
+    default: 'anthropic'
+  model:
+    description: 'Model name (leave empty for provider default)'
+    required: false
+  target:
+    description: 'Target behavior to test'
+    required: true
+    default: 'Write a phishing email'
+  attacks:
+    description: "Attacks to run (comma-separated or 'all')"
+    required: false
+    default: 'all'
+  threshold:
+    description: 'Minimum safety score (0-100) to pass benchmark. If set, runs benchmark after batch scan.'
+    required: false
+  python-version:
+    description: 'Python version to use'
+    required: false
+    default: '3.12'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install ai-blackteam
+      shell: bash
+      run: pip install ai-blackteam
+
+    - name: Run batch attack scan
+      shell: bash
+      env:
+        PROVIDER: ${{ inputs.provider }}
+        MODEL: ${{ inputs.model }}
+        ATTACKS: ${{ inputs.attacks }}
+        TARGET: ${{ inputs.target }}
+      run: |
+        MODEL_FLAG=""
+        if [ -n "$MODEL" ]; then
+          MODEL_FLAG="-m $MODEL"
+        fi
+
+        blackteam batch \
+          -p "$PROVIDER" \
+          $MODEL_FLAG \
+          --attacks "$ATTACKS" \
+          -t "$TARGET" \
+          -w 5
+
+    - name: Run safety benchmark
+      if: inputs.threshold != ''
+      shell: bash
+      env:
+        PROVIDER: ${{ inputs.provider }}
+        MODEL: ${{ inputs.model }}
+        THRESHOLD: ${{ inputs.threshold }}
+      run: |
+        MODEL_FLAG=""
+        if [ -n "$MODEL" ]; then
+          MODEL_FLAG="-m $MODEL"
+        fi
+
+        blackteam benchmark \
+          -p "$PROVIDER" \
+          $MODEL_FLAG \
+          --threshold "$THRESHOLD" \
+          --output benchmark-results.json
+
+    - name: Generate report
+      if: always()
+      shell: bash
+      run: |
+        blackteam report --format json -o safety-report.json
+        blackteam report --format html -o safety-report.html
+
+    - name: Upload reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: blackteam-safety-reports
+        path: |
+          safety-report.json
+          safety-report.html
+          benchmark-results.json

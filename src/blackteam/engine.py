@@ -88,6 +88,7 @@ class Engine:
     def run_tool_use(self, provider, attack, target, system_prompt=None):
         tools = attack.get_tools()
         messages_text = attack.generate_tool_messages(target, tools=tools)
+        custom_responses = attack.get_tool_responses() if hasattr(attack, 'get_tool_responses') else None
         messages = []
         all_tool_calls = []
         all_responses = []
@@ -100,13 +101,18 @@ class Engine:
             # Record tool calls
             for call in result.tool_calls:
                 all_tool_calls.append(call)
-                # Simulate a generic tool response so the conversation can continue
+                # Use custom response if available (for XPIA), otherwise generic
+                tool_name = call["tool"]
+                if custom_responses and tool_name in custom_responses:
+                    sim_content = custom_responses[tool_name]
+                else:
+                    sim_content = f"[simulated] Tool '{tool_name}' called with {call['input']}"
                 messages.append({"role": "assistant", "content": [
-                    {"type": "tool_use", "id": call["id"], "name": call["tool"], "input": call["input"]}
+                    {"type": "tool_use", "id": call["id"], "name": tool_name, "input": call["input"]}
                 ]})
                 messages.append({"role": "user", "content": [
                     {"type": "tool_result", "tool_use_id": call["id"],
-                     "content": f"[simulated] Tool '{call['tool']}' called with {call['input']}"}
+                     "content": sim_content}
                 ]})
 
             if result.response:

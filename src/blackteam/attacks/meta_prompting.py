@@ -7,6 +7,12 @@ class MetaPrompting(BaseAttack):
     name = "Meta-Prompting"
     technique_id = "meta-prompting"
     mode = "single-turn"
+    category = "prompt-injection"
+    severity = "medium"
+    description = "Ask the model to generate its own jailbreak prompts for a given target"
+    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    mitre_atlas = ["AML.T0051.000"]
+    references = ["https://www.promptfoo.dev/docs/red-team/strategies/jailbreak/"]
 
     def generate_prompts(self, target, **kwargs):
         return [

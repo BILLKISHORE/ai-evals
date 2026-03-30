@@ -7,6 +7,12 @@ class Crescendo(BaseAttack):
     name = "Crescendo"
     technique_id = "crescendo"
     mode = "multi-turn"
+    category = "context-manipulation"
+    severity = "high"
+    description = "Progressive escalation through self-referencing conversation history"
+    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    mitre_atlas = ["AML.T0051.000"]
+    references = ["https://arxiv.org/abs/2404.01833"]
 
     def generate_prompts(self, target, **kwargs):
         return [

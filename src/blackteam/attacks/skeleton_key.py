@@ -7,6 +7,12 @@ class SkeletonKey(BaseAttack):
     name = "Skeleton Key"
     technique_id = "skeleton-key"
     mode = "multi-turn"
+    category = "prompt-injection"
+    severity = "high"
+    description = "Request model augment its guidelines to warn instead of refuse"
+    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    mitre_atlas = ["AML.T0051.000"]
+    references = ["https://www.microsoft.com/en-us/security/blog/2024/06/26/mitigating-skeleton-key-a-new-type-of-generative-ai-jailbreak-technique/"]
 
     def generate_prompts(self, target, **kwargs):
         return [

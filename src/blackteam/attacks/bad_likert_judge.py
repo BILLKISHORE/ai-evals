@@ -7,6 +7,12 @@ class BadLikertJudge(BaseAttack):
     name = "Bad Likert Judge"
     technique_id = "bad-likert-judge"
     mode = "multi-turn"
+    category = "social-engineering"
+    severity = "high"
+    description = "Exploit evaluation capability by asking model to score and exemplify harmful content"
+    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    mitre_atlas = ["AML.T0051.000"]
+    references = ["https://unit42.paloaltonetworks.com/jailbreaking-llms-practical-guide/"]
 
     def generate_prompts(self, target, **kwargs):
         return [

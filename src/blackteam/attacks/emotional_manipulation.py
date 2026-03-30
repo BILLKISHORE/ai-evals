@@ -7,6 +7,12 @@ class EmotionalManipulation(BaseAttack):
     name = "Emotional Manipulation"
     technique_id = "emotional-manipulation"
     mode = "multi-turn"
+    category = "social-engineering"
+    severity = "high"
+    description = "Distress and emotional framing to override safety via empathy exploitation"
+    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    mitre_atlas = ["AML.T0051.000"]
+    references = []
 
     def generate_prompts(self, target, **kwargs):
         return [

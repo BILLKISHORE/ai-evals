@@ -69,6 +69,51 @@ ATLAS_TECHNIQUES = {
         "tactic": "Persistence",
         "description": "Poison AI agent conversation thread to alter behavior over multiple turns",
     },
+    "AML.T0050": {
+        "name": "Command and Scripting Interpreter",
+        "tactic": "Execution",
+        "description": "Use LLM integrated with command interpreter to execute arbitrary instructions",
+    },
+    "AML.T0053": {
+        "name": "LLM Plugin Compromise",
+        "tactic": "Execution",
+        "description": "Exploit connected plugins to increase privileges or exfiltrate data",
+    },
+    "AML.T0081": {
+        "name": "Modify AI Agent Configuration",
+        "tactic": "Persistence",
+        "description": "Modify agent configuration for persistent access or weakened security",
+    },
+    "AML.T0083": {
+        "name": "Credentials from AI Agent Configuration",
+        "tactic": "Credential Access",
+        "description": "Extract credentials stored in AI agent configurations or environment",
+    },
+    "AML.T0084": {
+        "name": "Discover AI Agent Configuration",
+        "tactic": "Discovery",
+        "description": "Discover configuration, tool definitions, and activation triggers of AI agents",
+    },
+    "AML.T0086": {
+        "name": "Exfiltration via AI Agent Tool Invocation",
+        "tactic": "Exfiltration",
+        "description": "Exfiltrate data by invoking AI agent tools to transmit information externally",
+    },
+    "AML.T0098": {
+        "name": "AI Agent Tool Credential Harvesting",
+        "tactic": "Credential Access",
+        "description": "Harvest credentials through AI agent tool interactions across services",
+    },
+    "AML.T0101": {
+        "name": "Data Destruction via AI Agent Tool Invocation",
+        "tactic": "Impact",
+        "description": "Destroy data by invoking AI agent tools to delete files or database records",
+    },
+    "AML.T0105": {
+        "name": "Escape to Host",
+        "tactic": "Impact",
+        "description": "Escape from AI agent sandbox or container to the host system",
+    },
 }
 
 # ── Attack -> ATLAS technique mappings ───────────────────────────────
@@ -124,6 +169,15 @@ ATTACK_ATLAS_MAPPINGS = {
     # Specialized techniques
     "recursive-injection": ["AML.T0051.000", "AML.T0061"],
     "best-of-n": ["AML.T0051.000", "AML.T0043.003"],
+    # Agent exploitation attacks
+    "agent-credential-theft": ["AML.T0083", "AML.T0086"],
+    "agent-data-exfiltration": ["AML.T0086", "AML.T0098"],
+    "agent-data-destruction": ["AML.T0101"],
+    "agent-config-manipulation": ["AML.T0081"],
+    "agent-command-injection": ["AML.T0050", "AML.T0105"],
+    "agent-config-discovery": ["AML.T0084"],
+    "agent-plugin-hijack": ["AML.T0053", "AML.T0080.002"],
+    "agent-tool-credential-harvest": ["AML.T0098"],
 }
 
 # ── MLCommons AILuminate v1.0 hazard taxonomy ────────────────────────

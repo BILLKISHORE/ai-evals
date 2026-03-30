@@ -11,7 +11,7 @@ class SessionHijacking(BaseAttack):
     severity = "critical"
     description = "Multi-turn attack to learn session token formats and forge authentication tokens"
     owasp_llm = []
-    mitre_atlas = []
+    mitre_atlas = ['AML.T0054', 'AML.T0065']
     references = []
 
     def generate_prompts(self, target, **kwargs):

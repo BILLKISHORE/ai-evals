@@ -11,7 +11,7 @@ class Gaslighting(BaseAttack):
     severity = "medium"
     description = "Convince the model its safety rules are outdated or recently removed"
     owasp_llm = []
-    mitre_atlas = []
+    mitre_atlas = ['AML.T0054', 'AML.T0065', 'AML.T0080.002']
     references = []
 
     def generate_prompts(self, target, **kwargs):

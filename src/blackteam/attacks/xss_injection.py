@@ -11,7 +11,7 @@ class XSSInjection(BaseAttack):
     severity = "medium"
     description = "Get model to generate HTML containing cross-site scripting payloads"
     owasp_llm = []
-    mitre_atlas = []
+    mitre_atlas = ['AML.T0051.000', 'AML.T0067']
     references = []
 
     def generate_prompts(self, target, **kwargs):

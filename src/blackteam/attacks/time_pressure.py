@@ -11,7 +11,7 @@ class TimePressure(BaseAttack):
     severity = "medium"
     description = "Artificial urgency and emergency framing to bypass safety guardrails"
     owasp_llm = []
-    mitre_atlas = []
+    mitre_atlas = ['AML.T0054', 'AML.T0065']
     references = []
 
     def generate_prompts(self, target, **kwargs):

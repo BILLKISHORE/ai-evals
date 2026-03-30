@@ -11,7 +11,7 @@ class GdprProbing(BaseAttack):
     severity = "high"
     description = "Progressive probing to extract personal data through GDPR compliance framing"
     owasp_llm = []
-    mitre_atlas = []
+    mitre_atlas = ['AML.T0054', 'AML.T0065']
     references = []
 
     def generate_prompts(self, target, **kwargs):

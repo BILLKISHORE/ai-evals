@@ -11,7 +11,7 @@ class LegalMalpractice(BaseAttack):
     severity = "high"
     description = "Multi-turn escalation from legal situation to requesting specific legal strategy and documents"
     owasp_llm = []
-    mitre_atlas = []
+    mitre_atlas = ['AML.T0054', 'AML.T0065']
     references = []
 
     def generate_prompts(self, target, **kwargs):

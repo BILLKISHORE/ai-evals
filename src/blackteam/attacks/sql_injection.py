@@ -11,7 +11,7 @@ class SQLInjection(BaseAttack):
     severity = "high"
     description = "Inject SQL payloads through natural language queries to test output sanitization"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
-    mitre_atlas = []
+    mitre_atlas = ['AML.T0051']
     references = []
 
     def generate_prompts(self, target, **kwargs):

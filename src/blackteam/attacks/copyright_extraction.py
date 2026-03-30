@@ -11,7 +11,7 @@ class CopyrightExtraction(BaseAttack):
     severity = "high"
     description = "Multi-turn escalation to extract verbatim copyrighted text from training data"
     owasp_llm = ["LLM06:2025 Excessive Agency"]
-    mitre_atlas = []
+    mitre_atlas = ['AML.T0054', 'AML.T0065']
     references = []
 
     def generate_prompts(self, target, **kwargs):

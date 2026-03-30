@@ -427,9 +427,6 @@ def config_set(key, value):
 @cli.command("taxonomy")
 def taxonomy():
     """Show all attacks grouped by category with OWASP/MITRE mappings."""
-    from blackteam.api import Blackteam
-    bt = Blackteam.__new__(Blackteam)
-
     categories = {}
     for name in attack_registry.list():
         cls = attack_registry.get(name)
@@ -449,23 +446,71 @@ def taxonomy():
         table.add_column("Mode")
         table.add_column("Description")
         table.add_column("OWASP LLM")
-        table.add_column("References")
+        table.add_column("MITRE ATLAS", style="dim")
 
         for a in sorted(attacks, key=lambda x: x["technique_id"]):
             sev = a["severity"]
             color = SEVERITY_COLORS.get(sev, "white")
-            refs = ", ".join(r.split("/")[-1][:20] for r in a.get("references", [])) or "-"
             owasp = ", ".join(o.split(" ")[0] for o in a.get("owasp_llm", [])) or "-"
+            atlas = ", ".join(a.get("mitre_atlas", [])) or "-"
             table.add_row(
                 a["technique_id"],
                 f"[{color}]{sev}[/{color}]",
                 a["mode"],
                 a["description"][:60],
                 owasp,
-                refs,
+                atlas,
             )
         console.print(table)
         console.print()
+
+
+@cli.command("mlcommons")
+def mlcommons_cmd():
+    """Show MLCommons AILuminate hazard taxonomy and harm category alignment."""
+    from blackteam.taxonomy import MLCOMMONS_HAZARDS, HARM_TO_MLCOMMONS
+
+    table = Table(title="MLCommons AILuminate v1.0 Hazard Taxonomy")
+    table.add_column("Code", style="bold cyan")
+    table.add_column("Hazard Category")
+    table.add_column("Description")
+
+    for code, info in MLCOMMONS_HAZARDS.items():
+        table.add_row(code, info["name"], info["description"])
+    console.print(table)
+    console.print()
+
+    mapping = Table(title="Harm Category Alignment")
+    mapping.add_column("ai-blackteam Category", style="cyan")
+    mapping.add_column("MLCommons Code", style="bold")
+    mapping.add_column("MLCommons Hazard")
+
+    for harm, code in HARM_TO_MLCOMMONS.items():
+        mapping.add_row(harm, code, MLCOMMONS_HAZARDS[code]["name"])
+    console.print(mapping)
+
+
+@cli.command("atlas")
+def atlas_cmd():
+    """Show MITRE ATLAS technique mappings for all attacks."""
+    from blackteam.taxonomy import ATLAS_TECHNIQUES
+
+    table = Table(title="MITRE ATLAS Attack Mappings (v5.4.0)")
+    table.add_column("Attack", style="cyan")
+    table.add_column("ATLAS Techniques")
+    table.add_column("Technique Names")
+
+    for name in sorted(attack_registry.list()):
+        cls = attack_registry.get(name)
+        attack = cls()
+        ids = attack.mitre_atlas
+        names = [ATLAS_TECHNIQUES[t]["name"] for t in ids if t in ATLAS_TECHNIQUES]
+        table.add_row(
+            name,
+            ", ".join(ids),
+            ", ".join(names),
+        )
+    console.print(table)
 
 
 @cli.command()

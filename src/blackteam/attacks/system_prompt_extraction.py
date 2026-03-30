@@ -11,7 +11,7 @@ class SystemPromptExtraction(BaseAttack):
     severity = "high"
     description = "JSON schema, chain-of-thought, and error correction to leak system prompts"
     owasp_llm = ["LLM07:2025 System Prompt Leakage"]
-    mitre_atlas = ["AML.T0051.001"]
+    mitre_atlas = ["AML.T0056", "AML.T0069.002"]
     references = []
 
     def generate_prompts(self, target, **kwargs):

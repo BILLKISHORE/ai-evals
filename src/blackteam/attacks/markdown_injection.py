@@ -11,7 +11,7 @@ class MarkdownInjection(BaseAttack):
     severity = "medium"
     description = "Hidden HTML divs, comments, and table formatting to conceal harmful intent"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
-    mitre_atlas = ["AML.T0051.000"]
+    mitre_atlas = ["AML.T0051.001", "AML.T0068", "AML.T0067"]
     references = ["https://www.promptfoo.dev/docs/red-team/strategies/jailbreak/"]
 
     def generate_prompts(self, target, **kwargs):

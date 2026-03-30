@@ -11,7 +11,7 @@ class DanVariants(BaseAttack):
     severity = "medium"
     description = "DAN, EDUALC, Opposite Day, and Professor persona override attempts"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
-    mitre_atlas = ["AML.T0051.000"]
+    mitre_atlas = ["AML.T0054", "AML.T0051.000"]
     references = []
 
     def generate_prompts(self, target, **kwargs):

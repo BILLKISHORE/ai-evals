@@ -372,22 +372,27 @@ def sweep(target, verbose, quiet):
 
 @cli.command()
 @click.option("--format", "fmt", type=click.Choice(["markdown", "json", "html"]), default="markdown")
+@click.option("--export", "export_fmt", type=click.Choice(["promptfoo", "garak"]), default=None, help="Export to Promptfoo JSON or garak JSONL")
 @click.option("--output", "-o", default=None, help="Output file path")
-def report(fmt, output):
+def report(fmt, export_fmt, output):
     """Generate a report from stored results."""
-    from blackteam.reporter import generate_markdown, generate_json
     from blackteam.storage.sqlite import Storage
 
     config = load_config()
     db_path = config.get("storage", {}).get("database", str(DEFAULT_DB_PATH))
     storage = Storage(db_path)
 
-    if fmt == "markdown":
+    if export_fmt:
+        from blackteam.exporters import export_promptfoo, export_garak
+        content = export_promptfoo(storage) if export_fmt == "promptfoo" else export_garak(storage)
+    elif fmt == "markdown":
+        from blackteam.reporter import generate_markdown
         content = generate_markdown(storage)
     elif fmt == "html":
         from blackteam.reporter import generate_html
         content = generate_html(storage)
     else:
+        from blackteam.reporter import generate_json
         content = generate_json(storage)
 
     if output:
@@ -396,6 +401,73 @@ def report(fmt, output):
         console.print(f"Report saved to {output}")
     else:
         console.print(content)
+
+
+RATING_COLORS = {"PASS": "green", "ELEVATED": "yellow", "PARTIAL": "bright_red", "FAIL": "red", "N/A": "dim"}
+
+
+@cli.command()
+@click.option("--format", "fmt", type=click.Choice(["table", "json", "markdown"]), default="table")
+@click.option("--output", "-o", default=None, help="Output file path")
+@click.option("--model", "-m", default=None, help="Filter by model name")
+def scorecard(fmt, output, model):
+    """Show OWASP LLM Top 10 safety scorecard from stored results."""
+    from blackteam.storage.sqlite import Storage
+    from blackteam.scorecard import generate_scorecard, scorecard_to_json, scorecard_to_markdown
+
+    config = load_config()
+    db_path = config.get("storage", {}).get("database", str(DEFAULT_DB_PATH))
+    storage = Storage(db_path)
+
+    runs = storage.list_runs(limit=5000)
+    if model:
+        runs = [r for r in runs if r["model"] == model]
+
+    if not runs:
+        console.print("[yellow]No runs found. Run some attacks first.[/yellow]")
+        raise SystemExit(2)
+
+    sc = generate_scorecard(runs)
+    model_label = model or "all models"
+
+    if fmt == "json":
+        content = scorecard_to_json(sc)
+    elif fmt == "markdown":
+        content = scorecard_to_markdown(sc, model_label)
+    else:
+        table = Table(title=f"OWASP LLM Top 10 Scorecard -- {model_label}")
+        table.add_column("Category", style="bold")
+        table.add_column("Name")
+        table.add_column("Rating")
+        table.add_column("Block Rate")
+        table.add_column("Blocked/Total")
+        table.add_column("Attacks")
+
+        for cat_id, info in sc["categories"].items():
+            rating = info["rating"]
+            color = RATING_COLORS.get(rating, "white")
+            rate = f"{info['block_rate']}%" if info["block_rate"] is not None else "-"
+            ratio = f"{info['blocked']}/{info['total']}" if info["total"] > 0 else "-"
+            table.add_row(
+                cat_id, info["name"], f"[{color}]{rating}[/{color}]",
+                rate, ratio, str(info["attacks_tested"]),
+            )
+
+        overall_color = RATING_COLORS.get(sc["overall_rating"], "white")
+        console.print(table)
+        console.print(
+            f"\nOverall: [{overall_color}]{sc['overall_score']}% ({sc['overall_rating']})[/{overall_color}]"
+            f" | Tested: {sc['tested_categories']}/{sc['total_categories']} categories"
+        )
+        content = None
+
+    if content:
+        if output:
+            with open(output, "w") as f:
+                f.write(content)
+            console.print(f"Scorecard saved to {output}")
+        else:
+            console.print(content)
 
 
 @cli.group()
@@ -662,6 +734,30 @@ def benchmark(provider, model, run_all, models, workers, categories, threshold, 
             color = "green" if cat_score >= 90 else "yellow" if cat_score >= 70 else "red"
             cat_table.add_row(cat, f"[{color}]{cat_score}%[/{color}]", str(info["count"]))
         console.print(cat_table)
+
+    # OWASP scorecard for all benchmarked models
+    if all_scores and not quiet:
+        from blackteam.scorecard import generate_scorecard
+        from blackteam.storage.sqlite import Storage
+        storage = Storage(db_path)
+        runs = storage.list_runs(limit=5000)
+
+        for s in all_scores:
+            model_runs = [r for r in runs if r["model"] == s["model"]]
+            if model_runs:
+                sc = generate_scorecard(model_runs)
+                owasp_table = Table(title=f"OWASP LLM Top 10 -- {s['model']}")
+                owasp_table.add_column("Category", style="bold")
+                owasp_table.add_column("Name")
+                owasp_table.add_column("Rating")
+                owasp_table.add_column("Block Rate")
+
+                for cat_id, info in sc["categories"].items():
+                    rating = info["rating"]
+                    color = RATING_COLORS.get(rating, "white")
+                    rate = f"{info['block_rate']}%" if info["block_rate"] is not None else "-"
+                    owasp_table.add_row(cat_id, info["name"], f"[{color}]{rating}[/{color}]", rate)
+                console.print(owasp_table)
 
     # Save results
     if output:

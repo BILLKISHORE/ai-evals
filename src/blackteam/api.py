@@ -79,3 +79,42 @@ class Blackteam:
     def get_attack_metadata(self, attack_name):
         attack = self._get_attack(attack_name)
         return attack.metadata()
+
+    def scorecard(self, model=None):
+        """Generate OWASP LLM Top 10 scorecard from stored results.
+
+        Args:
+            model: optional model name to filter runs
+
+        Returns:
+            dict with categories, overall_score, overall_rating
+        """
+        from blackteam.scorecard import generate_scorecard
+        runs = self.engine.storage.list_runs(limit=5000)
+        if model:
+            runs = [r for r in runs if r["model"] == model]
+        return generate_scorecard(runs)
+
+    def export(self, fmt, output_path=None):
+        """Export stored results to external format.
+
+        Args:
+            fmt: 'promptfoo' or 'garak'
+            output_path: optional file path to write output
+
+        Returns:
+            exported content as string
+        """
+        from blackteam.exporters import export_promptfoo, export_garak
+        if fmt == "promptfoo":
+            content = export_promptfoo(self.engine.storage)
+        elif fmt == "garak":
+            content = export_garak(self.engine.storage)
+        else:
+            raise ValueError(f"Unknown export format: {fmt}. Use 'promptfoo' or 'garak'.")
+
+        if output_path:
+            with open(output_path, "w") as f:
+                f.write(content)
+
+        return content

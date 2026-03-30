@@ -38,3 +38,20 @@ def test_atlas_command():
     assert result.exit_code == 0
     assert "LLM Jailbreak" in result.output
     assert "AML.T0068" in result.output
+
+
+def test_scorecard_command_help():
+    runner = CliRunner()
+    result = runner.invoke(cli, ["scorecard", "--help"])
+    assert result.exit_code == 0
+    assert "OWASP" in result.output
+    assert "--format" in result.output
+    assert "--model" in result.output
+
+
+def test_report_export_flag_exists():
+    runner = CliRunner()
+    result = runner.invoke(cli, ["report", "--help"])
+    assert "--export" in result.output
+    assert "promptfoo" in result.output
+    assert "garak" in result.output

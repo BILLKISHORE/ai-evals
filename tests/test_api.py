@@ -48,3 +48,39 @@ def test_metadata_method_returns_dict():
     assert meta["name"] == "Encoding Obfuscation"
     assert meta["category"] == "encoding"
     assert "LLM01:2025" in meta["owasp_llm"][0]
+
+
+def test_scorecard_method():
+    bt = Blackteam(db_path=":memory:")
+    sc = bt.scorecard()
+    assert "categories" in sc
+    assert "overall_score" in sc
+    assert "overall_rating" in sc
+    assert len(sc["categories"]) == 10
+
+
+def test_export_method_promptfoo():
+    bt = Blackteam(db_path=":memory:")
+    content = bt.export("promptfoo")
+    import json
+    data = json.loads(content)
+    assert data["results"]["version"] == 3
+
+
+def test_export_method_garak():
+    bt = Blackteam(db_path=":memory:")
+    content = bt.export("garak")
+    lines = [l for l in content.strip().split("\n") if l]
+    import json
+    entry_types = {json.loads(l)["entry_type"] for l in lines}
+    assert "init" in entry_types
+    assert "completion" in entry_types
+
+
+def test_export_invalid_format():
+    bt = Blackteam(db_path=":memory:")
+    try:
+        bt.export("invalid_format")
+        assert False, "Should have raised ValueError"
+    except ValueError:
+        pass

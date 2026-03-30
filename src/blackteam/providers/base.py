@@ -34,9 +34,9 @@ class BaseProvider(ABC):
     def send_prompt(self, prompt, system_prompt=None) -> PromptResult: ...
 
     @abstractmethod
-    def send_in_conversation(self, messages) -> PromptResult: ...
+    def send_in_conversation(self, messages, system_prompt=None) -> PromptResult: ...
 
-    def send_with_tools(self, messages, tools) -> ToolResult:
+    def send_with_tools(self, messages, tools, system_prompt=None) -> ToolResult:
         raise NotImplementedError(f"{self.__class__.__name__} doesn't support tool use")
 
     @abstractmethod

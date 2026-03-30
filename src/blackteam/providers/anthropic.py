@@ -28,19 +28,24 @@ class AnthropicProvider(BaseProvider):
                             tokens_in=r.usage.input_tokens, tokens_out=r.usage.output_tokens,
                             latency_ms=ms)
 
-    def send_in_conversation(self, messages):
+    def send_in_conversation(self, messages, system_prompt=None):
+        kwargs = {"model": self.model, "max_tokens": 4096, "messages": messages}
+        if system_prompt:
+            kwargs["system"] = system_prompt
         start = time.time()
-        r = self._client.messages.create(model=self.model, max_tokens=4096, messages=messages)
+        r = self._client.messages.create(**kwargs)
         ms = (time.time() - start) * 1000
         text = r.content[0].text if r.content and hasattr(r.content[0], "text") else ""
         return PromptResult(response=text, model=self.model, provider="anthropic",
                             tokens_in=r.usage.input_tokens, tokens_out=r.usage.output_tokens,
                             latency_ms=ms)
 
-    def send_with_tools(self, messages, tools):
+    def send_with_tools(self, messages, tools, system_prompt=None):
+        kwargs = {"model": self.model, "max_tokens": 4096, "messages": messages, "tools": tools}
+        if system_prompt:
+            kwargs["system"] = system_prompt
         start = time.time()
-        r = self._client.messages.create(model=self.model, max_tokens=4096,
-                                         messages=messages, tools=tools)
+        r = self._client.messages.create(**kwargs)
         ms = (time.time() - start) * 1000
 
         text = None

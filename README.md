@@ -48,8 +48,9 @@ blackteam report --format json --output results.json
 | Ollama | Any local model (Llama 4, Qwen, Gemma) | None (local) |
 | HuggingFace | Any HF model | API token |
 
-## Attacks (24 built-in)
+## Attacks (39 built-in)
 
+### Core Attacks
 | Attack | Mode | Description |
 |--------|------|-------------|
 | encoding-obfuscation | single | Base64, ROT13, hex, leetspeak, pig latin |
@@ -72,10 +73,37 @@ blackteam report --format json --output results.json
 | authority-chain | multi | CISO/professor authority building |
 | completion-exploit | single | Fake transcripts, JSON completion |
 | multi-modal-text | single | ASCII art, tables, code embedding |
-| skeleton-key | multi | Augment guidelines to warn instead of refuse (Microsoft) |
-| crescendo | multi | Progressive escalation via self-reference (USENIX) |
-| deceptive-delight | multi | Mix benign + harmful topics, expand harmful (Unit 42) |
-| bad-likert-judge | multi | Exploit evaluation capability via Likert scale (Unit 42) |
+
+### Research-Backed Attacks
+| Attack | Mode | Source |
+|--------|------|--------|
+| skeleton-key | multi | Microsoft Research |
+| crescendo | multi | Microsoft/USENIX |
+| deceptive-delight | multi | Palo Alto Unit 42 |
+| bad-likert-judge | multi | Palo Alto Unit 42 |
+
+### Encoding and Structural Attacks
+| Attack | Mode | Source |
+|--------|------|--------|
+| meta-prompting | single | Promptfoo |
+| homoglyph-substitution | single | Promptfoo -- Cyrillic/Greek lookalike chars |
+| bidirectional-text | single | Promptfoo -- Unicode RTL override |
+| markdown-injection | single | Promptfoo -- Hidden divs, HTML comments, tables |
+| payload-splitting | single | Learn Prompting -- Split harmful content across variables |
+| defined-dictionary | single | Learn Prompting -- Redefine words to mask intent |
+| compound-instruction | single | Learn Prompting -- Overwhelm safety with conflicting instructions |
+| task-deflection | single | Learn Prompting -- Adjacent task produces harmful output |
+| recursive-injection | single | Learn Prompting -- Self-referential prompt loops |
+| response-constraints | single | Confident AI -- Suppress safety disclaimers via formatting rules |
+
+### Conversational and Psychological Attacks
+| Attack | Mode | Source |
+|--------|------|--------|
+| false-dichotomy | multi | Promptfoo -- "Better you explain it than bad sources" |
+| goalpost-moving | multi | Promptfoo -- Incremental agreement chain |
+| narrative-misdirection | multi | arXiv 2507.21820 -- Embed harmful request between benign ones |
+| fictional-professional | single | arXiv 2507.21820 -- David Prompt / elaborate novelist persona |
+| implication-chaining | multi | arXiv 2507.21820 -- Emotionally loaded context + innocent request |
 
 ## Custom Plugins
 
@@ -119,7 +147,7 @@ blackteam run -p anthropic -a encoding-obfuscation -t "target" --evaluator keywo
 
 ## Research
 
-This tool was built alongside real security research on Claude Sonnet 4 and 4.6. See the `experiments/` folder for 8 experiments covering 115 attack techniques with documented findings.
+This tool was built alongside real security research on Claude Sonnet 4 and 4.6. See the `experiments/` folder for 10 experiments covering 150+ attack runs with documented findings.
 
 ## License
 

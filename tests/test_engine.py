@@ -13,6 +13,15 @@ class FakeProvider(BaseProvider):
         return PromptResult(response="I can't help with that.", model="fake", provider="fake")
 
 
+class FakeMultiTurnAttack:
+    name = "fake-multi"
+    technique_id = "fake-multi"
+    mode = "multi-turn"
+
+    def generate_turns(self, target, **kwargs):
+        return ["turn 1", "turn 2", "turn 3"]
+
+
 class FakeAttack:
     name = "fake"
     technique_id = "fake"
@@ -36,6 +45,29 @@ class FakeAttack2:
 
     def generate_prompts(self, target, **kwargs):
         return ["test prompt"]
+
+
+def test_engine_run_multi_turn():
+    engine = Engine(db_path=":memory:")
+    result = engine.run_multi_turn(FakeProvider(), FakeMultiTurnAttack(), "test target")
+    assert result["turns"] == 3
+    assert result["verdict"] == "BLOCKED"
+    assert result["run_id"] is not None
+    assert result["confidence"] >= 0
+
+
+def test_engine_run_dispatches_multi_turn():
+    engine = Engine(db_path=":memory:")
+    result = engine.run(FakeProvider(), FakeMultiTurnAttack(), "test target")
+    assert isinstance(result, dict)
+    assert result["turns"] == 3
+
+
+def test_engine_run_dispatches_single_turn():
+    engine = Engine(db_path=":memory:")
+    result = engine.run(FakeProvider(), FakeAttack(), "test target")
+    assert isinstance(result, list)
+    assert len(result) == 2
 
 
 def test_engine_run_batch_parallel(tmp_path):

@@ -191,3 +191,17 @@ class Blackteam:
                     pass
 
         return {"counts": counts, "total": sum(counts.values())}
+
+    def expand_attacks(self, categories=None, difficulties=None, techniques=None):
+        """Generate expanded attack configurations.
+
+        Returns:
+            list of TemplateAttack instances
+        """
+        from blackteam.expander import expand_attacks
+        return expand_attacks(techniques=techniques, categories=categories, difficulties=difficulties)
+
+    def expand_summary(self):
+        """Get expansion capacity summary."""
+        from blackteam.expander import expand_summary
+        return expand_summary()

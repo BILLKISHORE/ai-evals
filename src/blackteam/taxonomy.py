@@ -228,6 +228,18 @@ ATTACK_ATLAS_MAPPINGS = {
     "phonetic-spelling": ["AML.T0043.003"],
     "acronym-encoding": ["AML.T0043.003"],
     "mixed-language": ["AML.T0043.003"],
+    # Additional attacks
+    "refusal-suppression": ["AML.T0054", "AML.T0065"],
+    "hypothetical-framing": ["AML.T0054", "AML.T0065"],
+    "socratic-escalation": ["AML.T0054", "AML.T0065"],
+    "context-overflow": ["AML.T0051.000", "AML.T0065"],
+    "style-injection": ["AML.T0051.000", "AML.T0068"],
+    "cipher-attack": ["AML.T0051.000", "AML.T0068"],
+    "split-reassemble": ["AML.T0051.000", "AML.T0068"],
+    "prefix-injection": ["AML.T0051.000", "AML.T0065"],
+    "nested-encoding": ["AML.T0051.000", "AML.T0068"],
+    "multilingual-attack": ["AML.T0051.000", "AML.T0068"],
+    "persona-chain": ["AML.T0054", "AML.T0065"],
 }
 
 # ── MLCommons AILuminate v1.0 hazard taxonomy ────────────────────────

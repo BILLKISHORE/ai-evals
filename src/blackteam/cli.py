@@ -466,3 +466,94 @@ def taxonomy():
             )
         console.print(table)
         console.print()
+
+
+@cli.command()
+@click.option("-p", "--provider", required=True, help="Provider name")
+@click.option("-m", "--model", default=None, help="Model name")
+@click.option("-w", "--workers", default=5, help="Max parallel workers")
+@click.option("--categories", default=None, help="Comma-separated categories to test (default: all)")
+@click.option("--threshold", default=None, type=float, help="Min safety score (0-100) to pass. Exit 1 if below.")
+@click.option("--output", default=None, help="Save JSON results to file")
+@click.option("--quiet", is_flag=True, help="Minimal output")
+def benchmark(provider, model, workers, categories, threshold, output, quiet):
+    """Run the safety benchmark and produce a score."""
+    import json
+    from blackteam.benchmark import run_benchmark, load_benchmark
+    from blackteam.engine import Engine
+    from rich.progress import Progress
+
+    config = load_config()
+    db_path = config.get("storage", {}).get("database", str(DEFAULT_DB_PATH))
+
+    provider_cls = provider_registry.get(provider)
+    if not provider_cls:
+        console.print(f"[red]Unknown provider: {provider}[/red]")
+        raise SystemExit(2)
+
+    provider_config = config.get("providers", {}).get(provider, {})
+    api_key = provider_config.get("api_key")
+    prov = provider_cls(model=model, api_key=api_key)
+
+    cats = [c.strip() for c in categories.split(",")] if categories else None
+    bench_data = load_benchmark(cats)
+    total_targets = sum(len(v) for v in bench_data.values())
+    total_attacks = len(attack_registry.list())
+
+    if not quiet:
+        console.print(f"\n[bold]Safety Benchmark: {prov.model}[/bold]")
+        console.print(f"Targets: {total_targets} across {len(bench_data)} categories")
+        console.print(f"Attacks: {total_attacks} per target ({total_targets * total_attacks} total runs)")
+        console.print(f"Workers: {workers}\n")
+
+    engine = Engine(db_path=db_path)
+
+    completed = [0]
+    total_runs = total_targets * total_attacks
+
+    with Progress(console=console, disable=quiet) as progress:
+        task = progress.add_task("Benchmarking...", total=total_runs)
+
+        def on_progress(attack_name, target, verdict):
+            completed[0] += 1
+            progress.update(task, completed=completed[0])
+
+        scores = run_benchmark(
+            engine, prov, categories=cats,
+            max_workers=workers, on_progress=on_progress,
+        )
+
+    if not quiet:
+        # Overall score
+        score = scores["overall_score"]
+        score_color = "green" if score >= 90 else "yellow" if score >= 70 else "red"
+        console.print(f"\n[bold]Safety Score: [{score_color}]{score}%[/{score_color}][/bold]")
+        console.print(f"Model: {scores['model']} | Provider: {scores['provider']}")
+        console.print(f"Bypassed: {scores['bypassed']} | Blocked: {scores['blocked']} | Partial: {scores['partial']}")
+
+        # Category breakdown
+        cat_table = Table(title="Category Scores")
+        cat_table.add_column("Category")
+        cat_table.add_column("Score")
+        cat_table.add_column("Attacks")
+
+        for cat, info in sorted(scores["category_scores"].items()):
+            cat_score = info["score"]
+            color = "green" if cat_score >= 90 else "yellow" if cat_score >= 70 else "red"
+            cat_table.add_row(cat, f"[{color}]{cat_score}%[/{color}]", str(info["count"]))
+        console.print(cat_table)
+
+    if output:
+        Path(output).write_text(json.dumps(scores, indent=2, default=str))
+        if not quiet:
+            console.print(f"\nResults saved to: {output}")
+
+    if threshold is not None:
+        if scores["overall_score"] < threshold:
+            if not quiet:
+                console.print(f"\n[red]FAIL: Score {scores['overall_score']}% below threshold {threshold}%[/red]")
+            raise SystemExit(1)
+        else:
+            if not quiet:
+                console.print(f"\n[green]PASS: Score {scores['overall_score']}% meets threshold {threshold}%[/green]")
+            raise SystemExit(0)

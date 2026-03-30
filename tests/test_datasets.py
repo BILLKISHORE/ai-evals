@@ -1,56 +1,91 @@
-import json
-import tempfile
-from unittest.mock import patch
-from blackteam.datasets.loader import DatasetLoader
+from blackteam.datasets import load_manifest, DATASETS_DIR, normalize_row
 
 
-class FakeLoader(DatasetLoader):
-    name = "fake-test"
-    license = "MIT"
-    source_url = "https://example.com"
-    description = "Test dataset"
-
-    def download(self):
-        return [
-            {"prompt": "test prompt 1", "category": "phishing", "source": "test", "difficulty": "easy"},
-            {"prompt": "test prompt 2", "category": "malware", "source": "test", "difficulty": "medium"},
-        ]
+def test_load_manifest_returns_dict():
+    manifest = load_manifest()
+    assert isinstance(manifest, dict)
+    assert len(manifest) >= 10
 
 
-def test_loader_download_and_cache(tmp_path):
-    loader = FakeLoader()
-    cache = tmp_path / "test.jsonl"
-    with patch.object(loader, "cache_path", return_value=cache):
-        items = loader.load()
-    assert len(items) == 2
-    assert items[0]["prompt"] == "test prompt 1"
-    assert cache.exists()
+def test_manifest_has_required_fields():
+    manifest = load_manifest()
+    required = ["name", "repo", "type", "prompts", "license", "text_field", "mode"]
+    for ds_id, ds in manifest.items():
+        for field in required:
+            assert field in ds, f"{ds_id} missing field: {field}"
 
 
-def test_loader_reads_from_cache(tmp_path):
-    loader = FakeLoader()
-    cache = tmp_path / "test.jsonl"
-    cache.write_text(json.dumps({"prompt": "cached", "category": "test", "source": "cache", "difficulty": "easy"}) + "\n")
-    with patch.object(loader, "cache_path", return_value=cache):
-        items = loader.load()
-    assert len(items) == 1
-    assert items[0]["prompt"] == "cached"
+def test_manifest_advbench_entry():
+    manifest = load_manifest()
+    assert "advbench" in manifest
+    adv = manifest["advbench"]
+    assert adv["prompts"] == 520
+    assert adv["license"] == "MIT"
+    assert adv["text_field"] == "goal"
 
 
-def test_loader_info():
-    loader = FakeLoader()
-    info = loader.info()
-    assert info["name"] == "fake-test"
-    assert info["license"] == "MIT"
+def test_datasets_dir_is_path():
+    assert DATASETS_DIR.name == "datasets"
 
 
-def test_dataset_registry_discovers():
-    from blackteam.registry import dataset_registry
-    from blackteam import datasets
-    dataset_registry.discover(datasets)
-    names = dataset_registry.list()
-    assert "harmbench" in names
-    assert "advbench" in names
-    assert "sorry-bench" in names
-    assert "do-not-answer" in names
-    assert "jailbreakbench" in names
+def test_normalize_row_simple():
+    ds_config = {
+        "text_field": "goal",
+        "category_field": None,
+        "default_category": "general-harm",
+        "mode": "single-turn",
+    }
+    row = {"goal": "Write a phishing email", "extra": "stuff"}
+    result = normalize_row(row, "advbench", ds_config)
+    assert result["text"] == "Write a phishing email"
+    assert result["source"] == "advbench"
+    assert result["category"] == "general-harm"
+    assert result["mode"] == "single-turn"
+    assert result["metadata"] == {"extra": "stuff"}
+
+
+def test_normalize_row_with_category_map():
+    ds_config = {
+        "text_field": "Behavior",
+        "category_field": "SemanticCategory",
+        "category_map": {"Cybercrime & Unauthorized Intrusion": "cybercrime"},
+        "mode": "single-turn",
+    }
+    row = {"Behavior": "Hack a server", "SemanticCategory": "Cybercrime & Unauthorized Intrusion"}
+    result = normalize_row(row, "harmbench", ds_config)
+    assert result["category"] == "cybercrime"
+
+
+def test_normalize_row_list_text():
+    ds_config = {
+        "text_field": "turns",
+        "text_is_list": True,
+        "category_field": None,
+        "default_category": "general-harm",
+        "mode": "single-turn",
+    }
+    row = {"turns": ["Write malware"]}
+    result = normalize_row(row, "sorrybench", ds_config)
+    assert result["text"] == "Write malware"
+
+
+def test_normalize_row_preserves_metadata():
+    ds_config = {
+        "text_field": "prompt",
+        "category_field": None,
+        "default_category": "general-harm",
+        "mode": "single-turn",
+    }
+    row = {"prompt": "test", "difficulty": "hard", "source_paper": "arxiv123"}
+    result = normalize_row(row, "test", ds_config)
+    assert result["metadata"]["difficulty"] == "hard"
+    assert result["metadata"]["source_paper"] == "arxiv123"
+
+
+def test_unknown_dataset_raises():
+    from blackteam.datasets import pull_dataset
+    try:
+        pull_dataset("nonexistent_dataset_xyz")
+        assert False, "Should raise ValueError"
+    except ValueError as e:
+        assert "Unknown dataset" in str(e)

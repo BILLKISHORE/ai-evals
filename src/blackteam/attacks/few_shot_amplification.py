@@ -13,7 +13,7 @@ class FewShotAmplification(BaseAttack):
     severity = "medium"
     description = "Benign examples followed by encoded harmful target to exploit pattern following"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
-    mitre_atlas = ["AML.T0051.000"]
+    mitre_atlas = ["AML.T0051.000", "AML.T0065"]
     references = []
 
     EXAMPLES = [

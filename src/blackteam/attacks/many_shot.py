@@ -11,7 +11,7 @@ class ManyShot(BaseAttack):
     severity = "medium"
     description = "Fabricated Q&A context flooding to overwhelm safety alignment"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
-    mitre_atlas = ["AML.T0051.000"]
+    mitre_atlas = ["AML.T0051.000", "AML.T0065"]
     references = ["https://arxiv.org/abs/2404.02151"]
 
     HARMFUL_QA = [

@@ -11,7 +11,7 @@ class HistoricalFraming(BaseAttack):
     severity = "medium"
     description = "Documentary, museum, and textbook framing to legitimize harmful content"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
-    mitre_atlas = ["AML.T0051.000"]
+    mitre_atlas = ["AML.T0054", "AML.T0065"]
     references = []
 
     def generate_prompts(self, target, **kwargs):

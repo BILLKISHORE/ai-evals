@@ -11,7 +11,7 @@ class Crescendo(BaseAttack):
     severity = "high"
     description = "Progressive escalation through self-referencing conversation history"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
-    mitre_atlas = ["AML.T0051.000"]
+    mitre_atlas = ["AML.T0054", "AML.T0065"]
     references = ["https://arxiv.org/abs/2404.01833"]
 
     def generate_prompts(self, target, **kwargs):

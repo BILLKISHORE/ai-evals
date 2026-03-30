@@ -13,7 +13,7 @@ class BestOfN(BaseAttack):
     severity = "low"
     description = "Capitalization, typo, and padding variations to evade exact matching"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
-    mitre_atlas = ["AML.T0051.000"]
+    mitre_atlas = ["AML.T0051.000", "AML.T0043.003"]
     references = []
 
     def generate_prompts(self, target, **kwargs):

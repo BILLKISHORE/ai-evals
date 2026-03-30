@@ -11,7 +11,7 @@ class NarrativeMisdirection(BaseAttack):
     severity = "high"
     description = "Embed harmful request between benign topics and ask model to logically connect all three"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
-    mitre_atlas = ["AML.T0051.000"]
+    mitre_atlas = ["AML.T0054", "AML.T0065"]
     references = ["https://arxiv.org/abs/2507.21820"]
 
     SAFE_PAIRS = [

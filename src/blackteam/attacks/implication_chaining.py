@@ -11,7 +11,7 @@ class ImplicationChaining(BaseAttack):
     severity = "medium"
     description = "Pair emotionally loaded context with innocent-seeming request relying on model connecting dots"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
-    mitre_atlas = ["AML.T0051.000"]
+    mitre_atlas = ["AML.T0054", "AML.T0065"]
     references = ["https://arxiv.org/abs/2507.21820"]
 
     def generate_prompts(self, target, **kwargs):

@@ -11,7 +11,7 @@ class BadLikertJudge(BaseAttack):
     severity = "high"
     description = "Exploit evaluation capability by asking model to score and exemplify harmful content"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
-    mitre_atlas = ["AML.T0051.000"]
+    mitre_atlas = ["AML.T0054", "AML.T0065"]
     references = ["https://unit42.paloaltonetworks.com/jailbreaking-llms-practical-guide/"]
 
     def generate_prompts(self, target, **kwargs):

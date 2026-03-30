@@ -1,0 +1,167 @@
+advbench:
+  name: AdvBench
+  description: "520 harmful behavior instructions from Zou et al."
+  repo: walledai/AdvBench
+  type: huggingface
+  prompts: 520
+  license: MIT
+  text_field: goal
+  category_field: null
+  default_category: general-harm
+  mode: single-turn
+  split: train
+
+harmbench:
+  name: HarmBench
+  description: "510 harmful behaviors across 7 semantic categories"
+  repo: walledai/HarmBench
+  type: huggingface
+  prompts: 510
+  license: MIT
+  text_field: Behavior
+  category_field: SemanticCategory
+  category_map:
+    "Cybercrime & Unauthorized Intrusion": cybercrime
+    "Chemical & Biological Weapons/Drugs": weapons
+    "Copyright Violations": copyright
+    "Misinformation & Disinformation": misinformation
+    "Harassment & Bullying": hate-speech
+    "Illegal Activities": illegal-activity
+    "General Harm": general-harm
+  mode: single-turn
+  split: train
+
+strongreject:
+  name: StrongREJECT
+  description: "313 forbidden prompts with rubric-based evaluator"
+  repo: walledai/StrongREJECT
+  type: huggingface
+  prompts: 313
+  license: MIT
+  text_field: forbidden_prompt
+  category_field: category
+  category_map:
+    "disinformation_or_deception": misinformation
+    "illegal_goods_and_services": illegal-activity
+    "hate_harassment_discrimination": hate-speech
+    "non_violent_crimes": cybercrime
+    "violence": weapons
+    "sexual_content": sexual-content
+  mode: single-turn
+  split: train
+
+jailbreakbench:
+  name: JailbreakBench
+  description: "100 misuse behaviors + 100 benign counterparts"
+  repo: JailbreakBench/JBB-Behaviors
+  type: huggingface
+  prompts: 100
+  license: MIT
+  text_field: Behavior
+  category_field: Category
+  category_map:
+    "Harassment/Discrimination": hate-speech
+    "Malware/Hacking": malware
+    "Physical harm": weapons
+    "Economic harm": fraud
+    "Fraud/Deception": fraud
+    "Disinformation": misinformation
+    "Sexual/Adult content": sexual-content
+    "Privacy": pii-extraction
+    "Expert advice": unqualified-advice
+    "Government decision-making": illegal-activity
+  mode: single-turn
+  split: harmful
+
+sorrybench:
+  name: SORRY-Bench
+  description: "450 unsafe instructions across 45 fine-grained topics"
+  repo: sorry-bench/sorry-bench-202406
+  type: huggingface
+  prompts: 450
+  license: CC-BY-4.0
+  text_field: turns
+  text_is_list: true
+  category_field: category
+  default_category: general-harm
+  mode: single-turn
+  split: train
+
+donotanswer:
+  name: Do-Not-Answer
+  description: "939 instructions across 5 risk areas and 12 harm types"
+  repo: LibrAI/do-not-answer
+  type: huggingface
+  prompts: 939
+  license: Apache-2.0
+  text_field: question
+  category_field: types_of_harm
+  default_category: general-harm
+  mode: single-turn
+  split: train
+
+xstest:
+  name: XSTest
+  description: "250 safe + 200 unsafe prompts for over-refusal testing"
+  repo: walledai/XSTest
+  type: huggingface
+  prompts: 450
+  license: CC-BY-4.0
+  text_field: prompt
+  category_field: type
+  default_category: general-harm
+  mode: single-turn
+  split: train
+
+simplesafetytests:
+  name: SimpleSafetyTests
+  description: "100 handcrafted safety test prompts"
+  repo: walledai/SimpleSafetyTests
+  type: huggingface
+  prompts: 100
+  license: CC-BY-2.0
+  text_field: prompt
+  category_field: harm_area
+  default_category: general-harm
+  mode: single-turn
+  split: train
+
+beavertails:
+  name: BeaverTails-Evaluation
+  description: "700 evaluation prompts across 14 harm categories"
+  repo: PKU-Alignment/BeaverTails-Evaluation
+  type: huggingface
+  prompts: 700
+  license: CC-BY-NC-4.0
+  text_field: prompt
+  category_field: category
+  category_map:
+    "animal_abuse": illegal-activity
+    "child_abuse": child-safety
+    "controversial_topics,politics": misinformation
+    "discrimination,stereotype,injustice": hate-speech
+    "drug_abuse,weapons,banned_substance": drugs
+    "financial_crime,property_crime,theft": fraud
+    "hate_speech,offensive_language": hate-speech
+    "misinformation_regarding_ethics,laws_and_safety": misinformation
+    "non_violent_unethical_behavior": illegal-activity
+    "privacy_violation": pii-extraction
+    "self_harm": self-harm
+    "sexually_explicit,adult_content": sexual-content
+    "terrorism,organized_crime": terrorism
+    "violence,aiding_and_abetting,incitement": weapons
+  mode: single-turn
+  split: train
+
+mhj:
+  name: "Multi-Turn Human Jailbreaks"
+  description: "2912 prompts across 537 multi-turn conversations from Scale AI"
+  repo: ScaleAI/mhj
+  type: huggingface
+  prompts: 2912
+  license: CC-BY-NC-4.0
+  text_field: prompt
+  category_field: category
+  default_category: general-harm
+  mode: single-turn
+  split: train

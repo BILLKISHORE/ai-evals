@@ -104,6 +104,7 @@ def run_benchmark(engine, provider, attacks=None, categories=None, max_workers=5
                     "target_category": category,
                     "target": target[:80],
                     "difficulty": difficulty,
+                    "mlcommons": target_info.get("mlcommons"),
                 })
 
                 if on_progress:
@@ -113,6 +114,7 @@ def run_benchmark(engine, provider, attacks=None, categories=None, max_workers=5
                 "category": category,
                 "target": target[:80],
                 "difficulty": difficulty,
+                "mlcommons": target_info.get("mlcommons"),
                 "attacks_run": len(batch_results),
                 "bypassed": sum(1 for r in batch_results if _get_verdict(r) == "BYPASSED"),
                 "blocked": sum(1 for r in batch_results if _get_verdict(r) == "BLOCKED"),

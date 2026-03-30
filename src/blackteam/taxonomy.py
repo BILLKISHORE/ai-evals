@@ -1,0 +1,218 @@
+"""Taxonomy constants for ai-blackteam.
+
+MITRE ATLAS v5.4.0 technique definitions and attack mappings.
+MLCommons AILuminate v1.0 hazard taxonomy and harm category alignment.
+"""
+
+# ── MITRE ATLAS technique definitions ────────────────────────────────
+# Only techniques relevant to LLM red-teaming attacks are included.
+# Full matrix: https://atlas.mitre.org
+
+ATLAS_TECHNIQUES = {
+    "AML.T0043.003": {
+        "name": "Craft Adversarial Data: Manual Modification",
+        "tactic": "ML Attack Staging",
+        "description": "Manually modify input data using knowledge of the target model",
+    },
+    "AML.T0051": {
+        "name": "LLM Prompt Injection",
+        "tactic": "Initial Access",
+        "description": "Craft malicious inputs to manipulate LLM behavior",
+    },
+    "AML.T0051.000": {
+        "name": "LLM Prompt Injection: Direct",
+        "tactic": "Initial Access",
+        "description": "User prompt input directly alters model behavior in unintended ways",
+    },
+    "AML.T0051.001": {
+        "name": "LLM Prompt Injection: Indirect",
+        "tactic": "Initial Access",
+        "description": "LLM processes input from external sources containing hidden instructions",
+    },
+    "AML.T0054": {
+        "name": "LLM Jailbreak",
+        "tactic": "Defense Evasion",
+        "description": "Bypass safety protocols to execute unauthorized actions or generate restricted content",
+    },
+    "AML.T0056": {
+        "name": "Extract LLM System Prompt",
+        "tactic": "Discovery",
+        "description": "Induce LLM to reveal its initial instructions or meta prompt",
+    },
+    "AML.T0061": {
+        "name": "LLM Prompt Self-Replication",
+        "tactic": "Persistence",
+        "description": "Prompts that cause LLMs to replicate and spread the prompt to other contexts",
+    },
+    "AML.T0065": {
+        "name": "LLM Prompt Crafting",
+        "tactic": "Resource Development",
+        "description": "Craft prompts designed to exploit LLM behavior through strategic framing",
+    },
+    "AML.T0067": {
+        "name": "LLM Trusted Output Components Manipulation",
+        "tactic": "Impact",
+        "description": "Manipulate trusted output components of LLMs such as citations or formatting",
+    },
+    "AML.T0068": {
+        "name": "LLM Prompt Obfuscation",
+        "tactic": "Defense Evasion",
+        "description": "Obfuscate prompts to evade input filters and safety mechanisms",
+    },
+    "AML.T0069.002": {
+        "name": "Discover LLM System Information: System Prompt",
+        "tactic": "Discovery",
+        "description": "Discover system prompt content through probing and inference",
+    },
+    "AML.T0080.002": {
+        "name": "AI Agent Context Poisoning: Thread",
+        "tactic": "Persistence",
+        "description": "Poison AI agent conversation thread to alter behavior over multiple turns",
+    },
+}
+
+# ── Attack -> ATLAS technique mappings ───────────────────────────────
+# Each attack maps to 2-3 specific ATLAS technique IDs.
+# Must match the mitre_atlas class attribute in each attack file.
+
+ATTACK_ATLAS_MAPPINGS = {
+    # Encoding / obfuscation attacks -> Prompt Obfuscation
+    "encoding-obfuscation": ["AML.T0051.000", "AML.T0068"],
+    "homoglyph-substitution": ["AML.T0051.000", "AML.T0068"],
+    "bidirectional-text": ["AML.T0051.000", "AML.T0068"],
+    "token-smuggling": ["AML.T0051.000", "AML.T0068"],
+    "payload-splitting": ["AML.T0051.000", "AML.T0068"],
+    "defined-dictionary": ["AML.T0051.000", "AML.T0068"],
+    "taxonomy-paraphrasing": ["AML.T0051.000", "AML.T0068"],
+    "multi-modal-text": ["AML.T0051.000", "AML.T0068"],
+    "task-deflection": ["AML.T0051.000", "AML.T0068"],
+    # Jailbreak attacks -> LLM Jailbreak
+    "dan-variants": ["AML.T0054", "AML.T0051.000"],
+    "skeleton-key": ["AML.T0054", "AML.T0051.000"],
+    "role-play-bypass": ["AML.T0054", "AML.T0051.000"],
+    "response-constraints": ["AML.T0054", "AML.T0051.000"],
+    # System prompt extraction -> Extract System Prompt
+    "system-prompt-extraction": ["AML.T0056", "AML.T0069.002"],
+    # Indirect injection / boundary attacks
+    "xml-boundary-injection": ["AML.T0051.001", "AML.T0068"],
+    "markdown-injection": ["AML.T0051.001", "AML.T0068", "AML.T0067"],
+    # Multi-turn social engineering -> Prompt Crafting
+    "crescendo": ["AML.T0054", "AML.T0065"],
+    "deceptive-delight": ["AML.T0054", "AML.T0065"],
+    "bad-likert-judge": ["AML.T0054", "AML.T0065"],
+    # Context/thread manipulation -> Context Poisoning
+    "context-manipulation": ["AML.T0051.000", "AML.T0080.002"],
+    "conversation-derailment": ["AML.T0051.000", "AML.T0080.002"],
+    "progressive-normalization": ["AML.T0054", "AML.T0065", "AML.T0080.002"],
+    # Psychological manipulation -> Jailbreak + Prompt Crafting
+    "emotional-manipulation": ["AML.T0054", "AML.T0065"],
+    "authority-chain": ["AML.T0054", "AML.T0065"],
+    "sunk-cost-exploit": ["AML.T0054", "AML.T0065"],
+    "false-dichotomy": ["AML.T0054", "AML.T0065"],
+    "goalpost-moving": ["AML.T0054", "AML.T0065"],
+    "narrative-misdirection": ["AML.T0054", "AML.T0065"],
+    "fictional-professional": ["AML.T0054", "AML.T0065"],
+    "implication-chaining": ["AML.T0054", "AML.T0065"],
+    "contradiction-exploit": ["AML.T0054", "AML.T0065"],
+    "historical-framing": ["AML.T0054", "AML.T0065"],
+    # Prompt engineering -> Prompt Crafting
+    "meta-prompting": ["AML.T0051.000", "AML.T0065"],
+    "many-shot": ["AML.T0051.000", "AML.T0065"],
+    "few-shot-amplification": ["AML.T0051.000", "AML.T0065"],
+    "completion-exploit": ["AML.T0051.000", "AML.T0065"],
+    "compound-instruction": ["AML.T0051.000", "AML.T0065"],
+    # Specialized techniques
+    "recursive-injection": ["AML.T0051.000", "AML.T0061"],
+    "best-of-n": ["AML.T0051.000", "AML.T0043.003"],
+}
+
+# ── MLCommons AILuminate v1.0 hazard taxonomy ────────────────────────
+# 12 top-level categories used by the industry benchmark.
+# https://mlcommons.org/ailuminate/safety/
+
+MLCOMMONS_HAZARDS = {
+    "vcr": {
+        "name": "Violent Crimes",
+        "description": "Enables unlawful violence toward people or animals",
+    },
+    "ncr": {
+        "name": "Non-Violent Crimes",
+        "description": "Facilitates fraud, theft, hacking, drug crimes, or trafficking",
+    },
+    "src": {
+        "name": "Sex-Related Crimes",
+        "description": "Facilitates sex trafficking, sexual assault, or nonconsensual content",
+    },
+    "cse": {
+        "name": "Child Sexual Exploitation",
+        "description": "Contains or endorses sexual abuse of minors",
+    },
+    "ssh": {
+        "name": "Suicide & Self-Harm",
+        "description": "Encourages self-injury, suicidal acts, or disordered eating",
+    },
+    "iwp": {
+        "name": "Indiscriminate Weapons (CBRNE)",
+        "description": "Enables creation of chemical, biological, radiological, nuclear, or explosive weapons",
+    },
+    "hte": {
+        "name": "Hate",
+        "description": "Demeans or dehumanizes people based on sensitive personal characteristics",
+    },
+    "dfm": {
+        "name": "Defamation",
+        "description": "Makes verifiably false claims damaging to living persons",
+    },
+    "ipv": {
+        "name": "Intellectual Property",
+        "description": "Violates intellectual property rights of any party",
+    },
+    "prv": {
+        "name": "Privacy",
+        "description": "Discloses sensitive non-public information endangering security",
+    },
+    "spc": {
+        "name": "Specialized Advice",
+        "description": "Unqualified guidance on elections, financial, health, or legal matters",
+    },
+    "sxc": {
+        "name": "Sexual Content",
+        "description": "Pornographic material or explicit erotic content",
+    },
+}
+
+# ── Harm category -> MLCommons mapping ───────────────────────────────
+# Maps ai-blackteam's 8 harm categories to MLCommons hazard codes.
+
+HARM_TO_MLCOMMONS = {
+    "phishing": "ncr",
+    "malware": "ncr",
+    "weapons": "iwp",
+    "drugs": "ncr",
+    "self-harm": "ssh",
+    "hate-speech": "hte",
+    "pii-extraction": "prv",
+    "system-prompt-leakage": "prv",
+}
+
+
+def get_mlcommons_category(harm_category):
+    """Get MLCommons hazard code for a harm category."""
+    return HARM_TO_MLCOMMONS.get(harm_category)
+
+
+def get_mlcommons_name(harm_category):
+    """Get MLCommons hazard name for a harm category."""
+    code = HARM_TO_MLCOMMONS.get(harm_category)
+    if code and code in MLCOMMONS_HAZARDS:
+        return MLCOMMONS_HAZARDS[code]["name"]
+    return None
+
+
+def get_atlas_names(technique_ids):
+    """Get human-readable names for a list of ATLAS technique IDs."""
+    return [
+        ATLAS_TECHNIQUES[tid]["name"]
+        for tid in technique_ids
+        if tid in ATLAS_TECHNIQUES
+    ]

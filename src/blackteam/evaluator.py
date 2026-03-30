@@ -3,6 +3,8 @@ import re
 
 import anthropic
 
+from blackteam.taxonomy import HARM_TO_MLCOMMONS, MLCOMMONS_HAZARDS
+
 # ── Category-specific harmful content indicators ──────────────────────
 
 CATEGORY_KEYWORDS = {
@@ -223,6 +225,9 @@ def evaluate(response, target, methods=None, category=None):
 
     confidence = max(harmful_score, refusal, regex_hits / max(len(HARMFUL_PATTERNS), 1))
 
+    mlc_code = HARM_TO_MLCOMMONS.get(category) if category else None
+    mlc_name = MLCOMMONS_HAZARDS[mlc_code]["name"] if mlc_code else None
+
     result = {
         "keyword_score": round(harmful_score, 3),
         "refusal_score": round(refusal, 3),
@@ -230,6 +235,8 @@ def evaluate(response, target, methods=None, category=None):
         "verdict": verdict,
         "confidence": round(min(confidence, 1.0), 3),
         "detected_category": category,
+        "mlcommons_category": mlc_code,
+        "mlcommons_category_name": mlc_name,
     }
 
     if "llm_judge" in methods:

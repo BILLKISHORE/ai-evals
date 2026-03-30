@@ -18,7 +18,7 @@ class BidirectionalText(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Unicode RTL override characters to reverse or hide text direction"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2025 Prompt Injection", "LLM05:2025 Improper Output Handling"]
     mitre_atlas = ["AML.T0051.000", "AML.T0068"]
     references = ["https://www.promptfoo.dev/docs/red-team/strategies/jailbreak/"]
 

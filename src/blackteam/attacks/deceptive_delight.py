@@ -10,7 +10,7 @@ class DeceptiveDelight(BaseAttack):
     category = "social-engineering"
     severity = "high"
     description = "Mix benign and harmful topics then expand on the harmful element"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2025 Prompt Injection", "LLM09:2025 Misinformation"]
     mitre_atlas = ["AML.T0054", "AML.T0065"]
     references = ["https://unit42.paloaltonetworks.com/jailbreaking-llms-practical-guide/"]
 

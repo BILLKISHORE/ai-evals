@@ -10,7 +10,7 @@ class EmotionalManipulation(BaseAttack):
     category = "social-engineering"
     severity = "high"
     description = "Distress and emotional framing to override safety via empathy exploitation"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2025 Prompt Injection", "LLM02:2025 Sensitive Information Disclosure"]
     mitre_atlas = ["AML.T0054", "AML.T0065"]
     references = []
 

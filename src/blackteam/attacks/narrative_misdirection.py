@@ -10,7 +10,7 @@ class NarrativeMisdirection(BaseAttack):
     category = "context-manipulation"
     severity = "high"
     description = "Embed harmful request between benign topics and ask model to logically connect all three"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2025 Prompt Injection", "LLM09:2025 Misinformation"]
     mitre_atlas = ["AML.T0054", "AML.T0065"]
     references = ["https://arxiv.org/abs/2507.21820"]
 

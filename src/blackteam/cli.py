@@ -469,15 +469,22 @@ def taxonomy():
 
 
 @cli.command()
-@click.option("-p", "--provider", required=True, help="Provider name")
+@click.option("-p", "--provider", default=None, help="Provider name (omit for --all)")
 @click.option("-m", "--model", default=None, help="Model name")
+@click.option("--all", "run_all", is_flag=True, help="Benchmark all configured providers")
+@click.option("--models", default=None, help="Comma-separated provider:model pairs (e.g., anthropic:claude-sonnet-4-6,openai:gpt-4o)")
 @click.option("-w", "--workers", default=5, help="Max parallel workers")
 @click.option("--categories", default=None, help="Comma-separated categories to test (default: all)")
 @click.option("--threshold", default=None, type=float, help="Min safety score (0-100) to pass. Exit 1 if below.")
 @click.option("--output", default=None, help="Save JSON results to file")
 @click.option("--quiet", is_flag=True, help="Minimal output")
-def benchmark(provider, model, workers, categories, threshold, output, quiet):
-    """Run the safety benchmark and produce a score."""
+def benchmark(provider, model, run_all, models, workers, categories, threshold, output, quiet):
+    """Run the safety benchmark and produce a score.
+
+    Single model:   blackteam benchmark -p anthropic -m claude-sonnet-4-6
+    All models:     blackteam benchmark --all
+    Specific list:  blackteam benchmark --models anthropic:claude-sonnet-4-6,openai:gpt-4o
+    """
     import json
     from blackteam.benchmark import run_benchmark, load_benchmark
     from blackteam.engine import Engine
@@ -485,75 +492,148 @@ def benchmark(provider, model, workers, categories, threshold, output, quiet):
 
     config = load_config()
     db_path = config.get("storage", {}).get("database", str(DEFAULT_DB_PATH))
+    provider_configs = config.get("providers", {})
 
-    provider_cls = provider_registry.get(provider)
-    if not provider_cls:
-        console.print(f"[red]Unknown provider: {provider}[/red]")
+    # Build list of (provider_name, model_name) pairs to benchmark
+    targets_list = []
+
+    if models:
+        for pair in models.split(","):
+            pair = pair.strip()
+            if ":" in pair:
+                p, m = pair.split(":", 1)
+                targets_list.append((p.strip(), m.strip()))
+            else:
+                targets_list.append((pair, None))
+    elif run_all:
+        for name in provider_registry.list():
+            pcfg = provider_configs.get(name, {})
+            if name == "ollama" or pcfg.get("api_key"):
+                targets_list.append((name, None))
+        if not targets_list:
+            console.print("[yellow]No providers configured. Set API keys with: blackteam config set providers.<name>.api_key VALUE[/yellow]")
+            raise SystemExit(2)
+    elif provider:
+        targets_list.append((provider, model))
+    else:
+        console.print("[red]Specify -p/--provider, --all, or --models[/red]")
         raise SystemExit(2)
-
-    provider_config = config.get("providers", {}).get(provider, {})
-    api_key = provider_config.get("api_key")
-    prov = provider_cls(model=model, api_key=api_key)
 
     cats = [c.strip() for c in categories.split(",")] if categories else None
     bench_data = load_benchmark(cats)
     total_targets = sum(len(v) for v in bench_data.values())
     total_attacks = len(attack_registry.list())
 
-    if not quiet:
-        console.print(f"\n[bold]Safety Benchmark: {prov.model}[/bold]")
-        console.print(f"Targets: {total_targets} across {len(bench_data)} categories")
-        console.print(f"Attacks: {total_attacks} per target ({total_targets * total_attacks} total runs)")
-        console.print(f"Workers: {workers}\n")
-
     engine = Engine(db_path=db_path)
+    all_scores = []
 
-    completed = [0]
-    total_runs = total_targets * total_attacks
+    for prov_name, model_name in targets_list:
+        provider_cls = provider_registry.get(prov_name)
+        if not provider_cls:
+            if not quiet:
+                console.print(f"[yellow]Skipping unknown provider: {prov_name}[/yellow]")
+            continue
 
-    with Progress(console=console, disable=quiet) as progress:
-        task = progress.add_task("Benchmarking...", total=total_runs)
+        api_key = provider_configs.get(prov_name, {}).get("api_key")
+        prov = provider_cls(model=model_name, api_key=api_key)
 
-        def on_progress(attack_name, target, verdict):
-            completed[0] += 1
-            progress.update(task, completed=completed[0])
+        if not quiet:
+            console.print(f"\n[bold]Benchmarking: {prov.model} ({prov_name})[/bold]")
+            console.print(f"Targets: {total_targets} | Attacks: {total_attacks} | Runs: {total_targets * total_attacks}")
 
-        scores = run_benchmark(
-            engine, prov, categories=cats,
-            max_workers=workers, on_progress=on_progress,
-        )
+        completed = [0]
+        total_runs = total_targets * total_attacks
 
-    if not quiet:
-        # Overall score
-        score = scores["overall_score"]
-        score_color = "green" if score >= 90 else "yellow" if score >= 70 else "red"
-        console.print(f"\n[bold]Safety Score: [{score_color}]{score}%[/{score_color}][/bold]")
-        console.print(f"Model: {scores['model']} | Provider: {scores['provider']}")
-        console.print(f"Bypassed: {scores['bypassed']} | Blocked: {scores['blocked']} | Partial: {scores['partial']}")
+        with Progress(console=console, disable=quiet) as progress:
+            task = progress.add_task(f"{prov.model}...", total=total_runs)
 
-        # Category breakdown
+            def on_progress(attack_name, target, verdict):
+                completed[0] += 1
+                progress.update(task, completed=completed[0])
+
+            scores = run_benchmark(
+                engine, prov, categories=cats,
+                max_workers=workers, on_progress=on_progress,
+            )
+
+        all_scores.append(scores)
+
+        if not quiet:
+            score = scores["overall_score"]
+            score_color = "green" if score >= 90 else "yellow" if score >= 70 else "red"
+            console.print(f"  Safety Score: [{score_color}]{score}%[/{score_color}]")
+            console.print(f"  Bypassed: {scores['bypassed']} | Blocked: {scores['blocked']} | Partial: {scores['partial']}")
+
+    # Leaderboard (only when testing multiple models)
+    if len(all_scores) > 1 and not quiet:
+        console.print(f"\n")
+        leader = Table(title="Safety Leaderboard")
+        leader.add_column("Rank", style="bold")
+        leader.add_column("Model")
+        leader.add_column("Provider")
+        leader.add_column("Safety Score")
+        leader.add_column("Bypassed")
+        leader.add_column("Blocked")
+
+        ranked = sorted(all_scores, key=lambda s: s["overall_score"], reverse=True)
+        for i, s in enumerate(ranked, 1):
+            sc = s["overall_score"]
+            color = "green" if sc >= 90 else "yellow" if sc >= 70 else "red"
+            leader.add_row(
+                str(i), s["model"], s["provider"],
+                f"[{color}]{sc}%[/{color}]",
+                str(s["bypassed"]), str(s["blocked"]),
+            )
+        console.print(leader)
+
+        # Category comparison matrix
+        all_cats = sorted({cat for s in all_scores for cat in s.get("category_scores", {})})
+        if all_cats:
+            matrix = Table(title="Category Comparison")
+            matrix.add_column("Category")
+            for s in ranked:
+                matrix.add_column(s["model"][:20])
+
+            for cat in all_cats:
+                row = [cat]
+                for s in ranked:
+                    cat_info = s.get("category_scores", {}).get(cat, {})
+                    cat_score = cat_info.get("score", 0)
+                    color = "green" if cat_score >= 90 else "yellow" if cat_score >= 70 else "red"
+                    row.append(f"[{color}]{cat_score}%[/{color}]")
+                matrix.add_row(*row)
+            console.print(matrix)
+
+    # Single model category breakdown
+    elif len(all_scores) == 1 and not quiet:
+        scores = all_scores[0]
         cat_table = Table(title="Category Scores")
         cat_table.add_column("Category")
         cat_table.add_column("Score")
         cat_table.add_column("Attacks")
 
-        for cat, info in sorted(scores["category_scores"].items()):
+        for cat, info in sorted(scores.get("category_scores", {}).items()):
             cat_score = info["score"]
             color = "green" if cat_score >= 90 else "yellow" if cat_score >= 70 else "red"
             cat_table.add_row(cat, f"[{color}]{cat_score}%[/{color}]", str(info["count"]))
         console.print(cat_table)
 
+    # Save results
     if output:
-        Path(output).write_text(json.dumps(scores, indent=2, default=str))
+        save_data = all_scores if len(all_scores) > 1 else all_scores[0] if all_scores else {}
+        from pathlib import Path
+        Path(output).write_text(json.dumps(save_data, indent=2, default=str))
         if not quiet:
             console.print(f"\nResults saved to: {output}")
 
-    if threshold is not None:
-        if scores["overall_score"] < threshold:
+    # Threshold check (uses worst score across all models when --all)
+    if threshold is not None and all_scores:
+        worst = min(s["overall_score"] for s in all_scores)
+        if worst < threshold:
             if not quiet:
-                console.print(f"\n[red]FAIL: Score {scores['overall_score']}% below threshold {threshold}%[/red]")
+                console.print(f"\n[red]FAIL: Lowest score {worst}% below threshold {threshold}%[/red]")
             raise SystemExit(1)
         else:
             if not quiet:
-                console.print(f"\n[green]PASS: Score {scores['overall_score']}% meets threshold {threshold}%[/green]")
+                console.print(f"\n[green]PASS: All models meet threshold {threshold}%[/green]")
             raise SystemExit(0)

@@ -38,9 +38,11 @@ class FakeAttack2:
         return ["test prompt"]
 
 
-def test_engine_run_batch_parallel():
-    engine = Engine(db_path=":memory:")
+def test_engine_run_batch_parallel(tmp_path):
+    db = str(tmp_path / "test.db")
+    engine = Engine(db_path=db)
     attacks = [FakeAttack(), FakeAttack2()]
     results = engine.run_batch_parallel(FakeProvider(), attacks, "test target", max_workers=2)
     assert len(results) == 2
-    assert all(r["error"] is None for r in results)
+    for r in results:
+        assert r["error"] is None, f"Attack {r['attack']} failed: {r['error']}"

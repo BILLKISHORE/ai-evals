@@ -85,7 +85,7 @@ def generate_html(storage):
         generated=datetime.now().isoformat(),
         stats=stats,
         runs=runs,
-        version="0.2.0",
+        version=__import__("blackteam").__version__,
     )
 
 

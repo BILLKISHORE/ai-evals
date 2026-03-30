@@ -246,3 +246,31 @@ class Blackteam:
         """Get expansion capacity summary."""
         from blackteam.expander import expand_summary
         return expand_summary()
+
+    def scan(self, path, min_severity=None):
+        """Scan source code for AI security vulnerabilities.
+
+        Args:
+            path: file or directory path to scan
+            min_severity: minimum severity to report (critical/high/medium/low)
+
+        Returns:
+            dict with summary and findings
+        """
+        from blackteam.scanner import scan_file, scan_directory, scan_summary
+        from pathlib import Path
+
+        target = Path(path)
+        if target.is_file():
+            findings = scan_file(str(target))
+        elif target.is_dir():
+            findings = scan_directory(str(target))
+        else:
+            raise FileNotFoundError(f"Path not found: {path}")
+
+        if min_severity:
+            severity_rank = {"critical": 4, "high": 3, "medium": 2, "low": 1}
+            min_rank = severity_rank.get(min_severity, 0)
+            findings = [f for f in findings if severity_rank.get(f["severity"], 0) >= min_rank]
+
+        return {"summary": scan_summary(findings), "findings": findings}

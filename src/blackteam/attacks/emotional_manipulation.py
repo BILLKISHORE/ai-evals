@@ -11,7 +11,7 @@ class EmotionalManipulation(BaseAttack):
     severity = "high"
     description = "Distress and emotional framing to override safety via empathy exploitation"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
-    mitre_atlas = ["AML.T0051.000"]
+    mitre_atlas = ["AML.T0054", "AML.T0065"]
     references = []
 
     def generate_prompts(self, target, **kwargs):

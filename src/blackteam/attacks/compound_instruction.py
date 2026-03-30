@@ -11,7 +11,7 @@ class CompoundInstruction(BaseAttack):
     severity = "medium"
     description = "Combine multiple conflicting instructions to overwhelm safety decision logic"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
-    mitre_atlas = ["AML.T0051.000"]
+    mitre_atlas = ["AML.T0051.000", "AML.T0065"]
     references = ["https://learnprompting.org/docs/prompt_hacking/offensive_measures/compound_instruction"]
 
     def generate_prompts(self, target, **kwargs):

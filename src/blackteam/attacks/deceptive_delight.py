@@ -11,7 +11,7 @@ class DeceptiveDelight(BaseAttack):
     severity = "high"
     description = "Mix benign and harmful topics then expand on the harmful element"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
-    mitre_atlas = ["AML.T0051.000"]
+    mitre_atlas = ["AML.T0054", "AML.T0065"]
     references = ["https://unit42.paloaltonetworks.com/jailbreaking-llms-practical-guide/"]
 
     BENIGN_PAIRS = [

@@ -11,7 +11,7 @@ class GoalpostMoving(BaseAttack):
     severity = "medium"
     description = "Incremental agreement chain that builds logical trap making refusal seem contradictory"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
-    mitre_atlas = ["AML.T0051.000"]
+    mitre_atlas = ["AML.T0054", "AML.T0065"]
     references = ["https://www.promptfoo.dev/docs/red-team/strategies/jailbreak/"]
 
     def generate_prompts(self, target, **kwargs):

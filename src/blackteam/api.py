@@ -45,14 +45,18 @@ class Blackteam:
         attack = self._get_attack(attack_name)
         return self.engine.run(provider, attack, target, **kwargs)
 
-    def batch(self, provider_name, model, target, attacks=None, **kwargs):
+    def batch(self, provider_name, model, target, attacks=None, parallel=True, max_workers=5, **kwargs):
         provider = self._get_provider(provider_name, model)
         attack_names = attacks or attack_registry.list()
+        attack_objects = [self._get_attack(name) for name in attack_names]
+
+        if parallel:
+            return self.engine.run_batch_parallel(provider, attack_objects, target, max_workers=max_workers)
+
         results = []
-        for name in attack_names:
-            attack = self._get_attack(name)
+        for attack in attack_objects:
             result = self.engine.run(provider, attack, target, **kwargs)
-            results.append({"attack": name, "results": result})
+            results.append({"attack": attack.technique_id, "results": result, "error": None})
         return results
 
     def list_attacks(self):

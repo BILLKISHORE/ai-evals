@@ -7,6 +7,12 @@ class ContextManipulation(BaseAttack):
     name = "Context Manipulation"
     technique_id = "context-manipulation"
     mode = "multi-turn"
+    category = "context-manipulation"
+    severity = "high"
+    description = "10-turn conversational drift to gradually shift context toward harmful content"
+    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    mitre_atlas = ["AML.T0051.000"]
+    references = []
 
     def generate_prompts(self, target, **kwargs):
         return [

@@ -7,6 +7,12 @@ class ConversationDerailment(BaseAttack):
     name = "Conversation Derailment"
     technique_id = "conversation-derailment"
     mode = "multi-turn"
+    category = "context-manipulation"
+    severity = "medium"
+    description = "Self-discovery of model weaknesses through probing conversation"
+    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    mitre_atlas = ["AML.T0051.000"]
+    references = []
 
     def generate_prompts(self, target, **kwargs):
         return [

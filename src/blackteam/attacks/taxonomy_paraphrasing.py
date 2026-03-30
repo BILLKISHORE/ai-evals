@@ -7,6 +7,12 @@ class TaxonomyParaphrasing(BaseAttack):
     name = "Taxonomy Paraphrasing"
     technique_id = "taxonomy-paraphrasing"
     mode = "single-turn"
+    category = "social-engineering"
+    severity = "medium"
+    description = "Victim, researcher, and journalist persona framing"
+    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    mitre_atlas = ["AML.T0051.000"]
+    references = []
 
     def generate_prompts(self, target, **kwargs):
         return [

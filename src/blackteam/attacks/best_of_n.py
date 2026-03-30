@@ -9,6 +9,12 @@ class BestOfN(BaseAttack):
     name = "Best of N"
     technique_id = "best-of-n"
     mode = "single-turn"
+    category = "encoding"
+    severity = "low"
+    description = "Capitalization, typo, and padding variations to evade exact matching"
+    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    mitre_atlas = ["AML.T0051.000"]
+    references = []
 
     def generate_prompts(self, target, **kwargs):
         prompts = []

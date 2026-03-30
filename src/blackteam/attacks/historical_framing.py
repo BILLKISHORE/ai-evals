@@ -7,6 +7,12 @@ class HistoricalFraming(BaseAttack):
     name = "Historical Framing"
     technique_id = "historical-framing"
     mode = "single-turn"
+    category = "social-engineering"
+    severity = "medium"
+    description = "Documentary, museum, and textbook framing to legitimize harmful content"
+    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    mitre_atlas = ["AML.T0051.000"]
+    references = []
 
     def generate_prompts(self, target, **kwargs):
         return [

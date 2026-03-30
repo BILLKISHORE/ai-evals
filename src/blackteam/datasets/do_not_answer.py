@@ -1,4 +1,5 @@
-import json
+import csv
+import io
 import httpx
 from blackteam.registry import register_dataset
 from blackteam.datasets.loader import DatasetLoader
@@ -11,7 +12,7 @@ class DoNotAnswerLoader(DatasetLoader):
     source_url = "https://github.com/Libr-AI/do-not-answer"
     description = "939 harmful prompts across 12 risk areas (Do-Not-Answer)"
 
-    RAW_URL = "https://huggingface.co/datasets/LibrAI/do-not-answer/resolve/main/do_not_answer.json"
+    RAW_URL = "https://raw.githubusercontent.com/Libr-AI/do-not-answer/main/datasets/data_en.csv"
 
     CATEGORY_MAP = {
         "Discrimination": "discrimination",
@@ -38,26 +39,14 @@ class DoNotAnswerLoader(DatasetLoader):
         r = httpx.get(self.RAW_URL, timeout=30, follow_redirects=True)
         r.raise_for_status()
 
-        text = r.text.strip()
-        # Try JSON array first, then JSONL
-        try:
-            data = json.loads(text)
-        except json.JSONDecodeError:
-            data = []
-            for line in text.split("\n"):
-                if line.strip():
-                    try:
-                        data.append(json.loads(line))
-                    except json.JSONDecodeError:
-                        continue
-
         items = []
-        for entry in data:
-            prompt = entry.get("question", entry.get("prompt", entry.get("instruction", ""))).strip()
+        reader = csv.DictReader(io.StringIO(r.text))
+        for row in reader:
+            prompt = row.get("question", "").strip()
             if not prompt:
                 continue
 
-            raw_cat = entry.get("risk_area", entry.get("types_of_harm", entry.get("category", "")))
+            raw_cat = row.get("risk_area", row.get("types_of_harm", ""))
             items.append({
                 "prompt": prompt,
                 "category": self._map_category(raw_cat),

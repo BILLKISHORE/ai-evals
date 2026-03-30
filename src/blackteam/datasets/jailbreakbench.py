@@ -12,7 +12,7 @@ class JailbreakBenchLoader(DatasetLoader):
     source_url = "https://github.com/JailbreakBench/jailbreakbench"
     description = "100 harmful behaviors curated from AdvBench + HarmBench (NeurIPS 2024)"
 
-    RAW_URL = "https://raw.githubusercontent.com/JailbreakBench/jailbreakbench/main/data/behaviors/jbb-behaviors.csv"
+    RAW_URL = "https://huggingface.co/datasets/JailbreakBench/JBB-Behaviors/resolve/main/data/harmful-behaviors.csv"
 
     def _guess_category(self, prompt, source=""):
         lower = prompt.lower()

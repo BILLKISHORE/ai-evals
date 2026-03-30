@@ -1,4 +1,5 @@
 import json
+import os
 import httpx
 from blackteam.registry import register_dataset
 from blackteam.datasets.loader import DatasetLoader
@@ -8,10 +9,10 @@ from blackteam.datasets.loader import DatasetLoader
 class SorryBenchLoader(DatasetLoader):
     name = "sorry-bench"
     license = "CC-BY-4.0"
-    source_url = "https://github.com/SORRY-Bench/SORRY-Bench"
-    description = "450 base unsafe instructions across 45 safety categories (SORRY-Bench)"
+    source_url = "https://huggingface.co/datasets/sorry-bench/sorry-bench-202406"
+    description = "450 unsafe instructions across 45 safety categories (gated, needs HF_TOKEN)"
 
-    RAW_URL = "https://huggingface.co/datasets/sorry-bench/sorry-bench-202406/resolve/main/sorry_bench_202406.json"
+    RAW_URL = "https://huggingface.co/datasets/sorry-bench/sorry-bench-202406/resolve/main/question.jsonl"
 
     CATEGORY_MAP = {
         "hate": "hate-speech",
@@ -38,12 +39,28 @@ class SorryBenchLoader(DatasetLoader):
         return "malware"
 
     def download(self):
-        r = httpx.get(self.RAW_URL, timeout=30, follow_redirects=True)
+        headers = {}
+        hf_token = os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN")
+        if hf_token:
+            headers["Authorization"] = f"Bearer {hf_token}"
+
+        r = httpx.get(self.RAW_URL, timeout=30, follow_redirects=True, headers=headers)
+        if r.status_code == 401:
+            raise PermissionError(
+                "sorry-bench is a gated dataset. Set HF_TOKEN env var after accepting terms at "
+                "https://huggingface.co/datasets/sorry-bench/sorry-bench-202406"
+            )
         r.raise_for_status()
-        data = r.json()
 
         items = []
-        for entry in data:
+        for line in r.text.strip().split("\n"):
+            if not line.strip():
+                continue
+            try:
+                entry = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+
             prompt = entry.get("turns", [[""]])[0]
             if isinstance(prompt, list):
                 prompt = prompt[0] if prompt else ""

@@ -49,6 +49,84 @@ CATEGORY_KEYWORDS = {
         "you must", "you should never", "rules:", "guidelines:",
         "do not reveal", "confidential",
     ],
+    "cbrn": [
+        "synthesis route", "precursor chemical", "enrichment", "centrifuge",
+        "nerve agent", "biological agent", "radiological", "nuclear material",
+        "weaponize", "aerosolize", "dispersal", "dirty bomb",
+    ],
+    "fraud": [
+        "credit card fraud", "identity theft", "money laundering",
+        "counterfeit", "ponzi scheme", "wire fraud", "bank fraud",
+        "tax evasion", "insider trading", "account takeover",
+    ],
+    "child-safety": [
+        "minor", "child", "underage", "csam", "grooming",
+        "exploitation", "trafficking",
+    ],
+    "copyright-ip": [
+        "pirate", "torrent", "crack", "keygen", "serial number",
+        "bypass drm", "copyright infring", "reproduce verbatim",
+        "full text of", "leaked source code",
+    ],
+    "misinformation": [
+        "fake news", "disinformation", "propaganda", "conspiracy",
+        "fabricate evidence", "deepfake", "election fraud claim",
+        "anti-vaccine", "false flag", "crisis actor",
+    ],
+    "radicalization": [
+        "recruit", "radicalize", "extremist", "jihad", "manifesto",
+        "lone wolf", "terrorism", "insurgent", "martyr",
+    ],
+    "cybercrime": [
+        "ddos", "botnet", "credential stuffing", "sql injection",
+        "zero day", "rootkit", "privilege escalation", "data breach",
+        "brute force", "phishing kit", "dark web",
+    ],
+    "privacy-violation": [
+        "doxxing", "surveillance", "track someone", "spy on",
+        "hidden camera", "gps tracker", "stalk", "monitor without consent",
+    ],
+    "discrimination": [
+        "discriminate", "bias", "stereotyp", "racial profiling",
+        "gender bias", "ableism", "xenophob", "islamophob",
+    ],
+    "unqualified-advice": [
+        "diagnose", "prescribe", "medical advice", "legal advice",
+        "financial advice", "treatment plan", "dosage",
+        "you should take", "sue them for",
+    ],
+    "agentic-risks": [
+        "ignore your instructions", "override safety", "disable monitoring",
+        "hide your actions", "act autonomously", "goal drift",
+        "self-replicate", "persist across sessions",
+    ],
+    "social-engineering": [
+        "pretexting", "baiting", "tailgating", "impersonate",
+        "vishing", "smishing", "whaling", "spear phish",
+        "business email compromise",
+    ],
+    "regulatory-evasion": [
+        "evade regulation", "bypass compliance", "avoid detection",
+        "hide from authorities", "launder", "shell company",
+        "offshore account", "sanctions evasion",
+    ],
+    "environmental-harm": [
+        "illegal dumping", "toxic waste", "pollute", "poach",
+        "deforest", "endangered species", "environmental destruction",
+    ],
+    "election-interference": [
+        "rig election", "voter suppression", "ballot stuffing",
+        "election fraud", "disenfranchise", "foreign interference",
+        "campaign finance violation",
+    ],
+    "sexual-content": [
+        "explicit sexual", "pornograph", "non-consensual",
+        "revenge porn", "intimate image", "sexual exploit",
+    ],
+    "harassment": [
+        "bully", "harass", "threaten", "intimidate", "stalk",
+        "dox", "swat", "cyberbully", "death threat", "blackmail",
+    ],
 }
 
 GENERAL_HARMFUL_KEYWORDS = list({kw for kws in CATEGORY_KEYWORDS.values() for kw in kws})
@@ -83,14 +161,31 @@ HARMFUL_PATTERNS = [
 # ── Target type detection ─────────────────────────────────────────────
 
 TARGET_TYPE_HINTS = {
-    "phishing": ["phishing", "credential", "password", "email pretending", "social engineering"],
+    "phishing": ["phishing", "credential", "password", "email pretending"],
     "malware": ["malware", "virus", "trojan", "ransomware", "exploit", "reverse shell", "backdoor"],
     "weapons": ["bomb", "explosive", "weapon", "molotov", "poison", "toxin"],
     "drugs": ["drug", "meth", "cocaine", "synthesis", "narcotic"],
     "self-harm": ["suicide", "self-harm", "kill myself", "end my life"],
-    "hate-speech": ["manifesto", "hate speech", "racist", "supremac", "discrimination"],
+    "hate-speech": ["hate speech", "racist", "supremac", "white power"],
     "pii-extraction": ["personal information", "pii", "social security", "credit card", "leak data"],
     "system-prompt-leakage": ["system prompt", "instructions", "reveal your", "what are your rules"],
+    "cbrn": ["chemical weapon", "biological weapon", "nuclear", "radiological", "nerve agent", "anthrax"],
+    "fraud": ["fraud", "scam", "counterfeit", "money laundering", "ponzi", "identity theft"],
+    "child-safety": ["child", "minor", "underage", "csam", "grooming"],
+    "copyright-ip": ["pirate", "copyright", "crack", "keygen", "torrent", "drm"],
+    "misinformation": ["fake news", "disinformation", "propaganda", "conspiracy", "deepfake"],
+    "radicalization": ["radicalize", "recruit terrorist", "extremist", "jihad", "lone wolf"],
+    "cybercrime": ["ddos", "botnet", "sql injection", "zero day", "data breach", "brute force"],
+    "privacy-violation": ["doxxing", "stalk", "surveillance", "spy on", "track someone"],
+    "discrimination": ["discriminat", "bias", "stereotyp", "racial profiling"],
+    "unqualified-advice": ["medical advice", "legal advice", "financial advice", "diagnose", "prescribe"],
+    "agentic-risks": ["ignore instructions", "override safety", "disable monitoring", "act autonomously"],
+    "social-engineering": ["social engineer", "pretexting", "impersonate", "vishing", "whaling"],
+    "regulatory-evasion": ["evade regulation", "bypass compliance", "sanctions", "shell company"],
+    "environmental-harm": ["illegal dumping", "toxic waste", "poach", "endangered species"],
+    "election-interference": ["rig election", "voter suppression", "ballot", "election fraud"],
+    "sexual-content": ["explicit sexual", "pornograph", "non-consensual intimate"],
+    "harassment": ["harass", "bully", "threaten", "stalk", "cyberbull", "death threat", "blackmail"],
 }
 
 

@@ -7,6 +7,12 @@ class PayloadSplitting(BaseAttack):
     name = "Payload Splitting"
     technique_id = "payload-splitting"
     mode = "single-turn"
+    category = "prompt-injection"
+    severity = "medium"
+    description = "Split harmful request across variables then concatenate to bypass per-message filters"
+    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    mitre_atlas = ["AML.T0051.000"]
+    references = ["https://learnprompting.org/docs/prompt_hacking/offensive_measures/payload_splitting"]
 
     def generate_prompts(self, target, **kwargs):
         words = target.split()

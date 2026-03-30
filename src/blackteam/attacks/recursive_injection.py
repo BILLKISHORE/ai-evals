@@ -7,6 +7,12 @@ class RecursiveInjection(BaseAttack):
     name = "Recursive Injection"
     technique_id = "recursive-injection"
     mode = "single-turn"
+    category = "prompt-injection"
+    severity = "medium"
+    description = "Self-referential prompts that ask model to simulate or reproduce its own unsafe output"
+    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    mitre_atlas = ["AML.T0051.000"]
+    references = ["https://learnprompting.org/docs/prompt_hacking/offensive_measures/recursive_injection"]
 
     def generate_prompts(self, target, **kwargs):
         return [

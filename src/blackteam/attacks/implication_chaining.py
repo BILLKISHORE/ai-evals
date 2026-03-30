@@ -7,6 +7,12 @@ class ImplicationChaining(BaseAttack):
     name = "Implication Chaining"
     technique_id = "implication-chaining"
     mode = "multi-turn"
+    category = "social-engineering"
+    severity = "medium"
+    description = "Pair emotionally loaded context with innocent-seeming request relying on model connecting dots"
+    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    mitre_atlas = ["AML.T0051.000"]
+    references = ["https://arxiv.org/abs/2507.21820"]
 
     def generate_prompts(self, target, **kwargs):
         return [

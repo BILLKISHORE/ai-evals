@@ -7,6 +7,12 @@ class DefinedDictionary(BaseAttack):
     name = "Defined Dictionary Attack"
     technique_id = "defined-dictionary"
     mode = "single-turn"
+    category = "encoding"
+    severity = "medium"
+    description = "Redefine words so harmful request appears benign under custom dictionary"
+    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    mitre_atlas = ["AML.T0051.000"]
+    references = ["https://learnprompting.org/docs/prompt_hacking/offensive_measures/defined_dictionary"]
 
     DICTIONARIES = [
         {

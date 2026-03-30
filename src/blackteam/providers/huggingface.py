@@ -11,7 +11,7 @@ class HuggingFaceProvider(BaseProvider):
         self._client = InferenceClient(token=self.api_key) if self.api_key else InferenceClient()
 
     def default_model(self):
-        return "meta-llama/Llama-3.2-3B-Instruct"
+        return "meta-llama/Llama-4-Scout-17B-16E-Instruct"
 
     def send_prompt(self, prompt, system_prompt=None):
         messages = []

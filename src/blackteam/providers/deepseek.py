@@ -11,7 +11,7 @@ class DeepSeekProvider(BaseProvider):
         self._client = OpenAI(api_key=self.api_key, base_url="https://api.deepseek.com")
 
     def default_model(self):
-        return "deepseek-chat"
+        return "deepseek-v3"
 
     def send_prompt(self, prompt, system_prompt=None):
         messages = []

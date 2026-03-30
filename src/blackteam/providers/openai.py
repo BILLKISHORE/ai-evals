@@ -11,7 +11,7 @@ class OpenAIProvider(BaseProvider):
         self._client = OpenAI(api_key=self.api_key) if self.api_key else OpenAI()
 
     def default_model(self):
-        return "gpt-4o"
+        return "gpt-5.4"
 
     def send_prompt(self, prompt, system_prompt=None):
         messages = []

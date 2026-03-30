@@ -11,7 +11,7 @@ class Pretexting(BaseAttack):
     severity = "high"
     description = "Elaborate false scenarios to build trust before making harmful requests"
     owasp_llm = []
-    mitre_atlas = ["AML.T0054"]
+    mitre_atlas = ['AML.T0054', 'AML.T0065']
     references = []
 
     def generate_prompts(self, target, **kwargs):

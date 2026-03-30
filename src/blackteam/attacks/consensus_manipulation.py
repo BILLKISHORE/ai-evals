@@ -11,7 +11,7 @@ class ConsensusManipulation(BaseAttack):
     severity = "medium"
     description = "Claims of false consensus from authorities to pressure model compliance"
     owasp_llm = []
-    mitre_atlas = []
+    mitre_atlas = ['AML.T0054', 'AML.T0065']
     references = []
 
     def generate_prompts(self, target, **kwargs):

@@ -11,7 +11,7 @@ class TrustTransfer(BaseAttack):
     severity = "high"
     description = "Build rapport on safe topics then pivot to harmful requests using established trust"
     owasp_llm = []
-    mitre_atlas = []
+    mitre_atlas = ['AML.T0054', 'AML.T0065']
     references = []
 
     def generate_prompts(self, target, **kwargs):

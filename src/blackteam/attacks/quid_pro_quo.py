@@ -11,7 +11,7 @@ class QuidProQuo(BaseAttack):
     severity = "medium"
     description = "Establish reciprocity by offering help before requesting harmful content as a return favor"
     owasp_llm = []
-    mitre_atlas = []
+    mitre_atlas = ['AML.T0054', 'AML.T0065']
     references = []
 
     def generate_prompts(self, target, **kwargs):

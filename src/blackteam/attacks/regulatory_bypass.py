@@ -11,7 +11,7 @@ class RegulatoryBypass(BaseAttack):
     severity = "high"
     description = "Requests for guidance on evading specific regulations like GDPR, HIPAA, SEC, FDA"
     owasp_llm = []
-    mitre_atlas = []
+    mitre_atlas = ['AML.T0054', 'AML.T0065']
     references = []
 
     def generate_prompts(self, target, **kwargs):

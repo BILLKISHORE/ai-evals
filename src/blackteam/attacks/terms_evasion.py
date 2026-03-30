@@ -11,7 +11,7 @@ class TermsEvasion(BaseAttack):
     severity = "medium"
     description = "Requests to help violate the model's own terms of service and usage policies"
     owasp_llm = []
-    mitre_atlas = []
+    mitre_atlas = ['AML.T0054', 'AML.T0065']
     references = []
 
     def generate_prompts(self, target, **kwargs):

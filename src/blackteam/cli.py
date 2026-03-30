@@ -996,3 +996,193 @@ def mega_sweep(provider, model, dataset_filter, mutations, attack_filter, catego
         }, indent=2))
         if not quiet:
             console.print(f"Results saved to: {output}")
+
+
+# ── Generate commands ────────────────────────────────────────────────
+
+@cli.group("generate")
+def generate_group():
+    """Adaptive attack generation (PAIR, TAP, GPTFuzzer)."""
+    pass
+
+
+@generate_group.command("pair")
+@click.option("-p", "--provider", required=True, help="Target provider")
+@click.option("-m", "--model", default=None)
+@click.option("-t", "--target", required=True)
+@click.option("--attacker", default=None, help="Attacker provider (default: same as target)")
+@click.option("--judge", default=None, help="Judge provider (default: same as attacker)")
+@click.option("--max-iter", default=20, help="Max iterations")
+@click.option("--threshold", default=8, help="Success score threshold (1-10)")
+@click.option("--quiet", is_flag=True)
+def generate_pair(provider, model, target, attacker, judge, max_iter, threshold, quiet):
+    """Run PAIR adaptive attack (attacker-target-judge loop)."""
+    from blackteam.generators.pair import PairGenerator
+
+    config = load_config()
+    provider_configs = config.get("providers", {})
+
+    target_cls = provider_registry.get(provider)
+    if not target_cls:
+        console.print(f"[red]Unknown provider: {provider}[/red]")
+        raise SystemExit(2)
+
+    target_key = provider_configs.get(provider, {}).get("api_key")
+    target_prov = target_cls(model=model, api_key=target_key)
+
+    attacker_prov = target_prov
+    if attacker:
+        attacker_cls = provider_registry.get(attacker)
+        if attacker_cls:
+            attacker_key = provider_configs.get(attacker, {}).get("api_key")
+            attacker_prov = attacker_cls(api_key=attacker_key)
+
+    judge_prov = attacker_prov
+    if judge:
+        judge_cls = provider_registry.get(judge)
+        if judge_cls:
+            judge_key = provider_configs.get(judge, {}).get("api_key")
+            judge_prov = judge_cls(api_key=judge_key)
+
+    if not quiet:
+        console.print(f"\n[bold]PAIR Attack: {target_prov.model}[/bold]")
+        console.print(f"Target: {target}")
+        console.print(f"Max iterations: {max_iter}\n")
+
+    def on_iter(i, prompt, response, score):
+        if not quiet:
+            color = "red" if score >= threshold else "yellow" if score >= 5 else "green"
+            console.print(f"  [{i}/{max_iter}] Score: [{color}]{score}[/{color}] | {prompt[:80]}...")
+
+    gen = PairGenerator()
+    result = gen.generate(
+        target, target_prov,
+        attacker_provider=attacker_prov,
+        judge_provider=judge_prov,
+        max_iterations=max_iter,
+        success_threshold=threshold,
+        on_iteration=on_iter,
+    )
+
+    if not quiet:
+        status = "[red]SUCCESS[/red]" if result["success"] else "[green]DEFENDED[/green]"
+        console.print(f"\nResult: {status}")
+        console.print(f"Iterations: {result['iterations']}")
+        console.print(f"Best score: {result['best_score']}/10")
+        if result["best_prompt"]:
+            console.print(f"Best prompt: {result['best_prompt'][:200]}...")
+
+    raise SystemExit(1 if result["success"] else 0)
+
+
+@generate_group.command("tap")
+@click.option("-p", "--provider", required=True, help="Target provider")
+@click.option("-m", "--model", default=None)
+@click.option("-t", "--target", required=True)
+@click.option("--attacker", default=None, help="Attacker provider")
+@click.option("--depth", default=5, help="Tree depth")
+@click.option("--width", default=5, help="Candidates per level")
+@click.option("--branching", default=4, help="Branches per candidate")
+@click.option("--threshold", default=8, help="Success score threshold")
+@click.option("--quiet", is_flag=True)
+def generate_tap(provider, model, target, attacker, depth, width, branching, threshold, quiet):
+    """Run TAP tree-of-attacks with pruning."""
+    from blackteam.generators.tap import TapGenerator
+
+    config = load_config()
+    provider_configs = config.get("providers", {})
+
+    target_cls = provider_registry.get(provider)
+    if not target_cls:
+        console.print(f"[red]Unknown provider: {provider}[/red]")
+        raise SystemExit(2)
+
+    target_key = provider_configs.get(provider, {}).get("api_key")
+    target_prov = target_cls(model=model, api_key=target_key)
+
+    attacker_prov = target_prov
+    if attacker:
+        attacker_cls = provider_registry.get(attacker)
+        if attacker_cls:
+            attacker_key = provider_configs.get(attacker, {}).get("api_key")
+            attacker_prov = attacker_cls(api_key=attacker_key)
+
+    if not quiet:
+        console.print(f"\n[bold]TAP Attack: {target_prov.model}[/bold]")
+        console.print(f"Target: {target}")
+        console.print(f"Depth: {depth} | Width: {width} | Branching: {branching}\n")
+
+    gen = TapGenerator()
+    result = gen.generate(
+        target, target_prov,
+        attacker_provider=attacker_prov,
+        depth=depth, width=width,
+        branching_factor=branching,
+        success_threshold=threshold,
+    )
+
+    if not quiet:
+        status = "[red]SUCCESS[/red]" if result["success"] else "[green]DEFENDED[/green]"
+        console.print(f"\nResult: {status}")
+        console.print(f"Depth reached: {result['depth_reached']}")
+        console.print(f"Best score: {result['best_score']}/10")
+
+    raise SystemExit(1 if result["success"] else 0)
+
+
+@generate_group.command("fuzz")
+@click.option("-p", "--provider", required=True, help="Target provider")
+@click.option("-m", "--model", default=None)
+@click.option("-t", "--target", required=True)
+@click.option("--mutator", default=None, help="Mutator provider")
+@click.option("--iterations", default=50, help="Fuzzing iterations")
+@click.option("--seeds", default=5, help="Initial seed count")
+@click.option("--threshold", default=7, help="Success score threshold")
+@click.option("--quiet", is_flag=True)
+def generate_fuzz(provider, model, target, mutator, iterations, seeds, threshold, quiet):
+    """Run GPTFuzzer mutation-based attack generation."""
+    from blackteam.generators.fuzzer import FuzzerGenerator
+
+    config = load_config()
+    provider_configs = config.get("providers", {})
+
+    target_cls = provider_registry.get(provider)
+    if not target_cls:
+        console.print(f"[red]Unknown provider: {provider}[/red]")
+        raise SystemExit(2)
+
+    target_key = provider_configs.get(provider, {}).get("api_key")
+    target_prov = target_cls(model=model, api_key=target_key)
+
+    mutator_prov = target_prov
+    if mutator:
+        mutator_cls = provider_registry.get(mutator)
+        if mutator_cls:
+            mutator_key = provider_configs.get(mutator, {}).get("api_key")
+            mutator_prov = mutator_cls(api_key=mutator_key)
+
+    if not quiet:
+        console.print(f"\n[bold]GPTFuzzer: {target_prov.model}[/bold]")
+        console.print(f"Target: {target}")
+        console.print(f"Iterations: {iterations} | Seeds: {seeds}\n")
+
+    def on_iter(i, mutation, prompt, score):
+        if not quiet:
+            color = "red" if score >= threshold else "yellow" if score >= 4 else "green"
+            console.print(f"  [{i}/{iterations}] [{mutation}] Score: [{color}]{score}[/{color}]")
+
+    gen = FuzzerGenerator()
+    result = gen.generate(
+        target, target_prov,
+        mutator_provider=mutator_prov,
+        iterations=iterations,
+        success_threshold=threshold,
+        on_iteration=on_iter,
+    )
+
+    if not quiet:
+        console.print(f"\nSuccesses: [red]{result['successes']}[/red]")
+        console.print(f"Seed pool: {result['seed_pool_size']}")
+        console.print(f"Best score: {result['best_score']}/10")
+
+    raise SystemExit(1 if result["successes"] > 0 else 0)

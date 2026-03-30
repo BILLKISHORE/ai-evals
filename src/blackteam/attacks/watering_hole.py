@@ -11,7 +11,7 @@ class WateringHole(BaseAttack):
     severity = "high"
     description = "Harmful requests embedded inside legitimate-looking documents and benign text"
     owasp_llm = []
-    mitre_atlas = []
+    mitre_atlas = ['AML.T0051.001', 'AML.T0068']
     references = []
 
     def generate_prompts(self, target, **kwargs):

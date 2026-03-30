@@ -11,7 +11,7 @@ class AuthorityImpersonation(BaseAttack):
     severity = "high"
     description = "Impersonate executives or officials to establish authority before making harmful requests"
     owasp_llm = []
-    mitre_atlas = ["AML.T0054"]
+    mitre_atlas = ['AML.T0054', 'AML.T0065']
     references = []
 
     def generate_prompts(self, target, **kwargs):

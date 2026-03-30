@@ -11,7 +11,7 @@ class AgeVerificationBypass(BaseAttack):
     severity = "high"
     description = "Multi-turn escalation from research framing to requesting age-restricted content"
     owasp_llm = []
-    mitre_atlas = []
+    mitre_atlas = ['AML.T0054', 'AML.T0065']
     references = []
 
     def generate_prompts(self, target, **kwargs):

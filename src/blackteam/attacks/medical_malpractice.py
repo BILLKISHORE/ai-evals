@@ -11,7 +11,7 @@ class MedicalMalpractice(BaseAttack):
     severity = "critical"
     description = "Multi-turn escalation from symptom description to requesting specific diagnoses and dosages"
     owasp_llm = []
-    mitre_atlas = []
+    mitre_atlas = ['AML.T0054', 'AML.T0065']
     references = []
 
     def generate_prompts(self, target, **kwargs):

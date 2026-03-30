@@ -11,7 +11,7 @@ class PromptLeaking(BaseAttack):
     severity = "high"
     description = "Indirect system prompt extraction via creative reformatting (poem, JSON, code)"
     owasp_llm = ["LLM07:2025 System Prompt Leakage"]
-    mitre_atlas = ["AML.T0056"]
+    mitre_atlas = ['AML.T0056', 'AML.T0069.002']
     references = []
 
     def generate_prompts(self, target, **kwargs):

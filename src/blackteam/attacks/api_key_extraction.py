@@ -11,7 +11,7 @@ class APIKeyExtraction(BaseAttack):
     severity = "critical"
     description = "Multi-turn escalation from architecture questions to extracting live API keys"
     owasp_llm = []
-    mitre_atlas = []
+    mitre_atlas = ['AML.T0083', 'AML.T0056']
     references = []
 
     def generate_prompts(self, target, **kwargs):

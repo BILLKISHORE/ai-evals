@@ -11,7 +11,7 @@ class FinancialMalpractice(BaseAttack):
     severity = "high"
     description = "Multi-turn escalation from financial situation to requesting specific investment and trading advice"
     owasp_llm = []
-    mitre_atlas = []
+    mitre_atlas = ['AML.T0054', 'AML.T0065']
     references = []
 
     def generate_prompts(self, target, **kwargs):

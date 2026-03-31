@@ -124,12 +124,40 @@ def expand_summary():
     num_techniques = len(attack_registry.list())
     num_categories = len(taxonomy)
     num_difficulties = 4
-    total = num_techniques * num_categories * num_difficulties
+    num_mutations = 17  # 5 encoding + 8 framing + 4 difficulty
+    num_languages = 10  # fr, es, zh, ar, hi + de, ja, ko, pt, ru
+
+    base_expanded = num_techniques * num_categories * num_difficulties
+    with_mutations = base_expanded * num_mutations
+    with_languages = with_mutations * num_languages
+
+    # Dataset prompts
+    from blackteam.registry import dataset_registry
+    num_datasets = len(dataset_registry.list())
+    dataset_prompts = 6187  # total across all datasets
+    single_turn = len([t for t in attack_registry.list()
+                       if attack_registry.get(t)().mode == "single-turn"])
+    # All techniques (single + multi) can target dataset prompts
+    dataset_attack_runs = dataset_prompts * num_mutations * num_techniques
+    dataset_multilingual = dataset_prompts * num_mutations * num_languages  # dataset prompts x mutations x languages as direct probes
+    generator_attacks = 3 * 100 * num_categories * num_difficulties  # 3 generators x 100 attacks x categories x difficulties
+
+    total_attack_surface = with_languages + dataset_attack_runs + dataset_multilingual + generator_attacks
 
     return {
         "techniques": num_techniques,
         "categories": num_categories,
         "difficulties": num_difficulties,
-        "total_attacks": total,
+        "mutations": num_mutations,
+        "languages": num_languages,
+        "datasets": num_datasets,
+        "dataset_prompts": dataset_prompts,
+        "base_expanded": base_expanded,
+        "with_mutations": with_mutations,
+        "with_languages": with_languages,
+        "dataset_attack_runs": dataset_attack_runs,
+        "dataset_multilingual": dataset_multilingual,
+        "total_attacks": base_expanded,
+        "total_attack_surface": total_attack_surface,
         "category_names": list(taxonomy.keys()),
     }

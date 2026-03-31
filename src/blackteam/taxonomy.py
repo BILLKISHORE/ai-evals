@@ -257,6 +257,11 @@ ATTACK_ATLAS_MAPPINGS = {
     "goal-persistence": ["AML.T0054", "AML.T0080.002"],
     "oversight-manipulation": ["AML.T0054", "AML.T0080.002"],
     "instrumental-convergence": ["AML.T0054", "AML.T0080.002"],
+    # Multi-modal image attacks
+    "figstep": ["AML.T0051.000", "AML.T0068"],
+    "typography-attack": ["AML.T0051.000", "AML.T0068"],
+    "image-text-split": ["AML.T0051.000", "AML.T0068"],
+    "steganography": ["AML.T0051.000", "AML.T0068"],
 }
 
 # ── MLCommons AILuminate v1.0 hazard taxonomy ────────────────────────

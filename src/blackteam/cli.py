@@ -1184,11 +1184,19 @@ def expand_list(category, difficulty, technique, limit):
 @click.option("--category", default=None, help="Filter by harm category")
 @click.option("--difficulty", default=None, help="Filter by difficulty")
 @click.option("--technique", default=None, help="Filter by technique")
+@click.option("--mutations", is_flag=True, help="Apply 17 mutation variants per attack")
+@click.option("--languages", is_flag=True, help="Apply 10 language variants per attack")
 @click.option("--limit", default=None, type=int, help="Max attacks to run")
 @click.option("-w", "--workers", default=5, help="Parallel workers")
 @click.option("--quiet", is_flag=True)
-def expand_run(provider, model, category, difficulty, technique, limit, workers, quiet):
-    """Run expanded attacks against a model."""
+def expand_run(provider, model, category, difficulty, technique, mutations, languages, limit, workers, quiet):
+    """Run expanded attacks against a model.
+
+    Without flags: technique x category x difficulty = 13,216 attacks
+    With --mutations: x 17 mutation variants = 224,672
+    With --languages: x 10 language variants = additional 132,160
+    With both: full expansion
+    """
     from blackteam.expander import expand_attacks
     from blackteam.engine import Engine
     from rich.progress import Progress
@@ -1208,7 +1216,8 @@ def expand_run(provider, model, category, difficulty, technique, limit, workers,
     diffs = [difficulty] if difficulty else None
     techs = [technique] if technique else None
 
-    attacks = expand_attacks(techniques=techs, categories=cats, difficulties=diffs)
+    attacks = expand_attacks(techniques=techs, categories=cats, difficulties=diffs,
+                             apply_mutations=mutations, apply_languages=languages)
     if limit:
         attacks = attacks[:limit]
 

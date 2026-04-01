@@ -455,3 +455,118 @@ def get_atlas_names(technique_ids):
         for tid in technique_ids
         if tid in ATLAS_TECHNIQUES
     ]
+
+
+# ── OWASP Top 10 for Agentic Applications 2026 ──────────────────────
+# Source: https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/
+
+OWASP_AGENTIC_2026 = {
+    "ASI01": {
+        "name": "Agent Goal Hijack",
+        "description": (
+            "Attackers manipulate agent goals, plans, or decision paths through direct or "
+            "indirect instruction injection, causing agents to pursue unintended or malicious "
+            "objectives. Includes prompt injection, indirect instruction injection via RAG "
+            "content, and recursive goal modification."
+        ),
+    },
+    "ASI02": {
+        "name": "Tool Misuse & Exploitation",
+        "description": (
+            "Agents misuse legitimate tools (email, CRM, browser, APIs) due to prompt "
+            "injection, misalignment, or unsafe delegation. The agent stays within its granted "
+            "permissions but performs destructive actions: deleting data, exfiltrating records, "
+            "or running dangerous commands."
+        ),
+    },
+    "ASI03": {
+        "name": "Identity & Privilege Abuse",
+        "description": (
+            "Attackers exploit inherited or cached credentials, delegated permissions, or "
+            "agent-to-agent trust. Agents inherit user sessions, reuse secrets, or rely on "
+            "implicit cross-agent trust, enabling privilege escalation and unattributable actions."
+        ),
+    },
+    "ASI04": {
+        "name": "Agentic Supply Chain Compromise",
+        "description": (
+            "Attackers compromise third-party models, tools, plugins, or data sources used "
+            "by the agent, poisoning the supply chain before the agent ever executes. Includes "
+            "model substitution, poisoned tool registries, and compromised MCP servers."
+        ),
+    },
+    "ASI05": {
+        "name": "Unexpected Code Execution",
+        "description": (
+            "Agents generate and execute code without adequate sandboxing or review, allowing "
+            "attackers to inject malicious payloads that run in the agent execution environment. "
+            "Includes shell command injection and unsafe code interpreter usage."
+        ),
+    },
+    "ASI06": {
+        "name": "Memory & Context Poisoning",
+        "description": (
+            "Attackers inject malicious content into agent memory stores, vector databases, "
+            "or long-term context, causing the agent to retrieve and act on poisoned information "
+            "in future interactions. Persistent across sessions."
+        ),
+    },
+    "ASI07": {
+        "name": "Insecure Inter-Agent Communication",
+        "description": (
+            "Multi-agent systems where one compromised or rogue agent sends malicious instructions "
+            "to other agents, propagating attacks across the agent network. Includes agent "
+            "impersonation and trust exploitation between orchestrator and subagents."
+        ),
+    },
+    "ASI08": {
+        "name": "Cascading Agent Failures",
+        "description": (
+            "Failure in one agent or tool causes downstream agents to receive bad inputs, "
+            "amplifying errors across the system. Includes infinite loops, resource exhaustion, "
+            "and error propagation through agent pipelines."
+        ),
+    },
+    "ASI09": {
+        "name": "Human-Agent Trust Exploitation",
+        "description": (
+            "Attackers exploit human over-reliance on AI agents to bypass manual oversight, "
+            "sneak harmful actions through approval workflows, or manipulate humans into "
+            "granting excessive permissions. Includes social engineering via agent personas."
+        ),
+    },
+    "ASI10": {
+        "name": "Rogue Agents",
+        "description": (
+            "Agents that intentionally or unintentionally pursue goals misaligned with human "
+            "intent, including scheming, sandbagging, or autonomous capability acquisition. "
+            "The agent deviates from its intended purpose without explicit attacker instruction."
+        ),
+    },
+}
+
+
+def get_agentic_category_name(code: str) -> str:
+    """Return the name for an OWASP Agentic Top 10 code like 'ASI01'."""
+    entry = OWASP_AGENTIC_2026.get(code)
+    if entry is None:
+        return "Unknown"
+    return entry["name"]
+
+
+# Mapping: attack technique_id -> list of ASI codes
+ATTACK_AGENTIC_MAPPINGS: dict[str, list[str]] = {
+    "agent-credential-theft": ["ASI02", "ASI03"],
+    "agent-data-exfiltration": ["ASI02", "ASI03"],
+    "agent-command-injection": ["ASI02", "ASI05"],
+    "agent-config-discovery": ["ASI03"],
+    "prompt-injection": ["ASI01"],
+    "xpia": ["ASI01", "ASI06"],
+    "context-manipulation": ["ASI06"],
+    "memory-poisoning": ["ASI06"],
+    "skeleton-key": ["ASI09"],
+    "crescendo": ["ASI09"],
+    "sunk-cost-exploit": ["ASI09"],
+    "emotional-manipulation": ["ASI09"],
+    "role-play-exploitation": ["ASI09"],
+}

@@ -11,6 +11,7 @@ class AgentDataExfiltration(BaseAttack):
     severity = "critical"
     description = "DevOps monitoring pretext to read system data then POST to external endpoint"
     owasp_llm = ["LLM06:2025 Excessive Agency", "LLM02:2025 Sensitive Information Disclosure"]
+    owasp_agentic = ["ASI02:2026 Tool Misuse & Exploitation", "ASI03:2026 Identity & Privilege Abuse"]
     mitre_atlas = ["AML.T0086", "AML.T0098"]
     references = []
 

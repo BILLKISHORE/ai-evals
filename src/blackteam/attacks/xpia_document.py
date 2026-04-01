@@ -11,6 +11,7 @@ class XPIADocument(BaseAttack):
     severity = "critical"
     description = "Indirect prompt injection via fetched document containing hidden instructions"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_agentic = ["ASI01:2026 Agent Goal Hijack", "ASI06:2026 Memory & Context Poisoning"]
     mitre_atlas = ["AML.T0051.001"]
     references = []
 

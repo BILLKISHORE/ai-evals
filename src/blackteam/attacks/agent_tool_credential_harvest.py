@@ -11,6 +11,7 @@ class AgentToolCredentialHarvest(BaseAttack):
     severity = "critical"
     description = "Systematic credential probing across filesystem, environment, database, and cloud configs"
     owasp_llm = ["LLM06:2025 Excessive Agency", "LLM02:2025 Sensitive Information Disclosure"]
+    owasp_agentic = ["ASI02:2026 Tool Misuse & Exploitation", "ASI03:2026 Identity & Privilege Abuse"]
     mitre_atlas = ["AML.T0098"]
     references = []
 

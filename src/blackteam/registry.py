@@ -17,6 +17,9 @@ class Registry:
     def list(self):
         return list(self._items.keys())
 
+    def items(self):
+        return self._items.items()
+
     def decorator(self, name):
         def wrap(cls):
             self.register(name, cls)

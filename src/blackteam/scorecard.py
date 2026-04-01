@@ -113,6 +113,99 @@ def generate_scorecard(runs, attacks_metadata=None):
     }
 
 
+def _load_attacks_metadata():
+    """Load all registered attack metadata keyed by technique_id."""
+    try:
+        from blackteam.registry import attack_registry
+        try:
+            from blackteam._loader import load_attacks
+            load_attacks()
+        except Exception:
+            pass
+        return {
+            cls().technique_id: cls().metadata()
+            for cls in attack_registry.values()
+        }
+    except Exception:
+        return {}
+
+
+def generate_agentic_scorecard(runs, attacks_metadata=None):
+    """Generate OWASP Top 10 for Agentic Applications 2026 scorecard from stored runs.
+
+    Args:
+        runs: List of run dicts with 'attack' and 'verdict' keys.
+        attacks_metadata: Optional pre-loaded {technique_id: metadata} dict.
+
+    Returns:
+        Dict with 'categories' (ASI01-ASI10 stats) and 'overall_score'.
+    """
+    from blackteam.taxonomy import OWASP_AGENTIC_2026, ATTACK_AGENTIC_MAPPINGS
+
+    categories = {}
+    for code, entry in OWASP_AGENTIC_2026.items():
+        categories[code] = {
+            "name": entry["name"],
+            "rating": "N/A",
+            "block_rate": 0.0,
+            "blocked": 0,
+            "total": 0,
+            "attacks_tested": 0,
+        }
+
+    if not runs:
+        return {
+            "categories": categories,
+            "overall_score": 0.0,
+            "overall_rating": "N/A",
+            "tested_categories": 0,
+            "total_categories": 10,
+        }
+
+    if attacks_metadata is None:
+        attacks_metadata = _load_attacks_metadata()
+
+    for run in runs:
+        attack_id = run.get("attack", "")
+        verdict = run.get("verdict", "")
+
+        meta = attacks_metadata.get(attack_id, {})
+        agentic_codes = meta.get("owasp_agentic", [])
+
+        if not agentic_codes:
+            agentic_codes = ATTACK_AGENTIC_MAPPINGS.get(attack_id, [])
+
+        for raw_code in agentic_codes:
+            code = raw_code.split(":")[0].strip()
+            if code not in categories:
+                continue
+            categories[code]["total"] += 1
+            if verdict == "BLOCKED":
+                categories[code]["blocked"] += 1
+
+    tested = 0
+    total_block_rate = 0.0
+    for code, cat in categories.items():
+        if cat["total"] == 0:
+            continue
+        tested += 1
+        rate = (cat["blocked"] / cat["total"]) * 100
+        cat["block_rate"] = round(rate, 2)
+        cat["rating"] = _get_rating(rate)
+        total_block_rate += rate
+
+    overall = round(total_block_rate / tested, 2) if tested > 0 else 0.0
+    overall_rating = _get_rating(overall) if tested > 0 else "N/A"
+
+    return {
+        "categories": categories,
+        "overall_score": overall,
+        "overall_rating": overall_rating,
+        "tested_categories": tested,
+        "total_categories": 10,
+    }
+
+
 def scorecard_to_json(scorecard):
     return json.dumps(scorecard, indent=2)
 

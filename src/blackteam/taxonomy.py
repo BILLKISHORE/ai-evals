@@ -546,7 +546,7 @@ OWASP_AGENTIC_2026 = {
 }
 
 
-def get_agentic_category_name(code: str) -> str:
+def get_agentic_category_name(code):
     """Return the name for an OWASP Agentic Top 10 code like 'ASI01'."""
     entry = OWASP_AGENTIC_2026.get(code)
     if entry is None:

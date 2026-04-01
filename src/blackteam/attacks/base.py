@@ -9,6 +9,7 @@ class BaseAttack(ABC):
     severity: str = "medium"
     description: str = ""
     owasp_llm: list[str] = []
+    owasp_agentic: list[str] = []
     mitre_atlas: list[str] = []
     references: list[str] = []
 
@@ -21,6 +22,7 @@ class BaseAttack(ABC):
             "severity": self.severity,
             "description": self.description,
             "owasp_llm": self.owasp_llm,
+            "owasp_agentic": self.owasp_agentic,
             "mitre_atlas": self.mitre_atlas,
             "references": self.references,
         }

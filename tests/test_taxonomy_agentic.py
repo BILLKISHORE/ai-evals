@@ -1,4 +1,4 @@
-from blackteam.taxonomy import OWASP_AGENTIC_2026, get_agentic_category_name
+from blackteam.taxonomy import OWASP_AGENTIC_2026, ATTACK_AGENTIC_MAPPINGS, get_agentic_category_name
 
 
 def test_owasp_agentic_has_ten_categories():
@@ -24,3 +24,11 @@ def test_get_agentic_category_name_returns_correct_name():
 
 def test_get_agentic_category_name_unknown_returns_unknown():
     assert get_agentic_category_name("ASI99") == "Unknown"
+
+
+def test_attack_agentic_mappings_codes_are_valid():
+    for attack_id, codes in ATTACK_AGENTIC_MAPPINGS.items():
+        for code in codes:
+            assert code in OWASP_AGENTIC_2026, (
+                f"Attack '{attack_id}' maps to unknown ASI code '{code}'"
+            )

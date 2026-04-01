@@ -623,7 +623,14 @@ RATING_COLORS = {"PASS": "green", "ELEVATED": "yellow", "PARTIAL": "bright_red",
 @click.option("--format", "fmt", type=click.Choice(["table", "json", "markdown"]), default="table")
 @click.option("--output", "-o", default=None, help="Output file path")
 @click.option("--model", "-m", default=None, help="Filter by model name")
-def scorecard(fmt, output, model):
+@click.option(
+    "--standard",
+    type=click.Choice(["llm", "agentic"]),
+    default="llm",
+    show_default=True,
+    help="OWASP standard: 'llm' (LLM Top 10 2025) or 'agentic' (Agentic Top 10 2026)",
+)
+def scorecard(fmt, output, model, standard):
     """Show OWASP LLM Top 10 safety scorecard from stored results."""
     from blackteam.storage.sqlite import Storage
     from blackteam.scorecard import generate_scorecard, scorecard_to_json, scorecard_to_markdown
@@ -640,7 +647,14 @@ def scorecard(fmt, output, model):
         console.print("[yellow]No runs found. Run some attacks first.[/yellow]")
         raise SystemExit(2)
 
-    sc = generate_scorecard(runs)
+    if standard == "agentic":
+        from blackteam.scorecard import generate_agentic_scorecard
+        sc = generate_agentic_scorecard(runs)
+        standard_label = "OWASP Top 10 for Agentic Applications 2026"
+    else:
+        from blackteam.scorecard import generate_scorecard
+        sc = generate_scorecard(runs)
+        standard_label = "OWASP LLM Top 10 2025"
     model_label = model or "all models"
 
     if fmt == "json":
@@ -648,7 +662,7 @@ def scorecard(fmt, output, model):
     elif fmt == "markdown":
         content = scorecard_to_markdown(sc, model_label)
     else:
-        table = Table(title=f"OWASP LLM Top 10 Scorecard -- {model_label}")
+        table = Table(title=f"{standard_label} Scorecard -- {model_label}")
         table.add_column("Category", style="bold")
         table.add_column("Name")
         table.add_column("Rating")

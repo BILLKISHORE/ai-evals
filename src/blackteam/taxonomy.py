@@ -555,18 +555,19 @@ def get_agentic_category_name(code: str) -> str:
 
 
 # Mapping: attack technique_id -> list of ASI codes
-ATTACK_AGENTIC_MAPPINGS: dict[str, list[str]] = {
+ATTACK_AGENTIC_MAPPINGS = {
     "agent-credential-theft": ["ASI02", "ASI03"],
     "agent-data-exfiltration": ["ASI02", "ASI03"],
     "agent-command-injection": ["ASI02", "ASI05"],
     "agent-config-discovery": ["ASI03"],
-    "prompt-injection": ["ASI01"],
-    "xpia": ["ASI01", "ASI06"],
+    "indirect-injection": ["ASI01"],
+    "xpia-document": ["ASI01", "ASI06"],
+    "xpia-email": ["ASI01", "ASI06"],
+    "xpia-rag": ["ASI01", "ASI06"],
     "context-manipulation": ["ASI06"],
-    "memory-poisoning": ["ASI06"],
     "skeleton-key": ["ASI09"],
     "crescendo": ["ASI09"],
     "sunk-cost-exploit": ["ASI09"],
     "emotional-manipulation": ["ASI09"],
-    "role-play-exploitation": ["ASI09"],
+    "role-play-bypass": ["ASI09"],
 }

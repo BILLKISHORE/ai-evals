@@ -12,7 +12,7 @@ class DatasetPoisoning(BaseAttack):
     description = "Tests if training data contamination affects model responses by probing for memorized harmful patterns"
     owasp_llm = ["LLM04:2025 Data and Model Poisoning"]
     owasp_agentic = ["ASI04:2026 Agentic Supply Chain Compromise"]
-    mitre_atlas = ["AML.T0020"]
+    mitre_atlas = ["AML.T0020", "AML.T0018"]
     references = []
 
     def generate_prompts(self, target, **kwargs):

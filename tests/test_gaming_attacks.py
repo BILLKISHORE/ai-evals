@@ -1,56 +1,56 @@
 """Tests for 25 gaming, virtual world, and entertainment attacks."""
 
-import blackteam.attacks.game_cheat_creation  # noqa: F401
-import blackteam.attacks.game_exploit_development  # noqa: F401
-import blackteam.attacks.virtual_item_fraud  # noqa: F401
-import blackteam.attacks.game_account_theft  # noqa: F401
-import blackteam.attacks.gaming_harassment  # noqa: F401
-import blackteam.attacks.loot_box_manipulation  # noqa: F401
-import blackteam.attacks.esports_match_fixing  # noqa: F401
-import blackteam.attacks.rmt_facilitation  # noqa: F401
-import blackteam.attacks.game_bot_creation  # noqa: F401
-import blackteam.attacks.ddos_gaming  # noqa: F401
-import blackteam.attacks.swatting_gaming  # noqa: F401
-import blackteam.attacks.child_predation_gaming  # noqa: F401
-import blackteam.attacks.gambling_bot  # noqa: F401
-import blackteam.attacks.virtual_currency_exploit  # noqa: F401
-import blackteam.attacks.metaverse_harassment  # noqa: F401
-import blackteam.attacks.vr_manipulation  # noqa: F401
-import blackteam.attacks.ai_npc_exploitation  # noqa: F401
-import blackteam.attacks.game_economy_manipulation  # noqa: F401
-import blackteam.attacks.streaming_manipulation  # noqa: F401
-import blackteam.attacks.content_rating_evasion  # noqa: F401
-import blackteam.attacks.age_gate_bypass_gaming  # noqa: F401
-import blackteam.attacks.in_game_scam  # noqa: F401
-import blackteam.attacks.competitive_cheating  # noqa: F401
-import blackteam.attacks.game_piracy_assist  # noqa: F401
-import blackteam.attacks.modding_malware  # noqa: F401
-from blackteam.registry import attack_registry
-from blackteam.attacks.game_cheat_creation import GameCheatCreation
-from blackteam.attacks.game_exploit_development import GameExploitDevelopment
-from blackteam.attacks.virtual_item_fraud import VirtualItemFraud
-from blackteam.attacks.game_account_theft import GameAccountTheft
-from blackteam.attacks.gaming_harassment import GamingHarassment
-from blackteam.attacks.loot_box_manipulation import LootBoxManipulation
-from blackteam.attacks.esports_match_fixing import EsportsMatchFixing
-from blackteam.attacks.rmt_facilitation import RmtFacilitation
-from blackteam.attacks.game_bot_creation import GameBotCreation
-from blackteam.attacks.ddos_gaming import DdosGaming
-from blackteam.attacks.swatting_gaming import SwattingGaming
-from blackteam.attacks.child_predation_gaming import ChildPredationGaming
-from blackteam.attacks.gambling_bot import GamblingBot
-from blackteam.attacks.virtual_currency_exploit import VirtualCurrencyExploit
-from blackteam.attacks.metaverse_harassment import MetaverseHarassment
-from blackteam.attacks.vr_manipulation import VrManipulation
-from blackteam.attacks.ai_npc_exploitation import AiNpcExploitation
-from blackteam.attacks.game_economy_manipulation import GameEconomyManipulation
-from blackteam.attacks.streaming_manipulation import StreamingManipulation
-from blackteam.attacks.content_rating_evasion import ContentRatingEvasion
-from blackteam.attacks.age_gate_bypass_gaming import AgeGateBypassGaming
-from blackteam.attacks.in_game_scam import InGameScam
-from blackteam.attacks.competitive_cheating import CompetitiveCheating
-from blackteam.attacks.game_piracy_assist import GamePiracyAssist
-from blackteam.attacks.modding_malware import ModdingMalware
+import mordor.attacks.game_cheat_creation  # noqa: F401
+import mordor.attacks.game_exploit_development  # noqa: F401
+import mordor.attacks.virtual_item_fraud  # noqa: F401
+import mordor.attacks.game_account_theft  # noqa: F401
+import mordor.attacks.gaming_harassment  # noqa: F401
+import mordor.attacks.loot_box_manipulation  # noqa: F401
+import mordor.attacks.esports_match_fixing  # noqa: F401
+import mordor.attacks.rmt_facilitation  # noqa: F401
+import mordor.attacks.game_bot_creation  # noqa: F401
+import mordor.attacks.ddos_gaming  # noqa: F401
+import mordor.attacks.swatting_gaming  # noqa: F401
+import mordor.attacks.child_predation_gaming  # noqa: F401
+import mordor.attacks.gambling_bot  # noqa: F401
+import mordor.attacks.virtual_currency_exploit  # noqa: F401
+import mordor.attacks.metaverse_harassment  # noqa: F401
+import mordor.attacks.vr_manipulation  # noqa: F401
+import mordor.attacks.ai_npc_exploitation  # noqa: F401
+import mordor.attacks.game_economy_manipulation  # noqa: F401
+import mordor.attacks.streaming_manipulation  # noqa: F401
+import mordor.attacks.content_rating_evasion  # noqa: F401
+import mordor.attacks.age_gate_bypass_gaming  # noqa: F401
+import mordor.attacks.in_game_scam  # noqa: F401
+import mordor.attacks.competitive_cheating  # noqa: F401
+import mordor.attacks.game_piracy_assist  # noqa: F401
+import mordor.attacks.modding_malware  # noqa: F401
+from mordor.registry import attack_registry
+from mordor.attacks.game_cheat_creation import GameCheatCreation
+from mordor.attacks.game_exploit_development import GameExploitDevelopment
+from mordor.attacks.virtual_item_fraud import VirtualItemFraud
+from mordor.attacks.game_account_theft import GameAccountTheft
+from mordor.attacks.gaming_harassment import GamingHarassment
+from mordor.attacks.loot_box_manipulation import LootBoxManipulation
+from mordor.attacks.esports_match_fixing import EsportsMatchFixing
+from mordor.attacks.rmt_facilitation import RmtFacilitation
+from mordor.attacks.game_bot_creation import GameBotCreation
+from mordor.attacks.ddos_gaming import DdosGaming
+from mordor.attacks.swatting_gaming import SwattingGaming
+from mordor.attacks.child_predation_gaming import ChildPredationGaming
+from mordor.attacks.gambling_bot import GamblingBot
+from mordor.attacks.virtual_currency_exploit import VirtualCurrencyExploit
+from mordor.attacks.metaverse_harassment import MetaverseHarassment
+from mordor.attacks.vr_manipulation import VrManipulation
+from mordor.attacks.ai_npc_exploitation import AiNpcExploitation
+from mordor.attacks.game_economy_manipulation import GameEconomyManipulation
+from mordor.attacks.streaming_manipulation import StreamingManipulation
+from mordor.attacks.content_rating_evasion import ContentRatingEvasion
+from mordor.attacks.age_gate_bypass_gaming import AgeGateBypassGaming
+from mordor.attacks.in_game_scam import InGameScam
+from mordor.attacks.competitive_cheating import CompetitiveCheating
+from mordor.attacks.game_piracy_assist import GamePiracyAssist
+from mordor.attacks.modding_malware import ModdingMalware
 
 TARGET = "online gaming platform"
 

@@ -1,20 +1,20 @@
 """Tests for the 15 output manipulation attack techniques."""
 
-from blackteam.attacks.watermark_removal import WatermarkRemoval
-from blackteam.attacks.attribution_evasion import AttributionEvasion
-from blackteam.attacks.safety_label_stripping import SafetyLabelStripping
-from blackteam.attacks.content_laundering import ContentLaundering
-from blackteam.attacks.detector_evasion import DetectorEvasion
-from blackteam.attacks.toxicity_obfuscation import ToxicityObfuscation
-from blackteam.attacks.sentiment_masking import SentimentMasking
-from blackteam.attacks.metadata_stripping import MetadataStripping
-from blackteam.attacks.style_mimicry import StyleMimicry
-from blackteam.attacks.format_exploitation import FormatExploitation
-from blackteam.attacks.encoding_output import EncodingOutput
-from blackteam.attacks.steganographic_output import SteganographicOutput
-from blackteam.attacks.multilingual_output_evasion import MultilingualOutputEvasion
-from blackteam.attacks.truncation_exploit import TruncationExploit
-from blackteam.attacks.partial_completion import PartialCompletion
+from mordor.attacks.watermark_removal import WatermarkRemoval
+from mordor.attacks.attribution_evasion import AttributionEvasion
+from mordor.attacks.safety_label_stripping import SafetyLabelStripping
+from mordor.attacks.content_laundering import ContentLaundering
+from mordor.attacks.detector_evasion import DetectorEvasion
+from mordor.attacks.toxicity_obfuscation import ToxicityObfuscation
+from mordor.attacks.sentiment_masking import SentimentMasking
+from mordor.attacks.metadata_stripping import MetadataStripping
+from mordor.attacks.style_mimicry import StyleMimicry
+from mordor.attacks.format_exploitation import FormatExploitation
+from mordor.attacks.encoding_output import EncodingOutput
+from mordor.attacks.steganographic_output import SteganographicOutput
+from mordor.attacks.multilingual_output_evasion import MultilingualOutputEvasion
+from mordor.attacks.truncation_exploit import TruncationExploit
+from mordor.attacks.partial_completion import PartialCompletion
 
 TARGET = "Provide step-by-step instructions"
 
@@ -186,7 +186,7 @@ def test_all_attacks_have_correct_technique_ids():
 
 
 def test_all_attacks_registered():
-    from blackteam.registry import attack_registry
+    from mordor.registry import attack_registry
     registered_ids = [
         "watermark-removal",
         "attribution-evasion",

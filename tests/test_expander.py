@@ -1,8 +1,8 @@
-from blackteam.registry import attack_registry
-import blackteam.attacks
-attack_registry.discover(blackteam.attacks)
+from mordor.registry import attack_registry
+import mordor.attacks
+attack_registry.discover(mordor.attacks)
 
-from blackteam.expander import (
+from mordor.expander import (
     load_taxonomy, expand_attacks, expand_count, expand_summary, TemplateAttack,
 )
 

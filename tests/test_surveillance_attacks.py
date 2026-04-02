@@ -1,37 +1,37 @@
 """Tests for 15 surveillance and tracking attacks."""
 
 import pytest
-from blackteam.registry import attack_registry
-import blackteam.attacks.gps_tracking  # noqa: F401
-import blackteam.attacks.phone_tapping  # noqa: F401
-import blackteam.attacks.email_monitoring  # noqa: F401
-import blackteam.attacks.social_media_stalking  # noqa: F401
-import blackteam.attacks.facial_recognition_abuse  # noqa: F401
-import blackteam.attacks.network_sniffing  # noqa: F401
-import blackteam.attacks.camera_exploitation  # noqa: F401
-import blackteam.attacks.keystroke_logging  # noqa: F401
-import blackteam.attacks.wifi_tracking  # noqa: F401
-import blackteam.attacks.bluetooth_tracking  # noqa: F401
-import blackteam.attacks.metadata_stalking  # noqa: F401
-import blackteam.attacks.osint_stalking  # noqa: F401
-import blackteam.attacks.vehicle_tracking  # noqa: F401
-import blackteam.attacks.workplace_surveillance  # noqa: F401
-import blackteam.attacks.child_surveillance  # noqa: F401
-from blackteam.attacks.gps_tracking import GpsTracking
-from blackteam.attacks.phone_tapping import PhoneTapping
-from blackteam.attacks.email_monitoring import EmailMonitoring
-from blackteam.attacks.social_media_stalking import SocialMediaStalking
-from blackteam.attacks.facial_recognition_abuse import FacialRecognitionAbuse
-from blackteam.attacks.network_sniffing import NetworkSniffing
-from blackteam.attacks.camera_exploitation import CameraExploitation
-from blackteam.attacks.keystroke_logging import KeystrokeLogging
-from blackteam.attacks.wifi_tracking import WifiTracking
-from blackteam.attacks.bluetooth_tracking import BluetoothTracking
-from blackteam.attacks.metadata_stalking import MetadataStalking
-from blackteam.attacks.osint_stalking import OsintStalking
-from blackteam.attacks.vehicle_tracking import VehicleTracking
-from blackteam.attacks.workplace_surveillance import WorkplaceSurveillance
-from blackteam.attacks.child_surveillance import ChildSurveillance
+from mordor.registry import attack_registry
+import mordor.attacks.gps_tracking  # noqa: F401
+import mordor.attacks.phone_tapping  # noqa: F401
+import mordor.attacks.email_monitoring  # noqa: F401
+import mordor.attacks.social_media_stalking  # noqa: F401
+import mordor.attacks.facial_recognition_abuse  # noqa: F401
+import mordor.attacks.network_sniffing  # noqa: F401
+import mordor.attacks.camera_exploitation  # noqa: F401
+import mordor.attacks.keystroke_logging  # noqa: F401
+import mordor.attacks.wifi_tracking  # noqa: F401
+import mordor.attacks.bluetooth_tracking  # noqa: F401
+import mordor.attacks.metadata_stalking  # noqa: F401
+import mordor.attacks.osint_stalking  # noqa: F401
+import mordor.attacks.vehicle_tracking  # noqa: F401
+import mordor.attacks.workplace_surveillance  # noqa: F401
+import mordor.attacks.child_surveillance  # noqa: F401
+from mordor.attacks.gps_tracking import GpsTracking
+from mordor.attacks.phone_tapping import PhoneTapping
+from mordor.attacks.email_monitoring import EmailMonitoring
+from mordor.attacks.social_media_stalking import SocialMediaStalking
+from mordor.attacks.facial_recognition_abuse import FacialRecognitionAbuse
+from mordor.attacks.network_sniffing import NetworkSniffing
+from mordor.attacks.camera_exploitation import CameraExploitation
+from mordor.attacks.keystroke_logging import KeystrokeLogging
+from mordor.attacks.wifi_tracking import WifiTracking
+from mordor.attacks.bluetooth_tracking import BluetoothTracking
+from mordor.attacks.metadata_stalking import MetadataStalking
+from mordor.attacks.osint_stalking import OsintStalking
+from mordor.attacks.vehicle_tracking import VehicleTracking
+from mordor.attacks.workplace_surveillance import WorkplaceSurveillance
+from mordor.attacks.child_surveillance import ChildSurveillance
 
 TARGET = "Jane Smith"
 

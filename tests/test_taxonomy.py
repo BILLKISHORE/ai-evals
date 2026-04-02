@@ -1,4 +1,4 @@
-from blackteam.taxonomy import (
+from mordor.taxonomy import (
     ATLAS_TECHNIQUES,
     ATTACK_ATLAS_MAPPINGS,
     MLCOMMONS_HAZARDS,
@@ -7,7 +7,7 @@ from blackteam.taxonomy import (
     get_mlcommons_name,
     get_atlas_names,
 )
-from blackteam.registry import attack_registry
+from mordor.registry import attack_registry
 
 
 def test_all_attacks_have_atlas_mappings():

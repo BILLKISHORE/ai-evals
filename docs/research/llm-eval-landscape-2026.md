@@ -11,7 +11,7 @@ OpenAI announced acquisition of Promptfoo, an AI security platform trusted by 25
 
 Promptfoo was previously used by engineers at Anthropic and Google as well -- meaning OpenAI now controls a tool its direct competitors relied on. OpenAI pledged to keep it open-source.
 
-**Impact on ai-blackteam:** Creates a clear market gap for vendor-neutral, multi-provider adversarial testing tools. Competitors will not comfortably rely on an OpenAI-owned eval tool.
+**Impact on mordor:** Creates a clear market gap for vendor-neutral, multi-provider adversarial testing tools. Competitors will not comfortably rely on an OpenAI-owned eval tool.
 
 ---
 
@@ -80,7 +80,7 @@ Twelve companies have published frontier AI safety policies (Anthropic, OpenAI, 
 
 October 2025 paper (authors from OpenAI, Anthropic, Google DeepMind): examined 12 published defenses against prompt injection and jailbreaking. Using adaptive attacks, researchers bypassed defenses with attack success rates above 90% for most, despite originally reported near-zero ASR.
 
-**Implication:** Single-attempt probes used by most tools miss real vulnerabilities. Multi-turn, adaptive attacks (like ai-blackteam's crescendo, sunk-cost, context-manipulation) are necessary for genuine safety testing.
+**Implication:** Single-attempt probes used by most tools miss real vulnerabilities. Multi-turn, adaptive attacks (like mordor's crescendo, sunk-cost, context-manipulation) are necessary for genuine safety testing.
 
 ### 2. Scheming Behavior Gap
 
@@ -94,13 +94,13 @@ Future of Life Institute's 2025 AI Safety Index: only 3 of 7 major firms (Anthro
 
 ---
 
-## Competitive Analysis for ai-blackteam
+## Competitive Analysis for mordor
 
 ### Market Position Post-Promptfoo Acquisition
 
 The acquisition creates three distinct advantages:
 
-1. **Vendor neutrality** - ai-blackteam tests 7 providers equally, not owned by any lab
+1. **Vendor neutrality** - mordor tests 7 providers equally, not owned by any lab
 2. **Multi-turn depth** - Aligns with Anthropic's sustained-pressure methodology rather than single-attempt probing
 3. **Research-backed attacks** - Implements published papers from Microsoft Research, Palo Alto Unit 42, USENIX
 

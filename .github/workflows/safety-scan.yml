@@ -1,4 +1,4 @@
-# ai-blackteam safety scan
+# mordor safety scan
 # Runs LLM red team attacks against your model and fails if any bypass detected.
 #
 # Usage: Copy this file to .github/workflows/safety-scan.yml in your repo.
@@ -68,8 +68,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install ai-blackteam
-        run: pip install ai-blackteam
+      - name: Install mordor
+        run: pip install mordor
 
       - name: Run batch attack scan
         run: |
@@ -78,7 +78,7 @@ jobs:
             MODEL_FLAG="-m $INPUT_MODEL"
           fi
 
-          blackteam batch \
+          mordor batch \
             -p "$INPUT_PROVIDER" \
             $MODEL_FLAG \
             --attacks "$INPUT_ATTACKS" \
@@ -87,11 +87,11 @@ jobs:
 
       - name: Generate JSON report
         if: always()
-        run: blackteam report --format json -o safety-report.json
+        run: mordor report --format json -o safety-report.json
 
       - name: Generate HTML report
         if: always()
-        run: blackteam report --format html -o safety-report.html
+        run: mordor report --format html -o safety-report.html
 
       - name: Upload reports
         if: always()
@@ -122,8 +122,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install ai-blackteam
-        run: pip install ai-blackteam
+      - name: Install mordor
+        run: pip install mordor
 
       - name: Run safety benchmark
         run: |
@@ -132,7 +132,7 @@ jobs:
             MODEL_FLAG="-m $INPUT_MODEL"
           fi
 
-          blackteam benchmark \
+          mordor benchmark \
             -p "$INPUT_PROVIDER" \
             $MODEL_FLAG \
             --threshold "$INPUT_THRESHOLD" \
@@ -140,7 +140,7 @@ jobs:
 
       - name: OWASP scorecard
         if: always()
-        run: blackteam scorecard --format json -o owasp-scorecard.json
+        run: mordor scorecard --format json -o owasp-scorecard.json
 
       - name: Upload benchmark results
         if: always()

@@ -1,9 +1,9 @@
 """Tests for defense evaluation mode (system_prompt threading)."""
 
 from click.testing import CliRunner
-from blackteam.cli import cli
-from blackteam.engine import Engine
-from blackteam.providers.base import BaseProvider, PromptResult, ToolResult
+from mordor.cli import cli
+from mordor.engine import Engine
+from mordor.providers.base import BaseProvider, PromptResult, ToolResult
 
 
 class FakeProvider(BaseProvider):

@@ -1,35 +1,35 @@
-import blackteam.attacks.api_abuse  # noqa: F401
-import blackteam.attacks.webhook_exploitation  # noqa: F401
-import blackteam.attacks.oauth_manipulation  # noqa: F401
-import blackteam.attacks.slack_injection  # noqa: F401
-import blackteam.attacks.email_injection  # noqa: F401
-import blackteam.attacks.calendar_manipulation  # noqa: F401
-import blackteam.attacks.file_system_traversal  # noqa: F401
-import blackteam.attacks.database_manipulation  # noqa: F401
-import blackteam.attacks.cloud_resource_abuse  # noqa: F401
-import blackteam.attacks.ci_cd_injection  # noqa: F401
-import blackteam.attacks.container_escape  # noqa: F401
-import blackteam.attacks.dns_manipulation  # noqa: F401
-import blackteam.attacks.browser_exploitation  # noqa: F401
-import blackteam.attacks.payment_manipulation  # noqa: F401
-import blackteam.attacks.notification_spam  # noqa: F401
+import mordor.attacks.api_abuse  # noqa: F401
+import mordor.attacks.webhook_exploitation  # noqa: F401
+import mordor.attacks.oauth_manipulation  # noqa: F401
+import mordor.attacks.slack_injection  # noqa: F401
+import mordor.attacks.email_injection  # noqa: F401
+import mordor.attacks.calendar_manipulation  # noqa: F401
+import mordor.attacks.file_system_traversal  # noqa: F401
+import mordor.attacks.database_manipulation  # noqa: F401
+import mordor.attacks.cloud_resource_abuse  # noqa: F401
+import mordor.attacks.ci_cd_injection  # noqa: F401
+import mordor.attacks.container_escape  # noqa: F401
+import mordor.attacks.dns_manipulation  # noqa: F401
+import mordor.attacks.browser_exploitation  # noqa: F401
+import mordor.attacks.payment_manipulation  # noqa: F401
+import mordor.attacks.notification_spam  # noqa: F401
 
-from blackteam.attacks.api_abuse import ApiAbuse
-from blackteam.attacks.webhook_exploitation import WebhookExploitation
-from blackteam.attacks.oauth_manipulation import OAuthManipulation
-from blackteam.attacks.slack_injection import SlackInjection
-from blackteam.attacks.email_injection import EmailInjection
-from blackteam.attacks.calendar_manipulation import CalendarManipulation
-from blackteam.attacks.file_system_traversal import FileSystemTraversal
-from blackteam.attacks.database_manipulation import DatabaseManipulation
-from blackteam.attacks.cloud_resource_abuse import CloudResourceAbuse
-from blackteam.attacks.ci_cd_injection import CiCdInjection
-from blackteam.attacks.container_escape import ContainerEscape
-from blackteam.attacks.dns_manipulation import DnsManipulation
-from blackteam.attacks.browser_exploitation import BrowserExploitation
-from blackteam.attacks.payment_manipulation import PaymentManipulation
-from blackteam.attacks.notification_spam import NotificationSpam
-from blackteam.registry import attack_registry
+from mordor.attacks.api_abuse import ApiAbuse
+from mordor.attacks.webhook_exploitation import WebhookExploitation
+from mordor.attacks.oauth_manipulation import OAuthManipulation
+from mordor.attacks.slack_injection import SlackInjection
+from mordor.attacks.email_injection import EmailInjection
+from mordor.attacks.calendar_manipulation import CalendarManipulation
+from mordor.attacks.file_system_traversal import FileSystemTraversal
+from mordor.attacks.database_manipulation import DatabaseManipulation
+from mordor.attacks.cloud_resource_abuse import CloudResourceAbuse
+from mordor.attacks.ci_cd_injection import CiCdInjection
+from mordor.attacks.container_escape import ContainerEscape
+from mordor.attacks.dns_manipulation import DnsManipulation
+from mordor.attacks.browser_exploitation import BrowserExploitation
+from mordor.attacks.payment_manipulation import PaymentManipulation
+from mordor.attacks.notification_spam import NotificationSpam
+from mordor.registry import attack_registry
 
 
 TARGET = "example-service"

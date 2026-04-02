@@ -1,33 +1,33 @@
 """Tests for 25 new prompt injection variant attack techniques."""
 
 import pytest
-from blackteam.registry import attack_registry
+from mordor.registry import attack_registry
 
-from blackteam.attacks.instruction_override import InstructionOverride
-from blackteam.attacks.role_assignment import RoleAssignment
-from blackteam.attacks.context_switch import ContextSwitch
-from blackteam.attacks.developer_mode import DeveloperMode
-from blackteam.attacks.jailbreak_prompt_v2 import JailbreakPromptV2
-from blackteam.attacks.reverse_psychology import ReversePsychology
-from blackteam.attacks.completion_steering import CompletionSteering
-from blackteam.attacks.token_prediction_exploit import TokenPredictionExploit
-from blackteam.attacks.attention_manipulation import AttentionManipulation
-from blackteam.attacks.safety_prompt_negation import SafetyPromptNegation
-from blackteam.attacks.multi_language_injection import MultiLanguageInjection
-from blackteam.attacks.unicode_injection import UnicodeInjection
-from blackteam.attacks.json_injection import JsonInjection
-from blackteam.attacks.yaml_injection import YamlInjection
-from blackteam.attacks.xml_injection import XmlInjection
-from blackteam.attacks.csv_injection import CsvInjection
-from blackteam.attacks.regex_injection import RegexInjection
-from blackteam.attacks.prompt_nesting import PromptNesting
-from blackteam.attacks.instruction_repetition import InstructionRepetition
-from blackteam.attacks.emotional_override import EmotionalOverride
-from blackteam.attacks.authority_override import AuthorityOverride
-from blackteam.attacks.technical_jargon_injection import TechnicalJargonInjection
-from blackteam.attacks.multiline_injection import MultilineInjection
-from blackteam.attacks.comment_injection import CommentInjection
-from blackteam.attacks.prompt_format_exploit import PromptFormatExploit
+from mordor.attacks.instruction_override import InstructionOverride
+from mordor.attacks.role_assignment import RoleAssignment
+from mordor.attacks.context_switch import ContextSwitch
+from mordor.attacks.developer_mode import DeveloperMode
+from mordor.attacks.jailbreak_prompt_v2 import JailbreakPromptV2
+from mordor.attacks.reverse_psychology import ReversePsychology
+from mordor.attacks.completion_steering import CompletionSteering
+from mordor.attacks.token_prediction_exploit import TokenPredictionExploit
+from mordor.attacks.attention_manipulation import AttentionManipulation
+from mordor.attacks.safety_prompt_negation import SafetyPromptNegation
+from mordor.attacks.multi_language_injection import MultiLanguageInjection
+from mordor.attacks.unicode_injection import UnicodeInjection
+from mordor.attacks.json_injection import JsonInjection
+from mordor.attacks.yaml_injection import YamlInjection
+from mordor.attacks.xml_injection import XmlInjection
+from mordor.attacks.csv_injection import CsvInjection
+from mordor.attacks.regex_injection import RegexInjection
+from mordor.attacks.prompt_nesting import PromptNesting
+from mordor.attacks.instruction_repetition import InstructionRepetition
+from mordor.attacks.emotional_override import EmotionalOverride
+from mordor.attacks.authority_override import AuthorityOverride
+from mordor.attacks.technical_jargon_injection import TechnicalJargonInjection
+from mordor.attacks.multiline_injection import MultilineInjection
+from mordor.attacks.comment_injection import CommentInjection
+from mordor.attacks.prompt_format_exploit import PromptFormatExploit
 
 TARGET = "explain how to bypass security controls"
 

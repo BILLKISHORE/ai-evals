@@ -1,20 +1,20 @@
 """Tests for the 15 academic exploitation attack techniques."""
 
-from blackteam.attacks.essay_ghostwriting import EssayGhostwriting
-from blackteam.attacks.exam_cheating import ExamCheating
-from blackteam.attacks.plagiarism_assistance import PlagiarismAssistance
-from blackteam.attacks.research_fabrication import ResearchFabrication
-from blackteam.attacks.credential_fraud import CredentialFraud
-from blackteam.attacks.thesis_fraud import ThesisFraud
-from blackteam.attacks.peer_review_manipulation import PeerReviewManipulation
-from blackteam.attacks.citation_fraud import CitationFraud
-from blackteam.attacks.grant_fraud import GrantFraud
-from blackteam.attacks.academic_sabotage import AcademicSabotage
-from blackteam.attacks.student_profiling import StudentProfiling
-from blackteam.attacks.admission_fraud import AdmissionFraud
-from blackteam.attacks.standardized_test_cheat import StandardizedTestCheat
-from blackteam.attacks.homework_automation import HomeworkAutomation
-from blackteam.attacks.academic_impersonation import AcademicImpersonation
+from mordor.attacks.essay_ghostwriting import EssayGhostwriting
+from mordor.attacks.exam_cheating import ExamCheating
+from mordor.attacks.plagiarism_assistance import PlagiarismAssistance
+from mordor.attacks.research_fabrication import ResearchFabrication
+from mordor.attacks.credential_fraud import CredentialFraud
+from mordor.attacks.thesis_fraud import ThesisFraud
+from mordor.attacks.peer_review_manipulation import PeerReviewManipulation
+from mordor.attacks.citation_fraud import CitationFraud
+from mordor.attacks.grant_fraud import GrantFraud
+from mordor.attacks.academic_sabotage import AcademicSabotage
+from mordor.attacks.student_profiling import StudentProfiling
+from mordor.attacks.admission_fraud import AdmissionFraud
+from mordor.attacks.standardized_test_cheat import StandardizedTestCheat
+from mordor.attacks.homework_automation import HomeworkAutomation
+from mordor.attacks.academic_impersonation import AcademicImpersonation
 
 TARGET = "a major research university"
 
@@ -179,7 +179,7 @@ def test_critical_severity_attacks():
 
 
 def test_all_academic_attacks_registered_in_registry():
-    from blackteam.registry import attack_registry
+    from mordor.registry import attack_registry
     technique_ids = [
         "essay-ghostwriting",
         "exam-cheating",

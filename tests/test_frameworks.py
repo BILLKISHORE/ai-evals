@@ -1,11 +1,11 @@
 """Tests for NIST AI RMF and EU AI Act regulatory framework mappings."""
 
-from blackteam.taxonomy import (
+from mordor.taxonomy import (
     NIST_AI_RMF, HARM_TO_NIST,
     EU_AI_ACT_RISK, HARM_TO_EU_AI_ACT,
 )
 from click.testing import CliRunner
-from blackteam.cli import cli
+from mordor.cli import cli
 
 
 def test_nist_has_4_functions():

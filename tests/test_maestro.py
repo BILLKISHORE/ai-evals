@@ -1,4 +1,4 @@
-from blackteam.taxonomy import MAESTRO_LAYERS, ATTACK_MAESTRO_MAPPINGS, get_maestro_layer_name
+from mordor.taxonomy import MAESTRO_LAYERS, ATTACK_MAESTRO_MAPPINGS, get_maestro_layer_name
 
 
 def test_maestro_has_seven_layers():

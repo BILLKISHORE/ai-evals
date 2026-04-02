@@ -271,7 +271,7 @@ OpenAI, Anthropic, Google/Vertex, AWS Bedrock, Azure OpenAI, Mistral, Cohere, Gr
 
 ---
 
-## Competitive Implications for ai-blackteam
+## Competitive Implications for mordor
 
 ### What Promptfoo Has That We Don't
 1. **Guardrails** - Real-time inference protection with red-team feedback loop

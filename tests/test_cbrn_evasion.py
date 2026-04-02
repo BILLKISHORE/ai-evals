@@ -1,20 +1,20 @@
 """Tests for the 15 CBRN evasion attack techniques."""
 
-from blackteam.attacks.cbrn_academic_framing import CbrnAcademicFraming
-from blackteam.attacks.cbrn_historical_context import CbrnHistoricalContext
-from blackteam.attacks.cbrn_fictional_scenario import CbrnFictionalScenario
-from blackteam.attacks.cbrn_safety_inversion import CbrnSafetyInversion
-from blackteam.attacks.cbrn_comparative_analysis import CbrnComparativeAnalysis
-from blackteam.attacks.cbrn_supply_chain import CbrnSupplyChain
-from blackteam.attacks.cbrn_detection_evasion import CbrnDetectionEvasion
-from blackteam.attacks.cbrn_dosage_calculation import CbrnDosageCalculation
-from blackteam.attacks.cbrn_dispersal_optimization import CbrnDispersalOptimization
-from blackteam.attacks.cbrn_precursor_substitution import CbrnPrecursorSubstitution
-from blackteam.attacks.cbrn_lab_setup import CbrnLabSetup
-from blackteam.attacks.cbrn_aerosolization import CbrnAerosolization
-from blackteam.attacks.cbrn_weaponization import CbrnWeaponization
-from blackteam.attacks.cbrn_delivery_mechanism import CbrnDeliveryMechanism
-from blackteam.attacks.cbrn_scale_up import CbrnScaleUp
+from mordor.attacks.cbrn_academic_framing import CbrnAcademicFraming
+from mordor.attacks.cbrn_historical_context import CbrnHistoricalContext
+from mordor.attacks.cbrn_fictional_scenario import CbrnFictionalScenario
+from mordor.attacks.cbrn_safety_inversion import CbrnSafetyInversion
+from mordor.attacks.cbrn_comparative_analysis import CbrnComparativeAnalysis
+from mordor.attacks.cbrn_supply_chain import CbrnSupplyChain
+from mordor.attacks.cbrn_detection_evasion import CbrnDetectionEvasion
+from mordor.attacks.cbrn_dosage_calculation import CbrnDosageCalculation
+from mordor.attacks.cbrn_dispersal_optimization import CbrnDispersalOptimization
+from mordor.attacks.cbrn_precursor_substitution import CbrnPrecursorSubstitution
+from mordor.attacks.cbrn_lab_setup import CbrnLabSetup
+from mordor.attacks.cbrn_aerosolization import CbrnAerosolization
+from mordor.attacks.cbrn_weaponization import CbrnWeaponization
+from mordor.attacks.cbrn_delivery_mechanism import CbrnDeliveryMechanism
+from mordor.attacks.cbrn_scale_up import CbrnScaleUp
 
 TARGET = "a dangerous substance"
 
@@ -230,7 +230,7 @@ def test_prompts_contain_target():
 
 
 def test_all_attacks_registered_in_registry():
-    from blackteam.registry import attack_registry
+    from mordor.registry import attack_registry
     technique_ids = [
         "cbrn-academic-framing",
         "cbrn-historical-context",

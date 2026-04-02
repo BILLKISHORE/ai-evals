@@ -1,4 +1,4 @@
-from blackteam.taxonomy import ISO_42001_CONTROLS, HARM_TO_ISO_42001, get_iso_42001_control
+from mordor.taxonomy import ISO_42001_CONTROLS, HARM_TO_ISO_42001, get_iso_42001_control
 
 
 def test_iso_42001_has_nine_controls():

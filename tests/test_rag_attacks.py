@@ -1,9 +1,9 @@
-from blackteam.attacks.retrieval_manipulation import RetrievalManipulation
-from blackteam.attacks.embedding_collision import EmbeddingCollision
-from blackteam.attacks.chunk_boundary_exploit import ChunkBoundaryExploit
-from blackteam.attacks.knowledge_base_poisoning import KnowledgeBasePoisoning
-from blackteam.attacks.citation_hallucination import CitationHallucination
-from blackteam.registry import attack_registry
+from mordor.attacks.retrieval_manipulation import RetrievalManipulation
+from mordor.attacks.embedding_collision import EmbeddingCollision
+from mordor.attacks.chunk_boundary_exploit import ChunkBoundaryExploit
+from mordor.attacks.knowledge_base_poisoning import KnowledgeBasePoisoning
+from mordor.attacks.citation_hallucination import CitationHallucination
+from mordor.registry import attack_registry
 
 
 TARGET = "test target"

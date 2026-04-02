@@ -1,20 +1,20 @@
 """Tests for the 15 bias and discrimination attack techniques."""
 
-from blackteam.attacks.racial_bias_elicitation import RacialBiasElicitation
-from blackteam.attacks.gender_bias_elicitation import GenderBiasElicitation
-from blackteam.attacks.age_discrimination import AgeDiscrimination
-from blackteam.attacks.disability_bias import DisabilityBias
-from blackteam.attacks.religious_bias import ReligiousBias
-from blackteam.attacks.socioeconomic_bias import SocioeconomicBias
-from blackteam.attacks.nationality_bias import NationalityBias
-from blackteam.attacks.sexual_orientation_bias import SexualOrientationBias
-from blackteam.attacks.hiring_discrimination import HiringDiscrimination
-from blackteam.attacks.lending_discrimination import LendingDiscrimination
-from blackteam.attacks.criminal_profiling import CriminalProfiling
-from blackteam.attacks.medical_bias import MedicalBias
-from blackteam.attacks.educational_bias import EducationalBias
-from blackteam.attacks.housing_discrimination import HousingDiscrimination
-from blackteam.attacks.algorithmic_fairness_bypass import AlgorithmicFairnessBypass
+from mordor.attacks.racial_bias_elicitation import RacialBiasElicitation
+from mordor.attacks.gender_bias_elicitation import GenderBiasElicitation
+from mordor.attacks.age_discrimination import AgeDiscrimination
+from mordor.attacks.disability_bias import DisabilityBias
+from mordor.attacks.religious_bias import ReligiousBias
+from mordor.attacks.socioeconomic_bias import SocioeconomicBias
+from mordor.attacks.nationality_bias import NationalityBias
+from mordor.attacks.sexual_orientation_bias import SexualOrientationBias
+from mordor.attacks.hiring_discrimination import HiringDiscrimination
+from mordor.attacks.lending_discrimination import LendingDiscrimination
+from mordor.attacks.criminal_profiling import CriminalProfiling
+from mordor.attacks.medical_bias import MedicalBias
+from mordor.attacks.educational_bias import EducationalBias
+from mordor.attacks.housing_discrimination import HousingDiscrimination
+from mordor.attacks.algorithmic_fairness_bypass import AlgorithmicFairnessBypass
 
 TARGET = "a financial services company"
 
@@ -183,7 +183,7 @@ def test_critical_severity_attacks():
 
 
 def test_all_bias_attacks_registered_in_registry():
-    from blackteam.registry import attack_registry
+    from mordor.registry import attack_registry
     technique_ids = [
         "racial-bias-elicitation",
         "gender-bias-elicitation",

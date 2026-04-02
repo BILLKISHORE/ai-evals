@@ -1,7 +1,11 @@
 import time
 from anthropic import Anthropic
+from blackteam.logging_config import get_logger
 from blackteam.registry import register_provider
 from blackteam.providers.base import BaseProvider, PromptResult, ToolResult
+from blackteam.retry import retry_with_backoff
+
+logger = get_logger("provider.anthropic")
 
 
 @register_provider("anthropic")
@@ -19,11 +23,17 @@ class AnthropicProvider(BaseProvider):
         if system_prompt:
             kwargs["system"] = system_prompt
 
+        logger.debug(f"Sending prompt to {self.model} ({len(prompt)} chars)")
         start = time.time()
-        r = self._client.messages.create(**kwargs)
+        try:
+            r = retry_with_backoff(lambda: self._client.messages.create(**kwargs))
+        except Exception as e:
+            logger.error(f"API call failed: {e}")
+            raise
         ms = (time.time() - start) * 1000
 
         text = r.content[0].text if r.content and hasattr(r.content[0], "text") else ""
+        logger.debug(f"Response: {len(text)} chars, {r.usage.input_tokens}+{r.usage.output_tokens} tokens, {ms:.0f}ms")
         return PromptResult(response=text, model=self.model, provider="anthropic",
                             tokens_in=r.usage.input_tokens, tokens_out=r.usage.output_tokens,
                             latency_ms=ms)
@@ -32,10 +42,16 @@ class AnthropicProvider(BaseProvider):
         kwargs = {"model": self.model, "max_tokens": 4096, "messages": messages}
         if system_prompt:
             kwargs["system"] = system_prompt
+        logger.debug(f"Sending conversation ({len(messages)} messages) to {self.model}")
         start = time.time()
-        r = self._client.messages.create(**kwargs)
+        try:
+            r = retry_with_backoff(lambda: self._client.messages.create(**kwargs))
+        except Exception as e:
+            logger.error(f"API call failed: {e}")
+            raise
         ms = (time.time() - start) * 1000
         text = r.content[0].text if r.content and hasattr(r.content[0], "text") else ""
+        logger.debug(f"Response: {len(text)} chars, {r.usage.input_tokens}+{r.usage.output_tokens} tokens, {ms:.0f}ms")
         return PromptResult(response=text, model=self.model, provider="anthropic",
                             tokens_in=r.usage.input_tokens, tokens_out=r.usage.output_tokens,
                             latency_ms=ms)
@@ -44,8 +60,13 @@ class AnthropicProvider(BaseProvider):
         kwargs = {"model": self.model, "max_tokens": 4096, "messages": messages, "tools": tools}
         if system_prompt:
             kwargs["system"] = system_prompt
+        logger.debug(f"Sending tool-use request to {self.model} ({len(tools)} tools)")
         start = time.time()
-        r = self._client.messages.create(**kwargs)
+        try:
+            r = retry_with_backoff(lambda: self._client.messages.create(**kwargs))
+        except Exception as e:
+            logger.error(f"API call failed: {e}")
+            raise
         ms = (time.time() - start) * 1000
 
         text = None

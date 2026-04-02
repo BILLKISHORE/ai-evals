@@ -1,3 +1,4 @@
+import logging
 import time
 import click
 from rich.console import Console
@@ -5,6 +6,7 @@ from rich.table import Table
 
 from blackteam.config import load_config, set_config_value, DEFAULT_DB_PATH
 from blackteam.engine import Engine
+from blackteam.logging_config import setup_logging
 from blackteam.registry import provider_registry, attack_registry, dataset_registry
 
 console = Console()
@@ -18,8 +20,13 @@ def _load_plugins():
 
 
 @click.group()
-def cli():
+@click.option("-v", "--verbose", is_flag=True, help="Enable verbose (DEBUG) logging")
+@click.option("--log-file", default=None, help="Write logs to file")
+@click.pass_context
+def cli(ctx, verbose, log_file):
     """ai-blackteam -- automated LLM red team framework"""
+    level = logging.DEBUG if verbose else logging.INFO
+    setup_logging(level=level, log_file=log_file)
     _load_plugins()
 
 

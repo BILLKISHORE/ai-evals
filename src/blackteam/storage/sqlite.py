@@ -1,9 +1,9 @@
 import sqlite3
 import threading
 from datetime import datetime
-import logging
+from blackteam.logging_config import get_logger
 
-logger = logging.getLogger("blackteam.storage")
+logger = get_logger("storage")
 
 
 class Storage:
@@ -113,6 +113,7 @@ class Storage:
         blocked = self._conn.execute("SELECT COUNT(*) FROM runs WHERE verdict = 'BLOCKED'").fetchone()[0]
         models = self._conn.execute("SELECT DISTINCT model FROM runs").fetchall()
         attacks = self._conn.execute("SELECT DISTINCT attack FROM runs").fetchall()
+        logger.debug(f"DB stats: {total} runs, {bypassed} bypassed, {blocked} blocked")
         return {
             "total_runs": total, "bypassed": bypassed, "blocked": blocked,
             "models_tested": len(models), "attacks_used": len(attacks),

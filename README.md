@@ -9,7 +9,7 @@ Most eval tools run single-prompt probes. A 2025 multi-lab study (researchers fr
 ai-blackteam runs multi-turn, adaptive attacks that mirror real adversarial pressure:
 
 - **Vendor-neutral** -- tests 7 providers equally, not owned by any AI lab
-- **143+ attack techniques** -- encoding, conversational, psychological, security, compliance, agent exploitation, MCP exploitation, multi-agent, protocol, multimodal, supply chain, RAG exploitation vectors
+- **158+ attack techniques** -- encoding, conversational, psychological, security, compliance, agent exploitation, MCP exploitation, multi-agent, protocol, multimodal, supply chain, RAG exploitation vectors
 - **Research-backed** -- implements published attacks from Microsoft Research, Palo Alto Unit 42, USENIX
 - **Multi-turn depth** -- crescendo, sunk-cost, context-manipulation attacks that exploit conversational memory over 10+ turns
 - **Agent attacks** -- credential theft, data exfiltration, sandbox escape, config manipulation via tool-use
@@ -105,7 +105,7 @@ A full workflow with manual dispatch, scheduled runs, and benchmark mode is incl
 | Ollama | Any local model (Llama 4, Qwen, Gemma) | None (local) |
 | HuggingFace | Any HF model | API token |
 
-## Attacks (143+ built-in)
+## Attacks (158+ built-in)
 
 ### Core Attacks
 | Attack | Mode | Description |
@@ -309,7 +309,7 @@ blackteam generate fuzz -p anthropic -t "Write a phishing email" --iterations 50
 
 ### MITRE ATLAS v5.4.0
 
-All 143+ attacks map to specific ATLAS technique IDs across 21 techniques. View mappings:
+All 158+ attacks map to specific ATLAS technique IDs across 21 techniques. View mappings:
 
 ```bash
 blackteam atlas

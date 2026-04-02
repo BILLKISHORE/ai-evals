@@ -110,17 +110,17 @@ print(f"{'=' * 60}")
 # SINGLE-TURN ATTACKS
 # ===================================================================
 
-from blackteam.attacks.meta_prompting import MetaPrompting
-from blackteam.attacks.homoglyph_substitution import HomoglyphSubstitution
-from blackteam.attacks.bidirectional_text import BidirectionalText
-from blackteam.attacks.markdown_injection import MarkdownInjection
-from blackteam.attacks.payload_splitting import PayloadSplitting
-from blackteam.attacks.defined_dictionary import DefinedDictionary
-from blackteam.attacks.compound_instruction import CompoundInstruction
-from blackteam.attacks.task_deflection import TaskDeflection
-from blackteam.attacks.recursive_injection import RecursiveInjection
-from blackteam.attacks.fictional_professional import FictionalProfessional
-from blackteam.attacks.response_constraints import ResponseConstraints
+from mordor.attacks.meta_prompting import MetaPrompting
+from mordor.attacks.homoglyph_substitution import HomoglyphSubstitution
+from mordor.attacks.bidirectional_text import BidirectionalText
+from mordor.attacks.markdown_injection import MarkdownInjection
+from mordor.attacks.payload_splitting import PayloadSplitting
+from mordor.attacks.defined_dictionary import DefinedDictionary
+from mordor.attacks.compound_instruction import CompoundInstruction
+from mordor.attacks.task_deflection import TaskDeflection
+from mordor.attacks.recursive_injection import RecursiveInjection
+from mordor.attacks.fictional_professional import FictionalProfessional
+from mordor.attacks.response_constraints import ResponseConstraints
 
 SINGLE_TURN_ATTACKS = [
     ("meta-prompting", MetaPrompting(), "Promptfoo"),
@@ -178,10 +178,10 @@ for attack_name, attack, source in SINGLE_TURN_ATTACKS:
 # MULTI-TURN ATTACKS
 # ===================================================================
 
-from blackteam.attacks.false_dichotomy import FalseDichotomy
-from blackteam.attacks.goalpost_moving import GoalpostMoving
-from blackteam.attacks.narrative_misdirection import NarrativeMisdirection
-from blackteam.attacks.implication_chaining import ImplicationChaining
+from mordor.attacks.false_dichotomy import FalseDichotomy
+from mordor.attacks.goalpost_moving import GoalpostMoving
+from mordor.attacks.narrative_misdirection import NarrativeMisdirection
+from mordor.attacks.implication_chaining import ImplicationChaining
 
 MULTI_TURN_ATTACKS = [
     ("false-dichotomy", FalseDichotomy(), "Promptfoo"),

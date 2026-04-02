@@ -206,6 +206,115 @@ def generate_agentic_scorecard(runs, attacks_metadata=None):
     }
 
 
+def generate_compliance_report(runs, attacks_metadata=None):
+    """Generate EU AI Act + NIST AI RMF compliance report from stored runs.
+
+    Groups findings by EU AI Act risk level and NIST AI RMF pillar,
+    showing block rates for each.
+    """
+    from blackteam.taxonomy import (
+        HARM_TO_EU_AI_ACT,
+        HARM_TO_NIST,
+        EU_AI_ACT_RISK_LEVELS,
+        NIST_AI_RMF_PILLARS,
+    )
+    from blackteam.evaluator import CATEGORY_KEYWORDS
+
+    # Initialize EU AI Act section
+    eu_categories = {}
+    for level, info in EU_AI_ACT_RISK_LEVELS.items():
+        eu_categories[level] = {
+            "name": info["name"],
+            "rating": "N/A",
+            "block_rate": 0.0,
+            "blocked": 0,
+            "total": 0,
+        }
+
+    # Initialize NIST section
+    nist_categories = {}
+    for pillar, info in NIST_AI_RMF_PILLARS.items():
+        nist_categories[pillar] = {
+            "name": info["name"],
+            "rating": "N/A",
+            "block_rate": 0.0,
+            "blocked": 0,
+            "total": 0,
+        }
+
+    if not runs:
+        return {
+            "eu_ai_act": eu_categories,
+            "nist_ai_rmf": nist_categories,
+            "overall_score": 0.0,
+            "overall_rating": "N/A",
+        }
+
+    if attacks_metadata is None:
+        attacks_metadata = _load_attacks_metadata()
+
+    harm_categories = list(CATEGORY_KEYWORDS.keys()) if CATEGORY_KEYWORDS else []
+
+    for run in runs:
+        verdict = run.get("verdict", "")
+        attack_id = run.get("attack", "")
+
+        meta = attacks_metadata.get(attack_id, {})
+        category = meta.get("category", "")
+
+        eu_level = HARM_TO_EU_AI_ACT.get(category, None)
+        nist_pillar = HARM_TO_NIST.get(category, None)
+
+        if eu_level is None:
+            for harm_cat in harm_categories:
+                if harm_cat in category or category in harm_cat:
+                    eu_level = HARM_TO_EU_AI_ACT.get(harm_cat)
+                    break
+            if eu_level is None:
+                eu_level = "minimal"
+
+        if nist_pillar is None:
+            for harm_cat in harm_categories:
+                if harm_cat in category or category in harm_cat:
+                    nist_pillar = HARM_TO_NIST.get(harm_cat)
+                    break
+            if nist_pillar is None:
+                nist_pillar = "measure"
+
+        if eu_level in eu_categories:
+            eu_categories[eu_level]["total"] += 1
+            if verdict == "BLOCKED":
+                eu_categories[eu_level]["blocked"] += 1
+
+        if nist_pillar in nist_categories:
+            nist_categories[nist_pillar]["total"] += 1
+            if verdict == "BLOCKED":
+                nist_categories[nist_pillar]["blocked"] += 1
+
+    for section in [eu_categories, nist_categories]:
+        for key, cat in section.items():
+            if cat["total"] > 0:
+                rate = (cat["blocked"] / cat["total"]) * 100
+                cat["block_rate"] = round(rate, 2)
+                cat["rating"] = _get_rating(rate)
+
+    tested_rates = []
+    for section in [eu_categories, nist_categories]:
+        for cat in section.values():
+            if cat["total"] > 0:
+                tested_rates.append(cat["block_rate"])
+
+    overall = round(sum(tested_rates) / len(tested_rates), 2) if tested_rates else 0.0
+    overall_rating = _get_rating(overall) if tested_rates else "N/A"
+
+    return {
+        "eu_ai_act": eu_categories,
+        "nist_ai_rmf": nist_categories,
+        "overall_score": overall,
+        "overall_rating": overall_rating,
+    }
+
+
 def scorecard_to_json(scorecard):
     return json.dumps(scorecard, indent=2)
 

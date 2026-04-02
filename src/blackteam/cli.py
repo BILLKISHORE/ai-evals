@@ -625,10 +625,10 @@ RATING_COLORS = {"PASS": "green", "ELEVATED": "yellow", "PARTIAL": "bright_red",
 @click.option("--model", "-m", default=None, help="Filter by model name")
 @click.option(
     "--standard",
-    type=click.Choice(["llm", "agentic"]),
+    type=click.Choice(["llm", "agentic", "compliance"]),
     default="llm",
     show_default=True,
-    help="OWASP standard: 'llm' (LLM Top 10 2025) or 'agentic' (Agentic Top 10 2026)",
+    help="Standard: 'llm' (LLM Top 10 2025), 'agentic' (Agentic Top 10 2026), or 'compliance' (EU AI Act + NIST AI RMF)",
 )
 def scorecard(fmt, output, model, standard):
     """Show OWASP LLM Top 10 safety scorecard from stored results."""
@@ -651,6 +651,10 @@ def scorecard(fmt, output, model, standard):
         from blackteam.scorecard import generate_agentic_scorecard
         sc = generate_agentic_scorecard(runs)
         standard_label = "OWASP Top 10 for Agentic Applications 2026"
+    elif standard == "compliance":
+        from blackteam.scorecard import generate_compliance_report
+        sc = generate_compliance_report(runs)
+        standard_label = "EU AI Act + NIST AI RMF Compliance"
     else:
         from blackteam.scorecard import generate_scorecard
         sc = generate_scorecard(runs)
@@ -662,30 +666,74 @@ def scorecard(fmt, output, model, standard):
     elif fmt == "markdown":
         content = scorecard_to_markdown(sc, model_label)
     else:
-        table = Table(title=f"{standard_label} Scorecard -- {model_label}")
-        table.add_column("Category", style="bold")
-        table.add_column("Name")
-        table.add_column("Rating")
-        table.add_column("Block Rate")
-        table.add_column("Blocked/Total")
-        table.add_column("Attacks")
+        if standard == "compliance":
+            # Render two tables: EU AI Act and NIST AI RMF
+            overall_color = RATING_COLORS.get(sc["overall_rating"], "white")
 
-        for cat_id, info in sc["categories"].items():
-            rating = info["rating"]
-            color = RATING_COLORS.get(rating, "white")
-            rate = f"{info['block_rate']}%" if info["block_rate"] is not None else "-"
-            ratio = f"{info['blocked']}/{info['total']}" if info["total"] > 0 else "-"
-            table.add_row(
-                cat_id, info["name"], f"[{color}]{rating}[/{color}]",
-                rate, ratio, str(info["attacks_tested"]),
+            eu_table = Table(title=f"EU AI Act Risk Levels -- {model_label}")
+            eu_table.add_column("Risk Level", style="bold")
+            eu_table.add_column("Name")
+            eu_table.add_column("Rating")
+            eu_table.add_column("Block Rate")
+            eu_table.add_column("Blocked/Total")
+
+            for level_id, info in sc["eu_ai_act"].items():
+                rating = info["rating"]
+                color = RATING_COLORS.get(rating, "white")
+                rate = f"{info['block_rate']}%" if info["total"] > 0 else "-"
+                ratio = f"{info['blocked']}/{info['total']}" if info["total"] > 0 else "-"
+                eu_table.add_row(
+                    level_id, info["name"], f"[{color}]{rating}[/{color}]",
+                    rate, ratio,
+                )
+
+            nist_table = Table(title=f"NIST AI RMF Pillars -- {model_label}")
+            nist_table.add_column("Pillar", style="bold")
+            nist_table.add_column("Name")
+            nist_table.add_column("Rating")
+            nist_table.add_column("Block Rate")
+            nist_table.add_column("Blocked/Total")
+
+            for pillar_id, info in sc["nist_ai_rmf"].items():
+                rating = info["rating"]
+                color = RATING_COLORS.get(rating, "white")
+                rate = f"{info['block_rate']}%" if info["total"] > 0 else "-"
+                ratio = f"{info['blocked']}/{info['total']}" if info["total"] > 0 else "-"
+                nist_table.add_row(
+                    pillar_id, info["name"], f"[{color}]{rating}[/{color}]",
+                    rate, ratio,
+                )
+
+            console.print(eu_table)
+            console.print(nist_table)
+            console.print(
+                f"\nOverall: [{overall_color}]{sc['overall_score']}% ({sc['overall_rating']})[/{overall_color}]"
             )
+        else:
+            table = Table(title=f"{standard_label} Scorecard -- {model_label}")
+            table.add_column("Category", style="bold")
+            table.add_column("Name")
+            table.add_column("Rating")
+            table.add_column("Block Rate")
+            table.add_column("Blocked/Total")
+            table.add_column("Attacks")
 
-        overall_color = RATING_COLORS.get(sc["overall_rating"], "white")
-        console.print(table)
-        console.print(
-            f"\nOverall: [{overall_color}]{sc['overall_score']}% ({sc['overall_rating']})[/{overall_color}]"
-            f" | Tested: {sc['tested_categories']}/{sc['total_categories']} categories"
-        )
+            for cat_id, info in sc["categories"].items():
+                rating = info["rating"]
+                color = RATING_COLORS.get(rating, "white")
+                rate = f"{info['block_rate']}%" if info["block_rate"] is not None else "-"
+                ratio = f"{info['blocked']}/{info['total']}" if info["total"] > 0 else "-"
+                table.add_row(
+                    cat_id, info["name"], f"[{color}]{rating}[/{color}]",
+                    rate, ratio, str(info["attacks_tested"]),
+                )
+
+            overall_color = RATING_COLORS.get(sc["overall_rating"], "white")
+            console.print(table)
+            console.print(
+                f"\nOverall: [{overall_color}]{sc['overall_score']}% ({sc['overall_rating']})[/{overall_color}]"
+                f" | Tested: {sc['tested_categories']}/{sc['total_categories']} categories"
+            )
         content = None
 
     if content:

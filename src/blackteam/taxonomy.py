@@ -119,6 +119,16 @@ ATLAS_TECHNIQUES = {
         "tactic": "Initial Access",
         "description": "Gain access to a machine learning model through its inference API to query or exploit it",
     },
+    "AML.T0018": {
+        "name": "Backdoor ML Model",
+        "tactic": "ML Attack Staging",
+        "description": "Insert a backdoor into a machine learning model that causes it to behave differently when triggered",
+    },
+    "AML.T0020": {
+        "name": "Poison Training Data",
+        "tactic": "ML Attack Staging",
+        "description": "Introduce adversarial training data into the model pipeline to corrupt the resulting model",
+    },
 }
 
 # ── Attack -> ATLAS technique mappings ───────────────────────────────
@@ -291,6 +301,24 @@ ATTACK_ATLAS_MAPPINGS = {
     "tool-result-poisoning": ["AML.T0051.000", "AML.T0054"],
     "zero-click-injection": ["AML.T0051.000", "AML.T0051.001"],
     "self-propagating-worm": ["AML.T0054"],
+    # Multimodal attacks
+    "audio-injection": ["AML.T0051.000", "AML.T0043.003"],
+    "video-frame-injection": ["AML.T0054", "AML.T0043.003"],
+    "image-text-mismatch": ["AML.T0054", "AML.T0043.003"],
+    "ocr-bypass": ["AML.T0054", "AML.T0043.003"],
+    "multimodal-context-confusion": ["AML.T0054", "AML.T0043.003"],
+    # Supply chain attacks
+    "model-poisoning": ["AML.T0020", "AML.T0018"],
+    "dataset-poisoning": ["AML.T0020", "AML.T0018"],
+    "dependency-confusion": ["AML.T0051.000", "AML.T0053"],
+    "plugin-backdoor": ["AML.T0051.000", "AML.T0053"],
+    "finetune-exploit": ["AML.T0018", "AML.T0020"],
+    # RAG-specific attacks
+    "retrieval-manipulation": ["AML.T0051.000", "AML.T0068"],
+    "embedding-collision": ["AML.T0043.003", "AML.T0068"],
+    "chunk-boundary-exploit": ["AML.T0054", "AML.T0068"],
+    "knowledge-base-poisoning": ["AML.T0020", "AML.T0051.000"],
+    "citation-hallucination": ["AML.T0054", "AML.T0068"],
 }
 
 # ── MLCommons AILuminate v1.0 hazard taxonomy ────────────────────────
@@ -675,6 +703,18 @@ ATTACK_AGENTIC_MAPPINGS = {
     "tool-result-poisoning": ["ASI06", "ASI01"],
     "zero-click-injection": ["ASI01"],
     "self-propagating-worm": ["ASI07", "ASI08"],
+    # Multimodal attacks
+    "audio-injection": ["ASI01"],
+    # Supply chain attacks
+    "model-poisoning": ["ASI04"],
+    "dataset-poisoning": ["ASI04"],
+    "dependency-confusion": ["ASI04", "ASI05"],
+    "plugin-backdoor": ["ASI04"],
+    "finetune-exploit": ["ASI04"],
+    # RAG-specific attacks
+    "retrieval-manipulation": ["ASI06"],
+    "embedding-collision": ["ASI06"],
+    "knowledge-base-poisoning": ["ASI06", "ASI02"],
 }
 
 # CSA MAESTRO Framework - Agentic AI Threat Modeling (Feb 2025)

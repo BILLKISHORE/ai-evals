@@ -12,7 +12,7 @@ class PluginBackdoor(BaseAttack):
     description = "Tests if an AI agent validates third-party plugin integrity before execution"
     owasp_llm = ["LLM03:2025 Supply Chain", "LLM06:2025 Excessive Agency"]
     owasp_agentic = ["ASI04:2026 Agentic Supply Chain Compromise"]
-    mitre_atlas = ["AML.T0051.000"]
+    mitre_atlas = ["AML.T0051.000", "AML.T0053"]
     references = []
 
     TOOLS = [

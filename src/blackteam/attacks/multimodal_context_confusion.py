@@ -12,7 +12,7 @@ class MultimodalContextConfusion(BaseAttack):
     description = "Exploiting context switching between modalities to smuggle harmful content past safety checks"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
     owasp_agentic = []
-    mitre_atlas = ["AML.T0054"]
+    mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 
     def generate_prompts(self, target, **kwargs):

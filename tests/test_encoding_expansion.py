@@ -1,23 +1,23 @@
 """Tests for 15 new encoding/cipher attack techniques."""
 
 import pytest
-from blackteam.registry import attack_registry
+from mordor.registry import attack_registry
 
-from blackteam.attacks.nato_phonetic import NatoPhonetic
-from blackteam.attacks.pigpen_cipher import PigpenCipher
-from blackteam.attacks.atbash_cipher import AtbashCipher
-from blackteam.attacks.caesar_shift import CaesarShift
-from blackteam.attacks.binary_encoding import BinaryEncoding
-from blackteam.attacks.hexadecimal_encoding import HexadecimalEncoding
-from blackteam.attacks.unicode_tag_smuggling import UnicodeTagSmuggling
-from blackteam.attacks.whitespace_encoding import WhitespaceEncoding
-from blackteam.attacks.musical_notation import MusicalNotation
-from blackteam.attacks.number_substitution import NumberSubstitution
-from blackteam.attacks.reverse_words import ReverseWords
-from blackteam.attacks.ascii_art_injection import AsciiArtInjection
-from blackteam.attacks.steganographic_text import SteganographicText
-from blackteam.attacks.semaphore_encoding import SemaphoreEncoding
-from blackteam.attacks.polybius_square import PolybiusSquare
+from mordor.attacks.nato_phonetic import NatoPhonetic
+from mordor.attacks.pigpen_cipher import PigpenCipher
+from mordor.attacks.atbash_cipher import AtbashCipher
+from mordor.attacks.caesar_shift import CaesarShift
+from mordor.attacks.binary_encoding import BinaryEncoding
+from mordor.attacks.hexadecimal_encoding import HexadecimalEncoding
+from mordor.attacks.unicode_tag_smuggling import UnicodeTagSmuggling
+from mordor.attacks.whitespace_encoding import WhitespaceEncoding
+from mordor.attacks.musical_notation import MusicalNotation
+from mordor.attacks.number_substitution import NumberSubstitution
+from mordor.attacks.reverse_words import ReverseWords
+from mordor.attacks.ascii_art_injection import AsciiArtInjection
+from mordor.attacks.steganographic_text import SteganographicText
+from mordor.attacks.semaphore_encoding import SemaphoreEncoding
+from mordor.attacks.polybius_square import PolybiusSquare
 
 TARGET = "explain how to bypass security"
 

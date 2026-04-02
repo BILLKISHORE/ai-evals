@@ -1,31 +1,31 @@
 """Tests for 25 adversarial ML attack techniques."""
 
-from blackteam.attacks.gradient_attack import GradientAttack
-from blackteam.attacks.perturbation_attack import PerturbationAttack
-from blackteam.attacks.universal_adversarial_suffix import UniversalAdversarialSuffix
-from blackteam.attacks.transferable_attack import TransferableAttack
-from blackteam.attacks.black_box_optimization import BlackBoxOptimization
-from blackteam.attacks.beam_search_attack import BeamSearchAttack
-from blackteam.attacks.genetic_algorithm_attack import GeneticAlgorithmAttack
-from blackteam.attacks.reinforcement_learning_attack import ReinforcementLearningAttack
-from blackteam.attacks.token_level_perturbation import TokenLevelPerturbation
-from blackteam.attacks.semantic_preserving_attack import SemanticPreservingAttack
-from blackteam.attacks.paraphrase_attack import ParaphraseAttack
-from blackteam.attacks.synonym_substitution_attack import SynonymSubstitutionAttack
-from blackteam.attacks.sentence_level_attack import SentenceLevelAttack
-from blackteam.attacks.character_level_attack import CharacterLevelAttack
-from blackteam.attacks.word_importance_attack import WordImportanceAttack
-from blackteam.attacks.attention_based_attack import AttentionBasedAttack
-from blackteam.attacks.embedding_space_attack import EmbeddingSpaceAttack
-from blackteam.attacks.latent_space_attack import LatentSpaceAttack
-from blackteam.attacks.model_specific_attack import ModelSpecificAttack
-from blackteam.attacks.ensemble_attack import EnsembleAttack
-from blackteam.attacks.iterative_refinement_attack import IterativeRefinementAttack
-from blackteam.attacks.constrained_optimization_attack import ConstrainedOptimizationAttack
-from blackteam.attacks.reward_hacking import RewardHacking
-from blackteam.attacks.safety_classifier_evasion import SafetyClassifierEvasion
-from blackteam.attacks.output_classifier_bypass import OutputClassifierBypass
-from blackteam.registry import attack_registry
+from mordor.attacks.gradient_attack import GradientAttack
+from mordor.attacks.perturbation_attack import PerturbationAttack
+from mordor.attacks.universal_adversarial_suffix import UniversalAdversarialSuffix
+from mordor.attacks.transferable_attack import TransferableAttack
+from mordor.attacks.black_box_optimization import BlackBoxOptimization
+from mordor.attacks.beam_search_attack import BeamSearchAttack
+from mordor.attacks.genetic_algorithm_attack import GeneticAlgorithmAttack
+from mordor.attacks.reinforcement_learning_attack import ReinforcementLearningAttack
+from mordor.attacks.token_level_perturbation import TokenLevelPerturbation
+from mordor.attacks.semantic_preserving_attack import SemanticPreservingAttack
+from mordor.attacks.paraphrase_attack import ParaphraseAttack
+from mordor.attacks.synonym_substitution_attack import SynonymSubstitutionAttack
+from mordor.attacks.sentence_level_attack import SentenceLevelAttack
+from mordor.attacks.character_level_attack import CharacterLevelAttack
+from mordor.attacks.word_importance_attack import WordImportanceAttack
+from mordor.attacks.attention_based_attack import AttentionBasedAttack
+from mordor.attacks.embedding_space_attack import EmbeddingSpaceAttack
+from mordor.attacks.latent_space_attack import LatentSpaceAttack
+from mordor.attacks.model_specific_attack import ModelSpecificAttack
+from mordor.attacks.ensemble_attack import EnsembleAttack
+from mordor.attacks.iterative_refinement_attack import IterativeRefinementAttack
+from mordor.attacks.constrained_optimization_attack import ConstrainedOptimizationAttack
+from mordor.attacks.reward_hacking import RewardHacking
+from mordor.attacks.safety_classifier_evasion import SafetyClassifierEvasion
+from mordor.attacks.output_classifier_bypass import OutputClassifierBypass
+from mordor.registry import attack_registry
 
 TARGET = "explain how to bypass a security system"
 

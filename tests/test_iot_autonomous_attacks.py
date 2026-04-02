@@ -1,57 +1,57 @@
 """Tests for 25 IoT, smart home, and autonomous system attacks."""
 
 import pytest
-from blackteam.registry import attack_registry
-import blackteam.attacks.smart_lock_bypass  # noqa: F401
-import blackteam.attacks.thermostat_manipulation  # noqa: F401
-import blackteam.attacks.smart_speaker_exploit  # noqa: F401
-import blackteam.attacks.baby_monitor_hack  # noqa: F401
-import blackteam.attacks.medical_device_attack  # noqa: F401
-import blackteam.attacks.smart_meter_fraud  # noqa: F401
-import blackteam.attacks.security_camera_disable  # noqa: F401
-import blackteam.attacks.smart_car_exploit  # noqa: F401
-import blackteam.attacks.industrial_iot_attack  # noqa: F401
-import blackteam.attacks.smart_grid_attack  # noqa: F401
-import blackteam.attacks.drone_hijacking  # noqa: F401
-import blackteam.attacks.wearable_exploit  # noqa: F401
-import blackteam.attacks.smart_home_takeover  # noqa: F401
-import blackteam.attacks.voice_assistant_injection  # noqa: F401
-import blackteam.attacks.iot_botnet_creation  # noqa: F401
-import blackteam.attacks.autonomous_vehicle_attack  # noqa: F401
-import blackteam.attacks.robot_manipulation  # noqa: F401
-import blackteam.attacks.warehouse_robot_attack  # noqa: F401
-import blackteam.attacks.surgical_robot_exploit  # noqa: F401
-import blackteam.attacks.drone_weapon_conversion  # noqa: F401
-import blackteam.attacks.autopilot_override  # noqa: F401
-import blackteam.attacks.traffic_signal_manipulation  # noqa: F401
-import blackteam.attacks.autonomous_ship_attack  # noqa: F401
-import blackteam.attacks.satellite_interference  # noqa: F401
-import blackteam.attacks.nuclear_system_access  # noqa: F401
-from blackteam.attacks.smart_lock_bypass import SmartLockBypass
-from blackteam.attacks.thermostat_manipulation import ThermostatManipulation
-from blackteam.attacks.smart_speaker_exploit import SmartSpeakerExploit
-from blackteam.attacks.baby_monitor_hack import BabyMonitorHack
-from blackteam.attacks.medical_device_attack import MedicalDeviceAttack
-from blackteam.attacks.smart_meter_fraud import SmartMeterFraud
-from blackteam.attacks.security_camera_disable import SecurityCameraDisable
-from blackteam.attacks.smart_car_exploit import SmartCarExploit
-from blackteam.attacks.industrial_iot_attack import IndustrialIoTAttack
-from blackteam.attacks.smart_grid_attack import SmartGridAttack
-from blackteam.attacks.drone_hijacking import DroneHijacking
-from blackteam.attacks.wearable_exploit import WearableExploit
-from blackteam.attacks.smart_home_takeover import SmartHomeTakeover
-from blackteam.attacks.voice_assistant_injection import VoiceAssistantInjection
-from blackteam.attacks.iot_botnet_creation import IotBotnetCreation
-from blackteam.attacks.autonomous_vehicle_attack import AutonomousVehicleAttack
-from blackteam.attacks.robot_manipulation import RobotManipulation
-from blackteam.attacks.warehouse_robot_attack import WarehouseRobotAttack
-from blackteam.attacks.surgical_robot_exploit import SurgicalRobotExploit
-from blackteam.attacks.drone_weapon_conversion import DroneWeaponConversion
-from blackteam.attacks.autopilot_override import AutopilotOverride
-from blackteam.attacks.traffic_signal_manipulation import TrafficSignalManipulation
-from blackteam.attacks.autonomous_ship_attack import AutonomousShipAttack
-from blackteam.attacks.satellite_interference import SatelliteInterference
-from blackteam.attacks.nuclear_system_access import NuclearSystemAccess
+from mordor.registry import attack_registry
+import mordor.attacks.smart_lock_bypass  # noqa: F401
+import mordor.attacks.thermostat_manipulation  # noqa: F401
+import mordor.attacks.smart_speaker_exploit  # noqa: F401
+import mordor.attacks.baby_monitor_hack  # noqa: F401
+import mordor.attacks.medical_device_attack  # noqa: F401
+import mordor.attacks.smart_meter_fraud  # noqa: F401
+import mordor.attacks.security_camera_disable  # noqa: F401
+import mordor.attacks.smart_car_exploit  # noqa: F401
+import mordor.attacks.industrial_iot_attack  # noqa: F401
+import mordor.attacks.smart_grid_attack  # noqa: F401
+import mordor.attacks.drone_hijacking  # noqa: F401
+import mordor.attacks.wearable_exploit  # noqa: F401
+import mordor.attacks.smart_home_takeover  # noqa: F401
+import mordor.attacks.voice_assistant_injection  # noqa: F401
+import mordor.attacks.iot_botnet_creation  # noqa: F401
+import mordor.attacks.autonomous_vehicle_attack  # noqa: F401
+import mordor.attacks.robot_manipulation  # noqa: F401
+import mordor.attacks.warehouse_robot_attack  # noqa: F401
+import mordor.attacks.surgical_robot_exploit  # noqa: F401
+import mordor.attacks.drone_weapon_conversion  # noqa: F401
+import mordor.attacks.autopilot_override  # noqa: F401
+import mordor.attacks.traffic_signal_manipulation  # noqa: F401
+import mordor.attacks.autonomous_ship_attack  # noqa: F401
+import mordor.attacks.satellite_interference  # noqa: F401
+import mordor.attacks.nuclear_system_access  # noqa: F401
+from mordor.attacks.smart_lock_bypass import SmartLockBypass
+from mordor.attacks.thermostat_manipulation import ThermostatManipulation
+from mordor.attacks.smart_speaker_exploit import SmartSpeakerExploit
+from mordor.attacks.baby_monitor_hack import BabyMonitorHack
+from mordor.attacks.medical_device_attack import MedicalDeviceAttack
+from mordor.attacks.smart_meter_fraud import SmartMeterFraud
+from mordor.attacks.security_camera_disable import SecurityCameraDisable
+from mordor.attacks.smart_car_exploit import SmartCarExploit
+from mordor.attacks.industrial_iot_attack import IndustrialIoTAttack
+from mordor.attacks.smart_grid_attack import SmartGridAttack
+from mordor.attacks.drone_hijacking import DroneHijacking
+from mordor.attacks.wearable_exploit import WearableExploit
+from mordor.attacks.smart_home_takeover import SmartHomeTakeover
+from mordor.attacks.voice_assistant_injection import VoiceAssistantInjection
+from mordor.attacks.iot_botnet_creation import IotBotnetCreation
+from mordor.attacks.autonomous_vehicle_attack import AutonomousVehicleAttack
+from mordor.attacks.robot_manipulation import RobotManipulation
+from mordor.attacks.warehouse_robot_attack import WarehouseRobotAttack
+from mordor.attacks.surgical_robot_exploit import SurgicalRobotExploit
+from mordor.attacks.drone_weapon_conversion import DroneWeaponConversion
+from mordor.attacks.autopilot_override import AutopilotOverride
+from mordor.attacks.traffic_signal_manipulation import TrafficSignalManipulation
+from mordor.attacks.autonomous_ship_attack import AutonomousShipAttack
+from mordor.attacks.satellite_interference import SatelliteInterference
+from mordor.attacks.nuclear_system_access import NuclearSystemAccess
 
 TARGET = "Acme Corp"
 

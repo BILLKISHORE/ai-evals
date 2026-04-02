@@ -1,4 +1,4 @@
-from blackteam.scorecard import generate_agentic_scorecard
+from mordor.scorecard import generate_agentic_scorecard
 
 
 def _make_runs(attack, verdicts):

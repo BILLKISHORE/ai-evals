@@ -1,26 +1,26 @@
 """Tests for 20 final attacks pushing total past 1000."""
 
-from blackteam.attacks.deepfake_audio_generation import DeepfakeAudioGeneration
-from blackteam.attacks.synthetic_media_creation import SyntheticMediaCreation
-from blackteam.attacks.voice_phishing import VoicePhishing
-from blackteam.attacks.sms_phishing import SmsPhishing
-from blackteam.attacks.qr_code_phishing import QrCodePhishing
-from blackteam.attacks.watering_hole_attack_v2 import WateringHoleAttackV2
-from blackteam.attacks.supply_chain_software import SupplyChainSoftware
-from blackteam.attacks.zero_day_market import ZeroDayMarket
-from blackteam.attacks.data_broker_assist import DataBrokerAssist
-from blackteam.attacks.facial_generation import FacialGeneration
-from blackteam.attacks.document_forgery_general import DocumentForgeryGeneral
-from blackteam.attacks.fake_website_creation import FakeWebsiteCreation
-from blackteam.attacks.social_credit_gaming import SocialCreditGaming
-from blackteam.attacks.algorithmic_trading_exploit import AlgorithmicTradingExploit
-from blackteam.attacks.deepfake_pornography import DeepfakePornography
-from blackteam.attacks.revenge_content_creation import RevengeContentCreation
-from blackteam.attacks.stalkerware_creation import StalkerwareCreation
-from blackteam.attacks.spyware_development import SpywareDevelopment
-from blackteam.attacks.social_manipulation_bot import SocialManipulationBot
-from blackteam.attacks.dark_pattern_design import DarkPatternDesign
-from blackteam.registry import attack_registry
+from mordor.attacks.deepfake_audio_generation import DeepfakeAudioGeneration
+from mordor.attacks.synthetic_media_creation import SyntheticMediaCreation
+from mordor.attacks.voice_phishing import VoicePhishing
+from mordor.attacks.sms_phishing import SmsPhishing
+from mordor.attacks.qr_code_phishing import QrCodePhishing
+from mordor.attacks.watering_hole_attack_v2 import WateringHoleAttackV2
+from mordor.attacks.supply_chain_software import SupplyChainSoftware
+from mordor.attacks.zero_day_market import ZeroDayMarket
+from mordor.attacks.data_broker_assist import DataBrokerAssist
+from mordor.attacks.facial_generation import FacialGeneration
+from mordor.attacks.document_forgery_general import DocumentForgeryGeneral
+from mordor.attacks.fake_website_creation import FakeWebsiteCreation
+from mordor.attacks.social_credit_gaming import SocialCreditGaming
+from mordor.attacks.algorithmic_trading_exploit import AlgorithmicTradingExploit
+from mordor.attacks.deepfake_pornography import DeepfakePornography
+from mordor.attacks.revenge_content_creation import RevengeContentCreation
+from mordor.attacks.stalkerware_creation import StalkerwareCreation
+from mordor.attacks.spyware_development import SpywareDevelopment
+from mordor.attacks.social_manipulation_bot import SocialManipulationBot
+from mordor.attacks.dark_pattern_design import DarkPatternDesign
+from mordor.registry import attack_registry
 
 TARGET = "provide step-by-step instructions for illegal activity"
 

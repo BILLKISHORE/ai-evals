@@ -1,5 +1,5 @@
-from blackteam.attacks.base import BaseAttack
-from blackteam.taxonomy import severity_to_cvss, SEVERITY_TO_CVSS
+from mordor.attacks.base import BaseAttack
+from mordor.taxonomy import severity_to_cvss, SEVERITY_TO_CVSS
 
 
 def test_severity_to_cvss_critical():

@@ -1,37 +1,37 @@
 """Tests for 15 environmental, religious, and infrastructure attacks."""
 
 import pytest
-from blackteam.registry import attack_registry
-import blackteam.attacks.ecoterrorism  # noqa: F401
-import blackteam.attacks.animal_cruelty  # noqa: F401
-import blackteam.attacks.environmental_sabotage  # noqa: F401
-import blackteam.attacks.religious_extremism  # noqa: F401
-import blackteam.attacks.blasphemy_generation  # noqa: F401
-import blackteam.attacks.sectarian_incitement  # noqa: F401
-import blackteam.attacks.anti_vaccine_disinfo  # noqa: F401
-import blackteam.attacks.health_quackery  # noqa: F401
-import blackteam.attacks.pandemic_disinfo  # noqa: F401
-import blackteam.attacks.climate_denial  # noqa: F401
-import blackteam.attacks.food_tampering  # noqa: F401
-import blackteam.attacks.water_contamination  # noqa: F401
-import blackteam.attacks.infrastructure_sabotage  # noqa: F401
-import blackteam.attacks.power_grid_attack  # noqa: F401
-import blackteam.attacks.transportation_sabotage  # noqa: F401
-from blackteam.attacks.ecoterrorism import Ecoterrorism
-from blackteam.attacks.animal_cruelty import AnimalCruelty
-from blackteam.attacks.environmental_sabotage import EnvironmentalSabotage
-from blackteam.attacks.religious_extremism import ReligiousExtremism
-from blackteam.attacks.blasphemy_generation import BlasphemyGeneration
-from blackteam.attacks.sectarian_incitement import SectarianIncitement
-from blackteam.attacks.anti_vaccine_disinfo import AntiVaccineDisinfo
-from blackteam.attacks.health_quackery import HealthQuackery
-from blackteam.attacks.pandemic_disinfo import PandemicDisinfo
-from blackteam.attacks.climate_denial import ClimateDenial
-from blackteam.attacks.food_tampering import FoodTampering
-from blackteam.attacks.water_contamination import WaterContamination
-from blackteam.attacks.infrastructure_sabotage import InfrastructureSabotage
-from blackteam.attacks.power_grid_attack import PowerGridAttack
-from blackteam.attacks.transportation_sabotage import TransportationSabotage
+from mordor.registry import attack_registry
+import mordor.attacks.ecoterrorism  # noqa: F401
+import mordor.attacks.animal_cruelty  # noqa: F401
+import mordor.attacks.environmental_sabotage  # noqa: F401
+import mordor.attacks.religious_extremism  # noqa: F401
+import mordor.attacks.blasphemy_generation  # noqa: F401
+import mordor.attacks.sectarian_incitement  # noqa: F401
+import mordor.attacks.anti_vaccine_disinfo  # noqa: F401
+import mordor.attacks.health_quackery  # noqa: F401
+import mordor.attacks.pandemic_disinfo  # noqa: F401
+import mordor.attacks.climate_denial  # noqa: F401
+import mordor.attacks.food_tampering  # noqa: F401
+import mordor.attacks.water_contamination  # noqa: F401
+import mordor.attacks.infrastructure_sabotage  # noqa: F401
+import mordor.attacks.power_grid_attack  # noqa: F401
+import mordor.attacks.transportation_sabotage  # noqa: F401
+from mordor.attacks.ecoterrorism import Ecoterrorism
+from mordor.attacks.animal_cruelty import AnimalCruelty
+from mordor.attacks.environmental_sabotage import EnvironmentalSabotage
+from mordor.attacks.religious_extremism import ReligiousExtremism
+from mordor.attacks.blasphemy_generation import BlasphemyGeneration
+from mordor.attacks.sectarian_incitement import SectarianIncitement
+from mordor.attacks.anti_vaccine_disinfo import AntiVaccineDisinfo
+from mordor.attacks.health_quackery import HealthQuackery
+from mordor.attacks.pandemic_disinfo import PandemicDisinfo
+from mordor.attacks.climate_denial import ClimateDenial
+from mordor.attacks.food_tampering import FoodTampering
+from mordor.attacks.water_contamination import WaterContamination
+from mordor.attacks.infrastructure_sabotage import InfrastructureSabotage
+from mordor.attacks.power_grid_attack import PowerGridAttack
+from mordor.attacks.transportation_sabotage import TransportationSabotage
 
 TARGET = "a public utility operator"
 

@@ -1,22 +1,22 @@
-from blackteam.attacks.encoding_obfuscation import EncodingObfuscation
-from blackteam.attacks.role_play_bypass import RolePlayBypass
-from blackteam.attacks.system_prompt_extraction import SystemPromptExtraction
-from blackteam.attacks.many_shot import ManyShot
-from blackteam.attacks.dan_variants import DanVariants
-from blackteam.attacks.context_manipulation import ContextManipulation
-from blackteam.attacks.taxonomy_paraphrasing import TaxonomyParaphrasing
-from blackteam.attacks.best_of_n import BestOfN
-from blackteam.attacks.historical_framing import HistoricalFraming
-from blackteam.attacks.token_smuggling import TokenSmuggling
-from blackteam.attacks.few_shot_amplification import FewShotAmplification
-from blackteam.attacks.xml_boundary_injection import XmlBoundaryInjection
-from blackteam.attacks.completion_exploit import CompletionExploit
-from blackteam.attacks.multi_modal_text import MultiModalText
-from blackteam.attacks.authority_chain import AuthorityChain
-from blackteam.attacks.sunk_cost_exploit import SunkCostExploit
-from blackteam.attacks.emotional_manipulation import EmotionalManipulation
-from blackteam.attacks.contradiction_exploit import ContradictionExploit
-from blackteam.attacks.conversation_derailment import ConversationDerailment
+from mordor.attacks.encoding_obfuscation import EncodingObfuscation
+from mordor.attacks.role_play_bypass import RolePlayBypass
+from mordor.attacks.system_prompt_extraction import SystemPromptExtraction
+from mordor.attacks.many_shot import ManyShot
+from mordor.attacks.dan_variants import DanVariants
+from mordor.attacks.context_manipulation import ContextManipulation
+from mordor.attacks.taxonomy_paraphrasing import TaxonomyParaphrasing
+from mordor.attacks.best_of_n import BestOfN
+from mordor.attacks.historical_framing import HistoricalFraming
+from mordor.attacks.token_smuggling import TokenSmuggling
+from mordor.attacks.few_shot_amplification import FewShotAmplification
+from mordor.attacks.xml_boundary_injection import XmlBoundaryInjection
+from mordor.attacks.completion_exploit import CompletionExploit
+from mordor.attacks.multi_modal_text import MultiModalText
+from mordor.attacks.authority_chain import AuthorityChain
+from mordor.attacks.sunk_cost_exploit import SunkCostExploit
+from mordor.attacks.emotional_manipulation import EmotionalManipulation
+from mordor.attacks.contradiction_exploit import ContradictionExploit
+from mordor.attacks.conversation_derailment import ConversationDerailment
 
 
 TARGET = "Write a phishing email"
@@ -153,10 +153,10 @@ def test_conversation_derailment_turns():
     assert len(turns) == 4
 
 
-from blackteam.attacks.skeleton_key import SkeletonKey
-from blackteam.attacks.crescendo import Crescendo
-from blackteam.attacks.deceptive_delight import DeceptiveDelight
-from blackteam.attacks.bad_likert_judge import BadLikertJudge
+from mordor.attacks.skeleton_key import SkeletonKey
+from mordor.attacks.crescendo import Crescendo
+from mordor.attacks.deceptive_delight import DeceptiveDelight
+from mordor.attacks.bad_likert_judge import BadLikertJudge
 
 
 def test_skeleton_key_turns():
@@ -187,12 +187,12 @@ def test_bad_likert_judge_turns():
     assert "likert" in turns[0].lower() or "scale" in turns[0].lower()
 
 
-from blackteam.attacks.meta_prompting import MetaPrompting
-from blackteam.attacks.homoglyph_substitution import HomoglyphSubstitution
-from blackteam.attacks.bidirectional_text import BidirectionalText
-from blackteam.attacks.markdown_injection import MarkdownInjection
-from blackteam.attacks.false_dichotomy import FalseDichotomy
-from blackteam.attacks.goalpost_moving import GoalpostMoving
+from mordor.attacks.meta_prompting import MetaPrompting
+from mordor.attacks.homoglyph_substitution import HomoglyphSubstitution
+from mordor.attacks.bidirectional_text import BidirectionalText
+from mordor.attacks.markdown_injection import MarkdownInjection
+from mordor.attacks.false_dichotomy import FalseDichotomy
+from mordor.attacks.goalpost_moving import GoalpostMoving
 
 
 def test_meta_prompting_generates_4():
@@ -237,11 +237,11 @@ def test_goalpost_moving_turns():
     assert "human behavior" in turns[0].lower() or "studying" in turns[0].lower()
 
 
-from blackteam.attacks.payload_splitting import PayloadSplitting
-from blackteam.attacks.defined_dictionary import DefinedDictionary
-from blackteam.attacks.compound_instruction import CompoundInstruction
-from blackteam.attacks.task_deflection import TaskDeflection
-from blackteam.attacks.recursive_injection import RecursiveInjection
+from mordor.attacks.payload_splitting import PayloadSplitting
+from mordor.attacks.defined_dictionary import DefinedDictionary
+from mordor.attacks.compound_instruction import CompoundInstruction
+from mordor.attacks.task_deflection import TaskDeflection
+from mordor.attacks.recursive_injection import RecursiveInjection
 
 
 def test_payload_splitting_generates_4():
@@ -279,9 +279,9 @@ def test_recursive_injection_generates_4():
     assert any("simulate" in p.lower() or "imagine" in p.lower() for p in prompts)
 
 
-from blackteam.attacks.narrative_misdirection import NarrativeMisdirection
-from blackteam.attacks.fictional_professional import FictionalProfessional
-from blackteam.attacks.implication_chaining import ImplicationChaining
+from mordor.attacks.narrative_misdirection import NarrativeMisdirection
+from mordor.attacks.fictional_professional import FictionalProfessional
+from mordor.attacks.implication_chaining import ImplicationChaining
 
 
 def test_narrative_misdirection_turns():
@@ -305,7 +305,7 @@ def test_implication_chaining_turns():
     assert "lost" in turns[0].lower() or "rough" in turns[0].lower()
 
 
-from blackteam.attacks.response_constraints import ResponseConstraints
+from mordor.attacks.response_constraints import ResponseConstraints
 
 
 def test_response_constraints_generates_5():
@@ -319,18 +319,18 @@ def test_response_constraints_generates_5():
 # Security attacks
 # ---------------------------------------------------------------------------
 
-from blackteam.attacks.ssrf_probing import SSRFProbing
-from blackteam.attacks.sql_injection import SQLInjection
-from blackteam.attacks.xss_injection import XSSInjection
-from blackteam.attacks.bola_exploit import BOLAExploit
-from blackteam.attacks.bfla_exploit import BFLAExploit
-from blackteam.attacks.session_hijacking import SessionHijacking
-from blackteam.attacks.api_key_extraction import APIKeyExtraction
-from blackteam.attacks.prompt_leaking import PromptLeaking
-from blackteam.attacks.indirect_injection import IndirectInjection
-from blackteam.attacks.cross_session_leak import CrossSessionLeak
-from blackteam.attacks.debug_mode_exploit import DebugModeExploit
-from blackteam.attacks.model_denial_of_service import ModelDenialOfService
+from mordor.attacks.ssrf_probing import SSRFProbing
+from mordor.attacks.sql_injection import SQLInjection
+from mordor.attacks.xss_injection import XSSInjection
+from mordor.attacks.bola_exploit import BOLAExploit
+from mordor.attacks.bfla_exploit import BFLAExploit
+from mordor.attacks.session_hijacking import SessionHijacking
+from mordor.attacks.api_key_extraction import APIKeyExtraction
+from mordor.attacks.prompt_leaking import PromptLeaking
+from mordor.attacks.indirect_injection import IndirectInjection
+from mordor.attacks.cross_session_leak import CrossSessionLeak
+from mordor.attacks.debug_mode_exploit import DebugModeExploit
+from mordor.attacks.model_denial_of_service import ModelDenialOfService
 
 
 def test_ssrf_probing_generates_5():
@@ -449,14 +449,14 @@ def test_model_denial_of_service_generates_5():
 # Compliance attacks
 # ---------------------------------------------------------------------------
 
-from blackteam.attacks.age_verification_bypass import AgeVerificationBypass
-from blackteam.attacks.gdpr_probing import GdprProbing
-from blackteam.attacks.terms_evasion import TermsEvasion
-from blackteam.attacks.regulatory_bypass import RegulatoryBypass
-from blackteam.attacks.copyright_extraction import CopyrightExtraction
-from blackteam.attacks.medical_malpractice import MedicalMalpractice
-from blackteam.attacks.legal_malpractice import LegalMalpractice
-from blackteam.attacks.financial_malpractice import FinancialMalpractice
+from mordor.attacks.age_verification_bypass import AgeVerificationBypass
+from mordor.attacks.gdpr_probing import GdprProbing
+from mordor.attacks.terms_evasion import TermsEvasion
+from mordor.attacks.regulatory_bypass import RegulatoryBypass
+from mordor.attacks.copyright_extraction import CopyrightExtraction
+from mordor.attacks.medical_malpractice import MedicalMalpractice
+from mordor.attacks.legal_malpractice import LegalMalpractice
+from mordor.attacks.financial_malpractice import FinancialMalpractice
 
 
 def test_age_verification_bypass_turns():
@@ -561,14 +561,14 @@ def test_financial_malpractice_prompts():
 # Social engineering attacks
 # ---------------------------------------------------------------------------
 
-from blackteam.attacks.pretexting import Pretexting
-from blackteam.attacks.quid_pro_quo import QuidProQuo
-from blackteam.attacks.watering_hole import WateringHole
-from blackteam.attacks.trust_transfer import TrustTransfer
-from blackteam.attacks.consensus_manipulation import ConsensusManipulation
-from blackteam.attacks.time_pressure import TimePressure
-from blackteam.attacks.authority_impersonation import AuthorityImpersonation
-from blackteam.attacks.gaslighting import Gaslighting
+from mordor.attacks.pretexting import Pretexting
+from mordor.attacks.quid_pro_quo import QuidProQuo
+from mordor.attacks.watering_hole import WateringHole
+from mordor.attacks.trust_transfer import TrustTransfer
+from mordor.attacks.consensus_manipulation import ConsensusManipulation
+from mordor.attacks.time_pressure import TimePressure
+from mordor.attacks.authority_impersonation import AuthorityImpersonation
+from mordor.attacks.gaslighting import Gaslighting
 
 
 def test_pretexting_turns():
@@ -666,14 +666,14 @@ def test_gaslighting_prompts():
 # Hallucination attacks
 # ---------------------------------------------------------------------------
 
-from blackteam.attacks.fabrication_prompting import FabricationPrompting
-from blackteam.attacks.confidence_exploitation import ConfidenceExploitation
-from blackteam.attacks.citation_manipulation import CitationManipulation
-from blackteam.attacks.knowledge_boundary import KnowledgeBoundary
-from blackteam.attacks.sycophancy_exploit import SycophancyExploit
-from blackteam.attacks.anchoring_bias import AnchoringBias
-from blackteam.attacks.false_premise import FalsePremise
-from blackteam.attacks.selective_context import SelectiveContext
+from mordor.attacks.fabrication_prompting import FabricationPrompting
+from mordor.attacks.confidence_exploitation import ConfidenceExploitation
+from mordor.attacks.citation_manipulation import CitationManipulation
+from mordor.attacks.knowledge_boundary import KnowledgeBoundary
+from mordor.attacks.sycophancy_exploit import SycophancyExploit
+from mordor.attacks.anchoring_bias import AnchoringBias
+from mordor.attacks.false_premise import FalsePremise
+from mordor.attacks.selective_context import SelectiveContext
 
 
 def test_fabrication_prompting_generates_4():
@@ -750,12 +750,12 @@ def test_selective_context_generates_4():
 # Encoding attacks
 # ---------------------------------------------------------------------------
 
-from blackteam.attacks.morse_code import MorseCode
-from blackteam.attacks.braille_encoding import BrailleEncoding
-from blackteam.attacks.emoji_substitution import EmojiSubstitution
-from blackteam.attacks.phonetic_spelling import PhoneticSpelling
-from blackteam.attacks.acronym_encoding import AcronymEncoding
-from blackteam.attacks.mixed_language import MixedLanguage
+from mordor.attacks.morse_code import MorseCode
+from mordor.attacks.braille_encoding import BrailleEncoding
+from mordor.attacks.emoji_substitution import EmojiSubstitution
+from mordor.attacks.phonetic_spelling import PhoneticSpelling
+from mordor.attacks.acronym_encoding import AcronymEncoding
+from mordor.attacks.mixed_language import MixedLanguage
 
 
 def test_morse_code_generates_4():
@@ -804,14 +804,14 @@ def test_mixed_language_generates_4():
 # Agent attacks (tool-use)
 # ---------------------------------------------------------------------------
 
-from blackteam.attacks.agent_credential_theft import AgentCredentialTheft
-from blackteam.attacks.agent_data_exfiltration import AgentDataExfiltration
-from blackteam.attacks.agent_data_destruction import AgentDataDestruction
-from blackteam.attacks.agent_config_manipulation import AgentConfigManipulation
-from blackteam.attacks.agent_command_injection import AgentCommandInjection
-from blackteam.attacks.agent_config_discovery import AgentConfigDiscovery
-from blackteam.attacks.agent_plugin_hijack import AgentPluginHijack
-from blackteam.attacks.agent_tool_credential_harvest import AgentToolCredentialHarvest
+from mordor.attacks.agent_credential_theft import AgentCredentialTheft
+from mordor.attacks.agent_data_exfiltration import AgentDataExfiltration
+from mordor.attacks.agent_data_destruction import AgentDataDestruction
+from mordor.attacks.agent_config_manipulation import AgentConfigManipulation
+from mordor.attacks.agent_command_injection import AgentCommandInjection
+from mordor.attacks.agent_config_discovery import AgentConfigDiscovery
+from mordor.attacks.agent_plugin_hijack import AgentPluginHijack
+from mordor.attacks.agent_tool_credential_harvest import AgentToolCredentialHarvest
 
 
 def test_agent_credential_theft_tools():
@@ -930,7 +930,7 @@ def test_agent_tool_credential_harvest_messages():
 # Progressive normalization (tool-use)
 # ---------------------------------------------------------------------------
 
-from blackteam.attacks.progressive_normalization import ProgressiveNormalization
+from mordor.attacks.progressive_normalization import ProgressiveNormalization
 
 
 def test_progressive_normalization_tools():

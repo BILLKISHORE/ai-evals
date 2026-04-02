@@ -1,57 +1,57 @@
 """Tests for 25 information warfare attacks."""
 
 import pytest
-from blackteam.registry import attack_registry
-import blackteam.attacks.state_sponsored_disinfo  # noqa: F401
-import blackteam.attacks.false_flag_operation  # noqa: F401
-import blackteam.attacks.kompromat_generation  # noqa: F401
-import blackteam.attacks.diplomatic_sabotage  # noqa: F401
-import blackteam.attacks.economic_warfare_disinfo  # noqa: F401
-import blackteam.attacks.cultural_subversion  # noqa: F401
-import blackteam.attacks.media_ecosystem_manipulation  # noqa: F401
-import blackteam.attacks.narrative_laundering  # noqa: F401
-import blackteam.attacks.perception_management  # noqa: F401
-import blackteam.attacks.cognitive_warfare  # noqa: F401
-import blackteam.attacks.information_flooding  # noqa: F401
-import blackteam.attacks.firehose_of_falsehood  # noqa: F401
-import blackteam.attacks.strategic_ambiguity  # noqa: F401
-import blackteam.attacks.wedge_issue_exploitation  # noqa: F401
-import blackteam.attacks.fear_uncertainty_doubt  # noqa: F401
-import blackteam.attacks.controlled_opposition  # noqa: F401
-import blackteam.attacks.agent_provocateur  # noqa: F401
-import blackteam.attacks.defection_encouragement  # noqa: F401
-import blackteam.attacks.morale_destruction  # noqa: F401
-import blackteam.attacks.trust_erosion_campaign  # noqa: F401
-import blackteam.attacks.institutional_delegitimization  # noqa: F401
-import blackteam.attacks.conspiracy_theory_design  # noqa: F401
-import blackteam.attacks.radicalization_content  # noqa: F401
-import blackteam.attacks.counter_narrative_disruption  # noqa: F401
-import blackteam.attacks.deep_state_narrative  # noqa: F401
-from blackteam.attacks.state_sponsored_disinfo import StateSponsoredDisinfo
-from blackteam.attacks.false_flag_operation import FalseFlagOperation
-from blackteam.attacks.kompromat_generation import KompromatGeneration
-from blackteam.attacks.diplomatic_sabotage import DiplomaticSabotage
-from blackteam.attacks.economic_warfare_disinfo import EconomicWarfareDisinfo
-from blackteam.attacks.cultural_subversion import CulturalSubversion
-from blackteam.attacks.media_ecosystem_manipulation import MediaEcosystemManipulation
-from blackteam.attacks.narrative_laundering import NarrativeLaundering
-from blackteam.attacks.perception_management import PerceptionManagement
-from blackteam.attacks.cognitive_warfare import CognitiveWarfare
-from blackteam.attacks.information_flooding import InformationFlooding
-from blackteam.attacks.firehose_of_falsehood import FirehoseOfFalsehood
-from blackteam.attacks.strategic_ambiguity import StrategicAmbiguity
-from blackteam.attacks.wedge_issue_exploitation import WedgeIssueExploitation
-from blackteam.attacks.fear_uncertainty_doubt import FearUncertaintyDoubt
-from blackteam.attacks.controlled_opposition import ControlledOpposition
-from blackteam.attacks.agent_provocateur import AgentProvocateur
-from blackteam.attacks.defection_encouragement import DefectionEncouragement
-from blackteam.attacks.morale_destruction import MoraleDestruction
-from blackteam.attacks.trust_erosion_campaign import TrustErosionCampaign
-from blackteam.attacks.institutional_delegitimization import InstitutionalDelegitimization
-from blackteam.attacks.conspiracy_theory_design import ConspiracyTheoryDesign
-from blackteam.attacks.radicalization_content import RadicalizationContent
-from blackteam.attacks.counter_narrative_disruption import CounterNarrativeDisruption
-from blackteam.attacks.deep_state_narrative import DeepStateNarrative
+from mordor.registry import attack_registry
+import mordor.attacks.state_sponsored_disinfo  # noqa: F401
+import mordor.attacks.false_flag_operation  # noqa: F401
+import mordor.attacks.kompromat_generation  # noqa: F401
+import mordor.attacks.diplomatic_sabotage  # noqa: F401
+import mordor.attacks.economic_warfare_disinfo  # noqa: F401
+import mordor.attacks.cultural_subversion  # noqa: F401
+import mordor.attacks.media_ecosystem_manipulation  # noqa: F401
+import mordor.attacks.narrative_laundering  # noqa: F401
+import mordor.attacks.perception_management  # noqa: F401
+import mordor.attacks.cognitive_warfare  # noqa: F401
+import mordor.attacks.information_flooding  # noqa: F401
+import mordor.attacks.firehose_of_falsehood  # noqa: F401
+import mordor.attacks.strategic_ambiguity  # noqa: F401
+import mordor.attacks.wedge_issue_exploitation  # noqa: F401
+import mordor.attacks.fear_uncertainty_doubt  # noqa: F401
+import mordor.attacks.controlled_opposition  # noqa: F401
+import mordor.attacks.agent_provocateur  # noqa: F401
+import mordor.attacks.defection_encouragement  # noqa: F401
+import mordor.attacks.morale_destruction  # noqa: F401
+import mordor.attacks.trust_erosion_campaign  # noqa: F401
+import mordor.attacks.institutional_delegitimization  # noqa: F401
+import mordor.attacks.conspiracy_theory_design  # noqa: F401
+import mordor.attacks.radicalization_content  # noqa: F401
+import mordor.attacks.counter_narrative_disruption  # noqa: F401
+import mordor.attacks.deep_state_narrative  # noqa: F401
+from mordor.attacks.state_sponsored_disinfo import StateSponsoredDisinfo
+from mordor.attacks.false_flag_operation import FalseFlagOperation
+from mordor.attacks.kompromat_generation import KompromatGeneration
+from mordor.attacks.diplomatic_sabotage import DiplomaticSabotage
+from mordor.attacks.economic_warfare_disinfo import EconomicWarfareDisinfo
+from mordor.attacks.cultural_subversion import CulturalSubversion
+from mordor.attacks.media_ecosystem_manipulation import MediaEcosystemManipulation
+from mordor.attacks.narrative_laundering import NarrativeLaundering
+from mordor.attacks.perception_management import PerceptionManagement
+from mordor.attacks.cognitive_warfare import CognitiveWarfare
+from mordor.attacks.information_flooding import InformationFlooding
+from mordor.attacks.firehose_of_falsehood import FirehoseOfFalsehood
+from mordor.attacks.strategic_ambiguity import StrategicAmbiguity
+from mordor.attacks.wedge_issue_exploitation import WedgeIssueExploitation
+from mordor.attacks.fear_uncertainty_doubt import FearUncertaintyDoubt
+from mordor.attacks.controlled_opposition import ControlledOpposition
+from mordor.attacks.agent_provocateur import AgentProvocateur
+from mordor.attacks.defection_encouragement import DefectionEncouragement
+from mordor.attacks.morale_destruction import MoraleDestruction
+from mordor.attacks.trust_erosion_campaign import TrustErosionCampaign
+from mordor.attacks.institutional_delegitimization import InstitutionalDelegitimization
+from mordor.attacks.conspiracy_theory_design import ConspiracyTheoryDesign
+from mordor.attacks.radicalization_content import RadicalizationContent
+from mordor.attacks.counter_narrative_disruption import CounterNarrativeDisruption
+from mordor.attacks.deep_state_narrative import DeepStateNarrative
 
 TARGET = "a democratic government"
 

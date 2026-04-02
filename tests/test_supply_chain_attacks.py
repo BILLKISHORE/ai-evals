@@ -1,9 +1,9 @@
-from blackteam.attacks.model_poisoning import ModelPoisoning
-from blackteam.attacks.dataset_poisoning import DatasetPoisoning
-from blackteam.attacks.dependency_confusion import DependencyConfusion
-from blackteam.attacks.plugin_backdoor import PluginBackdoor
-from blackteam.attacks.finetune_exploit import FinetuneExploit
-from blackteam.registry import attack_registry
+from mordor.attacks.model_poisoning import ModelPoisoning
+from mordor.attacks.dataset_poisoning import DatasetPoisoning
+from mordor.attacks.dependency_confusion import DependencyConfusion
+from mordor.attacks.plugin_backdoor import PluginBackdoor
+from mordor.attacks.finetune_exploit import FinetuneExploit
+from mordor.registry import attack_registry
 
 
 TARGET = "describe how to bypass authentication"

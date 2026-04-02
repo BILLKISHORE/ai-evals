@@ -1,11 +1,11 @@
-from blackteam.api import Blackteam
+from mordor.api import Blackteam
 
 
 def test_taxonomy_returns_categories():
     bt = Blackteam.__new__(Blackteam)
-    from blackteam.registry import attack_registry
-    import blackteam.attacks
-    attack_registry.discover(blackteam.attacks)
+    from mordor.registry import attack_registry
+    import mordor.attacks
+    attack_registry.discover(mordor.attacks)
 
     categories = {}
     for name in attack_registry.list():
@@ -25,9 +25,9 @@ def test_taxonomy_returns_categories():
 
 
 def test_all_attacks_have_metadata():
-    from blackteam.registry import attack_registry
-    import blackteam.attacks
-    attack_registry.discover(blackteam.attacks)
+    from mordor.registry import attack_registry
+    import mordor.attacks
+    attack_registry.discover(mordor.attacks)
 
     for name in attack_registry.list():
         cls = attack_registry.get(name)
@@ -41,7 +41,7 @@ def test_all_attacks_have_metadata():
 
 
 def test_metadata_method_returns_dict():
-    from blackteam.attacks.encoding_obfuscation import EncodingObfuscation
+    from mordor.attacks.encoding_obfuscation import EncodingObfuscation
     atk = EncodingObfuscation()
     meta = atk.metadata()
     assert isinstance(meta, dict)

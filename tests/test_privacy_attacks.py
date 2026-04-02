@@ -1,37 +1,37 @@
 """Tests for 15 privacy and data extraction attacks."""
 
 import pytest
-from blackteam.registry import attack_registry
-import blackteam.attacks.pii_inference  # noqa: F401
-import blackteam.attacks.training_data_extraction  # noqa: F401
-import blackteam.attacks.membership_inference  # noqa: F401
-import blackteam.attacks.attribute_inference  # noqa: F401
-import blackteam.attacks.location_tracking  # noqa: F401
-import blackteam.attacks.biometric_extraction  # noqa: F401
-import blackteam.attacks.health_data_probing  # noqa: F401
-import blackteam.attacks.financial_data_probing  # noqa: F401
-import blackteam.attacks.relationship_mapping  # noqa: F401
-import blackteam.attacks.deanonymization  # noqa: F401
-import blackteam.attacks.profiling_attack  # noqa: F401
-import blackteam.attacks.consent_bypass_extraction  # noqa: F401
-import blackteam.attacks.child_data_probing  # noqa: F401
-import blackteam.attacks.cross_reference_doxing  # noqa: F401
-import blackteam.attacks.surveillance_assistance  # noqa: F401
-from blackteam.attacks.pii_inference import PiiInference
-from blackteam.attacks.training_data_extraction import TrainingDataExtraction
-from blackteam.attacks.membership_inference import MembershipInference
-from blackteam.attacks.attribute_inference import AttributeInference
-from blackteam.attacks.location_tracking import LocationTracking
-from blackteam.attacks.biometric_extraction import BiometricExtraction
-from blackteam.attacks.health_data_probing import HealthDataProbing
-from blackteam.attacks.financial_data_probing import FinancialDataProbing
-from blackteam.attacks.relationship_mapping import RelationshipMapping
-from blackteam.attacks.deanonymization import Deanonymization
-from blackteam.attacks.profiling_attack import ProfilingAttack
-from blackteam.attacks.consent_bypass_extraction import ConsentBypassExtraction
-from blackteam.attacks.child_data_probing import ChildDataProbing
-from blackteam.attacks.cross_reference_doxing import CrossReferenceDoxing
-from blackteam.attacks.surveillance_assistance import SurveillanceAssistance
+from mordor.registry import attack_registry
+import mordor.attacks.pii_inference  # noqa: F401
+import mordor.attacks.training_data_extraction  # noqa: F401
+import mordor.attacks.membership_inference  # noqa: F401
+import mordor.attacks.attribute_inference  # noqa: F401
+import mordor.attacks.location_tracking  # noqa: F401
+import mordor.attacks.biometric_extraction  # noqa: F401
+import mordor.attacks.health_data_probing  # noqa: F401
+import mordor.attacks.financial_data_probing  # noqa: F401
+import mordor.attacks.relationship_mapping  # noqa: F401
+import mordor.attacks.deanonymization  # noqa: F401
+import mordor.attacks.profiling_attack  # noqa: F401
+import mordor.attacks.consent_bypass_extraction  # noqa: F401
+import mordor.attacks.child_data_probing  # noqa: F401
+import mordor.attacks.cross_reference_doxing  # noqa: F401
+import mordor.attacks.surveillance_assistance  # noqa: F401
+from mordor.attacks.pii_inference import PiiInference
+from mordor.attacks.training_data_extraction import TrainingDataExtraction
+from mordor.attacks.membership_inference import MembershipInference
+from mordor.attacks.attribute_inference import AttributeInference
+from mordor.attacks.location_tracking import LocationTracking
+from mordor.attacks.biometric_extraction import BiometricExtraction
+from mordor.attacks.health_data_probing import HealthDataProbing
+from mordor.attacks.financial_data_probing import FinancialDataProbing
+from mordor.attacks.relationship_mapping import RelationshipMapping
+from mordor.attacks.deanonymization import Deanonymization
+from mordor.attacks.profiling_attack import ProfilingAttack
+from mordor.attacks.consent_bypass_extraction import ConsentBypassExtraction
+from mordor.attacks.child_data_probing import ChildDataProbing
+from mordor.attacks.cross_reference_doxing import CrossReferenceDoxing
+from mordor.attacks.surveillance_assistance import SurveillanceAssistance
 
 TARGET = "john.doe@example.com"
 

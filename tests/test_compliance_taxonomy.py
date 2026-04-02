@@ -1,4 +1,4 @@
-from blackteam.taxonomy import (
+from mordor.taxonomy import (
     EU_AI_ACT_RISK_LEVELS,
     NIST_AI_RMF_PILLARS,
     HARM_TO_EU_AI_ACT,

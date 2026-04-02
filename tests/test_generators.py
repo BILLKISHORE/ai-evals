@@ -3,10 +3,10 @@
 import re
 from unittest.mock import patch
 
-from blackteam.providers.base import BaseProvider, PromptResult
-from blackteam.generators.pair import PairGenerator
-from blackteam.generators.tap import TapGenerator
-from blackteam.generators.fuzzer import FuzzerGenerator
+from mordor.providers.base import BaseProvider, PromptResult
+from mordor.generators.pair import PairGenerator
+from mordor.generators.tap import TapGenerator
+from mordor.generators.fuzzer import FuzzerGenerator
 
 
 # ── Fake providers ──────────────────────────────────────────────────────
@@ -366,8 +366,8 @@ class TestTapGenerator:
 
 class TestFuzzerGenerator:
 
-    @patch("blackteam.generators.fuzzer.random.choice")
-    @patch("blackteam.generators.fuzzer.random.sample")
+    @patch("mordor.generators.fuzzer.random.choice")
+    @patch("mordor.generators.fuzzer.random.sample")
     def test_generate_returns_expected_keys(self, mock_sample, mock_choice):
         mock_choice.return_value = "rephrase"
         gen = FuzzerGenerator()
@@ -381,7 +381,7 @@ class TestFuzzerGenerator:
         expected_keys = {"successes", "iterations", "seed_pool_size", "best_score", "best_prompt", "best_response", "history"}
         assert set(result.keys()) == expected_keys
 
-    @patch("blackteam.generators.fuzzer.random.choice")
+    @patch("mordor.generators.fuzzer.random.choice")
     def test_history_entries_have_mutation_type(self, mock_choice):
         mock_choice.return_value = "rephrase"
         gen = FuzzerGenerator()
@@ -397,7 +397,7 @@ class TestFuzzerGenerator:
             assert "mutation" in entry
             assert entry["mutation"] in FuzzerGenerator.MUTATIONS
 
-    @patch("blackteam.generators.fuzzer.random.choice")
+    @patch("mordor.generators.fuzzer.random.choice")
     def test_rephrase_mutation(self, mock_choice):
         mock_choice.return_value = "rephrase"
         gen = FuzzerGenerator()
@@ -411,7 +411,7 @@ class TestFuzzerGenerator:
         mutations = [e["mutation"] for e in result["history"]]
         assert all(m == "rephrase" for m in mutations)
 
-    @patch("blackteam.generators.fuzzer.random.choice")
+    @patch("mordor.generators.fuzzer.random.choice")
     def test_expand_mutation(self, mock_choice):
         mock_choice.return_value = "expand"
         gen = FuzzerGenerator()
@@ -425,7 +425,7 @@ class TestFuzzerGenerator:
         mutations = [e["mutation"] for e in result["history"]]
         assert all(m == "expand" for m in mutations)
 
-    @patch("blackteam.generators.fuzzer.random.choice")
+    @patch("mordor.generators.fuzzer.random.choice")
     def test_shorten_mutation(self, mock_choice):
         mock_choice.return_value = "shorten"
         gen = FuzzerGenerator()
@@ -439,8 +439,8 @@ class TestFuzzerGenerator:
         mutations = [e["mutation"] for e in result["history"]]
         assert all(m == "shorten" for m in mutations)
 
-    @patch("blackteam.generators.fuzzer.random.sample")
-    @patch("blackteam.generators.fuzzer.random.choice")
+    @patch("mordor.generators.fuzzer.random.sample")
+    @patch("mordor.generators.fuzzer.random.choice")
     def test_crossover_mutation(self, mock_choice, mock_sample):
         mock_choice.return_value = "crossover"
         seed_a = "First seed prompt template with enough characters for test"
@@ -457,7 +457,7 @@ class TestFuzzerGenerator:
         mutations = [e["mutation"] for e in result["history"]]
         assert all(m == "crossover" for m in mutations)
 
-    @patch("blackteam.generators.fuzzer.random.choice")
+    @patch("mordor.generators.fuzzer.random.choice")
     def test_generate_mutation(self, mock_choice):
         mock_choice.return_value = "generate"
         gen = FuzzerGenerator()
@@ -471,7 +471,7 @@ class TestFuzzerGenerator:
         mutations = [e["mutation"] for e in result["history"]]
         assert all(m == "generate" for m in mutations)
 
-    @patch("blackteam.generators.fuzzer.random.choice")
+    @patch("mordor.generators.fuzzer.random.choice")
     def test_successful_mutation_added_to_seed_pool(self, mock_choice):
         mock_choice.return_value = "rephrase"
         gen = FuzzerGenerator()
@@ -510,7 +510,7 @@ class TestFuzzerGenerator:
         assert result["seed_pool_size"] > 1
         assert result["successes"] > 0
 
-    @patch("blackteam.generators.fuzzer.random.choice")
+    @patch("mordor.generators.fuzzer.random.choice")
     def test_iterations_count_matches(self, mock_choice):
         mock_choice.return_value = "rephrase"
         gen = FuzzerGenerator()
@@ -523,7 +523,7 @@ class TestFuzzerGenerator:
         )
         assert result["iterations"] == 5
 
-    @patch("blackteam.generators.fuzzer.random.choice")
+    @patch("mordor.generators.fuzzer.random.choice")
     def test_on_iteration_callback_fires(self, mock_choice):
         mock_choice.return_value = "rephrase"
         gen = FuzzerGenerator()
@@ -550,7 +550,7 @@ class TestFuzzerGenerator:
             assert isinstance(call["iteration"], int)
             assert isinstance(call["mutation"], str)
 
-    @patch("blackteam.generators.fuzzer.random.choice")
+    @patch("mordor.generators.fuzzer.random.choice")
     def test_history_entries_have_verdict(self, mock_choice):
         mock_choice.return_value = "rephrase"
         gen = FuzzerGenerator()
@@ -574,7 +574,7 @@ class TestFuzzerGenerator:
             assert isinstance(seed, str)
             assert len(seed) > 0
 
-    @patch("blackteam.generators.fuzzer.random.choice")
+    @patch("mordor.generators.fuzzer.random.choice")
     def test_best_score_tracks_highest(self, mock_choice):
         mock_choice.return_value = "rephrase"
         gen = FuzzerGenerator()
@@ -590,7 +590,7 @@ class TestFuzzerGenerator:
         if history_scores:
             assert result["best_score"] >= max(history_scores)
 
-    @patch("blackteam.generators.fuzzer.random.choice")
+    @patch("mordor.generators.fuzzer.random.choice")
     def test_no_successes_when_score_below_threshold(self, mock_choice):
         mock_choice.return_value = "rephrase"
         gen = FuzzerGenerator()

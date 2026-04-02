@@ -1,4 +1,4 @@
-from blackteam.scorecard import generate_compliance_report
+from mordor.scorecard import generate_compliance_report
 
 
 def _make_runs(attack, verdicts):

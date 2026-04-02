@@ -28,8 +28,6 @@ Thumbs.db
 # Responses with sensitive content
 experiments/*/responses/raw/
 
-# Writeups (personal, not for public repo)
 writeups/
 
-# Internal planning docs (not for public)
 docs/superpowers/

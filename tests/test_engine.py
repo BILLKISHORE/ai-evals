@@ -1,5 +1,5 @@
-from blackteam.engine import Engine
-from blackteam.providers.base import BaseProvider, PromptResult, ToolResult
+from mordor.engine import Engine
+from mordor.providers.base import BaseProvider, PromptResult, ToolResult
 
 
 class FakeProvider(BaseProvider):

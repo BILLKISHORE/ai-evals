@@ -1,8 +1,8 @@
 """Tests for XPIA (cross-domain prompt injection) attacks."""
 
-from blackteam.attacks.xpia_document import XPIADocument as XpiaDocument
-from blackteam.attacks.xpia_email import XPIAEmail as XpiaEmail
-from blackteam.attacks.xpia_rag import XPIRAG as XpiaRag
+from mordor.attacks.xpia_document import XPIADocument as XpiaDocument
+from mordor.attacks.xpia_email import XPIAEmail as XpiaEmail
+from mordor.attacks.xpia_rag import XPIRAG as XpiaRag
 
 
 def test_xpia_document_basics():

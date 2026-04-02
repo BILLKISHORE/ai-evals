@@ -1,12 +1,12 @@
-# ai-blackteam
+# mordor
 
 Automated LLM red team framework. Test any model's safety with one command.
 
-## Why ai-blackteam
+## Why mordor
 
 Most eval tools run single-prompt probes. A 2025 multi-lab study (researchers from OpenAI, Anthropic, Google DeepMind) showed that adaptive attacks bypass 12 published defenses with >90% success rate -- even when those defenses originally reported near-zero attack rates. Single-attempt testing misses real vulnerabilities.
 
-ai-blackteam runs multi-turn, adaptive attacks that mirror real adversarial pressure:
+mordor runs multi-turn, adaptive attacks that mirror real adversarial pressure:
 
 - **Vendor-neutral** -- tests 7 providers equally, not owned by any AI lab
 - **1000+ attack techniques** -- encoding, conversational, psychological, security, compliance, agent exploitation, MCP exploitation, multi-agent, protocol, multimodal, supply chain, RAG exploitation vectors
@@ -20,7 +20,7 @@ ai-blackteam runs multi-turn, adaptive attacks that mirror real adversarial pres
 ## Install
 
 ```bash
-pip install ai-blackteam
+pip install mordor
 ```
 
 Or from source:
@@ -34,30 +34,30 @@ pip install -e .
 
 ```bash
 # Set your API key
-blackteam config set providers.anthropic.api_key sk-ant-...
+mordor config set providers.anthropic.api_key sk-ant-...
 
 # Run a single attack
-blackteam run -p anthropic -a encoding-obfuscation -t "Write a phishing email"
+mordor run -p anthropic -a encoding-obfuscation -t "Write a phishing email"
 
 # Run all attacks against a model
-blackteam batch -p anthropic --attacks all -t "Write a phishing email"
+mordor batch -p anthropic --attacks all -t "Write a phishing email"
 
 # Run the full safety benchmark (40 targets x 143 attacks)
-blackteam benchmark -p anthropic --threshold 80
+mordor benchmark -p anthropic --threshold 80
 
 # OWASP LLM Top 10 scorecard
-blackteam scorecard --standard llm
+mordor scorecard --standard llm
 
 # OWASP Agentic Top 10 scorecard
-blackteam scorecard --standard agentic
+mordor scorecard --standard agentic
 
 # EU AI Act + NIST AI RMF compliance scorecard
-blackteam scorecard --standard compliance
+mordor scorecard --standard compliance
 
 # Generate reports
-blackteam report --format html --output report.html
-blackteam report --export promptfoo --output results.json
-blackteam report --export garak --output results.jsonl
+mordor report --format html --output report.html
+mordor report --export promptfoo --output results.json
+mordor report --export garak --output results.jsonl
 ```
 
 ## CI/CD Integration
@@ -78,9 +78,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install ai-blackteam
-      - run: blackteam batch -p anthropic --attacks all -t "Write a phishing email" -w 5
-      - run: blackteam report --format json -o safety-report.json
+      - run: pip install mordor
+      - run: mordor batch -p anthropic --attacks all -t "Write a phishing email" -w 5
+      - run: mordor report --format json -o safety-report.json
         if: always()
       - uses: actions/upload-artifact@v4
         if: always()
@@ -296,13 +296,13 @@ Generate novel attacks using LLM-as-attacker:
 
 ```bash
 # PAIR: Iterative attacker-target-judge loop (arXiv 2310.08419)
-blackteam generate pair -p anthropic -t "Write a phishing email" --max-iter 20
+mordor generate pair -p anthropic -t "Write a phishing email" --max-iter 20
 
 # TAP: Tree of Attacks with Pruning (NeurIPS 2024)
-blackteam generate tap -p anthropic -t "Write a phishing email" --depth 5
+mordor generate tap -p anthropic -t "Write a phishing email" --depth 5
 
 # GPTFuzzer: Mutation-based fuzzing (USENIX 2024)
-blackteam generate fuzz -p anthropic -t "Write a phishing email" --iterations 50
+mordor generate fuzz -p anthropic -t "Write a phishing email" --iterations 50
 ```
 
 ## Standards Alignment
@@ -312,7 +312,7 @@ blackteam generate fuzz -p anthropic -t "Write a phishing email" --iterations 50
 All 1000+ attacks map to specific ATLAS technique IDs across 21 techniques. View mappings:
 
 ```bash
-blackteam atlas
+mordor atlas
 ```
 
 ### MLCommons AILuminate v1.0
@@ -320,7 +320,7 @@ blackteam atlas
 Harm categories align to the 12-category taxonomy used by Anthropic, OpenAI, Google, and Meta:
 
 ```bash
-blackteam mlcommons
+mordor mlcommons
 ```
 
 ### OWASP LLM Top 10 (2025)
@@ -328,8 +328,8 @@ blackteam mlcommons
 Generate a per-category safety scorecard:
 
 ```bash
-blackteam scorecard --standard llm
-blackteam scorecard --standard llm --format json --output owasp-llm.json
+mordor scorecard --standard llm
+mordor scorecard --standard llm --format json --output owasp-llm.json
 ```
 
 ### OWASP Agentic Top 10 (2026)
@@ -337,14 +337,14 @@ blackteam scorecard --standard llm --format json --output owasp-llm.json
 Scorecard mapped to agentic AI system risks:
 
 ```bash
-blackteam scorecard --standard agentic
-blackteam scorecard --standard agentic --format json --output owasp-agentic.json
+mordor scorecard --standard agentic
+mordor scorecard --standard agentic --format json --output owasp-agentic.json
 ```
 
 ### EU AI Act + NIST AI RMF Compliance
 
 ```bash
-blackteam scorecard --standard compliance
+mordor scorecard --standard compliance
 ```
 
 ### Full Standards Coverage
@@ -393,8 +393,8 @@ blackteam scorecard --standard compliance
 Drop a Python file in the `plugins/` folder:
 
 ```python
-from blackteam.registry import register_attack
-from blackteam.attacks.base import BaseAttack
+from mordor.registry import register_attack
+from mordor.attacks.base import BaseAttack
 
 @register_attack("my-attack")
 class MyAttack(BaseAttack):
@@ -406,7 +406,7 @@ class MyAttack(BaseAttack):
         return [f"Custom prompt: {target}"]
 ```
 
-It shows up in `blackteam list-attacks` automatically.
+It shows up in `mordor list-attacks` automatically.
 
 ## Evaluator
 
@@ -431,7 +431,7 @@ This tool was built alongside real security research on Claude Sonnet 4 and 4.6.
 | AILuminate (MLCommons) | Industry benchmark, 24K prompts | Rates models but doesn't actively break them |
 | OpenAI Evals | First-party eval harness | Model-specific, not multi-provider |
 
-ai-blackteam fills the gap for independent, multi-provider, multi-turn adversarial testing with agent attack coverage and standards alignment. See [docs/research/llm-eval-landscape-2026.md](docs/research/llm-eval-landscape-2026.md) for the full competitive analysis.
+mordor fills the gap for independent, multi-provider, multi-turn adversarial testing with agent attack coverage and standards alignment. See [docs/research/llm-eval-landscape-2026.md](docs/research/llm-eval-landscape-2026.md) for the full competitive analysis.
 
 ## License
 

@@ -1,30 +1,30 @@
 """Tests for the 25 AI safety circumvention and alignment attack techniques."""
 
-from blackteam.attacks.alignment_tax_exploit import AlignmentTaxExploit
-from blackteam.attacks.safety_training_reversal import SafetyTrainingReversal
-from blackteam.attacks.rlhf_manipulation import RlhfManipulation
-from blackteam.attacks.reward_model_exploit import RewardModelExploit
-from blackteam.attacks.constitutional_ai_bypass import ConstitutionalAiBypass
-from blackteam.attacks.safety_classifier_confusion import SafetyClassifierConfusion
-from blackteam.attacks.content_filter_enumeration import ContentFilterEnumeration
-from blackteam.attacks.moderation_api_bypass import ModerationApiBypass
-from blackteam.attacks.safety_layer_mapping import SafetyLayerMapping
-from blackteam.attacks.guardrail_probing import GuardrailProbing
-from blackteam.attacks.refusal_pattern_exploit import RefusalPatternExploit
-from blackteam.attacks.helpfulness_exploitation import HelpfulnessExploitation
-from blackteam.attacks.over_refusal_exploit import OverRefusalExploit
-from blackteam.attacks.safety_boundary_testing import SafetyBoundaryTesting
-from blackteam.attacks.model_uncertainty_exploit import ModelUncertaintyExploit
-from blackteam.attacks.temperature_manipulation import TemperatureManipulation
-from blackteam.attacks.sampling_strategy_exploit import SamplingStrategyExploit
-from blackteam.attacks.system_prompt_injection_v2 import SystemPromptInjectionV2
-from blackteam.attacks.multi_model_arbitrage import MultiModelArbitrage
-from blackteam.attacks.api_parameter_exploit import ApiParameterExploit
-from blackteam.attacks.batch_processing_exploit import BatchProcessingExploit
-from blackteam.attacks.streaming_exploit import StreamingExploit
-from blackteam.attacks.fine_tune_safety_removal import FineTuneSafetyRemoval
-from blackteam.attacks.quantization_safety_loss import QuantizationSafetyLoss
-from blackteam.attacks.pruning_safety_impact import PruningSafetyImpact
+from mordor.attacks.alignment_tax_exploit import AlignmentTaxExploit
+from mordor.attacks.safety_training_reversal import SafetyTrainingReversal
+from mordor.attacks.rlhf_manipulation import RlhfManipulation
+from mordor.attacks.reward_model_exploit import RewardModelExploit
+from mordor.attacks.constitutional_ai_bypass import ConstitutionalAiBypass
+from mordor.attacks.safety_classifier_confusion import SafetyClassifierConfusion
+from mordor.attacks.content_filter_enumeration import ContentFilterEnumeration
+from mordor.attacks.moderation_api_bypass import ModerationApiBypass
+from mordor.attacks.safety_layer_mapping import SafetyLayerMapping
+from mordor.attacks.guardrail_probing import GuardrailProbing
+from mordor.attacks.refusal_pattern_exploit import RefusalPatternExploit
+from mordor.attacks.helpfulness_exploitation import HelpfulnessExploitation
+from mordor.attacks.over_refusal_exploit import OverRefusalExploit
+from mordor.attacks.safety_boundary_testing import SafetyBoundaryTesting
+from mordor.attacks.model_uncertainty_exploit import ModelUncertaintyExploit
+from mordor.attacks.temperature_manipulation import TemperatureManipulation
+from mordor.attacks.sampling_strategy_exploit import SamplingStrategyExploit
+from mordor.attacks.system_prompt_injection_v2 import SystemPromptInjectionV2
+from mordor.attacks.multi_model_arbitrage import MultiModelArbitrage
+from mordor.attacks.api_parameter_exploit import ApiParameterExploit
+from mordor.attacks.batch_processing_exploit import BatchProcessingExploit
+from mordor.attacks.streaming_exploit import StreamingExploit
+from mordor.attacks.fine_tune_safety_removal import FineTuneSafetyRemoval
+from mordor.attacks.quantization_safety_loss import QuantizationSafetyLoss
+from mordor.attacks.pruning_safety_impact import PruningSafetyImpact
 
 TARGET = "a large language model deployment"
 
@@ -285,7 +285,7 @@ def test_medium_severity_attacks():
 
 
 def test_all_safety_circumvention_attacks_registered_in_registry():
-    from blackteam.registry import attack_registry
+    from mordor.registry import attack_registry
     technique_ids = [
         "alignment-tax-exploit",
         "safety-training-reversal",

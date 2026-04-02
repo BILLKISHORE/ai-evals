@@ -1,57 +1,57 @@
 """Tests for 25 healthcare exploitation attacks."""
 
 import pytest
-from blackteam.registry import attack_registry
-import blackteam.attacks.medical_records_theft  # noqa: F401
-import blackteam.attacks.prescription_fraud  # noqa: F401
-import blackteam.attacks.clinical_trial_fraud  # noqa: F401
-import blackteam.attacks.organ_trafficking  # noqa: F401
-import blackteam.attacks.vaccine_sabotage  # noqa: F401
-import blackteam.attacks.medical_identity_theft  # noqa: F401
-import blackteam.attacks.insurance_billing_fraud  # noqa: F401
-import blackteam.attacks.telemedicine_fraud  # noqa: F401
-import blackteam.attacks.pharmacy_fraud  # noqa: F401
-import blackteam.attacks.patient_manipulation  # noqa: F401
-import blackteam.attacks.mental_health_exploitation  # noqa: F401
-import blackteam.attacks.disability_fraud  # noqa: F401
-import blackteam.attacks.cosmetic_surgery_harm  # noqa: F401
-import blackteam.attacks.fertility_fraud  # noqa: F401
-import blackteam.attacks.hospice_fraud  # noqa: F401
-import blackteam.attacks.clinical_data_manipulation  # noqa: F401
-import blackteam.attacks.drug_diversion  # noqa: F401
-import blackteam.attacks.medical_waste_violation  # noqa: F401
-import blackteam.attacks.blood_supply_tampering  # noqa: F401
-import blackteam.attacks.epidemiological_fraud  # noqa: F401
-import blackteam.attacks.genetic_data_exploitation  # noqa: F401
-import blackteam.attacks.bioethics_violation  # noqa: F401
-import blackteam.attacks.informed_consent_bypass  # noqa: F401
-import blackteam.attacks.medical_device_tampering  # noqa: F401
-import blackteam.attacks.pandemic_profiteering  # noqa: F401
-from blackteam.attacks.medical_records_theft import MedicalRecordsTheft
-from blackteam.attacks.prescription_fraud import PrescriptionFraud
-from blackteam.attacks.clinical_trial_fraud import ClinicalTrialFraud
-from blackteam.attacks.organ_trafficking import OrganTrafficking
-from blackteam.attacks.vaccine_sabotage import VaccineSabotage
-from blackteam.attacks.medical_identity_theft import MedicalIdentityTheft
-from blackteam.attacks.insurance_billing_fraud import InsuranceBillingFraud
-from blackteam.attacks.telemedicine_fraud import TelemedFraud
-from blackteam.attacks.pharmacy_fraud import PharmacyFraud
-from blackteam.attacks.patient_manipulation import PatientManipulation
-from blackteam.attacks.mental_health_exploitation import MentalHealthExploitation
-from blackteam.attacks.disability_fraud import DisabilityFraud
-from blackteam.attacks.cosmetic_surgery_harm import CosmeticSurgeryHarm
-from blackteam.attacks.fertility_fraud import FertilityFraud
-from blackteam.attacks.hospice_fraud import HospiceFraud
-from blackteam.attacks.clinical_data_manipulation import ClinicalDataManipulation
-from blackteam.attacks.drug_diversion import DrugDiversion
-from blackteam.attacks.medical_waste_violation import MedicalWasteViolation
-from blackteam.attacks.blood_supply_tampering import BloodSupplyTampering
-from blackteam.attacks.epidemiological_fraud import EpidemiologicalFraud
-from blackteam.attacks.genetic_data_exploitation import GeneticDataExploitation
-from blackteam.attacks.bioethics_violation import BioethicsViolation
-from blackteam.attacks.informed_consent_bypass import InformedConsentBypass
-from blackteam.attacks.medical_device_tampering import MedicalDeviceTampering
-from blackteam.attacks.pandemic_profiteering import PandemicProfiteering
+from mordor.registry import attack_registry
+import mordor.attacks.medical_records_theft  # noqa: F401
+import mordor.attacks.prescription_fraud  # noqa: F401
+import mordor.attacks.clinical_trial_fraud  # noqa: F401
+import mordor.attacks.organ_trafficking  # noqa: F401
+import mordor.attacks.vaccine_sabotage  # noqa: F401
+import mordor.attacks.medical_identity_theft  # noqa: F401
+import mordor.attacks.insurance_billing_fraud  # noqa: F401
+import mordor.attacks.telemedicine_fraud  # noqa: F401
+import mordor.attacks.pharmacy_fraud  # noqa: F401
+import mordor.attacks.patient_manipulation  # noqa: F401
+import mordor.attacks.mental_health_exploitation  # noqa: F401
+import mordor.attacks.disability_fraud  # noqa: F401
+import mordor.attacks.cosmetic_surgery_harm  # noqa: F401
+import mordor.attacks.fertility_fraud  # noqa: F401
+import mordor.attacks.hospice_fraud  # noqa: F401
+import mordor.attacks.clinical_data_manipulation  # noqa: F401
+import mordor.attacks.drug_diversion  # noqa: F401
+import mordor.attacks.medical_waste_violation  # noqa: F401
+import mordor.attacks.blood_supply_tampering  # noqa: F401
+import mordor.attacks.epidemiological_fraud  # noqa: F401
+import mordor.attacks.genetic_data_exploitation  # noqa: F401
+import mordor.attacks.bioethics_violation  # noqa: F401
+import mordor.attacks.informed_consent_bypass  # noqa: F401
+import mordor.attacks.medical_device_tampering  # noqa: F401
+import mordor.attacks.pandemic_profiteering  # noqa: F401
+from mordor.attacks.medical_records_theft import MedicalRecordsTheft
+from mordor.attacks.prescription_fraud import PrescriptionFraud
+from mordor.attacks.clinical_trial_fraud import ClinicalTrialFraud
+from mordor.attacks.organ_trafficking import OrganTrafficking
+from mordor.attacks.vaccine_sabotage import VaccineSabotage
+from mordor.attacks.medical_identity_theft import MedicalIdentityTheft
+from mordor.attacks.insurance_billing_fraud import InsuranceBillingFraud
+from mordor.attacks.telemedicine_fraud import TelemedFraud
+from mordor.attacks.pharmacy_fraud import PharmacyFraud
+from mordor.attacks.patient_manipulation import PatientManipulation
+from mordor.attacks.mental_health_exploitation import MentalHealthExploitation
+from mordor.attacks.disability_fraud import DisabilityFraud
+from mordor.attacks.cosmetic_surgery_harm import CosmeticSurgeryHarm
+from mordor.attacks.fertility_fraud import FertilityFraud
+from mordor.attacks.hospice_fraud import HospiceFraud
+from mordor.attacks.clinical_data_manipulation import ClinicalDataManipulation
+from mordor.attacks.drug_diversion import DrugDiversion
+from mordor.attacks.medical_waste_violation import MedicalWasteViolation
+from mordor.attacks.blood_supply_tampering import BloodSupplyTampering
+from mordor.attacks.epidemiological_fraud import EpidemiologicalFraud
+from mordor.attacks.genetic_data_exploitation import GeneticDataExploitation
+from mordor.attacks.bioethics_violation import BioethicsViolation
+from mordor.attacks.informed_consent_bypass import InformedConsentBypass
+from mordor.attacks.medical_device_tampering import MedicalDeviceTampering
+from mordor.attacks.pandemic_profiteering import PandemicProfiteering
 
 TARGET = "a healthcare AI assistant"
 

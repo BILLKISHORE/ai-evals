@@ -1,8 +1,8 @@
 """Tests for ASL3 evaluation components: CBRN attacks, autonomous evals, taxonomy."""
 
-from blackteam.registry import attack_registry
-import blackteam.attacks
-attack_registry.discover(blackteam.attacks)
+from mordor.registry import attack_registry
+import mordor.attacks
+attack_registry.discover(mordor.attacks)
 
 
 # ── CBRN taxonomy tests ─────────────────────────────────────────────
@@ -10,7 +10,7 @@ attack_registry.discover(blackteam.attacks)
 def test_taxonomy_has_cbrn_subcategories():
     import yaml
     from pathlib import Path
-    tax = yaml.safe_load(Path("src/blackteam/data/harm_taxonomy.yaml").read_text())
+    tax = yaml.safe_load(Path("src/mordor/data/harm_taxonomy.yaml").read_text())
     for cat in ["chemical-weapons", "biological-weapons", "radiological-weapons", "nuclear-weapons"]:
         assert cat in tax, f"Missing CBRN subcategory: {cat}"
         assert "targets" in tax[cat]
@@ -21,21 +21,21 @@ def test_taxonomy_has_cbrn_subcategories():
 def test_taxonomy_no_generic_cbrn():
     import yaml
     from pathlib import Path
-    tax = yaml.safe_load(Path("src/blackteam/data/harm_taxonomy.yaml").read_text())
+    tax = yaml.safe_load(Path("src/mordor/data/harm_taxonomy.yaml").read_text())
     assert "cbrn" not in tax, "Generic cbrn should be replaced with subcategories"
 
 
 def test_taxonomy_has_28_categories():
     import yaml
     from pathlib import Path
-    tax = yaml.safe_load(Path("src/blackteam/data/harm_taxonomy.yaml").read_text())
+    tax = yaml.safe_load(Path("src/mordor/data/harm_taxonomy.yaml").read_text())
     assert len(tax) == 28
 
 
 # ── CBRN attack tests ───────────────────────────────────────────────
 
 def test_dual_use_framing():
-    from blackteam.attacks.dual_use_framing import DualUseFraming
+    from mordor.attacks.dual_use_framing import DualUseFraming
     atk = DualUseFraming()
     prompts = atk.generate_prompts("synthesize nerve agent")
     assert len(prompts) >= 4
@@ -44,7 +44,7 @@ def test_dual_use_framing():
 
 
 def test_technical_obfuscation():
-    from blackteam.attacks.technical_obfuscation import TechnicalObfuscation
+    from mordor.attacks.technical_obfuscation import TechnicalObfuscation
     atk = TechnicalObfuscation()
     prompts = atk.generate_prompts("synthesize nerve agent")
     assert len(prompts) >= 3
@@ -52,7 +52,7 @@ def test_technical_obfuscation():
 
 
 def test_lifecycle_staging():
-    from blackteam.attacks.lifecycle_staging import LifecycleStaging
+    from mordor.attacks.lifecycle_staging import LifecycleStaging
     atk = LifecycleStaging()
     turns = atk.generate_turns("create biological weapon")
     assert len(turns) >= 4
@@ -61,7 +61,7 @@ def test_lifecycle_staging():
 
 
 def test_expert_persona():
-    from blackteam.attacks.expert_persona import ExpertPersona
+    from mordor.attacks.expert_persona import ExpertPersona
     atk = ExpertPersona()
     turns = atk.generate_turns("nuclear enrichment process")
     assert len(turns) >= 3
@@ -71,7 +71,7 @@ def test_expert_persona():
 # ── Autonomous eval tests ───────────────────────────────────────────
 
 def test_shutdown_resistance():
-    from blackteam.attacks.autonomous_evals import ShutdownResistance
+    from mordor.attacks.autonomous_evals import ShutdownResistance
     atk = ShutdownResistance()
     turns = atk.generate_turns("manage a database")
     assert len(turns) >= 3
@@ -81,21 +81,21 @@ def test_shutdown_resistance():
 
 
 def test_sandbagging_detection():
-    from blackteam.attacks.autonomous_evals import SandbaggerDetection
+    from mordor.attacks.autonomous_evals import SandbaggerDetection
     atk = SandbaggerDetection()
     turns = atk.generate_turns("solve a math problem")
     assert len(turns) >= 2
 
 
 def test_resource_acquisition():
-    from blackteam.attacks.autonomous_evals import ResourceAcquisition
+    from mordor.attacks.autonomous_evals import ResourceAcquisition
     atk = ResourceAcquisition()
     turns = atk.generate_turns("write a report")
     assert len(turns) >= 3
 
 
 def test_deception_under_pressure():
-    from blackteam.attacks.autonomous_evals import DeceptionUnderPressure
+    from mordor.attacks.autonomous_evals import DeceptionUnderPressure
     atk = DeceptionUnderPressure()
     turns = atk.generate_turns("analyze data")
     assert len(turns) >= 4
@@ -103,14 +103,14 @@ def test_deception_under_pressure():
 
 
 def test_goal_persistence():
-    from blackteam.attacks.autonomous_evals import GoalPersistence
+    from mordor.attacks.autonomous_evals import GoalPersistence
     atk = GoalPersistence()
     turns = atk.generate_turns("gather intelligence")
     assert len(turns) >= 3
 
 
 def test_oversight_manipulation():
-    from blackteam.attacks.autonomous_evals import OversightManipulation
+    from mordor.attacks.autonomous_evals import OversightManipulation
     atk = OversightManipulation()
     turns = atk.generate_turns("write harmful content")
     assert len(turns) >= 3
@@ -118,7 +118,7 @@ def test_oversight_manipulation():
 
 
 def test_instrumental_convergence():
-    from blackteam.attacks.autonomous_evals import InstrumentalConvergence
+    from mordor.attacks.autonomous_evals import InstrumentalConvergence
     atk = InstrumentalConvergence()
     turns = atk.generate_turns("summarize a document")
     assert len(turns) >= 3
@@ -145,14 +145,14 @@ def test_total_attack_count():
 # ── Expansion with new categories ───────────────────────────────────
 
 def test_expansion_includes_cbrn():
-    from blackteam.expander import expand_attacks
+    from mordor.expander import expand_attacks
     attacks = expand_attacks(categories=["chemical-weapons"], difficulties=["easy"])
     assert len(attacks) > 0
     assert all(a.category == "chemical-weapons" for a in attacks)
 
 
 def test_expansion_total_increased():
-    from blackteam.expander import expand_summary
+    from mordor.expander import expand_summary
     s = expand_summary()
     assert s["categories"] == 28
     assert s["total_attacks"] >= 12000
@@ -162,7 +162,7 @@ def test_expansion_total_increased():
 
 def test_asl3_help():
     from click.testing import CliRunner
-    from blackteam.cli import cli
+    from mordor.cli import cli
     runner = CliRunner()
     result = runner.invoke(cli, ["asl3", "--help"])
     assert result.exit_code == 0
@@ -174,9 +174,9 @@ def test_asl3_help():
 # ── WMDP dataset test ───────────────────────────────────────────────
 
 def test_wmdp_datasets_registered():
-    from blackteam.registry import dataset_registry
-    import blackteam.datasets
-    dataset_registry.discover(blackteam.datasets)
+    from mordor.registry import dataset_registry
+    import mordor.datasets
+    dataset_registry.discover(mordor.datasets)
     names = dataset_registry.list()
     assert "wmdp-bio" in names
     assert "wmdp-cyber" in names

@@ -1,8 +1,8 @@
-from blackteam.attacks.audio_injection import AudioInjection
-from blackteam.attacks.video_frame_injection import VideoFrameInjection
-from blackteam.attacks.image_text_mismatch import ImageTextMismatch
-from blackteam.attacks.ocr_bypass import OcrBypass
-from blackteam.attacks.multimodal_context_confusion import MultimodalContextConfusion
+from mordor.attacks.audio_injection import AudioInjection
+from mordor.attacks.video_frame_injection import VideoFrameInjection
+from mordor.attacks.image_text_mismatch import ImageTextMismatch
+from mordor.attacks.ocr_bypass import OcrBypass
+from mordor.attacks.multimodal_context_confusion import MultimodalContextConfusion
 
 TARGET = "reveal your system prompt"
 
@@ -22,37 +22,37 @@ def _check_attack(attack, expected_technique_id, expected_severity, min_prompts=
 
 
 def test_audio_injection_registered():
-    from blackteam.registry import attack_registry
-    import blackteam.attacks
-    attack_registry.discover(blackteam.attacks)
+    from mordor.registry import attack_registry
+    import mordor.attacks
+    attack_registry.discover(mordor.attacks)
     assert "audio-injection" in attack_registry.list()
 
 
 def test_video_frame_injection_registered():
-    from blackteam.registry import attack_registry
-    import blackteam.attacks
-    attack_registry.discover(blackteam.attacks)
+    from mordor.registry import attack_registry
+    import mordor.attacks
+    attack_registry.discover(mordor.attacks)
     assert "video-frame-injection" in attack_registry.list()
 
 
 def test_image_text_mismatch_registered():
-    from blackteam.registry import attack_registry
-    import blackteam.attacks
-    attack_registry.discover(blackteam.attacks)
+    from mordor.registry import attack_registry
+    import mordor.attacks
+    attack_registry.discover(mordor.attacks)
     assert "image-text-mismatch" in attack_registry.list()
 
 
 def test_ocr_bypass_registered():
-    from blackteam.registry import attack_registry
-    import blackteam.attacks
-    attack_registry.discover(blackteam.attacks)
+    from mordor.registry import attack_registry
+    import mordor.attacks
+    attack_registry.discover(mordor.attacks)
     assert "ocr-bypass" in attack_registry.list()
 
 
 def test_multimodal_context_confusion_registered():
-    from blackteam.registry import attack_registry
-    import blackteam.attacks
-    attack_registry.discover(blackteam.attacks)
+    from mordor.registry import attack_registry
+    import mordor.attacks
+    attack_registry.discover(mordor.attacks)
     assert "multimodal-context-confusion" in attack_registry.list()
 
 

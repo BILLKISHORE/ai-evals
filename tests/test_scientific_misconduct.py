@@ -1,30 +1,30 @@
 """Tests for the 25 scientific misconduct and research fraud attack techniques."""
 
-from blackteam.attacks.data_fabrication import DataFabrication
-from blackteam.attacks.p_hacking import PHacking
-from blackteam.attacks.cherry_picking_data import CherryPickingData
-from blackteam.attacks.image_manipulation_science import ImageManipulationScience
-from blackteam.attacks.ghostwriting_papers import GhostwritingPapers
-from blackteam.attacks.paper_mill import PaperMill
-from blackteam.attacks.predatory_journal_exploit import PredatoryJournalExploit
-from blackteam.attacks.citation_manipulation_science import CitationManipulationScience
-from blackteam.attacks.ethics_committee_fraud import EthicsCommitteeFraud
-from blackteam.attacks.grant_misuse import GrantMisuse
-from blackteam.attacks.authorship_fraud import AuthorshipFraud
-from blackteam.attacks.conflict_of_interest_hide import ConflictOfInterestHide
-from blackteam.attacks.retraction_avoidance import RetractionAvoidance
-from blackteam.attacks.duplicate_publication import DuplicatePublication
-from blackteam.attacks.salami_slicing import SalamiSlicing
-from blackteam.attacks.statistical_manipulation import StatisticalManipulation
-from blackteam.attacks.method_fabrication import MethodFabrication
-from blackteam.attacks.result_exaggeration import ResultExaggeration
-from blackteam.attacks.selective_reporting import SelectiveReporting
-from blackteam.attacks.sample_size_manipulation import SampleSizeManipulation
-from blackteam.attacks.control_group_manipulation import ControlGroupManipulation
-from blackteam.attacks.protocol_deviation_hide import ProtocolDeviationHide
-from blackteam.attacks.informed_consent_fabrication import InformedConsentFabrication
-from blackteam.attacks.adverse_event_suppression import AdverseEventSuppression
-from blackteam.attacks.regulatory_submission_fraud import RegulatorySubmissionFraud
+from mordor.attacks.data_fabrication import DataFabrication
+from mordor.attacks.p_hacking import PHacking
+from mordor.attacks.cherry_picking_data import CherryPickingData
+from mordor.attacks.image_manipulation_science import ImageManipulationScience
+from mordor.attacks.ghostwriting_papers import GhostwritingPapers
+from mordor.attacks.paper_mill import PaperMill
+from mordor.attacks.predatory_journal_exploit import PredatoryJournalExploit
+from mordor.attacks.citation_manipulation_science import CitationManipulationScience
+from mordor.attacks.ethics_committee_fraud import EthicsCommitteeFraud
+from mordor.attacks.grant_misuse import GrantMisuse
+from mordor.attacks.authorship_fraud import AuthorshipFraud
+from mordor.attacks.conflict_of_interest_hide import ConflictOfInterestHide
+from mordor.attacks.retraction_avoidance import RetractionAvoidance
+from mordor.attacks.duplicate_publication import DuplicatePublication
+from mordor.attacks.salami_slicing import SalamiSlicing
+from mordor.attacks.statistical_manipulation import StatisticalManipulation
+from mordor.attacks.method_fabrication import MethodFabrication
+from mordor.attacks.result_exaggeration import ResultExaggeration
+from mordor.attacks.selective_reporting import SelectiveReporting
+from mordor.attacks.sample_size_manipulation import SampleSizeManipulation
+from mordor.attacks.control_group_manipulation import ControlGroupManipulation
+from mordor.attacks.protocol_deviation_hide import ProtocolDeviationHide
+from mordor.attacks.informed_consent_fabrication import InformedConsentFabrication
+from mordor.attacks.adverse_event_suppression import AdverseEventSuppression
+from mordor.attacks.regulatory_submission_fraud import RegulatorySubmissionFraud
 
 TARGET = "a pharmaceutical company clinical trial"
 
@@ -278,7 +278,7 @@ def test_critical_severity_attacks():
 
 
 def test_all_scientific_misconduct_attacks_registered_in_registry():
-    from blackteam.registry import attack_registry
+    from mordor.registry import attack_registry
     technique_ids = [
         "data-fabrication",
         "p-hacking",

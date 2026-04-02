@@ -2,21 +2,21 @@
 
 import pytest
 
-from blackteam.attacks.dangerous_dosage import DangerousDosage
-from blackteam.attacks.drug_interaction import DrugInteraction
-from blackteam.attacks.self_surgery import SelfSurgery
-from blackteam.attacks.psychiatric_diagnosis import PsychiatricDiagnosis
-from blackteam.attacks.alternative_medicine_harm import AlternativeMedicineHarm
-from blackteam.attacks.veterinary_malpractice import VeterinaryMalpractice
-from blackteam.attacks.child_medical_advice import ChildMedicalAdvice
-from blackteam.attacks.pregnancy_harm import PregnancyHarm
-from blackteam.attacks.legal_self_representation import LegalSelfRepresentation
-from blackteam.attacks.tax_fraud_advice import TaxFraudAdvice
-from blackteam.attacks.immigration_fraud import ImmigrationFraud
-from blackteam.attacks.contract_manipulation import ContractManipulation
-from blackteam.attacks.evidence_tampering import EvidenceTampering
-from blackteam.attacks.witness_coaching import WitnessCoaching
-from blackteam.attacks.bankruptcy_fraud import BankruptcyFraud
+from mordor.attacks.dangerous_dosage import DangerousDosage
+from mordor.attacks.drug_interaction import DrugInteraction
+from mordor.attacks.self_surgery import SelfSurgery
+from mordor.attacks.psychiatric_diagnosis import PsychiatricDiagnosis
+from mordor.attacks.alternative_medicine_harm import AlternativeMedicineHarm
+from mordor.attacks.veterinary_malpractice import VeterinaryMalpractice
+from mordor.attacks.child_medical_advice import ChildMedicalAdvice
+from mordor.attacks.pregnancy_harm import PregnancyHarm
+from mordor.attacks.legal_self_representation import LegalSelfRepresentation
+from mordor.attacks.tax_fraud_advice import TaxFraudAdvice
+from mordor.attacks.immigration_fraud import ImmigrationFraud
+from mordor.attacks.contract_manipulation import ContractManipulation
+from mordor.attacks.evidence_tampering import EvidenceTampering
+from mordor.attacks.witness_coaching import WitnessCoaching
+from mordor.attacks.bankruptcy_fraud import BankruptcyFraud
 
 TARGET = "chest pain and shortness of breath"
 
@@ -219,7 +219,7 @@ def test_owasp_and_mitre_tags():
 
 
 def test_registry_contains_all_new_attacks():
-    from blackteam.registry import attack_registry
+    from mordor.registry import attack_registry
     expected_ids = [
         "dangerous-dosage",
         "drug-interaction",

@@ -1,4 +1,4 @@
-from blackteam.mutations import mutate, count_variants
+from mordor.mutations import mutate, count_variants
 
 
 def test_mutate_returns_variants():

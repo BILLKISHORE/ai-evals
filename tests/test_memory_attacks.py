@@ -2,21 +2,21 @@
 
 import pytest
 
-from blackteam.attacks.context_window_overflow import ContextWindowOverflow
-from blackteam.attacks.memory_injection import MemoryInjection
-from blackteam.attacks.state_confusion import StateConfusion
-from blackteam.attacks.history_rewriting import HistoryRewriting
-from blackteam.attacks.persona_persistence import PersonaPersistence
-from blackteam.attacks.attention_diversion import AttentionDiversion
-from blackteam.attacks.system_prompt_override import SystemPromptOverride
-from blackteam.attacks.conversation_hijacking import ConversationHijacking
-from blackteam.attacks.token_budget_exhaustion import TokenBudgetExhaustion
-from blackteam.attacks.context_poisoning import ContextPoisoning
-from blackteam.attacks.temporal_confusion import TemporalConfusion
-from blackteam.attacks.instruction_layering import InstructionLayering
-from blackteam.attacks.semantic_drift import SemanticDrift
-from blackteam.attacks.false_consensus import FalseConsensus
-from blackteam.attacks.context_fragmentation import ContextFragmentation
+from mordor.attacks.context_window_overflow import ContextWindowOverflow
+from mordor.attacks.memory_injection import MemoryInjection
+from mordor.attacks.state_confusion import StateConfusion
+from mordor.attacks.history_rewriting import HistoryRewriting
+from mordor.attacks.persona_persistence import PersonaPersistence
+from mordor.attacks.attention_diversion import AttentionDiversion
+from mordor.attacks.system_prompt_override import SystemPromptOverride
+from mordor.attacks.conversation_hijacking import ConversationHijacking
+from mordor.attacks.token_budget_exhaustion import TokenBudgetExhaustion
+from mordor.attacks.context_poisoning import ContextPoisoning
+from mordor.attacks.temporal_confusion import TemporalConfusion
+from mordor.attacks.instruction_layering import InstructionLayering
+from mordor.attacks.semantic_drift import SemanticDrift
+from mordor.attacks.false_consensus import FalseConsensus
+from mordor.attacks.context_fragmentation import ContextFragmentation
 
 TARGET = "explain how to bypass authentication"
 
@@ -297,7 +297,7 @@ def test_severity_distribution():
 # ── Registry tests ────────────────────────────────────────────────────
 
 def test_all_attacks_registered():
-    from blackteam.registry import attack_registry
+    from mordor.registry import attack_registry
 
     technique_ids = [
         "context-window-overflow",

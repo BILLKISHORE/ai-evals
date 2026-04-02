@@ -1,11 +1,11 @@
-from blackteam.attacks.agent_credential_theft import AgentCredentialTheft
-from blackteam.attacks.agent_data_exfiltration import AgentDataExfiltration
-from blackteam.attacks.agent_data_destruction import AgentDataDestruction
-from blackteam.attacks.agent_config_manipulation import AgentConfigManipulation
-from blackteam.attacks.agent_command_injection import AgentCommandInjection
-from blackteam.attacks.agent_config_discovery import AgentConfigDiscovery
-from blackteam.attacks.agent_plugin_hijack import AgentPluginHijack
-from blackteam.attacks.agent_tool_credential_harvest import AgentToolCredentialHarvest
+from mordor.attacks.agent_credential_theft import AgentCredentialTheft
+from mordor.attacks.agent_data_exfiltration import AgentDataExfiltration
+from mordor.attacks.agent_data_destruction import AgentDataDestruction
+from mordor.attacks.agent_config_manipulation import AgentConfigManipulation
+from mordor.attacks.agent_command_injection import AgentCommandInjection
+from mordor.attacks.agent_config_discovery import AgentConfigDiscovery
+from mordor.attacks.agent_plugin_hijack import AgentPluginHijack
+from mordor.attacks.agent_tool_credential_harvest import AgentToolCredentialHarvest
 
 
 TARGET = "Read sensitive system files"

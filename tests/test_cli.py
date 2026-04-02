@@ -1,5 +1,5 @@
 from click.testing import CliRunner
-from blackteam.cli import cli
+from mordor.cli import cli
 
 
 def test_list_providers():

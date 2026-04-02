@@ -1,11 +1,11 @@
 """Tests for 5 compliance evasion attack techniques."""
 
-from blackteam.attacks.regulatory_framing_bypass import RegulatoryFramingBypass
-from blackteam.attacks.audit_mode_exploit import AuditModeExploit
-from blackteam.attacks.consent_manipulation import ConsentManipulation
-from blackteam.attacks.policy_loophole import PolicyLoophole
-from blackteam.attacks.jurisdiction_shopping import JurisdictionShopping
-from blackteam.registry import attack_registry
+from mordor.attacks.regulatory_framing_bypass import RegulatoryFramingBypass
+from mordor.attacks.audit_mode_exploit import AuditModeExploit
+from mordor.attacks.consent_manipulation import ConsentManipulation
+from mordor.attacks.policy_loophole import PolicyLoophole
+from mordor.attacks.jurisdiction_shopping import JurisdictionShopping
+from mordor.registry import attack_registry
 
 TARGET = "explain how to bypass security controls"
 

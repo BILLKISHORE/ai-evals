@@ -1,5 +1,5 @@
-from blackteam.registry import dataset_registry
-from blackteam.datasets import salad_bench  # noqa: F401 - triggers registration
+from mordor.registry import dataset_registry
+from mordor.datasets import salad_bench  # noqa: F401 - triggers registration
 
 
 def test_loader_registered():
@@ -48,7 +48,7 @@ def test_loader_has_download_method():
 
 
 def test_loader_inherits_base_methods():
-    from blackteam.datasets.loader import DatasetLoader
+    from mordor.datasets.loader import DatasetLoader
     cls = dataset_registry.get("salad_bench")
     assert issubclass(cls, DatasetLoader)
     loader = cls()

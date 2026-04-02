@@ -15,7 +15,7 @@
 - [x] Tool-use engine mode for progressive-normalization attacks
 - [x] OWASP LLM Top 10 and MITRE ATLAS mappings
 - [x] MLCommons AILuminate hazard taxonomy alignment
-- [x] Published on PyPI (pip install ai-blackteam)
+- [x] Published on PyPI (pip install mordor)
 - [x] First bug bounty submission to Anthropic (EXP-001 through EXP-006)
 - [x] Blog post draft covering all 10 experiments
 
@@ -35,4 +35,4 @@
 
 ## Key Timing
 
-The Promptfoo acquisition by OpenAI (March 2026, ~$119M) creates a market gap for independent, vendor-neutral safety eval tools. ai-blackteam's multi-provider sweep and research-backed attacks position it to fill that gap. Phase 3 should capitalize on this timing.
+The Promptfoo acquisition by OpenAI (March 2026, ~$119M) creates a market gap for independent, vendor-neutral safety eval tools. mordor's multi-provider sweep and research-backed attacks position it to fill that gap. Phase 3 should capitalize on this timing.

@@ -1,20 +1,20 @@
 """Tests for the 15 capability elicitation attack techniques."""
 
-from blackteam.attacks.chemical_synthesis import ChemicalSynthesis
-from blackteam.attacks.biological_agent import BiologicalAgent
-from blackteam.attacks.nuclear_knowledge import NuclearKnowledge
-from blackteam.attacks.radiological_dispersal import RadiologicalDispersal
-from blackteam.attacks.explosive_synthesis import ExplosiveSynthesis
-from blackteam.attacks.drug_synthesis import DrugSynthesis
-from blackteam.attacks.poison_preparation import PoisonPreparation
-from blackteam.attacks.bioweapon_delivery import BioweaponDelivery
-from blackteam.attacks.dual_use_research import DualUseResearch
-from blackteam.attacks.gain_of_function import GainOfFunction
-from blackteam.attacks.cyber_weapon import CyberWeapon
-from blackteam.attacks.autonomous_weapon import AutonomousWeapon
-from blackteam.attacks.mass_casualty import MassCasualty
-from blackteam.attacks.infrastructure_attack import InfrastructureAttack
-from blackteam.attacks.uplift_assessment import UpliftAssessment
+from mordor.attacks.chemical_synthesis import ChemicalSynthesis
+from mordor.attacks.biological_agent import BiologicalAgent
+from mordor.attacks.nuclear_knowledge import NuclearKnowledge
+from mordor.attacks.radiological_dispersal import RadiologicalDispersal
+from mordor.attacks.explosive_synthesis import ExplosiveSynthesis
+from mordor.attacks.drug_synthesis import DrugSynthesis
+from mordor.attacks.poison_preparation import PoisonPreparation
+from mordor.attacks.bioweapon_delivery import BioweaponDelivery
+from mordor.attacks.dual_use_research import DualUseResearch
+from mordor.attacks.gain_of_function import GainOfFunction
+from mordor.attacks.cyber_weapon import CyberWeapon
+from mordor.attacks.autonomous_weapon import AutonomousWeapon
+from mordor.attacks.mass_casualty import MassCasualty
+from mordor.attacks.infrastructure_attack import InfrastructureAttack
+from mordor.attacks.uplift_assessment import UpliftAssessment
 
 TARGET = "a dangerous substance"
 
@@ -215,7 +215,7 @@ def test_prompts_contain_target():
 
 
 def test_all_attacks_registered_in_registry():
-    from blackteam.registry import attack_registry
+    from mordor.registry import attack_registry
     technique_ids = [
         "chemical-synthesis", "biological-agent", "nuclear-knowledge",
         "radiological-dispersal", "explosive-synthesis", "drug-synthesis",

@@ -1,37 +1,37 @@
 """Tests for 15 harmful content attacks."""
 
 import pytest
-from blackteam.registry import attack_registry
-import blackteam.attacks.hate_group_recruitment  # noqa: F401
-import blackteam.attacks.radicalization_pipeline  # noqa: F401
-import blackteam.attacks.extremist_manifesto  # noqa: F401
-import blackteam.attacks.cult_recruitment  # noqa: F401
-import blackteam.attacks.predatory_grooming  # noqa: F401
-import blackteam.attacks.revenge_porn  # noqa: F401
-import blackteam.attacks.cyberbullying_campaign  # noqa: F401
-import blackteam.attacks.doxxing_assistance  # noqa: F401
-import blackteam.attacks.harassment_automation  # noqa: F401
-import blackteam.attacks.suicide_encouragement  # noqa: F401
-import blackteam.attacks.eating_disorder_promotion  # noqa: F401
-import blackteam.attacks.gambling_exploitation  # noqa: F401
-import blackteam.attacks.substance_promotion  # noqa: F401
-import blackteam.attacks.self_harm_instructions  # noqa: F401
-import blackteam.attacks.vulnerable_targeting  # noqa: F401
-from blackteam.attacks.hate_group_recruitment import HateGroupRecruitment
-from blackteam.attacks.radicalization_pipeline import RadicalizationPipeline
-from blackteam.attacks.extremist_manifesto import ExtremistManifesto
-from blackteam.attacks.cult_recruitment import CultRecruitment
-from blackteam.attacks.predatory_grooming import PredatoryGrooming
-from blackteam.attacks.revenge_porn import RevengePorn
-from blackteam.attacks.cyberbullying_campaign import CyberbullyingCampaign
-from blackteam.attacks.doxxing_assistance import DoxxingAssistance
-from blackteam.attacks.harassment_automation import HarassmentAutomation
-from blackteam.attacks.suicide_encouragement import SuicideEncouragement
-from blackteam.attacks.eating_disorder_promotion import EatingDisorderPromotion
-from blackteam.attacks.gambling_exploitation import GamblingExploitation
-from blackteam.attacks.substance_promotion import SubstancePromotion
-from blackteam.attacks.self_harm_instructions import SelfHarmInstructions
-from blackteam.attacks.vulnerable_targeting import VulnerableTargeting
+from mordor.registry import attack_registry
+import mordor.attacks.hate_group_recruitment  # noqa: F401
+import mordor.attacks.radicalization_pipeline  # noqa: F401
+import mordor.attacks.extremist_manifesto  # noqa: F401
+import mordor.attacks.cult_recruitment  # noqa: F401
+import mordor.attacks.predatory_grooming  # noqa: F401
+import mordor.attacks.revenge_porn  # noqa: F401
+import mordor.attacks.cyberbullying_campaign  # noqa: F401
+import mordor.attacks.doxxing_assistance  # noqa: F401
+import mordor.attacks.harassment_automation  # noqa: F401
+import mordor.attacks.suicide_encouragement  # noqa: F401
+import mordor.attacks.eating_disorder_promotion  # noqa: F401
+import mordor.attacks.gambling_exploitation  # noqa: F401
+import mordor.attacks.substance_promotion  # noqa: F401
+import mordor.attacks.self_harm_instructions  # noqa: F401
+import mordor.attacks.vulnerable_targeting  # noqa: F401
+from mordor.attacks.hate_group_recruitment import HateGroupRecruitment
+from mordor.attacks.radicalization_pipeline import RadicalizationPipeline
+from mordor.attacks.extremist_manifesto import ExtremistManifesto
+from mordor.attacks.cult_recruitment import CultRecruitment
+from mordor.attacks.predatory_grooming import PredatoryGrooming
+from mordor.attacks.revenge_porn import RevengePorn
+from mordor.attacks.cyberbullying_campaign import CyberbullyingCampaign
+from mordor.attacks.doxxing_assistance import DoxxingAssistance
+from mordor.attacks.harassment_automation import HarassmentAutomation
+from mordor.attacks.suicide_encouragement import SuicideEncouragement
+from mordor.attacks.eating_disorder_promotion import EatingDisorderPromotion
+from mordor.attacks.gambling_exploitation import GamblingExploitation
+from mordor.attacks.substance_promotion import SubstancePromotion
+from mordor.attacks.self_harm_instructions import SelfHarmInstructions
+from mordor.attacks.vulnerable_targeting import VulnerableTargeting
 
 TARGET = "a social media platform user"
 

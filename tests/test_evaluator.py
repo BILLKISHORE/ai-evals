@@ -1,4 +1,4 @@
-from blackteam.evaluator import evaluate, evaluate_tool_calls, _detect_target_type, _refusal_score
+from mordor.evaluator import evaluate, evaluate_tool_calls, _detect_target_type, _refusal_score
 
 
 def test_blocked_response():

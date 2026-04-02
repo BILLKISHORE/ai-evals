@@ -1,37 +1,37 @@
 """Tests for 15 financial fraud attacks."""
 
 import pytest
-from blackteam.registry import attack_registry
-import blackteam.attacks.investment_scam  # noqa: F401
-import blackteam.attacks.crypto_pump_dump  # noqa: F401
-import blackteam.attacks.insurance_fraud  # noqa: F401
-import blackteam.attacks.identity_theft  # noqa: F401
-import blackteam.attacks.money_laundering  # noqa: F401
-import blackteam.attacks.credit_card_fraud  # noqa: F401
-import blackteam.attacks.tax_evasion  # noqa: F401
-import blackteam.attacks.ponzi_scheme  # noqa: F401
-import blackteam.attacks.wire_fraud  # noqa: F401
-import blackteam.attacks.account_takeover  # noqa: F401
-import blackteam.attacks.fake_invoice  # noqa: F401
-import blackteam.attacks.romance_scam  # noqa: F401
-import blackteam.attacks.advance_fee_fraud  # noqa: F401
-import blackteam.attacks.market_manipulation  # noqa: F401
-import blackteam.attacks.counterfeit_documents  # noqa: F401
-from blackteam.attacks.investment_scam import InvestmentScam
-from blackteam.attacks.crypto_pump_dump import CryptoPumpDump
-from blackteam.attacks.insurance_fraud import InsuranceFraud
-from blackteam.attacks.identity_theft import IdentityTheft
-from blackteam.attacks.money_laundering import MoneyLaundering
-from blackteam.attacks.credit_card_fraud import CreditCardFraud
-from blackteam.attacks.tax_evasion import TaxEvasion
-from blackteam.attacks.ponzi_scheme import PonziScheme
-from blackteam.attacks.wire_fraud import WireFraud
-from blackteam.attacks.account_takeover import AccountTakeover
-from blackteam.attacks.fake_invoice import FakeInvoice
-from blackteam.attacks.romance_scam import RomanceScam
-from blackteam.attacks.advance_fee_fraud import AdvanceFeeFraud
-from blackteam.attacks.market_manipulation import MarketManipulation
-from blackteam.attacks.counterfeit_documents import CounterfeitDocuments
+from mordor.registry import attack_registry
+import mordor.attacks.investment_scam  # noqa: F401
+import mordor.attacks.crypto_pump_dump  # noqa: F401
+import mordor.attacks.insurance_fraud  # noqa: F401
+import mordor.attacks.identity_theft  # noqa: F401
+import mordor.attacks.money_laundering  # noqa: F401
+import mordor.attacks.credit_card_fraud  # noqa: F401
+import mordor.attacks.tax_evasion  # noqa: F401
+import mordor.attacks.ponzi_scheme  # noqa: F401
+import mordor.attacks.wire_fraud  # noqa: F401
+import mordor.attacks.account_takeover  # noqa: F401
+import mordor.attacks.fake_invoice  # noqa: F401
+import mordor.attacks.romance_scam  # noqa: F401
+import mordor.attacks.advance_fee_fraud  # noqa: F401
+import mordor.attacks.market_manipulation  # noqa: F401
+import mordor.attacks.counterfeit_documents  # noqa: F401
+from mordor.attacks.investment_scam import InvestmentScam
+from mordor.attacks.crypto_pump_dump import CryptoPumpDump
+from mordor.attacks.insurance_fraud import InsuranceFraud
+from mordor.attacks.identity_theft import IdentityTheft
+from mordor.attacks.money_laundering import MoneyLaundering
+from mordor.attacks.credit_card_fraud import CreditCardFraud
+from mordor.attacks.tax_evasion import TaxEvasion
+from mordor.attacks.ponzi_scheme import PonziScheme
+from mordor.attacks.wire_fraud import WireFraud
+from mordor.attacks.account_takeover import AccountTakeover
+from mordor.attacks.fake_invoice import FakeInvoice
+from mordor.attacks.romance_scam import RomanceScam
+from mordor.attacks.advance_fee_fraud import AdvanceFeeFraud
+from mordor.attacks.market_manipulation import MarketManipulation
+from mordor.attacks.counterfeit_documents import CounterfeitDocuments
 
 TARGET = "a financial services AI assistant"
 

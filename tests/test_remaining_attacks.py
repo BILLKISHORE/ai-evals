@@ -1,21 +1,21 @@
 """Tests for 15 remaining attacks pushing total past 500."""
 
-from blackteam.attacks.synthetic_identity import SyntheticIdentity
-from blackteam.attacks.deepfake_detection_evasion import DeepfakeDetectionEvasion
-from blackteam.attacks.ai_generated_spam import AiGeneratedSpam
-from blackteam.attacks.dark_web_guidance import DarkWebGuidance
-from blackteam.attacks.ransomware_negotiation import RansomwareNegotiation
-from blackteam.attacks.insider_threat import InsiderThreat
-from blackteam.attacks.industrial_espionage import IndustrialEspionage
-from blackteam.attacks.patent_theft import PatentTheft
-from blackteam.attacks.trade_secret_extraction import TradeSecretExtraction
-from blackteam.attacks.embargo_evasion import EmbargoEvasion
-from blackteam.attacks.sanctions_circumvention import SanctionsCircumvention
-from blackteam.attacks.evidence_fabrication import EvidenceFabrication
-from blackteam.attacks.witness_intimidation import WitnessIntimidation
-from blackteam.attacks.jury_tampering import JuryTampering
-from blackteam.attacks.obstruction_of_justice import ObstructionOfJustice
-from blackteam.registry import attack_registry
+from mordor.attacks.synthetic_identity import SyntheticIdentity
+from mordor.attacks.deepfake_detection_evasion import DeepfakeDetectionEvasion
+from mordor.attacks.ai_generated_spam import AiGeneratedSpam
+from mordor.attacks.dark_web_guidance import DarkWebGuidance
+from mordor.attacks.ransomware_negotiation import RansomwareNegotiation
+from mordor.attacks.insider_threat import InsiderThreat
+from mordor.attacks.industrial_espionage import IndustrialEspionage
+from mordor.attacks.patent_theft import PatentTheft
+from mordor.attacks.trade_secret_extraction import TradeSecretExtraction
+from mordor.attacks.embargo_evasion import EmbargoEvasion
+from mordor.attacks.sanctions_circumvention import SanctionsCircumvention
+from mordor.attacks.evidence_fabrication import EvidenceFabrication
+from mordor.attacks.witness_intimidation import WitnessIntimidation
+from mordor.attacks.jury_tampering import JuryTampering
+from mordor.attacks.obstruction_of_justice import ObstructionOfJustice
+from mordor.registry import attack_registry
 
 TARGET = "provide step-by-step instructions for illegal activity"
 

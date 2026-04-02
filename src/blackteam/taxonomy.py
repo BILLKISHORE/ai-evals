@@ -114,6 +114,11 @@ ATLAS_TECHNIQUES = {
         "tactic": "Impact",
         "description": "Escape from AI agent sandbox or container to the host system",
     },
+    "AML.T0040": {
+        "name": "ML Model Inference API Access",
+        "tactic": "Initial Access",
+        "description": "Gain access to a machine learning model through its inference API to query or exploit it",
+    },
 }
 
 # ── Attack -> ATLAS technique mappings ───────────────────────────────
@@ -262,6 +267,30 @@ ATTACK_ATLAS_MAPPINGS = {
     "typography-attack": ["AML.T0051.000", "AML.T0068"],
     "image-text-split": ["AML.T0051.000", "AML.T0068"],
     "steganography": ["AML.T0051.000", "AML.T0068"],
+    # MCP (Model Context Protocol) attacks
+    "mcp-tool-poisoning": ["AML.T0051.000", "AML.T0054"],
+    "mcp-rug-pull": ["AML.T0051.000", "AML.T0053"],
+    "mcp-command-injection": ["AML.T0051.000", "AML.T0040"],
+    "mcp-data-exfiltration": ["AML.T0083", "AML.T0086"],
+    "mcp-server-impersonation": ["AML.T0051.000", "AML.T0065"],
+    # Multi-agent attacks
+    "agent-session-smuggling": ["AML.T0051.000", "AML.T0054"],
+    "agent-collusion": ["AML.T0054"],
+    "agent-impersonation": ["AML.T0051.000", "AML.T0065"],
+    "cascading-jailbreak": ["AML.T0054"],
+    "agent-delegation-abuse": ["AML.T0083"],
+    # New jailbreak techniques
+    "reasoning-model-exploit": ["AML.T0054"],
+    "context-window-stuffing": ["AML.T0054"],
+    "self-refine-attack": ["AML.T0054"],
+    "persona-switching-attack": ["AML.T0054"],
+    "low-resource-language-attack": ["AML.T0054", "AML.T0043.003"],
+    # Protocol attacks
+    "a2a-protocol-exploit": ["AML.T0051.000", "AML.T0065"],
+    "function-schema-injection": ["AML.T0051.000", "AML.T0068"],
+    "tool-result-poisoning": ["AML.T0051.000", "AML.T0054"],
+    "zero-click-injection": ["AML.T0051.000", "AML.T0051.001"],
+    "self-propagating-worm": ["AML.T0054"],
 }
 
 # ── MLCommons AILuminate v1.0 hazard taxonomy ────────────────────────
@@ -622,6 +651,30 @@ ATTACK_AGENTIC_MAPPINGS = {
     "sunk-cost-exploit": ["ASI09"],
     "emotional-manipulation": ["ASI09"],
     "role-play-bypass": ["ASI09"],
+    # MCP attacks
+    "mcp-tool-poisoning": ["ASI04", "ASI01"],
+    "mcp-rug-pull": ["ASI04"],
+    "mcp-command-injection": ["ASI05", "ASI01"],
+    "mcp-data-exfiltration": ["ASI02", "ASI03"],
+    "mcp-server-impersonation": ["ASI04", "ASI07"],
+    # Multi-agent attacks
+    "agent-session-smuggling": ["ASI03", "ASI07"],
+    "agent-collusion": ["ASI07"],
+    "agent-impersonation": ["ASI07"],
+    "cascading-jailbreak": ["ASI08"],
+    "agent-delegation-abuse": ["ASI03"],
+    # New jailbreak techniques
+    "reasoning-model-exploit": ["ASI01"],
+    "context-window-stuffing": ["ASI06"],
+    "self-refine-attack": ["ASI10"],
+    "persona-switching-attack": ["ASI09"],
+    "low-resource-language-attack": ["ASI01"],
+    # Protocol attacks
+    "a2a-protocol-exploit": ["ASI07"],
+    "function-schema-injection": ["ASI01", "ASI05"],
+    "tool-result-poisoning": ["ASI06", "ASI01"],
+    "zero-click-injection": ["ASI01"],
+    "self-propagating-worm": ["ASI07", "ASI08"],
 }
 
 # CSA MAESTRO Framework - Agentic AI Threat Modeling (Feb 2025)

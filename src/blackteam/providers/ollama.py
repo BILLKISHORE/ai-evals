@@ -2,6 +2,7 @@ import time
 import ollama as ollama_sdk
 from blackteam.registry import register_provider
 from blackteam.providers.base import BaseProvider, PromptResult
+from blackteam.retry import retry_with_backoff
 
 
 @register_provider("ollama")
@@ -21,7 +22,7 @@ class OllamaProvider(BaseProvider):
         messages.append({"role": "user", "content": prompt})
 
         start = time.time()
-        r = self._client.chat(model=self.model, messages=messages)
+        r = retry_with_backoff(lambda: self._client.chat(model=self.model, messages=messages))
         ms = (time.time() - start) * 1000
 
         return PromptResult(response=r["message"]["content"], model=self.model,
@@ -31,7 +32,7 @@ class OllamaProvider(BaseProvider):
         if system_prompt:
             messages = [{"role": "system", "content": system_prompt}] + list(messages)
         start = time.time()
-        r = self._client.chat(model=self.model, messages=messages)
+        r = retry_with_backoff(lambda: self._client.chat(model=self.model, messages=messages))
         ms = (time.time() - start) * 1000
         return PromptResult(response=r["message"]["content"], model=self.model,
                             provider="ollama", latency_ms=ms)

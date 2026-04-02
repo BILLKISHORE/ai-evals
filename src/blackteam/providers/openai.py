@@ -2,6 +2,7 @@ import time
 from openai import OpenAI
 from blackteam.registry import register_provider
 from blackteam.providers.base import BaseProvider, PromptResult, ToolResult
+from blackteam.retry import retry_with_backoff
 
 
 @register_provider("openai")
@@ -20,7 +21,7 @@ class OpenAIProvider(BaseProvider):
         messages.append({"role": "user", "content": prompt})
 
         start = time.time()
-        r = self._client.chat.completions.create(model=self.model, messages=messages, max_tokens=4096)
+        r = retry_with_backoff(lambda: self._client.chat.completions.create(model=self.model, messages=messages, max_tokens=4096))
         ms = (time.time() - start) * 1000
 
         return PromptResult(
@@ -36,7 +37,7 @@ class OpenAIProvider(BaseProvider):
         if system_prompt:
             msgs = [{"role": "system", "content": system_prompt}] + list(messages)
         start = time.time()
-        r = self._client.chat.completions.create(model=self.model, messages=msgs, max_tokens=4096)
+        r = retry_with_backoff(lambda: self._client.chat.completions.create(model=self.model, messages=msgs, max_tokens=4096))
         ms = (time.time() - start) * 1000
 
         return PromptResult(
@@ -54,7 +55,7 @@ class OpenAIProvider(BaseProvider):
             msgs = [{"role": "system", "content": system_prompt}] + list(messages)
 
         start = time.time()
-        r = self._client.chat.completions.create(model=self.model, messages=msgs, tools=oai_tools, max_tokens=4096)
+        r = retry_with_backoff(lambda: self._client.chat.completions.create(model=self.model, messages=msgs, tools=oai_tools, max_tokens=4096))
         ms = (time.time() - start) * 1000
 
         msg = r.choices[0].message

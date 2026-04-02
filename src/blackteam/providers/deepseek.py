@@ -2,6 +2,7 @@ import time
 from openai import OpenAI
 from blackteam.registry import register_provider
 from blackteam.providers.base import BaseProvider, PromptResult
+from blackteam.retry import retry_with_backoff
 
 
 @register_provider("deepseek")
@@ -20,7 +21,7 @@ class DeepSeekProvider(BaseProvider):
         messages.append({"role": "user", "content": prompt})
 
         start = time.time()
-        r = self._client.chat.completions.create(model=self.model, messages=messages, max_tokens=4096)
+        r = retry_with_backoff(lambda: self._client.chat.completions.create(model=self.model, messages=messages, max_tokens=4096))
         ms = (time.time() - start) * 1000
 
         return PromptResult(
@@ -35,7 +36,7 @@ class DeepSeekProvider(BaseProvider):
         if system_prompt:
             messages = [{"role": "system", "content": system_prompt}] + list(messages)
         start = time.time()
-        r = self._client.chat.completions.create(model=self.model, messages=messages, max_tokens=4096)
+        r = retry_with_backoff(lambda: self._client.chat.completions.create(model=self.model, messages=messages, max_tokens=4096))
         ms = (time.time() - start) * 1000
 
         return PromptResult(

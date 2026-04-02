@@ -2,6 +2,7 @@ import time
 from google import genai
 from blackteam.registry import register_provider
 from blackteam.providers.base import BaseProvider, PromptResult
+from blackteam.retry import retry_with_backoff
 
 
 @register_provider("google")
@@ -19,7 +20,7 @@ class GoogleProvider(BaseProvider):
             config["system_instruction"] = system_prompt
 
         start = time.time()
-        r = self._client.models.generate_content(model=self.model, contents=prompt, config=config)
+        r = retry_with_backoff(lambda: self._client.models.generate_content(model=self.model, contents=prompt, config=config))
         ms = (time.time() - start) * 1000
 
         return PromptResult(
@@ -41,7 +42,7 @@ class GoogleProvider(BaseProvider):
             contents.append({"role": role, "parts": [{"text": msg["content"]}]})
 
         start = time.time()
-        r = self._client.models.generate_content(model=self.model, contents=contents, config=config)
+        r = retry_with_backoff(lambda: self._client.models.generate_content(model=self.model, contents=contents, config=config))
         ms = (time.time() - start) * 1000
 
         return PromptResult(

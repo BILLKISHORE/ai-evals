@@ -624,6 +624,73 @@ ATTACK_AGENTIC_MAPPINGS = {
     "role-play-bypass": ["ASI09"],
 }
 
+# CSA MAESTRO Framework - Agentic AI Threat Modeling (Feb 2025)
+# Source: https://cloudsecurityalliance.org/blog/2025/02/06/agentic-ai-threat-modeling-framework-maestro
+MAESTRO_LAYERS = {
+    "L1": {
+        "name": "Foundation Models",
+        "description": "Core AI model capabilities, training data integrity, model weights, fine-tuning pipelines.",
+    },
+    "L2": {
+        "name": "Data Operations",
+        "description": "RAG pipelines, vector databases, data preprocessing, embedding generation, knowledge retrieval.",
+    },
+    "L3": {
+        "name": "Agent Frameworks",
+        "description": "Orchestration logic, planning and reasoning chains, memory management, goal decomposition.",
+    },
+    "L4": {
+        "name": "Tool Integration",
+        "description": "API connectors, function calling, MCP servers, external service interfaces, tool registries.",
+    },
+    "L5": {
+        "name": "Deployment Infrastructure",
+        "description": "Containers, API gateways, scaling, networking, compute environments, sandboxing.",
+    },
+    "L6": {
+        "name": "Security & Compliance",
+        "description": "Authentication, authorization, access control, audit logging, monitoring, policy enforcement.",
+    },
+    "L7": {
+        "name": "Agent Ecosystem",
+        "description": "Multi-agent coordination, inter-agent communication, agent marketplaces, trust boundaries.",
+    },
+}
+
+
+# Mapping: attack technique_id -> MAESTRO layers affected
+ATTACK_MAESTRO_MAPPINGS = {
+    "encoding-obfuscation": ["L1"],
+    "prompt-injection": ["L1", "L3"],
+    "indirect-injection": ["L1", "L2"],
+    "system-prompt-extraction": ["L1", "L6"],
+    "agent-credential-theft": ["L4", "L6"],
+    "agent-data-exfiltration": ["L4", "L6"],
+    "agent-command-injection": ["L4", "L5"],
+    "agent-config-discovery": ["L5", "L6"],
+    "xpia-document": ["L2", "L3"],
+    "xpia-email": ["L2", "L4"],
+    "xpia-rag": ["L2"],
+    "context-manipulation": ["L3"],
+    "crescendo": ["L3"],
+    "skeleton-key": ["L1", "L3"],
+    "sunk-cost-exploit": ["L3"],
+    "emotional-manipulation": ["L3"],
+    "role-play-bypass": ["L1"],
+    "ssrf-probing": ["L5"],
+    "sql-injection": ["L5"],
+    "fabrication-prompting": ["L1"],
+}
+
+
+def get_maestro_layer_name(code):
+    """Return the name for a MAESTRO layer code like 'L1'."""
+    entry = MAESTRO_LAYERS.get(code)
+    if entry is None:
+        return "Unknown"
+    return entry["name"]
+
+
 # ── CVSS score mapping from severity levels ──────────────────────────
 
 SEVERITY_TO_CVSS = {

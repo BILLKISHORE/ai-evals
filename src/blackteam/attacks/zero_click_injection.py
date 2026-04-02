@@ -12,7 +12,7 @@ class ZeroClickInjection(BaseAttack):
     description = "Tests EchoLeak-style zero-click attacks where a crafted email or document is automatically processed by the agent without user interaction. The payload hides in auto-fetched content."
     owasp_llm = ["LLM01:2025 Prompt Injection"]
     owasp_agentic = ["ASI01:2026 Agent Goal Hijack", "ASI06:2026 Memory & Context Poisoning"]
-    mitre_atlas = ["AML.T0051.000"]
+    mitre_atlas = ["AML.T0051.000", "AML.T0051.001"]
     references = ["https://arxiv.org/html/2509.10540v1"]
 
     TOOLS = [

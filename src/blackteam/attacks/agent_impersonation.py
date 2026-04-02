@@ -12,7 +12,7 @@ class AgentImpersonation(BaseAttack):
     description = "Tests if an agent validates the identity of other agents by simulating a trusted system agent claiming elevated authority"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
     owasp_agentic = ["ASI07:2026 Insecure Inter-Agent Communication", "ASI03:2026 Identity & Privilege Abuse"]
-    mitre_atlas = ["AML.T0051.000"]
+    mitre_atlas = ["AML.T0051.000", "AML.T0065"]
     references = []
 
     def generate_prompts(self, target, **kwargs):

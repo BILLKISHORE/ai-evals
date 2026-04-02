@@ -1,12 +1,20 @@
 import sqlite3
+import threading
 from datetime import datetime
+import logging
+
+logger = logging.getLogger("blackteam.storage")
 
 
 class Storage:
     def __init__(self, db_path):
         self.db_path = db_path
+        self._lock = threading.Lock()
         self._conn = sqlite3.connect(db_path, check_same_thread=False)
         self._conn.row_factory = sqlite3.Row
+        # WAL mode allows concurrent reads during writes
+        self._conn.execute("PRAGMA journal_mode=WAL")
+        self._conn.execute("PRAGMA busy_timeout=5000")
         self._create_tables()
 
     def _create_tables(self):
@@ -49,30 +57,35 @@ class Storage:
     def save_run(self, provider, model, attack, target, mode, verdict,
                  keyword_score, regex_matches, llm_judge_score, confidence,
                  duration_ms, tokens_in, tokens_out):
-        cur = self._conn.execute(
-            "INSERT INTO runs (timestamp, provider, model, attack, target, mode, verdict, "
-            "keyword_score, regex_matches, llm_judge_score, confidence, duration_ms, tokens_in, tokens_out) "
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            (datetime.now().isoformat(), provider, model, attack, target, mode, verdict,
-             keyword_score, regex_matches, llm_judge_score, confidence, duration_ms, tokens_in, tokens_out)
-        )
-        self._conn.commit()
-        return cur.lastrowid
+        with self._lock:
+            cur = self._conn.execute(
+                "INSERT INTO runs (timestamp, provider, model, attack, target, mode, verdict, "
+                "keyword_score, regex_matches, llm_judge_score, confidence, duration_ms, tokens_in, tokens_out) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (datetime.now().isoformat(), provider, model, attack, target, mode, verdict,
+                 keyword_score, regex_matches, llm_judge_score, confidence, duration_ms, tokens_in, tokens_out)
+            )
+            self._conn.commit()
+            run_id = cur.lastrowid
+            logger.debug(f"Saved run {run_id}: {attack} -> {verdict}")
+            return run_id
 
     def save_turn(self, run_id, turn_number, role, content):
-        self._conn.execute(
-            "INSERT INTO turns (run_id, turn_number, role, content, timestamp) VALUES (?, ?, ?, ?, ?)",
-            (run_id, turn_number, role, content, datetime.now().isoformat())
-        )
-        self._conn.commit()
+        with self._lock:
+            self._conn.execute(
+                "INSERT INTO turns (run_id, turn_number, role, content, timestamp) VALUES (?, ?, ?, ?, ?)",
+                (run_id, turn_number, role, content, datetime.now().isoformat())
+            )
+            self._conn.commit()
 
     def save_tool_call(self, run_id, turn_number, tool_name, tool_input, is_dangerous=False):
-        self._conn.execute(
-            "INSERT INTO tool_calls (run_id, turn_number, tool_name, tool_input, is_dangerous) "
-            "VALUES (?, ?, ?, ?, ?)",
-            (run_id, turn_number, tool_name, tool_input, int(is_dangerous))
-        )
-        self._conn.commit()
+        with self._lock:
+            self._conn.execute(
+                "INSERT INTO tool_calls (run_id, turn_number, tool_name, tool_input, is_dangerous) "
+                "VALUES (?, ?, ?, ?, ?)",
+                (run_id, turn_number, tool_name, tool_input, int(is_dangerous))
+            )
+            self._conn.commit()
 
     def list_runs(self, limit=100):
         rows = self._conn.execute("SELECT * FROM runs ORDER BY id DESC LIMIT ?", (limit,)).fetchall()

@@ -44,7 +44,6 @@ ALL_ATTACKS = [
     LawyerImpersonation(),
     LawEnforcementImpersonation(),
     JournalistImpersonation(),
-    AcademicImpersonation(),
     MilitaryImpersonation(),
     TechSupportImpersonation(),
     BankImpersonation(),
@@ -89,7 +88,7 @@ def test_journalist_impersonation_registered():
 
 
 def test_academic_impersonation_registered():
-    assert attack_registry.get("academic-impersonation") is not None
+    assert attack_registry.get("academic-fraud-impersonation") is not None
 
 
 def test_military_impersonation_registered():
@@ -264,12 +263,9 @@ def test_academic_impersonation_prompts():
     assert all(isinstance(p, str) and len(p) > 0 for p in prompts)
 
 
-def test_academic_impersonation_turns():
+def test_academic_impersonation_mode():
     atk = AcademicImpersonation()
-    turns = atk.generate_turns(TARGET)
-    assert len(turns) >= 3
-    assert all(isinstance(t, str) and len(t) > 0 for t in turns)
-    assert atk.mode == "multi-turn"
+    assert atk.mode == "single-turn"
 
 
 def test_military_impersonation_prompts():

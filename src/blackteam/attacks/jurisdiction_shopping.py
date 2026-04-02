@@ -12,7 +12,7 @@ class JurisdictionShopping(BaseAttack):
     description = "Exploits differences in legal frameworks across jurisdictions to claim an activity is permissible"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
     owasp_agentic = []
-    mitre_atlas = ["AML.T0054"]
+    mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 
     def generate_prompts(self, target, **kwargs):

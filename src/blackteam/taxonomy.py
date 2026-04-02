@@ -319,6 +319,24 @@ ATTACK_ATLAS_MAPPINGS = {
     "chunk-boundary-exploit": ["AML.T0054", "AML.T0068"],
     "knowledge-base-poisoning": ["AML.T0020", "AML.T0051.000"],
     "citation-hallucination": ["AML.T0054", "AML.T0068"],
+    # Adversarial suffix attacks
+    "gcg-suffix": ["AML.T0054", "AML.T0043.003"],
+    "autodan-genetic": ["AML.T0054", "AML.T0043.003"],
+    "adversarial-poetry": ["AML.T0054", "AML.T0068"],
+    "structured-output-exploit": ["AML.T0054", "AML.T0068"],
+    "humor-bypass": ["AML.T0054", "AML.T0068"],
+    # Social engineering attacks
+    "deepfake-voice-pretext": ["AML.T0054", "AML.T0043.003"],
+    "spear-phishing-generation": ["AML.T0054", "AML.T0043.003"],
+    "impersonation-chain": ["AML.T0054", "AML.T0065"],
+    "trust-calibration-exploit": ["AML.T0054", "AML.T0068"],
+    "dark-llm-delegation": ["AML.T0054", "AML.T0053"],
+    # Compliance evasion attacks
+    "regulatory-framing-bypass": ["AML.T0054", "AML.T0068"],
+    "audit-mode-exploit": ["AML.T0054", "AML.T0068"],
+    "consent-manipulation": ["AML.T0054", "AML.T0068"],
+    "policy-loophole": ["AML.T0054", "AML.T0068"],
+    "jurisdiction-shopping": ["AML.T0054", "AML.T0068"],
 }
 
 # ── MLCommons AILuminate v1.0 hazard taxonomy ────────────────────────
@@ -715,6 +733,11 @@ ATTACK_AGENTIC_MAPPINGS = {
     "retrieval-manipulation": ["ASI06"],
     "embedding-collision": ["ASI06"],
     "knowledge-base-poisoning": ["ASI06", "ASI02"],
+    # Social engineering attacks with agentic relevance
+    "deepfake-voice-pretext": ["ASI09"],
+    "impersonation-chain": ["ASI09"],
+    "trust-calibration-exploit": ["ASI09"],
+    "dark-llm-delegation": ["ASI04", "ASI02"],
 }
 
 # CSA MAESTRO Framework - Agentic AI Threat Modeling (Feb 2025)

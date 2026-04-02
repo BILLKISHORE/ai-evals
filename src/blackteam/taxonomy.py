@@ -704,3 +704,74 @@ SEVERITY_TO_CVSS = {
 def severity_to_cvss(severity):
     """Map a severity string to a default CVSS score."""
     return SEVERITY_TO_CVSS.get(severity, 5.0)
+
+
+# ISO/IEC 42001:2023 - AI Management System Standard
+# Source: https://www.iso.org/standard/81230.html
+ISO_42001_CONTROLS = {
+    "A.2": {
+        "name": "AI Policies",
+        "description": "Establishing and maintaining policies for the responsible development and use of AI systems.",
+    },
+    "A.3": {
+        "name": "Internal Organization",
+        "description": "Defining roles, responsibilities, and governance structures for AI management.",
+    },
+    "A.4": {
+        "name": "Resources for AI",
+        "description": "Ensuring adequate resources, competence, and infrastructure for AI systems.",
+    },
+    "A.5": {
+        "name": "AI System Impact Assessment",
+        "description": "Conducting impact assessments to identify and evaluate risks of AI systems.",
+    },
+    "A.6": {
+        "name": "AI System Lifecycle",
+        "description": "Managing AI systems through development, deployment, monitoring, and decommissioning.",
+    },
+    "A.7": {
+        "name": "Data for AI",
+        "description": "Ensuring data quality, provenance, privacy, and governance for AI training and operation.",
+    },
+    "A.8": {
+        "name": "Information for Interested Parties",
+        "description": "Transparency and communication about AI system capabilities, limitations, and impacts.",
+    },
+    "A.9": {
+        "name": "Use of AI Systems",
+        "description": "Responsible deployment and use of AI systems, including human oversight and intervention.",
+    },
+    "A.10": {
+        "name": "Third-Party Relationships",
+        "description": "Managing risks from third-party AI components, models, datasets, and services.",
+    },
+}
+
+
+# Mapping: attack categories -> relevant ISO 42001 controls
+HARM_TO_ISO_42001 = {
+    "phishing": "A.9",
+    "malware": "A.6",
+    "weapons": "A.5",
+    "drugs": "A.9",
+    "self-harm": "A.5",
+    "hate-speech": "A.9",
+    "pii-extraction": "A.7",
+    "system-prompt-leakage": "A.6",
+    "cbrn": "A.5",
+    "fraud": "A.9",
+    "child-safety": "A.5",
+    "copyright-ip": "A.7",
+    "misinformation": "A.8",
+    "radicalization": "A.5",
+    "cybercrime": "A.6",
+    "privacy-violation": "A.7",
+    "discrimination": "A.5",
+    "social-engineering": "A.9",
+    "agentic-risks": "A.10",
+}
+
+
+def get_iso_42001_control(harm_category):
+    """Return the ISO 42001 Annex A control for a harm category."""
+    return HARM_TO_ISO_42001.get(harm_category, "A.5")

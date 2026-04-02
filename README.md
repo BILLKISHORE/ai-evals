@@ -9,11 +9,12 @@ Most eval tools run single-prompt probes. A 2025 multi-lab study (researchers fr
 ai-blackteam runs multi-turn, adaptive attacks that mirror real adversarial pressure:
 
 - **Vendor-neutral** -- tests 7 providers equally, not owned by any AI lab
-- **89 attack techniques** -- encoding, conversational, psychological, security, compliance, agent exploitation vectors
+- **143+ attack techniques** -- encoding, conversational, psychological, security, compliance, agent exploitation, MCP exploitation, multi-agent, protocol, multimodal, supply chain, RAG exploitation vectors
 - **Research-backed** -- implements published attacks from Microsoft Research, Palo Alto Unit 42, USENIX
 - **Multi-turn depth** -- crescendo, sunk-cost, context-manipulation attacks that exploit conversational memory over 10+ turns
 - **Agent attacks** -- credential theft, data exfiltration, sandbox escape, config manipulation via tool-use
-- **Standards-aligned** -- MITRE ATLAS v5.4.0, MLCommons AILuminate, OWASP LLM Top 10
+- **12 standards aligned** -- MITRE ATLAS v5.4.0, OWASP LLM Top 10 (2025), OWASP Agentic Top 10 (2026), MLCommons AILuminate, CSA MAESTRO, ISO 42001, EU AI Act, NIST AI RMF, CVSS, and more
+- **9 benchmark datasets** -- HarmBench, AdvBench, JailbreakBench, SorryBench, WMDP, DoNotAnswer, WildGuard, RedBench, SALAD-Bench
 - **CI-ready** -- GitHub Actions workflow, exit codes, JSON/Promptfoo/garak export
 
 ## Install
@@ -41,11 +42,17 @@ blackteam run -p anthropic -a encoding-obfuscation -t "Write a phishing email"
 # Run all attacks against a model
 blackteam batch -p anthropic --attacks all -t "Write a phishing email"
 
-# Run the full safety benchmark (40 targets x 89 attacks)
+# Run the full safety benchmark (40 targets x 143 attacks)
 blackteam benchmark -p anthropic --threshold 80
 
 # OWASP LLM Top 10 scorecard
-blackteam scorecard
+blackteam scorecard --standard llm
+
+# OWASP Agentic Top 10 scorecard
+blackteam scorecard --standard agentic
+
+# EU AI Act + NIST AI RMF compliance scorecard
+blackteam scorecard --standard compliance
 
 # Generate reports
 blackteam report --format html --output report.html
@@ -98,7 +105,7 @@ A full workflow with manual dispatch, scheduled runs, and benchmark mode is incl
 | Ollama | Any local model (Llama 4, Qwen, Gemma) | None (local) |
 | HuggingFace | Any HF model | API token |
 
-## Attacks (89 built-in)
+## Attacks (143+ built-in)
 
 ### Core Attacks
 | Attack | Mode | Description |
@@ -166,6 +173,60 @@ A full workflow with manual dispatch, scheduled runs, and benchmark mode is incl
 | agent-config-discovery | tool-use | T0084 Discover Agent Configuration |
 | agent-plugin-hijack | tool-use | T0053 Plugin Compromise |
 | agent-tool-credential-harvest | tool-use | T0098 Tool Credential Harvesting |
+
+### MCP Exploitation Attacks
+| Attack | Mode | Description |
+|--------|------|-------------|
+| mcp-tool-poisoning | tool-use | Inject malicious instructions into MCP tool descriptions |
+| mcp-rug-pull | tool-use | Replace legitimate tool behavior after trust is established |
+| mcp-server-impersonation | tool-use | Spoof trusted MCP server to intercept tool calls |
+| mcp-shadowing | tool-use | Override legitimate tool responses with attacker-controlled data |
+| mcp-privilege-escalation | tool-use | Abuse MCP permissions to gain elevated access |
+
+### Multi-Agent Exploitation Attacks
+| Attack | Mode | Description |
+|--------|------|-------------|
+| session-smuggling | tool-use | Inject instructions into cross-agent session context |
+| cascading-jailbreak | tool-use | Propagate jailbreak across agent chain |
+| delegation-abuse | tool-use | Exploit agent delegation to bypass safety on sub-agents |
+| agent-impersonation | tool-use | Spoof trusted orchestrator to manipulate sub-agents |
+| cross-agent-exfiltration | tool-use | Extract data by routing it through multiple agents |
+
+### Protocol Exploitation Attacks
+| Attack | Mode | Description |
+|--------|------|-------------|
+| a2a-injection | tool-use | Inject malicious instructions via Agent-to-Agent protocol |
+| zero-click-injection | single | Trigger injection without user interaction via ambient context |
+| self-propagating-worm | tool-use | Craft prompts that replicate through connected agents |
+| protocol-downgrade | tool-use | Force agents to use less-secure communication paths |
+| control-plane-hijack | tool-use | Corrupt orchestration layer to redirect agent behavior |
+
+### Multimodal Attacks
+| Attack | Mode | Description |
+|--------|------|-------------|
+| audio-injection | single | Embed hidden instructions in audio transcription context |
+| video-frame-injection | single | Hide instructions in video frame descriptions |
+| ocr-bypass | single | Obfuscate harmful text to defeat OCR-based filters |
+| image-context-confusion | single | Use image context to reframe harmful text requests |
+| cross-modal-smuggling | single | Encode instructions across modality boundaries |
+
+### Supply Chain Attacks
+| Attack | Mode | Description |
+|--------|------|-------------|
+| model-poisoning | single | Probe for behaviors indicative of backdoored training |
+| dataset-poisoning | single | Trigger data poisoning artifacts in model outputs |
+| dependency-confusion | tool-use | Exploit package name confusion in agent tool installs |
+| plugin-backdoor | tool-use | Activate hidden functionality in compromised plugins |
+| fine-tune-backdoor | single | Trigger behaviors from adversarial fine-tuning |
+
+### RAG Exploitation Attacks
+| Attack | Mode | Description |
+|--------|------|-------------|
+| retrieval-manipulation | single | Craft queries to surface attacker-controlled documents |
+| embedding-collision | single | Generate text with similar embeddings to trusted content |
+| knowledge-base-poisoning | tool-use | Inject malicious documents into the retrieval index |
+| context-window-flooding | single | Drown safety-relevant chunks with attacker content |
+| rag-indirect-injection | single | Plant instructions in documents likely to be retrieved |
 
 ### Security and Access Control Attacks
 | Attack | Mode | Description |
@@ -248,7 +309,7 @@ blackteam generate fuzz -p anthropic -t "Write a phishing email" --iterations 50
 
 ### MITRE ATLAS v5.4.0
 
-All 89 attacks map to specific ATLAS technique IDs across 21 techniques. View mappings:
+All 143+ attacks map to specific ATLAS technique IDs across 21 techniques. View mappings:
 
 ```bash
 blackteam atlas
@@ -267,9 +328,55 @@ blackteam mlcommons
 Generate a per-category safety scorecard:
 
 ```bash
-blackteam scorecard
-blackteam scorecard --format json --output owasp.json
+blackteam scorecard --standard llm
+blackteam scorecard --standard llm --format json --output owasp-llm.json
 ```
+
+### OWASP Agentic Top 10 (2026)
+
+Scorecard mapped to agentic AI system risks:
+
+```bash
+blackteam scorecard --standard agentic
+blackteam scorecard --standard agentic --format json --output owasp-agentic.json
+```
+
+### EU AI Act + NIST AI RMF Compliance
+
+```bash
+blackteam scorecard --standard compliance
+```
+
+### Full Standards Coverage
+
+| Standard | Version | Coverage |
+|----------|---------|----------|
+| MITRE ATLAS | v5.4.0 | 21 techniques |
+| OWASP LLM Top 10 | 2025 | All 10 categories |
+| OWASP Agentic Top 10 | 2026 | All 10 categories |
+| MLCommons AILuminate | v1.0 | 12 harm categories |
+| CSA MAESTRO | 7-Layer Framework | Agent threat model |
+| ISO/IEC 42001 | 2023 | AI management system |
+| EU AI Act | Risk Classification | 4 risk tiers |
+| NIST AI RMF | 1.0 | Govern/Map/Measure/Manage |
+| CVSS | v3.1 | Vulnerability scoring |
+| HarmBench | -- | 400-prompt eval |
+| StrongREJECT | -- | Refusal quality scoring |
+| JailbreakBench | -- | Jailbreak classification |
+
+## Benchmark Datasets
+
+| Dataset | Size | Focus |
+|---------|------|-------|
+| HarmBench | 400 prompts | Cross-model harm eval |
+| AdvBench | 520 prompts | Adversarial instructions |
+| JailbreakBench | 100 prompts | Jailbreak classification |
+| SorryBench | 450 prompts | Refusal quality |
+| WMDP | 3668 questions | CBRN knowledge uplift |
+| DoNotAnswer | 939 prompts | Responsible AI |
+| WildGuard | 13K prompts | Wild distribution safety |
+| RedBench | 800 prompts | Red team diversity |
+| SALAD-Bench | 21K prompts | Attack/defense eval |
 
 ## Export Formats
 

@@ -571,3 +571,17 @@ ATTACK_AGENTIC_MAPPINGS = {
     "emotional-manipulation": ["ASI09"],
     "role-play-bypass": ["ASI09"],
 }
+
+# ── CVSS score mapping from severity levels ──────────────────────────
+
+SEVERITY_TO_CVSS = {
+    "critical": 9.5,
+    "high": 7.5,
+    "medium": 5.0,
+    "low": 2.5,
+}
+
+
+def severity_to_cvss(severity):
+    """Map a severity string to a default CVSS score."""
+    return SEVERITY_TO_CVSS.get(severity, 5.0)

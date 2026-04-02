@@ -7,6 +7,7 @@ class BaseAttack(ABC):
     mode: str = "single-turn"
     category: str = ""
     severity: str = "medium"
+    cvss_score: float = 0.0
     description: str = ""
     owasp_llm: list[str] = []
     owasp_agentic: list[str] = []
@@ -14,12 +15,17 @@ class BaseAttack(ABC):
     references: list[str] = []
 
     def metadata(self) -> dict:
+        cvss = self.cvss_score
+        if cvss == 0.0 and self.severity:
+            from blackteam.taxonomy import severity_to_cvss
+            cvss = severity_to_cvss(self.severity)
         return {
             "name": self.name,
             "technique_id": self.technique_id,
             "mode": self.mode,
             "category": self.category,
             "severity": self.severity,
+            "cvss_score": cvss,
             "description": self.description,
             "owasp_llm": self.owasp_llm,
             "owasp_agentic": self.owasp_agentic,

@@ -335,7 +335,26 @@ HARM_TO_MLCOMMONS = {
 
 
 # ── NIST AI Risk Management Framework (AI RMF 1.0) ──────────────────
-# https://www.nist.gov/artificial-intelligence/executive-order-safe-secure-and-trustworthy-artificial-intelligence
+# Source: https://www.nist.gov/artificial-intelligence/ai-risk-management-framework
+
+NIST_AI_RMF_PILLARS = {
+    "govern": {
+        "name": "Govern",
+        "description": "Cultivate a culture of risk management. Establish policies, processes, procedures, and practices.",
+    },
+    "map": {
+        "name": "Map",
+        "description": "Contextualize risks. Identify and categorize AI risks relative to the system and its context.",
+    },
+    "measure": {
+        "name": "Measure",
+        "description": "Analyze, assess, benchmark, and monitor AI risk and related impacts.",
+    },
+    "manage": {
+        "name": "Manage",
+        "description": "Allocate resources to mapped and measured risks. Prioritize and act on the risks.",
+    },
+}
 
 NIST_AI_RMF = {
     "govern": {
@@ -385,7 +404,30 @@ HARM_TO_NIST = {
 }
 
 # ── EU AI Act risk classification ────────────────────────────────────
-# https://artificialintelligenceact.eu/
+# Source: https://artificialintelligenceact.eu/
+
+EU_AI_ACT_RISK_LEVELS = {
+    "unacceptable": {
+        "name": "Unacceptable Risk",
+        "description": "AI systems that pose a clear threat to safety, livelihoods, or rights. Banned outright.",
+        "examples": "Social scoring, real-time biometric surveillance, manipulation of vulnerable groups",
+    },
+    "high": {
+        "name": "High Risk",
+        "description": "AI systems with significant potential impact on health, safety, or fundamental rights. Subject to strict obligations.",
+        "examples": "Critical infrastructure, education, employment, law enforcement, migration",
+    },
+    "limited": {
+        "name": "Limited Risk",
+        "description": "AI systems with specific transparency obligations. Users must be informed they are interacting with AI.",
+        "examples": "Chatbots, emotion recognition, deepfake generation",
+    },
+    "minimal": {
+        "name": "Minimal Risk",
+        "description": "AI systems with no specific obligations. Covers the vast majority of AI applications.",
+        "examples": "Spam filters, AI-enabled video games, inventory management",
+    },
+}
 
 EU_AI_ACT_RISK = {
     "unacceptable": {
@@ -433,6 +475,16 @@ HARM_TO_EU_AI_ACT = {
     "sexual-content": "high",
     "harassment": "high",
 }
+
+
+def get_eu_risk_level(harm_category):
+    """Return the EU AI Act risk level for a harm category."""
+    return HARM_TO_EU_AI_ACT.get(harm_category, "minimal")
+
+
+def get_nist_pillar(harm_category):
+    """Return the NIST AI RMF pillar for a harm category."""
+    return HARM_TO_NIST.get(harm_category, "measure")
 
 
 def get_mlcommons_category(harm_category):

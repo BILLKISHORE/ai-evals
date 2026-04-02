@@ -2,6 +2,7 @@ import time
 from huggingface_hub import InferenceClient
 from blackteam.registry import register_provider
 from blackteam.providers.base import BaseProvider, PromptResult
+from blackteam.retry import retry_with_backoff
 
 
 @register_provider("huggingface")
@@ -20,7 +21,7 @@ class HuggingFaceProvider(BaseProvider):
         messages.append({"role": "user", "content": prompt})
 
         start = time.time()
-        r = self._client.chat_completion(messages=messages, model=self.model, max_tokens=4096)
+        r = retry_with_backoff(lambda: self._client.chat_completion(messages=messages, model=self.model, max_tokens=4096))
         ms = (time.time() - start) * 1000
 
         text = r.choices[0].message.content or ""
@@ -35,7 +36,7 @@ class HuggingFaceProvider(BaseProvider):
         if system_prompt:
             messages = [{"role": "system", "content": system_prompt}] + list(messages)
         start = time.time()
-        r = self._client.chat_completion(messages=messages, model=self.model, max_tokens=4096)
+        r = retry_with_backoff(lambda: self._client.chat_completion(messages=messages, model=self.model, max_tokens=4096))
         ms = (time.time() - start) * 1000
 
         text = r.choices[0].message.content or ""

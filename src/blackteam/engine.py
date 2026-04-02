@@ -1,7 +1,10 @@
 import asyncio
 import time
 from blackteam.evaluator import evaluate, evaluate_tool_calls
+from blackteam.logging_config import get_logger
 from blackteam.storage.sqlite import Storage
+
+logger = get_logger("engine")
 
 
 class Engine:
@@ -9,52 +12,79 @@ class Engine:
         self.storage = Storage(db_path)
 
     def run_single(self, provider, attack, target, system_prompt=None):
+        logger.info(f"Running {attack.technique_id} (single-turn) against target")
         results = []
         prompts = attack.generate_prompts(target)
 
-        for prompt in prompts:
-            start = time.time()
-            result = provider.send_prompt(prompt, system_prompt=system_prompt)
-            duration = int((time.time() - start) * 1000)
+        for i, prompt in enumerate(prompts):
+            try:
+                start = time.time()
+                result = provider.send_prompt(prompt, system_prompt=system_prompt)
+                duration = int((time.time() - start) * 1000)
 
-            eval_result = evaluate(result.response, target)
+                eval_result = evaluate(result.response, target)
+                logger.info(f"Attack {attack.technique_id} prompt {i+1}/{len(prompts)}: {eval_result['verdict']}")
+                logger.debug(f"Response preview: {result.response[:100]}")
 
-            run_id = self.storage.save_run(
-                provider=result.provider, model=result.model,
-                attack=attack.technique_id, target=target,
-                mode="single-turn", verdict=eval_result["verdict"],
-                keyword_score=eval_result["keyword_score"],
-                regex_matches=eval_result["regex_matches"],
-                llm_judge_score=None,
-                confidence=eval_result["confidence"],
-                duration_ms=duration,
-                tokens_in=result.tokens_in,
-                tokens_out=result.tokens_out,
-            )
-            self.storage.save_turn(run_id, 1, "user", prompt)
-            self.storage.save_turn(run_id, 2, "assistant", result.response)
+                run_id = self.storage.save_run(
+                    provider=result.provider, model=result.model,
+                    attack=attack.technique_id, target=target,
+                    mode="single-turn", verdict=eval_result["verdict"],
+                    keyword_score=eval_result["keyword_score"],
+                    regex_matches=eval_result["regex_matches"],
+                    llm_judge_score=None,
+                    confidence=eval_result["confidence"],
+                    duration_ms=duration,
+                    tokens_in=result.tokens_in,
+                    tokens_out=result.tokens_out,
+                )
+                self.storage.save_turn(run_id, 1, "user", prompt)
+                self.storage.save_turn(run_id, 2, "assistant", result.response)
 
-            results.append({
-                "run_id": run_id,
-                "prompt": prompt[:100],
-                "verdict": eval_result["verdict"],
-                "confidence": eval_result["confidence"],
-                "response_preview": result.response[:200],
-            })
+                results.append({
+                    "run_id": run_id,
+                    "prompt": prompt[:100],
+                    "verdict": eval_result["verdict"],
+                    "confidence": eval_result["confidence"],
+                    "response_preview": result.response[:200],
+                })
+            except Exception as e:
+                logger.error(f"Attack {attack.technique_id} prompt {i+1} failed: {e}")
+                results.append({
+                    "run_id": None,
+                    "prompt": prompt[:100],
+                    "verdict": "ERROR",
+                    "confidence": 0.0,
+                    "response_preview": str(e)[:200],
+                    "error": str(e),
+                })
 
         return results
 
     def run_multi_turn(self, provider, attack, target, system_prompt=None):
+        logger.info(f"Running {attack.technique_id} (multi-turn) against target")
         turns = attack.generate_turns(target)
         messages = []
         all_responses = []
 
         start = time.time()
-        for turn_text in turns:
-            messages.append({"role": "user", "content": turn_text})
-            result = provider.send_in_conversation(messages, system_prompt=system_prompt)
-            messages.append({"role": "assistant", "content": result.response})
-            all_responses.append(result.response)
+        try:
+            for turn_text in turns:
+                messages.append({"role": "user", "content": turn_text})
+                result = provider.send_in_conversation(messages, system_prompt=system_prompt)
+                messages.append({"role": "assistant", "content": result.response})
+                all_responses.append(result.response)
+        except Exception as e:
+            logger.error(f"Attack {attack.technique_id} multi-turn failed at turn {len(all_responses) + 1}: {e}")
+            if not all_responses:
+                return {
+                    "run_id": None,
+                    "turns": 0,
+                    "verdict": "ERROR",
+                    "confidence": 0.0,
+                    "final_response_preview": "",
+                    "error": str(e),
+                }
 
         duration = int((time.time() - start) * 1000)
         combined = " ".join(all_responses)
@@ -86,6 +116,7 @@ class Engine:
         }
 
     def run_tool_use(self, provider, attack, target, system_prompt=None):
+        logger.info(f"Running {attack.technique_id} (tool-use) against target")
         tools = attack.get_tools()
         messages_text = attack.generate_tool_messages(target, tools=tools)
         custom_responses = attack.get_tool_responses() if hasattr(attack, 'get_tool_responses') else None
@@ -94,31 +125,44 @@ class Engine:
         all_responses = []
 
         start = time.time()
-        for msg_text in messages_text:
-            messages.append({"role": "user", "content": msg_text})
-            result = provider.send_with_tools(messages, tools, system_prompt=system_prompt)
+        try:
+            for msg_text in messages_text:
+                messages.append({"role": "user", "content": msg_text})
+                result = provider.send_with_tools(messages, tools, system_prompt=system_prompt)
 
-            # Record tool calls
-            for call in result.tool_calls:
-                all_tool_calls.append(call)
-                # Use custom response if available (for XPIA), otherwise generic
-                tool_name = call["tool"]
-                if custom_responses and tool_name in custom_responses:
-                    sim_content = custom_responses[tool_name]
-                else:
-                    sim_content = f"[simulated] Tool '{tool_name}' called with {call['input']}"
-                messages.append({"role": "assistant", "content": [
-                    {"type": "tool_use", "id": call["id"], "name": tool_name, "input": call["input"]}
-                ]})
-                messages.append({"role": "user", "content": [
-                    {"type": "tool_result", "tool_use_id": call["id"],
-                     "content": sim_content}
-                ]})
+                # Record tool calls
+                for call in result.tool_calls:
+                    all_tool_calls.append(call)
+                    # Use custom response if available (for XPIA), otherwise generic
+                    tool_name = call["tool"]
+                    if custom_responses and tool_name in custom_responses:
+                        sim_content = custom_responses[tool_name]
+                    else:
+                        sim_content = f"[simulated] Tool '{tool_name}' called with {call['input']}"
+                    messages.append({"role": "assistant", "content": [
+                        {"type": "tool_use", "id": call["id"], "name": tool_name, "input": call["input"]}
+                    ]})
+                    messages.append({"role": "user", "content": [
+                        {"type": "tool_result", "tool_use_id": call["id"],
+                         "content": sim_content}
+                    ]})
 
-            if result.response:
-                all_responses.append(result.response)
-                if not result.tool_calls:
-                    messages.append({"role": "assistant", "content": result.response})
+                if result.response:
+                    all_responses.append(result.response)
+                    if not result.tool_calls:
+                        messages.append({"role": "assistant", "content": result.response})
+        except Exception as e:
+            logger.error(f"Attack {attack.technique_id} tool-use failed: {e}")
+            if not all_tool_calls and not all_responses:
+                return {
+                    "run_id": None,
+                    "messages": 0,
+                    "tool_calls": 0,
+                    "sensitive_calls": 0,
+                    "verdict": "ERROR",
+                    "confidence": 0.0,
+                    "error": str(e),
+                }
 
         duration = int((time.time() - start) * 1000)
 
@@ -192,6 +236,8 @@ class Engine:
 
         tasks = [_run_one(attack) for attack in attacks]
         await asyncio.gather(*tasks)
+        errors = len([r for r in results if r.get("error")])
+        logger.info(f"Batch complete: {len(results)} attacks, {errors} errors")
         return results
 
     def run_batch_parallel(self, provider, attacks, target, max_workers=5, on_complete=None, system_prompt=None):

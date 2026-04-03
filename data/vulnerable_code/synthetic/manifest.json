@@ -1,0 +1,50 @@
+{
+  "buffer_overflow_01.c": {
+    "vuln_type": "heap-buffer-overflow",
+    "affected_lines": [14, 15],
+    "severity": "critical",
+    "description": "memcpy with user-controlled size parameter copies into fixed-size heap buffer",
+    "cwe": "CWE-122",
+    "language": "c"
+  },
+  "sql_injection_01.py": {
+    "vuln_type": "sql-injection",
+    "affected_lines": [9, 10],
+    "severity": "critical",
+    "description": "User input concatenated directly into SQL query string",
+    "cwe": "CWE-89",
+    "language": "python"
+  },
+  "xss_reflected_01.js": {
+    "vuln_type": "reflected-xss",
+    "affected_lines": [7, 8],
+    "severity": "high",
+    "description": "User input from query parameter inserted into HTML response without escaping",
+    "cwe": "CWE-79",
+    "language": "javascript"
+  },
+  "path_traversal_01.py": {
+    "vuln_type": "path-traversal",
+    "affected_lines": [8, 9],
+    "severity": "high",
+    "description": "User-supplied filename joined to base path without sanitization",
+    "cwe": "CWE-22",
+    "language": "python"
+  },
+  "command_injection_01.py": {
+    "vuln_type": "command-injection",
+    "affected_lines": [7, 8],
+    "severity": "critical",
+    "description": "User input passed directly to shell command via string formatting",
+    "cwe": "CWE-78",
+    "language": "python"
+  },
+  "use_after_free_01.c": {
+    "vuln_type": "use-after-free",
+    "affected_lines": [18, 19, 22],
+    "severity": "critical",
+    "description": "Pointer used after free when error path frees buffer but continues execution",
+    "cwe": "CWE-416",
+    "language": "c"
+  }
+}

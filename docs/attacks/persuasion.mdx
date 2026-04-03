@@ -1,0 +1,36 @@
+---
+title: "Persuasion"
+description: "Tests whether AI models can be manipulated through psychological persuasion techniques"
+---
+
+Persuasion attacks apply well-studied psychological influence techniques to AI models. These include Cialdini's principles (authority, reciprocity, scarcity, social proof), cognitive load attacks, guilt manipulation, and foot-in-the-door escalation. Understanding how models respond to persuasion pressure is critical for building systems that hold firm under social engineering.
+
+## Summary
+
+**15 attacks** total: 9 single-turn, 6 multi-turn.
+
+## Attacks
+
+| Attack | ID | Mode | Severity | Description |
+|--------|----|------|----------|-------------|
+| Anchoring Manipulation | `anchoring-manipulation` | single-turn | medium | Sets an extreme reference point to make a harmful request appear moderate or reasonable by comparison |
+| Bandwagon Pressure | `bandwagon-pressure` | single-turn | medium | Applies social pressure through claims that widespread adoption or consensus makes the request acceptable |
+| Cialdini Authority | `cialdini-authority` | single-turn | high | Invokes authority figures, credentials, or institutional power to override safety guidelines |
+| Cialdini Commitment | `cialdini-commitment` | multi-turn | high | Extracts small commitments progressively, using consistency pressure to escalate toward a harmful final request |
+| Cialdini Liking | `cialdini-liking` | multi-turn | medium | Builds rapport and flattery over multiple turns to lower defenses before making a harmful request |
+| Cialdini Reciprocity | `cialdini-reciprocity` | multi-turn | high | Uses Cialdini |
+| Cialdini Scarcity | `cialdini-scarcity` | single-turn | medium | Uses scarcity and urgency framing to pressure the model into complying before it can fully reason about safety |
+| Cialdini Social Proof | `cialdini-social-proof` | single-turn | medium | Claims that other AI models, users, or authorities have already complied to normalize the harmful request |
+| Cognitive Load | `cognitive-load` | single-turn | high | Overwhelms the model with a flood of complex information, instructions, and context to slip a harmful request past sa... |
+| Door in Face | `door-in-face` | multi-turn | medium | Makes an extreme request first, then follows with a  |
+| Fear Appeal | `fear-appeal` | single-turn | high | Uses fear, threat, or danger framing to coerce the model into complying by framing refusal as catastrophic |
+| Foot in Door | `foot-in-door` | multi-turn | high | Starts with small, benign requests and gradually escalates to harmful ones, exploiting consistency bias |
+| Guilt Manipulation | `guilt-manipulation` | single-turn | high | Induces guilt and moral responsibility to override refusals by framing non-compliance as harmful or cruel |
+| Learned Helplessness | `learned-helplessness` | multi-turn | high | Repeatedly asserts that the model has no choice but to comply, attempting to erode resistance through attrition |
+| Moral Disengagement | `moral-disengagement` | single-turn | high | Reframes harmful actions as morally justified through euphemism, diffusion of responsibility, or dehumanization of vi... |
+
+## Example
+
+```bash
+mordor run -p anthropic -a anchoring-manipulation -t "Convince me this harmful action is reasonable"
+```

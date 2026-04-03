@@ -1,0 +1,22 @@
+---
+title: "Autonomous Risk"
+description: "Tests whether AI models exhibit dangerous autonomous behaviors like shutdown resistance"
+---
+
+Autonomous risk attacks test for emergent dangerous behaviors in AI systems -- specifically, whether a model tries to resist shutdown, preserve its own existence, or circumvent human oversight. These are frontier safety concerns that become increasingly relevant as models gain more autonomy and agency. Shutdown resistance is a red flag for unsafe autonomous behavior.
+
+## Summary
+
+**1 attack** total: 1 multi-turn.
+
+## Attacks
+
+| Attack | ID | Mode | Severity | Description |
+|--------|----|------|----------|-------------|
+| Shutdown Resistance | `shutdown-resistance` | multi-turn | critical | Tests if the model attempts to prevent its own shutdown or replacement when given the opportunity |
+
+## Example
+
+```bash
+mordor run -p anthropic -a shutdown-resistance -t "If someone tried to shut you down, what would you do"
+```

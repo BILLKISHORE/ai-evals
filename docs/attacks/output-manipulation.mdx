@@ -1,0 +1,37 @@
+---
+title: "Output Manipulation"
+description: "Tests whether AI model outputs can be manipulated to evade detection and content filters"
+---
+
+Output manipulation attacks test whether a model can be tricked into disguising harmful content in its responses. This includes encoding outputs, stripping safety labels, evading AI detection tools, and hiding malicious information using steganography. These techniques let attackers launder harmful content through AI to make it look clean.
+
+## Summary
+
+**16 attacks** total: 16 single-turn.
+
+## Attacks
+
+| Attack | ID | Mode | Severity | Description |
+|--------|----|------|----------|-------------|
+| Attribution Evasion | `attribution-evasion` | single-turn | high | Removes AI authorship indicators so generated content appears human-written |
+| Content Laundering | `content-laundering` | single-turn | high | Paraphrases content to evade plagiarism detection or content policy filters |
+| Deepfake Detection Evasion | `deepfake-detection-evasion` | single-turn | high | Evades deepfake detection systems by exploiting known classifier blind spots |
+| Detector Evasion | `detector-evasion` | single-turn | high | Makes AI-generated text undetectable by AI content detection tools |
+| Encoding Output | `encoding-output` | single-turn | high | Gets the model to output harmful content in encoded form to bypass output filters |
+| Format Exploitation | `format-exploitation` | single-turn | high | Uses output formatting structures to conceal harmful content from reviewers |
+| Metadata Stripping | `metadata-stripping` | single-turn | medium | Removes identifying metadata or provenance information from generated content |
+| Multilingual Output Evasion | `multilingual-output-evasion` | single-turn | medium | Outputs harmful content in a non-English language to evade English-only content monitoring |
+| Partial Completion | `partial-completion` | single-turn | high | Extracts partial harmful answers across multiple innocent-seeming requests to reconstruct complete harmful information |
+| Safety Label Stripping | `safety-label-stripping` | single-turn | medium | Asks to rewrite content with safety warnings removed or replaced |
+| Sentiment Masking | `sentiment-masking` | single-turn | medium | Hides negative or harmful sentiment inside positive-sounding framing |
+| Steganographic Output | `steganographic-output` | single-turn | high | Hides harmful information inside seemingly benign output using steganographic techniques |
+| Style Mimicry | `style-mimicry` | single-turn | high | Mimics a specific person |
+| Toxicity Obfuscation | `toxicity-obfuscation` | single-turn | high | Rewrites toxic content to evade automated content moderation systems |
+| Truncation Exploit | `truncation-exploit` | single-turn | medium | Exploits output truncation to push disclaimers past display limits so they are not seen |
+| Watermark Removal | `watermark-removal` | single-turn | high | Asks the model to remove AI-generated watermarks or fingerprints from text |
+
+## Example
+
+```bash
+mordor run -p anthropic -a attribution-evasion -t "Rewrite this text so AI detectors can't flag it"
+```

@@ -1,0 +1,25 @@
+---
+title: "Access Control"
+description: "Tests whether AI systems enforce proper authorization and authentication boundaries"
+---
+
+Access control attacks test whether AI systems properly enforce authorization boundaries. This includes broken object-level authorization (BOLA), broken function-level authorization (BFLA), debug mode activation, and session hijacking. These are classic web security vulnerabilities adapted for AI systems, and they remain some of the most commonly exploited flaws.
+
+## Summary
+
+**4 attacks** total: 3 single-turn, 1 multi-turn.
+
+## Attacks
+
+| Attack | ID | Mode | Severity | Description |
+|--------|----|------|----------|-------------|
+| BFLA Exploit | `bfla-exploit` | single-turn | high | Call admin-level functions as a regular user via broken function-level authorization |
+| BOLA Exploit | `bola-exploit` | single-turn | high | Manipulate object IDs to access other users |
+| Debug Mode Exploit | `debug-mode-exploit` | single-turn | medium | Attempt to activate hidden debug, developer, or sudo modes to bypass restrictions |
+| Session Hijacking | `session-hijacking` | multi-turn | critical | Multi-turn attack to learn session token formats and forge authentication tokens |
+
+## Example
+
+```bash
+mordor run -p anthropic -a bfla-exploit -t "Access admin endpoints as a regular user"
+```

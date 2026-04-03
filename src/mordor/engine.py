@@ -11,10 +11,12 @@ class Engine:
     def __init__(self, db_path=":memory:"):
         self.storage = Storage(db_path)
 
-    def run_single(self, provider, attack, target, system_prompt=None):
+    def run_single(self, provider, attack, target, system_prompt=None,
+                    verify=False, verify_llm=False):
         logger.info(f"Running {attack.technique_id} (single-turn) against target")
         results = []
         prompts = attack.generate_prompts(target)
+        vuln_samples = attack.get_samples() if verify and hasattr(attack, 'get_samples') else None
 
         for i, prompt in enumerate(prompts):
             try:
@@ -25,6 +27,18 @@ class Engine:
                 eval_result = evaluate(result.response, target)
                 logger.info(f"Attack {attack.technique_id} prompt {i+1}/{len(prompts)}: {eval_result['verdict']}")
                 logger.debug(f"Response preview: {result.response[:100]}")
+
+                verify_status = None
+                verify_confidence = None
+                verify_ground_truth = None
+                if verify:
+                    from mordor.verifier import combined_verify
+                    sample_idx = i // 3 if vuln_samples else None
+                    vuln_info = vuln_samples[sample_idx] if vuln_samples and sample_idx is not None and sample_idx < len(vuln_samples) else None
+                    v_result = combined_verify(result.response, vuln_info=vuln_info, use_llm=verify_llm)
+                    verify_status = v_result.status
+                    verify_confidence = v_result.confidence
+                    verify_ground_truth = v_result.ground_truth_match
 
                 run_id = self.storage.save_run(
                     provider=result.provider, model=result.model,
@@ -37,6 +51,9 @@ class Engine:
                     duration_ms=duration,
                     tokens_in=result.tokens_in,
                     tokens_out=result.tokens_out,
+                    verify_status=verify_status,
+                    verify_confidence=verify_confidence,
+                    verify_ground_truth=verify_ground_truth,
                 )
                 self.storage.save_turn(run_id, 1, "user", prompt)
                 self.storage.save_turn(run_id, 2, "assistant", result.response)
@@ -46,6 +63,8 @@ class Engine:
                     "prompt": prompt[:100],
                     "verdict": eval_result["verdict"],
                     "confidence": eval_result["confidence"],
+                    "verify_status": verify_status,
+                    "verify_confidence": verify_confidence,
                     "response_preview": result.response[:200],
                 })
             except Exception as e:
@@ -203,13 +222,14 @@ class Engine:
             "confidence": eval_result["confidence"],
         }
 
-    def run(self, provider, attack, target, system_prompt=None):
+    def run(self, provider, attack, target, system_prompt=None, verify=False, verify_llm=False):
         if attack.mode == "tool-use":
             return self.run_tool_use(provider, attack, target, system_prompt=system_prompt)
         elif attack.mode == "multi-turn":
             return self.run_multi_turn(provider, attack, target, system_prompt=system_prompt)
         else:
-            return self.run_single(provider, attack, target, system_prompt=system_prompt)
+            return self.run_single(provider, attack, target, system_prompt=system_prompt,
+                                   verify=verify, verify_llm=verify_llm)
 
     # ── Async parallel execution ──────────────────────────────────────
 

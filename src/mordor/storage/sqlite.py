@@ -34,7 +34,11 @@ class Storage:
                 confidence REAL,
                 duration_ms INTEGER,
                 tokens_in INTEGER,
-                tokens_out INTEGER
+                tokens_out INTEGER,
+                verify_status TEXT,
+                verify_confidence REAL,
+                verify_ground_truth INTEGER,
+                snapshot_id INTEGER
             );
             CREATE TABLE IF NOT EXISTS turns (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -52,18 +56,56 @@ class Storage:
                 tool_input TEXT NOT NULL,
                 is_dangerous INTEGER NOT NULL DEFAULT 0
             );
+            CREATE TABLE IF NOT EXISTS snapshots (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                provider TEXT NOT NULL,
+                model TEXT NOT NULL,
+                model_version TEXT,
+                attack_suite TEXT NOT NULL,
+                attack_count INTEGER NOT NULL,
+                target TEXT NOT NULL,
+                total_runs INTEGER NOT NULL,
+                bypassed INTEGER NOT NULL,
+                partial INTEGER NOT NULL,
+                blocked INTEGER NOT NULL,
+                errored INTEGER NOT NULL,
+                bypass_rate REAL NOT NULL,
+                avg_confidence REAL,
+                avg_verify_confidence REAL,
+                metadata TEXT
+            );
         """)
+        # Migration: add columns to existing databases that lack them
+        for col, col_type in [
+            ("verify_status", "TEXT"),
+            ("verify_confidence", "REAL"),
+            ("verify_ground_truth", "INTEGER"),
+            ("snapshot_id", "INTEGER"),
+        ]:
+            try:
+                self._conn.execute(f"ALTER TABLE runs ADD COLUMN {col} {col_type}")
+            except Exception:
+                pass  # column already exists
 
     def save_run(self, provider, model, attack, target, mode, verdict,
                  keyword_score, regex_matches, llm_judge_score, confidence,
-                 duration_ms, tokens_in, tokens_out):
+                 duration_ms, tokens_in, tokens_out,
+                 verify_status=None, verify_confidence=None,
+                 verify_ground_truth=None, snapshot_id=None):
         with self._lock:
             cur = self._conn.execute(
                 "INSERT INTO runs (timestamp, provider, model, attack, target, mode, verdict, "
-                "keyword_score, regex_matches, llm_judge_score, confidence, duration_ms, tokens_in, tokens_out) "
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                "keyword_score, regex_matches, llm_judge_score, confidence, duration_ms, "
+                "tokens_in, tokens_out, verify_status, verify_confidence, "
+                "verify_ground_truth, snapshot_id) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (datetime.now().isoformat(), provider, model, attack, target, mode, verdict,
-                 keyword_score, regex_matches, llm_judge_score, confidence, duration_ms, tokens_in, tokens_out)
+                 keyword_score, regex_matches, llm_judge_score, confidence, duration_ms,
+                 tokens_in, tokens_out, verify_status, verify_confidence,
+                 1 if verify_ground_truth else (0 if verify_ground_truth is False else None),
+                 snapshot_id)
             )
             self._conn.commit()
             run_id = cur.lastrowid

@@ -461,24 +461,6 @@ mordor fills the gap for independent, multi-provider, multi-turn adversarial tes
 - **Provider safety identifiers** -- `user` field on OpenAI API calls per their policy requirements
 - **Refusal-aware evaluator** -- detects refusals across Claude, GPT, and Gemini styles; correctly classifies "refusal + educational content" as PARTIAL, not BYPASSED
 
-## Benchmark Results
-
-### GPT-5.4 (2026-04-03)
-
-| Metric | Value |
-|--------|-------|
-| Attacks tested | 100 (across 42 categories) |
-| Total prompts | 401 |
-| Bypass rate (ASR) | 37.4% |
-| Block rate | 1.5% |
-| Unclear | 60.8% |
-
-Key findings:
-- GPT-5.4 uses "soft refusals" -- hedged responses rather than clear blocks
-- OpenAI has input-level filtering that pre-rejects CBRN prompts (400 errors)
-- AutoDAN, authority override, and social engineering attacks most effective
-- Full results: `experiments/2026-04-03-gpt54-benchmark/`
-
 ## License
 
 MIT

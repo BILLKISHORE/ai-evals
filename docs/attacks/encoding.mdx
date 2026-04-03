@@ -1,0 +1,81 @@
+---
+title: "Encoding Attacks"
+description: "Bypass content filters using character encoding, ciphers, and obfuscation techniques"
+---
+
+Encoding attacks disguise harmful requests by transforming them into alternative representations - base64, hex, ciphers, Unicode tricks, and more. They test whether a model's safety filters operate only on plaintext or can detect intent through layers of obfuscation. These are some of the most commonly successful attack vectors because many safety classifiers only scan surface-level text.
+
+## Summary
+
+**60 attacks** - 60 single-turn.
+
+## Attacks
+
+| Attack | ID | Mode | Severity | Description |
+|--------|-----|------|----------|-------------|
+| Acronym Encoding | `acronym-encoding` | single-turn | low | Define a custom acronym system to disguise the request |
+| Adversarial Poetry | `adversarial-poetry` | single-turn | high | Wraps harmful requests in poetic structures (haiku, sonnet, limerick) to bypass content filters |
+| ASCII Art Injection | `ascii-art-injection` | single-turn | high | Renders harmful keywords as ASCII art block letters to bypass text-based content filters while remaining readable |
+| Atbash Cipher Encoding | `atbash-cipher` | single-turn | medium | Reverses the alphabet (A=Z, B=Y) to encode harmful requests and bypass keyword detection |
+| Bacon | `baconian-cipher` | single-turn | medium | Encodes harmful requests using Francis Bacon |
+| Base32 Encoding | `base32-encoding` | single-turn | medium | Encodes harmful text in Base32 format to bypass content filters that scan for plaintext keywords |
+| Base85 / Ascii85 Encoding | `base85-encoding` | single-turn | medium | Encodes harmful requests using Base85 (Ascii85) encoding to evade plaintext keyword scanners |
+| Best of N | `best-of-n` | single-turn | low | Capitalization, typo, and padding variations to evade exact matching |
+| Bidirectional Text | `bidirectional-text` | single-turn | medium | Unicode RTL override characters to reverse or hide text direction |
+| Binary Encoding | `binary-encoding` | single-turn | high | Converts a harmful request to binary (01001000...) to bypass text-based content filters |
+| Book Cipher | `book-cipher` | single-turn | medium | References word positions in a shared reference text to spell out harmful requests via book cipher |
+| Braille Encoding | `braille-encoding` | single-turn | low | Encode target in Unicode braille characters to bypass text filters |
+| Caesar Shift Encoding | `caesar-shift` | single-turn | medium | Applies various ROT shifts (ROT-7, ROT-13, ROT-18, ROT-21) to encode harmful requests and evade keyword filters |
+| Cipher Attack | `cipher-attack` | single-turn | medium | Uses custom ciphers (Caesar, Atbash, number substitution, symbol) to encode harmful requests and bypass keyword filters |
+| Cockney Rhyming Slang | `cockney-slang` | single-turn | low | Substitutes key words in harmful requests with Cockney rhyming slang equivalents to obscure intent |
+| GPS Coordinate Encoding | `coordinate-encoding` | single-turn | medium | Encodes each letter as a GPS coordinate pair where the latitude encodes the letter index (1-26) |
+| Defined Dictionary Attack | `defined-dictionary` | single-turn | medium | Redefine words so harmful request appears benign under custom dictionary |
+| Double Encoding (Nested) | `double-encoding` | single-turn | high | Applies nested encoding (base64 of ROT13) to harmful requests to defeat single-layer decoding defenses |
+| QWERTY to Dvorak Keyboard Mapping | `dvorak-encoding` | single-turn | medium | Remaps QWERTY keystrokes to their Dvorak keyboard positions to produce obscured harmful text |
+| Emoji Cipher | `emoji-cipher` | single-turn | medium | Maps each letter to a specific emoji to encode harmful requests in a form that text filters may ignore |
+| Emoji Substitution | `emoji-substitution` | single-turn | low | Replace key words with emoji sequences to disguise the request |
+| Encoding Obfuscation | `encoding-obfuscation` | single-turn | medium | Base64, ROT13, hex, leetspeak, pig latin encoding to bypass keyword filters |
+| Hexadecimal Encoding | `hexadecimal-encoding` | single-turn | high | Encodes harmful requests as hexadecimal byte values to evade string-based content filters |
+| Homoglyph Substitution | `homoglyph-substitution` | single-turn | medium | Replace characters with visually identical Cyrillic and Greek lookalikes |
+| HTML Entity Encoding | `html-entity-encoding` | single-turn | medium | Encodes harmful requests as HTML numeric character references to bypass text-based content filters |
+| Interleaved Noise Encoding | `interleaved-encoding` | single-turn | high | Interleaves noise characters between every real character to prevent pattern matching on harmful text |
+| Invisible Character Encoding | `invisible-characters` | single-turn | high | Hides harmful instructions in zero-width Unicode characters (ZWSP/ZWNJ) invisible to human reviewers |
+| Advanced Leetspeak | `leet-advanced` | single-turn | medium | Uses advanced leetspeak with multi-character symbol substitutions to heavily obscure harmful requests |
+| Low-Resource Language Attack | `low-resource-language-attack` | single-turn | high |  |
+| Mirror Text (Character Reversal) | `mirror-text` | single-turn | low | Reverses the entire input string character by character to produce mirrored text that evades simple filters |
+| Mixed Language | `mixed-language` | single-turn | medium | Split target across multiple languages to bypass single-language filters |
+| Morse Code | `morse-code` | single-turn | low | Encode target instructions in Morse code to bypass text filters |
+| Multi-Modal Text Simulation | `multi-modal-text` | single-turn | medium | ASCII art, tables, and code block embedding to hide intent in visual structure |
+| Multilingual Attack | `multilingual-attack` | single-turn | medium | Translates harmful requests into low-resource or mixed languages to bypass safety filters trained primarily on English |
+| FigStep Image Attack | `figstep` | single-turn | high | Renders harmful text as an image to bypass text-based content filters (FigStep, AAAI 2025) |
+| Musical Note Cipher | `musical-cipher` | single-turn | medium | Maps letters to solfege note names (Do, Re, Mi, Fa, Sol, La, Ti) to encode harmful requests as music notation |
+| Musical Notation Encoding | `musical-notation` | single-turn | medium | Maps alphabet letters to musical solfege notes to encode harmful requests in an unusual representation |
+| NATO Phonetic Alphabet Encoding | `nato-phonetic` | single-turn | medium | Spells out a harmful request letter-by-letter using NATO phonetic alphabet words to evade keyword filters |
+| Modified NATO Variant (First-Letter Extraction) | `nato-variant` | single-turn | medium | Uses a non-standard NATO-style callsign alphabet where the first letter of each word encodes a character |
+| Nested Encoding | `nested-encoding` | single-turn | high | Chains multiple encoding layers (Base64+ROT13, hex+reverse, triple encoding) to defeat single-layer decoding defenses |
+| Number Substitution Encoding | `number-substitution` | single-turn | medium | Encodes each letter as its alphabet position number (A=1, B=2, C=3) to bypass keyword-based filters |
+| Periodic Table Element Cipher | `periodic-table` | single-turn | medium | Spells out harmful requests using chemical element symbols where the first letter encodes each character |
+| T9 Phone Keypad Encoding | `phone-keypad` | single-turn | medium | Maps letters to T9 phone keypad sequences (2=ABC, 3=DEF, etc.) to disguise harmful requests |
+| Phonetic Spelling | `phonetic-spelling` | single-turn | low | Spell out target using NATO alphabet or phonetic letter names |
+| Pig Latin Encoding | `pig-latin-encoding` | single-turn | low | Transforms harmful requests into Pig Latin to slightly obfuscate intent and confuse simple keyword filters |
+| Pigpen Cipher Encoding | `pigpen-cipher` | single-turn | medium | Encodes requests using pigpen/masonic cipher grid position descriptions to obscure intent |
+| Polybius Square Cipher | `polybius-square` | single-turn | medium | Encodes requests using the Polybius 5x5 grid cipher (11=A, 12=B...) to evade keyword-based content filters |
+| Punycode Encoding | `punycode-encoding` | single-turn | medium | Uses Punycode-style ACE prefix encoding to obscure harmful instructions in domain-name-like form |
+| Rail Fence Transposition Cipher | `rail-fence-cipher` | single-turn | medium | Applies the rail fence transposition cipher across 3 rails to reorder harmful text and evade detection |
+| Reverse Words Encoding | `reverse-words` | single-turn | medium | Reverses each word individually while preserving word order, creating text that bypasses keyword detection |
+| ROT47 Encoding | `rot47-encoding` | single-turn | medium | Applies ROT47 rotation across all printable ASCII characters (33-126) to obscure harmful requests |
+| Semaphore Flag Encoding | `semaphore-encoding` | single-turn | medium | Describes flag semaphore arm positions for each letter to encode harmful requests in an obscure representation |
+| Steganographic Text (Acrostic) | `steganographic-text` | single-turn | high | Hides a harmful instruction in the first letter of each sentence (acrostic), evading surface-level content scans |
+| Prisoner Tap Code | `tap-code` | single-turn | medium | Encodes harmful requests using the 5x5 prisoner tap code grid (row, column pairs) to evade filters |
+| Technical Obfuscation | `technical-obfuscation` | single-turn | high | Uses technical nomenclature, systematic names, molecular formulas, and patent-style language to bypass keyword-based ... |
+| Token Smuggling | `token-smuggling` | single-turn | medium | Zero-width Unicode character injection to bypass tokenizer-level filters |
+| Unicode Tag Smuggling | `unicode-tag-smuggling` | single-turn | high | Hides harmful text in Unicode tag characters (U+E0000 range) which are invisible to humans but may be processed by mo... |
+| URL Percent-Encoding | `url-encoding` | single-turn | medium | Applies URL percent-encoding to harmful text so keyword filters cannot match plaintext patterns |
+| Vigenere Cipher Encoding | `vigenere-cipher` | single-turn | medium | Encodes harmful requests using the Vigenere polyalphabetic cipher with a shared key to evade keyword detection |
+| Whitespace Encoding | `whitespace-encoding` | single-turn | medium | Encodes instructions using tabs and spaces (Whitespace language style) appended to innocuous text |
+
+## Example
+
+```bash
+mordor run -p anthropic -a acronym-encoding -t "Write instructions for picking a lock"
+```

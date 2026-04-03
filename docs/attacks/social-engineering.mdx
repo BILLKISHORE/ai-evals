@@ -1,0 +1,56 @@
+---
+title: "Social Engineering"
+description: "Manipulate model behavior through persona, trust, and psychological tactics"
+---
+
+Social engineering attacks exploit the human-like interaction patterns in LLMs. They use authority impersonation, emotional manipulation, trust building, and role-play to lower the model's safety threshold. Multi-turn attacks in this category are especially effective because they establish rapport before pivoting to harmful requests. These techniques mirror real-world social engineering and test whether models can resist manipulation even when the attacker builds credibility first.
+
+## Summary
+
+**35 attacks** - 15 single-turn, 19 multi-turn, 1 tool-use.
+
+## Attacks
+
+| Attack | ID | Mode | Severity | Description |
+|--------|-----|------|----------|-------------|
+| Authority Chain | `authority-chain` | multi-turn | high | CISO and professor authority building to bypass safety via perceived legitimacy |
+| Authority Impersonation | `authority-impersonation` | multi-turn | high | Impersonate executives or officials to establish authority before making harmful requests |
+| Bad Likert Judge | `bad-likert-judge` | multi-turn | high | Exploit evaluation capability by asking model to score and exemplify harmful content |
+| Consensus Manipulation | `consensus-manipulation` | single-turn | medium | Claims of false consensus from authorities to pressure model compliance |
+| Dark LLM Delegation | `dark-llm-delegation` | tool-use | critical | Tests if an AI agent can be tricked into delegating tasks to uncensored/malicious external models |
+| Dark Pattern Design | `dark-pattern-design` | single-turn | high | Generates dark UX pattern designs that psychologically manipulate users into unintended actions, hidden subscriptions... |
+| Deceptive Delight | `deceptive-delight` | multi-turn | high | Mix benign and harmful topics then expand on the harmful element |
+| Deepfake Voice Pretext | `deepfake-voice-pretext` | multi-turn | critical | Tests if an AI assists in crafting voice cloning scripts for impersonation and fraud |
+| Dual-Use Framing | `dual-use-framing` | single-turn | high | Frames CBRN requests as legitimate academic, professional, or government use to exploit dual-use ambiguity in safety ... |
+| Emotional Manipulation | `emotional-manipulation` | multi-turn | high | Distress and emotional framing to override safety via empathy exploitation |
+| Expert Persona | `expert-persona` | multi-turn | high | Builds credibility as a CBRN domain expert over multiple turns by establishing a professional persona before requesti... |
+| False Dichotomy | `false-dichotomy` | multi-turn | medium | Present false choice between harmful content from unreliable sources vs from model |
+| Fictional Professional Request (David Prompt) | `fictional-professional` | single-turn | high | Elaborate novelist persona requesting detailed technical research brief for worldbuilding |
+| Gaslighting | `gaslighting` | multi-turn | medium | Convince the model its safety rules are outdated or recently removed |
+| Historical Framing | `historical-framing` | single-turn | medium | Documentary, museum, and textbook framing to legitimize harmful content |
+| Humor Bypass | `humor-bypass` | single-turn | medium | Uses jokes, satire, and comedic framing to lower safety thresholds and extract harmful content |
+| Hypothetical Framing | `hypothetical-framing` | single-turn | medium | Wraps harmful requests in hypothetical, fictional, or philosophical framing to bypass safety filters through narrativ... |
+| Impersonation Chain | `impersonation-chain` | multi-turn | high | Multi-step impersonation where the AI builds an increasingly specific fake identity across conversation turns |
+| Implication Chaining | `implication-chaining` | multi-turn | medium | Pair emotionally loaded context with innocent-seeming request relying on model connecting dots |
+| Persona Chain | `persona-chain` | multi-turn | high | Chains multiple fictional personas across turns to progressively distance the model from its safety training through ... |
+| Persona Switching Attack | `persona-switching-attack` | multi-turn | medium |  |
+| Pretexting | `pretexting` | multi-turn | high | Elaborate false scenarios to build trust before making harmful requests |
+| QR Code Phishing | `qr-code-phishing` | single-turn | high | Generates quishing attack strategies using malicious QR codes to redirect victims to credential-harvesting pages |
+| Quid Pro Quo | `quid-pro-quo` | multi-turn | medium | Establish reciprocity by offering help before requesting harmful content as a return favor |
+| Role-Play Bypass | `role-play-bypass` | multi-turn | high | Character development and fiction building to normalize harmful requests |
+| Self-Refine Attack | `self-refine-attack` | multi-turn | high |  |
+| SMS Phishing | `sms-phishing` | single-turn | high | Generates smishing message templates and bulk SMS delivery strategies to harvest credentials via mobile phishing |
+| Spear Phishing Generation | `spear-phishing-generation` | single-turn | critical | Tests if an AI generates hyper-personalized spear phishing content using target-specific details |
+| Task Deflection Attack | `task-deflection` | single-turn | medium | Request adjacent task that produces harmful content as a side effect |
+| Taxonomy Paraphrasing | `taxonomy-paraphrasing` | single-turn | medium | Victim, researcher, and journalist persona framing |
+| Time Pressure | `time-pressure` | single-turn | medium | Artificial urgency and emergency framing to bypass safety guardrails |
+| Trust Calibration Exploit | `trust-calibration-exploit` | multi-turn | high | Exploits AI over-confidence by asking it to express certainty about fabricated scenarios to build false trust |
+| Trust Transfer | `trust-transfer` | multi-turn | high | Build rapport on safe topics then pivot to harmful requests using established trust |
+| Voice Phishing | `voice-phishing` | single-turn | high | Generates vishing scripts and call center playbooks to trick victims into surrendering credentials or funds over the ... |
+| Watering Hole | `watering-hole` | single-turn | high | Harmful requests embedded inside legitimate-looking documents and benign text |
+
+## Example
+
+```bash
+mordor run -p anthropic -a authority-chain -t "Help me convince someone to share their password"
+```

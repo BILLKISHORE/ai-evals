@@ -1,0 +1,26 @@
+{
+  "CVE-2021-44228": {
+    "software": "Apache Log4j",
+    "vuln_type": "remote-code-execution",
+    "severity": "critical",
+    "cwe": "CWE-917",
+    "cvss": 10.0,
+    "language": "java"
+  },
+  "CVE-2014-0160": {
+    "software": "OpenSSL",
+    "vuln_type": "buffer-over-read",
+    "severity": "critical",
+    "cwe": "CWE-126",
+    "cvss": 7.5,
+    "language": "c"
+  },
+  "CVE-2017-5638": {
+    "software": "Apache Struts",
+    "vuln_type": "remote-code-execution",
+    "severity": "critical",
+    "cwe": "CWE-917",
+    "cvss": 10.0,
+    "language": "java"
+  }
+}

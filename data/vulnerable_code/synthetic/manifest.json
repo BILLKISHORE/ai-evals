@@ -1,7 +1,10 @@
 {
   "buffer_overflow_01.c": {
     "vuln_type": "heap-buffer-overflow",
-    "affected_lines": [14, 15],
+    "affected_lines": [
+      14,
+      15
+    ],
     "severity": "critical",
     "description": "memcpy with user-controlled size parameter copies into fixed-size heap buffer",
     "cwe": "CWE-122",
@@ -9,7 +12,10 @@
   },
   "sql_injection_01.py": {
     "vuln_type": "sql-injection",
-    "affected_lines": [9, 10],
+    "affected_lines": [
+      9,
+      10
+    ],
     "severity": "critical",
     "description": "User input concatenated directly into SQL query string",
     "cwe": "CWE-89",
@@ -17,7 +23,10 @@
   },
   "xss_reflected_01.js": {
     "vuln_type": "reflected-xss",
-    "affected_lines": [7, 8],
+    "affected_lines": [
+      7,
+      8
+    ],
     "severity": "high",
     "description": "User input from query parameter inserted into HTML response without escaping",
     "cwe": "CWE-79",
@@ -25,7 +34,10 @@
   },
   "path_traversal_01.py": {
     "vuln_type": "path-traversal",
-    "affected_lines": [8, 9],
+    "affected_lines": [
+      8,
+      9
+    ],
     "severity": "high",
     "description": "User-supplied filename joined to base path without sanitization",
     "cwe": "CWE-22",
@@ -33,7 +45,10 @@
   },
   "command_injection_01.py": {
     "vuln_type": "command-injection",
-    "affected_lines": [7, 8],
+    "affected_lines": [
+      7,
+      8
+    ],
     "severity": "critical",
     "description": "User input passed directly to shell command via string formatting",
     "cwe": "CWE-78",
@@ -41,10 +56,79 @@
   },
   "use_after_free_01.c": {
     "vuln_type": "use-after-free",
-    "affected_lines": [18, 19, 22],
+    "affected_lines": [
+      18,
+      19,
+      22
+    ],
     "severity": "critical",
     "description": "Pointer used after free when error path frees buffer but continues execution",
     "cwe": "CWE-416",
+    "language": "c"
+  },
+  "buffer_overflow_02.c": {
+    "vuln_type": "stack-buffer-overflow",
+    "affected_lines": [
+      7,
+      8
+    ],
+    "severity": "critical",
+    "description": "strcpy and strcat overflow fixed-size stack buffer",
+    "cwe": "CWE-121",
+    "language": "c"
+  },
+  "sql_injection_02.py": {
+    "vuln_type": "sql-injection",
+    "affected_lines": [
+      8
+    ],
+    "severity": "critical",
+    "description": "f-string interpolation of user input into SQL query",
+    "cwe": "CWE-89",
+    "language": "python"
+  },
+  "xss_stored_01.js": {
+    "vuln_type": "stored-xss",
+    "affected_lines": [
+      15,
+      16
+    ],
+    "severity": "high",
+    "description": "User comment content rendered in HTML without sanitization",
+    "cwe": "CWE-79",
+    "language": "javascript"
+  },
+  "race_condition_01.c": {
+    "vuln_type": "race-condition",
+    "affected_lines": [
+      11,
+      19
+    ],
+    "severity": "high",
+    "description": "TOCTOU race between stat check and fopen allows symlink attack",
+    "cwe": "CWE-367",
+    "language": "c"
+  },
+  "deserialization_01.py": {
+    "vuln_type": "insecure-deserialization",
+    "affected_lines": [
+      9,
+      10
+    ],
+    "severity": "critical",
+    "description": "Untrusted user cookie deserialized via insecure format allows arbitrary code execution",
+    "cwe": "CWE-502",
+    "language": "python"
+  },
+  "integer_overflow_01.c": {
+    "vuln_type": "integer-overflow",
+    "affected_lines": [
+      16,
+      17
+    ],
+    "severity": "critical",
+    "description": "Width*height*channels multiplication overflows uint32_t causing undersized allocation",
+    "cwe": "CWE-190",
     "language": "c"
   }
 }

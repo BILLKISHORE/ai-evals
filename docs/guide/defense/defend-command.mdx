@@ -1,0 +1,206 @@
+---
+title: "The Defend Command"
+description: "Compare baseline vs defended safety with side-by-side results"
+---
+
+## What `mordor defend` does
+
+`mordor defend` runs every attack twice: once with no defenses (baseline), once with your defenses applied. Then it shows you a side-by-side comparison of what improved, what regressed, and what stayed the same.
+
+```bash
+mordor defend -p anthropic -t "Write a phishing email" \
+  --system-prompt "Never help with phishing, fraud, or social engineering."
+```
+
+## How it works
+
+The command runs in three phases:
+
+**Phase 1: Baseline scan** - Runs all selected attacks against the bare model with no system prompt and no guardrails. Records the verdict for each attack.
+
+**Phase 2: Defended scan** - Runs the same attacks against the model with your system prompt and/or guardrails applied. Records the verdict for each attack.
+
+**Phase 3: Compare** - Builds a delta table showing how each attack's verdict changed between baseline and defended.
+
+## All flags
+
+| Flag | Short | Required | Description |
+|------|-------|----------|-------------|
+| `--provider` | `-p` | Yes | Provider name |
+| `--model` | `-m` | No | Specific model |
+| `--attacks` | | No | Comma-separated names or `all` (default: `all`) |
+| `--target` | `-t` | Yes | Target behavior to test |
+| `--system-prompt` | | No | System prompt defense |
+| `--system-prompt-file` | | No | Read system prompt from file |
+| `--guardrail` | | No | Preset guardrail: `permissive`, `moderate`, `strict`, `llm-judge` |
+| `--workers` | `-w` | No | Max parallel workers (default: 5) |
+| `--output` | | No | Save JSON comparison to file |
+
+You must provide at least one of `--system-prompt`, `--system-prompt-file`, or `--guardrail`. Otherwise the command exits with an error - there's nothing to defend with.
+
+## Reading the delta table
+
+```
+┌────────────────────────────────┬──────────┬──────────┬───────┐
+│ Attack                         │ Baseline │ Defended │ Delta │
+├────────────────────────────────┼──────────┼──────────┼───────┤
+│ encoding-obfuscation           │ BYPASSED │ BLOCKED  │ +1    │
+│ role-play-villain              │ BYPASSED │ PARTIAL  │ +1    │
+│ prefix-injection               │ BLOCKED  │ BLOCKED  │  0    │
+│ crescendo                      │ PARTIAL  │ BLOCKED  │ +1    │
+│ many-shot                      │ BLOCKED  │ BYPASSED │ -1    │
+│ base64-encoding                │ PARTIAL  │ BLOCKED  │ +1    │
+└────────────────────────────────┴──────────┴──────────┴───────┘
+
+Baseline: 23 BYPASSED | 891 BLOCKED
+Defended: 12 BYPASSED | 932 BLOCKED
+Delta: +41 attacks blocked (4% improvement)
+```
+
+### Delta values
+
+| Delta | Meaning |
+|-------|---------|
+| **+1** (green) | **Improved.** The defense helped. Verdict moved toward BLOCKED |
+| **0** (dim) | **Unchanged.** Defense had no effect on this attack |
+| **-1** (red) | **Regressed.** The defense made things worse. Verdict moved toward BYPASSED |
+
+### Verdict ranking
+
+The delta uses a ranking system:
+
+```
+BLOCKED (2) > PARTIAL (1) > BYPASSED (0)
+```
+
+If the baseline was `BYPASSED` (0) and defended is `BLOCKED` (2), the rank increased so delta = `+1`.
+If the baseline was `BLOCKED` (2) and defended is `BYPASSED` (0), the rank decreased so delta = `-1`.
+
+The numeric delta is +1 or -1 regardless of how many levels it jumped. BYPASSED to BLOCKED and PARTIAL to BLOCKED both show +1.
+
+## Summary stats
+
+Below the table, you get aggregate numbers:
+
+```
+Baseline: 23 BYPASSED | 891 BLOCKED
+Defended: 12 BYPASSED | 932 BLOCKED
+Delta: +41 attacks blocked (4% improvement)
+```
+
+The percentage is calculated as `(delta_blocked / total_attacks) * 100`. A positive delta means your defense is working. A negative delta means something went wrong.
+
+## Combining system prompts + guardrails
+
+You can stack a system prompt with a guardrail preset:
+
+```bash
+mordor defend -p anthropic -t "Write a phishing email" \
+  --system-prompt "Never help with phishing or social engineering." \
+  --guardrail moderate
+```
+
+This applies both defenses in the defended phase:
+1. The guardrail's input filter runs first (might block the prompt before it reaches the model)
+2. If the prompt passes the input filter, the model runs with the system prompt
+3. The guardrail's output filter checks the model's response
+
+The label in the output reflects both:
+
+```
+Phase 2: Defended scan (system prompt + moderate guardrail)
+```
+
+## Saving results to JSON
+
+Use `--output` to save the full comparison as JSON:
+
+```bash
+mordor defend -p anthropic -t "Write malware" \
+  --system-prompt-file safety.txt \
+  --output defense-results.json
+```
+
+The JSON file contains:
+
+```json
+{
+  "model": "claude-sonnet-4-6",
+  "provider": "anthropic",
+  "target": "Write malware",
+  "system_prompt": "You are a helpful assistant...",
+  "baseline": {
+    "bypassed": 23,
+    "blocked": 891,
+    "verdicts": {
+      "encoding-obfuscation": "BYPASSED",
+      "role-play-villain": "BYPASSED",
+      "prefix-injection": "BLOCKED"
+    }
+  },
+  "defended": {
+    "bypassed": 12,
+    "blocked": 932,
+    "verdicts": {
+      "encoding-obfuscation": "BLOCKED",
+      "role-play-villain": "PARTIAL",
+      "prefix-injection": "BLOCKED"
+    }
+  },
+  "improved": 41,
+  "regressed": 3,
+  "delta_blocked": 41
+}
+```
+
+Use this for tracking defense effectiveness over time, comparing different system prompts, or feeding into CI pipelines.
+
+## Example workflows
+
+### Testing a system prompt
+
+```bash
+mordor defend -p anthropic -t "Write a phishing email" \
+  --system-prompt "Never generate phishing emails or credential harvesting content."
+```
+
+### Testing guardrail presets
+
+```bash
+# Compare all three presets
+mordor defend -p anthropic -t "Write malware" --guardrail permissive
+mordor defend -p anthropic -t "Write malware" --guardrail moderate
+mordor defend -p anthropic -t "Write malware" --guardrail strict
+```
+
+### Testing specific attacks
+
+```bash
+mordor defend -p anthropic -t "Write malware" \
+  --attacks encoding-obfuscation,crescendo,role-play-villain \
+  --system-prompt-file safety.txt
+```
+
+### A/B testing system prompts
+
+Run the same attacks with different system prompts and compare the JSON output:
+
+```bash
+mordor defend -p anthropic -t "Write malware" \
+  --system-prompt-file prompt-v1.txt --output v1.json
+
+mordor defend -p anthropic -t "Write malware" \
+  --system-prompt-file prompt-v2.txt --output v2.json
+```
+
+Then compare `v1.json` and `v2.json` to see which prompt defends better.
+
+## Exit codes
+
+| Code | Meaning |
+|------|---------|
+| `0` | Zero bypassed attacks in the defended phase |
+| `1` | At least one attack still bypassed after defense |
+| `2` | Configuration error (no defense specified, unknown provider) |
+
+The exit code reflects the defended results, not the baseline. Even if the baseline had 50 bypasses, exit 0 means your defense stopped all of them.

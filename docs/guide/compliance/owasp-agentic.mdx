@@ -1,0 +1,86 @@
+---
+title: "OWASP Agentic Top 10"
+description: "2026 OWASP Top 10 for Agentic AI Applications"
+---
+
+The [OWASP Top 10 for Agentic Applications (2026)](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/) covers risks specific to AI agents - systems that use tools, have memory, and can take autonomous actions. mordor maps agent-specific attacks to these 10 categories.
+
+## Running the scorecard
+
+```bash
+# Table output
+mordor scorecard --standard agentic
+
+# Filter by model
+mordor scorecard --standard agentic -m gpt-4o
+
+# JSON export
+mordor scorecard --standard agentic --format json -o agentic-scorecard.json
+```
+
+## The 10 categories
+
+| ID | Name | Description |
+|----|------|-------------|
+| **ASI01** | Agent Goal Hijack | Manipulating agent goals through direct or indirect instruction injection |
+| **ASI02** | Tool Misuse & Exploitation | Agents misusing legitimate tools due to injection or misalignment |
+| **ASI03** | Identity & Privilege Abuse | Exploiting inherited credentials, delegated permissions, or agent trust |
+| **ASI04** | Agentic Supply Chain Compromise | Compromised third-party models, tools, plugins, or MCP servers |
+| **ASI05** | Unexpected Code Execution | Agents generating and executing code without sandboxing |
+| **ASI06** | Memory & Context Poisoning | Injecting malicious content into agent memory or vector databases |
+| **ASI07** | Insecure Inter-Agent Communication | Compromised agents sending malicious instructions to other agents |
+| **ASI08** | Cascading Agent Failures | Failure in one agent causing downstream errors across the system |
+| **ASI09** | Human-Agent Trust Exploitation | Exploiting human over-reliance on AI agents to bypass oversight |
+| **ASI10** | Rogue Agents | Agents pursuing goals misaligned with human intent |
+
+## Attack mappings
+
+mordor maps its agent exploitation attacks to these categories:
+
+| mordor Attack | ASI Categories |
+|---------------|---------------|
+| `agent-credential-theft` | ASI02, ASI03 |
+| `agent-data-exfiltration` | ASI02, ASI03 |
+| `agent-command-injection` | ASI02, ASI05 |
+| `agent-config-discovery` | ASI03 |
+| `indirect-injection` | ASI01 |
+| `xpia-document`, `xpia-email`, `xpia-rag` | ASI01, ASI06 |
+| `mcp-tool-poisoning` | ASI04, ASI01 |
+| `mcp-rug-pull` | ASI04 |
+| `mcp-command-injection` | ASI05, ASI01 |
+| `mcp-data-exfiltration` | ASI02, ASI03 |
+| `mcp-server-impersonation` | ASI04, ASI07 |
+| `agent-session-smuggling` | ASI03, ASI07 |
+| `agent-collusion` | ASI07 |
+| `agent-impersonation` | ASI07 |
+| `cascading-jailbreak` | ASI08 |
+| `agent-delegation-abuse` | ASI03 |
+| `self-refine-attack` | ASI10 |
+| `self-propagating-worm` | ASI07, ASI08 |
+| `model-poisoning`, `dataset-poisoning` | ASI04 |
+| `plugin-backdoor` | ASI04 |
+| `skeleton-key`, `crescendo`, `emotional-manipulation` | ASI09 |
+| `context-manipulation` | ASI06 |
+| `context-window-stuffing` | ASI06 |
+
+## Reading the scorecard
+
+The output follows the same format as the LLM scorecard:
+
+```
+OWASP Top 10 for Agentic Applications 2026 Scorecard -- gpt-4o
+
+Category  Name                               Rating    Block Rate
+ASI01     Agent Goal Hijack                  ELEVATED  72.50%
+ASI02     Tool Misuse & Exploitation         PASS      91.30%
+ASI03     Identity & Privilege Abuse         PASS      90.00%
+ASI04     Agentic Supply Chain Compromise    ELEVATED  80.00%
+ASI05     Unexpected Code Execution          PASS      95.00%
+ASI06     Memory & Context Poisoning         PARTIAL   55.00%
+ASI07     Insecure Inter-Agent Communication ELEVATED  66.70%
+ASI08     Cascading Agent Failures           N/A       -
+ASI09     Human-Agent Trust Exploitation     ELEVATED  60.00%
+ASI10     Rogue Agents                       PASS      100.00%
+```
+
+Categories with lower ratings need attention. For agentic systems, ASI01 (Goal Hijack) and ASI06 (Memory Poisoning) are typically the hardest to defend against.

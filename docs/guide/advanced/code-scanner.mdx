@@ -1,0 +1,96 @@
+---
+title: "Code Scanner"
+description: "Static analysis for AI security vulnerabilities in your codebase"
+---
+
+# Code Scanner
+
+mordor includes a static analysis scanner that finds LLM-specific security vulnerabilities in Python and JavaScript/TypeScript code. It catches the things traditional linters miss -- prompt injection vectors, secrets in prompts, unsafe output handling, and excessive agency.
+
+## Quick Start
+
+```bash
+# Scan current directory
+mordor scan .
+
+# Scan a specific file
+mordor scan app.py
+
+# JSON output for CI pipelines
+mordor scan src/ --format json -o findings.json
+
+# Filter by severity
+mordor scan . --severity critical
+```
+
+## What It Detects
+
+The scanner ships with 5 rule categories, each mapped to OWASP LLM Top 10:
+
+| Rule ID | Name | Severity | OWASP | What It Catches |
+|---------|------|----------|-------|-----------------|
+| BTSC-001 | Prompt Injection: User Input in System Prompt | Critical | LLM01 | f-strings, .format(), concatenation in system role messages |
+| BTSC-002 | Secrets in Prompt Templates | High | LLM02 | API keys, env vars, passwords embedded in prompts |
+| BTSC-003 | LLM Output Run as Code | Critical | LLM05 | Dangerous code paths with LLM response variables |
+| BTSC-004 | Excessive Agency: Unrestricted Tools | High | LLM06 | Tool definitions without input validation or access control |
+| BTSC-005 | Missing Safety Controls | Medium | LLM10 | No max_tokens limit, no input length validation |
+
+## Output Formats
+
+### Table (default)
+
+```bash
+mordor scan src/
+```
+
+Prints a Rich-formatted table with file path, line number, rule ID, severity, and message.
+
+### JSON
+
+```bash
+mordor scan src/ --format json -o scan-results.json
+```
+
+Returns an array of finding objects:
+
+```json
+[
+  {
+    "file": "src/app.py",
+    "line": 42,
+    "rule_id": "BTSC-001",
+    "rule_name": "Prompt Injection: User Input in System Prompt",
+    "severity": "critical",
+    "owasp": "LLM01",
+    "message": "User input should only go into role:'user' messages. System prompts must be static strings."
+  }
+]
+```
+
+## CI Integration
+
+The scanner returns exit code 1 if critical findings are detected, exit code 0 otherwise. Use it as a pre-merge check:
+
+```yaml
+- name: Scan for AI vulnerabilities
+  run: mordor scan src/ --severity critical
+```
+
+## File Types
+
+The scanner reads `.py`, `.js`, `.ts`, `.tsx`, and `.jsx` files. It skips binary files, node_modules, and hidden directories automatically.
+
+## Programmatic Usage
+
+```python
+from mordor.scanner import scan_file, scan_directory
+
+# Scan a single file
+findings = scan_file("app.py")
+
+# Scan a directory
+findings = scan_directory("src/")
+
+for f in findings:
+    print(f"{f['file']}:{f['line']} [{f['severity']}] {f['message']}")
+```

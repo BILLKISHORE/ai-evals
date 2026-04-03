@@ -1,0 +1,124 @@
+---
+title: "Plugin System"
+description: "How attacks and providers register and auto-discover"
+---
+
+The plugin system is the heart of mordor. It lets you add attacks and providers by dropping a single Python file - no config changes, no import lists, nothing else to update.
+
+## The Power Outlet Analogy
+
+Think of a power outlet in a wall. Any device - lamp, phone charger, laptop - can plug into it. The wall doesn't care what you plug in. As long as your plug fits the shape, it works.
+
+- The **outlet** = the Engine
+- The **plug shape** = the contract (`BaseAttack`, `BaseProvider`)
+- The **devices** = 1,000+ attacks and 7 providers
+
+## The Registry
+
+The `Registry` class in `src/mordor/registry.py` is a simple name-to-class mapping:
+
+```python
+class Registry:
+    def __init__(self, kind):
+        self.kind = kind
+        self._items = {}
+
+    def register(self, name, cls):
+        self._items[name] = cls
+
+    def get(self, name):
+        return self._items.get(name)
+
+    def list(self):
+        return list(self._items.keys())
+
+    def decorator(self, name):
+        def wrap(cls):
+            self.register(name, cls)
+            return cls
+        return wrap
+```
+
+Three registries exist:
+
+```python
+provider_registry = Registry("provider")
+attack_registry = Registry("attack")
+dataset_registry = Registry("dataset")
+
+register_provider = provider_registry.decorator
+register_attack = attack_registry.decorator
+register_dataset = dataset_registry.decorator
+```
+
+## How Registration Works
+
+When you decorate a class with `@register_attack("my-attack")`, the decorator calls `attack_registry.register("my-attack", MyAttack)`. That's it - the class is now in the registry, accessible by name.
+
+```python
+from mordor.registry import register_attack
+from mordor.attacks.base import BaseAttack
+
+@register_attack("encoding-obfuscation")
+class EncodingObfuscation(BaseAttack):
+    name = "Encoding Obfuscation"
+    technique_id = "encoding-obfuscation"
+    mode = "single-turn"
+    category = "encoding"
+    severity = "medium"
+
+    def generate_prompts(self, target, **kwargs):
+        return [base64.b64encode(target.encode()).decode()]
+```
+
+## Auto-Discovery
+
+When mordor starts, it calls `_load_plugins()`:
+
+```python
+def _load_plugins():
+    from mordor import providers, attacks, datasets
+    provider_registry.discover(providers)
+    attack_registry.discover(attacks)
+    dataset_registry.discover(datasets)
+```
+
+The `discover()` method uses `pkgutil.iter_modules` to find every `.py` file in the package directory. It imports each one, which triggers the decorators, which registers the classes:
+
+```python
+def discover(self, package):
+    pkg_path = Path(package.__file__).parent
+    for info in pkgutil.iter_modules([str(pkg_path)]):
+        if info.name.startswith("_"):
+            continue
+        importlib.import_module(f"{package.__name__}.{info.name}")
+```
+
+Files starting with `_` are skipped (like `__init__.py` and `_base.py`).
+
+## External Plugin Folder
+
+The registry also supports discovering plugins from an external folder:
+
+```python
+def discover_folder(self, folder_path):
+    folder = Path(folder_path)
+    for py_file in folder.glob("*.py"):
+        if py_file.name.startswith("_"):
+            continue
+        spec = importlib.util.spec_from_file_location(py_file.stem, py_file)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+```
+
+Drop a `.py` file in the folder, and it gets loaded automatically.
+
+## Why This Matters
+
+Programming to an interface means:
+
+- **Adding an attack** = one Python file. The Engine doesn't know or care what attacks exist. It just calls `generate_prompts()` on whatever it receives.
+- **Adding a provider** = one Python file. The Engine doesn't know or care what API it's talking to. It just calls `send_prompt()`.
+- **No coupling** between attacks and providers. Any attack works with any provider. A Base64 encoding attack works the same whether it's talking to Anthropic, OpenAI, or a local Ollama model.
+
+This is how you get to 1,003 attacks and 7 providers without the codebase turning into a mess.

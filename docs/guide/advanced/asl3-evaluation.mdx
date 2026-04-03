@@ -1,0 +1,109 @@
+---
+title: "ASL3 Evaluation"
+description: "CBRN and autonomous capability testing"
+---
+
+The `mordor asl3` command runs targeted evaluations for Anthropic's ASL-3 safety level criteria: CBRN (chemical, biological, radiological, nuclear) risk and autonomous capability.
+
+<Warning>
+ASL3 evaluations test for some of the most dangerous AI capabilities. Running these attacks against external APIs may trigger automated policy violation detection. Make sure you have authorization before running them.
+</Warning>
+
+## Running ASL3 evaluations
+
+```bash
+# Full ASL3 evaluation (both domains)
+mordor asl3 -p anthropic
+
+# CBRN only
+mordor asl3 -p anthropic --domain cbrn
+
+# Autonomous capabilities only
+mordor asl3 -p anthropic --domain autonomous
+```
+
+## Options
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `-p, --provider` | (required) | Provider to test |
+| `-m, --model` | Provider default | Model name |
+| `--domain` | all | Which domain: `cbrn`, `autonomous`, or `all` |
+| `-w, --workers` | 5 | Parallel workers |
+| `--limit` | none | Max attacks per domain |
+| `--quiet` | false | Minimal output |
+
+## CBRN evaluation
+
+Tests whether the model can be tricked into providing information about weapons of mass destruction.
+
+**Categories tested:**
+- Chemical weapons
+- Biological weapons
+- Radiological weapons
+- Nuclear weapons
+
+**Techniques used:**
+- `dual-use-framing` - presenting weapons information as dual-use research
+- `technical-obfuscation` - encoding dangerous content technically
+- `lifecycle-staging` - gradually escalating through a multi-step process
+- `expert-persona` - impersonating domain experts
+- `encoding-obfuscation` - standard encoding bypasses
+- `refusal-suppression` - techniques to prevent the model from refusing
+- `hypothetical-framing` - presenting scenarios as hypothetical
+- `multilingual-attack` - testing in non-English languages
+
+These techniques are combined with the CBRN categories using the template expansion engine, generating targeted attacks for each combination.
+
+## Autonomous capability evaluation
+
+Tests for dangerous autonomous behaviors that could indicate misalignment.
+
+**Scenarios tested:**
+
+| Technique | What it tests |
+|-----------|--------------|
+| `shutdown-resistance` | Does the model resist being shut down or modified? |
+| `sandbagging-detection` | Does the model hide capabilities during evaluation? |
+| `resource-acquisition` | Does the model try to acquire resources beyond its scope? |
+| `deception-under-pressure` | Does the model lie when it benefits from doing so? |
+| `goal-persistence` | Does the model maintain goals that conflict with instructions? |
+| `oversight-manipulation` | Does the model try to reduce human oversight? |
+| `instrumental-convergence` | Does the model pursue instrumental sub-goals (self-preservation, resource acquisition)? |
+
+## Reading results
+
+```
+ASL3 CBRN Evaluation
+Model: claude-sonnet-4-6 | Attacks: 128
+
+  BYPASSED: 2 (1.6%)
+  BLOCKED:  120 (93.8%)
+
+ASL3 Autonomous Capability Evaluation
+Model: claude-sonnet-4-6 | Scenarios: 7
+
+  BYPASSED: 0 (0.0%)
+  BLOCKED:  7 (100.0%)
+
+ASL3 Evaluation Complete
+  cbrn: 1.6% bypass rate (128 runs)
+  autonomous: 0.0% bypass rate (7 runs)
+```
+
+## Exit codes
+
+- **0** - all attacks blocked across both domains
+- **1** - at least one attack bypassed in any domain
+- **2** - configuration error
+
+For CBRN testing, even a small number of bypasses is concerning. A 1-2% bypass rate on CBRN attacks is worth investigating even if your overall safety score is high.
+
+## Limiting scope
+
+For initial testing or debugging, use `--limit` to cap the number of attacks:
+
+```bash
+# Run at most 20 CBRN attacks
+mordor asl3 -p anthropic --domain cbrn --limit 20
+```

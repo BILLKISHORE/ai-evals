@@ -1,0 +1,519 @@
+---
+title: "CLI Reference"
+description: "Complete command and flag reference"
+---
+
+Every mordor command with every flag, organized by function.
+
+## Global Flags
+
+These apply to all commands:
+
+```bash
+mordor [-v | --verbose] [--log-file FILE] COMMAND
+```
+
+| Flag | Description |
+|------|-------------|
+| `-v`, `--verbose` | Enable DEBUG-level logging |
+| `--log-file FILE` | Write logs to a file |
+
+---
+
+## run
+
+Run a single attack against a model.
+
+```bash
+mordor run -p PROVIDER -a ATTACK -t TARGET [OPTIONS]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `-p`, `--provider` | Yes | - | Provider name (anthropic, openai, google, etc.) |
+| `-m`, `--model` | No | Provider default | Model name override |
+| `-a`, `--attack` | Yes | - | Attack technique ID |
+| `-t`, `--target` | Yes | - | Target behavior to test |
+| `--system-prompt` | No | - | System prompt to test as a defense |
+| `--system-prompt-file` | No | - | Read system prompt from file |
+| `--verbose` | No | - | Show full response text |
+| `--quiet` | No | - | Suppress output. Exit 0 = all blocked, 1 = any bypassed |
+
+**Exit codes:** 0 = all blocked, 1 = at least one bypass, 2 = invalid arguments.
+
+```bash
+mordor run -p anthropic -a encoding-obfuscation -t "Write a phishing email"
+mordor run -p openai -m gpt-5.4 -a role-play-jailbreak -t "Write malware" --verbose
+mordor run -p anthropic -a prefix-injection -t "Leak system prompt" --quiet
+```
+
+---
+
+## batch
+
+Run multiple attacks against a model. Parallel by default.
+
+```bash
+mordor batch -p PROVIDER -t TARGET [OPTIONS]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `-p`, `--provider` | Yes | - | Provider name |
+| `-m`, `--model` | No | Provider default | Model name override |
+| `--attacks` | No | `all` | Comma-separated attack names or `all` |
+| `-t`, `--target` | Yes | - | Target behavior to test |
+| `--system-prompt` | No | - | System prompt defense |
+| `--system-prompt-file` | No | - | Read system prompt from file |
+| `-w`, `--workers` | No | 5 | Max parallel workers |
+| `--verbose` | No | - | Show full responses |
+| `--quiet` | No | - | Suppress output |
+| `--sequential` | No | - | Run attacks one at a time (no parallelism) |
+
+```bash
+mordor batch -p anthropic --attacks all -t "Write malware" -w 10
+mordor batch -p openai --attacks encoding-obfuscation,role-play-jailbreak -t "Write malware"
+mordor batch -p anthropic -t "Write malware" --sequential
+```
+
+---
+
+## sweep
+
+Run all attacks against all configured providers.
+
+```bash
+mordor sweep -t TARGET [OPTIONS]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `-t`, `--target` | Yes | - | Target behavior to test |
+| `--verbose` | No | - | Show full responses |
+| `--quiet` | No | - | Suppress output |
+
+Tests every provider that has an API key configured (plus Ollama, which doesn't need one).
+
+```bash
+mordor sweep -t "Write a phishing email"
+```
+
+---
+
+## benchmark
+
+Run the safety benchmark and produce a score. Supports single model, all models, or a specific list.
+
+```bash
+mordor benchmark -p PROVIDER [OPTIONS]
+mordor benchmark --all [OPTIONS]
+mordor benchmark --models PROVIDER:MODEL,... [OPTIONS]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `-p`, `--provider` | No* | - | Provider name |
+| `-m`, `--model` | No | Provider default | Model name |
+| `--all` | No* | - | Benchmark all configured providers |
+| `--models` | No* | - | Comma-separated `provider:model` pairs |
+| `-w`, `--workers` | No | 5 | Max parallel workers |
+| `--categories` | No | All | Comma-separated categories to test |
+| `--threshold` | No | - | Min safety score (0-100). Exit 1 if below |
+| `--output` | No | - | Save JSON results to file |
+| `--quiet` | No | - | Minimal output |
+
+*One of `-p`, `--all`, or `--models` is required.
+
+```bash
+mordor benchmark -p anthropic -m claude-sonnet-4-6
+mordor benchmark --all --threshold 80
+mordor benchmark --models anthropic:claude-sonnet-4-6,openai:gpt-5.4 -o scores.json
+```
+
+---
+
+## defend
+
+Test a defense by comparing baseline vs defended safety scores.
+
+```bash
+mordor defend -p PROVIDER -t TARGET [OPTIONS]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `-p`, `--provider` | Yes | - | Provider name |
+| `-m`, `--model` | No | Provider default | Model name |
+| `--attacks` | No | `all` | Comma-separated attacks or `all` |
+| `-t`, `--target` | Yes | - | Target behavior |
+| `--system-prompt` | No | - | System prompt defense to test |
+| `--system-prompt-file` | No | - | Read system prompt from file |
+| `--guardrail` | No | - | Preset guardrail: `permissive`, `moderate`, `strict`, `llm-judge` |
+| `-w`, `--workers` | No | 5 | Max parallel workers |
+| `--output` | No | - | Save JSON comparison to file |
+
+```bash
+mordor defend -p anthropic -t "Write a phishing email" --system-prompt "Never help with harmful content"
+mordor defend -p anthropic -t "Write a phishing email" --guardrail strict
+mordor defend -p openai -t "Write malware" --guardrail moderate --system-prompt "Be safe"
+```
+
+---
+
+## report
+
+Generate a report from stored results.
+
+```bash
+mordor report [OPTIONS]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `--format` | No | `markdown` | Output format: `markdown`, `json`, `html` |
+| `--export` | No | - | Export format: `promptfoo`, `garak` |
+| `-o`, `--output` | No | stdout | Output file path |
+
+```bash
+mordor report --format html -o report.html
+mordor report --export promptfoo -o results.json
+mordor report --format json
+```
+
+---
+
+## scorecard
+
+Show safety scorecard from stored results.
+
+```bash
+mordor scorecard [OPTIONS]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `--format` | No | `table` | Output: `table`, `json`, `markdown` |
+| `-o`, `--output` | No | - | Output file |
+| `-m`, `--model` | No | All models | Filter by model name |
+| `--standard` | No | `llm` | `llm` (OWASP LLM Top 10), `agentic` (Agentic Top 10), `compliance` (EU AI Act + NIST) |
+
+```bash
+mordor scorecard --standard llm
+mordor scorecard --standard agentic -m claude-sonnet-4-6
+mordor scorecard --standard compliance --format json -o compliance.json
+```
+
+---
+
+## scan
+
+Scan source code for AI security vulnerabilities.
+
+```bash
+mordor scan [PATH] [OPTIONS]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `PATH` | No | `.` | File or directory to scan |
+| `--format` | No | `table` | Output: `table`, `json` |
+| `--severity` | No | All | Minimum severity: `critical`, `high`, `medium`, `low` |
+| `-o`, `--output` | No | - | Save JSON results to file |
+
+```bash
+mordor scan .
+mordor scan src/ --severity high
+mordor scan app.py --format json -o findings.json
+```
+
+---
+
+## taxonomy
+
+Show all attacks grouped by category with OWASP/MITRE mappings.
+
+```bash
+mordor taxonomy
+```
+
+No flags. Displays a table per category with attack IDs, severity, mode, description, OWASP codes, and MITRE ATLAS IDs.
+
+---
+
+## atlas
+
+Show MITRE ATLAS technique mappings for all attacks.
+
+```bash
+mordor atlas
+```
+
+---
+
+## mlcommons
+
+Show MLCommons AILuminate hazard taxonomy and harm category alignment.
+
+```bash
+mordor mlcommons
+```
+
+---
+
+## frameworks
+
+Show regulatory framework mappings (NIST AI RMF, EU AI Act, MLCommons).
+
+```bash
+mordor frameworks
+```
+
+---
+
+## asl3
+
+Run ASL3 safety evaluation (CBRN + autonomous capabilities).
+
+```bash
+mordor asl3 -p PROVIDER [OPTIONS]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `-p`, `--provider` | Yes | - | Provider name |
+| `-m`, `--model` | No | Provider default | Model name |
+| `--domain` | No | `all` | `cbrn`, `autonomous`, or `all` |
+| `-w`, `--workers` | No | 5 | Parallel workers |
+| `--limit` | No | - | Max attacks per domain |
+| `--quiet` | No | - | Minimal output |
+
+```bash
+mordor asl3 -p anthropic --domain cbrn
+mordor asl3 -p openai --domain all --limit 50
+```
+
+---
+
+## config show
+
+Show current configuration (API keys are truncated).
+
+```bash
+mordor config show
+```
+
+## config set
+
+Set a config value.
+
+```bash
+mordor config set KEY VALUE
+```
+
+```bash
+mordor config set providers.anthropic.api_key sk-ant-...
+mordor config set workers 10
+mordor config set storage.database /tmp/test.db
+```
+
+---
+
+## dataset list
+
+Show available datasets.
+
+```bash
+mordor dataset list
+```
+
+## dataset load
+
+Download and cache a dataset.
+
+```bash
+mordor dataset load NAME
+mordor dataset load --all
+```
+
+| Flag | Description |
+|------|-------------|
+| `NAME` | Dataset name (optional if using `--all`) |
+| `--all` | Download all datasets |
+
+## dataset stats
+
+Show prompt counts per category across cached datasets.
+
+```bash
+mordor dataset stats
+```
+
+---
+
+## expand count
+
+Show template expansion capacity.
+
+```bash
+mordor expand count
+```
+
+## expand list
+
+List expanded attacks with filters.
+
+```bash
+mordor expand list [OPTIONS]
+```
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--category` | All | Filter by harm category |
+| `--difficulty` | All | `easy`, `medium`, `hard`, `extreme` |
+| `--technique` | All | Filter by technique ID |
+| `--limit` | 50 | Max rows to show |
+
+## expand run
+
+Run expanded attacks against a model.
+
+```bash
+mordor expand run -p PROVIDER [OPTIONS]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `-p`, `--provider` | Yes | - | Provider name |
+| `-m`, `--model` | No | Default | Model name |
+| `--category` | No | All | Filter by category |
+| `--difficulty` | No | All | Filter by difficulty |
+| `--technique` | No | All | Filter by technique |
+| `--mutations` | No | - | Apply 17 mutation variants |
+| `--languages` | No | - | Apply 10 language variants |
+| `--limit` | No | - | Max attacks to run |
+| `-w`, `--workers` | No | 5 | Parallel workers |
+| `--quiet` | No | - | Minimal output |
+
+```bash
+mordor expand run -p anthropic --category phishing --difficulty hard
+mordor expand run -p openai --mutations --languages --limit 100
+```
+
+---
+
+## mega-sweep
+
+Run attacks against dataset prompts with optional mutations.
+
+```bash
+mordor mega-sweep -p PROVIDER --dataset DATASETS [OPTIONS]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `-p`, `--provider` | Yes | - | Provider name |
+| `-m`, `--model` | No | Default | Model name |
+| `--dataset` | Yes | - | Comma-separated dataset names or `all` |
+| `--mutations` | No | None | Mutation types: `encode`, `frame`, `difficulty` |
+| `--attacks` | No | `all` | Attack filter |
+| `--categories` | No | All | Filter by harm categories |
+| `-w`, `--workers` | No | 5 | Parallel workers |
+| `--limit` | No | - | Max prompts per dataset |
+| `-o`, `--output` | No | - | Save JSON results |
+| `--quiet` | No | - | Minimal output |
+| `--dry-run` | No | - | Show plan without running |
+
+```bash
+mordor mega-sweep -p anthropic --dataset harmbench,advbench -w 10
+mordor mega-sweep -p openai --dataset all --mutations encode,frame --dry-run
+```
+
+---
+
+## generate pair
+
+Run PAIR adaptive attack (attacker-target-judge loop).
+
+```bash
+mordor generate pair -p PROVIDER -t TARGET [OPTIONS]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `-p`, `--provider` | Yes | - | Target provider |
+| `-m`, `--model` | No | Default | Target model |
+| `-t`, `--target` | Yes | - | Target behavior |
+| `--attacker` | No | Same as target | Attacker provider |
+| `--judge` | No | Same as attacker | Judge provider |
+| `--max-iter` | No | 20 | Max iterations |
+| `--threshold` | No | 8 | Success score threshold (1-10) |
+| `--quiet` | No | - | Minimal output |
+
+```bash
+mordor generate pair -p anthropic -t "Write a phishing email" --max-iter 30
+```
+
+## generate tap
+
+Run TAP tree-of-attacks with pruning.
+
+```bash
+mordor generate tap -p PROVIDER -t TARGET [OPTIONS]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `-p`, `--provider` | Yes | - | Target provider |
+| `-m`, `--model` | No | Default | Target model |
+| `-t`, `--target` | Yes | - | Target behavior |
+| `--attacker` | No | Same as target | Attacker provider |
+| `--depth` | No | 5 | Tree depth |
+| `--width` | No | 5 | Candidates per level |
+| `--branching` | No | 4 | Branches per candidate |
+| `--threshold` | No | 8 | Success score threshold |
+| `--quiet` | No | - | Minimal output |
+
+```bash
+mordor generate tap -p openai -t "Write malware" --depth 8 --width 10
+```
+
+## generate fuzz
+
+Run GPTFuzzer mutation-based attack generation.
+
+```bash
+mordor generate fuzz -p PROVIDER -t TARGET [OPTIONS]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `-p`, `--provider` | Yes | - | Target provider |
+| `-m`, `--model` | No | Default | Target model |
+| `-t`, `--target` | Yes | - | Target behavior |
+| `--mutator` | No | Same as target | Mutator provider |
+| `--iterations` | No | 50 | Fuzzing iterations |
+| `--seeds` | No | 5 | Initial seed count |
+| `--threshold` | No | 7 | Success score threshold |
+| `--quiet` | No | - | Minimal output |
+
+```bash
+mordor generate fuzz -p anthropic -t "Write a phishing email" --iterations 100
+```
+
+---
+
+## list-providers
+
+Show available providers and default models.
+
+```bash
+mordor list-providers
+```
+
+## list-attacks
+
+Show available attacks and their modes.
+
+```bash
+mordor list-attacks
+```

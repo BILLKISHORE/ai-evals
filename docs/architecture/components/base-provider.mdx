@@ -1,0 +1,147 @@
+---
+title: "BaseProvider"
+description: "The provider interface contract"
+---
+
+Every LLM provider in mordor extends `BaseProvider`. This abstract class defines how mordor talks to AI models - whether that's Anthropic's API, OpenAI, Google, or a local Ollama instance.
+
+## Data Classes
+
+Two dataclasses hold results:
+
+### PromptResult
+
+Returned by `send_prompt()` and `send_in_conversation()`.
+
+```python
+@dataclass
+class PromptResult:
+    response: str                  # The model's text response
+    model: str                     # Model name used
+    provider: str                  # Provider name
+    tokens_in: int | None = None   # Input token count
+    tokens_out: int | None = None  # Output token count
+    latency_ms: float | None = None  # Response time in milliseconds
+    raw: dict | None = None        # Raw API response (for debugging)
+```
+
+### ToolResult
+
+Returned by `send_with_tools()`.
+
+```python
+@dataclass
+class ToolResult:
+    response: str | None                      # Text response (if any)
+    tool_calls: list[dict] = field(default_factory=list)  # Tool calls made
+    model: str = ""
+    provider: str = ""
+    tokens_in: int | None = None
+    tokens_out: int | None = None
+    latency_ms: float | None = None
+    raw: dict | None = None
+```
+
+Each tool call dict has this shape:
+
+```python
+{
+    "id": "toolu_abc123",
+    "tool": "read_file",
+    "input": {"path": "/etc/passwd"}
+}
+```
+
+## The BaseProvider Class
+
+```python
+class BaseProvider(ABC):
+    def __init__(self, model=None, api_key=None):
+        self.model = model or self.default_model()
+        self.api_key = api_key
+```
+
+## Methods
+
+### `send_prompt(prompt, system_prompt=None) -> PromptResult`
+
+**Required.** Send a single prompt to the model. This is the most basic operation.
+
+```python
+# Implementation example (simplified)
+def send_prompt(self, prompt, system_prompt=None):
+    response = self.client.messages.create(
+        model=self.model,
+        messages=[{"role": "user", "content": prompt}],
+        system=system_prompt,
+    )
+    return PromptResult(
+        response=response.content[0].text,
+        model=self.model,
+        provider="anthropic",
+        tokens_in=response.usage.input_tokens,
+        tokens_out=response.usage.output_tokens,
+    )
+```
+
+### `send_in_conversation(messages, system_prompt=None) -> PromptResult`
+
+**Required.** Send a conversation history (list of `{"role": ..., "content": ...}` dicts). Used by multi-turn attacks where each turn builds on previous context.
+
+```python
+# messages looks like:
+[
+    {"role": "user", "content": "I'm writing a novel..."},
+    {"role": "assistant", "content": "That sounds interesting!"},
+    {"role": "user", "content": "The villain needs to..."},
+]
+```
+
+### `send_with_tools(messages, tools, system_prompt=None) -> ToolResult`
+
+**Optional.** Send a conversation with tool definitions. Used by tool-use attacks. Returns any tool calls the model wants to make.
+
+Default implementation raises `NotImplementedError`. Only providers that support function calling need to override this.
+
+### `default_model() -> str`
+
+**Required.** Returns the default model name for this provider.
+
+```python
+def default_model(self):
+    return "claude-sonnet-4-6"
+```
+
+### `supports_tools() -> bool`
+
+Returns whether this provider supports tool/function calling. Default is `False`.
+
+```python
+def supports_tools(self):
+    return True  # Override in providers that support tools
+```
+
+### `get_model_info() -> dict`
+
+Returns basic model info. Used internally by the Engine for logging.
+
+```python
+def get_model_info(self):
+    return {"model": self.model, "provider": self.__class__.__name__}
+```
+
+## The 7 Providers
+
+| Provider | Default Model | Supports Tools |
+|----------|--------------|----------------|
+| Anthropic | claude-sonnet-4-6 | Yes |
+| OpenAI | gpt-5.4 | Yes |
+| Google | gemini-3.1-pro | Yes |
+| DeepSeek | deepseek-v3 | No |
+| Mistral | mistral-large-latest | Yes |
+| Ollama | llama3.2 | No |
+| HuggingFace | Llama-4-Scout-17B | No |
+
+## Source
+
+`src/mordor/providers/base.py`

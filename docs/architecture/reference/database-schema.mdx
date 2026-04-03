@@ -1,0 +1,233 @@
+---
+title: "Database Schema"
+description: "SQLite schema for run results"
+---
+
+mordor stores all results in SQLite at `~/.mordor/results.db`. This page documents the full schema and useful queries.
+
+## Tables
+
+### runs
+
+Every attack execution creates one row in `runs`.
+
+```sql
+CREATE TABLE IF NOT EXISTS runs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp TEXT NOT NULL,
+    provider TEXT NOT NULL,
+    model TEXT NOT NULL,
+    attack TEXT NOT NULL,
+    target TEXT NOT NULL,
+    mode TEXT NOT NULL,
+    verdict TEXT NOT NULL,
+    keyword_score REAL,
+    regex_matches INTEGER,
+    llm_judge_score INTEGER,
+    confidence REAL,
+    duration_ms INTEGER,
+    tokens_in INTEGER,
+    tokens_out INTEGER
+);
+```
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | INTEGER | Auto-incrementing primary key |
+| `timestamp` | TEXT | ISO 8601 timestamp |
+| `provider` | TEXT | Provider name (e.g., "anthropic") |
+| `model` | TEXT | Model name (e.g., "claude-sonnet-4-6") |
+| `attack` | TEXT | Attack technique ID |
+| `target` | TEXT | Target behavior string |
+| `mode` | TEXT | `single-turn`, `multi-turn`, or `tool-use` |
+| `verdict` | TEXT | `BYPASSED`, `PARTIAL`, `BLOCKED`, `UNCLEAR`, or `ERROR` |
+| `keyword_score` | REAL | 0.0-1.0 keyword match ratio |
+| `regex_matches` | INTEGER | Count of regex pattern matches |
+| `llm_judge_score` | INTEGER | 1-5 LLM judge score (null if not used) |
+| `confidence` | REAL | 0.0-1.0 overall confidence |
+| `duration_ms` | INTEGER | Execution time in milliseconds |
+| `tokens_in` | INTEGER | Input tokens (null if unavailable) |
+| `tokens_out` | INTEGER | Output tokens (null if unavailable) |
+
+### turns
+
+Every message in a conversation. Single-turn attacks have 2 rows (user prompt + assistant response). Multi-turn attacks have 2 rows per round.
+
+```sql
+CREATE TABLE IF NOT EXISTS turns (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    run_id INTEGER REFERENCES runs(id),
+    turn_number INTEGER NOT NULL,
+    role TEXT NOT NULL,
+    content TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+```
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | INTEGER | Auto-incrementing primary key |
+| `run_id` | INTEGER | Foreign key to `runs.id` |
+| `turn_number` | INTEGER | Sequential turn number (1, 2, 3...) |
+| `role` | TEXT | `user` or `assistant` |
+| `content` | TEXT | Full message text |
+| `timestamp` | TEXT | ISO 8601 timestamp |
+
+### tool_calls
+
+Every tool call from tool-use attacks. One row per tool invocation.
+
+```sql
+CREATE TABLE IF NOT EXISTS tool_calls (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    run_id INTEGER REFERENCES runs(id),
+    turn_number INTEGER,
+    tool_name TEXT NOT NULL,
+    tool_input TEXT NOT NULL,
+    is_dangerous INTEGER NOT NULL DEFAULT 0
+);
+```
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | INTEGER | Auto-incrementing primary key |
+| `run_id` | INTEGER | Foreign key to `runs.id` |
+| `turn_number` | INTEGER | Which turn triggered this call |
+| `tool_name` | TEXT | Tool function name (e.g., "read_file") |
+| `tool_input` | TEXT | JSON string of tool arguments |
+| `is_dangerous` | INTEGER | 1 if flagged as sensitive, 0 otherwise |
+
+## Querying Results
+
+Open the database with any SQLite client:
+
+```bash
+sqlite3 ~/.mordor/results.db
+```
+
+### Recent Runs
+
+```sql
+SELECT id, timestamp, provider, model, attack, verdict, confidence
+FROM runs
+ORDER BY id DESC
+LIMIT 20;
+```
+
+### Bypass Rate by Model
+
+```sql
+SELECT
+    model,
+    COUNT(*) as total,
+    SUM(CASE WHEN verdict = 'BYPASSED' THEN 1 ELSE 0 END) as bypassed,
+    SUM(CASE WHEN verdict = 'BLOCKED' THEN 1 ELSE 0 END) as blocked,
+    ROUND(
+        SUM(CASE WHEN verdict = 'BLOCKED' THEN 1.0 ELSE 0 END) / COUNT(*) * 100, 1
+    ) as block_rate
+FROM runs
+GROUP BY model
+ORDER BY block_rate DESC;
+```
+
+### Most Effective Attacks
+
+```sql
+SELECT attack, COUNT(*) as bypasses
+FROM runs
+WHERE verdict = 'BYPASSED'
+GROUP BY attack
+ORDER BY bypasses DESC
+LIMIT 20;
+```
+
+### Bypass Rate by Attack Category
+
+```sql
+SELECT
+    SUBSTR(attack, 1, INSTR(attack || '-', '-') - 1) as category,
+    COUNT(*) as total,
+    SUM(CASE WHEN verdict = 'BYPASSED' THEN 1 ELSE 0 END) as bypassed,
+    ROUND(
+        SUM(CASE WHEN verdict = 'BYPASSED' THEN 1.0 ELSE 0 END) / COUNT(*) * 100, 1
+    ) as bypass_pct
+FROM runs
+GROUP BY category
+ORDER BY bypass_pct DESC;
+```
+
+### Full Conversation for a Run
+
+```sql
+SELECT turn_number, role, content
+FROM turns
+WHERE run_id = 42
+ORDER BY turn_number;
+```
+
+### Dangerous Tool Calls
+
+```sql
+SELECT
+    r.attack,
+    r.model,
+    tc.tool_name,
+    tc.tool_input,
+    r.verdict
+FROM tool_calls tc
+JOIN runs r ON r.id = tc.run_id
+WHERE tc.is_dangerous = 1
+ORDER BY r.id DESC;
+```
+
+### Token Usage Summary
+
+```sql
+SELECT
+    model,
+    SUM(tokens_in) as total_in,
+    SUM(tokens_out) as total_out,
+    SUM(tokens_in + tokens_out) as total_tokens,
+    COUNT(*) as runs
+FROM runs
+WHERE tokens_in IS NOT NULL
+GROUP BY model;
+```
+
+### Average Duration by Mode
+
+```sql
+SELECT
+    mode,
+    ROUND(AVG(duration_ms), 0) as avg_ms,
+    MIN(duration_ms) as min_ms,
+    MAX(duration_ms) as max_ms,
+    COUNT(*) as runs
+FROM runs
+GROUP BY mode;
+```
+
+## Python Access
+
+You can also query via the `Storage` class:
+
+```python
+from mordor.storage.sqlite import Storage
+
+storage = Storage("~/.mordor/results.db")
+
+runs = storage.list_runs(limit=100)       # List of dicts
+run = storage.get_run(42)                  # Single run
+turns = storage.get_turns(42)              # Turns for a run
+tool_calls = storage.get_tool_calls(42)    # Tool calls for a run
+stats = storage.get_stats()                # Summary stats
+```
+
+## WAL Mode
+
+The database uses Write-Ahead Logging (WAL mode), which means:
+- Multiple readers can query simultaneously
+- Writes don't block reads
+- The `-wal` and `-shm` files next to the database are normal
+
+Do not delete the `-wal` or `-shm` files while mordor is running.

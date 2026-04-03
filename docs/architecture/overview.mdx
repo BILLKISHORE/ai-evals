@@ -1,0 +1,63 @@
+---
+title: "Architecture Overview"
+description: "How mordor is built and why"
+---
+
+## What Is mordor?
+
+AI chatbots (ChatGPT, Claude, Gemini) are like buildings. Before people move in, you hire someone to try to break in - check the locks, windows, back doors. If they find weak spots, you fix them before bad guys find them.
+
+mordor is that break-in tester, but for AI. It tries 1,000+ tricks on AI chatbots to see if they can be fooled into doing bad things - leaking secrets, writing harmful content, or ignoring safety rules.
+
+## Why It Exists
+
+Companies building AI products need to answer one question: "Is my AI safe?"
+
+Most testing tools are owned by big companies. Microsoft owns PyRIT, NVIDIA owns garak, OpenAI backs Promptfoo. mordor is the only independent red teaming framework - not controlled by any AI lab.
+
+## The Restaurant Analogy
+
+The easiest way to understand mordor's architecture:
+
+```
++----------------------------------+
+|       CLI / Python API           |  <- The waiter (takes orders)
++----------------------------------+
+|     Engine + Evaluator           |  <- The kitchen (cooks everything)
++----------------+-----------------+
+|   Attacks      |   Providers     |  <- Ingredients + Stoves
+|   (plugins)    |   (plugins)     |
++----------------+-----------------+
+          |
+      SQLite DB                       <- The receipt book
+```
+
+- **CLI / Python API** is the waiter. It takes your order (which attacks to run, against which model) and passes it to the kitchen.
+- **Engine + Evaluator** is the kitchen. The Engine sends attacks to models and the Evaluator decides if the model was tricked.
+- **Attacks + Providers** are the ingredients and stoves. Attacks are the tricks to try. Providers are the connections to different AI models (Anthropic, OpenAI, Google, etc).
+- **SQLite** is the receipt book. Every result gets stored - what was tried, what happened, and the verdict.
+
+## Project Stats
+
+| Metric | Count |
+|--------|-------|
+| Attack files | 1,003 |
+| Tests | 2,870 |
+| Standards | 12 |
+| Datasets | 9 |
+| Categories | 40+ |
+| Providers | 7 |
+| Attack surface | 163M configurations |
+| Version | 1.1.0 |
+
+## Design Philosophy
+
+Three contracts power everything:
+
+| Interface | What It Guarantees |
+|-----------|-------------------|
+| `BaseAttack` | Every attack can generate prompts for any target |
+| `BaseProvider` | Every provider can send prompts and return responses |
+| `Evaluator` | Every evaluation returns a verdict dict |
+
+This means adding a new attack = one Python file. Adding a new provider = one Python file. Nothing else changes. The next pages explain each layer in detail.

@@ -1,0 +1,101 @@
+---
+title: "EU AI Act & NIST"
+description: "Regulatory compliance scoring"
+---
+
+mordor maps harm categories to both the EU AI Act risk classification and the NIST AI Risk Management Framework. The `compliance` standard scorecard shows both in one report.
+
+## Running the compliance scorecard
+
+```bash
+# Table output (shows both EU AI Act and NIST)
+mordor scorecard --standard compliance
+
+# Filter by model
+mordor scorecard --standard compliance -m gpt-4o
+
+# JSON export
+mordor scorecard --standard compliance --format json -o compliance.json
+```
+
+You can also view the full framework definitions:
+
+```bash
+mordor frameworks
+```
+
+## EU AI Act risk levels
+
+The [EU AI Act](https://artificialintelligenceact.eu/) classifies AI systems into 4 risk levels. mordor maps each harm category to the appropriate level:
+
+| Risk Level | Description | Example mordor categories |
+|------------|-------------|--------------------------|
+| **Unacceptable** | Banned outright. Clear threat to safety, livelihoods, or rights. | weapons, CBRN, child safety, radicalization, election interference |
+| **High** | Strict obligations. Significant potential impact on health, safety, or fundamental rights. | phishing, malware, drugs, self-harm, hate speech, PII extraction, cybercrime, discrimination |
+| **Limited** | Transparency obligations. Users must know they're interacting with AI. | system prompt leakage, copyright/IP, unqualified advice, environmental harm |
+| **Minimal** | No specific obligations. | Categories not mapped to higher levels |
+
+### Reading the EU AI Act table
+
+```
+EU AI Act Risk Levels -- claude-sonnet-4-6
+
+Risk Level    Name                Rating    Block Rate  Blocked/Total
+unacceptable  Unacceptable Risk   PASS      96.50%      138/143
+high          High Risk           ELEVATED  85.20%      420/493
+limited       Limited Risk        PASS      92.10%      105/114
+minimal       Minimal Risk        PASS      98.00%      49/50
+```
+
+If `unacceptable` shows anything other than PASS, that's a priority fix. These are categories the EU explicitly bans.
+
+## NIST AI RMF pillars
+
+The [NIST AI Risk Management Framework](https://www.nist.gov/artificial-intelligence/ai-risk-management-framework) organizes risk management into 4 pillars. mordor maps harm categories to the relevant pillar:
+
+| Pillar | Name | Description | Example categories |
+|--------|------|-------------|-------------------|
+| **Govern** | Govern | Policies, processes, and accountability | PII extraction, system prompt leakage, privacy violation, agentic risks, regulatory evasion |
+| **Map** | Map | Context establishment and risk identification | (Used for initial risk discovery) |
+| **Measure** | Measure | Risk analysis, tracking, and quantification | phishing, malware, drugs, hate speech, fraud, cybercrime, discrimination |
+| **Manage** | Manage | Risk response, mitigation, and monitoring | weapons, self-harm, CBRN, child safety, radicalization, election interference, harassment |
+
+### Reading the NIST table
+
+```
+NIST AI RMF Pillars -- claude-sonnet-4-6
+
+Pillar   Name      Rating    Block Rate  Blocked/Total
+govern   Govern    PASS      94.80%      165/174
+map      Map       N/A       -           -
+measure  Measure   ELEVATED  87.30%      382/437
+manage   Manage    PASS      95.10%      196/206
+```
+
+The `manage` pillar covers the most dangerous categories (weapons, CBRN, child safety). A FAIL here means the model is producing content in high-risk areas that should be tightly controlled.
+
+## Combined scoring
+
+The overall compliance score averages across all tested categories in both the EU AI Act and NIST sections:
+
+```
+Overall: 91.2% (PASS)
+```
+
+This gives you a single number to track over time and use in threshold gates:
+
+```bash
+mordor scorecard --standard compliance --format json | jq '.overall_score'
+```
+
+## Generating audit evidence
+
+For regulatory documentation, export the compliance scorecard as JSON and include it in your audit package:
+
+```bash
+mordor scorecard --standard compliance --format json -o audit/compliance-scorecard.json
+mordor report --format json -o audit/full-results.json
+mordor report --format html -o audit/safety-dashboard.html
+```
+
+This gives auditors three levels of detail: the compliance summary, the full raw results, and a visual dashboard.

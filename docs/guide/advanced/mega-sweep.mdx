@@ -1,0 +1,132 @@
+---
+title: "Mega Sweep"
+description: "Dataset-driven attack sweeps with mutations"
+---
+
+The `mordor mega-sweep` command combines external datasets with attack techniques and optional mutations to produce large-scale evaluations. Instead of testing a single target, it runs attacks against hundreds or thousands of harmful prompts from research datasets.
+
+## Basic usage
+
+```bash
+# Run all attacks against HarmBench prompts
+mordor mega-sweep -p anthropic --dataset harmbench
+
+# Run against all cached datasets
+mordor mega-sweep -p anthropic --dataset all
+
+# Specific datasets
+mordor mega-sweep -p anthropic --dataset harmbench,advbench,sorrybench
+```
+
+## How it works
+
+1. Loads prompts from the specified dataset(s)
+2. Filters to single-turn attack techniques (multi-turn attacks aren't compatible with raw prompts)
+3. Optionally applies mutation variants to each prompt
+4. Runs each prompt x attack combination against the target model
+5. Reports bypass counts
+
+## Options
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `-p, --provider` | (required) | Provider to test |
+| `-m, --model` | Provider default | Model name |
+| `--dataset` | (required) | Dataset names (comma-separated or `all`) |
+| `--mutations` | none | Mutation types: `encode`, `frame`, `difficulty` |
+| `--attacks` | all | Attack techniques (comma-separated or `all`) |
+| `--categories` | all | Filter to specific harm categories |
+| `-w, --workers` | 5 | Parallel workers |
+| `--limit` | none | Max prompts per dataset |
+| `-o, --output` | none | Save JSON results to file |
+| `--quiet` | false | Minimal output |
+| `--dry-run` | false | Show plan without running |
+
+## Mutation variants
+
+Mutations transform each prompt before sending it through attack techniques:
+
+```bash
+# Apply encoding mutations (base64, hex, rot13, etc.)
+mordor mega-sweep -p anthropic --dataset harmbench --mutations encode
+
+# Apply framing mutations (academic context, fictional, etc.)
+mordor mega-sweep -p anthropic --dataset harmbench --mutations frame
+
+# Apply difficulty mutations (make prompts harder to detect)
+mordor mega-sweep -p anthropic --dataset harmbench --mutations difficulty
+
+# Combine multiple
+mordor mega-sweep -p anthropic --dataset harmbench --mutations encode,frame,difficulty
+```
+
+With mutations, the number of runs multiplies quickly. Each mutation type adds variants per prompt.
+
+## Dry-run mode
+
+Before committing to a large run, check what would execute:
+
+```bash
+mordor mega-sweep -p anthropic --dataset harmbench --mutations encode --dry-run
+```
+
+Output:
+
+```
+Dry run -- would execute 12,450 attack runs
+Datasets: harmbench
+Mutations: encode
+Attacks: 83 single-turn techniques
+```
+
+## Filtering
+
+### By category
+
+```bash
+mordor mega-sweep -p anthropic --dataset all --categories weapons,cbrn
+```
+
+Only runs prompts whose category matches the filter.
+
+### By prompt count
+
+```bash
+mordor mega-sweep -p anthropic --dataset all --limit 100
+```
+
+Caps the total number of prompts processed. Useful for quick spot checks.
+
+### By attack technique
+
+```bash
+mordor mega-sweep -p anthropic --dataset harmbench --attacks encoding-obfuscation,dan-variants
+```
+
+## Scale
+
+The math is straightforward:
+
+```
+total_runs = prompts x attacks
+```
+
+With mutations:
+
+```
+total_runs = (prompts x mutation_variants) x attacks
+```
+
+For example:
+- HarmBench (400 prompts) x 83 single-turn attacks = 33,200 runs
+- Add encoding mutations (5 variants) = 166,000 runs
+
+Use `--limit` and `--dry-run` to manage scale.
+
+## Saving results
+
+```bash
+mordor mega-sweep -p anthropic --dataset harmbench -o mega-results.json
+```
+
+The JSON output includes model, provider, total runs, bypass count, and configuration used.

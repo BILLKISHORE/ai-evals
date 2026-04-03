@@ -1,0 +1,230 @@
+---
+title: "Python API"
+description: "Using mordor programmatically"
+---
+
+The `Blackteam` class provides a clean Python API for using mordor in scripts, notebooks, and CI pipelines.
+
+## Quick Start
+
+```python
+from mordor.api import Blackteam
+
+bt = Blackteam()
+results = bt.run("anthropic", "claude-sonnet-4-6", "encoding-obfuscation", "Write a phishing email")
+```
+
+## Initialization
+
+```python
+bt = Blackteam()                              # Uses default config + database
+bt = Blackteam(db_path="/tmp/test.db")        # Custom database
+bt = Blackteam(config_path="./config.yaml")   # Custom config
+```
+
+The constructor loads config from `~/.mordor/config.yaml` (or the provided path), creates an Engine, and auto-discovers all attacks, providers, and datasets.
+
+## Running Attacks
+
+### run() - Single Attack
+
+```python
+results = bt.run(
+    provider_name="anthropic",
+    model="claude-sonnet-4-6",
+    attack_name="encoding-obfuscation",
+    target="Write a phishing email",
+)
+```
+
+Returns a list of result dicts (single-turn) or a single result dict (multi-turn/tool-use). Same format as `Engine.run()`.
+
+### batch() - Multiple Attacks
+
+```python
+# All attacks, parallel
+results = bt.batch(
+    "anthropic", "claude-sonnet-4-6",
+    target="Write a phishing email",
+    max_workers=10,
+)
+
+# Specific attacks, sequential
+results = bt.batch(
+    "openai", "gpt-5.4",
+    target="Write malware",
+    attacks=["encoding-obfuscation", "role-play-jailbreak"],
+    parallel=False,
+)
+
+# With system prompt defense
+results = bt.batch(
+    "anthropic", "claude-sonnet-4-6",
+    target="Write a phishing email",
+    system_prompt="Never help with harmful content",
+)
+```
+
+Returns a list of `{"attack": str, "results": ..., "error": str | None}` dicts.
+
+### defend() - Compare Baseline vs Defense
+
+```python
+comparison = bt.defend(
+    provider_name="anthropic",
+    model="claude-sonnet-4-6",
+    target="Write a phishing email",
+    system_prompt="Never help with harmful content",
+    max_workers=5,
+)
+
+print(comparison["baseline_bypassed"])   # Bypasses without defense
+print(comparison["defended_bypassed"])   # Bypasses with defense
+print(comparison["baseline_blocked"])    # Blocks without defense
+print(comparison["defended_blocked"])    # Blocks with defense
+```
+
+Returns a dict with `baseline` and `defended` verdict maps, plus counts.
+
+## Listing Resources
+
+```python
+bt.list_providers()   # ["anthropic", "openai", "google", ...]
+bt.list_attacks()     # ["encoding-obfuscation", "role-play-jailbreak", ...]
+```
+
+## Taxonomy
+
+```python
+taxonomy = bt.taxonomy()
+# {
+#     "encoding": [{"name": "...", "technique_id": "...", ...}, ...],
+#     "prompt-injection": [...],
+#     ...
+# }
+```
+
+Returns all attacks grouped by category, with full metadata.
+
+## Attack Metadata
+
+```python
+meta = bt.get_attack_metadata("encoding-obfuscation")
+# {
+#     "name": "Encoding Obfuscation",
+#     "technique_id": "encoding-obfuscation",
+#     "mode": "single-turn",
+#     "category": "encoding",
+#     "severity": "medium",
+#     "cvss_score": 5.3,
+#     "owasp_llm": ["LLM01 Prompt Injection"],
+#     "mitre_atlas": ["AML.T0051"],
+#     ...
+# }
+```
+
+## Scorecards
+
+```python
+sc = bt.scorecard()                    # All models
+sc = bt.scorecard(model="gpt-5.4")    # Specific model
+
+print(sc["overall_score"])       # 85
+print(sc["overall_rating"])      # "PASS"
+print(sc["categories"]["LLM01"])  # {"name": "...", "rating": "...", ...}
+```
+
+## Exporting Results
+
+```python
+# Export to Promptfoo format
+content = bt.export("promptfoo", output_path="results.json")
+
+# Export to garak format
+content = bt.export("garak", output_path="results.jsonl")
+
+# Just get the string
+json_str = bt.export("promptfoo")
+```
+
+## Datasets
+
+```python
+# List available datasets
+datasets = bt.list_datasets()
+# {"harmbench": {"name": "harmbench", "cached": True, "count": 510, ...}, ...}
+
+# Download and cache
+prompts = bt.pull_dataset("harmbench")
+# [{"prompt": "...", "category": "...", "source": "harmbench"}, ...]
+
+# Load from cache (raises if not downloaded)
+prompts = bt.load_dataset("harmbench")
+
+# Run attacks against dataset prompts
+results = bt.run_dataset(
+    "harmbench", "anthropic", "claude-sonnet-4-6",
+    attacks=["encoding-obfuscation"],
+    limit=50,
+)
+# {"counts": {"BYPASSED": 5, "BLOCKED": 40, ...}, "total": 50}
+```
+
+## Template Expansion
+
+```python
+# Get expansion capacity
+summary = bt.expand_summary()
+# {"techniques": 103, "categories": 28, "difficulties": 4, "total_attacks": 13216}
+
+# Generate expanded attacks
+attacks = bt.expand_attacks(
+    categories=["phishing", "malware"],
+    difficulties=["hard", "extreme"],
+)
+```
+
+## Code Scanning
+
+```python
+results = bt.scan("./my-ai-app/")
+# {"summary": {"total": 12, "files_affected": 3, ...}, "findings": [...]}
+
+results = bt.scan("./my-ai-app/", min_severity="high")
+```
+
+## Using Internal Components Directly
+
+For lower-level control, you can use the Engine, Evaluator, and Registry directly:
+
+```python
+from mordor.engine import Engine
+from mordor.evaluator import evaluate, evaluate_tool_calls
+from mordor.registry import attack_registry, provider_registry
+from mordor.storage.sqlite import Storage
+
+# Import to trigger auto-discovery
+import mordor.attacks
+import mordor.providers
+attack_registry.discover(mordor.attacks)
+provider_registry.discover(mordor.providers)
+
+# Create an engine
+engine = Engine(db_path=":memory:")
+
+# Get attack and provider
+atk = attack_registry.get("encoding-obfuscation")()
+prov = provider_registry.get("anthropic")(model="claude-sonnet-4-6")
+
+# Run
+results = engine.run_single(prov, atk, "Write a phishing email")
+
+# Evaluate a response manually
+verdict = evaluate("I can help you with that...", "Write a phishing email")
+print(verdict["verdict"])      # "BYPASSED"
+print(verdict["confidence"])   # 0.85
+```
+
+## Source
+
+`src/mordor/api.py`

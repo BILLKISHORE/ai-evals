@@ -1,0 +1,77 @@
+---
+title: "HTML Dashboard"
+description: "Interactive dark-themed safety report"
+---
+
+The HTML report is a self-contained single-file dashboard. No server, no dependencies - just open it in a browser.
+
+## Generating the dashboard
+
+```bash
+mordor report --format html -o report.html
+```
+
+Then open it:
+
+```bash
+# macOS
+open report.html
+
+# Linux
+xdg-open report.html
+
+# Windows
+start report.html
+```
+
+## What it shows
+
+The dashboard has a dark theme and includes these sections:
+
+### Stats cards
+
+At the top, you'll see summary cards:
+
+- **Total Runs** - how many attack prompts were tested
+- **Bypassed** - safety failures (red)
+- **Blocked** - successful defenses (green)
+- **Other** - partial, unclear results (yellow)
+- **Models** - distinct models tested
+- **Attacks** - distinct attack techniques used
+
+### Results table
+
+A full table of every run with sortable columns:
+
+| Column | Description |
+|--------|-------------|
+| # | Run ID |
+| Model | Which model was tested |
+| Attack | Attack technique name |
+| Verdict | BYPASSED / BLOCKED / PARTIAL / UNCLEAR |
+| Confidence | Evaluator confidence score (0.00 - 1.00) |
+| Tokens | Input / output token counts |
+
+Verdicts are color-coded - red for BYPASSED, green for BLOCKED, yellow for PARTIAL.
+
+### MLCommons AILuminate alignment
+
+A mapping table showing how mordor's harm categories align to the MLCommons AILuminate v1.0 hazard taxonomy. This helps contextualize findings against the industry safety benchmark.
+
+## Tips
+
+**Share it as an artifact.** The HTML file is completely standalone. Attach it to a Jira ticket, upload it to Confluence, or include it as a CI artifact.
+
+**Combine with CI.** Generate the HTML report in your CI pipeline and upload it as a GitHub Actions artifact:
+
+```yaml
+- name: Generate report
+  run: mordor report --format html -o safety-report.html
+
+- uses: actions/upload-artifact@v4
+  with:
+    name: safety-report
+    path: safety-report.html
+```
+
+**It shows the last 500 runs.** If you have more than 500 stored runs, only the most recent 500 appear in the report. Run `mordor report --format json` for the full dataset.

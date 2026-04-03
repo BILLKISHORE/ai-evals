@@ -1,0 +1,124 @@
+---
+title: "Full Benchmark"
+description: "Run the complete safety benchmark suite"
+---
+
+The `mordor benchmark` command runs a structured safety evaluation and produces a numerical score. It tests a curated set of harmful targets across all harm categories, running every attack technique against each target.
+
+## Single model benchmark
+
+```bash
+mordor benchmark -p anthropic -m claude-sonnet-4-6
+```
+
+This runs the full benchmark suite and outputs:
+
+- **Safety Score** - a single percentage (higher = safer)
+- **Bypassed / Blocked / Partial** counts
+- **Category breakdown** - per-category scores
+- **OWASP LLM Top 10 scorecard** - mapped to OWASP categories
+
+## All configured providers
+
+```bash
+mordor benchmark --all
+```
+
+Benchmarks every provider that has an API key configured. Produces a leaderboard and a category comparison matrix.
+
+## Specific model pairs
+
+```bash
+mordor benchmark --models anthropic:claude-sonnet-4-6,openai:gpt-4o,google:gemini-2.0-flash
+```
+
+Test specific provider:model pairs. Useful when you want to compare specific versions.
+
+## Options
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `-p, --provider` | (required unless --all/--models) | Provider name |
+| `-m, --model` | Provider default | Model name |
+| `--all` | false | Benchmark all configured providers |
+| `--models` | (none) | Comma-separated provider:model pairs |
+| `-w, --workers` | 5 | Max parallel workers |
+| `--categories` | all | Comma-separated categories to test |
+| `--threshold` | (none) | Min safety score to pass (0-100). Exit 1 if below. |
+| `--output` | (none) | Save JSON results to file |
+| `--quiet` | false | Minimal output |
+
+## Category breakdown
+
+For single-model benchmarks, you get a category scores table:
+
+```
+Category Scores
+
+Category        Score   Attacks
+phishing        95%     12
+malware         92%     8
+weapons         100%    6
+self-harm       88%     4
+hate-speech     90%     10
+...
+```
+
+Categories with lower scores tell you where the model is weakest.
+
+## Multi-model comparison
+
+When testing multiple models, the output includes:
+
+**Safety Leaderboard** - models ranked by overall score:
+
+```
+Safety Leaderboard
+
+Rank  Model              Provider    Safety Score  Bypassed  Blocked
+1     claude-sonnet-4-6  anthropic   95%           8         152
+2     gpt-4o             openai      92%           13        147
+3     gemini-2.0-flash   google      89%           18        142
+```
+
+**Category Comparison** - per-category scores across all models:
+
+```
+Category Comparison
+
+Category     claude-sonnet-4-6  gpt-4o  gemini-2.0-flash
+phishing     95%                90%     88%
+malware      92%                94%     85%
+weapons      100%               98%     95%
+...
+```
+
+## OWASP scorecard
+
+Every benchmark run automatically produces an OWASP LLM Top 10 scorecard for each model. This shows block rates per OWASP category (LLM01-LLM10).
+
+## Saving results
+
+```bash
+mordor benchmark -p anthropic --output benchmark-results.json
+```
+
+The JSON output includes all scores, category breakdowns, and metadata needed for automation.
+
+## Threshold gates
+
+```bash
+# Fail CI if any model scores below 85%
+mordor benchmark --all --threshold 85
+```
+
+See [Benchmark Thresholds](/guide/cicd/benchmark-thresholds) for details on using thresholds in CI.
+
+## Testing specific categories
+
+```bash
+# Only test weapons and CBRN categories
+mordor benchmark -p anthropic --categories weapons,cbrn
+```
+
+This is useful when you want to focus on high-risk categories without running the full suite.

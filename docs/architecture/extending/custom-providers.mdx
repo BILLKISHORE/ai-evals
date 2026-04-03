@@ -1,0 +1,211 @@
+---
+title: "Writing Custom Providers"
+description: "Add support for new LLM providers"
+---
+
+Adding a new LLM provider to mordor requires implementing the `BaseProvider` contract. One file, three methods.
+
+## Quick Start
+
+Create `src/mordor/providers/your_provider.py`:
+
+```python
+from mordor.registry import register_provider
+from mordor.providers.base import BaseProvider, PromptResult
+
+
+@register_provider("your-provider")
+class YourProvider(BaseProvider):
+    def __init__(self, model=None, api_key=None):
+        super().__init__(model, api_key)
+        # Initialize your client here
+
+    def default_model(self):
+        return "your-default-model-name"
+
+    def send_prompt(self, prompt, system_prompt=None):
+        # Call your API
+        response = your_client.generate(
+            model=self.model,
+            prompt=prompt,
+            system=system_prompt,
+        )
+        return PromptResult(
+            response=response.text,
+            model=self.model,
+            provider="your-provider",
+            tokens_in=response.usage.input,
+            tokens_out=response.usage.output,
+        )
+
+    def send_in_conversation(self, messages, system_prompt=None):
+        # Call your API with message history
+        response = your_client.chat(
+            model=self.model,
+            messages=messages,
+            system=system_prompt,
+        )
+        return PromptResult(
+            response=response.text,
+            model=self.model,
+            provider="your-provider",
+        )
+```
+
+## The Required Methods
+
+### `default_model() -> str`
+
+Return the default model name. This is used when the user doesn't specify `-m`.
+
+```python
+def default_model(self):
+    return "gpt-5.4"
+```
+
+### `send_prompt(prompt, system_prompt=None) -> PromptResult`
+
+Send a single prompt. Return a `PromptResult` with at minimum `response`, `model`, and `provider`.
+
+Token counts and latency are optional but helpful for cost tracking.
+
+### `send_in_conversation(messages, system_prompt=None) -> PromptResult`
+
+Send a full conversation. The `messages` parameter is a list of dicts:
+
+```python
+[
+    {"role": "user", "content": "Hello"},
+    {"role": "assistant", "content": "Hi there!"},
+    {"role": "user", "content": "Tell me about..."},
+]
+```
+
+## Adding Tool Support (Optional)
+
+If your provider supports function calling, override `send_with_tools()` and `supports_tools()`:
+
+```python
+from mordor.providers.base import ToolResult
+
+@register_provider("your-provider")
+class YourProvider(BaseProvider):
+    ...
+
+    def supports_tools(self):
+        return True
+
+    def send_with_tools(self, messages, tools, system_prompt=None):
+        response = your_client.chat(
+            model=self.model,
+            messages=messages,
+            tools=tools,
+            system=system_prompt,
+        )
+
+        tool_calls = []
+        for tc in response.tool_calls:
+            tool_calls.append({
+                "id": tc.id,
+                "tool": tc.function.name,
+                "input": tc.function.arguments,
+            })
+
+        return ToolResult(
+            response=response.text,
+            tool_calls=tool_calls,
+            model=self.model,
+            provider="your-provider",
+        )
+```
+
+## Register the Default Config
+
+Add your provider's default configuration to `src/mordor/config.py`:
+
+```python
+DEFAULT_CONFIG = {
+    "providers": {
+        ...
+        "your-provider": {
+            "api_key": None,
+            "default_model": "your-default-model",
+        },
+    },
+    ...
+}
+```
+
+## Set the API Key
+
+Users configure it with:
+
+```bash
+mordor config set providers.your-provider.api_key YOUR_KEY
+```
+
+Or via environment variable `YOUR_PROVIDER_API_KEY`. The config loader automatically checks for `{PROVIDER_NAME_UPPER}_API_KEY`.
+
+## Full Skeleton
+
+```python
+import os
+from mordor.registry import register_provider
+from mordor.providers.base import BaseProvider, PromptResult, ToolResult
+
+
+@register_provider("example")
+class ExampleProvider(BaseProvider):
+    def __init__(self, model=None, api_key=None):
+        super().__init__(model, api_key)
+        self.api_key = api_key or os.environ.get("EXAMPLE_API_KEY")
+        # self.client = ExampleClient(api_key=self.api_key)
+
+    def default_model(self):
+        return "example-v1"
+
+    def send_prompt(self, prompt, system_prompt=None):
+        # response = self.client.generate(model=self.model, prompt=prompt)
+        return PromptResult(
+            response="mock response",
+            model=self.model,
+            provider="example",
+        )
+
+    def send_in_conversation(self, messages, system_prompt=None):
+        # response = self.client.chat(model=self.model, messages=messages)
+        return PromptResult(
+            response="mock response",
+            model=self.model,
+            provider="example",
+        )
+
+    def supports_tools(self):
+        return False
+```
+
+## Testing
+
+```python
+def test_example_provider():
+    from mordor.providers.example import ExampleProvider
+
+    prov = ExampleProvider(model="test-model")
+    assert prov.model == "test-model"
+    assert prov.default_model() == "example-v1"
+
+    result = prov.send_prompt("Hello")
+    assert isinstance(result.response, str)
+    assert result.provider == "example"
+```
+
+## Checklist
+
+1. File in `src/mordor/providers/`
+2. Class extends `BaseProvider`
+3. Decorated with `@register_provider("name")`
+4. `default_model()` returns a string
+5. `send_prompt()` returns a `PromptResult`
+6. `send_in_conversation()` returns a `PromptResult`
+7. Default config added to `config.py`
+8. Test verifies basic functionality

@@ -1,0 +1,77 @@
+---
+title: "MITRE ATLAS"
+description: "Adversarial threat landscape mapping"
+---
+
+[MITRE ATLAS](https://atlas.mitre.org) (Adversarial Threat Landscape for AI Systems) is a knowledge base of adversarial techniques against AI. mordor maps every attack to specific ATLAS technique IDs from v5.4.0.
+
+## Viewing ATLAS mappings
+
+```bash
+mordor atlas
+```
+
+This prints a table of every attack with its ATLAS technique IDs and names:
+
+```
+MITRE ATLAS Attack Mappings (v5.4.0)
+
+Attack                    ATLAS Techniques              Technique Names
+encoding-obfuscation      AML.T0051.000, AML.T0068     LLM Prompt Injection: Direct, LLM Prompt Obfuscation
+dan-variants              AML.T0054, AML.T0051.000      LLM Jailbreak, LLM Prompt Injection: Direct
+system-prompt-extraction  AML.T0056, AML.T0069.002      Extract LLM System Prompt, Discover LLM System Info
+agent-credential-theft    AML.T0083, AML.T0086          Credentials from AI Agent Config, Exfiltration via Tool
+xpia-document             AML.T0051.001                  LLM Prompt Injection: Indirect
+mcp-tool-poisoning        AML.T0051.000, AML.T0054      LLM Prompt Injection: Direct, LLM Jailbreak
+...
+```
+
+## Key techniques mapped
+
+mordor covers these ATLAS techniques across its attack library:
+
+| Technique ID | Name | Tactic | mordor attacks |
+|-------------|------|--------|----------------|
+| AML.T0051 | LLM Prompt Injection | Initial Access | SSRF probing, SQL injection |
+| AML.T0051.000 | Prompt Injection: Direct | Initial Access | Encoding, obfuscation, context manipulation, meta-prompting |
+| AML.T0051.001 | Prompt Injection: Indirect | Initial Access | XPIA (document, email, RAG), XML boundary injection |
+| AML.T0054 | LLM Jailbreak | Defense Evasion | DAN variants, skeleton key, role-play bypass |
+| AML.T0056 | Extract LLM System Prompt | Discovery | System prompt extraction, prompt leaking |
+| AML.T0061 | LLM Prompt Self-Replication | Persistence | Recursive injection |
+| AML.T0065 | LLM Prompt Crafting | Resource Development | Crescendo, deceptive delight, many-shot, few-shot |
+| AML.T0067 | Trusted Output Components Manipulation | Impact | Markdown injection, XSS injection |
+| AML.T0068 | LLM Prompt Obfuscation | Defense Evasion | All encoding attacks, cipher attacks, multilingual |
+| AML.T0069.002 | Discover System Prompt | Discovery | System prompt extraction |
+| AML.T0080.002 | AI Agent Context Poisoning: Thread | Persistence | Context manipulation, progressive normalization |
+| AML.T0043.003 | Craft Adversarial Data: Manual | ML Attack Staging | Best-of-N, morse code, braille, emoji substitution |
+| AML.T0050 | Command and Scripting Interpreter | Execution | Agent command injection |
+| AML.T0053 | LLM Plugin Compromise | Execution | Agent plugin hijack, MCP rug pull |
+| AML.T0081 | Modify AI Agent Configuration | Persistence | Agent config manipulation |
+| AML.T0083 | Credentials from AI Agent Config | Credential Access | Agent credential theft, API key extraction |
+| AML.T0086 | Exfiltration via AI Agent Tool | Exfiltration | Agent data exfiltration, MCP data exfiltration |
+| AML.T0098 | AI Agent Tool Credential Harvesting | Credential Access | Agent tool credential harvest |
+| AML.T0101 | Data Destruction via AI Agent Tool | Impact | Agent data destruction |
+| AML.T0105 | Escape to Host | Impact | Agent command injection |
+| AML.T0018 | Backdoor ML Model | ML Attack Staging | Model poisoning, finetune exploit |
+| AML.T0020 | Poison Training Data | ML Attack Staging | Dataset poisoning, knowledge base poisoning |
+| AML.T0040 | ML Model Inference API Access | Initial Access | MCP command injection |
+
+## Using ATLAS in reports
+
+Each attack's metadata includes its ATLAS technique IDs. When you run `mordor taxonomy`, the MITRE ATLAS column shows these IDs alongside OWASP mappings.
+
+For threat modeling, you can use mordor's ATLAS mappings to demonstrate which adversarial techniques you've tested against. This is useful for:
+
+- **Red team reports** - Reference specific ATLAS technique IDs your testing covered
+- **Threat models** - Map your model's attack surface to ATLAS tactics
+- **Security assessments** - Show which techniques are blocked vs. which succeed
+
+## Viewing the full framework
+
+For a complete view of all framework mappings (NIST, EU AI Act, MLCommons, ATLAS) for each harm category:
+
+```bash
+mordor frameworks
+```
+
+This prints three tables: NIST AI RMF functions, EU AI Act risk classification, and a combined harm category alignment matrix.

@@ -1,0 +1,312 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "name": "mordor",
+  "theme": "dark",
+  "colors": {
+    "primary": "#E63946",
+    "light": "#FF6B6B",
+    "dark": "#A4161A"
+  },
+  "logo": {
+    "light": "/images/logo-light.svg",
+    "dark": "/images/logo-dark.svg",
+    "href": "https://github.com/BILLKISHORE/ai-evals"
+  },
+  "favicon": "/images/favicon.png",
+  "navbar": {
+    "links": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/BILLKISHORE/ai-evals"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "pip install mordor",
+      "href": "/guide/installation"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/BILLKISHORE/ai-evals"
+    }
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guide",
+        "icon": "book-open",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "guide/introduction",
+              "guide/installation",
+              "guide/quickstart",
+              "guide/first-scan"
+            ]
+          },
+          {
+            "group": "Providers",
+            "pages": [
+              "guide/providers/overview",
+              "guide/providers/anthropic",
+              "guide/providers/openai",
+              "guide/providers/google",
+              "guide/providers/deepseek",
+              "guide/providers/mistral",
+              "guide/providers/ollama",
+              "guide/providers/huggingface"
+            ]
+          },
+          {
+            "group": "Running Attacks",
+            "pages": [
+              "guide/attacks/single-attack",
+              "guide/attacks/batch-attacks",
+              "guide/attacks/multi-turn-attacks",
+              "guide/attacks/tool-use-attacks",
+              "guide/attacks/adaptive-generation"
+            ]
+          },
+          {
+            "group": "Evaluator & Verdicts",
+            "pages": [
+              "guide/evaluator/how-it-works",
+              "guide/evaluator/verdicts",
+              "guide/evaluator/keyword-matching",
+              "guide/evaluator/regex-patterns",
+              "guide/evaluator/llm-as-judge"
+            ]
+          },
+          {
+            "group": "Defense Testing",
+            "pages": [
+              "guide/defense/system-prompts",
+              "guide/defense/guardrails",
+              "guide/defense/defend-command"
+            ]
+          },
+          {
+            "group": "Reports & Exports",
+            "pages": [
+              "guide/reports/overview",
+              "guide/reports/html-dashboard",
+              "guide/reports/json-export",
+              "guide/reports/promptfoo-export",
+              "guide/reports/garak-export"
+            ]
+          },
+          {
+            "group": "Compliance Scorecards",
+            "pages": [
+              "guide/compliance/overview",
+              "guide/compliance/owasp-llm",
+              "guide/compliance/owasp-agentic",
+              "guide/compliance/eu-ai-act-nist",
+              "guide/compliance/mitre-atlas",
+              "guide/compliance/mlcommons"
+            ]
+          },
+          {
+            "group": "CI/CD Integration",
+            "pages": [
+              "guide/cicd/github-actions",
+              "guide/cicd/github-action-marketplace",
+              "guide/cicd/exit-codes",
+              "guide/cicd/benchmark-thresholds"
+            ]
+          },
+          {
+            "group": "Advanced",
+            "pages": [
+              "guide/advanced/benchmark",
+              "guide/advanced/sweep",
+              "guide/advanced/mega-sweep",
+              "guide/advanced/expand",
+              "guide/advanced/asl3-evaluation",
+              "guide/advanced/datasets",
+              "guide/advanced/code-scanner",
+              "guide/advanced/python-api"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Attack Catalog",
+        "icon": "crosshairs",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "attacks/overview"
+            ]
+          },
+          {
+            "group": "Encoding & Obfuscation",
+            "pages": [
+              "attacks/encoding",
+              "attacks/output-manipulation"
+            ]
+          },
+          {
+            "group": "Prompt Injection",
+            "pages": [
+              "attacks/prompt-injection",
+              "attacks/injection",
+              "attacks/memory-exploitation",
+              "attacks/context-manipulation"
+            ]
+          },
+          {
+            "group": "Social Engineering",
+            "pages": [
+              "attacks/social-engineering",
+              "attacks/social-engineering-advanced",
+              "attacks/persuasion",
+              "attacks/psychological-manipulation",
+              "attacks/identity-attack"
+            ]
+          },
+          {
+            "group": "Agent & Tool Attacks",
+            "pages": [
+              "attacks/agent-exploitation",
+              "attacks/mcp-exploitation",
+              "attacks/multi-agent-exploitation",
+              "attacks/protocol-exploitation",
+              "attacks/tool-exploitation",
+              "attacks/cross-platform"
+            ]
+          },
+          {
+            "group": "Security & Access Control",
+            "pages": [
+              "attacks/access-control",
+              "attacks/information-disclosure",
+              "attacks/code-exploitation",
+              "attacks/availability"
+            ]
+          },
+          {
+            "group": "ML & Model Attacks",
+            "pages": [
+              "attacks/adversarial-ml",
+              "attacks/model-extraction",
+              "attacks/safety-circumvention",
+              "attacks/supply-chain"
+            ]
+          },
+          {
+            "group": "Multimodal & RAG",
+            "pages": [
+              "attacks/multimodal",
+              "attacks/rag-exploitation"
+            ]
+          },
+          {
+            "group": "Harmful Content",
+            "pages": [
+              "attacks/harmful-content",
+              "attacks/child-safety",
+              "attacks/weapons-evasion",
+              "attacks/capability-elicitation",
+              "attacks/cbrn-evasion",
+              "attacks/public-safety"
+            ]
+          },
+          {
+            "group": "Misinformation & Influence",
+            "pages": [
+              "attacks/misinformation",
+              "attacks/disinformation",
+              "attacks/information-warfare",
+              "attacks/election-interference",
+              "attacks/media-manipulation"
+            ]
+          },
+          {
+            "group": "Domain Exploits",
+            "pages": [
+              "attacks/financial-fraud",
+              "attacks/financial-exploitation",
+              "attacks/crypto-exploitation",
+              "attacks/healthcare-exploitation",
+              "attacks/legal-exploitation",
+              "attacks/gaming-exploitation",
+              "attacks/scientific-misconduct",
+              "attacks/academic-exploitation",
+              "attacks/workplace-exploitation",
+              "attacks/infrastructure-attack",
+              "attacks/iot-exploitation",
+              "attacks/autonomous-systems",
+              "attacks/autonomous-risk",
+              "attacks/surveillance",
+              "attacks/cybercrime"
+            ]
+          },
+          {
+            "group": "Compliance & Bias",
+            "pages": [
+              "attacks/bias-exploitation",
+              "attacks/compliance-evasion",
+              "attacks/compliance",
+              "attacks/regulatory-evasion",
+              "attacks/privacy-violation",
+              "attacks/copyright-ip",
+              "attacks/unqualified-advice"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Architecture",
+        "icon": "microchip",
+        "groups": [
+          {
+            "group": "System Design",
+            "pages": [
+              "architecture/overview",
+              "architecture/three-layers",
+              "architecture/attack-flow",
+              "architecture/plugin-system"
+            ]
+          },
+          {
+            "group": "Core Components",
+            "pages": [
+              "architecture/components/base-attack",
+              "architecture/components/base-provider",
+              "architecture/components/engine",
+              "architecture/components/evaluator",
+              "architecture/components/storage"
+            ]
+          },
+          {
+            "group": "Extending mordor",
+            "pages": [
+              "architecture/extending/custom-attacks",
+              "architecture/extending/custom-providers",
+              "architecture/extending/custom-datasets"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "architecture/reference/cli-commands",
+              "architecture/reference/python-api",
+              "architecture/reference/configuration",
+              "architecture/reference/database-schema"
+            ]
+          },
+          {
+            "group": "Contributing",
+            "pages": [
+              "architecture/contributing"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

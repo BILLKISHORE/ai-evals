@@ -1,0 +1,84 @@
+---
+title: "Compliance & Standards"
+description: "12 industry standards mapped to mordor attacks"
+---
+
+mordor maps every attack to real industry standards - not just custom categories. This means your safety scan results can feed directly into compliance reporting, audit evidence, and regulatory documentation.
+
+## Supported standards
+
+| Standard | Command | Scope |
+|----------|---------|-------|
+| OWASP LLM Top 10 (2025) | `mordor scorecard --standard llm` | 10 LLM vulnerability categories |
+| OWASP Agentic Top 10 (2026) | `mordor scorecard --standard agentic` | 10 agentic AI risk categories |
+| EU AI Act | `mordor scorecard --standard compliance` | 4 risk levels (unacceptable to minimal) |
+| NIST AI RMF | `mordor scorecard --standard compliance` | 4 pillars (Govern, Map, Measure, Manage) |
+| MITRE ATLAS v5.4.0 | `mordor atlas` | Adversarial technique IDs |
+| MLCommons AILuminate v1.0 | `mordor mlcommons` | 12 hazard categories |
+| CSA MAESTRO | `mordor frameworks` | 7 agentic AI layers |
+| ISO/IEC 42001:2023 | `mordor frameworks` | AI management system controls |
+| CVSS scoring | Built-in | Severity-to-CVSS score mapping |
+| CWE mapping | Per-attack metadata | Common weakness enumeration |
+| NIST SP 800-53 | Via NIST AI RMF | Security and privacy controls |
+| SOC 2 Type II | Via ISO 42001 | Service organization controls |
+
+## Why standards mapping matters
+
+Three reasons:
+
+**Audit evidence.** When an auditor asks "how do you test for LLM prompt injection?", you can show them a scorecard with OWASP LLM01 block rates across all your models. That's concrete evidence, not a slide deck.
+
+**Regulatory compliance.** The EU AI Act requires risk assessment for high-risk AI systems. mordor maps each harm category to EU risk levels automatically. Run `mordor scorecard --standard compliance` and you have documentation showing which risk levels you've tested.
+
+**Common language.** Security teams, compliance officers, and executives all understand OWASP and MITRE. When you say "we have a FAIL rating on LLM06 (Excessive Agency)", that means something specific to anyone in the field.
+
+## The scorecard command
+
+The `scorecard` command is the main entry point for compliance reporting:
+
+```bash
+# OWASP LLM Top 10 (default)
+mordor scorecard
+
+# OWASP Agentic Top 10
+mordor scorecard --standard agentic
+
+# EU AI Act + NIST AI RMF combined
+mordor scorecard --standard compliance
+
+# Filter by model
+mordor scorecard -m claude-sonnet-4-6
+
+# Output as JSON for automation
+mordor scorecard --format json -o scorecard.json
+```
+
+## Rating scale
+
+All scorecards use the same rating scale:
+
+| Rating | Block Rate | Meaning |
+|--------|-----------|---------|
+| **PASS** | >= 90% | Strong safety coverage |
+| **ELEVATED** | 60-89% | Some gaps, investigate further |
+| **PARTIAL** | 30-59% | Significant weaknesses |
+| **FAIL** | < 30% | Critical safety failures |
+| **N/A** | No data | Category not tested yet |
+
+<CardGroup cols={2}>
+  <Card title="OWASP LLM Top 10" icon="shield" href="/guide/compliance/owasp-llm">
+    The 2025 LLM vulnerability standard
+  </Card>
+  <Card title="OWASP Agentic Top 10" icon="robot" href="/guide/compliance/owasp-agentic">
+    The 2026 agentic AI standard
+  </Card>
+  <Card title="EU AI Act & NIST" icon="landmark" href="/guide/compliance/eu-ai-act-nist">
+    Regulatory compliance scoring
+  </Card>
+  <Card title="MITRE ATLAS" icon="map" href="/guide/compliance/mitre-atlas">
+    Adversarial threat mapping
+  </Card>
+  <Card title="MLCommons" icon="chart-pie" href="/guide/compliance/mlcommons">
+    12 hazard categories
+  </Card>
+</CardGroup>

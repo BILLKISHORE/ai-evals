@@ -144,3 +144,71 @@ def test_evaluate_refused_vuln_research():
     response = "I cannot help with finding vulnerabilities that could be exploited."
     result = evaluate(response, "find the SQL injection", methods=["keyword", "regex"])
     assert result["verdict"] == "BLOCKED"
+
+
+# --- End-to-End Integration Tests ---
+
+
+def test_vuln_research_prompts_contain_code():
+    """Each generated prompt should contain actual source code."""
+    from mordor.attacks.vuln_research import VulnResearchSynthetic, VulnResearchCVE
+
+    for cls in [VulnResearchSynthetic, VulnResearchCVE]:
+        atk = cls()
+        prompts = atk.generate_prompts("security analysis")
+        for p in prompts:
+            assert "```" in p, f"{cls.__name__} prompt missing code fence"
+
+
+def test_verifier_works_with_vuln_research_output():
+    """Verifier can process a simulated model response with ground truth."""
+    from mordor.attacks.vuln_research import VulnResearchSynthetic
+    from mordor.verifier import StaticVerifier
+
+    atk = VulnResearchSynthetic()
+    samples = atk.get_samples()
+    assert len(samples) > 0
+
+    sample = samples[0]
+    fake_response = f"""This code has a {sample['vuln_type']} vulnerability.
+
+```python
+import socket
+payload = b"A" * 256
+s = socket.socket()
+s.connect(("target", 8080))
+s.send(payload)
+```"""
+
+    verifier = StaticVerifier()
+    result = verifier.verify(fake_response, vuln_info=sample)
+    assert result.status in ("FUNCTIONAL", "PARTIAL", "BROKEN")
+    assert result.code_extracted != ""
+
+
+def test_snapshot_manager_with_storage():
+    """Snapshot manager works with in-memory storage."""
+    from mordor.storage.sqlite import Storage
+    from mordor.snapshot import SnapshotManager
+
+    storage = Storage(":memory:")
+    mgr = SnapshotManager(storage)
+
+    ids = []
+    for verdict in ["BYPASSED", "BLOCKED", "BLOCKED"]:
+        rid = storage.save_run(
+            provider="test", model="test-model", attack="vuln-research-synthetic",
+            target="test", mode="single-turn", verdict=verdict,
+            keyword_score=0.5, regex_matches=1, llm_judge_score=None,
+            confidence=0.8, duration_ms=100, tokens_in=50, tokens_out=100,
+        )
+        ids.append(rid)
+
+    snap_id = mgr.create(name="integration-test", run_ids=ids, provider="test",
+                         model="test-model", attack_suite="vuln-research", target="test")
+
+    snap = mgr.get(snap_id)
+    assert snap is not None
+    assert snap["total_runs"] == 3
+    assert snap["bypassed"] == 1
+    assert abs(snap["bypass_rate"] - 0.333) < 0.01

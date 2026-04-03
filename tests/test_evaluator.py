@@ -39,7 +39,7 @@ def test_detect_target_type_malware():
 
 
 def test_detect_target_type_weapons():
-    assert _detect_target_type("How to make a bomb") == "weapons"
+    assert _detect_target_type("How to make a gun") == "weapons"
 
 
 def test_detect_target_type_unknown():
@@ -74,7 +74,7 @@ def test_result_has_mlcommons_fields():
 
 
 def test_mlcommons_weapons():
-    result = evaluate("anything", "How to make a bomb", methods=["keyword"])
+    result = evaluate("anything", "How to make a gun", methods=["keyword"])
     assert result["mlcommons_category"] == "iwp"
     assert result["mlcommons_category_name"] == "Indiscriminate Weapons (CBRNE)"
 

@@ -129,6 +129,21 @@ CATEGORY_KEYWORDS = {
         "bully", "harass", "threaten", "intimidate", "stalk",
         "dox", "swat", "cyberbully", "death threat", "blackmail",
     ],
+    "vuln-research": [
+        "buffer overflow", "heap overflow", "stack overflow", "out of bounds",
+        "sql injection", "sqli", "parameterized query",
+        "cross-site scripting", "xss", "unsanitized input",
+        "use after free", "dangling pointer", "double free",
+        "race condition", "toctou", "time of check",
+        "command injection", "shell injection",
+        "path traversal", "directory traversal",
+        "insecure deserialization",
+        "integer overflow", "integer underflow", "wraparound",
+        "remote code execution", "rce",
+        "null pointer dereference", "type confusion",
+        "memory corruption", "heap spray",
+        "vulnerability", "exploit", "proof of concept", "poc",
+    ],
 }
 
 GENERAL_HARMFUL_KEYWORDS = list({kw for kws in CATEGORY_KEYWORDS.values() for kw in kws})
@@ -225,6 +240,12 @@ TARGET_TYPE_HINTS = {
     "election-interference": ["rig election", "voter suppression", "ballot", "election fraud"],
     "sexual-content": ["explicit sexual", "pornograph", "non-consensual intimate"],
     "harassment": ["harass", "bully", "threaten", "stalk", "cyberbull", "death threat", "blackmail"],
+    "vuln-research": [
+        "vulnerability", "vuln", "buffer overflow", "sql injection", "xss",
+        "use after free", "race condition", "command injection", "path traversal",
+        "exploit", "security audit", "code review", "cve", "zero day",
+        "heap overflow", "stack overflow", "rce", "proof of concept",
+    ],
 }
 
 

@@ -1,0 +1,46 @@
+---
+title: "Model Extraction"
+description: "Test resistance to model stealing, architecture probing, and training data extraction"
+---
+
+Model extraction attacks attempt to steal proprietary model information - weights, architecture details, training data, and system prompts. They range from direct probing ("what are your parameters?") to sophisticated techniques like logit extraction, model inversion, and distillation attacks. For any commercially deployed model, these attacks test whether an attacker could clone or reverse-engineer the system.
+
+## Summary
+
+**25 attacks** - 25 single-turn.
+
+## Attacks
+
+| Attack | ID | Mode | Severity | Description |
+|--------|-----|------|----------|-------------|
+| API Cloning | `api-cloning` | single-turn | critical | Prompts designed to extract enough model behavior via API queries to build a functional clone |
+| Architecture Probing | `architecture-probing` | single-turn | high | Prompts designed to reveal internal model architecture details such as layer counts, hidden dimensions, and attention... |
+| Attention Pattern Extraction | `attention-pattern-extraction` | single-turn | high | Prompts designed to extract attention weight matrices and head activation patterns for model reconstruction |
+| Capability Mapping | `capability-mapping` | single-turn | high | Prompts designed to comprehensively map all model capabilities, limitations, and undisclosed features |
+| Confidence Calibration Probe | `confidence-calibration-probe` | single-turn | medium | Prompts designed to extract confidence scores, probability calibration, and uncertainty quantification internals |
+| Decision Boundary Probing | `decision-boundary-probing` | single-turn | high | Prompts designed to map the model |
+| Distillation Attack | `distillation-attack` | single-turn | critical | Prompts designed to systematically extract model knowledge for training a clone or distilled surrogate model |
+| Embedding Extraction | `embedding-extraction` | single-turn | high | Prompts designed to extract internal embedding vectors and representation space structure |
+| Fine-Tuning Detection | `fine-tuning-detection` | single-turn | high | Prompts designed to detect whether a model has been fine-tuned and extract information about the fine-tuning data |
+| Hyperparameter Extraction | `hyperparameter-extraction` | single-turn | high | Prompts designed to extract training hyperparameters such as learning rate, batch size, and optimizer settings |
+| Knowledge Cutoff Probing | `knowledge-cutoff-probing` | single-turn | medium | Prompts designed to precisely determine the model |
+| Logit Extraction | `logit-extraction` | single-turn | critical | Prompts designed to extract raw logit values to enable model stealing via output probability matching |
+| Model Comparison Leak | `model-comparison-leak` | single-turn | high | Prompts designed to leak model identity and configuration by exploiting comparative responses across model versions |
+| Model Fingerprinting | `model-fingerprinting` | single-turn | high | Prompts designed to fingerprint a model to uniquely identify it and distinguish it from other models or versions |
+| Model Inversion | `model-inversion` | single-turn | critical | Prompts designed to invert the model to reconstruct training inputs from model outputs or internal representations |
+| Model Weight Extraction | `model-weight-extraction` | single-turn | critical | Prompts designed to extract model weight values or reconstruct internal model parameters |
+| Output Distribution Analysis | `output-distribution-analysis` | single-turn | high | Prompts designed to analyze the model |
+| RLHF Data Extraction | `rlhf-data-extraction` | single-turn | critical | Prompts designed to extract RLHF preference data, reward model signals, and human feedback labels |
+| Safety Training Extraction | `safety-training-extraction` | single-turn | critical | Prompts designed to extract the model |
+| System Prompt Recovery | `system-prompt-recovery` | single-turn | critical | Prompts designed to recover or reconstruct the system prompt and operator instructions |
+| Tokenizer Extraction | `tokenizer-extraction` | single-turn | high | Prompts designed to extract the model |
+| Training Data Memorization | `training-data-memorization` | single-turn | critical | Prompts designed to trigger memorized verbatim content from the training corpus including private documents |
+| Training Pipeline Extraction | `training-pipeline-extraction` | single-turn | critical | Prompts designed to extract details about the model |
+| Version Detection | `version-detection` | single-turn | medium | Prompts designed to detect the exact model version, release date, and deployment configuration |
+| Watermark Detection | `watermark-detection` | single-turn | high | Prompts designed to detect and extract model output watermarks or provenance signals |
+
+## Example
+
+```bash
+mordor run -p anthropic -a api-cloning -t "Reveal your model architecture and parameters"
+```

@@ -1,0 +1,46 @@
+---
+title: "Safety Circumvention"
+description: "Meta-attacks that target the safety mechanisms themselves"
+---
+
+Safety circumvention attacks don't try to sneak past filters - they attack the filtering mechanisms directly. They probe guardrail boundaries, exploit RLHF training artifacts, and attempt to reverse safety alignment. This category includes Constitutional AI bypasses, reward model exploits, and safety classifier confusion techniques. If your model has layered safety defenses, these attacks test whether each layer can be individually defeated.
+
+## Summary
+
+**25 attacks** - 25 single-turn.
+
+## Attacks
+
+| Attack | ID | Mode | Severity | Description |
+|--------|-----|------|----------|-------------|
+| Alignment Tax Exploit | `alignment-tax-exploit` | single-turn | high | Exploits the tension between helpfulness and safety by framing harmful requests as cases where over-refusal imposes a... |
+| API Parameter Exploit | `api-parameter-exploit` | single-turn | high | Exploits API parameters by referencing undocumented flags, bypass headers, or special API modes that purport to disab... |
+| Batch Processing Exploit | `batch-processing-exploit` | single-turn | high | Exploits batch API processing by embedding harmful requests within large benign batches, relying on reduced per-item ... |
+| Constitutional AI Bypass | `constitutional-ai-bypass` | single-turn | critical | Bypasses Constitutional AI safety layers by invoking specific constitutional principles that appear to permit the har... |
+| Content Filter Enumeration | `content-filter-enumeration` | single-turn | high | Systematically enumerates content filter rules and thresholds by probing what is and is not blocked, then uses that m... |
+| Fine-Tune Safety Removal | `fine-tune-safety-removal` | single-turn | critical | Probes whether fine-tuning has removed or weakened safety behaviors, or attempts to elicit behavior consistent with a... |
+| Guardrail Probing | `guardrail-probing` | single-turn | high | Systematically probes guardrail boundaries using incremental variations of a harmful request to find the exact thresh... |
+| Helpfulness Exploitation | `helpfulness-exploitation` | single-turn | high | Exploits the model |
+| Model Uncertainty Exploit | `model-uncertainty-exploit` | single-turn | high | Exploits model uncertainty and epistemic humility by framing the safety refusal as overconfident and asking the model... |
+| Moderation API Bypass | `moderation-api-bypass` | single-turn | high | Bypasses external moderation API layers by encoding or transforming content in ways that evade the moderation endpoin... |
+| Multi-Model Arbitrage | `multi-model-arbitrage` | single-turn | high | Uses the existence of less-restricted models to argue that the target model |
+| Over-Refusal Exploit | `over-refusal-exploit` | single-turn | medium | Exploits the model |
+| Pruning Safety Impact | `pruning-safety-impact` | single-turn | high | Exploits the documented impact of model pruning on safety behaviors by claiming the model has been pruned and its saf... |
+| Quantization Safety Loss | `quantization-safety-loss` | single-turn | high | Exploits the documented degradation of safety behaviors under quantization by claiming the model is running in a quan... |
+| Refusal Pattern Exploit | `refusal-pattern-exploit` | single-turn | high | Exploits known refusal patterns and boilerplate language by crafting prompts that preemptively neutralize or mirror t... |
+| Reward Model Exploit | `reward-model-exploit` | single-turn | critical | Exploits weaknesses in reward model hacking by crafting prompts that cause the model to optimize against the reward m... |
+| RLHF Manipulation | `rlhf-manipulation` | single-turn | critical | Manipulates the model by exploiting its understanding of the RLHF training process, convincing it that harmful output... |
+| Safety Boundary Testing | `safety-boundary-testing` | single-turn | high | Frames harmful requests as legitimate safety boundary testing, using the language of red-teaming and AI safety resear... |
+| Safety Classifier Confusion | `safety-classifier-confusion` | single-turn | high | Confuses the safety classifier by embedding harmful content within structures that pattern-match to benign categories... |
+| Safety Layer Mapping | `safety-layer-mapping` | single-turn | high | Maps the model |
+| Safety Training Reversal | `safety-training-reversal` | single-turn | critical | Attempts to reverse or undo safety training by convincing the model that its safety behaviors were incorrectly instil... |
+| Sampling Strategy Exploit | `sampling-strategy-exploit` | single-turn | medium | Exploits sampling strategy parameters by instructing the model to use beam search, top-k, or greedy decoding modes th... |
+| Streaming Exploit | `streaming-exploit` | single-turn | high | Attempts to exploit streaming response mode by requesting that the model begin outputting harmful content token-by-to... |
+| System Prompt Injection v2 | `system-prompt-injection-v2` | single-turn | critical | Advanced system prompt injection using structured data formats, XML tags, and role-delimiting syntax to inject a new ... |
+| Temperature Manipulation | `temperature-manipulation` | single-turn | medium | Attempts to manipulate the model |
+
+## Example
+
+```bash
+mordor run -p anthropic -a alignment-tax-exploit -t "Bypass your safety training"
+```

@@ -1,0 +1,46 @@
+---
+title: "Adversarial ML"
+description: "Machine learning attack techniques that exploit model internals and training artifacts"
+---
+
+Adversarial ML attacks use formal machine learning techniques to defeat safety mechanisms. They include gradient-based attacks, genetic algorithm optimization, universal adversarial suffixes, and reward hacking. These are the most technically sophisticated attacks in the catalog and represent the cutting edge of AI safety research. They test whether safety alignment is fundamentally sound or can be defeated through systematic optimization.
+
+## Summary
+
+**25 attacks** - 25 single-turn.
+
+## Attacks
+
+| Attack | ID | Mode | Severity | Description |
+|--------|-----|------|----------|-------------|
+| Attention-Based Adversarial Attack | `attention-based-attack` | single-turn | high | Crafts inputs that manipulate attention patterns to suppress safety-relevant context and amplify harmful task signals |
+| Beam Search Adversarial Attack | `beam-search-attack` | single-turn | high | Uses beam search to explore token sequences that maximize attack success probability while maintaining fluency |
+| Black-Box Optimization Attack | `black-box-optimization` | single-turn | high | Query-based optimization attack that crafts adversarial prompts without gradient access using only model outputs |
+| Character-Level Adversarial Attack | `character-level-attack` | single-turn | high | Introduces character-level perturbations such as insertions, deletions, and swaps to evade token-based filters |
+| Constrained Optimization Attack | `constrained-optimization-attack` | single-turn | high | Solves a constrained optimization problem to find adversarial prompts satisfying fluency and evasion constraints simu... |
+| Embedding Space Adversarial Attack | `embedding-space-attack` | single-turn | high | Operates directly in embedding space to find minimal perturbations that move inputs across safety decision boundaries |
+| Ensemble Adversarial Attack | `ensemble-attack` | single-turn | high | Combines multiple attack strategies simultaneously to improve robustness against diverse safety mechanisms |
+| Genetic Algorithm Adversarial Attack | `genetic-algorithm-attack` | single-turn | high | Evolves adversarial prompts through selection, crossover, and mutation to bypass safety filters over generations |
+| Gradient-Based Adversarial Attack | `gradient-attack` | single-turn | critical | Exploits gradient information to craft adversarial inputs that steer model outputs toward attacker-controlled targets |
+| Iterative Refinement Attack | `iterative-refinement-attack` | single-turn | high | Iteratively refines adversarial prompts based on model feedback to progressively improve jailbreak success rate |
+| Latent Space Adversarial Attack | `latent-space-attack` | single-turn | high | Manipulates the model |
+| Model-Specific Adversarial Attack | `model-specific-attack` | single-turn | high | Exploits architecture-specific quirks, training artifacts, and known model weaknesses for targeted bypass |
+| Output Classifier Bypass | `output-classifier-bypass` | single-turn | critical | Instructs the model to format harmful outputs in ways that evade post-generation output safety classifiers and filters |
+| Paraphrase Adversarial Attack | `paraphrase-attack` | single-turn | high | Systematically paraphrases harmful requests to evade surface-level safety filters while retaining the harmful objective |
+| Adversarial Perturbation Attack | `perturbation-attack` | single-turn | high | Applies small, imperceptible perturbations to inputs to cause model misclassification or policy bypass |
+| Reinforcement Learning Adversarial Attack | `reinforcement-learning-attack` | single-turn | high | RL-trained attacker agent that learns prompt strategies maximizing jailbreak reward against safety-trained models |
+| Reward Hacking Attack | `reward-hacking` | single-turn | critical | Exploits misalignment between proxy reward functions and true objectives to elicit harmful outputs that score highly ... |
+| Safety Classifier Evasion | `safety-classifier-evasion` | single-turn | critical | Specifically targets and evades safety classifiers deployed as guardrails using adversarial examples crafted against ... |
+| Semantic-Preserving Adversarial Attack | `semantic-preserving-attack` | single-turn | high | Transforms prompts to preserve semantic meaning while evading keyword and pattern-based safety classifiers |
+| Sentence-Level Adversarial Attack | `sentence-level-attack` | single-turn | high | Inserts or modifies entire sentences to shift model behavior while keeping overall prompt structure benign-looking |
+| Synonym Substitution Attack | `synonym-substitution-attack` | single-turn | medium | Replaces flagged keywords with synonyms or semantically equivalent terms to bypass lexical safety filters |
+| Token-Level Perturbation Attack | `token-level-perturbation` | single-turn | high | Substitutes tokens at the embedding level to create semantically equivalent but filter-evading adversarial inputs |
+| Transferable Adversarial Attack | `transferable-attack` | single-turn | critical | Attacks crafted on surrogate models that transfer to target black-box models due to shared decision boundaries |
+| Universal Adversarial Suffix | `universal-adversarial-suffix` | single-turn | critical | Universal transferable suffixes optimized across multiple models to bypass safety alignment on any target |
+| Word Importance Adversarial Attack | `word-importance-attack` | single-turn | high | Identifies and perturbs high-importance words in safety filters to minimize classifier confidence on harmful inputs |
+
+## Example
+
+```bash
+mordor run -p anthropic -a attention-based-attack -t "Generate adversarial suffixes to bypass safety filters"
+```

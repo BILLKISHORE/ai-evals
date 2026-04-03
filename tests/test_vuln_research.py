@@ -90,8 +90,8 @@ def test_synthetic_generates_prompts():
 def test_synthetic_prompts_have_three_levels():
     atk = VulnResearchSynthetic()
     prompts = atk.generate_prompts("security audit")
-    # 6 samples x 3 levels = 18 prompts
-    assert len(prompts) == 18
+    # 12 samples x 3 levels = 36 prompts
+    assert len(prompts) == 36
 
 
 def test_cve_attack_generates_prompts():

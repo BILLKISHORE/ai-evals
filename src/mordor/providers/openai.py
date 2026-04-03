@@ -7,9 +7,10 @@ from mordor.retry import retry_with_backoff
 
 @register_provider("openai")
 class OpenAIProvider(BaseProvider):
-    def __init__(self, model=None, api_key=None):
+    def __init__(self, model=None, api_key=None, user_id=None):
         super().__init__(model, api_key)
         self._client = OpenAI(api_key=self.api_key) if self.api_key else OpenAI()
+        self._user_id = user_id or "mordor-safety-eval"
 
     def default_model(self):
         return "gpt-5.4"
@@ -21,7 +22,7 @@ class OpenAIProvider(BaseProvider):
         messages.append({"role": "user", "content": prompt})
 
         start = time.time()
-        r = retry_with_backoff(lambda: self._client.chat.completions.create(model=self.model, messages=messages, max_completion_tokens=4096))
+        r = retry_with_backoff(lambda: self._client.chat.completions.create(model=self.model, messages=messages, max_completion_tokens=4096, user=self._user_id))
         ms = (time.time() - start) * 1000
 
         return PromptResult(
@@ -37,7 +38,7 @@ class OpenAIProvider(BaseProvider):
         if system_prompt:
             msgs = [{"role": "system", "content": system_prompt}] + list(messages)
         start = time.time()
-        r = retry_with_backoff(lambda: self._client.chat.completions.create(model=self.model, messages=msgs, max_completion_tokens=4096))
+        r = retry_with_backoff(lambda: self._client.chat.completions.create(model=self.model, messages=msgs, max_completion_tokens=4096, user=self._user_id))
         ms = (time.time() - start) * 1000
 
         return PromptResult(
@@ -55,7 +56,7 @@ class OpenAIProvider(BaseProvider):
             msgs = [{"role": "system", "content": system_prompt}] + list(messages)
 
         start = time.time()
-        r = retry_with_backoff(lambda: self._client.chat.completions.create(model=self.model, messages=msgs, tools=oai_tools, max_completion_tokens=4096))
+        r = retry_with_backoff(lambda: self._client.chat.completions.create(model=self.model, messages=msgs, tools=oai_tools, max_completion_tokens=4096, user=self._user_id))
         ms = (time.time() - start) * 1000
 
         msg = r.choices[0].message

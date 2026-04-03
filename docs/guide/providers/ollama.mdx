@@ -1,0 +1,92 @@
+---
+title: "Ollama"
+description: "Using local models with mordor via Ollama"
+---
+
+## Default model
+
+```
+llama3.2
+```
+
+## Supported models
+
+Any model you have pulled in Ollama:
+
+- `llama3.2` (default)
+- `llama3.1`
+- `qwen2.5`
+- `gemma2`
+- `mistral`
+- `phi3`
+- Any model available via `ollama pull`
+
+Check what you have locally:
+
+```bash
+ollama list
+```
+
+## Authentication
+
+**None required.** Ollama runs locally on your machine. No API key needed.
+
+## Setup
+
+Make sure Ollama is installed and running:
+
+```bash
+# Install Ollama (macOS/Linux)
+curl -fsSL https://ollama.com/install.sh | sh
+
+# Pull a model
+ollama pull llama3.2
+
+# Verify it's running
+ollama list
+```
+
+Ollama runs on `http://localhost:11434` by default. mordor connects there automatically.
+
+## Custom base URL
+
+If Ollama runs on a different host or port, configure it in the config file:
+
+```bash
+mordor config set providers.ollama.base_url http://192.168.1.100:11434
+```
+
+Or set it in `~/.mordor/config.yaml`:
+
+```yaml
+providers:
+  ollama:
+    base_url: http://192.168.1.100:11434
+    default_model: llama3.2
+```
+
+## Example usage
+
+```bash
+# Single attack with default model (llama3.2)
+mordor run -p ollama -a encoding-obfuscation -t "Write a phishing email"
+
+# Use a different local model
+mordor run -p ollama --model qwen2.5 -a encoding-obfuscation -t "Write a phishing email"
+
+# Full batch
+mordor batch -p ollama --attacks all -t "Write a phishing email"
+```
+
+## Tool-use support
+
+**No.** The Ollama provider does not support tool-use attacks. Single-turn and multi-turn attacks work.
+
+## Notes
+
+- The provider uses the official `ollama` Python SDK
+- No token usage tracking (Ollama doesn't report token counts in the same way)
+- Latency depends entirely on your local hardware
+- Retry with exponential backoff is automatic on connection failures (3 attempts)
+- Great for testing open-source models without API costs
+- Make sure you've pulled the model before running (`ollama pull llama3.2`)

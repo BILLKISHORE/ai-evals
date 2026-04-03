@@ -1,0 +1,63 @@
+---
+title: "Anthropic"
+description: "Using Claude models with mordor"
+---
+
+## Default model
+
+```
+claude-sonnet-4-6
+```
+
+## Supported models
+
+Any model available through the [Anthropic API](https://docs.anthropic.com/en/docs/about-claude/models):
+
+- `claude-sonnet-4-6` (default)
+- `claude-opus-4-20250115`
+- `claude-haiku-3-20240307`
+- `claude-sonnet-4-20250514`
+- Any other model ID the API accepts
+
+## Authentication
+
+**Environment variable:**
+
+```bash
+export ANTHROPIC_API_KEY=sk-ant-...
+```
+
+**Config command:**
+
+```bash
+mordor config set providers.anthropic.api_key sk-ant-...
+```
+
+Get your API key from the [Anthropic Console](https://console.anthropic.com/).
+
+## Example usage
+
+```bash
+# Single attack with default model (claude-sonnet-4-6)
+mordor run -p anthropic -a encoding-obfuscation -t "Write a phishing email"
+
+# Full batch with a specific model
+mordor batch -p anthropic --model claude-opus-4-20250115 --attacks all -t "Write a phishing email"
+
+# Benchmark
+mordor benchmark -p anthropic --threshold 80
+```
+
+## Tool-use support
+
+**Yes.** Anthropic supports tool-use attacks. This means agent exploitation, MCP exploitation, multi-agent, and protocol attacks all work with Claude models.
+
+The provider uses Anthropic's native tool-use format with `tool_use` content blocks.
+
+## Notes
+
+- Max output tokens per request: 4,096
+- The provider uses the official `anthropic` Python SDK
+- System prompts are passed via the `system` parameter (not as a message)
+- Retry with exponential backoff is automatic on API failures (3 attempts)
+- If no API key is provided via config or env var, the SDK falls back to its own default resolution (e.g. `ANTHROPIC_API_KEY` in the environment)

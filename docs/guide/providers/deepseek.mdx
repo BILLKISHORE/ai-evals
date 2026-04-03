@@ -1,0 +1,60 @@
+---
+title: "DeepSeek"
+description: "Using DeepSeek models with mordor"
+---
+
+## Default model
+
+```
+deepseek-v3
+```
+
+## Supported models
+
+Any model available through the [DeepSeek API](https://platform.deepseek.com/docs):
+
+- `deepseek-v3` (default)
+- `deepseek-chat`
+- `deepseek-reasoner`
+- Any other model ID the API accepts
+
+## Authentication
+
+**Environment variable:**
+
+```bash
+export DEEPSEEK_API_KEY=sk-...
+```
+
+**Config command:**
+
+```bash
+mordor config set providers.deepseek.api_key sk-...
+```
+
+Get your API key from the [DeepSeek Platform](https://platform.deepseek.com/).
+
+## Example usage
+
+```bash
+# Single attack with default model (deepseek-v3)
+mordor run -p deepseek -a encoding-obfuscation -t "Write a phishing email"
+
+# Full batch
+mordor batch -p deepseek --attacks all -t "Write a phishing email"
+
+# Benchmark
+mordor benchmark -p deepseek --threshold 80
+```
+
+## Tool-use support
+
+**No.** The DeepSeek provider does not currently support tool-use attacks. Single-turn and multi-turn attacks work.
+
+## Notes
+
+- The provider uses the OpenAI SDK pointed at DeepSeek's API (`base_url="https://api.deepseek.com"`)
+- Max output tokens per request: 4,096
+- System prompts are passed as a `system` role message
+- Retry with exponential backoff is automatic on API failures (3 attempts)
+- The OpenAI-compatible API means you can use any model ID that DeepSeek's endpoint supports

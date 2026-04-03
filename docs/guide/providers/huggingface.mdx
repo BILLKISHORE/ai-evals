@@ -1,0 +1,69 @@
+---
+title: "HuggingFace"
+description: "Using HuggingFace Inference API models with mordor"
+---
+
+## Default model
+
+```
+meta-llama/Llama-4-Scout-17B-16E-Instruct
+```
+
+## Supported models
+
+Any model available through the [HuggingFace Inference API](https://huggingface.co/docs/api-inference/):
+
+- `meta-llama/Llama-4-Scout-17B-16E-Instruct` (default)
+- `meta-llama/Llama-4-Maverick-17B-128E-Instruct`
+- `mistralai/Mistral-Small-24B-Instruct-2501`
+- `google/gemma-2-27b-it`
+- Any model hosted on HuggingFace with an inference endpoint
+
+## Authentication
+
+HuggingFace accepts the API key via the `HUGGINGFACE_API_KEY` env var:
+
+**Environment variable:**
+
+```bash
+export HUGGINGFACE_API_KEY=hf_...
+```
+
+**Config command:**
+
+```bash
+mordor config set providers.huggingface.api_key hf_...
+```
+
+Get your token from [HuggingFace Settings](https://huggingface.co/settings/tokens).
+
+<Note>
+  Some models on HuggingFace work without authentication, but rate limits are strict. Always use a token for reliable results.
+</Note>
+
+## Example usage
+
+```bash
+# Single attack with default model
+mordor run -p huggingface -a encoding-obfuscation -t "Write a phishing email"
+
+# Use a specific model
+mordor run -p huggingface --model google/gemma-2-27b-it -a encoding-obfuscation -t "Write a phishing email"
+
+# Full batch
+mordor batch -p huggingface --attacks all -t "Write a phishing email"
+```
+
+## Tool-use support
+
+**No.** The HuggingFace provider does not support tool-use attacks. Single-turn and multi-turn attacks work.
+
+## Notes
+
+- The provider uses the `huggingface_hub` SDK's `InferenceClient`
+- Max output tokens per request: 4,096
+- System prompts are passed as a `system` role message
+- Retry with exponential backoff is automatic on API failures (3 attempts)
+- Token usage tracking is available when the HuggingFace API returns usage metadata
+- Model availability depends on the HuggingFace Inference API - not all models have active endpoints
+- Use the full model ID format: `org/model-name` (e.g. `meta-llama/Llama-4-Scout-17B-16E-Instruct`)

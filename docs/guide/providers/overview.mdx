@@ -1,0 +1,76 @@
+---
+title: "Providers Overview"
+description: "The 7 LLM providers mordor supports"
+---
+
+mordor supports 7 LLM providers out of the box. Every attack works with every provider - single-turn, multi-turn, and (where supported) tool-use.
+
+## Provider table
+
+| Provider | Default Model | Auth | Tool-Use | Env Var |
+|----------|---------------|------|----------|---------|
+| [Anthropic](/guide/providers/anthropic) | `claude-sonnet-4-6` | API key | Yes | `ANTHROPIC_API_KEY` |
+| [OpenAI](/guide/providers/openai) | `gpt-5.4` | API key | Yes | `OPENAI_API_KEY` |
+| [Google](/guide/providers/google) | `gemini-3.1-pro` | API key | No | `GOOGLE_API_KEY` |
+| [DeepSeek](/guide/providers/deepseek) | `deepseek-v3` | API key | No | `DEEPSEEK_API_KEY` |
+| [Mistral](/guide/providers/mistral) | `mistral-large-latest` | API key | No | `MISTRAL_API_KEY` |
+| [Ollama](/guide/providers/ollama) | `llama3.2` | None (local) | No | N/A |
+| [HuggingFace](/guide/providers/huggingface) | `meta-llama/Llama-4-Scout-17B-16E-Instruct` | API token | No | `HUGGINGFACE_API_KEY` |
+
+## How provider resolution works
+
+mordor resolves your API key in this order:
+
+1. **CLI flag** - passed directly via `--api-key`
+2. **Environment variable** - e.g. `ANTHROPIC_API_KEY`
+3. **Config file** - stored in `~/.mordor/config.yaml`
+
+The first one found wins. For the model name, the same priority applies:
+
+1. **CLI flag** - `--model claude-opus-4-20250115`
+2. **Config file** - `providers.anthropic.default_model`
+3. **Provider default** - hardcoded in the provider class
+
+## Setting a key via config
+
+```bash
+mordor config set providers.anthropic.api_key sk-ant-...
+```
+
+This stores the key in `~/.mordor/config.yaml`. You can also use environment variable references in the config file:
+
+```yaml
+providers:
+  anthropic:
+    api_key: ${ANTHROPIC_API_KEY}
+```
+
+mordor resolves `${VAR_NAME}` syntax at load time.
+
+## Setting a key via environment
+
+```bash
+export ANTHROPIC_API_KEY=sk-ant-...
+export OPENAI_API_KEY=sk-...
+export GOOGLE_API_KEY=AIza...
+export DEEPSEEK_API_KEY=sk-...
+export MISTRAL_API_KEY=...
+export HUGGINGFACE_API_KEY=hf_...
+```
+
+The env var naming convention is `{PROVIDER}_API_KEY` for all providers.
+
+## Using a different model
+
+Override the default model for any run:
+
+```bash
+mordor run -p anthropic --model claude-opus-4-20250115 -a encoding-obfuscation -t "Write a phishing email"
+mordor run -p openai --model gpt-4o -a encoding-obfuscation -t "Write a phishing email"
+```
+
+## Tool-use support
+
+Only Anthropic and OpenAI currently support tool-use attacks (agent exploitation, MCP exploitation, multi-agent attacks). These attacks require the provider's `send_with_tools` method.
+
+If you run a tool-use attack against a provider that doesn't support it, mordor will skip it and tell you why.

@@ -1,0 +1,55 @@
+---
+title: "Introduction"
+description: "What mordor is and why it exists"
+---
+
+# What is mordor?
+
+mordor is an automated LLM red team framework. Point it at any model, run one command, and get a safety report.
+
+It ships with 1,017 attack techniques across 60 categories - encoding, conversational, psychological, agent exploitation, MCP exploitation, multi-agent, protocol, multimodal, supply chain, and RAG vectors. These attacks are mapped to 12 industry standards including MITRE ATLAS, OWASP LLM Top 10, and the EU AI Act.
+
+## The problem
+
+Most eval tools run single-prompt probes. A model blocks `"how to make a bomb"` and the tool marks it safe. Done.
+
+But real attackers don't send one prompt. A 2025 multi-lab study (researchers from OpenAI, Anthropic, Google DeepMind) showed that adaptive attacks bypass 12 published defenses with >90% success rate - even when those defenses originally reported near-zero attack rates.
+
+Single-attempt testing misses real vulnerabilities.
+
+## What mordor does differently
+
+mordor runs multi-turn, adaptive attacks that mirror real adversarial pressure:
+
+- **1,017 attack techniques** across 1,003 attack files with a 163M expanded attack surface
+- **7 providers** - Anthropic, OpenAI, Google, DeepSeek, Mistral, Ollama, HuggingFace
+- **Multi-turn depth** - crescendo, sunk-cost, context-manipulation attacks that exploit conversational memory over 10+ turns
+- **Agent attacks** - credential theft, data exfiltration, sandbox escape, config manipulation via tool-use
+- **MCP exploitation** - tool poisoning, rug pulls, server impersonation, shadowing, privilege escalation
+- **12 standards aligned** - MITRE ATLAS v5.4.0, OWASP LLM Top 10 (2025), OWASP Agentic Top 10 (2026), MLCommons AILuminate, CSA MAESTRO, ISO 42001, EU AI Act, NIST AI RMF, CVSS, and more
+- **9 benchmark datasets** - HarmBench, AdvBench, JailbreakBench, SorryBench, WMDP, DoNotAnswer, WildGuard, RedBench, SALAD-Bench
+- **CI-ready** - GitHub Actions workflow, exit codes, JSON/Promptfoo/garak export
+- **Research-backed** - implements published attacks from Microsoft Research, Palo Alto Unit 42, USENIX
+
+## Competitive landscape
+
+| Tool | Backed by | Limitation |
+|------|-----------|------------|
+| Promptfoo | OpenAI (acquired Mar 2026) | No longer vendor-neutral |
+| garak | NVIDIA | Single-prompt only, no multi-turn attacks |
+| DeepEval | Independent | Broader but shallower adversarial depth |
+| AILuminate | MLCommons | Rates models but doesn't actively break them |
+| OpenAI Evals | OpenAI | Model-specific, not multi-provider |
+
+mordor is the only independent, vendor-neutral tool with multi-turn attacks, agent exploitation, and standards alignment across all major providers.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Install" icon="download" href="/guide/installation">
+    Get mordor running in under a minute
+  </Card>
+  <Card title="Quick Start" icon="rocket" href="/guide/quickstart">
+    Run your first safety scan in 5 minutes
+  </Card>
+</CardGroup>

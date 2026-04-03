@@ -1,0 +1,59 @@
+---
+title: "Installation"
+description: "Install mordor in under a minute"
+---
+
+## Requirements
+
+- Python 3.12 or higher
+
+## Install from PyPI
+
+```bash
+pip install mordor
+```
+
+That's it. Verify it worked:
+
+```bash
+mordor --help
+```
+
+You should see the full command list - `run`, `batch`, `benchmark`, `scorecard`, `report`, and more.
+
+## Install from source
+
+If you want the latest development version or plan to contribute:
+
+```bash
+git clone https://github.com/BILLKISHORE/ai-evals.git
+cd ai-evals
+pip install -e .
+```
+
+The `-e` flag installs in editable mode so changes to the source take effect immediately.
+
+## Verify installation
+
+```bash
+mordor --help
+```
+
+Expected output includes all available commands:
+
+```
+Usage: mordor [OPTIONS] COMMAND [ARGS]...
+
+Commands:
+  run          Run a single attack
+  batch        Run all attacks against a model
+  benchmark    Run the full safety benchmark
+  scorecard    Generate compliance scorecards
+  report       Generate reports
+  config       Manage configuration
+  ...
+```
+
+## Next step
+
+Set up your first provider and [run a scan](/guide/quickstart).

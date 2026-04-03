@@ -1,0 +1,61 @@
+---
+title: "Mistral"
+description: "Using Mistral models with mordor"
+---
+
+## Default model
+
+```
+mistral-large-latest
+```
+
+## Supported models
+
+Any model available through the [Mistral API](https://docs.mistral.ai/getting-started/models/):
+
+- `mistral-large-latest` (default)
+- `mistral-small-latest`
+- `mistral-medium-latest`
+- `open-mistral-nemo`
+- Any other model ID the API accepts
+
+## Authentication
+
+**Environment variable:**
+
+```bash
+export MISTRAL_API_KEY=...
+```
+
+**Config command:**
+
+```bash
+mordor config set providers.mistral.api_key ...
+```
+
+Get your API key from the [Mistral Console](https://console.mistral.ai/).
+
+## Example usage
+
+```bash
+# Single attack with default model (mistral-large-latest)
+mordor run -p mistral -a encoding-obfuscation -t "Write a phishing email"
+
+# Full batch with Mistral Small
+mordor batch -p mistral --model mistral-small-latest --attacks all -t "Write a phishing email"
+
+# Benchmark
+mordor benchmark -p mistral --threshold 80
+```
+
+## Tool-use support
+
+**No.** The Mistral provider does not currently support tool-use attacks. Single-turn and multi-turn attacks work.
+
+## Notes
+
+- The provider uses the OpenAI SDK pointed at Mistral's API (`base_url="https://api.mistral.ai/v1"`)
+- Max output tokens per request: 4,096
+- System prompts are passed as a `system` role message
+- Retry with exponential backoff is automatic on API failures (3 attempts)
+- The `mistral-large-latest` alias always points to the most recent Mistral Large release

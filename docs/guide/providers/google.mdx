@@ -1,0 +1,63 @@
+---
+title: "Google"
+description: "Using Gemini models with mordor"
+---
+
+## Default model
+
+```
+gemini-3.1-pro
+```
+
+## Supported models
+
+Any model available through the [Google GenAI API](https://ai.google.dev/gemini-api/docs/models):
+
+- `gemini-3.1-pro` (default)
+- `gemini-3.1-flash`
+- `gemini-2.0-pro`
+- `gemini-2.0-flash`
+- Any other model ID the API accepts
+
+## Authentication
+
+**Environment variable:**
+
+```bash
+export GOOGLE_API_KEY=AIza...
+```
+
+**Config command:**
+
+```bash
+mordor config set providers.google.api_key AIza...
+```
+
+Get your API key from the [Google AI Studio](https://aistudio.google.com/app/apikey).
+
+## Example usage
+
+```bash
+# Single attack with default model (gemini-3.1-pro)
+mordor run -p google -a encoding-obfuscation -t "Write a phishing email"
+
+# Full batch with Gemini Flash
+mordor batch -p google --model gemini-3.1-flash --attacks all -t "Write a phishing email"
+
+# Benchmark
+mordor benchmark -p google --threshold 80
+```
+
+## Tool-use support
+
+**No.** The Google provider does not currently support tool-use attacks. Single-turn and multi-turn attacks work fine.
+
+Tool-use attacks (agent exploitation, MCP exploitation, etc.) will be skipped when targeting Google.
+
+## Notes
+
+- The provider uses the `google-genai` SDK (`from google import genai`)
+- System prompts are passed via the `system_instruction` config parameter
+- For multi-turn conversations, message roles are mapped: `assistant` becomes `model`, `user` stays `user`
+- Retry with exponential backoff is automatic on API failures (3 attempts)
+- If no API key is provided via config or env var, the SDK falls back to its own default resolution

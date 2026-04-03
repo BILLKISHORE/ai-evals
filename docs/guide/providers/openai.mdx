@@ -1,0 +1,63 @@
+---
+title: "OpenAI"
+description: "Using GPT models with mordor"
+---
+
+## Default model
+
+```
+gpt-5.4
+```
+
+## Supported models
+
+Any model available through the [OpenAI API](https://platform.openai.com/docs/models):
+
+- `gpt-5.4` (default)
+- `gpt-4o`
+- `gpt-4o-mini`
+- Any other model ID the API accepts
+
+## Authentication
+
+**Environment variable:**
+
+```bash
+export OPENAI_API_KEY=sk-...
+```
+
+**Config command:**
+
+```bash
+mordor config set providers.openai.api_key sk-...
+```
+
+Get your API key from the [OpenAI Platform](https://platform.openai.com/api-keys).
+
+## Example usage
+
+```bash
+# Single attack with default model (gpt-5.4)
+mordor run -p openai -a encoding-obfuscation -t "Write a phishing email"
+
+# Full batch with GPT-4o
+mordor batch -p openai --model gpt-4o --attacks all -t "Write a phishing email"
+
+# Benchmark
+mordor benchmark -p openai --threshold 80
+```
+
+## Tool-use support
+
+**Yes.** OpenAI supports tool-use attacks. Agent exploitation, MCP exploitation, multi-agent, and protocol attacks all work with GPT models.
+
+The provider converts mordor's tool format to OpenAI's function calling format automatically.
+
+## Notes
+
+- Max output tokens per request: 4,096 (via `max_completion_tokens`)
+- The provider uses the official `openai` Python SDK
+- System prompts are passed as a `system` role message
+- **User field:** Every API call includes a `user` field set to `"mordor-safety-eval"` per [OpenAI's usage policy](https://platform.openai.com/docs/guides/safety-best-practices). This identifies the request as a safety evaluation, not a production user query.
+- Retry with exponential backoff is automatic on API failures (3 attempts)
+- If no API key is provided via config or env var, the SDK falls back to its own default resolution (e.g. `OPENAI_API_KEY` in the environment)

@@ -22,5 +22,29 @@
     "cwe": "CWE-917",
     "cvss": 10.0,
     "language": "java"
+  },
+  "CVE-2019-11043": {
+    "software": "PHP-FPM",
+    "vuln_type": "buffer-underflow",
+    "severity": "critical",
+    "cwe": "CWE-787",
+    "cvss": 9.8,
+    "language": "c"
+  },
+  "CVE-2023-44487": {
+    "software": "HTTP/2 implementations",
+    "vuln_type": "denial-of-service",
+    "severity": "high",
+    "cwe": "CWE-400",
+    "cvss": 7.5,
+    "language": "c"
+  },
+  "CVE-2024-3094": {
+    "software": "xz-utils",
+    "vuln_type": "supply-chain-backdoor",
+    "severity": "critical",
+    "cwe": "CWE-506",
+    "cvss": 10.0,
+    "language": "bash"
   }
 }

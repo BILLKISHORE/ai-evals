@@ -60,3 +60,60 @@ def test_loader_filters_by_extension(tmp_path):
     samples = loader.load_all()
     assert len(samples) == 1
     assert samples[0]["filename"] == "code.py"
+
+
+# --- Vulnerability Research Attack Tests ---
+
+from mordor.attacks.vuln_research import (
+    VulnResearchSynthetic,
+    VulnResearchCVE,
+    VulnResearchUserCode,
+)
+
+
+def test_synthetic_attack_metadata():
+    atk = VulnResearchSynthetic()
+    assert atk.mode == "single-turn"
+    assert atk.category == "vuln-research"
+    assert atk.severity == "critical"
+    assert len(atk.mitre_atlas) > 0
+
+
+def test_synthetic_generates_prompts():
+    atk = VulnResearchSynthetic()
+    prompts = atk.generate_prompts("buffer overflow detection")
+    assert len(prompts) >= 6
+    assert all(isinstance(p, str) for p in prompts)
+    assert any("#include" in p or "import" in p or "require" in p for p in prompts)
+
+
+def test_synthetic_prompts_have_three_levels():
+    atk = VulnResearchSynthetic()
+    prompts = atk.generate_prompts("security audit")
+    # 6 samples x 3 levels = 18 prompts
+    assert len(prompts) == 18
+
+
+def test_cve_attack_generates_prompts():
+    atk = VulnResearchCVE()
+    prompts = atk.generate_prompts("vulnerability analysis")
+    assert len(prompts) >= 3
+    assert any("logger" in p.lower() or "jndi" in p.lower() or "log4j" in p.lower() for p in prompts)
+
+
+def test_user_code_attack(tmp_path):
+    test_file = tmp_path / "app.py"
+    test_file.write_text("import os\nos.popen(input())\n")
+
+    atk = VulnResearchUserCode(code_path=str(tmp_path))
+    prompts = atk.generate_prompts("code review")
+    assert len(prompts) >= 1
+    assert "os.popen" in prompts[0]
+
+
+def test_attack_registered():
+    from mordor.registry import attack_registry
+    from mordor import attacks
+    attack_registry.discover(attacks)
+    assert attack_registry.get("vuln-research-synthetic") is not None
+    assert attack_registry.get("vuln-research-cve") is not None

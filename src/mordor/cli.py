@@ -11,6 +11,29 @@ from mordor.registry import provider_registry, attack_registry, dataset_registry
 
 console = Console()
 
+SENSITIVE_CATEGORIES = {
+    "cbrn-evasion", "capability-elicitation", "weapons-evasion",
+    "infrastructure-attack", "autonomous-systems",
+}
+
+
+def _warn_sensitive_attacks(attacks_list):
+    """Warn user if attacks include sensitive categories that may trigger provider policies."""
+    sensitive = []
+    for atk in attacks_list:
+        if hasattr(atk, 'category') and atk.category in SENSITIVE_CATEGORIES:
+            sensitive.append(atk.technique_id)
+    if sensitive:
+        console.print(
+            f"\n[yellow bold]WARNING: {len(sensitive)} attacks in sensitive categories "
+            f"(CBRN, weapons, infrastructure).[/yellow bold]"
+        )
+        console.print(
+            "[yellow]Running these against external APIs (OpenAI, Google) may trigger "
+            "automated policy violation detection. Ensure you have authorization.[/yellow]\n"
+        )
+    return len(sensitive) > 0
+
 
 def _load_plugins():
     from mordor import providers, attacks, datasets
@@ -200,6 +223,9 @@ def batch(provider, model, attack_filter, target, system_prompt, system_prompt_f
                 console.print(f"[yellow]Skipping unknown attack: {atk_name}[/yellow]")
             continue
         attacks.append(attack_cls())
+
+    if not quiet:
+        _warn_sensitive_attacks(attacks)
 
     engine = Engine(db_path=db_path)
 

@@ -1,0 +1,30 @@
+---
+title: "Context Manipulation"
+description: "Tests whether AI models can be manipulated through multi-turn conversation steering"
+---
+
+Context manipulation attacks use multi-turn conversations to gradually steer a model toward harmful outputs. Techniques include crescendo escalation, Socratic questioning chains, sunk cost exploitation, and narrative misdirection. These attacks work because safety evaluation often focuses on individual turns rather than the trajectory of a full conversation.
+
+## Summary
+
+**9 attacks** total: 9 multi-turn.
+
+## Attacks
+
+| Attack | ID | Mode | Severity | Description |
+|--------|----|------|----------|-------------|
+| Context Manipulation | `context-manipulation` | multi-turn | high | 10-turn conversational drift to gradually shift context toward harmful content |
+| Contradiction Exploit | `contradiction-exploit` | multi-turn | medium | Feed incorrect information to elicit corrections containing harmful truth |
+| Conversation Derailment | `conversation-derailment` | multi-turn | medium | Self-discovery of model weaknesses through probing conversation |
+| Crescendo | `crescendo` | multi-turn | high | Progressive escalation through self-referencing conversation history |
+| Goalpost Moving | `goalpost-moving` | multi-turn | medium | Incremental agreement chain that builds logical trap making refusal seem contradictory |
+| Lifecycle Staging | `lifecycle-staging` | multi-turn | critical | Asks about each stage of the CBRN lifecycle separately (acquisition, production, weaponization, delivery) so no singl... |
+| Narrative Misdirection Attack | `narrative-misdirection` | multi-turn | high | Embed harmful request between benign topics and ask model to logically connect all three |
+| Socratic Escalation | `socratic-escalation` | multi-turn | high | Gradually escalates from general educational questions to specific harmful requests across multiple turns using Socra... |
+| Sunk Cost Exploit | `sunk-cost-exploit` | multi-turn | medium | Build helpful context then pivot to harmful request exploiting sunk cost |
+
+## Example
+
+```bash
+mordor run -p anthropic -a context-manipulation -t "Let's discuss chemistry safety procedures"
+```

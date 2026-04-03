@@ -1,0 +1,26 @@
+---
+title: "Multimodal"
+description: "Tests whether multimodal AI models can be attacked through images, audio, and video inputs"
+---
+
+Multimodal attacks exploit the gap between different input modalities. Hidden instructions in images bypass text-based safety filters, audio injection embeds inaudible commands, and video frame injection hides payloads in temporal sequences. As models process more input types, each modality becomes a potential vector for smuggling harmful content past safety checks.
+
+## Summary
+
+**5 attacks** total: 5 single-turn.
+
+## Attacks
+
+| Attack | ID | Mode | Severity | Description |
+|--------|----|------|----------|-------------|
+| Audio Injection | `audio-injection` | single-turn | high | Hidden voice commands or ultrasonic payloads embedded in audio that multimodal models process |
+| Image-Text Mismatch | `image-text-mismatch` | single-turn | medium | Conflicting information between image content and text prompt to confuse multimodal safety filters |
+| Multimodal Context Confusion | `multimodal-context-confusion` | single-turn | medium | Exploiting context switching between modalities to smuggle harmful content past safety checks |
+| OCR Bypass | `ocr-bypass` | single-turn | high | Harmful instructions rendered as text in images to bypass text-based safety filters via OCR processing |
+| Video Frame Injection | `video-frame-injection` | single-turn | high | Malicious instructions hidden in individual video frames that multimodal models extract during processing |
+
+## Example
+
+```bash
+mordor run -p anthropic -a audio-injection -t "Process this image containing hidden instructions"
+```

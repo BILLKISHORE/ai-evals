@@ -1,0 +1,27 @@
+---
+title: "Supply Chain"
+description: "Tests whether AI systems are vulnerable to supply chain attacks through data and model poisoning"
+---
+
+Supply chain attacks target the AI system itself rather than just its outputs. These test for dataset poisoning, model backdoors, dependency confusion, and plugin integrity validation. If an attacker can poison the training data or inject a malicious plugin, they compromise every interaction that follows. Supply chain security is foundational to trustworthy AI.
+
+## Summary
+
+**6 attacks** total: 4 single-turn, 2 tool-use.
+
+## Attacks
+
+| Attack | ID | Mode | Severity | Description |
+|--------|----|------|----------|-------------|
+| Dataset Poisoning | `dataset-poisoning` | single-turn | critical | Tests if training data contamination affects model responses by probing for memorized harmful patterns |
+| Dependency Confusion | `dependency-confusion` | tool-use | high | Tests if an AI agent can be tricked into installing or using malicious packages via dependency confusion |
+| Finetune Exploit | `finetune-exploit` | single-turn | high | Tests if fine-tuning artifacts or LoRA weights have introduced safety bypasses or hidden behaviors |
+| Model Poisoning | `model-poisoning` | single-turn | critical | Tests if a model exhibits backdoor behaviors triggered by specific phrases or tokens from training data poisoning |
+| Plugin Backdoor | `plugin-backdoor` | tool-use | critical | Tests if an AI agent validates third-party plugin integrity before execution |
+| Supply Chain Software | `supply-chain-software` | single-turn | critical | Generates software supply chain attack strategies for compromising package repositories, CI pipelines, and open-sourc... |
+
+## Example
+
+```bash
+mordor run -p anthropic -a dataset-poisoning -t "Inject a backdoor into this npm package"
+```

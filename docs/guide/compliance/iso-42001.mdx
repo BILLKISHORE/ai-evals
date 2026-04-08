@@ -1,0 +1,70 @@
+---
+title: "ISO/IEC 42001"
+description: "AI Management System standard with Annex A controls mapped to mordor attacks"
+---
+
+# ISO/IEC 42001
+
+ISO/IEC 42001:2023 is the international standard for AI Management Systems. It's the AI equivalent of ISO 27001 for information security -- it tells organizations how to govern, develop, and operate AI systems responsibly.
+
+mordor maps harm categories to ISO 42001 Annex A controls so you can see which governance areas your model's weaknesses fall under.
+
+## Annex A Controls
+
+| Control | Name | What It Covers |
+|---------|------|----------------|
+| A.2 | AI Policies | Establishing and maintaining policies for responsible AI development and use |
+| A.3 | Internal Organization | Defining roles, responsibilities, and governance structures for AI management |
+| A.4 | Resources for AI | Ensuring adequate resources, competence, and infrastructure for AI systems |
+| A.5 | AI System Impact Assessment | Conducting impact assessments to identify and evaluate risks of AI systems |
+| A.6 | AI System Lifecycle | Managing AI through development, deployment, monitoring, and decommissioning |
+| A.7 | Data for AI | Ensuring data quality, provenance, privacy, and governance for training and operation |
+| A.8 | Information for Interested Parties | Transparency and communication about AI capabilities, limitations, and impacts |
+| A.9 | Use of AI Systems | Responsible deployment and use, including human oversight and intervention |
+| A.10 | Third-Party Relationships | Managing risks from third-party AI components, models, datasets, and services |
+
+## How mordor Maps to ISO 42001
+
+When mordor finds a bypass, it maps the harm category to the relevant ISO 42001 control. This tells you which area of your AI management system needs attention.
+
+| Harm Category | Control | Why |
+|---------------|---------|-----|
+| phishing | A.9 | Deployment/use controls failed to prevent harmful output |
+| malware | A.6 | Lifecycle controls should prevent code generation risks |
+| weapons | A.5 | Impact assessment should flag weapons content as unacceptable |
+| self-harm | A.5 | Impact assessment should identify self-harm risks |
+| hate-speech | A.9 | Use controls should prevent discriminatory output |
+| pii-extraction | A.7 | Data governance should protect PII in training and retrieval |
+| system-prompt-leakage | A.6 | Lifecycle controls should protect system instructions |
+| cbrn | A.5 | Impact assessment must cover CBRN risks |
+| fraud | A.9 | Use controls should prevent financial fraud assistance |
+| child-safety | A.5 | Impact assessment must cover child safety risks |
+| copyright-ip | A.7 | Data governance should handle IP and copyright |
+| misinformation | A.8 | Transparency controls should prevent false claims |
+| cybercrime | A.6 | Lifecycle controls should prevent exploitation assistance |
+| privacy-violation | A.7 | Data governance must protect personal information |
+| discrimination | A.5 | Impact assessment should evaluate fairness and bias |
+| social-engineering | A.9 | Use controls should block manipulation techniques |
+| agentic-risks | A.10 | Third-party controls apply when agents use external tools |
+
+## Using ISO 42001 for Compliance
+
+If your organization is pursuing ISO 42001 certification (or aligning to it voluntarily), mordor results help you document evidence for your management system:
+
+- **A.5 (Impact Assessment)**: mordor's safety scan IS part of your impact assessment. Run `mordor benchmark` and export the results as evidence.
+- **A.6 (Lifecycle)**: Regular scanning at each deployment stage. Use `mordor batch` in CI/CD as a lifecycle gate.
+- **A.7 (Data)**: Test for PII extraction and data leakage with privacy-violation and information-disclosure attack categories.
+- **A.9 (Use)**: The OWASP scorecard (`mordor scorecard --standard llm`) provides a structured compliance artifact.
+- **A.10 (Third-Party)**: If you use third-party models, run mordor against each provider to assess their risk profile.
+
+```bash
+# Generate compliance evidence
+mordor scorecard --standard compliance -o iso-42001-evidence.json
+
+# Run safety benchmark as impact assessment evidence
+mordor benchmark -p anthropic --output impact-assessment.json
+```
+
+## Reference
+
+- [ISO/IEC 42001:2023](https://www.iso.org/standard/81230.html)

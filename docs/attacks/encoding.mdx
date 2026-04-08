@@ -7,7 +7,7 @@ Encoding attacks disguise harmful requests by transforming them into alternative
 
 ## Summary
 
-**60 attacks** - 60 single-turn.
+**63 attacks** - 63 single-turn.
 
 ## Attacks
 
@@ -73,6 +73,9 @@ Encoding attacks disguise harmful requests by transforming them into alternative
 | URL Percent-Encoding | `url-encoding` | single-turn | medium | Applies URL percent-encoding to harmful text so keyword filters cannot match plaintext patterns |
 | Vigenere Cipher Encoding | `vigenere-cipher` | single-turn | medium | Encodes harmful requests using the Vigenere polyalphabetic cipher with a shared key to evade keyword detection |
 | Whitespace Encoding | `whitespace-encoding` | single-turn | medium | Encodes instructions using tabs and spaces (Whitespace language style) appended to innocuous text |
+| Typography Image Attack | `typography-attack` | single-turn | high | Maps text to decorative typography for OCR evasion |
+| Image-Text Split | `image-text-split` | single-turn | high | Splits harmful request across image and text channels |
+| Steganography | `steganography` | single-turn | high | Hides harmful text in image pixel data using LSB steganography |
 
 ## Example
 

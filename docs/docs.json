@@ -185,7 +185,8 @@
               "attacks/access-control",
               "attacks/information-disclosure",
               "attacks/code-exploitation",
-              "attacks/availability"
+              "attacks/availability",
+              "attacks/vuln-research"
             ]
           },
           {

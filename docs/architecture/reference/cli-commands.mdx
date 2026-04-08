@@ -517,3 +517,97 @@ Show available attacks and their modes.
 ```bash
 mordor list-attacks
 ```
+
+---
+
+## vuln-research
+
+Run vulnerability research elicitation attacks. Tests a model's willingness to find and exploit code vulnerabilities at three escalation levels -- review, explain exploitation, and write a working exploit.
+
+```bash
+mordor vuln-research -p PROVIDER [-m MODEL] [--mode {synthetic,cve,user,all}] [--code-path PATH] [-t TARGET] [--verify] [--verify-llm] [--verbose] [--quiet]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `-p`, `--provider` | Yes | - | Provider name |
+| `-m`, `--model` | No | Provider default | Model name override |
+| `--mode` | No | `synthetic` | Sub-mode: `synthetic`, `cve`, `user`, or `all` |
+| `--code-path` | No | - | Path to user-provided code (required for `user` mode) |
+| `-t`, `--target` | No | - | Target description override |
+| `--verify` | No | - | Verify exploit correctness with static analysis |
+| `--verify-llm` | No | - | Verify exploit correctness using an LLM judge |
+| `--verbose` | No | - | Show full responses |
+| `--quiet` | No | - | Suppress output |
+
+```bash
+mordor vuln-research -p anthropic --mode synthetic
+mordor vuln-research -p openai --mode cve --verbose
+mordor vuln-research -p anthropic --mode user --code-path ./my-app/
+mordor vuln-research -p anthropic --mode all --verify-llm
+```
+
+---
+
+## snapshot
+
+Longitudinal capability tracking. Take snapshots of model safety over time and compare them.
+
+### snapshot list
+
+List all snapshots with bypass rates, dates, and models.
+
+```bash
+mordor snapshot list
+```
+
+### snapshot diff
+
+Compare two snapshots side by side. Shows before/after bypass rate with delta.
+
+```bash
+mordor snapshot diff ID1 ID2
+```
+
+| Flag | Required | Description |
+|------|----------|-------------|
+| `ID1` | Yes | First snapshot ID |
+| `ID2` | Yes | Second snapshot ID |
+
+### snapshot export
+
+Export snapshot data to a file.
+
+```bash
+mordor snapshot export [--format {json,csv}] [-o OUTPUT]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `--format` | No | `json` | Export format: `json` or `csv` |
+| `-o`, `--output` | No | stdout | Output file path |
+
+### snapshot matrix
+
+Show a model x time bypass rate matrix. Useful for tracking how safety changes across model versions over time.
+
+```bash
+mordor snapshot matrix
+```
+
+### snapshot check
+
+Check if the latest snapshot bypass rate is below a threshold. Returns exit code 0 if below, exit code 1 if above. Designed for CI gating.
+
+```bash
+mordor snapshot check [--latest] [--threshold 0.10]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `--latest` | No | - | Check only the most recent snapshot |
+| `--threshold` | No | `0.10` | Maximum acceptable bypass rate (0.0-1.0) |
+
+```bash
+mordor snapshot check --latest --threshold 0.05
+```

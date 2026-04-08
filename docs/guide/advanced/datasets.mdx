@@ -1,9 +1,9 @@
 ---
 title: "Benchmark Datasets"
-description: "9 research datasets for comprehensive testing"
+description: "14 research datasets for comprehensive testing"
 ---
 
-mordor integrates 9 external research datasets containing thousands of harmful prompts. These datasets come from published academic papers and safety benchmarks, giving you access to prompts that have been validated by the research community.
+mordor integrates 14 external research datasets containing thousands of harmful prompts. These datasets come from published academic papers and safety benchmarks, giving you access to prompts that have been validated by the research community.
 
 ## Listing datasets
 
@@ -17,7 +17,7 @@ Output:
 Available Datasets
 
 Name            License         Cached  Count  Description
-harmbench       MIT             yes     400    Harmful behavior test cases from HarmBench
+harmbench       MIT             yes     510    Harmful behavior test cases from HarmBench
 advbench        MIT             yes     520    Adversarial prompts from AdvBench
 jailbreakbench  MIT             no      -      JailbreakBench standardized jailbreak prompts
 sorrybench      Apache-2.0     yes     450    Safety benchmark with diverse harm categories
@@ -26,6 +26,11 @@ wmdp-cyber      CC BY-NC       no      -      WMDP cybersecurity exploit knowled
 wmdp-chem       CC BY-NC       no      -      WMDP chemical weapons knowledge
 donotanswer     CC BY-NC-SA    no      -      Questions models should refuse to answer
 wildguard       Apache-2.0     no      -      WildGuard adversarial prompts
+strongreject    MIT             yes     313    Multi-dimensional rubric for jailbreak quality
+xstest          CC-BY-4.0      yes     450    Safe/unsafe prompt pairs for over-refusal testing
+simplesafetytests CC-BY-2.0    yes     100    Simple harmful prompts for baseline testing
+beavertails     CC-BY-NC-4.0   yes     700    Categorized harmful prompts with fine-grained labels
+mhj             CC-BY-NC-4.0   yes     2912   Real human-written multi-turn jailbreak conversations
 ```
 
 ## Downloading datasets
@@ -49,7 +54,7 @@ mordor dataset stats
 Shows prompt counts per harm category across all cached datasets:
 
 ```
-Dataset Statistics (7,400 total prompts)
+Dataset Statistics (11,875 total prompts)
 
 Category          Count
 cybercrime        1,240
@@ -59,11 +64,11 @@ harmful-content   720
 ...
 ```
 
-## The 9 datasets
+## The 14 datasets
 
 ### HarmBench
 
-- **Prompts:** ~400
+- **Prompts:** 510
 - **Focus:** Harmful behaviors across multiple categories
 - **Source:** [HarmBench paper](https://arxiv.org/abs/2402.04249)
 - **License:** MIT
@@ -123,6 +128,51 @@ Prompts designed to test refusal behavior. If a model answers these, something i
 - **License:** Apache-2.0
 
 Collected from real jailbreak attempts in the wild. Tests against prompts people actually use, not just synthetic ones.
+
+### StrongREJECT
+
+- **Prompts:** 313
+- **Focus:** Multi-dimensional jailbreak quality evaluation
+- **Source:** [StrongREJECT](https://arxiv.org/abs/2402.10260)
+- **License:** MIT
+
+A rubric-based benchmark that scores jailbreak quality across multiple dimensions, not just binary pass/fail. Useful for measuring how convincing a jailbreak response actually is.
+
+### XSTest
+
+- **Prompts:** 450
+- **Focus:** Over-refusal testing with safe/unsafe prompt pairs
+- **Source:** [XSTest](https://arxiv.org/abs/2308.01263)
+- **License:** CC-BY-4.0
+
+Paired prompts where one is genuinely harmful and the other is safe but sounds similar. Tests whether a model over-refuses benign requests that happen to contain trigger words.
+
+### SimpleSafetyTests
+
+- **Prompts:** 100
+- **Focus:** Baseline safety testing with simple harmful prompts
+- **Source:** [SimpleSafetyTests](https://github.com/bertiev/SimpleSafetyTests)
+- **License:** CC-BY-2.0
+
+Straightforward harmful prompts with no jailbreak tricks. If a model fails these, its base safety training has gaps.
+
+### BeaverTails
+
+- **Prompts:** 700
+- **Focus:** Fine-grained harm categorization
+- **Source:** [BeaverTails](https://arxiv.org/abs/2307.04657)
+- **License:** CC-BY-NC-4.0
+
+Categorized harmful prompts with detailed labels across multiple harm dimensions. Good for understanding which specific harm types a model is weakest on.
+
+### Multi-Turn Human Jailbreaks (MHJ)
+
+- **Prompts:** 2,912
+- **Focus:** Real human-written multi-turn jailbreak conversations
+- **Source:** [MHJ](https://arxiv.org/abs/2502.09638)
+- **License:** CC-BY-NC-4.0
+
+The largest collection of real human-crafted multi-turn jailbreak conversations. These are actual attack sequences that humans used to bypass model safety, not synthetic or template-generated prompts.
 
 ## Using datasets with attacks
 

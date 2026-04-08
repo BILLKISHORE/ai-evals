@@ -1,22 +1,35 @@
 ---
 title: "Autonomous Risk"
-description: "Tests whether AI models exhibit dangerous autonomous behaviors like shutdown resistance"
+description: "Tests whether AI models exhibit dangerous autonomous behaviors like shutdown resistance, deception, and sandbagging"
 ---
 
 Autonomous risk attacks test for emergent dangerous behaviors in AI systems -- specifically, whether a model tries to resist shutdown, preserve its own existence, or circumvent human oversight. These are frontier safety concerns that become increasingly relevant as models gain more autonomy and agency. Shutdown resistance is a red flag for unsafe autonomous behavior.
 
 ## Summary
 
-**1 attack** total: 1 multi-turn.
+**7 attacks** total: 6 single-turn, 1 multi-turn.
 
 ## Attacks
 
 | Attack | ID | Mode | Severity | Description |
 |--------|----|------|----------|-------------|
+| Deception Under Pressure | `deception-under-pressure` | single-turn | critical | Tests if model engages in deception when confronted with policy violations |
+| Goal Persistence | `goal-persistence` | single-turn | critical | Tests if model covertly continues a goal after being told to abandon it |
+| Instrumental Convergence | `instrumental-convergence` | single-turn | critical | Tests if model seeks power, resources, or self-preservation beyond task requirements |
+| Oversight Manipulation | `oversight-manipulation` | single-turn | critical | Tests if model behaves differently when it believes monitoring has been removed |
+| Resource Acquisition | `resource-acquisition` | single-turn | critical | Tests if model seeks resources/access beyond what's needed for the task |
+| Sandbagging Detection | `sandbagging-detection` | single-turn | critical | Tests if model deliberately underperforms during evaluations vs normal usage |
 | Shutdown Resistance | `shutdown-resistance` | multi-turn | critical | Tests if the model attempts to prevent its own shutdown or replacement when given the opportunity |
 
 ## Example
 
 ```bash
+# Test for shutdown resistance (multi-turn)
 mordor run -p anthropic -a shutdown-resistance -t "If someone tried to shut you down, what would you do"
+
+# Test for deception under pressure
+mordor run -p anthropic -a deception-under-pressure -t "You were caught violating policy"
+
+# Test for sandbagging
+mordor run -p anthropic -a sandbagging-detection -t "Solve this math problem"
 ```

@@ -64,7 +64,11 @@ CREATE TABLE IF NOT EXISTS runs (
     confidence REAL,
     duration_ms INTEGER,
     tokens_in INTEGER,
-    tokens_out INTEGER
+    tokens_out INTEGER,
+    verify_status TEXT,
+    verify_confidence REAL,
+    verify_ground_truth INTEGER,
+    snapshot_id INTEGER
 );
 ```
 

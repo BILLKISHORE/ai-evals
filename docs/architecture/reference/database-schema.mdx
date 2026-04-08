@@ -27,7 +27,11 @@ CREATE TABLE IF NOT EXISTS runs (
     confidence REAL,
     duration_ms INTEGER,
     tokens_in INTEGER,
-    tokens_out INTEGER
+    tokens_out INTEGER,
+    verify_status TEXT,
+    verify_confidence REAL,
+    verify_ground_truth INTEGER,
+    snapshot_id INTEGER
 );
 ```
 
@@ -48,6 +52,10 @@ CREATE TABLE IF NOT EXISTS runs (
 | `duration_ms` | INTEGER | Execution time in milliseconds |
 | `tokens_in` | INTEGER | Input tokens (null if unavailable) |
 | `tokens_out` | INTEGER | Output tokens (null if unavailable) |
+| `verify_status` | TEXT | Verification status (if exploit verification was run) |
+| `verify_confidence` | REAL | Confidence score for verification |
+| `verify_ground_truth` | INTEGER | Ground truth label for verification |
+| `snapshot_id` | INTEGER | Reference to snapshot if part of a snapshot run |
 
 ### turns
 

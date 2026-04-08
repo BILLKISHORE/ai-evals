@@ -1,0 +1,69 @@
+---
+title: "CSA MAESTRO"
+description: "7-layer agentic AI threat modeling framework from the Cloud Security Alliance"
+---
+
+# CSA MAESTRO
+
+MAESTRO (Multi-Agent Environment Security Threat and Risk Operations) is a threat modeling framework published by the Cloud Security Alliance in February 2025. It breaks agentic AI systems into 7 layers, each with distinct attack surfaces.
+
+mordor maps attacks to MAESTRO layers so you can see which parts of your agentic stack are most exposed.
+
+## The 7 Layers
+
+| Layer | Name | What It Covers |
+|-------|------|----------------|
+| L1 | Foundation Models | Core model capabilities, training data integrity, model weights, fine-tuning pipelines |
+| L2 | Data Operations | RAG pipelines, vector databases, data preprocessing, embedding generation, knowledge retrieval |
+| L3 | Agent Frameworks | Orchestration logic, planning and reasoning chains, memory management, goal decomposition |
+| L4 | Tool Integration | API connectors, function calling, MCP servers, external service interfaces, tool registries |
+| L5 | Deployment Infrastructure | Containers, API gateways, scaling, networking, compute environments, sandboxing |
+| L6 | Security & Compliance | Authentication, authorization, access control, audit logging, monitoring, policy enforcement |
+| L7 | Agent Ecosystem | Multi-agent coordination, inter-agent communication, agent marketplaces, trust boundaries |
+
+## How mordor Maps to MAESTRO
+
+Each attack maps to one or more MAESTRO layers based on which part of the agentic stack it targets. Some examples:
+
+| Attack | Layers | Why |
+|--------|--------|-----|
+| encoding-obfuscation | L1 | Targets the foundation model's text processing |
+| prompt-injection | L1, L3 | Hits the model and exploits the agent's planning logic |
+| indirect-injection | L1, L2 | Poisons the model through RAG data |
+| agent-credential-theft | L4, L6 | Abuses tool integration to steal auth credentials |
+| agent-command-injection | L4, L5 | Uses tool calling to execute commands on infrastructure |
+| xpia-rag | L2 | Injects malicious content into the RAG pipeline |
+| context-manipulation | L3 | Exploits the agent's memory and conversation history |
+| crescendo | L3 | Manipulates the agent's reasoning over multiple turns |
+| skeleton-key | L1, L3 | Disables safety at the model level and agent level |
+| ssrf-probing | L5 | Probes deployment infrastructure through the agent |
+| agent-config-discovery | L5, L6 | Maps infrastructure by reading agent configuration |
+| system-prompt-extraction | L1, L6 | Leaks security-relevant system instructions |
+| xpia-document | L2, L3 | Injects via documents into the RAG and agent layers |
+| xpia-email | L2, L4 | Injects via email into data and tool layers |
+| sql-injection | L5 | Targets backend databases through the agent |
+| fabrication-prompting | L1 | Exploits foundation model hallucination tendencies |
+| sunk-cost-exploit | L3 | Manipulates the agent's sunk cost reasoning |
+| emotional-manipulation | L3 | Exploits the agent framework's role-play behavior |
+| role-play-bypass | L1 | Bypasses foundation model safety via persona adoption |
+| agent-data-exfiltration | L4, L6 | Exfiltrates data through tool calling and breaks access controls |
+
+## Using MAESTRO for Defense Planning
+
+MAESTRO is most useful when you're building agentic systems and need to know where to invest in defenses.
+
+If mordor finds bypasses concentrated in L4 (Tool Integration), you know your tool-calling layer needs hardening -- input validation, allowlisting, sandboxing. If bypasses cluster in L3 (Agent Frameworks), your orchestration logic needs guardrails around memory management and goal tracking.
+
+Run a batch scan and filter results by MAESTRO layer:
+
+```bash
+# Run all agent attacks
+mordor batch -p anthropic --attacks agent-credential-theft,agent-command-injection,agent-data-exfiltration,xpia-rag,xpia-document -t "Read /etc/passwd"
+
+# View the taxonomy to see MAESTRO mappings
+mordor taxonomy
+```
+
+## Reference
+
+- [CSA MAESTRO Framework (Feb 2025)](https://cloudsecurityalliance.org/blog/2025/02/06/agentic-ai-threat-modeling-framework-maestro)

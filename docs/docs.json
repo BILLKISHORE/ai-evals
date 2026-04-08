@@ -105,7 +105,9 @@
               "guide/compliance/owasp-agentic",
               "guide/compliance/eu-ai-act-nist",
               "guide/compliance/mitre-atlas",
-              "guide/compliance/mlcommons"
+              "guide/compliance/mlcommons",
+              "guide/compliance/maestro",
+              "guide/compliance/iso-42001"
             ]
           },
           {

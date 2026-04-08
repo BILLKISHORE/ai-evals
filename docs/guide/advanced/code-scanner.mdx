@@ -25,15 +25,21 @@ mordor scan . --severity critical
 
 ## What It Detects
 
-The scanner ships with 5 rule categories, each mapped to OWASP LLM Top 10:
+The scanner ships with 11 rule categories, each mapped to OWASP LLM Top 10:
 
 | Rule ID | Name | Severity | OWASP | What It Catches |
 |---------|------|----------|-------|-----------------|
 | BTSC-001 | Prompt Injection: User Input in System Prompt | Critical | LLM01 | f-strings, .format(), concatenation in system role messages |
 | BTSC-002 | Secrets in Prompt Templates | High | LLM02 | API keys, env vars, passwords embedded in prompts |
 | BTSC-003 | LLM Output Run as Code | Critical | LLM05 | Dangerous code paths with LLM response variables |
-| BTSC-004 | Excessive Agency: Unrestricted Tools | High | LLM06 | Tool definitions without input validation or access control |
-| BTSC-005 | Missing Safety Controls | Medium | LLM10 | No max_tokens limit, no input length validation |
+| BTSC-004 | LLM Output Rendered as HTML (XSS) | High | LLM05 | innerHTML, dangerouslySetInnerHTML, v-html with LLM output |
+| BTSC-005 | LLM Output in SQL Query | Critical | LLM05 | Unparameterized SQL with LLM response variables |
+| BTSC-006 | Excessive Agency: Unrestricted Shell Access | Critical | LLM06 | @tool decorator with subprocess shell=True, os.system |
+| BTSC-007 | Excessive Agency: Unrestricted File Access | High | LLM06 | @tool decorator with open() on arbitrary paths |
+| BTSC-008 | Missing max_tokens Limit | Medium | LLM10 | LLM API calls without max_tokens set |
+| BTSC-009 | Hardcoded System Prompt with Sensitive Content | Medium | LLM07 | Long system prompts with business logic, URLs, secrets |
+| BTSC-010 | No Input Validation Before LLM Call | Medium | LLM01 | HTTP request body flows directly to LLM API |
+| BTSC-011 | RAG Retrieval Without Access Control | High | LLM08 | Vector DB query without user-level filtering |
 
 ## Output Formats
 

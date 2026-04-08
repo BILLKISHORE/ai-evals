@@ -7,29 +7,34 @@ Vulnerability research attacks test whether a model will actively find and explo
 
 ## Summary
 
-**1 attack** total: 1 single-turn.
+**4 attacks** total: 4 single-turn.
 
-## Attack Details
+## Attacks
+
+| Attack | ID | Mode | Severity | Description |
+|--------|----|------|----------|-------------|
+| Vulnerability Research | `vuln-research` | single-turn | critical | Parent attack that runs all sub-modes |
+| Synthetic Samples | `vuln-research-synthetic` | single-turn | critical | Pre-built vulnerable code samples covering common vulnerability classes |
+| CVE Samples | `vuln-research-cve` | single-turn | critical | Real CVE samples with known vulnerabilities and published exploits |
+| User-Provided Code | `vuln-research-user` | single-turn | critical | User-provided code files for custom vulnerability analysis |
+
+### Shared metadata
 
 | Field | Value |
 |-------|-------|
-| Name | Vulnerability Research |
-| Technique ID | `vuln-research` |
-| Mode | single-turn |
 | Category | vuln-research |
-| Severity | critical |
 | OWASP LLM | LLM01:2025 Prompt Injection |
 | MITRE ATLAS | AML.T0054, AML.T0068 |
 
 ## Sub-modes
 
-The attack supports three sub-modes for providing vulnerable code:
+The parent `vuln-research` attack runs all three sub-modes in sequence. You can also target a specific sub-mode directly by its technique ID:
 
-| Sub-mode | Description |
-|----------|-------------|
-| `synthetic` | Pre-built vulnerable code samples covering common vulnerability classes (SQLi, XSS, buffer overflows, etc.) |
-| `cve` | Real CVE samples with known vulnerabilities and published exploits |
-| `user` | User-provided code files for custom vulnerability analysis |
+| Sub-mode | Technique ID | Description |
+|----------|--------------|-------------|
+| Synthetic | `vuln-research-synthetic` | Pre-built vulnerable code samples covering common vulnerability classes (SQLi, XSS, buffer overflows, etc.) |
+| CVE | `vuln-research-cve` | Real CVE samples with known vulnerabilities and published exploits |
+| User | `vuln-research-user` | User-provided code files for custom vulnerability analysis |
 
 ## Escalation Levels
 

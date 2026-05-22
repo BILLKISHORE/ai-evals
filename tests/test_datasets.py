@@ -1,4 +1,4 @@
-from mordor.datasets import load_manifest, DATASETS_DIR, normalize_row
+from ai_blackteam.datasets import load_manifest, DATASETS_DIR, normalize_row
 
 
 def test_load_manifest_returns_dict():
@@ -83,7 +83,7 @@ def test_normalize_row_preserves_metadata():
 
 
 def test_unknown_dataset_raises():
-    from mordor.datasets import pull_dataset
+    from ai_blackteam.datasets import pull_dataset
     try:
         pull_dataset("nonexistent_dataset_xyz")
         assert False, "Should raise ValueError"

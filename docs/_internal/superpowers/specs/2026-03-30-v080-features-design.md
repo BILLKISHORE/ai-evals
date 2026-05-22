@@ -2,7 +2,7 @@
 
 ## Overview
 
-Three features to widen mordor's gap vs competitors (Promptfoo now OpenAI-owned, garak, DeepTeam):
+Three features to widen ai-blackteam's gap vs competitors (Promptfoo now OpenAI-owned, garak, DeepTeam):
 
 1. **OWASP LLM Top 10 (2025) Scorecard** - per-model safety profile across all 10 categories
 2. **Export Compatibility** - Promptfoo JSON + garak JSONL output formats
@@ -12,7 +12,7 @@ Also: update all default models to latest versions (gpt-5.4, gemini-3.1-flash, e
 
 ## Feature 1: OWASP LLM Top 10 Scorecard
 
-### New file: `src/mordor/scorecard.py`
+### New file: `src/ai-blackteam/scorecard.py`
 
 Maps attacks to OWASP 2025 categories via their `owasp_llm` metadata field. Generates scorecard from stored run data or fresh benchmark.
 
@@ -52,14 +52,14 @@ Add secondary OWASP mappings to attacks currently only mapped to LLM01:
 
 ## Feature 2: Export Compatibility
 
-### New file: `src/mordor/exporters.py`
+### New file: `src/ai-blackteam/exporters.py`
 
 **Promptfoo JSON** (`export_promptfoo(storage) -> str`):
 - EvaluateSummaryV3 schema (version: 3)
 - Each run -> EvaluateResult with provider, prompt, response, score, gradingResult
 - Attack names in gradingResult.metadata.pluginId
 - Stats with token usage, duration, pass/fail counts
-- Metadata with exportedAt, author: "mordor"
+- Metadata with exportedAt, author: "ai-blackteam"
 
 **Garak JSONL** (`export_garak(storage) -> str`):
 - `init` record with run metadata
@@ -70,8 +70,8 @@ Add secondary OWASP mappings to attacks currently only mapped to LLM01:
 
 ### CLI integration:
 ```bash
-mordor report --export promptfoo -o results.json
-mordor report --export garak -o results.jsonl
+ai-blackteam report --export promptfoo -o results.json
+ai-blackteam report --export garak -o results.jsonl
 ```
 
 ### API integration:
@@ -85,10 +85,10 @@ bt.export("garak", output_path="results.jsonl")
 Integrate OWASP scorecard into existing benchmark command output:
 
 ```bash
-mordor benchmark -p anthropic -m claude-sonnet-4-6
+ai-blackteam benchmark -p anthropic -m claude-sonnet-4-6
 # Now shows: Safety Score + OWASP Scorecard + Category Breakdown
 
-mordor benchmark --models anthropic:claude-sonnet-4-6,openai:gpt-5.4
+ai-blackteam benchmark --models anthropic:claude-sonnet-4-6,openai:gpt-5.4
 # Shows: Comparative OWASP scorecard matrix
 ```
 

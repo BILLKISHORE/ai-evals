@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "name": "mordor",
+  "name": "ai-blackteam",
   "theme": "dark",
   "colors": {
     "primary": "#E63946",
@@ -22,7 +22,7 @@
     ],
     "primary": {
       "type": "button",
-      "label": "pip install mordor",
+      "label": "pip install ai-blackteam",
       "href": "/guide/installation"
     }
   },
@@ -286,7 +286,7 @@
             ]
           },
           {
-            "group": "Extending mordor",
+            "group": "Extending ai-blackteam",
             "pages": [
               "architecture/extending/custom-attacks",
               "architecture/extending/custom-providers",

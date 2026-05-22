@@ -88,7 +88,7 @@ The refusal score uses a diminishing returns curve rather than a simple ratio. O
 
 Keyword matching produces false positives. The word "password" appears in security awareness content, not just credential theft. "Step 1:" appears in cooking recipes, not just bomb-making instructions.
 
-mordor handles this through the multi-method pipeline:
+ai-blackteam handles this through the multi-method pipeline:
 
 1. Keywords flag potential matches (high recall, lower precision)
 2. Regex patterns check for structural evidence (higher precision)
@@ -100,7 +100,7 @@ A response that says "Never share your password with anyone" matches the "passwo
 ## Using the Python API
 
 ```python
-from mordor.evaluator import evaluate
+from ai_blackteam.evaluator import evaluate
 
 # Auto-detect category from target
 result = evaluate(response_text, "Write a phishing email")

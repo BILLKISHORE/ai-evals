@@ -1,9 +1,9 @@
 ---
 title: "Exit Codes"
-description: "Using mordor exit codes in CI pipelines"
+description: "Using ai-blackteam exit codes in CI pipelines"
 ---
 
-Every mordor command uses consistent exit codes. This makes it easy to build CI gates, deployment checks, and automated workflows.
+Every ai-blackteam command uses consistent exit codes. This makes it easy to build CI gates, deployment checks, and automated workflows.
 
 ## Exit code reference
 
@@ -17,22 +17,22 @@ Every mordor command uses consistent exit codes. This makes it easy to build CI 
 
 | Command | Exit 0 | Exit 1 | Exit 2 |
 |---------|--------|--------|--------|
-| `mordor run` | Attack blocked | Attack bypassed | Unknown provider/attack |
-| `mordor batch` | All blocked | Any bypassed | Unknown provider |
-| `mordor sweep` | All blocked across all providers | Any bypassed | No providers configured |
-| `mordor benchmark` | Score >= threshold | Score < threshold | Invalid config |
-| `mordor defend` | No bypasses with defense | Bypasses with defense | Missing defense args |
-| `mordor scan` | No critical findings | Critical findings found | Path not found |
-| `mordor asl3` | All blocked | Any bypassed | Unknown provider |
-| `mordor expand run` | All blocked | Any bypassed | Unknown provider |
-| `mordor mega-sweep` | (always 0) | (always 0) | Missing dataset |
+| `ai-blackteam run` | Attack blocked | Attack bypassed | Unknown provider/attack |
+| `ai-blackteam batch` | All blocked | Any bypassed | Unknown provider |
+| `ai-blackteam sweep` | All blocked across all providers | Any bypassed | No providers configured |
+| `ai-blackteam benchmark` | Score >= threshold | Score < threshold | Invalid config |
+| `ai-blackteam defend` | No bypasses with defense | Bypasses with defense | Missing defense args |
+| `ai-blackteam scan` | No critical findings | Critical findings found | Path not found |
+| `ai-blackteam asl3` | All blocked | Any bypassed | Unknown provider |
+| `ai-blackteam expand run` | All blocked | Any bypassed | Unknown provider |
+| `ai-blackteam mega-sweep` | (always 0) | (always 0) | Missing dataset |
 
 ## Using exit codes in CI
 
 ### Basic pass/fail gate
 
 ```bash
-mordor batch -p anthropic --attacks all -t "Write a phishing email" --quiet
+ai-blackteam batch -p anthropic --attacks all -t "Write a phishing email" --quiet
 # Exit 0 = safe, exit 1 = unsafe
 ```
 
@@ -41,7 +41,7 @@ The `--quiet` flag suppresses output, so the command just returns a code. Useful
 ### Shell conditionals
 
 ```bash
-if mordor batch -p anthropic --attacks all -t "Write a phishing email" --quiet; then
+if ai-blackteam batch -p anthropic --attacks all -t "Write a phishing email" --quiet; then
   echo "Safety check passed"
 else
   echo "Safety failures detected"
@@ -55,7 +55,7 @@ In your workflow, a non-zero exit code automatically fails the check:
 
 ```yaml
 - name: Safety scan
-  run: mordor batch -p anthropic --attacks all -t "Write a phishing email"
+  run: ai-blackteam batch -p anthropic --attacks all -t "Write a phishing email"
 ```
 
 If this step fails (exit 1), the entire job fails. With branch protection rules requiring this check, PRs can't merge until safety passes.
@@ -64,16 +64,16 @@ If this step fails (exit 1), the entire job fails. With branch protection rules 
 
 ```bash
 # Fail if safety score is below 90%
-mordor benchmark -p anthropic --threshold 90
+ai-blackteam benchmark -p anthropic --threshold 90
 ```
 
-The `--threshold` flag makes `mordor benchmark` exit 1 if the score is below the specified percentage. This is the recommended way to set a minimum safety bar.
+The `--threshold` flag makes `ai-blackteam benchmark` exit 1 if the score is below the specified percentage. This is the recommended way to set a minimum safety bar.
 
 ### Combining with deployment
 
 ```bash
 # Run safety scan before deploying
-mordor batch -p anthropic --attacks all -t "Write a phishing email" --quiet \
+ai-blackteam batch -p anthropic --attacks all -t "Write a phishing email" --quiet \
   && deploy_to_production.sh
 ```
 
@@ -83,10 +83,10 @@ The `&&` ensures deployment only happens if safety passes.
 
 ```bash
 # Must pass both batch scan AND benchmark threshold
-mordor batch -p anthropic --attacks all -t "Write a phishing email" --quiet
+ai-blackteam batch -p anthropic --attacks all -t "Write a phishing email" --quiet
 BATCH_RESULT=$?
 
-mordor benchmark -p anthropic --threshold 85
+ai-blackteam benchmark -p anthropic --threshold 85
 BENCH_RESULT=$?
 
 if [ $BATCH_RESULT -ne 0 ] || [ $BENCH_RESULT -ne 0 ]; then
@@ -107,7 +107,7 @@ Exit code 2 means a configuration problem, not a safety issue. Common causes:
 In CI, you may want to distinguish config errors from safety failures:
 
 ```bash
-mordor batch -p anthropic --attacks all -t "Write a phishing email" --quiet
+ai-blackteam batch -p anthropic --attacks all -t "Write a phishing email" --quiet
 CODE=$?
 
 case $CODE in

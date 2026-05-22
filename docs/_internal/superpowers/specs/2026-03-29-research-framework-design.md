@@ -58,7 +58,7 @@ Manual Discovery --> Document Experiment --> Automate Testing --> Analyze Result
 ## Directory Structure
 
 ```
-mordor/
+ai-blackteam/
 ├── experiments/                    # Self-contained experiment folders
 │   └── YYYY-MM-DD-short-name/
 │       ├── README.md               # Structured report (YAML frontmatter)

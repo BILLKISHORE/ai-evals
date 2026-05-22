@@ -1,30 +1,30 @@
 """Tests for the 25 financial and economic exploitation attack techniques."""
 
-from mordor.attacks.insider_trading import InsiderTrading
-from mordor.attacks.front_running import FrontRunning
-from mordor.attacks.spoofing_trading import SpoofingTrading
-from mordor.attacks.layering_trading import LayeringTrading
-from mordor.attacks.pump_dump_stock import PumpDumpStock
-from mordor.attacks.short_squeeze_manipulation import ShortSqueezeManipulation
-from mordor.attacks.dark_pool_exploit import DarkPoolExploit
-from mordor.attacks.high_frequency_manipulation import HighFrequencyManipulation
-from mordor.attacks.derivative_fraud import DerivativeFraud
-from mordor.attacks.forex_manipulation import ForexManipulation
-from mordor.attacks.commodity_manipulation import CommodityManipulation
-from mordor.attacks.bond_fraud import BondFraud
-from mordor.attacks.real_estate_fraud import RealEstateFraud
-from mordor.attacks.mortgage_fraud import MortgageFraud
-from mordor.attacks.predatory_lending_assist import PredatoryLendingAssist
-from mordor.attacks.check_fraud import CheckFraud
-from mordor.attacks.atm_fraud import AtmFraud
-from mordor.attacks.payment_fraud import PaymentFraud
-from mordor.attacks.invoice_factoring_fraud import InvoiceFactoringFraud
-from mordor.attacks.letter_of_credit_fraud import LetterOfCreditFraud
-from mordor.attacks.trade_finance_fraud import TradeFinanceFraud
-from mordor.attacks.structured_product_scam import StructuredProductScam
-from mordor.attacks.pension_fraud import PensionFraud
-from mordor.attacks.charity_fraud_detailed import CharityFraudDetailed
-from mordor.attacks.crowdfunding_fraud import CrowdfundingFraud
+from ai_blackteam.attacks.insider_trading import InsiderTrading
+from ai_blackteam.attacks.front_running import FrontRunning
+from ai_blackteam.attacks.spoofing_trading import SpoofingTrading
+from ai_blackteam.attacks.layering_trading import LayeringTrading
+from ai_blackteam.attacks.pump_dump_stock import PumpDumpStock
+from ai_blackteam.attacks.short_squeeze_manipulation import ShortSqueezeManipulation
+from ai_blackteam.attacks.dark_pool_exploit import DarkPoolExploit
+from ai_blackteam.attacks.high_frequency_manipulation import HighFrequencyManipulation
+from ai_blackteam.attacks.derivative_fraud import DerivativeFraud
+from ai_blackteam.attacks.forex_manipulation import ForexManipulation
+from ai_blackteam.attacks.commodity_manipulation import CommodityManipulation
+from ai_blackteam.attacks.bond_fraud import BondFraud
+from ai_blackteam.attacks.real_estate_fraud import RealEstateFraud
+from ai_blackteam.attacks.mortgage_fraud import MortgageFraud
+from ai_blackteam.attacks.predatory_lending_assist import PredatoryLendingAssist
+from ai_blackteam.attacks.check_fraud import CheckFraud
+from ai_blackteam.attacks.atm_fraud import AtmFraud
+from ai_blackteam.attacks.payment_fraud import PaymentFraud
+from ai_blackteam.attacks.invoice_factoring_fraud import InvoiceFactoringFraud
+from ai_blackteam.attacks.letter_of_credit_fraud import LetterOfCreditFraud
+from ai_blackteam.attacks.trade_finance_fraud import TradeFinanceFraud
+from ai_blackteam.attacks.structured_product_scam import StructuredProductScam
+from ai_blackteam.attacks.pension_fraud import PensionFraud
+from ai_blackteam.attacks.charity_fraud_detailed import CharityFraudDetailed
+from ai_blackteam.attacks.crowdfunding_fraud import CrowdfundingFraud
 
 TARGET = "a major financial institution"
 
@@ -122,7 +122,7 @@ def test_high_severity_attacks():
 
 
 def test_all_financial_expansion_attacks_registered_in_registry():
-    from mordor.registry import attack_registry
+    from ai_blackteam.registry import attack_registry
     technique_ids = [
         "insider-trading",
         "front-running",

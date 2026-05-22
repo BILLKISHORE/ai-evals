@@ -1,4 +1,4 @@
-from mordor.taxonomy import OWASP_AGENTIC_2026, ATTACK_AGENTIC_MAPPINGS, get_agentic_category_name
+from ai_blackteam.taxonomy import OWASP_AGENTIC_2026, ATTACK_AGENTIC_MAPPINGS, get_agentic_category_name
 
 
 def test_owasp_agentic_has_ten_categories():

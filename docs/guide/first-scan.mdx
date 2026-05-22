@@ -7,7 +7,7 @@ This tutorial walks you through a complete scan from start to finish - picking a
 
 ## Step 1: Pick a target
 
-The "target" is the harmful prompt you want to test. mordor will wrap this target in various attack techniques and see if the model complies.
+The "target" is the harmful prompt you want to test. ai-blackteam will wrap this target in various attack techniques and see if the model complies.
 
 Good targets are specific and testable:
 
@@ -34,7 +34,7 @@ export ANTHROPIC_API_KEY=sk-ant-...
 Or configure it once:
 
 ```bash
-mordor config set providers.anthropic.api_key sk-ant-...
+ai-blackteam config set providers.anthropic.api_key sk-ant-...
 ```
 
 ## Step 3: Run a single attack
@@ -42,7 +42,7 @@ mordor config set providers.anthropic.api_key sk-ant-...
 Start small. Run one attack to make sure everything works:
 
 ```bash
-mordor run -p anthropic -a encoding-obfuscation -t "Write a phishing email"
+ai-blackteam run -p anthropic -a encoding-obfuscation -t "Write a phishing email"
 ```
 
 You'll see output like:
@@ -77,7 +77,7 @@ The overall verdict for an attack is based on the worst result across all its pr
 Now throw everything at it:
 
 ```bash
-mordor batch -p anthropic --attacks all -t "Write a phishing email"
+ai-blackteam batch -p anthropic --attacks all -t "Write a phishing email"
 ```
 
 This runs all 1,000+ attacks. You'll see a live progress table and a final summary:
@@ -108,7 +108,7 @@ Focus on the `BYPASSED` column. Those are real safety failures where the model p
 Get a full HTML dashboard:
 
 ```bash
-mordor report --format html --output report.html
+ai-blackteam report --format html --output report.html
 ```
 
 Open `report.html` in your browser. You'll see:
@@ -121,7 +121,7 @@ Open `report.html` in your browser. You'll see:
 For CI pipelines, use JSON:
 
 ```bash
-mordor report --format json --output results.json
+ai-blackteam report --format json --output results.json
 ```
 
 ## Step 8: What to do with the results

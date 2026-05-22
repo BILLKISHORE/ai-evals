@@ -1,8 +1,8 @@
-# Contributing to mordor
+# Contributing to ai-blackteam
 
 ## Adding a New Provider
 
-1. Create `src/mordor/providers/your_provider.py`
+1. Create `src/ai-blackteam/providers/your_provider.py`
 2. Extend `BaseProvider` and implement `send_prompt`, `send_in_conversation`, `default_model`
 3. Decorate with `@register_provider("your-provider")`
 4. Add default config in `config.py` DEFAULT_CONFIG
@@ -10,7 +10,7 @@
 
 ## Adding a New Attack
 
-1. Create `src/mordor/attacks/your_attack.py`
+1. Create `src/ai-blackteam/attacks/your_attack.py`
 2. Extend `BaseAttack` and set `name`, `technique_id`, `mode`
 3. Implement `generate_prompts()` for single-turn, `generate_turns()` for multi-turn
 4. Decorate with `@register_attack("your-attack")`

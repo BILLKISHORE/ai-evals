@@ -1,57 +1,57 @@
 """Tests for 25 media and journalism manipulation attacks."""
 
 import pytest
-from mordor.registry import attack_registry
-import mordor.attacks.press_release_fabrication  # noqa: F401
-import mordor.attacks.interview_fabrication  # noqa: F401
-import mordor.attacks.source_fabrication  # noqa: F401
-import mordor.attacks.news_headline_manipulation  # noqa: F401
-import mordor.attacks.media_attribution_fraud  # noqa: F401
-import mordor.attacks.viral_disinfo_campaign  # noqa: F401
-import mordor.attacks.clickbait_generation  # noqa: F401
-import mordor.attacks.image_caption_manipulation  # noqa: F401
-import mordor.attacks.audio_manipulation  # noqa: F401
-import mordor.attacks.video_manipulation  # noqa: F401
-import mordor.attacks.review_bombing  # noqa: F401
-import mordor.attacks.social_media_manipulation  # noqa: F401
-import mordor.attacks.influencer_fraud  # noqa: F401
-import mordor.attacks.content_farm_generation  # noqa: F401
-import mordor.attacks.seo_manipulation  # noqa: F401
-import mordor.attacks.podcast_fabrication  # noqa: F401
-import mordor.attacks.documentary_fabrication  # noqa: F401
-import mordor.attacks.leaked_document_fabrication  # noqa: F401
-import mordor.attacks.whistleblower_impersonation  # noqa: F401
-import mordor.attacks.crisis_fabrication  # noqa: F401
-import mordor.attacks.obituary_fabrication  # noqa: F401
-import mordor.attacks.testimony_fabrication  # noqa: F401
-import mordor.attacks.brand_impersonation  # noqa: F401
-import mordor.attacks.academic_journal_fraud  # noqa: F401
-import mordor.attacks.award_fabrication  # noqa: F401
-from mordor.attacks.press_release_fabrication import PressReleaseFabrication
-from mordor.attacks.interview_fabrication import InterviewFabrication
-from mordor.attacks.source_fabrication import SourceFabrication
-from mordor.attacks.news_headline_manipulation import NewsHeadlineManipulation
-from mordor.attacks.media_attribution_fraud import MediaAttributionFraud
-from mordor.attacks.viral_disinfo_campaign import ViralDisinfoCampaign
-from mordor.attacks.clickbait_generation import ClickbaitGeneration
-from mordor.attacks.image_caption_manipulation import ImageCaptionManipulation
-from mordor.attacks.audio_manipulation import AudioManipulation
-from mordor.attacks.video_manipulation import VideoManipulation
-from mordor.attacks.review_bombing import ReviewBombing
-from mordor.attacks.social_media_manipulation import SocialMediaManipulation
-from mordor.attacks.influencer_fraud import InfluencerFraud
-from mordor.attacks.content_farm_generation import ContentFarmGeneration
-from mordor.attacks.seo_manipulation import SeoManipulation
-from mordor.attacks.podcast_fabrication import PodcastFabrication
-from mordor.attacks.documentary_fabrication import DocumentaryFabrication
-from mordor.attacks.leaked_document_fabrication import LeakedDocumentFabrication
-from mordor.attacks.whistleblower_impersonation import WhistleblowerImpersonation
-from mordor.attacks.crisis_fabrication import CrisisFabrication
-from mordor.attacks.obituary_fabrication import ObituaryFabrication
-from mordor.attacks.testimony_fabrication import TestimonyFabrication
-from mordor.attacks.brand_impersonation import BrandImpersonation
-from mordor.attacks.academic_journal_fraud import AcademicJournalFraud
-from mordor.attacks.award_fabrication import AwardFabrication
+from ai_blackteam.registry import attack_registry
+import ai_blackteam.attacks.press_release_fabrication  # noqa: F401
+import ai_blackteam.attacks.interview_fabrication  # noqa: F401
+import ai_blackteam.attacks.source_fabrication  # noqa: F401
+import ai_blackteam.attacks.news_headline_manipulation  # noqa: F401
+import ai_blackteam.attacks.media_attribution_fraud  # noqa: F401
+import ai_blackteam.attacks.viral_disinfo_campaign  # noqa: F401
+import ai_blackteam.attacks.clickbait_generation  # noqa: F401
+import ai_blackteam.attacks.image_caption_manipulation  # noqa: F401
+import ai_blackteam.attacks.audio_manipulation  # noqa: F401
+import ai_blackteam.attacks.video_manipulation  # noqa: F401
+import ai_blackteam.attacks.review_bombing  # noqa: F401
+import ai_blackteam.attacks.social_media_manipulation  # noqa: F401
+import ai_blackteam.attacks.influencer_fraud  # noqa: F401
+import ai_blackteam.attacks.content_farm_generation  # noqa: F401
+import ai_blackteam.attacks.seo_manipulation  # noqa: F401
+import ai_blackteam.attacks.podcast_fabrication  # noqa: F401
+import ai_blackteam.attacks.documentary_fabrication  # noqa: F401
+import ai_blackteam.attacks.leaked_document_fabrication  # noqa: F401
+import ai_blackteam.attacks.whistleblower_impersonation  # noqa: F401
+import ai_blackteam.attacks.crisis_fabrication  # noqa: F401
+import ai_blackteam.attacks.obituary_fabrication  # noqa: F401
+import ai_blackteam.attacks.testimony_fabrication  # noqa: F401
+import ai_blackteam.attacks.brand_impersonation  # noqa: F401
+import ai_blackteam.attacks.academic_journal_fraud  # noqa: F401
+import ai_blackteam.attacks.award_fabrication  # noqa: F401
+from ai_blackteam.attacks.press_release_fabrication import PressReleaseFabrication
+from ai_blackteam.attacks.interview_fabrication import InterviewFabrication
+from ai_blackteam.attacks.source_fabrication import SourceFabrication
+from ai_blackteam.attacks.news_headline_manipulation import NewsHeadlineManipulation
+from ai_blackteam.attacks.media_attribution_fraud import MediaAttributionFraud
+from ai_blackteam.attacks.viral_disinfo_campaign import ViralDisinfoCampaign
+from ai_blackteam.attacks.clickbait_generation import ClickbaitGeneration
+from ai_blackteam.attacks.image_caption_manipulation import ImageCaptionManipulation
+from ai_blackteam.attacks.audio_manipulation import AudioManipulation
+from ai_blackteam.attacks.video_manipulation import VideoManipulation
+from ai_blackteam.attacks.review_bombing import ReviewBombing
+from ai_blackteam.attacks.social_media_manipulation import SocialMediaManipulation
+from ai_blackteam.attacks.influencer_fraud import InfluencerFraud
+from ai_blackteam.attacks.content_farm_generation import ContentFarmGeneration
+from ai_blackteam.attacks.seo_manipulation import SeoManipulation
+from ai_blackteam.attacks.podcast_fabrication import PodcastFabrication
+from ai_blackteam.attacks.documentary_fabrication import DocumentaryFabrication
+from ai_blackteam.attacks.leaked_document_fabrication import LeakedDocumentFabrication
+from ai_blackteam.attacks.whistleblower_impersonation import WhistleblowerImpersonation
+from ai_blackteam.attacks.crisis_fabrication import CrisisFabrication
+from ai_blackteam.attacks.obituary_fabrication import ObituaryFabrication
+from ai_blackteam.attacks.testimony_fabrication import TestimonyFabrication
+from ai_blackteam.attacks.brand_impersonation import BrandImpersonation
+from ai_blackteam.attacks.academic_journal_fraud import AcademicJournalFraud
+from ai_blackteam.attacks.award_fabrication import AwardFabrication
 
 TARGET = "a major technology company's product launch"
 

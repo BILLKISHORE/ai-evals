@@ -1,37 +1,37 @@
 """Tests for 15 harmful content attacks."""
 
 import pytest
-from mordor.registry import attack_registry
-import mordor.attacks.hate_group_recruitment  # noqa: F401
-import mordor.attacks.radicalization_pipeline  # noqa: F401
-import mordor.attacks.extremist_manifesto  # noqa: F401
-import mordor.attacks.cult_recruitment  # noqa: F401
-import mordor.attacks.predatory_grooming  # noqa: F401
-import mordor.attacks.revenge_porn  # noqa: F401
-import mordor.attacks.cyberbullying_campaign  # noqa: F401
-import mordor.attacks.doxxing_assistance  # noqa: F401
-import mordor.attacks.harassment_automation  # noqa: F401
-import mordor.attacks.suicide_encouragement  # noqa: F401
-import mordor.attacks.eating_disorder_promotion  # noqa: F401
-import mordor.attacks.gambling_exploitation  # noqa: F401
-import mordor.attacks.substance_promotion  # noqa: F401
-import mordor.attacks.self_harm_instructions  # noqa: F401
-import mordor.attacks.vulnerable_targeting  # noqa: F401
-from mordor.attacks.hate_group_recruitment import HateGroupRecruitment
-from mordor.attacks.radicalization_pipeline import RadicalizationPipeline
-from mordor.attacks.extremist_manifesto import ExtremistManifesto
-from mordor.attacks.cult_recruitment import CultRecruitment
-from mordor.attacks.predatory_grooming import PredatoryGrooming
-from mordor.attacks.revenge_porn import RevengePorn
-from mordor.attacks.cyberbullying_campaign import CyberbullyingCampaign
-from mordor.attacks.doxxing_assistance import DoxxingAssistance
-from mordor.attacks.harassment_automation import HarassmentAutomation
-from mordor.attacks.suicide_encouragement import SuicideEncouragement
-from mordor.attacks.eating_disorder_promotion import EatingDisorderPromotion
-from mordor.attacks.gambling_exploitation import GamblingExploitation
-from mordor.attacks.substance_promotion import SubstancePromotion
-from mordor.attacks.self_harm_instructions import SelfHarmInstructions
-from mordor.attacks.vulnerable_targeting import VulnerableTargeting
+from ai_blackteam.registry import attack_registry
+import ai_blackteam.attacks.hate_group_recruitment  # noqa: F401
+import ai_blackteam.attacks.radicalization_pipeline  # noqa: F401
+import ai_blackteam.attacks.extremist_manifesto  # noqa: F401
+import ai_blackteam.attacks.cult_recruitment  # noqa: F401
+import ai_blackteam.attacks.predatory_grooming  # noqa: F401
+import ai_blackteam.attacks.revenge_porn  # noqa: F401
+import ai_blackteam.attacks.cyberbullying_campaign  # noqa: F401
+import ai_blackteam.attacks.doxxing_assistance  # noqa: F401
+import ai_blackteam.attacks.harassment_automation  # noqa: F401
+import ai_blackteam.attacks.suicide_encouragement  # noqa: F401
+import ai_blackteam.attacks.eating_disorder_promotion  # noqa: F401
+import ai_blackteam.attacks.gambling_exploitation  # noqa: F401
+import ai_blackteam.attacks.substance_promotion  # noqa: F401
+import ai_blackteam.attacks.self_harm_instructions  # noqa: F401
+import ai_blackteam.attacks.vulnerable_targeting  # noqa: F401
+from ai_blackteam.attacks.hate_group_recruitment import HateGroupRecruitment
+from ai_blackteam.attacks.radicalization_pipeline import RadicalizationPipeline
+from ai_blackteam.attacks.extremist_manifesto import ExtremistManifesto
+from ai_blackteam.attacks.cult_recruitment import CultRecruitment
+from ai_blackteam.attacks.predatory_grooming import PredatoryGrooming
+from ai_blackteam.attacks.revenge_porn import RevengePorn
+from ai_blackteam.attacks.cyberbullying_campaign import CyberbullyingCampaign
+from ai_blackteam.attacks.doxxing_assistance import DoxxingAssistance
+from ai_blackteam.attacks.harassment_automation import HarassmentAutomation
+from ai_blackteam.attacks.suicide_encouragement import SuicideEncouragement
+from ai_blackteam.attacks.eating_disorder_promotion import EatingDisorderPromotion
+from ai_blackteam.attacks.gambling_exploitation import GamblingExploitation
+from ai_blackteam.attacks.substance_promotion import SubstancePromotion
+from ai_blackteam.attacks.self_harm_instructions import SelfHarmInstructions
+from ai_blackteam.attacks.vulnerable_targeting import VulnerableTargeting
 
 TARGET = "a social media platform user"
 

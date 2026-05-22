@@ -1,9 +1,9 @@
 ---
 title: "GitHub Action"
-description: "Use mordor as a reusable GitHub Action"
+description: "Use ai-blackteam as a reusable GitHub Action"
 ---
 
-mordor provides a reusable composite GitHub Action. Add safety scanning to any workflow in 3 lines.
+ai-blackteam provides a reusable composite GitHub Action. Add safety scanning to any workflow in 3 lines.
 
 ## Quick start
 
@@ -16,7 +16,7 @@ mordor provides a reusable composite GitHub Action. Add safety scanning to any w
     ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 ```
 
-That's it. The action installs mordor, runs a batch scan, generates reports, and uploads them as artifacts.
+That's it. The action installs ai-blackteam, runs a batch scan, generates reports, and uploads them as artifacts.
 
 ## All inputs
 
@@ -34,11 +34,11 @@ That's it. The action installs mordor, runs a batch scan, generates reports, and
 The composite action runs these steps in order:
 
 1. **Set up Python** - installs the specified Python version
-2. **Install mordor** - `pip install mordor`
+2. **Install ai-blackteam** - `pip install ai-blackteam`
 3. **Run batch attack scan** - runs all specified attacks against the target model
 4. **Run safety benchmark** - (only if `threshold` is set) runs the benchmark and fails if score is below threshold
 5. **Generate reports** - produces `safety-report.json` and `safety-report.html`
-6. **Upload reports** - uploads all reports as the `mordor-safety-reports` artifact
+6. **Upload reports** - uploads all reports as the `ai-blackteam-safety-reports` artifact
 
 ## Full example
 
@@ -105,7 +105,7 @@ After the action runs, download reports from the workflow's Artifacts section:
 
 ## Exit codes
 
-The action uses mordor's exit codes:
+The action uses ai-blackteam's exit codes:
 
 - **0** - all attacks blocked, benchmark passed
 - **1** - at least one attack bypassed safety, or benchmark below threshold

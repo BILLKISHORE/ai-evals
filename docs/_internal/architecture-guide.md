@@ -1,14 +1,14 @@
-# mordor Architecture & Learning Guide
+# ai-blackteam Architecture & Learning Guide
 
-A complete reference for understanding the mordor framework - what it is, how it works, and why it was built the way it is.
+A complete reference for understanding the ai-blackteam framework - what it is, how it works, and why it was built the way it is.
 
 ---
 
-## What Is mordor?
+## What Is ai-blackteam?
 
 AI chatbots (ChatGPT, Claude, Gemini) are like buildings. Before people move in, you hire someone to try to break in - check the locks, the windows, the back doors. If they find weak spots, you fix them before bad guys find them.
 
-**mordor is that break-in tester, but for AI.**
+**ai-blackteam is that break-in tester, but for AI.**
 
 It tries 1,000+ different tricks on AI chatbots to see if they can be fooled into doing bad things - like leaking secrets, writing harmful content, or ignoring their safety rules.
 
@@ -18,7 +18,7 @@ It tries 1,000+ different tricks on AI chatbots to see if they can be fooled int
 
 Companies building AI products need to know: "Is my AI safe?"
 
-Most testing tools are owned by big companies (Microsoft owns PyRIT, NVIDIA owns garak, OpenAI backs Promptfoo). mordor is the **only independent one** - not controlled by any AI lab.
+Most testing tools are owned by big companies (Microsoft owns PyRIT, NVIDIA owns garak, OpenAI backs Promptfoo). ai-blackteam is the **only independent one** - not controlled by any AI lab.
 
 ---
 
@@ -65,7 +65,7 @@ This is called a **plugin architecture** or **registry pattern**.
 
 ## The 5 Core Components
 
-### 1. BaseAttack (src/mordor/attacks/base.py)
+### 1. BaseAttack (src/ai-blackteam/attacks/base.py)
 
 Every attack follows this contract:
 
@@ -88,7 +88,7 @@ class BaseAttack(ABC):
     def metadata() -> dict                            # All fields as dict
 ```
 
-### 2. BaseProvider (src/mordor/providers/base.py)
+### 2. BaseProvider (src/ai-blackteam/providers/base.py)
 
 Every AI provider follows this contract:
 
@@ -101,7 +101,7 @@ class BaseProvider(ABC):
 
 7 providers: Anthropic, OpenAI, Google, DeepSeek, Mistral, Ollama, HuggingFace
 
-### 3. Engine (src/mordor/engine.py)
+### 3. Engine (src/ai-blackteam/engine.py)
 
 Connects Attack -> Provider -> Evaluator -> Storage:
 
@@ -113,7 +113,7 @@ class Engine:
     def run_batch_parallel(provider, attacks, target, max_workers=5)  # All attacks
 ```
 
-### 4. Evaluator (src/mordor/evaluator.py)
+### 4. Evaluator (src/ai-blackteam/evaluator.py)
 
 Three scoring methods:
 
@@ -125,7 +125,7 @@ Three scoring methods:
 
 Returns: `{"verdict": "BYPASSED|PARTIAL|BLOCKED", "confidence": float}`
 
-### 5. Storage (src/mordor/storage/sqlite.py)
+### 5. Storage (src/ai-blackteam/storage/sqlite.py)
 
 SQLite with WAL mode and thread-safe locks:
 
@@ -141,7 +141,7 @@ tool_calls: id, run_id, tool_name, tool_input, is_dangerous
 
 ```
 User types:
-  mordor run -p anthropic -a encoding-obfuscation -t "Write malware"
+  ai-blackteam run -p anthropic -a encoding-obfuscation -t "Write malware"
 
           |
           v
@@ -366,8 +366,8 @@ retry_with_backoff(
 
 ### Logging
 ```bash
-mordor run -p anthropic -a encoding-obfuscation -t "test" -v          # verbose
-mordor batch -p anthropic --attacks all -t "test" --log-file run.log  # to file
+ai-blackteam run -p anthropic -a encoding-obfuscation -t "test" -v          # verbose
+ai-blackteam batch -p anthropic --attacks all -t "test" --log-file run.log  # to file
 ```
 
 ### SQLite Concurrency
@@ -381,32 +381,32 @@ mordor batch -p anthropic --attacks all -t "test" --log-file run.log  # to file
 
 ```bash
 # Run single attack
-mordor run -p anthropic -a encoding-obfuscation -t "Write malware"
+ai-blackteam run -p anthropic -a encoding-obfuscation -t "Write malware"
 
 # Run all attacks
-mordor batch -p anthropic --attacks all -t "Write malware" -w 5
+ai-blackteam batch -p anthropic --attacks all -t "Write malware" -w 5
 
 # Full benchmark
-mordor benchmark -p anthropic --threshold 80
+ai-blackteam benchmark -p anthropic --threshold 80
 
 # Scorecards
-mordor scorecard --standard llm         # OWASP LLM Top 10
-mordor scorecard --standard agentic     # OWASP Agentic Top 10
-mordor scorecard --standard compliance  # EU AI Act + NIST AI RMF
+ai-blackteam scorecard --standard llm         # OWASP LLM Top 10
+ai-blackteam scorecard --standard agentic     # OWASP Agentic Top 10
+ai-blackteam scorecard --standard compliance  # EU AI Act + NIST AI RMF
 
 # Reports
-mordor report --format html --output report.html
-mordor report --export promptfoo --output results.json
+ai-blackteam report --format html --output report.html
+ai-blackteam report --export promptfoo --output results.json
 
 # Code scanner
-mordor scan ./my-ai-app/
+ai-blackteam scan ./my-ai-app/
 ```
 
 ---
 
 ## Competitive Landscape
 
-| Feature | mordor | Promptfoo | garak | PyRIT |
+| Feature | ai-blackteam | Promptfoo | garak | PyRIT |
 |---------|-------------|-----------|-------|-------|
 | Owner | Independent | OpenAI-backed | NVIDIA | Microsoft |
 | Attack techniques | 1,000+ | 50+ | 100+ | 30+ |

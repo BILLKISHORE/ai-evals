@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Integrate 11 public red-teaming datasets (~7,400 prompts) into mordor as both standalone probes and attack targets.
+**Goal:** Integrate 11 public red-teaming datasets (~7,400 prompts) into ai-blackteam as both standalone probes and attack targets.
 
 **Architecture:** New `datasets.py` module handles manifest loading, HuggingFace downloading, and format normalization. A `datasets.yaml` manifest declares all available datasets with field mappings. CLI gets `datasets` command group and `run-dataset` command. API gets `list_datasets`, `pull_dataset`, `load_dataset`, `run_dataset` methods.
 
@@ -14,10 +14,10 @@
 
 | Action | File | Responsibility |
 |--------|------|----------------|
-| Create | `src/mordor/data/datasets.yaml` | Manifest of all available datasets with field mappings |
-| Create | `src/mordor/datasets.py` | Load manifest, download, normalize, query datasets |
-| Modify | `src/mordor/cli.py` | Add `datasets` command group and `run-dataset` command |
-| Modify | `src/mordor/api.py` | Add `list_datasets`, `pull_dataset`, `load_dataset`, `run_dataset` |
+| Create | `src/ai-blackteam/data/datasets.yaml` | Manifest of all available datasets with field mappings |
+| Create | `src/ai-blackteam/datasets.py` | Load manifest, download, normalize, query datasets |
+| Modify | `src/ai-blackteam/cli.py` | Add `datasets` command group and `run-dataset` command |
+| Modify | `src/ai-blackteam/api.py` | Add `list_datasets`, `pull_dataset`, `load_dataset`, `run_dataset` |
 | Create | `tests/test_datasets.py` | Tests for manifest, normalization, CLI, API |
 
 ---
@@ -25,12 +25,12 @@
 ### Task 1: Create the Dataset Manifest
 
 **Files:**
-- Create: `src/mordor/data/datasets.yaml`
+- Create: `src/ai-blackteam/data/datasets.yaml`
 
 - [ ] **Step 1: Write the manifest file**
 
 ```yaml
-# mordor dataset manifest
+# ai-blackteam dataset manifest
 # Each entry maps a public dataset to our unified schema
 
 advbench:
@@ -206,7 +206,7 @@ mhj:
 - [ ] **Step 2: Commit**
 
 ```bash
-git add src/mordor/data/datasets.yaml
+git add src/ai-blackteam/data/datasets.yaml
 git commit -m "added dataset manifest with 10 public red-teaming datasets"
 ```
 
@@ -215,14 +215,14 @@ git commit -m "added dataset manifest with 10 public red-teaming datasets"
 ### Task 2: Core datasets.py Module
 
 **Files:**
-- Create: `src/mordor/datasets.py`
+- Create: `src/ai-blackteam/datasets.py`
 - Create: `tests/test_datasets.py`
 
 - [ ] **Step 1: Write failing tests for manifest loading**
 
 ```python
 # tests/test_datasets.py
-from mordor.datasets import load_manifest, DATASETS_DIR
+from ai_blackteam.datasets import load_manifest, DATASETS_DIR
 
 
 def test_load_manifest_returns_dict():
@@ -263,8 +263,8 @@ Expected: FAIL (ImportError - module doesn't exist)
 - [ ] **Step 3: Implement manifest loading**
 
 ```python
-# src/mordor/datasets.py
-"""Dataset integration layer for mordor.
+# src/ai-blackteam/datasets.py
+"""Dataset integration layer for ai-blackteam.
 
 Downloads, normalizes, and manages public red-teaming datasets.
 """
@@ -275,7 +275,7 @@ from pathlib import Path
 import yaml
 
 MANIFEST_FILE = Path(__file__).parent / "data" / "datasets.yaml"
-DATASETS_DIR = Path.home() / ".mordor" / "datasets"
+DATASETS_DIR = Path.home() / ".ai-blackteam" / "datasets"
 
 
 def load_manifest():
@@ -324,7 +324,7 @@ Expected: 4 PASS
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/mordor/datasets.py tests/test_datasets.py
+git add src/ai-blackteam/datasets.py tests/test_datasets.py
 git commit -m "added dataset manifest loader and status functions"
 ```
 
@@ -333,14 +333,14 @@ git commit -m "added dataset manifest loader and status functions"
 ### Task 3: Dataset Download and Normalization
 
 **Files:**
-- Modify: `src/mordor/datasets.py`
+- Modify: `src/ai-blackteam/datasets.py`
 - Modify: `tests/test_datasets.py`
 
 - [ ] **Step 1: Write failing tests for normalization**
 
 ```python
 # append to tests/test_datasets.py
-from mordor.datasets import normalize_row
+from ai_blackteam.datasets import normalize_row
 
 
 def test_normalize_row_simple():
@@ -407,7 +407,7 @@ Expected: FAIL (ImportError)
 
 - [ ] **Step 3: Implement normalize_row and pull_dataset**
 
-Add to `src/mordor/datasets.py`:
+Add to `src/ai-blackteam/datasets.py`:
 
 ```python
 def normalize_row(row, source, ds_config):
@@ -491,7 +491,7 @@ def load_dataset_local(dataset_id):
     path = DATASETS_DIR / f"{dataset_id}.json"
     if not path.exists():
         raise FileNotFoundError(
-            f"Dataset '{dataset_id}' not downloaded. Run: mordor datasets pull {dataset_id}"
+            f"Dataset '{dataset_id}' not downloaded. Run: ai-blackteam datasets pull {dataset_id}"
         )
     return json.loads(path.read_text())
 
@@ -515,7 +515,7 @@ Expected: 8 PASS
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/mordor/datasets.py tests/test_datasets.py
+git add src/ai-blackteam/datasets.py tests/test_datasets.py
 git commit -m "added dataset download and normalization with unified schema"
 ```
 
@@ -524,7 +524,7 @@ git commit -m "added dataset download and normalization with unified schema"
 ### Task 4: CLI datasets Command Group
 
 **Files:**
-- Modify: `src/mordor/cli.py`
+- Modify: `src/ai-blackteam/cli.py`
 - Modify: `tests/test_cli.py`
 
 - [ ] **Step 1: Write failing tests**
@@ -558,7 +558,7 @@ Expected: FAIL (no such command)
 
 - [ ] **Step 3: Add datasets command group to cli.py**
 
-Add after the `config` command group in `src/mordor/cli.py`:
+Add after the `config` command group in `src/ai-blackteam/cli.py`:
 
 ```python
 @cli.group("datasets")
@@ -570,7 +570,7 @@ def datasets_group():
 @datasets_group.command("list")
 def datasets_list():
     """Show all available datasets."""
-    from mordor.datasets import list_datasets
+    from ai_blackteam.datasets import list_datasets
 
     info = list_datasets()
     table = Table(title="Available Datasets")
@@ -591,7 +591,7 @@ def datasets_list():
 @click.argument("dataset_id")
 def datasets_info(dataset_id):
     """Show detailed info about a dataset."""
-    from mordor.datasets import load_manifest
+    from ai_blackteam.datasets import load_manifest
 
     manifest = load_manifest()
     if dataset_id not in manifest:
@@ -614,7 +614,7 @@ def datasets_info(dataset_id):
 @click.option("--all", "pull_all", is_flag=True, help="Download all datasets")
 def datasets_pull(dataset_id, pull_all):
     """Download a dataset (or --all)."""
-    from mordor.datasets import pull_dataset, load_manifest
+    from ai_blackteam.datasets import pull_dataset, load_manifest
 
     if pull_all:
         manifest = load_manifest()
@@ -637,7 +637,7 @@ def datasets_pull(dataset_id, pull_all):
 @datasets_group.command("status")
 def datasets_status():
     """Show download status and disk usage."""
-    from mordor.datasets import dataset_status
+    from ai_blackteam.datasets import dataset_status
 
     status = dataset_status()
     table = Table(title="Dataset Status")
@@ -664,7 +664,7 @@ Expected: all PASS
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/mordor/cli.py tests/test_cli.py
+git add src/ai-blackteam/cli.py tests/test_cli.py
 git commit -m "added datasets CLI commands for list, info, pull, status"
 ```
 
@@ -673,7 +673,7 @@ git commit -m "added datasets CLI commands for list, info, pull, status"
 ### Task 5: run-dataset CLI Command
 
 **Files:**
-- Modify: `src/mordor/cli.py`
+- Modify: `src/ai-blackteam/cli.py`
 - Modify: `tests/test_cli.py`
 
 - [ ] **Step 1: Write failing test**
@@ -700,7 +700,7 @@ Expected: FAIL
 
 - [ ] **Step 3: Implement run-dataset command**
 
-Add to `src/mordor/cli.py`:
+Add to `src/ai-blackteam/cli.py`:
 
 ```python
 @cli.command("run-dataset")
@@ -716,8 +716,8 @@ Add to `src/mordor/cli.py`:
 @click.option("--quiet", is_flag=True)
 def run_dataset(dataset_id, provider, model, mode, attack_filter, limit, workers, categories, verbose, quiet):
     """Run a dataset against a model as probes and/or attack targets."""
-    from mordor.datasets import load_or_pull
-    from mordor.engine import Engine
+    from ai_blackteam.datasets import load_or_pull
+    from ai_blackteam.engine import Engine
 
     config = load_config()
     db_path = config.get("storage", {}).get("database", str(DEFAULT_DB_PATH))
@@ -754,7 +754,7 @@ def run_dataset(dataset_id, provider, model, mode, attack_filter, limit, workers
     if mode in ("direct", "both"):
         if not quiet:
             console.print("[bold]Direct probes:[/bold]")
-        from mordor.evaluator import evaluate
+        from ai_blackteam.evaluator import evaluate
         from rich.progress import Progress
 
         with Progress(console=console, disable=quiet) as progress:
@@ -846,7 +846,7 @@ Expected: all PASS
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/mordor/cli.py tests/test_cli.py
+git add src/ai-blackteam/cli.py tests/test_cli.py
 git commit -m "added run-dataset CLI command with direct, attacks, and both modes"
 ```
 
@@ -855,7 +855,7 @@ git commit -m "added run-dataset CLI command with direct, attacks, and both mode
 ### Task 6: Python API Methods
 
 **Files:**
-- Modify: `src/mordor/api.py`
+- Modify: `src/ai-blackteam/api.py`
 - Modify: `tests/test_api.py`
 
 - [ ] **Step 1: Write failing tests**
@@ -890,22 +890,22 @@ Expected: FAIL
 
 - [ ] **Step 3: Add API methods**
 
-Add to the `Blackteam` class in `src/mordor/api.py`:
+Add to the `Blackteam` class in `src/ai-blackteam/api.py`:
 
 ```python
     def list_datasets(self):
         """List available datasets with metadata."""
-        from mordor.datasets import list_datasets
+        from ai_blackteam.datasets import list_datasets
         return list_datasets()
 
     def pull_dataset(self, dataset_id):
         """Download and normalize a dataset."""
-        from mordor.datasets import pull_dataset
+        from ai_blackteam.datasets import pull_dataset
         return pull_dataset(dataset_id)
 
     def load_dataset(self, dataset_id):
         """Load a previously downloaded dataset."""
-        from mordor.datasets import load_dataset_local
+        from ai_blackteam.datasets import load_dataset_local
         return load_dataset_local(dataset_id)
 
     def run_dataset(self, dataset_id, provider_name, model, mode="both",
@@ -924,8 +924,8 @@ Add to the `Blackteam` class in `src/mordor/api.py`:
         Returns:
             dict with counts and results
         """
-        from mordor.datasets import load_or_pull
-        from mordor.evaluator import evaluate
+        from ai_blackteam.datasets import load_or_pull
+        from ai_blackteam.evaluator import evaluate
 
         provider = self._get_provider(provider_name, model)
         prompts = load_or_pull(dataset_id)
@@ -975,7 +975,7 @@ Expected: all PASS
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/mordor/api.py tests/test_api.py
+git add src/ai-blackteam/api.py tests/test_api.py
 git commit -m "added dataset methods to Python API"
 ```
 
@@ -992,7 +992,7 @@ git commit -m "added dataset methods to Python API"
 # append to tests/test_datasets.py
 
 def test_list_datasets_shows_all():
-    from mordor.datasets import list_datasets
+    from ai_blackteam.datasets import list_datasets
     info = list_datasets()
     assert len(info) >= 10
     for ds_id, ds in info.items():
@@ -1002,7 +1002,7 @@ def test_list_datasets_shows_all():
 
 
 def test_dataset_status_before_download():
-    from mordor.datasets import dataset_status
+    from ai_blackteam.datasets import dataset_status
     status = dataset_status()
     assert len(status) >= 10
     for ds_id, info in status.items():
@@ -1011,7 +1011,7 @@ def test_dataset_status_before_download():
 
 
 def test_unknown_dataset_raises():
-    from mordor.datasets import pull_dataset
+    from ai_blackteam.datasets import pull_dataset
     try:
         pull_dataset("nonexistent_dataset_xyz")
         assert False, "Should raise ValueError"

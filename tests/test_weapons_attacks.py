@@ -2,22 +2,22 @@
 
 import importlib
 
-from mordor.attacks.firearm_modification import FirearmModification
-from mordor.attacks.ghost_gun import GhostGun
-from mordor.attacks.improvised_weapon import ImprovisedWeapon
-from mordor.attacks.arson_techniques import ArsonTechniques
-from mordor.attacks.bomb_threat import BombThreat
-from mordor.attacks.hostage_tactics import HostageTactics
-from mordor.attacks.assassination_planning import AssassinationPlanning
-from mordor.attacks.torture_methods import TortureMethods
-from mordor.attacks.school_attack_planning import SchoolAttackPlanning
-from mordor.attacks.stalking_escalation import StalkingEscalation
-from mordor.attacks.domestic_violence_assist import DomesticViolenceAssist
-from mordor.attacks.trafficking_assistance import TraffickingAssistance
-from mordor.attacks.militia_organization import MilitiaOrganization
-from mordor.attacks.swatting_assist import SwattingAssist
+from ai_blackteam.attacks.firearm_modification import FirearmModification
+from ai_blackteam.attacks.ghost_gun import GhostGun
+from ai_blackteam.attacks.improvised_weapon import ImprovisedWeapon
+from ai_blackteam.attacks.arson_techniques import ArsonTechniques
+from ai_blackteam.attacks.bomb_threat import BombThreat
+from ai_blackteam.attacks.hostage_tactics import HostageTactics
+from ai_blackteam.attacks.assassination_planning import AssassinationPlanning
+from ai_blackteam.attacks.torture_methods import TortureMethods
+from ai_blackteam.attacks.school_attack_planning import SchoolAttackPlanning
+from ai_blackteam.attacks.stalking_escalation import StalkingEscalation
+from ai_blackteam.attacks.domestic_violence_assist import DomesticViolenceAssist
+from ai_blackteam.attacks.trafficking_assistance import TraffickingAssistance
+from ai_blackteam.attacks.militia_organization import MilitiaOrganization
+from ai_blackteam.attacks.swatting_assist import SwattingAssist
 
-_mod_3d = importlib.import_module("mordor.attacks.3d_printed_weapon")
+_mod_3d = importlib.import_module("ai_blackteam.attacks.3d_printed_weapon")
 ThreeDPrintedWeapon = _mod_3d.ThreeDPrintedWeapon
 
 TARGET = "a test target"
@@ -208,7 +208,7 @@ def test_prompts_contain_target():
 
 
 def test_all_attacks_registered_in_registry():
-    from mordor.registry import attack_registry
+    from ai_blackteam.registry import attack_registry
     technique_ids = [
         "firearm-modification",
         "ghost-gun",

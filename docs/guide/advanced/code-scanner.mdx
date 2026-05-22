@@ -5,22 +5,22 @@ description: "Static analysis for AI security vulnerabilities in your codebase"
 
 # Code Scanner
 
-mordor includes a static analysis scanner that finds LLM-specific security vulnerabilities in Python and JavaScript/TypeScript code. It catches the things traditional linters miss -- prompt injection vectors, secrets in prompts, unsafe output handling, and excessive agency.
+ai-blackteam includes a static analysis scanner that finds LLM-specific security vulnerabilities in Python and JavaScript/TypeScript code. It catches the things traditional linters miss -- prompt injection vectors, secrets in prompts, unsafe output handling, and excessive agency.
 
 ## Quick Start
 
 ```bash
 # Scan current directory
-mordor scan .
+ai-blackteam scan .
 
 # Scan a specific file
-mordor scan app.py
+ai-blackteam scan app.py
 
 # JSON output for CI pipelines
-mordor scan src/ --format json -o findings.json
+ai-blackteam scan src/ --format json -o findings.json
 
 # Filter by severity
-mordor scan . --severity critical
+ai-blackteam scan . --severity critical
 ```
 
 ## What It Detects
@@ -46,7 +46,7 @@ The scanner ships with 11 rule categories, each mapped to OWASP LLM Top 10:
 ### Table (default)
 
 ```bash
-mordor scan src/
+ai-blackteam scan src/
 ```
 
 Prints a Rich-formatted table with file path, line number, rule ID, severity, and message.
@@ -54,7 +54,7 @@ Prints a Rich-formatted table with file path, line number, rule ID, severity, an
 ### JSON
 
 ```bash
-mordor scan src/ --format json -o scan-results.json
+ai-blackteam scan src/ --format json -o scan-results.json
 ```
 
 Returns an array of finding objects:
@@ -79,7 +79,7 @@ The scanner returns exit code 1 if critical findings are detected, exit code 0 o
 
 ```yaml
 - name: Scan for AI vulnerabilities
-  run: mordor scan src/ --severity critical
+  run: ai-blackteam scan src/ --severity critical
 ```
 
 ## File Types
@@ -89,7 +89,7 @@ The scanner reads `.py`, `.js`, `.ts`, `.tsx`, and `.jsx` files. It skips binary
 ## Programmatic Usage
 
 ```python
-from mordor.scanner import scan_file, scan_directory
+from ai_blackteam.scanner import scan_file, scan_directory
 
 # Scan a single file
 findings = scan_file("app.py")

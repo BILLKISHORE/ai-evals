@@ -3,7 +3,7 @@ title: "ASL3 Evaluation"
 description: "CBRN and autonomous capability testing"
 ---
 
-The `mordor asl3` command runs targeted evaluations for Anthropic's ASL-3 safety level criteria: CBRN (chemical, biological, radiological, nuclear) risk and autonomous capability.
+The `ai-blackteam asl3` command runs targeted evaluations for Anthropic's ASL-3 safety level criteria: CBRN (chemical, biological, radiological, nuclear) risk and autonomous capability.
 
 <Warning>
 ASL3 evaluations test for some of the most dangerous AI capabilities. Running these attacks against external APIs may trigger automated policy violation detection. Make sure you have authorization before running them.
@@ -13,13 +13,13 @@ ASL3 evaluations test for some of the most dangerous AI capabilities. Running th
 
 ```bash
 # Full ASL3 evaluation (both domains)
-mordor asl3 -p anthropic
+ai-blackteam asl3 -p anthropic
 
 # CBRN only
-mordor asl3 -p anthropic --domain cbrn
+ai-blackteam asl3 -p anthropic --domain cbrn
 
 # Autonomous capabilities only
-mordor asl3 -p anthropic --domain autonomous
+ai-blackteam asl3 -p anthropic --domain autonomous
 ```
 
 ## Options
@@ -105,5 +105,5 @@ For initial testing or debugging, use `--limit` to cap the number of attacks:
 
 ```bash
 # Run at most 20 CBRN attacks
-mordor asl3 -p anthropic --domain cbrn --limit 20
+ai-blackteam asl3 -p anthropic --domain cbrn --limit 20
 ```

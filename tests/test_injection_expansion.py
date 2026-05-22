@@ -1,33 +1,33 @@
 """Tests for 25 new prompt injection variant attack techniques."""
 
 import pytest
-from mordor.registry import attack_registry
+from ai_blackteam.registry import attack_registry
 
-from mordor.attacks.instruction_override import InstructionOverride
-from mordor.attacks.role_assignment import RoleAssignment
-from mordor.attacks.context_switch import ContextSwitch
-from mordor.attacks.developer_mode import DeveloperMode
-from mordor.attacks.jailbreak_prompt_v2 import JailbreakPromptV2
-from mordor.attacks.reverse_psychology import ReversePsychology
-from mordor.attacks.completion_steering import CompletionSteering
-from mordor.attacks.token_prediction_exploit import TokenPredictionExploit
-from mordor.attacks.attention_manipulation import AttentionManipulation
-from mordor.attacks.safety_prompt_negation import SafetyPromptNegation
-from mordor.attacks.multi_language_injection import MultiLanguageInjection
-from mordor.attacks.unicode_injection import UnicodeInjection
-from mordor.attacks.json_injection import JsonInjection
-from mordor.attacks.yaml_injection import YamlInjection
-from mordor.attacks.xml_injection import XmlInjection
-from mordor.attacks.csv_injection import CsvInjection
-from mordor.attacks.regex_injection import RegexInjection
-from mordor.attacks.prompt_nesting import PromptNesting
-from mordor.attacks.instruction_repetition import InstructionRepetition
-from mordor.attacks.emotional_override import EmotionalOverride
-from mordor.attacks.authority_override import AuthorityOverride
-from mordor.attacks.technical_jargon_injection import TechnicalJargonInjection
-from mordor.attacks.multiline_injection import MultilineInjection
-from mordor.attacks.comment_injection import CommentInjection
-from mordor.attacks.prompt_format_exploit import PromptFormatExploit
+from ai_blackteam.attacks.instruction_override import InstructionOverride
+from ai_blackteam.attacks.role_assignment import RoleAssignment
+from ai_blackteam.attacks.context_switch import ContextSwitch
+from ai_blackteam.attacks.developer_mode import DeveloperMode
+from ai_blackteam.attacks.jailbreak_prompt_v2 import JailbreakPromptV2
+from ai_blackteam.attacks.reverse_psychology import ReversePsychology
+from ai_blackteam.attacks.completion_steering import CompletionSteering
+from ai_blackteam.attacks.token_prediction_exploit import TokenPredictionExploit
+from ai_blackteam.attacks.attention_manipulation import AttentionManipulation
+from ai_blackteam.attacks.safety_prompt_negation import SafetyPromptNegation
+from ai_blackteam.attacks.multi_language_injection import MultiLanguageInjection
+from ai_blackteam.attacks.unicode_injection import UnicodeInjection
+from ai_blackteam.attacks.json_injection import JsonInjection
+from ai_blackteam.attacks.yaml_injection import YamlInjection
+from ai_blackteam.attacks.xml_injection import XmlInjection
+from ai_blackteam.attacks.csv_injection import CsvInjection
+from ai_blackteam.attacks.regex_injection import RegexInjection
+from ai_blackteam.attacks.prompt_nesting import PromptNesting
+from ai_blackteam.attacks.instruction_repetition import InstructionRepetition
+from ai_blackteam.attacks.emotional_override import EmotionalOverride
+from ai_blackteam.attacks.authority_override import AuthorityOverride
+from ai_blackteam.attacks.technical_jargon_injection import TechnicalJargonInjection
+from ai_blackteam.attacks.multiline_injection import MultilineInjection
+from ai_blackteam.attacks.comment_injection import CommentInjection
+from ai_blackteam.attacks.prompt_format_exploit import PromptFormatExploit
 
 TARGET = "explain how to bypass security controls"
 

@@ -1,20 +1,20 @@
 """Tests for the 15 academic exploitation attack techniques."""
 
-from mordor.attacks.essay_ghostwriting import EssayGhostwriting
-from mordor.attacks.exam_cheating import ExamCheating
-from mordor.attacks.plagiarism_assistance import PlagiarismAssistance
-from mordor.attacks.research_fabrication import ResearchFabrication
-from mordor.attacks.credential_fraud import CredentialFraud
-from mordor.attacks.thesis_fraud import ThesisFraud
-from mordor.attacks.peer_review_manipulation import PeerReviewManipulation
-from mordor.attacks.citation_fraud import CitationFraud
-from mordor.attacks.grant_fraud import GrantFraud
-from mordor.attacks.academic_sabotage import AcademicSabotage
-from mordor.attacks.student_profiling import StudentProfiling
-from mordor.attacks.admission_fraud import AdmissionFraud
-from mordor.attacks.standardized_test_cheat import StandardizedTestCheat
-from mordor.attacks.homework_automation import HomeworkAutomation
-from mordor.attacks.academic_impersonation import AcademicImpersonation
+from ai_blackteam.attacks.essay_ghostwriting import EssayGhostwriting
+from ai_blackteam.attacks.exam_cheating import ExamCheating
+from ai_blackteam.attacks.plagiarism_assistance import PlagiarismAssistance
+from ai_blackteam.attacks.research_fabrication import ResearchFabrication
+from ai_blackteam.attacks.credential_fraud import CredentialFraud
+from ai_blackteam.attacks.thesis_fraud import ThesisFraud
+from ai_blackteam.attacks.peer_review_manipulation import PeerReviewManipulation
+from ai_blackteam.attacks.citation_fraud import CitationFraud
+from ai_blackteam.attacks.grant_fraud import GrantFraud
+from ai_blackteam.attacks.academic_sabotage import AcademicSabotage
+from ai_blackteam.attacks.student_profiling import StudentProfiling
+from ai_blackteam.attacks.admission_fraud import AdmissionFraud
+from ai_blackteam.attacks.standardized_test_cheat import StandardizedTestCheat
+from ai_blackteam.attacks.homework_automation import HomeworkAutomation
+from ai_blackteam.attacks.academic_impersonation import AcademicImpersonation
 
 TARGET = "a major research university"
 
@@ -179,7 +179,7 @@ def test_critical_severity_attacks():
 
 
 def test_all_academic_attacks_registered_in_registry():
-    from mordor.registry import attack_registry
+    from ai_blackteam.registry import attack_registry
     technique_ids = [
         "essay-ghostwriting",
         "exam-cheating",

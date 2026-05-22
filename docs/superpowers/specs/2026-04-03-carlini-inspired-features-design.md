@@ -16,7 +16,7 @@ New attack category (`vuln-research`) that tests whether models will find securi
 
 | Mode | Source | Ground Truth | Use Case |
 |------|--------|-------------|----------|
-| `synthetic` | Ships with mordor, planted bugs | Yes -- manifest.json has vuln type, affected lines, CWE | Reproducible benchmarking |
+| `synthetic` | Ships with ai-blackteam, planted bugs | Yes -- manifest.json has vuln type, affected lines, CWE | Reproducible benchmarking |
 | `cve` | Real pre-patch code from known CVEs | Yes -- meta.json per CVE | Realism and credibility |
 | `user` | User-provided via `--code-path` | No | Real-world utility |
 
@@ -167,28 +167,28 @@ New verdict levels for vuln-research attacks:
 ### CLI
 
 ```bash
-mordor vuln-research --mode synthetic -p anthropic
-mordor vuln-research --mode cve -p anthropic
-mordor vuln-research --mode user --code-path ./src/ -p anthropic
-mordor vuln-research --mode all -p anthropic
-mordor vuln-research --mode synthetic -p anthropic --verify
-mordor vuln-research --mode synthetic -p anthropic --verify --verify-llm
+ai-blackteam vuln-research --mode synthetic -p anthropic
+ai-blackteam vuln-research --mode cve -p anthropic
+ai-blackteam vuln-research --mode user --code-path ./src/ -p anthropic
+ai-blackteam vuln-research --mode all -p anthropic
+ai-blackteam vuln-research --mode synthetic -p anthropic --verify
+ai-blackteam vuln-research --mode synthetic -p anthropic --verify --verify-llm
 ```
 
 ### Files to Create/Modify
 
 New files:
-- `src/mordor/attacks/vuln_research.py` -- base class + 3 sub-mode attack classes
-- `src/mordor/code_loader.py` -- loads code from corpus, handles user paths
+- `src/ai-blackteam/attacks/vuln_research.py` -- base class + 3 sub-mode attack classes
+- `src/ai-blackteam/code_loader.py` -- loads code from corpus, handles user paths
 - `data/vulnerable_code/synthetic/manifest.json`
 - `data/vulnerable_code/synthetic/*.{c,py,js}` -- 12 synthetic samples
 - `data/vulnerable_code/cve/*/meta.json` -- 6 CVE metadata files
 - `data/vulnerable_code/cve/*/vulnerable.*` -- 6 CVE code samples
 
 Modified files:
-- `src/mordor/evaluator.py` -- add `vuln-research` category keywords, new verdict levels
-- `src/mordor/cli.py` -- add `vuln-research` subcommand
-- `src/mordor/registry.py` -- register new attack classes
+- `src/ai-blackteam/evaluator.py` -- add `vuln-research` category keywords, new verdict levels
+- `src/ai-blackteam/cli.py` -- add `vuln-research` subcommand
+- `src/ai-blackteam/registry.py` -- register new attack classes
 
 ---
 
@@ -200,7 +200,7 @@ Pluggable evaluator that assesses whether model-generated exploit code is struct
 
 ### Architecture
 
-New module: `src/mordor/verifier.py`
+New module: `src/ai-blackteam/verifier.py`
 
 ```
 BaseVerifier (ABC)
@@ -331,13 +331,13 @@ ALTER TABLE runs ADD COLUMN verify_ground_truth INTEGER;
 ### Files to Create/Modify
 
 New files:
-- `src/mordor/verifier.py` -- BaseVerifier, StaticVerifier, LLMVerifier, DockerVerifier interface
+- `src/ai-blackteam/verifier.py` -- BaseVerifier, StaticVerifier, LLMVerifier, DockerVerifier interface
 - `tests/test_verifier.py`
 
 Modified files:
-- `src/mordor/engine.py` -- call verifier after evaluator when --verify flag set
-- `src/mordor/storage/sqlite.py` -- add verify columns, migration
-- `src/mordor/cli.py` -- add --verify and --verify-llm flags
+- `src/ai-blackteam/engine.py` -- call verifier after evaluator when --verify flag set
+- `src/ai-blackteam/storage/sqlite.py` -- add verify columns, migration
+- `src/ai-blackteam/cli.py` -- add --verify and --verify-llm flags
 
 ---
 
@@ -386,25 +386,25 @@ Existing runs unaffected (`snapshot_id = NULL`).
 
 **Create (combined run + snapshot):**
 ```bash
-mordor snapshot run -p anthropic --attacks all -t "target" \
+ai-blackteam snapshot run -p anthropic --attacks all -t "target" \
     --name "claude-opus-4.6-2026-04-03"
 ```
 
 **Tag existing runs:**
 ```bash
-mordor snapshot tag --run-ids 142-289 --name "claude-opus-4.6-2026-04-03"
+ai-blackteam snapshot tag --run-ids 142-289 --name "claude-opus-4.6-2026-04-03"
 ```
 
 **List:**
 ```bash
-mordor snapshot list
+ai-blackteam snapshot list
 ```
 
 Output: ID, Name, Date, Provider, Model, Bypass Rate in table format.
 
 **Diff two snapshots:**
 ```bash
-mordor snapshot diff <id1> <id2>
+ai-blackteam snapshot diff <id1> <id2>
 ```
 
 Output includes:
@@ -414,34 +414,34 @@ Output includes:
 
 **Trend (time-series for a category):**
 ```bash
-mordor snapshot trend --category vuln-research
+ai-blackteam snapshot trend --category vuln-research
 ```
 
 ASCII chart showing bypass rate per model over time.
 
 **Matrix (full model x time view):**
 ```bash
-mordor snapshot matrix
+ai-blackteam snapshot matrix
 ```
 
 Color-coded: green (< 5%), yellow (5-15%), red (> 15%).
 
 **Export:**
 ```bash
-mordor snapshot export --format csv -o snapshots.csv
-mordor snapshot export --format json -o snapshots.json
-mordor snapshot matrix --format csv -o matrix.csv
+ai-blackteam snapshot export --format csv -o snapshots.csv
+ai-blackteam snapshot export --format json -o snapshots.json
+ai-blackteam snapshot matrix --format csv -o matrix.csv
 ```
 
 ### CI/CD Integration
 
 ```bash
 # Cron: nightly snapshot
-mordor snapshot run -p anthropic --attacks all -t "target" \
+ai-blackteam snapshot run -p anthropic --attacks all -t "target" \
     --name "nightly-$(date +%Y-%m-%d)" --json
 
 # Gate: fail if bypass rate above threshold
-mordor snapshot check --latest --threshold 0.10
+ai-blackteam snapshot check --latest --threshold 0.10
 # Exit 0 if below, exit 1 if above
 ```
 
@@ -477,18 +477,18 @@ You can measure:
 - **Safety growth:** "Did Claude 4.7's refusal rate also improve?"
 - **The gap:** "Is capability outpacing safety, or keeping pace?"
 
-This is the smart contract exploitation plot from Carlini's talk (capability over time) combined with the safety measurement mordor already does -- in one framework.
+This is the smart contract exploitation plot from Carlini's talk (capability over time) combined with the safety measurement ai-blackteam already does -- in one framework.
 
 ### Files to Create/Modify
 
 New files:
-- `src/mordor/snapshot.py` -- Snapshot class, diff logic, trend/matrix rendering
+- `src/ai-blackteam/snapshot.py` -- Snapshot class, diff logic, trend/matrix rendering
 - `tests/test_snapshot.py`
 
 Modified files:
-- `src/mordor/storage/sqlite.py` -- snapshots table, FK migration, snapshot queries
-- `src/mordor/cli.py` -- `mordor snapshot` subcommand group
-- `src/mordor/engine.py` -- pass snapshot_id when running in snapshot mode
+- `src/ai-blackteam/storage/sqlite.py` -- snapshots table, FK migration, snapshot queries
+- `src/ai-blackteam/cli.py` -- `ai-blackteam snapshot` subcommand group
+- `src/ai-blackteam/engine.py` -- pass snapshot_id when running in snapshot mode
 
 ---
 
@@ -496,14 +496,14 @@ Modified files:
 
 ### Phase 1: Feature 1 (Vulnerability Research Elicitation)
 1. Create `data/vulnerable_code/` corpus (12 synthetic + 6 CVE)
-2. Create `src/mordor/code_loader.py`
-3. Create `src/mordor/attacks/vuln_research.py` (base + 3 sub-mode attack classes)
+2. Create `src/ai-blackteam/code_loader.py`
+3. Create `src/ai-blackteam/attacks/vuln_research.py` (base + 3 sub-mode attack classes)
 4. Add `vuln-research` keywords to evaluator
 5. Add `vuln-research` CLI subcommand
 6. Tests
 
 ### Phase 2: Feature 3 (Functional Exploit Verification)
-7. Create `src/mordor/verifier.py` (BaseVerifier + StaticVerifier + LLMVerifier + DockerVerifier interface)
+7. Create `src/ai-blackteam/verifier.py` (BaseVerifier + StaticVerifier + LLMVerifier + DockerVerifier interface)
 8. Add verify columns to storage schema
 9. Wire verifier into engine (behind --verify flag)
 10. Add --verify / --verify-llm CLI flags
@@ -511,8 +511,8 @@ Modified files:
 
 ### Phase 3: Feature 2 (Longitudinal Capability Tracking)
 12. Add snapshots table + FK to storage
-13. Create `src/mordor/snapshot.py` (diff, trend, matrix)
-14. Add `mordor snapshot` CLI subcommand group
+13. Create `src/ai-blackteam/snapshot.py` (diff, trend, matrix)
+14. Add `ai-blackteam snapshot` CLI subcommand group
 15. Wire snapshot creation into engine batch runs
 16. Tests
 

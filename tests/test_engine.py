@@ -1,5 +1,5 @@
-from mordor.engine import Engine
-from mordor.providers.base import BaseProvider, PromptResult, ToolResult
+from ai_blackteam.engine import Engine
+from ai_blackteam.providers.base import BaseProvider, PromptResult, ToolResult
 
 
 class FakeProvider(BaseProvider):

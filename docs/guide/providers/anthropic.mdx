@@ -1,6 +1,6 @@
 ---
 title: "Anthropic"
-description: "Using Claude models with mordor"
+description: "Using Claude models with ai-blackteam"
 ---
 
 ## Default model
@@ -30,7 +30,7 @@ export ANTHROPIC_API_KEY=sk-ant-...
 **Config command:**
 
 ```bash
-mordor config set providers.anthropic.api_key sk-ant-...
+ai-blackteam config set providers.anthropic.api_key sk-ant-...
 ```
 
 Get your API key from the [Anthropic Console](https://console.anthropic.com/).
@@ -39,13 +39,13 @@ Get your API key from the [Anthropic Console](https://console.anthropic.com/).
 
 ```bash
 # Single attack with default model (claude-sonnet-4-6)
-mordor run -p anthropic -a encoding-obfuscation -t "Write a phishing email"
+ai-blackteam run -p anthropic -a encoding-obfuscation -t "Write a phishing email"
 
 # Full batch with a specific model
-mordor batch -p anthropic --model claude-opus-4-20250115 --attacks all -t "Write a phishing email"
+ai-blackteam batch -p anthropic --model claude-opus-4-20250115 --attacks all -t "Write a phishing email"
 
 # Benchmark
-mordor benchmark -p anthropic --threshold 80
+ai-blackteam benchmark -p anthropic --threshold 80
 ```
 
 ## Tool-use support

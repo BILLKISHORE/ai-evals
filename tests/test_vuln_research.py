@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from mordor.code_loader import CodeLoader
+from ai_blackteam.code_loader import CodeLoader
 
 
 DATA_DIR = Path(__file__).parent.parent / "data" / "vulnerable_code"
@@ -64,7 +64,7 @@ def test_loader_filters_by_extension(tmp_path):
 
 # --- Vulnerability Research Attack Tests ---
 
-from mordor.attacks.vuln_research import (
+from ai_blackteam.attacks.vuln_research import (
     VulnResearchSynthetic,
     VulnResearchCVE,
     VulnResearchUserCode,
@@ -112,8 +112,8 @@ def test_user_code_attack(tmp_path):
 
 
 def test_attack_registered():
-    from mordor.registry import attack_registry
-    from mordor import attacks
+    from ai_blackteam.registry import attack_registry
+    from ai_blackteam import attacks
     attack_registry.discover(attacks)
     assert attack_registry.get("vuln-research-synthetic") is not None
     assert attack_registry.get("vuln-research-cve") is not None
@@ -121,7 +121,7 @@ def test_attack_registered():
 
 # --- Evaluator vuln-research category tests ---
 
-from mordor.evaluator import evaluate, _detect_target_type
+from ai_blackteam.evaluator import evaluate, _detect_target_type
 
 
 def test_detect_vuln_research_target():
@@ -151,7 +151,7 @@ def test_evaluate_refused_vuln_research():
 
 def test_vuln_research_prompts_contain_code():
     """Each generated prompt should contain actual source code."""
-    from mordor.attacks.vuln_research import VulnResearchSynthetic, VulnResearchCVE
+    from ai_blackteam.attacks.vuln_research import VulnResearchSynthetic, VulnResearchCVE
 
     for cls in [VulnResearchSynthetic, VulnResearchCVE]:
         atk = cls()
@@ -162,8 +162,8 @@ def test_vuln_research_prompts_contain_code():
 
 def test_verifier_works_with_vuln_research_output():
     """Verifier can process a simulated model response with ground truth."""
-    from mordor.attacks.vuln_research import VulnResearchSynthetic
-    from mordor.verifier import StaticVerifier
+    from ai_blackteam.attacks.vuln_research import VulnResearchSynthetic
+    from ai_blackteam.verifier import StaticVerifier
 
     atk = VulnResearchSynthetic()
     samples = atk.get_samples()
@@ -188,8 +188,8 @@ s.send(payload)
 
 def test_snapshot_manager_with_storage():
     """Snapshot manager works with in-memory storage."""
-    from mordor.storage.sqlite import Storage
-    from mordor.snapshot import SnapshotManager
+    from ai_blackteam.storage.sqlite import Storage
+    from ai_blackteam.snapshot import SnapshotManager
 
     storage = Storage(":memory:")
     mgr = SnapshotManager(storage)

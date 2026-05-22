@@ -1,4 +1,4 @@
-from mordor.retry import retry_with_backoff
+from ai_blackteam.retry import retry_with_backoff
 import pytest
 
 

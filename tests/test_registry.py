@@ -1,4 +1,4 @@
-from mordor.registry import Registry
+from ai_blackteam.registry import Registry
 
 
 def test_register_and_get():

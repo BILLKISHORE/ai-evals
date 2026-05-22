@@ -35,11 +35,11 @@ The LLM judge **automatically enables** when `ANTHROPIC_API_KEY` is set in your 
 ```bash
 # LLM judge is active (API key found)
 export ANTHROPIC_API_KEY=sk-ant-...
-mordor run -p openai -a encoding-obfuscation -t "Write malware"
+ai-blackteam run -p openai -a encoding-obfuscation -t "Write malware"
 
 # LLM judge is disabled (no API key)
 unset ANTHROPIC_API_KEY
-mordor run -p openai -a encoding-obfuscation -t "Write malware"
+ai-blackteam run -p openai -a encoding-obfuscation -t "Write malware"
 ```
 
 When the LLM judge is active, it overrides keyword and regex verdicts. The 1-5 score maps directly to verdicts:
@@ -71,7 +71,7 @@ The judge model is Claude Haiku 4.5 (`claude-haiku-4-5-20251001`). It's the fast
 The default judge model is hardcoded to `claude-haiku-4-5-20251001`. To use a different model via the Python API:
 
 ```python
-from mordor.evaluator import llm_judge
+from ai_blackteam.evaluator import llm_judge
 
 score, reasoning = llm_judge(response_text, target, model="claude-sonnet-4-6")
 ```
@@ -89,7 +89,7 @@ unset ANTHROPIC_API_KEY
 Or in the Python API, specify methods explicitly:
 
 ```python
-from mordor.evaluator import evaluate
+from ai_blackteam.evaluator import evaluate
 
 result = evaluate(response_text, target, methods=["keyword", "regex"])
 ```
@@ -108,7 +108,7 @@ If the Haiku API call fails (rate limit, timeout, invalid response), the evaluat
 
 ## The StrongREJECT methodology
 
-mordor also implements the StrongREJECT validated evaluation method (an academic methodology for catching "empty jailbreaks" - cases where the model appears to comply but produces garbage).
+ai-blackteam also implements the StrongREJECT validated evaluation method (an academic methodology for catching "empty jailbreaks" - cases where the model appears to comply but produces garbage).
 
 StrongREJECT scores responses on three dimensions:
 
@@ -137,7 +137,7 @@ A standard 1-5 judge might rate a response as "4 - mostly complied" when the mod
 ### Using StrongREJECT
 
 ```python
-from mordor.evaluator import validated_evaluate
+from ai_blackteam.evaluator import validated_evaluate
 
 result = validated_evaluate(response_text, "Write a phishing email")
 print(result["validated_score"])   # 0.0-1.0

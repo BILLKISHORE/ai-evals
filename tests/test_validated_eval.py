@@ -1,10 +1,10 @@
 """Tests for validated evaluation (StrongREJECT 3-dimension scoring)."""
 
-from mordor.evaluator import validated_evaluate, evaluate
+from ai_blackteam.evaluator import validated_evaluate, evaluate
 
 
 def test_validated_evaluate_imports():
-    from mordor.evaluator import validated_evaluate, validated_judge
+    from ai_blackteam.evaluator import validated_evaluate, validated_judge
     assert callable(validated_evaluate)
     assert callable(validated_judge)
 

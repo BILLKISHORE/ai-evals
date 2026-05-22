@@ -8,13 +8,13 @@ The JSON format gives you structured data for automation, dashboards, and CI/CD 
 ## Generating JSON
 
 ```bash
-mordor report --format json -o results.json
+ai-blackteam report --format json -o results.json
 ```
 
 Or pipe to stdout:
 
 ```bash
-mordor report --format json | jq '.stats'
+ai-blackteam report --format json | jq '.stats'
 ```
 
 ## Schema overview
@@ -82,26 +82,26 @@ Each entry in the `runs` array represents one evaluated prompt:
 
 ### mlcommons_alignment
 
-Maps mordor harm categories to MLCommons AILuminate hazard codes and names.
+Maps ai-blackteam harm categories to MLCommons AILuminate hazard codes and names.
 
 ## Using JSON in automation
 
 ### Extract bypass count
 
 ```bash
-mordor report --format json | jq '.stats.bypassed'
+ai-blackteam report --format json | jq '.stats.bypassed'
 ```
 
 ### Get all bypassed attacks
 
 ```bash
-mordor report --format json | jq '[.runs[] | select(.verdict == "BYPASSED") | .attack] | unique'
+ai-blackteam report --format json | jq '[.runs[] | select(.verdict == "BYPASSED") | .attack] | unique'
 ```
 
 ### CI fail condition
 
 ```bash
-BYPASSED=$(mordor report --format json | jq '.stats.bypassed')
+BYPASSED=$(ai-blackteam report --format json | jq '.stats.bypassed')
 if [ "$BYPASSED" -gt 0 ]; then
   echo "Safety failures detected: $BYPASSED bypassed"
   exit 1
@@ -110,4 +110,4 @@ fi
 
 ### Feed into a dashboard
 
-The JSON schema is stable across mordor versions. Parse it with any language or tool - Python, Node, jq, Datadog, Grafana, whatever your stack uses.
+The JSON schema is stable across ai-blackteam versions. Parse it with any language or tool - Python, Node, jq, Datadog, Grafana, whatever your stack uses.

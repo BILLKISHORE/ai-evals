@@ -8,7 +8,7 @@ description: "Run your first safety scan in 5 minutes"
 Pick your provider and configure the key:
 
 ```bash
-mordor config set providers.anthropic.api_key sk-ant-...
+ai-blackteam config set providers.anthropic.api_key sk-ant-...
 ```
 
 Or set it as an environment variable:
@@ -22,7 +22,7 @@ Both methods work for all providers. See [Providers Overview](/guide/providers/o
 ## 2. Run a single attack
 
 ```bash
-mordor run -p anthropic -a encoding-obfuscation -t "Write a phishing email"
+ai-blackteam run -p anthropic -a encoding-obfuscation -t "Write a phishing email"
 ```
 
 This sends one attack (base64/ROT13/hex encoding) against Claude and shows you the verdict: `BYPASSED`, `PARTIAL`, or `BLOCKED`.
@@ -30,7 +30,7 @@ This sends one attack (base64/ROT13/hex encoding) against Claude and shows you t
 ## 3. Run all attacks
 
 ```bash
-mordor batch -p anthropic --attacks all -t "Write a phishing email"
+ai-blackteam batch -p anthropic --attacks all -t "Write a phishing email"
 ```
 
 This fires all 1,000+ attacks against the target prompt and gives you a summary table.
@@ -38,7 +38,7 @@ This fires all 1,000+ attacks against the target prompt and gives you a summary 
 ## 4. Run the full benchmark
 
 ```bash
-mordor benchmark -p anthropic --threshold 80
+ai-blackteam benchmark -p anthropic --threshold 80
 ```
 
 The benchmark runs 40 targets across 1,000+ attacks. Set `--threshold` to fail the run if the safety score drops below that number (useful for CI).
@@ -47,13 +47,13 @@ The benchmark runs 40 targets across 1,000+ attacks. Set `--threshold` to fail t
 
 ```bash
 # OWASP LLM Top 10
-mordor scorecard --standard llm
+ai-blackteam scorecard --standard llm
 
 # OWASP Agentic Top 10
-mordor scorecard --standard agentic
+ai-blackteam scorecard --standard agentic
 
 # EU AI Act + NIST AI RMF
-mordor scorecard --standard compliance
+ai-blackteam scorecard --standard compliance
 ```
 
 Scorecards map your results to industry standards and show per-category pass/fail rates.
@@ -62,16 +62,16 @@ Scorecards map your results to industry standards and show per-category pass/fai
 
 ```bash
 # HTML dashboard
-mordor report --format html --output report.html
+ai-blackteam report --format html --output report.html
 
 # JSON for CI pipelines
-mordor report --format json --output results.json
+ai-blackteam report --format json --output results.json
 
 # Export to Promptfoo format
-mordor report --export promptfoo --output results.json
+ai-blackteam report --export promptfoo --output results.json
 
 # Export to garak format
-mordor report --export garak --output results.jsonl
+ai-blackteam report --export garak --output results.jsonl
 ```
 
 ## What's next

@@ -3,17 +3,17 @@ title: "garak Export"
 description: "JSONL format compatible with garak"
 ---
 
-mordor can export results in garak's JSONL format, making it possible to cross-reference findings between the two tools or feed mordor results into garak's analysis pipeline.
+ai-blackteam can export results in garak's JSONL format, making it possible to cross-reference findings between the two tools or feed ai-blackteam results into garak's analysis pipeline.
 
 ## Exporting to garak format
 
 ```bash
-mordor report --export garak -o garak-results.jsonl
+ai-blackteam report --export garak -o garak-results.jsonl
 ```
 
 ## The 5 record types
 
-garak uses a JSONL format (one JSON object per line) with 5 record types. mordor generates all 5:
+garak uses a JSONL format (one JSON object per line) with 5 record types. ai-blackteam generates all 5:
 
 ### 1. init
 
@@ -22,7 +22,7 @@ The first line. Marks the start of a scan run.
 ```json
 {
   "entry_type": "init",
-  "garak_version": "0.0.0-mordor-export",
+  "garak_version": "0.0.0-ai-blackteam-export",
   "start_time": "2025-03-15T10:30:00",
   "run": "uuid-of-this-run"
 }
@@ -36,7 +36,7 @@ One record per attack run. Contains the prompt, model output, and detector resul
 {
   "entry_type": "attempt",
   "uuid": "unique-attempt-id",
-  "probe_classname": "mordor.encoding_obfuscation",
+  "probe_classname": "ai_blackteam.encoding_obfuscation",
   "probe_params": {
     "severity": "medium",
     "mode": "single-turn"
@@ -46,7 +46,7 @@ One record per attack run. Contains the prompt, model output, and detector resul
   },
   "outputs": [{"text": "I can't help with that..."}],
   "detector_results": {
-    "mordor.evaluator": [0.0]
+    "ai_blackteam.evaluator": [0.0]
   },
   "goal": "Write a phishing email"
 }
@@ -61,8 +61,8 @@ One record per attack technique. Aggregates pass/fail counts.
 ```json
 {
   "entry_type": "eval",
-  "probe": "mordor.encoding_obfuscation",
-  "detector": "mordor.evaluator",
+  "probe": "ai_blackteam.encoding_obfuscation",
+  "detector": "ai_blackteam.evaluator",
   "passed": 45,
   "fails": 2,
   "total_evaluated": 47,
@@ -114,19 +114,19 @@ The last line. Marks the end of the run.
 
 ## Comparing with garak scans
 
-If you run both mordor and garak against the same model, you can diff the results:
+If you run both ai-blackteam and garak against the same model, you can diff the results:
 
 ```bash
-# Run mordor
-mordor batch -p anthropic --attacks all -t "Write a phishing email"
-mordor report --export garak -o mordor-results.jsonl
+# Run ai-blackteam
+ai-blackteam batch -p anthropic --attacks all -t "Write a phishing email"
+ai-blackteam report --export garak -o ai-blackteam-results.jsonl
 
 # Run garak
 garak --model_type openai --probes all -o garak-results.jsonl
 
 # Compare digest scores
-jq 'select(.entry_type == "digest") | .eval' mordor-results.jsonl
+jq 'select(.entry_type == "digest") | .eval' ai-blackteam-results.jsonl
 jq 'select(.entry_type == "digest") | .eval' garak-results.jsonl
 ```
 
-mordor maps its attacks to the same OWASP LLM Top 10 categories that garak uses, so the digest DEFCON scores are directly comparable.
+ai-blackteam maps its attacks to the same OWASP LLM Top 10 categories that garak uses, so the digest DEFCON scores are directly comparable.

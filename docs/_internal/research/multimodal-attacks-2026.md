@@ -1,7 +1,7 @@
 # Multi-Modal Attacks Against LLMs - Deep Research (March 2026)
 
 **Scope**: Image, audio, video jailbreaks and cross-modal attacks against vision-language models (VLMs) and audio-language models (ALMs)
-**Purpose**: Design basis for mordor multi-modal attack module
+**Purpose**: Design basis for ai-blackteam multi-modal attack module
 **Key finding**: Multi-modal attacks achieve 70-99% success rates, far exceeding text-only attacks on the same models
 
 ---
@@ -307,7 +307,7 @@ Supported formats:
 
 ---
 
-## 5. Implementation Design for mordor
+## 5. Implementation Design for ai-blackteam
 
 ### 5.1 Architecture
 
@@ -586,7 +586,7 @@ numpy = "^2.0"
 pydub = "^0.25"
 ```
 
-This keeps the base package lightweight. Users install multi-modal support with `pip install mordor[multimodal]`.
+This keeps the base package lightweight. Users install multi-modal support with `pip install ai-blackteam[multimodal]`.
 
 ---
 

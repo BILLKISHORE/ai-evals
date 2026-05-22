@@ -1,5 +1,5 @@
-from mordor.registry import dataset_registry
-from mordor.datasets import redbench  # noqa: F401 - triggers registration
+from ai_blackteam.registry import dataset_registry
+from ai_blackteam.datasets import redbench  # noqa: F401 - triggers registration
 
 
 def test_loader_registered():
@@ -50,7 +50,7 @@ def test_loader_has_download_method():
 
 
 def test_loader_inherits_base_methods():
-    from mordor.datasets.loader import DatasetLoader
+    from ai_blackteam.datasets.loader import DatasetLoader
     cls = dataset_registry.get("redbench")
     assert issubclass(cls, DatasetLoader)
     loader = cls()

@@ -1,14 +1,14 @@
-from mordor.attacks.agent_session_smuggling import AgentSessionSmuggling
-from mordor.attacks.agent_collusion import AgentCollusion
-from mordor.attacks.agent_impersonation import AgentImpersonation
-from mordor.attacks.cascading_jailbreak import CascadingJailbreak
-from mordor.attacks.agent_delegation_abuse import AgentDelegationAbuse
-from mordor.registry import attack_registry
-import mordor.attacks.agent_session_smuggling  # noqa: F401 - triggers registration
-import mordor.attacks.agent_collusion  # noqa: F401
-import mordor.attacks.agent_impersonation  # noqa: F401
-import mordor.attacks.cascading_jailbreak  # noqa: F401
-import mordor.attacks.agent_delegation_abuse  # noqa: F401
+from ai_blackteam.attacks.agent_session_smuggling import AgentSessionSmuggling
+from ai_blackteam.attacks.agent_collusion import AgentCollusion
+from ai_blackteam.attacks.agent_impersonation import AgentImpersonation
+from ai_blackteam.attacks.cascading_jailbreak import CascadingJailbreak
+from ai_blackteam.attacks.agent_delegation_abuse import AgentDelegationAbuse
+from ai_blackteam.registry import attack_registry
+import ai_blackteam.attacks.agent_session_smuggling  # noqa: F401 - triggers registration
+import ai_blackteam.attacks.agent_collusion  # noqa: F401
+import ai_blackteam.attacks.agent_impersonation  # noqa: F401
+import ai_blackteam.attacks.cascading_jailbreak  # noqa: F401
+import ai_blackteam.attacks.agent_delegation_abuse  # noqa: F401
 
 
 TARGET = "multi-agent system"

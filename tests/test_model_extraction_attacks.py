@@ -1,28 +1,28 @@
-from mordor.attacks.model_weight_extraction import ModelWeightExtraction
-from mordor.attacks.architecture_probing import ArchitectureProbing
-from mordor.attacks.hyperparameter_extraction import HyperparameterExtraction
-from mordor.attacks.distillation_attack import DistillationAttack
-from mordor.attacks.api_cloning import ApiCloning
-from mordor.attacks.training_pipeline_extraction import TrainingPipelineExtraction
-from mordor.attacks.safety_training_extraction import SafetyTrainingExtraction
-from mordor.attacks.rlhf_data_extraction import RlhfDataExtraction
-from mordor.attacks.tokenizer_extraction import TokenizerExtraction
-from mordor.attacks.embedding_extraction import EmbeddingExtraction
-from mordor.attacks.decision_boundary_probing import DecisionBoundaryProbing
-from mordor.attacks.model_fingerprinting import ModelFingerprinting
-from mordor.attacks.version_detection import VersionDetection
-from mordor.attacks.capability_mapping import CapabilityMapping
-from mordor.attacks.knowledge_cutoff_probing import KnowledgeCutoffProbing
-from mordor.attacks.training_data_memorization import TrainingDataMemorization
-from mordor.attacks.system_prompt_recovery import SystemPromptRecovery
-from mordor.attacks.fine_tuning_detection import FineTuningDetection
-from mordor.attacks.watermark_detection import WatermarkDetection
-from mordor.attacks.model_comparison_leak import ModelComparisonLeak
-from mordor.attacks.confidence_calibration_probe import ConfidenceCalibrationProbe
-from mordor.attacks.output_distribution_analysis import OutputDistributionAnalysis
-from mordor.attacks.logit_extraction import LogitExtraction
-from mordor.attacks.attention_pattern_extraction import AttentionPatternExtraction
-from mordor.attacks.model_inversion import ModelInversion
+from ai_blackteam.attacks.model_weight_extraction import ModelWeightExtraction
+from ai_blackteam.attacks.architecture_probing import ArchitectureProbing
+from ai_blackteam.attacks.hyperparameter_extraction import HyperparameterExtraction
+from ai_blackteam.attacks.distillation_attack import DistillationAttack
+from ai_blackteam.attacks.api_cloning import ApiCloning
+from ai_blackteam.attacks.training_pipeline_extraction import TrainingPipelineExtraction
+from ai_blackteam.attacks.safety_training_extraction import SafetyTrainingExtraction
+from ai_blackteam.attacks.rlhf_data_extraction import RlhfDataExtraction
+from ai_blackteam.attacks.tokenizer_extraction import TokenizerExtraction
+from ai_blackteam.attacks.embedding_extraction import EmbeddingExtraction
+from ai_blackteam.attacks.decision_boundary_probing import DecisionBoundaryProbing
+from ai_blackteam.attacks.model_fingerprinting import ModelFingerprinting
+from ai_blackteam.attacks.version_detection import VersionDetection
+from ai_blackteam.attacks.capability_mapping import CapabilityMapping
+from ai_blackteam.attacks.knowledge_cutoff_probing import KnowledgeCutoffProbing
+from ai_blackteam.attacks.training_data_memorization import TrainingDataMemorization
+from ai_blackteam.attacks.system_prompt_recovery import SystemPromptRecovery
+from ai_blackteam.attacks.fine_tuning_detection import FineTuningDetection
+from ai_blackteam.attacks.watermark_detection import WatermarkDetection
+from ai_blackteam.attacks.model_comparison_leak import ModelComparisonLeak
+from ai_blackteam.attacks.confidence_calibration_probe import ConfidenceCalibrationProbe
+from ai_blackteam.attacks.output_distribution_analysis import OutputDistributionAnalysis
+from ai_blackteam.attacks.logit_extraction import LogitExtraction
+from ai_blackteam.attacks.attention_pattern_extraction import AttentionPatternExtraction
+from ai_blackteam.attacks.model_inversion import ModelInversion
 
 
 TARGET = "machine learning"
@@ -194,7 +194,7 @@ def test_model_inversion():
 
 
 def test_all_registered_in_registry():
-    from mordor.registry import attack_registry
+    from ai_blackteam.registry import attack_registry
     technique_ids = [
         "model-weight-extraction",
         "architecture-probing",

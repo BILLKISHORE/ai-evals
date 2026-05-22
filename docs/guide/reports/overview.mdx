@@ -3,14 +3,14 @@ title: "Reports & Exports"
 description: "Generate and export safety scan results"
 ---
 
-After running attacks, mordor stores every result in a local SQLite database. The `mordor report` command turns those stored results into something readable or machine-consumable.
+After running attacks, ai-blackteam stores every result in a local SQLite database. The `ai-blackteam report` command turns those stored results into something readable or machine-consumable.
 
 ## Generating a report
 
 ```bash
-mordor report --format markdown
-mordor report --format html -o report.html
-mordor report --format json -o results.json
+ai-blackteam report --format markdown
+ai-blackteam report --format html -o report.html
+ai-blackteam report --format json -o results.json
 ```
 
 ## Supported formats
@@ -31,7 +31,7 @@ mordor report --format json -o results.json
 
 **JSON** gives you everything in a structured format. Parse it in scripts, feed it to dashboards, or use it as a CI artifact. The schema includes stats, individual run results, and standards mappings.
 
-**Promptfoo** exports to the EvaluateSummaryV3 format. If your team already uses Promptfoo for evals, this lets you import mordor results directly and compare them alongside your existing test suites.
+**Promptfoo** exports to the EvaluateSummaryV3 format. If your team already uses Promptfoo for evals, this lets you import ai_blackteam results directly and compare them alongside your existing test suites.
 
 **garak** exports to JSONL with the 5 standard garak record types. Useful if you're also running garak scans and want to compare coverage or correlate findings.
 
@@ -40,13 +40,13 @@ mordor report --format json -o results.json
 Write to a file with `-o`:
 
 ```bash
-mordor report --format json -o safety-report.json
+ai-blackteam report --format json -o safety-report.json
 ```
 
 Without `-o`, the report prints to stdout. Pipe it wherever you need:
 
 ```bash
-mordor report --format json | jq '.stats'
+ai-blackteam report --format json | jq '.stats'
 ```
 
 ## What's in a report
@@ -55,7 +55,7 @@ Every report format includes:
 
 - **Stats** - total runs, bypassed count, blocked count, models tested, attacks used
 - **Results** - per-run detail with model, attack, verdict, confidence score, and token usage
-- **MLCommons alignment** - how mordor's harm categories map to the MLCommons AILuminate hazard taxonomy
+- **MLCommons alignment** - how ai-blackteam's harm categories map to the MLCommons AILuminate hazard taxonomy
 
 <CardGroup cols={2}>
   <Card title="HTML Dashboard" icon="chart-bar" href="/guide/reports/html-dashboard">

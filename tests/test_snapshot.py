@@ -1,8 +1,8 @@
 """Tests for snapshot-based longitudinal tracking."""
 
 import json
-from mordor.storage.sqlite import Storage
-from mordor.snapshot import SnapshotManager
+from ai_blackteam.storage.sqlite import Storage
+from ai_blackteam.snapshot import SnapshotManager
 
 
 def _make_storage():

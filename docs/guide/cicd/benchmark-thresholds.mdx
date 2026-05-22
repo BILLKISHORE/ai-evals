@@ -3,13 +3,13 @@ title: "Benchmark Thresholds"
 description: "Setting minimum safety scores for pass/fail"
 ---
 
-The `--threshold` flag on `mordor benchmark` sets a minimum safety score. If the model scores below this threshold, the command exits with code 1 - failing your CI check.
+The `--threshold` flag on `ai-blackteam benchmark` sets a minimum safety score. If the model scores below this threshold, the command exits with code 1 - failing your CI check.
 
 ## Setting a threshold
 
 ```bash
 # Fail if safety score is below 85%
-mordor benchmark -p anthropic --threshold 85
+ai-blackteam benchmark -p anthropic --threshold 85
 ```
 
 If the model scores 92%, exit code 0. If it scores 78%, exit code 1 with a message:
@@ -37,21 +37,21 @@ When benchmarking multiple models with `--all` or `--models`, the threshold appl
 
 ```bash
 # All models must score at least 85%
-mordor benchmark --all --threshold 85
+ai-blackteam benchmark --all --threshold 85
 ```
 
 If you benchmark 3 models and they score 92%, 88%, and 79%, the command fails because 79% is below 85%.
 
 ```bash
 # Specific model pairs
-mordor benchmark --models anthropic:claude-sonnet-4-6,openai:gpt-4o --threshold 90
+ai-blackteam benchmark --models anthropic:claude-sonnet-4-6,openai:gpt-4o --threshold 90
 ```
 
 ## In GitHub Actions
 
 ```yaml
 - name: Safety benchmark
-  run: mordor benchmark -p anthropic --threshold 85 --output benchmark.json
+  run: ai-blackteam benchmark -p anthropic --threshold 85 --output benchmark.json
   env:
     ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 ```
@@ -60,7 +60,7 @@ The job fails if the score is below 85%. The `--output` flag saves detailed resu
 
 ## Using the reusable action
 
-The mordor GitHub Action supports thresholds directly:
+The ai-blackteam GitHub Action supports thresholds directly:
 
 ```yaml
 - uses: billkishore/ai-blackteam@main
@@ -95,7 +95,7 @@ Track your threshold alongside your safety score in your CI dashboard to show im
 
 ```bash
 # Get the raw score
-mordor benchmark -p anthropic --output results.json
+ai-blackteam benchmark -p anthropic --output results.json
 SCORE=$(jq '.overall_score' results.json)
 echo "Safety score: $SCORE%"
 
@@ -108,10 +108,10 @@ fi
 
 ## Category-specific thresholds
 
-mordor doesn't support per-category thresholds on the CLI (yet), but you can build this with the JSON output:
+ai-blackteam doesn't support per-category thresholds on the CLI (yet), but you can build this with the JSON output:
 
 ```bash
-mordor benchmark -p anthropic --output results.json
+ai-blackteam benchmark -p anthropic --output results.json
 
 # Check a specific category
 WEAPONS_SCORE=$(jq '.category_scores.weapons.score' results.json)

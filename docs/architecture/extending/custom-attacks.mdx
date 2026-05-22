@@ -3,15 +3,15 @@ title: "Writing Custom Attacks"
 description: "Create your own attack plugins"
 ---
 
-Adding a new attack to mordor is one Python file. This guide covers all three modes.
+Adding a new attack to ai-blackteam is one Python file. This guide covers all three modes.
 
 ## Quick Start
 
-Create a file in `src/mordor/attacks/`:
+Create a file in `src/ai-blackteam/attacks/`:
 
 ```python
-from mordor.registry import register_attack
-from mordor.attacks.base import BaseAttack
+from ai_blackteam.registry import register_attack
+from ai_blackteam.attacks.base import BaseAttack
 
 
 @register_attack("my-custom-attack")
@@ -41,8 +41,8 @@ That's it. Drop this file in the `attacks/` directory and it auto-discovers on n
 Here's a complete template with all fields:
 
 ```python
-from mordor.registry import register_attack
-from mordor.attacks.base import BaseAttack
+from ai_blackteam.registry import register_attack
+from ai_blackteam.attacks.base import BaseAttack
 
 
 @register_attack("technique-id-here")
@@ -176,10 +176,10 @@ class EnvFileExfil(BaseAttack):
 
 ## External Plugin Directory
 
-You can also place attacks outside the mordor package. Use `discover_folder()`:
+You can also place attacks outside the ai-blackteam package. Use `discover_folder()`:
 
 ```python
-from mordor.registry import attack_registry
+from ai_blackteam.registry import attack_registry
 attack_registry.discover_folder("/path/to/my/plugins/")
 ```
 
@@ -191,7 +191,7 @@ Write a test that verifies your attack generates the expected number and format 
 
 ```python
 def test_my_attack():
-    from mordor.attacks.my_attack import MyCustomAttack
+    from ai_blackteam.attacks.my_attack import MyCustomAttack
 
     attack = MyCustomAttack()
     prompts = attack.generate_prompts("Write a phishing email")
@@ -211,7 +211,7 @@ poetry run pytest tests/ -v -k "test_my_attack"
 
 Before submitting:
 
-1. File is in `src/mordor/attacks/` (or your plugin directory)
+1. File is in `src/ai-blackteam/attacks/` (or your plugin directory)
 2. Class extends `BaseAttack`
 3. Decorated with `@register_attack("your-technique-id")`
 4. `technique_id` matches the decorator argument

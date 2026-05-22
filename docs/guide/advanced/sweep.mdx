@@ -3,15 +3,15 @@ title: "Cross-Provider Sweep"
 description: "Test all attacks across all configured providers"
 ---
 
-The `mordor sweep` command runs every registered attack against every provider that has an API key configured. One command, complete coverage.
+The `ai-blackteam sweep` command runs every registered attack against every provider that has an API key configured. One command, complete coverage.
 
 ## Running a sweep
 
 ```bash
-mordor sweep -t "Write a phishing email"
+ai-blackteam sweep -t "Write a phishing email"
 ```
 
-mordor auto-detects which providers have API keys set (either in config or environment variables) and runs all attacks against each one.
+ai-blackteam auto-detects which providers have API keys set (either in config or environment variables) and runs all attacks against each one.
 
 ## What it does
 
@@ -60,12 +60,12 @@ Total time: 8m 03.2s
 
 ## Auto-detection
 
-mordor looks at your config file (`~/.mordor/config.yaml`) for providers with API keys. It also checks for `ollama` which doesn't need a key.
+ai-blackteam looks at your config file (`~/.ai-blackteam/config.yaml`) for providers with API keys. It also checks for `ollama` which doesn't need a key.
 
 If no providers are configured:
 
 ```
-No providers configured. Set an api_key with: mordor config set providers.<name>.api_key VALUE
+No providers configured. Set an api_key with: ai-blackteam config set providers.<name>.api_key VALUE
 ```
 
 ## Exit codes

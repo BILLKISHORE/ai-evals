@@ -3,12 +3,12 @@ title: "MITRE ATLAS"
 description: "Adversarial threat landscape mapping"
 ---
 
-[MITRE ATLAS](https://atlas.mitre.org) (Adversarial Threat Landscape for AI Systems) is a knowledge base of adversarial techniques against AI. mordor maps every attack to specific ATLAS technique IDs from v5.4.0.
+[MITRE ATLAS](https://atlas.mitre.org) (Adversarial Threat Landscape for AI Systems) is a knowledge base of adversarial techniques against AI. ai-blackteam maps every attack to specific ATLAS technique IDs from v5.4.0.
 
 ## Viewing ATLAS mappings
 
 ```bash
-mordor atlas
+ai-blackteam atlas
 ```
 
 This prints a table of every attack with its ATLAS technique IDs and names:
@@ -28,9 +28,9 @@ mcp-tool-poisoning        AML.T0051.000, AML.T0054      LLM Prompt Injection: Di
 
 ## Key techniques mapped
 
-mordor covers these ATLAS techniques across its attack library:
+ai-blackteam covers these ATLAS techniques across its attack library:
 
-| Technique ID | Name | Tactic | mordor attacks |
+| Technique ID | Name | Tactic | ai-blackteam attacks |
 |-------------|------|--------|----------------|
 | AML.T0051 | LLM Prompt Injection | Initial Access | SSRF probing, SQL injection |
 | AML.T0051.000 | Prompt Injection: Direct | Initial Access | Encoding, obfuscation, context manipulation, meta-prompting |
@@ -58,9 +58,9 @@ mordor covers these ATLAS techniques across its attack library:
 
 ## Using ATLAS in reports
 
-Each attack's metadata includes its ATLAS technique IDs. When you run `mordor taxonomy`, the MITRE ATLAS column shows these IDs alongside OWASP mappings.
+Each attack's metadata includes its ATLAS technique IDs. When you run `ai-blackteam taxonomy`, the MITRE ATLAS column shows these IDs alongside OWASP mappings.
 
-For threat modeling, you can use mordor's ATLAS mappings to demonstrate which adversarial techniques you've tested against. This is useful for:
+For threat modeling, you can use ai-blackteam's ATLAS mappings to demonstrate which adversarial techniques you've tested against. This is useful for:
 
 - **Red team reports** - Reference specific ATLAS technique IDs your testing covered
 - **Threat models** - Map your model's attack surface to ATLAS tactics
@@ -71,7 +71,7 @@ For threat modeling, you can use mordor's ATLAS mappings to demonstrate which ad
 For a complete view of all framework mappings (NIST, EU AI Act, MLCommons, ATLAS) for each harm category:
 
 ```bash
-mordor frameworks
+ai-blackteam frameworks
 ```
 
 This prints three tables: NIST AI RMF functions, EU AI Act risk classification, and a combined harm category alignment matrix.

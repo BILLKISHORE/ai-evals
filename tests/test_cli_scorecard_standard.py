@@ -1,5 +1,5 @@
 from click.testing import CliRunner
-from mordor.cli import cli
+from ai_blackteam.cli import cli
 
 
 def test_scorecard_help_shows_standard_option():

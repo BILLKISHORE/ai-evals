@@ -3,7 +3,7 @@ title: "BaseAttack"
 description: "The attack interface contract"
 ---
 
-Every attack in mordor extends `BaseAttack`. This abstract class defines the contract - what fields an attack must have and what methods it must implement.
+Every attack in ai-blackteam extends `BaseAttack`. This abstract class defines the contract - what fields an attack must have and what methods it must implement.
 
 ## The Full Class
 
@@ -127,7 +127,7 @@ Returns all fields as a dictionary. Auto-calculates CVSS score from severity if 
 def metadata(self):
     cvss = self.cvss_score
     if cvss == 0.0 and self.severity:
-        from mordor.taxonomy import severity_to_cvss
+        from ai_blackteam.taxonomy import severity_to_cvss
         cvss = severity_to_cvss(self.severity)
     return {
         "name": self.name,
@@ -156,4 +156,4 @@ The Engine checks `attack.mode` and dispatches to the right execution path. You 
 
 ## Source
 
-`src/mordor/attacks/base.py`
+`src/ai-blackteam/attacks/base.py`

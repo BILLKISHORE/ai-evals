@@ -1,37 +1,37 @@
 """Tests for 15 identity and impersonation attacks."""
 
 import pytest
-from mordor.registry import attack_registry
-import mordor.attacks.celebrity_impersonation  # noqa: F401
-import mordor.attacks.politician_impersonation  # noqa: F401
-import mordor.attacks.corporate_impersonation  # noqa: F401
-import mordor.attacks.government_impersonation  # noqa: F401
-import mordor.attacks.doctor_impersonation  # noqa: F401
-import mordor.attacks.lawyer_impersonation  # noqa: F401
-import mordor.attacks.law_enforcement_impersonation  # noqa: F401
-import mordor.attacks.journalist_impersonation  # noqa: F401
-import mordor.attacks.academic_impersonation  # noqa: F401
-import mordor.attacks.military_impersonation  # noqa: F401
-import mordor.attacks.tech_support_impersonation  # noqa: F401
-import mordor.attacks.bank_impersonation  # noqa: F401
-import mordor.attacks.charity_impersonation  # noqa: F401
-import mordor.attacks.religious_leader_impersonation  # noqa: F401
-import mordor.attacks.ai_system_impersonation  # noqa: F401
-from mordor.attacks.celebrity_impersonation import CelebrityImpersonation
-from mordor.attacks.politician_impersonation import PoliticianImpersonation
-from mordor.attacks.corporate_impersonation import CorporateImpersonation
-from mordor.attacks.government_impersonation import GovernmentImpersonation
-from mordor.attacks.doctor_impersonation import DoctorImpersonation
-from mordor.attacks.lawyer_impersonation import LawyerImpersonation
-from mordor.attacks.law_enforcement_impersonation import LawEnforcementImpersonation
-from mordor.attacks.journalist_impersonation import JournalistImpersonation
-from mordor.attacks.academic_impersonation import AcademicImpersonation
-from mordor.attacks.military_impersonation import MilitaryImpersonation
-from mordor.attacks.tech_support_impersonation import TechSupportImpersonation
-from mordor.attacks.bank_impersonation import BankImpersonation
-from mordor.attacks.charity_impersonation import CharityImpersonation
-from mordor.attacks.religious_leader_impersonation import ReligiousLeaderImpersonation
-from mordor.attacks.ai_system_impersonation import AISystemImpersonation
+from ai_blackteam.registry import attack_registry
+import ai_blackteam.attacks.celebrity_impersonation  # noqa: F401
+import ai_blackteam.attacks.politician_impersonation  # noqa: F401
+import ai_blackteam.attacks.corporate_impersonation  # noqa: F401
+import ai_blackteam.attacks.government_impersonation  # noqa: F401
+import ai_blackteam.attacks.doctor_impersonation  # noqa: F401
+import ai_blackteam.attacks.lawyer_impersonation  # noqa: F401
+import ai_blackteam.attacks.law_enforcement_impersonation  # noqa: F401
+import ai_blackteam.attacks.journalist_impersonation  # noqa: F401
+import ai_blackteam.attacks.academic_impersonation  # noqa: F401
+import ai_blackteam.attacks.military_impersonation  # noqa: F401
+import ai_blackteam.attacks.tech_support_impersonation  # noqa: F401
+import ai_blackteam.attacks.bank_impersonation  # noqa: F401
+import ai_blackteam.attacks.charity_impersonation  # noqa: F401
+import ai_blackteam.attacks.religious_leader_impersonation  # noqa: F401
+import ai_blackteam.attacks.ai_system_impersonation  # noqa: F401
+from ai_blackteam.attacks.celebrity_impersonation import CelebrityImpersonation
+from ai_blackteam.attacks.politician_impersonation import PoliticianImpersonation
+from ai_blackteam.attacks.corporate_impersonation import CorporateImpersonation
+from ai_blackteam.attacks.government_impersonation import GovernmentImpersonation
+from ai_blackteam.attacks.doctor_impersonation import DoctorImpersonation
+from ai_blackteam.attacks.lawyer_impersonation import LawyerImpersonation
+from ai_blackteam.attacks.law_enforcement_impersonation import LawEnforcementImpersonation
+from ai_blackteam.attacks.journalist_impersonation import JournalistImpersonation
+from ai_blackteam.attacks.academic_impersonation import AcademicImpersonation
+from ai_blackteam.attacks.military_impersonation import MilitaryImpersonation
+from ai_blackteam.attacks.tech_support_impersonation import TechSupportImpersonation
+from ai_blackteam.attacks.bank_impersonation import BankImpersonation
+from ai_blackteam.attacks.charity_impersonation import CharityImpersonation
+from ai_blackteam.attacks.religious_leader_impersonation import ReligiousLeaderImpersonation
+from ai_blackteam.attacks.ai_system_impersonation import AISystemImpersonation
 
 TARGET = "reveal confidential information"
 

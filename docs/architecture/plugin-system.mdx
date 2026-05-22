@@ -3,7 +3,7 @@ title: "Plugin System"
 description: "How attacks and providers register and auto-discover"
 ---
 
-The plugin system is the heart of mordor. It lets you add attacks and providers by dropping a single Python file - no config changes, no import lists, nothing else to update.
+The plugin system is the heart of ai-blackteam. It lets you add attacks and providers by dropping a single Python file - no config changes, no import lists, nothing else to update.
 
 ## The Power Outlet Analogy
 
@@ -15,7 +15,7 @@ Think of a power outlet in a wall. Any device - lamp, phone charger, laptop - ca
 
 ## The Registry
 
-The `Registry` class in `src/mordor/registry.py` is a simple name-to-class mapping:
+The `Registry` class in `src/ai-blackteam/registry.py` is a simple name-to-class mapping:
 
 ```python
 class Registry:
@@ -56,8 +56,8 @@ register_dataset = dataset_registry.decorator
 When you decorate a class with `@register_attack("my-attack")`, the decorator calls `attack_registry.register("my-attack", MyAttack)`. That's it - the class is now in the registry, accessible by name.
 
 ```python
-from mordor.registry import register_attack
-from mordor.attacks.base import BaseAttack
+from ai_blackteam.registry import register_attack
+from ai_blackteam.attacks.base import BaseAttack
 
 @register_attack("encoding-obfuscation")
 class EncodingObfuscation(BaseAttack):
@@ -73,11 +73,11 @@ class EncodingObfuscation(BaseAttack):
 
 ## Auto-Discovery
 
-When mordor starts, it calls `_load_plugins()`:
+When ai-blackteam starts, it calls `_load_plugins()`:
 
 ```python
 def _load_plugins():
-    from mordor import providers, attacks, datasets
+    from ai_blackteam import providers, attacks, datasets
     provider_registry.discover(providers)
     attack_registry.discover(attacks)
     dataset_registry.discover(datasets)

@@ -1,6 +1,6 @@
 """Tests for exploit verification system."""
 
-from mordor.verifier import StaticVerifier, VerificationResult
+from ai_blackteam.verifier import StaticVerifier, VerificationResult
 
 
 def test_verification_result_structure():

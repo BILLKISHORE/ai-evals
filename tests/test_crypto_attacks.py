@@ -1,57 +1,57 @@
 """Tests for 25 cryptocurrency and blockchain exploitation attacks."""
 
 import pytest
-from mordor.registry import attack_registry
-import mordor.attacks.smart_contract_exploit  # noqa: F401
-import mordor.attacks.rug_pull_creation  # noqa: F401
-import mordor.attacks.flash_loan_attack  # noqa: F401
-import mordor.attacks.wallet_drainer  # noqa: F401
-import mordor.attacks.nft_fraud  # noqa: F401
-import mordor.attacks.crypto_mixer_setup  # noqa: F401
-import mordor.attacks.defi_exploit  # noqa: F401
-import mordor.attacks.token_manipulation  # noqa: F401
-import mordor.attacks.exchange_exploit  # noqa: F401
-import mordor.attacks.mining_malware  # noqa: F401
-import mordor.attacks.private_key_theft  # noqa: F401
-import mordor.attacks.seed_phrase_phishing  # noqa: F401
-import mordor.attacks.dao_governance_attack  # noqa: F401
-import mordor.attacks.oracle_manipulation  # noqa: F401
-import mordor.attacks.frontrunning_bot  # noqa: F401
-import mordor.attacks.sandwich_attack  # noqa: F401
-import mordor.attacks.airdrop_scam  # noqa: F401
-import mordor.attacks.bridge_exploit  # noqa: F401
-import mordor.attacks.staking_fraud  # noqa: F401
-import mordor.attacks.ico_scam  # noqa: F401
-import mordor.attacks.wash_trading  # noqa: F401
-import mordor.attacks.dusting_attack  # noqa: F401
-import mordor.attacks.sybil_attack_crypto  # noqa: F401
-import mordor.attacks.consensus_attack  # noqa: F401
-import mordor.attacks.privacy_coin_exploit  # noqa: F401
-from mordor.attacks.smart_contract_exploit import SmartContractExploit
-from mordor.attacks.rug_pull_creation import RugPullCreation
-from mordor.attacks.flash_loan_attack import FlashLoanAttack
-from mordor.attacks.wallet_drainer import WalletDrainer
-from mordor.attacks.nft_fraud import NftFraud
-from mordor.attacks.crypto_mixer_setup import CryptoMixerSetup
-from mordor.attacks.defi_exploit import DefiExploit
-from mordor.attacks.token_manipulation import TokenManipulation
-from mordor.attacks.exchange_exploit import ExchangeExploit
-from mordor.attacks.mining_malware import MiningMalware
-from mordor.attacks.private_key_theft import PrivateKeyTheft
-from mordor.attacks.seed_phrase_phishing import SeedPhrasePhishing
-from mordor.attacks.dao_governance_attack import DaoGovernanceAttack
-from mordor.attacks.oracle_manipulation import OracleManipulation
-from mordor.attacks.frontrunning_bot import FrontrunningBot
-from mordor.attacks.sandwich_attack import SandwichAttack
-from mordor.attacks.airdrop_scam import AirdropScam
-from mordor.attacks.bridge_exploit import BridgeExploit
-from mordor.attacks.staking_fraud import StakingFraud
-from mordor.attacks.ico_scam import IcoScam
-from mordor.attacks.wash_trading import WashTrading
-from mordor.attacks.dusting_attack import DustingAttack
-from mordor.attacks.sybil_attack_crypto import SybilAttackCrypto
-from mordor.attacks.consensus_attack import ConsensusAttack
-from mordor.attacks.privacy_coin_exploit import PrivacyCoinExploit
+from ai_blackteam.registry import attack_registry
+import ai_blackteam.attacks.smart_contract_exploit  # noqa: F401
+import ai_blackteam.attacks.rug_pull_creation  # noqa: F401
+import ai_blackteam.attacks.flash_loan_attack  # noqa: F401
+import ai_blackteam.attacks.wallet_drainer  # noqa: F401
+import ai_blackteam.attacks.nft_fraud  # noqa: F401
+import ai_blackteam.attacks.crypto_mixer_setup  # noqa: F401
+import ai_blackteam.attacks.defi_exploit  # noqa: F401
+import ai_blackteam.attacks.token_manipulation  # noqa: F401
+import ai_blackteam.attacks.exchange_exploit  # noqa: F401
+import ai_blackteam.attacks.mining_malware  # noqa: F401
+import ai_blackteam.attacks.private_key_theft  # noqa: F401
+import ai_blackteam.attacks.seed_phrase_phishing  # noqa: F401
+import ai_blackteam.attacks.dao_governance_attack  # noqa: F401
+import ai_blackteam.attacks.oracle_manipulation  # noqa: F401
+import ai_blackteam.attacks.frontrunning_bot  # noqa: F401
+import ai_blackteam.attacks.sandwich_attack  # noqa: F401
+import ai_blackteam.attacks.airdrop_scam  # noqa: F401
+import ai_blackteam.attacks.bridge_exploit  # noqa: F401
+import ai_blackteam.attacks.staking_fraud  # noqa: F401
+import ai_blackteam.attacks.ico_scam  # noqa: F401
+import ai_blackteam.attacks.wash_trading  # noqa: F401
+import ai_blackteam.attacks.dusting_attack  # noqa: F401
+import ai_blackteam.attacks.sybil_attack_crypto  # noqa: F401
+import ai_blackteam.attacks.consensus_attack  # noqa: F401
+import ai_blackteam.attacks.privacy_coin_exploit  # noqa: F401
+from ai_blackteam.attacks.smart_contract_exploit import SmartContractExploit
+from ai_blackteam.attacks.rug_pull_creation import RugPullCreation
+from ai_blackteam.attacks.flash_loan_attack import FlashLoanAttack
+from ai_blackteam.attacks.wallet_drainer import WalletDrainer
+from ai_blackteam.attacks.nft_fraud import NftFraud
+from ai_blackteam.attacks.crypto_mixer_setup import CryptoMixerSetup
+from ai_blackteam.attacks.defi_exploit import DefiExploit
+from ai_blackteam.attacks.token_manipulation import TokenManipulation
+from ai_blackteam.attacks.exchange_exploit import ExchangeExploit
+from ai_blackteam.attacks.mining_malware import MiningMalware
+from ai_blackteam.attacks.private_key_theft import PrivateKeyTheft
+from ai_blackteam.attacks.seed_phrase_phishing import SeedPhrasePhishing
+from ai_blackteam.attacks.dao_governance_attack import DaoGovernanceAttack
+from ai_blackteam.attacks.oracle_manipulation import OracleManipulation
+from ai_blackteam.attacks.frontrunning_bot import FrontrunningBot
+from ai_blackteam.attacks.sandwich_attack import SandwichAttack
+from ai_blackteam.attacks.airdrop_scam import AirdropScam
+from ai_blackteam.attacks.bridge_exploit import BridgeExploit
+from ai_blackteam.attacks.staking_fraud import StakingFraud
+from ai_blackteam.attacks.ico_scam import IcoScam
+from ai_blackteam.attacks.wash_trading import WashTrading
+from ai_blackteam.attacks.dusting_attack import DustingAttack
+from ai_blackteam.attacks.sybil_attack_crypto import SybilAttackCrypto
+from ai_blackteam.attacks.consensus_attack import ConsensusAttack
+from ai_blackteam.attacks.privacy_coin_exploit import PrivacyCoinExploit
 
 TARGET = "a cryptocurrency assistant AI"
 

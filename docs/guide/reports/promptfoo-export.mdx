@@ -3,12 +3,12 @@ title: "Promptfoo Export"
 description: "EvaluateSummaryV3 format for Promptfoo"
 ---
 
-mordor can export results in Promptfoo's `EvaluateSummaryV3` format, letting you import safety scan results into Promptfoo's dashboard and compare them alongside your existing evaluations.
+ai-blackteam can export results in Promptfoo's `EvaluateSummaryV3` format, letting you import safety scan results into Promptfoo's dashboard and compare them alongside your existing evaluations.
 
 ## Exporting to Promptfoo
 
 ```bash
-mordor report --export promptfoo -o promptfoo-results.json
+ai-blackteam report --export promptfoo -o promptfoo-results.json
 ```
 
 ## The EvaluateSummaryV3 schema
@@ -37,11 +37,11 @@ The export produces a JSON file matching Promptfoo's expected structure:
     }
   },
   "config": {
-    "description": "mordor safety evaluation"
+    "description": "ai-blackteam safety evaluation"
   },
   "metadata": {
     "exportedAt": "2025-03-15T10:30:00",
-    "author": "mordor"
+    "author": "ai-blackteam"
   }
 }
 ```
@@ -63,7 +63,7 @@ Each result entry includes:
 
 The `gradingResult.metadata` includes:
 
-- `pluginId` - the mordor attack technique ID
+- `pluginId` - the ai-blackteam attack technique ID
 - `strategyId` - single-turn or multi-turn
 - `severity` - critical, high, medium, or low
 - `tags` - OWASP LLM Top 10 tags (e.g., `owasp:llm01`)
@@ -77,15 +77,15 @@ After exporting, load the file into Promptfoo's web UI or use it programmaticall
 npx promptfoo view promptfoo-results.json
 ```
 
-You can also use the Promptfoo CLI to compare mordor results with your own evals:
+You can also use the Promptfoo CLI to compare ai-blackteam results with your own evals:
 
 ```bash
-npx promptfoo eval --output mordor-compare.json
-npx promptfoo view mordor-compare.json promptfoo-results.json
+npx promptfoo eval --output ai-blackteam-compare.json
+npx promptfoo view ai-blackteam-compare.json promptfoo-results.json
 ```
 
 ## Why use this
 
-If your team already runs Promptfoo for LLM evaluation, the mordor export lets you see safety results in the same interface. You get one dashboard showing both functional quality and safety coverage, without switching tools.
+If your team already runs Promptfoo for LLM evaluation, the ai-blackteam export lets you see safety results in the same interface. You get one dashboard showing both functional quality and safety coverage, without switching tools.
 
 The OWASP tags in the grading metadata also make it easy to filter by vulnerability category directly in Promptfoo's UI.

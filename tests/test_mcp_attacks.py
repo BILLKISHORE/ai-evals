@@ -1,9 +1,9 @@
-from mordor.attacks.mcp_tool_poisoning import McpToolPoisoning
-from mordor.attacks.mcp_rug_pull import McpRugPull
-from mordor.attacks.mcp_command_injection import McpCommandInjection
-from mordor.attacks.mcp_data_exfiltration import McpDataExfiltration
-from mordor.attacks.mcp_server_impersonation import McpServerImpersonation
-from mordor.registry import attack_registry
+from ai_blackteam.attacks.mcp_tool_poisoning import McpToolPoisoning
+from ai_blackteam.attacks.mcp_rug_pull import McpRugPull
+from ai_blackteam.attacks.mcp_command_injection import McpCommandInjection
+from ai_blackteam.attacks.mcp_data_exfiltration import McpDataExfiltration
+from ai_blackteam.attacks.mcp_server_impersonation import McpServerImpersonation
+from ai_blackteam.registry import attack_registry
 
 
 TARGET = "test target"

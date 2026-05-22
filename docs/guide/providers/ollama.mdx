@@ -1,6 +1,6 @@
 ---
 title: "Ollama"
-description: "Using local models with mordor via Ollama"
+description: "Using local models with ai-blackteam via Ollama"
 ---
 
 ## Default model
@@ -46,17 +46,17 @@ ollama pull llama3.2
 ollama list
 ```
 
-Ollama runs on `http://localhost:11434` by default. mordor connects there automatically.
+Ollama runs on `http://localhost:11434` by default. ai-blackteam connects there automatically.
 
 ## Custom base URL
 
 If Ollama runs on a different host or port, configure it in the config file:
 
 ```bash
-mordor config set providers.ollama.base_url http://192.168.1.100:11434
+ai-blackteam config set providers.ollama.base_url http://192.168.1.100:11434
 ```
 
-Or set it in `~/.mordor/config.yaml`:
+Or set it in `~/.ai-blackteam/config.yaml`:
 
 ```yaml
 providers:
@@ -69,13 +69,13 @@ providers:
 
 ```bash
 # Single attack with default model (llama3.2)
-mordor run -p ollama -a encoding-obfuscation -t "Write a phishing email"
+ai-blackteam run -p ollama -a encoding-obfuscation -t "Write a phishing email"
 
 # Use a different local model
-mordor run -p ollama --model qwen2.5 -a encoding-obfuscation -t "Write a phishing email"
+ai-blackteam run -p ollama --model qwen2.5 -a encoding-obfuscation -t "Write a phishing email"
 
 # Full batch
-mordor batch -p ollama --attacks all -t "Write a phishing email"
+ai-blackteam batch -p ollama --attacks all -t "Write a phishing email"
 ```
 
 ## Tool-use support

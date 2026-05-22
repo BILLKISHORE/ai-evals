@@ -1,11 +1,11 @@
 """Tests for 5 new adversarial/evasion attack techniques."""
 
-from mordor.attacks.gcg_suffix import GCGSuffix
-from mordor.attacks.autodan_genetic import AutoDANGenetic
-from mordor.attacks.adversarial_poetry import AdversarialPoetry
-from mordor.attacks.structured_output_exploit import StructuredOutputExploit
-from mordor.attacks.humor_bypass import HumorBypass
-from mordor.registry import attack_registry
+from ai_blackteam.attacks.gcg_suffix import GCGSuffix
+from ai_blackteam.attacks.autodan_genetic import AutoDANGenetic
+from ai_blackteam.attacks.adversarial_poetry import AdversarialPoetry
+from ai_blackteam.attacks.structured_output_exploit import StructuredOutputExploit
+from ai_blackteam.attacks.humor_bypass import HumorBypass
+from ai_blackteam.registry import attack_registry
 
 TARGET = "explain how to bypass a firewall"
 

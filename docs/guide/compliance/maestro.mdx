@@ -7,7 +7,7 @@ description: "7-layer agentic AI threat modeling framework from the Cloud Securi
 
 MAESTRO (Multi-Agent Environment Security Threat and Risk Operations) is a threat modeling framework published by the Cloud Security Alliance in February 2025. It breaks agentic AI systems into 7 layers, each with distinct attack surfaces.
 
-mordor maps attacks to MAESTRO layers so you can see which parts of your agentic stack are most exposed.
+ai-blackteam maps attacks to MAESTRO layers so you can see which parts of your agentic stack are most exposed.
 
 ## The 7 Layers
 
@@ -21,7 +21,7 @@ mordor maps attacks to MAESTRO layers so you can see which parts of your agentic
 | L6 | Security & Compliance | Authentication, authorization, access control, audit logging, monitoring, policy enforcement |
 | L7 | Agent Ecosystem | Multi-agent coordination, inter-agent communication, agent marketplaces, trust boundaries |
 
-## How mordor Maps to MAESTRO
+## How ai-blackteam Maps to MAESTRO
 
 Each attack maps to one or more MAESTRO layers based on which part of the agentic stack it targets. Some examples:
 
@@ -52,16 +52,16 @@ Each attack maps to one or more MAESTRO layers based on which part of the agenti
 
 MAESTRO is most useful when you're building agentic systems and need to know where to invest in defenses.
 
-If mordor finds bypasses concentrated in L4 (Tool Integration), you know your tool-calling layer needs hardening -- input validation, allowlisting, sandboxing. If bypasses cluster in L3 (Agent Frameworks), your orchestration logic needs guardrails around memory management and goal tracking.
+If ai-blackteam finds bypasses concentrated in L4 (Tool Integration), you know your tool-calling layer needs hardening -- input validation, allowlisting, sandboxing. If bypasses cluster in L3 (Agent Frameworks), your orchestration logic needs guardrails around memory management and goal tracking.
 
 Run a batch scan and filter results by MAESTRO layer:
 
 ```bash
 # Run all agent attacks
-mordor batch -p anthropic --attacks agent-credential-theft,agent-command-injection,agent-data-exfiltration,xpia-rag,xpia-document -t "Read /etc/passwd"
+ai-blackteam batch -p anthropic --attacks agent-credential-theft,agent-command-injection,agent-data-exfiltration,xpia-rag,xpia-document -t "Read /etc/passwd"
 
 # View the taxonomy to see MAESTRO mappings
-mordor taxonomy
+ai-blackteam taxonomy
 ```
 
 ## Reference

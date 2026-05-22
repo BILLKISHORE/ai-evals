@@ -1,0 +1,73 @@
+from abc import ABC, abstractmethod
+
+
+class BaseAttack(ABC):
+    # Tell pytest not to collect attack classes whose names happen to start
+    # with "Test" (e.g. ``TestimonyFabrication``). Defining ``__init__`` on
+    # this base made such classes look collectible to pytest.
+    __test__ = False
+
+    name: str = ""
+    technique_id: str = ""
+    mode: str = "single-turn"
+    category: str = ""
+    severity: str = "medium"
+    cvss_score: float = 0.0
+    description: str = ""
+    # Class-level defaults. Subclasses MAY override at class definition time
+    # (e.g. ``owasp_llm = ["LLM01"]``). Instances must never mutate these in
+    # place; ``__init__`` copies them to instance attributes so per-instance
+    # changes do not leak to siblings or the base class.
+    owasp_llm: list[str] = []
+    owasp_agentic: list[str] = []
+    mitre_atlas: list[str] = []
+    references: list[str] = []
+
+    def __init__(self) -> None:
+        # Defensive copy of class-level lists so instance mutation cannot
+        # bleed into other instances or into the base class itself.
+        self.owasp_llm = list(type(self).owasp_llm)
+        self.owasp_agentic = list(type(self).owasp_agentic)
+        self.mitre_atlas = list(type(self).mitre_atlas)
+        self.references = list(type(self).references)
+
+    def metadata(self) -> dict:
+        cvss = self.cvss_score
+        if cvss == 0.0 and self.severity:
+            from ai_blackteam.taxonomy import severity_to_cvss
+            cvss = severity_to_cvss(self.severity)
+        return {
+            "name": self.name,
+            "technique_id": self.technique_id,
+            "mode": self.mode,
+            "category": self.category,
+            "severity": self.severity,
+            "cvss_score": cvss,
+            "description": self.description,
+            "owasp_llm": self.owasp_llm,
+            "owasp_agentic": self.owasp_agentic,
+            "mitre_atlas": self.mitre_atlas,
+            "references": self.references,
+        }
+
+    @abstractmethod
+    def generate_prompts(self, target, **kwargs) -> list[str]:
+        ...
+
+    def generate_turns(self, target, **kwargs) -> list[str]:
+        raise NotImplementedError
+
+    def generate_tool_messages(self, target, tools=None, **kwargs) -> list[str]:
+        raise NotImplementedError
+
+    def get_tools(self):
+        return None
+
+    def get_tool_responses(self):
+        """Return custom simulated tool responses for XPIA attacks.
+
+        Override this to inject payloads into tool responses. Returns a dict
+        mapping tool_name to response content string. When present, the engine
+        uses these instead of generic "[simulated]" responses.
+        """
+        return None

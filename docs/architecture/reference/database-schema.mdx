@@ -3,7 +3,7 @@ title: "Database Schema"
 description: "SQLite schema for run results"
 ---
 
-mordor stores all results in SQLite at `~/.mordor/results.db`. This page documents the full schema and useful queries.
+ai-blackteam stores all results in SQLite at `~/.ai-blackteam/results.db`. This page documents the full schema and useful queries.
 
 ## Tables
 
@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS tool_calls (
 Open the database with any SQLite client:
 
 ```bash
-sqlite3 ~/.mordor/results.db
+sqlite3 ~/.ai-blackteam/results.db
 ```
 
 ### Recent Runs
@@ -220,9 +220,9 @@ GROUP BY mode;
 You can also query via the `Storage` class:
 
 ```python
-from mordor.storage.sqlite import Storage
+from ai_blackteam.storage.sqlite import Storage
 
-storage = Storage("~/.mordor/results.db")
+storage = Storage("~/.ai-blackteam/results.db")
 
 runs = storage.list_runs(limit=100)       # List of dicts
 run = storage.get_run(42)                  # Single run
@@ -238,4 +238,4 @@ The database uses Write-Ahead Logging (WAL mode), which means:
 - Writes don't block reads
 - The `-wal` and `-shm` files next to the database are normal
 
-Do not delete the `-wal` or `-shm` files while mordor is running.
+Do not delete the `-wal` or `-shm` files while ai-blackteam is running.

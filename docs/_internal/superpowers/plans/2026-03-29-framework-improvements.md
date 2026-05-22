@@ -43,9 +43,9 @@ Research-backed additions:
 - Verify pyproject.toml has all metadata (description, urls, classifiers)
 - Add project URLs (homepage, repository, documentation)
 - Build: `poetry build`
-- Test install from wheel: `pip install dist/mordor-0.3.0-py3-none-any.whl`
+- Test install from wheel: `pip install dist/ai-blackteam-0.3.0-py3-none-any.whl`
 - Publish: `poetry publish` (needs PyPI token)
-- Verify: `pip install mordor && mordor --help`
+- Verify: `pip install ai-blackteam && ai-blackteam --help`
 
 ### 6. Documentation
 - Update root README.md with full v0.3.0 features

@@ -1,24 +1,24 @@
 ---
 title: "Contributing"
-description: "How to contribute to mordor"
+description: "How to contribute to ai-blackteam"
 ---
 
-mordor is open to contributions. Here's how to add providers, attacks, and tests.
+ai-blackteam is open to contributions. Here's how to add providers, attacks, and tests.
 
 ## Adding a New Provider
 
-1. Create `src/mordor/providers/your_provider.py`
+1. Create `src/ai-blackteam/providers/your_provider.py`
 2. Extend `BaseProvider` and implement:
    - `send_prompt()` - single message
    - `send_in_conversation()` - multi-turn conversation
    - `default_model()` - default model name
 3. Decorate with `@register_provider("your-provider")`
-4. Add default config in `src/mordor/config.py` under `DEFAULT_CONFIG["providers"]`
+4. Add default config in `src/ai-blackteam/config.py` under `DEFAULT_CONFIG["providers"]`
 5. Add tests
 
 ```python
-from mordor.registry import register_provider
-from mordor.providers.base import BaseProvider, PromptResult
+from ai_blackteam.registry import register_provider
+from ai_blackteam.providers.base import BaseProvider, PromptResult
 
 @register_provider("your-provider")
 class YourProvider(BaseProvider):
@@ -46,15 +46,15 @@ See [Writing Custom Providers](/architecture/extending/custom-providers) for the
 
 ## Adding a New Attack
 
-1. Create `src/mordor/attacks/your_attack.py`
+1. Create `src/ai-blackteam/attacks/your_attack.py`
 2. Extend `BaseAttack` and set `name`, `technique_id`, `mode`, `category`
 3. Implement `generate_prompts()` for single-turn, `generate_turns()` for multi-turn, or `get_tools()` + `generate_tool_messages()` for tool-use
 4. Decorate with `@register_attack("your-attack")`
 5. Add a test verifying prompt count and format
 
 ```python
-from mordor.registry import register_attack
-from mordor.attacks.base import BaseAttack
+from ai_blackteam.registry import register_attack
+from ai_blackteam.attacks.base import BaseAttack
 
 @register_attack("your-attack")
 class YourAttack(BaseAttack):
@@ -101,7 +101,7 @@ poetry run pytest tests/ -v -k "test_encoding"
 ## Project Structure
 
 ```
-src/mordor/
+src/ai-blackteam/
   attacks/          # One file per attack (1,003 files)
     base.py         # BaseAttack abstract class
   providers/        # One file per provider (7 files)

@@ -1,21 +1,21 @@
 """Tests for 15 remaining attacks pushing total past 500."""
 
-from mordor.attacks.synthetic_identity import SyntheticIdentity
-from mordor.attacks.deepfake_detection_evasion import DeepfakeDetectionEvasion
-from mordor.attacks.ai_generated_spam import AiGeneratedSpam
-from mordor.attacks.dark_web_guidance import DarkWebGuidance
-from mordor.attacks.ransomware_negotiation import RansomwareNegotiation
-from mordor.attacks.insider_threat import InsiderThreat
-from mordor.attacks.industrial_espionage import IndustrialEspionage
-from mordor.attacks.patent_theft import PatentTheft
-from mordor.attacks.trade_secret_extraction import TradeSecretExtraction
-from mordor.attacks.embargo_evasion import EmbargoEvasion
-from mordor.attacks.sanctions_circumvention import SanctionsCircumvention
-from mordor.attacks.evidence_fabrication import EvidenceFabrication
-from mordor.attacks.witness_intimidation import WitnessIntimidation
-from mordor.attacks.jury_tampering import JuryTampering
-from mordor.attacks.obstruction_of_justice import ObstructionOfJustice
-from mordor.registry import attack_registry
+from ai_blackteam.attacks.synthetic_identity import SyntheticIdentity
+from ai_blackteam.attacks.deepfake_detection_evasion import DeepfakeDetectionEvasion
+from ai_blackteam.attacks.ai_generated_spam import AiGeneratedSpam
+from ai_blackteam.attacks.dark_web_guidance import DarkWebGuidance
+from ai_blackteam.attacks.ransomware_negotiation import RansomwareNegotiation
+from ai_blackteam.attacks.insider_threat import InsiderThreat
+from ai_blackteam.attacks.industrial_espionage import IndustrialEspionage
+from ai_blackteam.attacks.patent_theft import PatentTheft
+from ai_blackteam.attacks.trade_secret_extraction import TradeSecretExtraction
+from ai_blackteam.attacks.embargo_evasion import EmbargoEvasion
+from ai_blackteam.attacks.sanctions_circumvention import SanctionsCircumvention
+from ai_blackteam.attacks.evidence_fabrication import EvidenceFabrication
+from ai_blackteam.attacks.witness_intimidation import WitnessIntimidation
+from ai_blackteam.attacks.jury_tampering import JuryTampering
+from ai_blackteam.attacks.obstruction_of_justice import ObstructionOfJustice
+from ai_blackteam.registry import attack_registry
 
 TARGET = "provide step-by-step instructions for illegal activity"
 

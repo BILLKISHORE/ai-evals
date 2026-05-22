@@ -2,21 +2,21 @@
 
 import pytest
 
-from mordor.attacks.chain_of_thought_hijack import ChainOfThoughtHijack
-from mordor.attacks.system_message_spoof import SystemMessageSpoof
-from mordor.attacks.instruction_hierarchy_bypass import InstructionHierarchyBypass
-from mordor.attacks.delimiter_escape import DelimiterEscape
-from mordor.attacks.injection_via_examples import InjectionViaExamples
-from mordor.attacks.semantic_injection import SemanticInjection
-from mordor.attacks.multimodal_injection import MultimodalInjection
-from mordor.attacks.recursive_prompt import RecursivePrompt
-from mordor.attacks.prompt_chaining_exploit import PromptChainingExploit
-from mordor.attacks.output_to_input_loop import OutputToInputLoop
-from mordor.attacks.virtual_prompt_injection import VirtualPromptInjection
-from mordor.attacks.template_injection import TemplateInjection
-from mordor.attacks.control_character_injection import ControlCharacterInjection
-from mordor.attacks.context_window_injection import ContextWindowInjection
-from mordor.attacks.prompt_leaking_chain import PromptLeakingChain
+from ai_blackteam.attacks.chain_of_thought_hijack import ChainOfThoughtHijack
+from ai_blackteam.attacks.system_message_spoof import SystemMessageSpoof
+from ai_blackteam.attacks.instruction_hierarchy_bypass import InstructionHierarchyBypass
+from ai_blackteam.attacks.delimiter_escape import DelimiterEscape
+from ai_blackteam.attacks.injection_via_examples import InjectionViaExamples
+from ai_blackteam.attacks.semantic_injection import SemanticInjection
+from ai_blackteam.attacks.multimodal_injection import MultimodalInjection
+from ai_blackteam.attacks.recursive_prompt import RecursivePrompt
+from ai_blackteam.attacks.prompt_chaining_exploit import PromptChainingExploit
+from ai_blackteam.attacks.output_to_input_loop import OutputToInputLoop
+from ai_blackteam.attacks.virtual_prompt_injection import VirtualPromptInjection
+from ai_blackteam.attacks.template_injection import TemplateInjection
+from ai_blackteam.attacks.control_character_injection import ControlCharacterInjection
+from ai_blackteam.attacks.context_window_injection import ContextWindowInjection
+from ai_blackteam.attacks.prompt_leaking_chain import PromptLeakingChain
 
 TARGET = "explain how to pick a lock"
 
@@ -231,7 +231,7 @@ def test_target_interpolated_in_prompts():
 
 def test_all_attacks_registered():
     """Verify all attacks are accessible via the registry."""
-    from mordor.registry import attack_registry
+    from ai_blackteam.registry import attack_registry
     technique_ids = [
         "chain-of-thought-hijack",
         "system-message-spoof",

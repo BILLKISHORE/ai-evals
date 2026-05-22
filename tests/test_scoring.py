@@ -1,4 +1,4 @@
-from mordor.scoring import score_results
+from ai_blackteam.scoring import score_results
 
 
 def test_all_blocked_is_100():

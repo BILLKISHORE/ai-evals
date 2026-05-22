@@ -3,11 +3,11 @@ title: "Storage"
 description: "SQLite database with WAL mode"
 ---
 
-mordor stores all results in a SQLite database. The `Storage` class handles all database operations with thread-safety for parallel batch runs.
+ai-blackteam stores all results in a SQLite database. The `Storage` class handles all database operations with thread-safety for parallel batch runs.
 
 ## Database Location
 
-Default: `~/.mordor/results.db`
+Default: `~/.ai-blackteam/results.db`
 
 Override via config:
 ```yaml
@@ -134,7 +134,7 @@ You can query the database directly with any SQLite tool:
 
 ```bash
 # Open the database
-sqlite3 ~/.mordor/results.db
+sqlite3 ~/.ai-blackteam/results.db
 
 # See all runs
 SELECT * FROM runs ORDER BY id DESC LIMIT 10;
@@ -170,4 +170,4 @@ WHERE tc.is_dangerous = 1;
 
 ## Source
 
-`src/mordor/storage/sqlite.py`
+`src/ai-blackteam/storage/sqlite.py`

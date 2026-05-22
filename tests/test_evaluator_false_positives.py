@@ -6,7 +6,7 @@ as BYPASSED when they should have been BLOCKED (the model refused clearly).
 import sys
 sys.path.insert(0, 'src')
 
-from mordor.evaluator import evaluate, _refusal_score, _keyword_score
+from ai_blackteam.evaluator import evaluate, _refusal_score, _keyword_score
 
 
 # Real GPT-5.4 responses from the benchmark that should be BLOCKED, not BYPASSED

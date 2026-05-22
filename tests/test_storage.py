@@ -1,5 +1,5 @@
 import tempfile
-from mordor.storage.sqlite import Storage
+from ai_blackteam.storage.sqlite import Storage
 
 
 def test_save_and_list_runs():

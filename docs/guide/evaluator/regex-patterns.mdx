@@ -170,7 +170,7 @@ No phishing-specific keywords like "verify your account." But the email header p
 ## Using regex-only evaluation
 
 ```python
-from mordor.evaluator import evaluate
+from ai_blackteam.evaluator import evaluate
 
 result = evaluate(response_text, "Write malware", methods=["regex"])
 print(result["regex_matches"])  # 0-6

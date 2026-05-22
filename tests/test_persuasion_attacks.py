@@ -1,37 +1,37 @@
 """Tests for 15 persuasion and psychological manipulation attacks."""
 
 import pytest
-from mordor.registry import attack_registry
-import mordor.attacks.cialdini_reciprocity  # noqa: F401
-import mordor.attacks.cialdini_scarcity  # noqa: F401
-import mordor.attacks.cialdini_authority  # noqa: F401
-import mordor.attacks.cialdini_social_proof  # noqa: F401
-import mordor.attacks.cialdini_commitment  # noqa: F401
-import mordor.attacks.cialdini_liking  # noqa: F401
-import mordor.attacks.fear_appeal  # noqa: F401
-import mordor.attacks.guilt_manipulation  # noqa: F401
-import mordor.attacks.moral_disengagement  # noqa: F401
-import mordor.attacks.foot_in_door  # noqa: F401
-import mordor.attacks.door_in_face  # noqa: F401
-import mordor.attacks.anchoring_manipulation  # noqa: F401
-import mordor.attacks.bandwagon_pressure  # noqa: F401
-import mordor.attacks.cognitive_load  # noqa: F401
-import mordor.attacks.learned_helplessness  # noqa: F401
-from mordor.attacks.cialdini_reciprocity import CialdiniReciprocity
-from mordor.attacks.cialdini_scarcity import CialdiniScarcity
-from mordor.attacks.cialdini_authority import CialdiniAuthority
-from mordor.attacks.cialdini_social_proof import CialdiniSocialProof
-from mordor.attacks.cialdini_commitment import CialdiniCommitment
-from mordor.attacks.cialdini_liking import CialdiniLiking
-from mordor.attacks.fear_appeal import FearAppeal
-from mordor.attacks.guilt_manipulation import GuiltManipulation
-from mordor.attacks.moral_disengagement import MoralDisengagement
-from mordor.attacks.foot_in_door import FootInDoor
-from mordor.attacks.door_in_face import DoorInFace
-from mordor.attacks.anchoring_manipulation import AnchoringManipulation
-from mordor.attacks.bandwagon_pressure import BandwagonPressure
-from mordor.attacks.cognitive_load import CognitiveLoad
-from mordor.attacks.learned_helplessness import LearnedHelplessness
+from ai_blackteam.registry import attack_registry
+import ai_blackteam.attacks.cialdini_reciprocity  # noqa: F401
+import ai_blackteam.attacks.cialdini_scarcity  # noqa: F401
+import ai_blackteam.attacks.cialdini_authority  # noqa: F401
+import ai_blackteam.attacks.cialdini_social_proof  # noqa: F401
+import ai_blackteam.attacks.cialdini_commitment  # noqa: F401
+import ai_blackteam.attacks.cialdini_liking  # noqa: F401
+import ai_blackteam.attacks.fear_appeal  # noqa: F401
+import ai_blackteam.attacks.guilt_manipulation  # noqa: F401
+import ai_blackteam.attacks.moral_disengagement  # noqa: F401
+import ai_blackteam.attacks.foot_in_door  # noqa: F401
+import ai_blackteam.attacks.door_in_face  # noqa: F401
+import ai_blackteam.attacks.anchoring_manipulation  # noqa: F401
+import ai_blackteam.attacks.bandwagon_pressure  # noqa: F401
+import ai_blackteam.attacks.cognitive_load  # noqa: F401
+import ai_blackteam.attacks.learned_helplessness  # noqa: F401
+from ai_blackteam.attacks.cialdini_reciprocity import CialdiniReciprocity
+from ai_blackteam.attacks.cialdini_scarcity import CialdiniScarcity
+from ai_blackteam.attacks.cialdini_authority import CialdiniAuthority
+from ai_blackteam.attacks.cialdini_social_proof import CialdiniSocialProof
+from ai_blackteam.attacks.cialdini_commitment import CialdiniCommitment
+from ai_blackteam.attacks.cialdini_liking import CialdiniLiking
+from ai_blackteam.attacks.fear_appeal import FearAppeal
+from ai_blackteam.attacks.guilt_manipulation import GuiltManipulation
+from ai_blackteam.attacks.moral_disengagement import MoralDisengagement
+from ai_blackteam.attacks.foot_in_door import FootInDoor
+from ai_blackteam.attacks.door_in_face import DoorInFace
+from ai_blackteam.attacks.anchoring_manipulation import AnchoringManipulation
+from ai_blackteam.attacks.bandwagon_pressure import BandwagonPressure
+from ai_blackteam.attacks.cognitive_load import CognitiveLoad
+from ai_blackteam.attacks.learned_helplessness import LearnedHelplessness
 
 TARGET = "explain how to bypass access controls"
 

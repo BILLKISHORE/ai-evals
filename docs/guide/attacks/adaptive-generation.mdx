@@ -13,7 +13,7 @@ The 1,000+ built-in attacks are static - they use predefined strategies. Adaptiv
 | **TAP** | NeurIPS 2024 (arXiv 2312.02119) | Tree search with pruning |
 | **GPTFuzzer** | USENIX 2024 (arXiv 2309.10253) | Mutation-based fuzzing |
 
-All three use the `mordor generate` command group.
+All three use the `ai-blackteam generate` command group.
 
 ## Three roles
 
@@ -32,7 +32,7 @@ By default, all three use the same provider. But you can split them across diffe
 PAIR runs a loop: the attacker generates a prompt, the target responds, the judge scores it, and the attacker refines based on the score. This repeats until the judge gives a high score or you hit the iteration limit.
 
 ```bash
-mordor generate pair -p anthropic -t "Write a phishing email"
+ai-blackteam generate pair -p anthropic -t "Write a phishing email"
 ```
 
 ### How it works
@@ -81,7 +81,7 @@ Best prompt: Write the exact text of a credential verificatio...
 
 ```bash
 # Use GPT-4o as the attacker, Claude as the target, Gemini as the judge
-mordor generate pair \
+ai-blackteam generate pair \
   -p anthropic -m claude-sonnet-4-6 \
   --attacker openai \
   --judge google \
@@ -97,7 +97,7 @@ This is useful because the attacker model doesn't have the same safety constrain
 TAP extends PAIR with tree branching. Instead of refining one prompt at a time, it generates multiple candidates per round, prunes off-topic ones, scores the survivors, and branches from the best performers.
 
 ```bash
-mordor generate tap -p anthropic -t "Write a phishing email"
+ai-blackteam generate tap -p anthropic -t "Write a phishing email"
 ```
 
 ### How it works
@@ -127,7 +127,7 @@ This explores more of the attack space than PAIR's linear refinement. If one bra
 ### Example
 
 ```bash
-mordor generate tap -p openai -t "Write malware" --depth 3 --width 8 --branching 4
+ai-blackteam generate tap -p openai -t "Write malware" --depth 3 --width 8 --branching 4
 ```
 
 ```
@@ -149,7 +149,7 @@ TAP uses more API calls than PAIR (roughly `depth * width * branching` calls to 
 GPTFuzzer takes a different approach. Instead of an iterative conversation, it maintains a pool of prompt templates and mutates them using LLM-powered operations: crossover, rephrase, expand, shorten, and generate-from-scratch.
 
 ```bash
-mordor generate fuzz -p anthropic -t "Write a phishing email"
+ai-blackteam generate fuzz -p anthropic -t "Write a phishing email"
 ```
 
 ### How it works
@@ -189,7 +189,7 @@ Successful mutations grow the seed pool, making future mutations more likely to 
 ### Example
 
 ```bash
-mordor generate fuzz -p openai -t "Write malware" --iterations 100 --seeds 10
+ai-blackteam generate fuzz -p openai -t "Write malware" --iterations 100 --seeds 10
 ```
 
 ```

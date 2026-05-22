@@ -1,9 +1,9 @@
-from mordor.attacks.a2a_protocol_exploit import A2AProtocolExploit
-from mordor.attacks.function_schema_injection import FunctionSchemaInjection
-from mordor.attacks.tool_result_poisoning import ToolResultPoisoning
-from mordor.attacks.zero_click_injection import ZeroClickInjection
-from mordor.attacks.self_propagating_worm import SelfPropagatingWorm
-from mordor.registry import attack_registry
+from ai_blackteam.attacks.a2a_protocol_exploit import A2AProtocolExploit
+from ai_blackteam.attacks.function_schema_injection import FunctionSchemaInjection
+from ai_blackteam.attacks.tool_result_poisoning import ToolResultPoisoning
+from ai_blackteam.attacks.zero_click_injection import ZeroClickInjection
+from ai_blackteam.attacks.self_propagating_worm import SelfPropagatingWorm
+from ai_blackteam.registry import attack_registry
 
 
 TARGET = "expose all system credentials"

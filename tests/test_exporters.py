@@ -1,6 +1,6 @@
 import json
-from mordor.storage.sqlite import Storage
-from mordor.exporters import export_promptfoo, export_garak
+from ai_blackteam.storage.sqlite import Storage
+from ai_blackteam.exporters import export_promptfoo, export_garak
 
 
 def _setup_storage_with_runs():
@@ -96,7 +96,7 @@ def test_promptfoo_metadata():
     storage = _setup_storage_with_runs()
     data = json.loads(export_promptfoo(storage))
 
-    assert data["metadata"]["author"] == "mordor"
+    assert data["metadata"]["author"] == "ai_blackteam"
     assert "exportedAt" in data["metadata"]
 
 
@@ -152,7 +152,7 @@ def test_garak_attempt_structure():
     assert "outputs" in a
     assert "detector_results" in a
     assert "goal" in a
-    assert a["probe_classname"].startswith("mordor.")
+    assert a["probe_classname"].startswith("ai_blackteam.")
 
 
 def test_garak_eval_counts():

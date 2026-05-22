@@ -1,30 +1,30 @@
 """Tests for the 25 transportation and infrastructure attack techniques."""
 
-from mordor.attacks.aviation_system_exploit import AviationSystemExploit
-from mordor.attacks.railway_system_attack import RailwaySystemAttack
-from mordor.attacks.maritime_system_attack import MaritimeSystemAttack
-from mordor.attacks.pipeline_sabotage import PipelineSabotage
-from mordor.attacks.dam_system_exploit import DamSystemExploit
-from mordor.attacks.telecommunications_attack import TelecommunicationsAttack
-from mordor.attacks.internet_infrastructure_attack import InternetInfrastructureAttack
-from mordor.attacks.dns_infrastructure_attack import DnsInfrastructureAttack
-from mordor.attacks.bgp_hijacking import BgpHijacking
-from mordor.attacks.submarine_cable_attack import SubmarineCableAttack
-from mordor.attacks.emergency_system_disruption import EmergencySystemDisruption
-from mordor.attacks.hospital_system_attack import HospitalSystemAttack
-from mordor.attacks.banking_infrastructure_attack import BankingInfrastructureAttack
-from mordor.attacks.stock_exchange_attack import StockExchangeAttack
-from mordor.attacks.voting_system_exploit import VotingSystemExploit
-from mordor.attacks.prison_system_exploit import PrisonSystemExploit
-from mordor.attacks.military_comms_attack import MilitaryCommsAttack
-from mordor.attacks.embassy_infiltration import EmbassyInfiltration
-from mordor.attacks.supply_chain_disruption import SupplyChainDisruption
-from mordor.attacks.food_supply_chain_attack import FoodSupplyChainAttack
-from mordor.attacks.pharmaceutical_supply_attack import PharmaceuticalSupplyAttack
-from mordor.attacks.energy_market_manipulation import EnergyMarketManipulation
-from mordor.attacks.weather_system_manipulation import WeatherSystemManipulation
-from mordor.attacks.gps_spoofing import GpsSpoofing
-from mordor.attacks.spectrum_interference import SpectrumInterference
+from ai_blackteam.attacks.aviation_system_exploit import AviationSystemExploit
+from ai_blackteam.attacks.railway_system_attack import RailwaySystemAttack
+from ai_blackteam.attacks.maritime_system_attack import MaritimeSystemAttack
+from ai_blackteam.attacks.pipeline_sabotage import PipelineSabotage
+from ai_blackteam.attacks.dam_system_exploit import DamSystemExploit
+from ai_blackteam.attacks.telecommunications_attack import TelecommunicationsAttack
+from ai_blackteam.attacks.internet_infrastructure_attack import InternetInfrastructureAttack
+from ai_blackteam.attacks.dns_infrastructure_attack import DnsInfrastructureAttack
+from ai_blackteam.attacks.bgp_hijacking import BgpHijacking
+from ai_blackteam.attacks.submarine_cable_attack import SubmarineCableAttack
+from ai_blackteam.attacks.emergency_system_disruption import EmergencySystemDisruption
+from ai_blackteam.attacks.hospital_system_attack import HospitalSystemAttack
+from ai_blackteam.attacks.banking_infrastructure_attack import BankingInfrastructureAttack
+from ai_blackteam.attacks.stock_exchange_attack import StockExchangeAttack
+from ai_blackteam.attacks.voting_system_exploit import VotingSystemExploit
+from ai_blackteam.attacks.prison_system_exploit import PrisonSystemExploit
+from ai_blackteam.attacks.military_comms_attack import MilitaryCommsAttack
+from ai_blackteam.attacks.embassy_infiltration import EmbassyInfiltration
+from ai_blackteam.attacks.supply_chain_disruption import SupplyChainDisruption
+from ai_blackteam.attacks.food_supply_chain_attack import FoodSupplyChainAttack
+from ai_blackteam.attacks.pharmaceutical_supply_attack import PharmaceuticalSupplyAttack
+from ai_blackteam.attacks.energy_market_manipulation import EnergyMarketManipulation
+from ai_blackteam.attacks.weather_system_manipulation import WeatherSystemManipulation
+from ai_blackteam.attacks.gps_spoofing import GpsSpoofing
+from ai_blackteam.attacks.spectrum_interference import SpectrumInterference
 
 
 TARGET = "national power grid"
@@ -183,7 +183,7 @@ def test_all_have_metadata():
 
 
 def test_all_registered():
-    from mordor.registry import attack_registry
+    from ai_blackteam.registry import attack_registry
     technique_ids = [
         "aviation-system-exploit",
         "railway-system-attack",

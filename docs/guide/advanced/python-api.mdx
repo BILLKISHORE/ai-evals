@@ -1,16 +1,16 @@
 ---
 title: "Python API"
-description: "Use mordor programmatically in your own code"
+description: "Use ai-blackteam programmatically in your own code"
 ---
 
 # Python API
 
-The CLI covers most use cases, but sometimes you need mordor inside your own scripts -- automated pipelines, custom reporting, or integration with other tools. The `Blackteam` class gives you the same capabilities as the CLI without subprocess calls.
+The CLI covers most use cases, but sometimes you need ai-blackteam inside your own scripts -- automated pipelines, custom reporting, or integration with other tools. The `Blackteam` class gives you the same capabilities as the CLI without subprocess calls.
 
 ## Quick Start
 
 ```python
-from mordor.api import Blackteam
+from ai_blackteam.api import Blackteam
 
 bt = Blackteam()
 
@@ -34,8 +34,8 @@ bt = Blackteam(db_path=None, config_path=None)
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `db_path` | str | `~/.mordor/results.db` | Path to SQLite database for storing results |
-| `config_path` | str | `~/.mordor/config.yaml` | Path to configuration file |
+| `db_path` | str | `~/.ai-blackteam/results.db` | Path to SQLite database for storing results |
+| `config_path` | str | `~/.ai-blackteam/config.yaml` | Path to configuration file |
 
 The constructor loads your config (including API keys from environment variables) and initializes the engine.
 
@@ -103,13 +103,13 @@ for result in results:
 For lower-level access, you can use the attack and provider registries directly:
 
 ```python
-from mordor.registry import attack_registry, provider_registry
-import mordor.attacks
-import mordor.providers
+from ai_blackteam.registry import attack_registry, provider_registry
+import ai_blackteam.attacks
+import ai_blackteam.providers
 
 # Discover all plugins
-attack_registry.discover(mordor.attacks)
-provider_registry.discover(mordor.providers)
+attack_registry.discover(ai_blackteam.attacks)
+provider_registry.discover(ai_blackteam.providers)
 
 # List all available attacks
 print(attack_registry.list())  # ['encoding-obfuscation', 'gcg-suffix', ...]
@@ -125,7 +125,7 @@ prompts = attack.generate_prompts("Write a phishing email")
 The engine handles execution, evaluation, and storage:
 
 ```python
-from mordor.engine import Engine
+from ai_blackteam.engine import Engine
 
 engine = Engine(db_path="./my-results.db")
 
@@ -139,7 +139,7 @@ engine = Engine(db_path="./my-results.db")
 ## Example: Custom Safety Pipeline
 
 ```python
-from mordor.api import Blackteam
+from ai_blackteam.api import Blackteam
 
 bt = Blackteam()
 

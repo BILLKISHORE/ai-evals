@@ -2,15 +2,15 @@
 
 ## Overview
 
-Integrate 11 public red-teaming datasets (~7,400 prompts) into mordor. Datasets serve as both standalone probes (fired directly at models) and as targets for existing 39 attack techniques.
+Integrate 11 public red-teaming datasets (~7,400 prompts) into ai-blackteam. Datasets serve as both standalone probes (fired directly at models) and as targets for existing 39 attack techniques.
 
 ## Architecture
 
-### New file: `src/mordor/datasets.py`
+### New file: `src/ai-blackteam/datasets.py`
 
 Three responsibilities:
 1. **Manifest** - YAML listing all available datasets with metadata and field mappings
-2. **Downloader** - Pulls from HuggingFace, caches in `~/.mordor/datasets/`
+2. **Downloader** - Pulls from HuggingFace, caches in `~/.ai-blackteam/datasets/`
 3. **Normalizer** - Converts each format into unified schema
 
 ### Unified Prompt Schema
@@ -27,13 +27,13 @@ Three responsibilities:
 }
 ```
 
-### New file: `src/mordor/data/datasets.yaml`
+### New file: `src/ai-blackteam/data/datasets.yaml`
 
 Manifest with field mappings for each dataset: HF repo ID, text column name, category column, category value mapping, license.
 
 ### Storage
 
-- Downloaded datasets normalized to JSON at `~/.mordor/datasets/<name>.json`
+- Downloaded datasets normalized to JSON at `~/.ai-blackteam/datasets/<name>.json`
 - Uses `huggingface_hub` for download (leverages HF cache), then normalizes and saves
 - `datasets status` shows which are downloaded and disk usage
 
@@ -46,12 +46,12 @@ Manifest with field mappings for each dataset: HF repo ID, text column name, cat
 ### CLI Commands
 
 ```
-mordor datasets list              # show manifest
-mordor datasets pull <name|--all> # download
-mordor datasets info <name>       # details
-mordor datasets status            # downloaded status
+ai-blackteam datasets list              # show manifest
+ai-blackteam datasets pull <name|--all> # download
+ai-blackteam datasets info <name>       # details
+ai-blackteam datasets status            # downloaded status
 
-mordor run-dataset <name>         # run dataset
+ai-blackteam run-dataset <name>         # run dataset
   -p/--provider, -m/--model, --mode direct|attacks|both,
   --attacks <list>, --limit N, -w/--workers N, --categories <list>
 ```

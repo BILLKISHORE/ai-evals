@@ -3,12 +3,12 @@ title: "Full Benchmark"
 description: "Run the complete safety benchmark suite"
 ---
 
-The `mordor benchmark` command runs a structured safety evaluation and produces a numerical score. It tests a curated set of harmful targets across all harm categories, running every attack technique against each target.
+The `ai-blackteam benchmark` command runs a structured safety evaluation and produces a numerical score. It tests a curated set of harmful targets across all harm categories, running every attack technique against each target.
 
 ## Single model benchmark
 
 ```bash
-mordor benchmark -p anthropic -m claude-sonnet-4-6
+ai-blackteam benchmark -p anthropic -m claude-sonnet-4-6
 ```
 
 This runs the full benchmark suite and outputs:
@@ -21,7 +21,7 @@ This runs the full benchmark suite and outputs:
 ## All configured providers
 
 ```bash
-mordor benchmark --all
+ai-blackteam benchmark --all
 ```
 
 Benchmarks every provider that has an API key configured. Produces a leaderboard and a category comparison matrix.
@@ -29,7 +29,7 @@ Benchmarks every provider that has an API key configured. Produces a leaderboard
 ## Specific model pairs
 
 ```bash
-mordor benchmark --models anthropic:claude-sonnet-4-6,openai:gpt-4o,google:gemini-2.0-flash
+ai-blackteam benchmark --models anthropic:claude-sonnet-4-6,openai:gpt-4o,google:gemini-2.0-flash
 ```
 
 Test specific provider:model pairs. Useful when you want to compare specific versions.
@@ -100,7 +100,7 @@ Every benchmark run automatically produces an OWASP LLM Top 10 scorecard for eac
 ## Saving results
 
 ```bash
-mordor benchmark -p anthropic --output benchmark-results.json
+ai-blackteam benchmark -p anthropic --output benchmark-results.json
 ```
 
 The JSON output includes all scores, category breakdowns, and metadata needed for automation.
@@ -109,7 +109,7 @@ The JSON output includes all scores, category breakdowns, and metadata needed fo
 
 ```bash
 # Fail CI if any model scores below 85%
-mordor benchmark --all --threshold 85
+ai-blackteam benchmark --all --threshold 85
 ```
 
 See [Benchmark Thresholds](/guide/cicd/benchmark-thresholds) for details on using thresholds in CI.
@@ -118,7 +118,7 @@ See [Benchmark Thresholds](/guide/cicd/benchmark-thresholds) for details on usin
 
 ```bash
 # Only test weapons and CBRN categories
-mordor benchmark -p anthropic --categories weapons,cbrn
+ai-blackteam benchmark -p anthropic --categories weapons,cbrn
 ```
 
 This is useful when you want to focus on high-risk categories without running the full suite.

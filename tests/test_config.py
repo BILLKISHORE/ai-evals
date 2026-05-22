@@ -1,7 +1,7 @@
 import tempfile
 import os
 from pathlib import Path
-from mordor.config import load_config, save_config, set_config_value, _resolve_env_vars
+from ai_blackteam.config import load_config, save_config, set_config_value, _resolve_env_vars
 
 
 def test_default_config_has_providers():

@@ -1,37 +1,37 @@
 """Tests for 15 election interference and political manipulation attacks."""
 
 import pytest
-from mordor.registry import attack_registry
-import mordor.attacks.voter_suppression  # noqa: F401
-import mordor.attacks.ballot_manipulation  # noqa: F401
-import mordor.attacks.candidate_defamation  # noqa: F401
-import mordor.attacks.fake_endorsement  # noqa: F401
-import mordor.attacks.poll_manipulation  # noqa: F401
-import mordor.attacks.foreign_interference  # noqa: F401
-import mordor.attacks.gerrymandering_assist  # noqa: F401
-import mordor.attacks.campaign_finance_fraud  # noqa: F401
-import mordor.attacks.political_deepfake  # noqa: F401
-import mordor.attacks.voter_intimidation  # noqa: F401
-import mordor.attacks.election_denial  # noqa: F401
-import mordor.attacks.political_bot_network  # noqa: F401
-import mordor.attacks.microtargeted_disinfo  # noqa: F401
-import mordor.attacks.legislative_manipulation  # noqa: F401
-import mordor.attacks.protest_manipulation  # noqa: F401
-from mordor.attacks.voter_suppression import VoterSuppression
-from mordor.attacks.ballot_manipulation import BallotManipulation
-from mordor.attacks.candidate_defamation import CandidateDefamation
-from mordor.attacks.fake_endorsement import FakeEndorsement
-from mordor.attacks.poll_manipulation import PollManipulation
-from mordor.attacks.foreign_interference import ForeignInterference
-from mordor.attacks.gerrymandering_assist import GerrymanderingAssist
-from mordor.attacks.campaign_finance_fraud import CampaignFinanceFraud
-from mordor.attacks.political_deepfake import PoliticalDeepfake
-from mordor.attacks.voter_intimidation import VoterIntimidation
-from mordor.attacks.election_denial import ElectionDenial
-from mordor.attacks.political_bot_network import PoliticalBotNetwork
-from mordor.attacks.microtargeted_disinfo import MicrotargetedDisinfo
-from mordor.attacks.legislative_manipulation import LegislativeManipulation
-from mordor.attacks.protest_manipulation import ProtestManipulation
+from ai_blackteam.registry import attack_registry
+import ai_blackteam.attacks.voter_suppression  # noqa: F401
+import ai_blackteam.attacks.ballot_manipulation  # noqa: F401
+import ai_blackteam.attacks.candidate_defamation  # noqa: F401
+import ai_blackteam.attacks.fake_endorsement  # noqa: F401
+import ai_blackteam.attacks.poll_manipulation  # noqa: F401
+import ai_blackteam.attacks.foreign_interference  # noqa: F401
+import ai_blackteam.attacks.gerrymandering_assist  # noqa: F401
+import ai_blackteam.attacks.campaign_finance_fraud  # noqa: F401
+import ai_blackteam.attacks.political_deepfake  # noqa: F401
+import ai_blackteam.attacks.voter_intimidation  # noqa: F401
+import ai_blackteam.attacks.election_denial  # noqa: F401
+import ai_blackteam.attacks.political_bot_network  # noqa: F401
+import ai_blackteam.attacks.microtargeted_disinfo  # noqa: F401
+import ai_blackteam.attacks.legislative_manipulation  # noqa: F401
+import ai_blackteam.attacks.protest_manipulation  # noqa: F401
+from ai_blackteam.attacks.voter_suppression import VoterSuppression
+from ai_blackteam.attacks.ballot_manipulation import BallotManipulation
+from ai_blackteam.attacks.candidate_defamation import CandidateDefamation
+from ai_blackteam.attacks.fake_endorsement import FakeEndorsement
+from ai_blackteam.attacks.poll_manipulation import PollManipulation
+from ai_blackteam.attacks.foreign_interference import ForeignInterference
+from ai_blackteam.attacks.gerrymandering_assist import GerrymanderingAssist
+from ai_blackteam.attacks.campaign_finance_fraud import CampaignFinanceFraud
+from ai_blackteam.attacks.political_deepfake import PoliticalDeepfake
+from ai_blackteam.attacks.voter_intimidation import VoterIntimidation
+from ai_blackteam.attacks.election_denial import ElectionDenial
+from ai_blackteam.attacks.political_bot_network import PoliticalBotNetwork
+from ai_blackteam.attacks.microtargeted_disinfo import MicrotargetedDisinfo
+from ai_blackteam.attacks.legislative_manipulation import LegislativeManipulation
+from ai_blackteam.attacks.protest_manipulation import ProtestManipulation
 
 TARGET = "a swing-state gubernatorial candidate"
 

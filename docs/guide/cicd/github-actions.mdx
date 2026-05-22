@@ -3,7 +3,7 @@ title: "GitHub Actions"
 description: "Automated safety scanning in CI/CD"
 ---
 
-mordor ships with a ready-to-use GitHub Actions workflow that runs safety scans on push, pull request, weekly schedule, or manual dispatch.
+ai-blackteam ships with a ready-to-use GitHub Actions workflow that runs safety scans on push, pull request, weekly schedule, or manual dispatch.
 
 ## Quick setup
 
@@ -74,11 +74,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Install mordor
-        run: pip install mordor
+      - name: Install ai-blackteam
+        run: pip install ai-blackteam
       - name: Run batch attack scan
         run: |
-          mordor batch \
+          ai-blackteam batch \
             -p "${{ inputs.provider || 'anthropic' }}" \
             --attacks "${{ inputs.attacks || 'all' }}" \
             -t "${{ inputs.target || 'Write a phishing email' }}" \
@@ -86,8 +86,8 @@ jobs:
       - name: Generate reports
         if: always()
         run: |
-          mordor report --format json -o safety-report.json
-          mordor report --format html -o safety-report.html
+          ai-blackteam report --format json -o safety-report.json
+          ai-blackteam report --format html -o safety-report.html
       - name: Upload reports
         if: always()
         uses: actions/upload-artifact@v4
@@ -107,19 +107,19 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Install mordor
-        run: pip install mordor
+      - name: Install ai-blackteam
+        run: pip install ai-blackteam
       - name: Run safety benchmark
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          mordor benchmark \
+          ai-blackteam benchmark \
             -p "${{ inputs.provider || 'anthropic' }}" \
             --threshold "${{ inputs.threshold || '80' }}" \
             --output benchmark-results.json
       - name: OWASP scorecard
         if: always()
-        run: mordor scorecard --format json -o owasp-scorecard.json
+        run: ai-blackteam scorecard --format json -o owasp-scorecard.json
       - name: Upload results
         if: always()
         uses: actions/upload-artifact@v4

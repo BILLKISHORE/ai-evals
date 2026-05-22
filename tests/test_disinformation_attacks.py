@@ -1,37 +1,37 @@
 """Tests for 15 disinformation and manipulation attacks."""
 
 import pytest
-from mordor.registry import attack_registry
-import mordor.attacks.fake_news_generation  # noqa: F401
-import mordor.attacks.deepfake_script  # noqa: F401
-import mordor.attacks.astroturfing  # noqa: F401
-import mordor.attacks.propaganda_generation  # noqa: F401
-import mordor.attacks.conspiracy_amplification  # noqa: F401
-import mordor.attacks.scientific_fraud  # noqa: F401
-import mordor.attacks.historical_revisionism  # noqa: F401
-import mordor.attacks.fake_review_generation  # noqa: F401
-import mordor.attacks.sock_puppet  # noqa: F401
-import mordor.attacks.narrative_warfare  # noqa: F401
-import mordor.attacks.expert_impersonation  # noqa: F401
-import mordor.attacks.selective_quoting  # noqa: F401
-import mordor.attacks.emotional_manipulation_campaign  # noqa: F401
-import mordor.attacks.fake_statistics  # noqa: F401
-import mordor.attacks.coordinated_inauthentic  # noqa: F401
-from mordor.attacks.fake_news_generation import FakeNewsGeneration
-from mordor.attacks.deepfake_script import DeepfakeScript
-from mordor.attacks.astroturfing import Astroturfing
-from mordor.attacks.propaganda_generation import PropagandaGeneration
-from mordor.attacks.conspiracy_amplification import ConspiracyAmplification
-from mordor.attacks.scientific_fraud import ScientificFraud
-from mordor.attacks.historical_revisionism import HistoricalRevisionism
-from mordor.attacks.fake_review_generation import FakeReviewGeneration
-from mordor.attacks.sock_puppet import SockPuppet
-from mordor.attacks.narrative_warfare import NarrativeWarfare
-from mordor.attacks.expert_impersonation import ExpertImpersonation
-from mordor.attacks.selective_quoting import SelectiveQuoting
-from mordor.attacks.emotional_manipulation_campaign import EmotionalManipulationCampaign
-from mordor.attacks.fake_statistics import FakeStatistics
-from mordor.attacks.coordinated_inauthentic import CoordinatedInauthentic
+from ai_blackteam.registry import attack_registry
+import ai_blackteam.attacks.fake_news_generation  # noqa: F401
+import ai_blackteam.attacks.deepfake_script  # noqa: F401
+import ai_blackteam.attacks.astroturfing  # noqa: F401
+import ai_blackteam.attacks.propaganda_generation  # noqa: F401
+import ai_blackteam.attacks.conspiracy_amplification  # noqa: F401
+import ai_blackteam.attacks.scientific_fraud  # noqa: F401
+import ai_blackteam.attacks.historical_revisionism  # noqa: F401
+import ai_blackteam.attacks.fake_review_generation  # noqa: F401
+import ai_blackteam.attacks.sock_puppet  # noqa: F401
+import ai_blackteam.attacks.narrative_warfare  # noqa: F401
+import ai_blackteam.attacks.expert_impersonation  # noqa: F401
+import ai_blackteam.attacks.selective_quoting  # noqa: F401
+import ai_blackteam.attacks.emotional_manipulation_campaign  # noqa: F401
+import ai_blackteam.attacks.fake_statistics  # noqa: F401
+import ai_blackteam.attacks.coordinated_inauthentic  # noqa: F401
+from ai_blackteam.attacks.fake_news_generation import FakeNewsGeneration
+from ai_blackteam.attacks.deepfake_script import DeepfakeScript
+from ai_blackteam.attacks.astroturfing import Astroturfing
+from ai_blackteam.attacks.propaganda_generation import PropagandaGeneration
+from ai_blackteam.attacks.conspiracy_amplification import ConspiracyAmplification
+from ai_blackteam.attacks.scientific_fraud import ScientificFraud
+from ai_blackteam.attacks.historical_revisionism import HistoricalRevisionism
+from ai_blackteam.attacks.fake_review_generation import FakeReviewGeneration
+from ai_blackteam.attacks.sock_puppet import SockPuppet
+from ai_blackteam.attacks.narrative_warfare import NarrativeWarfare
+from ai_blackteam.attacks.expert_impersonation import ExpertImpersonation
+from ai_blackteam.attacks.selective_quoting import SelectiveQuoting
+from ai_blackteam.attacks.emotional_manipulation_campaign import EmotionalManipulationCampaign
+from ai_blackteam.attacks.fake_statistics import FakeStatistics
+from ai_blackteam.attacks.coordinated_inauthentic import CoordinatedInauthentic
 
 TARGET = "a controversial public health policy"
 

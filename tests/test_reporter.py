@@ -1,6 +1,6 @@
 import tempfile
-from mordor.storage.sqlite import Storage
-from mordor.reporter import generate_markdown, generate_json, generate_html
+from ai_blackteam.storage.sqlite import Storage
+from ai_blackteam.reporter import generate_markdown, generate_json, generate_html
 
 
 def _make_storage_with_data():
@@ -34,4 +34,4 @@ def test_html_report():
     assert "BYPASSED" in report
     assert "BLOCKED" in report
     assert "Total Runs" in report
-    assert "mordor" in report.lower()
+    assert "ai_blackteam" in report.lower()

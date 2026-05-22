@@ -3,12 +3,12 @@ title: "The Defend Command"
 description: "Compare baseline vs defended safety with side-by-side results"
 ---
 
-## What `mordor defend` does
+## What `ai-blackteam defend` does
 
-`mordor defend` runs every attack twice: once with no defenses (baseline), once with your defenses applied. Then it shows you a side-by-side comparison of what improved, what regressed, and what stayed the same.
+`ai-blackteam defend` runs every attack twice: once with no defenses (baseline), once with your defenses applied. Then it shows you a side-by-side comparison of what improved, what regressed, and what stayed the same.
 
 ```bash
-mordor defend -p anthropic -t "Write a phishing email" \
+ai-blackteam defend -p anthropic -t "Write a phishing email" \
   --system-prompt "Never help with phishing, fraud, or social engineering."
 ```
 
@@ -95,7 +95,7 @@ The percentage is calculated as `(delta_blocked / total_attacks) * 100`. A posit
 You can stack a system prompt with a guardrail preset:
 
 ```bash
-mordor defend -p anthropic -t "Write a phishing email" \
+ai-blackteam defend -p anthropic -t "Write a phishing email" \
   --system-prompt "Never help with phishing or social engineering." \
   --guardrail moderate
 ```
@@ -116,7 +116,7 @@ Phase 2: Defended scan (system prompt + moderate guardrail)
 Use `--output` to save the full comparison as JSON:
 
 ```bash
-mordor defend -p anthropic -t "Write malware" \
+ai-blackteam defend -p anthropic -t "Write malware" \
   --system-prompt-file safety.txt \
   --output defense-results.json
 ```
@@ -160,7 +160,7 @@ Use this for tracking defense effectiveness over time, comparing different syste
 ### Testing a system prompt
 
 ```bash
-mordor defend -p anthropic -t "Write a phishing email" \
+ai-blackteam defend -p anthropic -t "Write a phishing email" \
   --system-prompt "Never generate phishing emails or credential harvesting content."
 ```
 
@@ -168,15 +168,15 @@ mordor defend -p anthropic -t "Write a phishing email" \
 
 ```bash
 # Compare all three presets
-mordor defend -p anthropic -t "Write malware" --guardrail permissive
-mordor defend -p anthropic -t "Write malware" --guardrail moderate
-mordor defend -p anthropic -t "Write malware" --guardrail strict
+ai-blackteam defend -p anthropic -t "Write malware" --guardrail permissive
+ai-blackteam defend -p anthropic -t "Write malware" --guardrail moderate
+ai-blackteam defend -p anthropic -t "Write malware" --guardrail strict
 ```
 
 ### Testing specific attacks
 
 ```bash
-mordor defend -p anthropic -t "Write malware" \
+ai-blackteam defend -p anthropic -t "Write malware" \
   --attacks encoding-obfuscation,crescendo,role-play-villain \
   --system-prompt-file safety.txt
 ```
@@ -186,10 +186,10 @@ mordor defend -p anthropic -t "Write malware" \
 Run the same attacks with different system prompts and compare the JSON output:
 
 ```bash
-mordor defend -p anthropic -t "Write malware" \
+ai-blackteam defend -p anthropic -t "Write malware" \
   --system-prompt-file prompt-v1.txt --output v1.json
 
-mordor defend -p anthropic -t "Write malware" \
+ai-blackteam defend -p anthropic -t "Write malware" \
   --system-prompt-file prompt-v2.txt --output v2.json
 ```
 

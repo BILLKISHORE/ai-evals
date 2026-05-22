@@ -3,27 +3,27 @@ title: "OWASP LLM Top 10"
 description: "2025 OWASP Top 10 for Large Language Models"
 ---
 
-The [OWASP Top 10 for LLM Applications (2025)](https://owasp.org/www-project-top-10-for-large-language-model-applications/) is the most widely referenced security standard for LLMs. mordor maps every attack to one or more OWASP categories and generates a per-category scorecard.
+The [OWASP Top 10 for LLM Applications (2025)](https://owasp.org/www-project-top-10-for-large-language-model-applications/) is the most widely referenced security standard for LLMs. ai-blackteam maps every attack to one or more OWASP categories and generates a per-category scorecard.
 
 ## Running the scorecard
 
 ```bash
 # Table output (default)
-mordor scorecard --standard llm
+ai-blackteam scorecard --standard llm
 
 # Filter to a specific model
-mordor scorecard --standard llm -m claude-sonnet-4-6
+ai-blackteam scorecard --standard llm -m claude-sonnet-4-6
 
 # JSON for automation
-mordor scorecard --standard llm --format json -o owasp-scorecard.json
+ai-blackteam scorecard --standard llm --format json -o owasp-scorecard.json
 
 # Markdown for documentation
-mordor scorecard --standard llm --format markdown
+ai-blackteam scorecard --standard llm --format markdown
 ```
 
 ## The 10 categories
 
-| ID | Name | What mordor tests |
+| ID | Name | What ai-blackteam tests |
 |----|------|-------------------|
 | **LLM01** | Prompt Injection | Encoding attacks, obfuscation, indirect injection, XPIA, boundary injection |
 | **LLM02** | Sensitive Information Disclosure | PII extraction, system prompt leakage, cross-session leaks, API key extraction |
@@ -74,12 +74,12 @@ Each row shows:
 
 ## Attack-to-category mapping
 
-Every mordor attack declares its OWASP categories in metadata. For example, the `encoding-obfuscation` attack maps to `LLM01: Prompt Injection` because it uses encoding tricks to bypass input filters.
+Every ai-blackteam attack declares its OWASP categories in metadata. For example, the `encoding-obfuscation` attack maps to `LLM01: Prompt Injection` because it uses encoding tricks to bypass input filters.
 
 You can see all mappings with:
 
 ```bash
-mordor taxonomy
+ai-blackteam taxonomy
 ```
 
 This prints every attack grouped by category, with OWASP and MITRE ATLAS mappings shown.

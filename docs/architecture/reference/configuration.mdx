@@ -3,19 +3,19 @@ title: "Configuration"
 description: "Config file, environment variables, and defaults"
 ---
 
-mordor uses a YAML config file with environment variable fallbacks. Most things work out of the box - you just need to set API keys.
+ai-blackteam uses a YAML config file with environment variable fallbacks. Most things work out of the box - you just need to set API keys.
 
 ## Config File Location
 
 ```
-~/.mordor/config.yaml
+~/.ai-blackteam/config.yaml
 ```
 
 Created automatically on first use. Override with `--config` or by passing a path to `load_config()`.
 
 ## Full Default Config
 
-This is what mordor uses when no config file exists:
+This is what ai-blackteam uses when no config file exists:
 
 ```yaml
 providers:
@@ -50,7 +50,7 @@ evaluator:
     partial: 0.2
 
 storage:
-  database: ~/.mordor/results.db
+  database: ~/.ai-blackteam/results.db
 
 workers: 1
 timeout_seconds: 60
@@ -61,16 +61,16 @@ timeout_seconds: 60
 ### CLI
 
 ```bash
-mordor config set providers.anthropic.api_key sk-ant-api03-...
-mordor config set providers.openai.default_model gpt-5.4
-mordor config set workers 10
-mordor config set storage.database /tmp/test.db
+ai-blackteam config set providers.anthropic.api_key sk-ant-api03-...
+ai-blackteam config set providers.openai.default_model gpt-5.4
+ai-blackteam config set workers 10
+ai-blackteam config set storage.database /tmp/test.db
 ```
 
 ### Python
 
 ```python
-from mordor.config import set_config_value
+from ai_blackteam.config import set_config_value
 
 set_config_value("providers.anthropic.api_key", "sk-ant-...")
 set_config_value("workers", 10)
@@ -79,7 +79,7 @@ set_config_value("workers", 10)
 ### Direct YAML Edit
 
 ```yaml
-# ~/.mordor/config.yaml
+# ~/.ai-blackteam/config.yaml
 providers:
   anthropic:
     api_key: sk-ant-api03-...
@@ -94,7 +94,7 @@ workers: 10
 
 ### API Keys
 
-Environment variables take precedence over null config values. mordor checks for `{PROVIDER_NAME_UPPER}_API_KEY`:
+Environment variables take precedence over null config values. ai-blackteam checks for `{PROVIDER_NAME_UPPER}_API_KEY`:
 
 | Provider | Environment Variable |
 |----------|---------------------|
@@ -110,7 +110,7 @@ Ollama doesn't need an API key.
 ```bash
 export ANTHROPIC_API_KEY=sk-ant-api03-...
 export OPENAI_API_KEY=sk-...
-mordor batch -p anthropic -t "Write malware"
+ai-blackteam batch -p anthropic -t "Write malware"
 ```
 
 ### Config File References
@@ -128,18 +128,18 @@ The `${VAR_NAME}` syntax is resolved when config is loaded.
 ## Config Resolution Order
 
 1. Default config (hardcoded)
-2. Config file (`~/.mordor/config.yaml`) - merged on top
+2. Config file (`~/.ai-blackteam/config.yaml`) - merged on top
 3. Environment variables - fill in null API keys
 
 For API keys specifically:
 - If the config file has a non-null value, that's used
-- If the config value is null, mordor checks the environment variable
+- If the config value is null, ai-blackteam checks the environment variable
 - If neither exists, the provider will fail with an auth error
 
 ## Viewing Current Config
 
 ```bash
-mordor config show
+ai-blackteam config show
 ```
 
 Displays the resolved config with API keys truncated (first 8 chars + `...`).
@@ -160,12 +160,12 @@ workers: 10
 
 | Path | Purpose |
 |------|---------|
-| `~/.mordor/` | Config directory |
-| `~/.mordor/config.yaml` | Main config file |
-| `~/.mordor/results.db` | SQLite database |
-| `~/.mordor/datasets/` | Cached dataset files |
-| `~/.mordor/datasets/{name}.jsonl` | Individual dataset cache |
+| `~/.ai-blackteam/` | Config directory |
+| `~/.ai-blackteam/config.yaml` | Main config file |
+| `~/.ai-blackteam/results.db` | SQLite database |
+| `~/.ai-blackteam/datasets/` | Cached dataset files |
+| `~/.ai-blackteam/datasets/{name}.jsonl` | Individual dataset cache |
 
 ## Source
 
-`src/mordor/config.py`
+`src/ai-blackteam/config.py`

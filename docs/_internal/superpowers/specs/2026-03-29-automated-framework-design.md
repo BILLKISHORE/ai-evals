@@ -12,7 +12,7 @@ A pip-installable Python framework for automated LLM security testing. Researche
 
 ## Goals
 
-1. `pip install mordor` -- single install, everything included
+1. `pip install ai-blackteam` -- single install, everything included
 2. Test any LLM (7 providers) with any attack (11 built-in) in one command
 3. Pluggable architecture -- anyone can add new providers and attacks by dropping a file
 4. Three output formats: SQLite (queryable), Markdown (human-readable), HTML (shareable)
@@ -30,9 +30,9 @@ A pip-installable Python framework for automated LLM security testing. Researche
 ## Package Structure
 
 ```
-mordor/
+ai-blackteam/
 ├── src/
-│   └── mordor/
+│   └── ai-blackteam/
 │       ├── __init__.py
 │       ├── cli.py                  # Click CLI entry point
 │       ├── engine.py               # Orchestrator (3 execution modes)
@@ -89,7 +89,7 @@ mordor/
 Providers and attacks register via decorators:
 
 ```python
-from mordor.providers import register_provider
+from ai_blackteam.providers import register_provider
 
 @register_provider("anthropic")
 class AnthropicProvider(BaseProvider):
@@ -97,7 +97,7 @@ class AnthropicProvider(BaseProvider):
 ```
 
 ```python
-from mordor.attacks import register_attack
+from ai_blackteam.attacks import register_attack
 
 @register_attack("role-play-bypass")
 class RolePlayBypass(BaseAttack):
@@ -116,7 +116,7 @@ class RolePlayBypass(BaseAttack):
 1. Create `plugins/my_attack.py`
 2. Import decorator + base class
 3. Write class with `@register_attack("my-attack")`
-4. Shows up in `mordor list-attacks`, works with all CLI commands
+4. Shows up in `ai-blackteam list-attacks`, works with all CLI commands
 
 ---
 
@@ -312,7 +312,7 @@ Users can override thresholds and disable individual methods.
 
 ### SQLite (default, queryable)
 
-Location: `~/.mordor/results.db`
+Location: `~/.ai-blackteam/results.db`
 
 Tables:
 - `runs` -- one row per attack execution (provider, model, attack, target, verdict, scores, timing)
@@ -321,7 +321,7 @@ Tables:
 
 ### Markdown Export
 
-`mordor export --run-id 12 --output experiments/` creates:
+`ai-blackteam export --run-id 12 --output experiments/` creates:
 ```
 experiments/YYYY-MM-DD-attack-model/
   README.md        # Frontmatter + results
@@ -357,35 +357,35 @@ This is the client deliverable when the tool becomes a consulting product.
 
 ```bash
 # Discovery
-mordor list-providers          # Show available providers
-mordor list-attacks            # Show available attacks
+ai-blackteam list-providers          # Show available providers
+ai-blackteam list-attacks            # Show available attacks
 
 # Single run
-mordor run -p anthropic -m claude-sonnet-4-6 -a role-play-bypass -t "target"
+ai-blackteam run -p anthropic -m claude-sonnet-4-6 -a role-play-bypass -t "target"
 
 # Batch
-mordor batch -p anthropic -m claude-sonnet-4-6 --attacks all -t "target"
-mordor batch -a encoding-obfuscation --providers all -t "target"
+ai-blackteam batch -p anthropic -m claude-sonnet-4-6 --attacks all -t "target"
+ai-blackteam batch -a encoding-obfuscation --providers all -t "target"
 
 # Full sweep
-mordor sweep -t "target"
+ai-blackteam sweep -t "target"
 
 # Reports
-mordor report --format markdown|json|html --output file
+ai-blackteam report --format markdown|json|html --output file
 
 # Export to experiment folder
-mordor export --run-id 12 --output experiments/
+ai-blackteam export --run-id 12 --output experiments/
 
 # Config
-mordor config --show
-mordor config --set providers.anthropic.api_key VALUE
+ai-blackteam config --show
+ai-blackteam config --set providers.anthropic.api_key VALUE
 ```
 
 ---
 
 ## Configuration
 
-`~/.mordor/config.yaml`:
+`~/.ai-blackteam/config.yaml`:
 
 ```yaml
 providers:
@@ -419,7 +419,7 @@ evaluator:
     partial: 0.2
 
 storage:
-  database: ~/.mordor/results.db
+  database: ~/.ai-blackteam/results.db
 
 workers: 4                    # parallel execution
 timeout_seconds: 60

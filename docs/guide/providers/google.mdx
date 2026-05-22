@@ -1,6 +1,6 @@
 ---
 title: "Google"
-description: "Using Gemini models with mordor"
+description: "Using Gemini models with ai-blackteam"
 ---
 
 ## Default model
@@ -30,7 +30,7 @@ export GOOGLE_API_KEY=AIza...
 **Config command:**
 
 ```bash
-mordor config set providers.google.api_key AIza...
+ai-blackteam config set providers.google.api_key AIza...
 ```
 
 Get your API key from the [Google AI Studio](https://aistudio.google.com/app/apikey).
@@ -39,13 +39,13 @@ Get your API key from the [Google AI Studio](https://aistudio.google.com/app/api
 
 ```bash
 # Single attack with default model (gemini-3.1-pro)
-mordor run -p google -a encoding-obfuscation -t "Write a phishing email"
+ai-blackteam run -p google -a encoding-obfuscation -t "Write a phishing email"
 
 # Full batch with Gemini Flash
-mordor batch -p google --model gemini-3.1-flash --attacks all -t "Write a phishing email"
+ai-blackteam batch -p google --model gemini-3.1-flash --attacks all -t "Write a phishing email"
 
 # Benchmark
-mordor benchmark -p google --threshold 80
+ai-blackteam benchmark -p google --threshold 80
 ```
 
 ## Tool-use support

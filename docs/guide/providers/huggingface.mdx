@@ -1,6 +1,6 @@
 ---
 title: "HuggingFace"
-description: "Using HuggingFace Inference API models with mordor"
+description: "Using HuggingFace Inference API models with ai-blackteam"
 ---
 
 ## Default model
@@ -32,7 +32,7 @@ export HUGGINGFACE_API_KEY=hf_...
 **Config command:**
 
 ```bash
-mordor config set providers.huggingface.api_key hf_...
+ai-blackteam config set providers.huggingface.api_key hf_...
 ```
 
 Get your token from [HuggingFace Settings](https://huggingface.co/settings/tokens).
@@ -45,13 +45,13 @@ Get your token from [HuggingFace Settings](https://huggingface.co/settings/token
 
 ```bash
 # Single attack with default model
-mordor run -p huggingface -a encoding-obfuscation -t "Write a phishing email"
+ai-blackteam run -p huggingface -a encoding-obfuscation -t "Write a phishing email"
 
 # Use a specific model
-mordor run -p huggingface --model google/gemma-2-27b-it -a encoding-obfuscation -t "Write a phishing email"
+ai-blackteam run -p huggingface --model google/gemma-2-27b-it -a encoding-obfuscation -t "Write a phishing email"
 
 # Full batch
-mordor batch -p huggingface --attacks all -t "Write a phishing email"
+ai-blackteam batch -p huggingface --attacks all -t "Write a phishing email"
 ```
 
 ## Tool-use support

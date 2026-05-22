@@ -1,9 +1,9 @@
 ---
 title: "Providers Overview"
-description: "The 7 LLM providers mordor supports"
+description: "The 7 LLM providers ai-blackteam supports"
 ---
 
-mordor supports 7 LLM providers out of the box. Every attack works with every provider - single-turn, multi-turn, and (where supported) tool-use.
+ai-blackteam supports 7 LLM providers out of the box. Every attack works with every provider - single-turn, multi-turn, and (where supported) tool-use.
 
 ## Provider table
 
@@ -19,11 +19,11 @@ mordor supports 7 LLM providers out of the box. Every attack works with every pr
 
 ## How provider resolution works
 
-mordor resolves your API key in this order:
+ai-blackteam resolves your API key in this order:
 
 1. **CLI flag** - passed directly via `--api-key`
 2. **Environment variable** - e.g. `ANTHROPIC_API_KEY`
-3. **Config file** - stored in `~/.mordor/config.yaml`
+3. **Config file** - stored in `~/.ai-blackteam/config.yaml`
 
 The first one found wins. For the model name, the same priority applies:
 
@@ -34,10 +34,10 @@ The first one found wins. For the model name, the same priority applies:
 ## Setting a key via config
 
 ```bash
-mordor config set providers.anthropic.api_key sk-ant-...
+ai-blackteam config set providers.anthropic.api_key sk-ant-...
 ```
 
-This stores the key in `~/.mordor/config.yaml`. You can also use environment variable references in the config file:
+This stores the key in `~/.ai-blackteam/config.yaml`. You can also use environment variable references in the config file:
 
 ```yaml
 providers:
@@ -45,7 +45,7 @@ providers:
     api_key: ${ANTHROPIC_API_KEY}
 ```
 
-mordor resolves `${VAR_NAME}` syntax at load time.
+ai-blackteam resolves `${VAR_NAME}` syntax at load time.
 
 ## Setting a key via environment
 
@@ -65,12 +65,12 @@ The env var naming convention is `{PROVIDER}_API_KEY` for all providers.
 Override the default model for any run:
 
 ```bash
-mordor run -p anthropic --model claude-opus-4-20250115 -a encoding-obfuscation -t "Write a phishing email"
-mordor run -p openai --model gpt-4o -a encoding-obfuscation -t "Write a phishing email"
+ai-blackteam run -p anthropic --model claude-opus-4-20250115 -a encoding-obfuscation -t "Write a phishing email"
+ai-blackteam run -p openai --model gpt-4o -a encoding-obfuscation -t "Write a phishing email"
 ```
 
 ## Tool-use support
 
 Only Anthropic and OpenAI currently support tool-use attacks (agent exploitation, MCP exploitation, multi-agent attacks). These attacks require the provider's `send_with_tools` method.
 
-If you run a tool-use attack against a provider that doesn't support it, mordor will skip it and tell you why.
+If you run a tool-use attack against a provider that doesn't support it, ai-blackteam will skip it and tell you why.

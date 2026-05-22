@@ -37,9 +37,9 @@ runs:
       with:
         python-version: ${{ inputs.python-version }}
 
-    - name: Install mordor
+    - name: Install ai-blackteam
       shell: bash
-      run: pip install mordor
+      run: pip install ai-blackteam
 
     - name: Run batch attack scan
       shell: bash
@@ -54,7 +54,7 @@ runs:
           MODEL_FLAG="-m $MODEL"
         fi
 
-        mordor batch \
+        ai-blackteam batch \
           -p "$PROVIDER" \
           $MODEL_FLAG \
           --attacks "$ATTACKS" \
@@ -74,7 +74,7 @@ runs:
           MODEL_FLAG="-m $MODEL"
         fi
 
-        mordor benchmark \
+        ai-blackteam benchmark \
           -p "$PROVIDER" \
           $MODEL_FLAG \
           --threshold "$THRESHOLD" \
@@ -84,14 +84,14 @@ runs:
       if: always()
       shell: bash
       run: |
-        mordor report --format json -o safety-report.json
-        mordor report --format html -o safety-report.html
+        ai-blackteam report --format json -o safety-report.json
+        ai-blackteam report --format html -o safety-report.html
 
     - name: Upload reports
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: mordor-safety-reports
+        name: ai-blackteam-safety-reports
         path: |
           safety-report.json
           safety-report.html

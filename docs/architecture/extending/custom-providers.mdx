@@ -3,15 +3,15 @@ title: "Writing Custom Providers"
 description: "Add support for new LLM providers"
 ---
 
-Adding a new LLM provider to mordor requires implementing the `BaseProvider` contract. One file, three methods.
+Adding a new LLM provider to ai-blackteam requires implementing the `BaseProvider` contract. One file, three methods.
 
 ## Quick Start
 
-Create `src/mordor/providers/your_provider.py`:
+Create `src/ai-blackteam/providers/your_provider.py`:
 
 ```python
-from mordor.registry import register_provider
-from mordor.providers.base import BaseProvider, PromptResult
+from ai_blackteam.registry import register_provider
+from ai_blackteam.providers.base import BaseProvider, PromptResult
 
 
 @register_provider("your-provider")
@@ -86,7 +86,7 @@ Send a full conversation. The `messages` parameter is a list of dicts:
 If your provider supports function calling, override `send_with_tools()` and `supports_tools()`:
 
 ```python
-from mordor.providers.base import ToolResult
+from ai_blackteam.providers.base import ToolResult
 
 @register_provider("your-provider")
 class YourProvider(BaseProvider):
@@ -121,7 +121,7 @@ class YourProvider(BaseProvider):
 
 ## Register the Default Config
 
-Add your provider's default configuration to `src/mordor/config.py`:
+Add your provider's default configuration to `src/ai-blackteam/config.py`:
 
 ```python
 DEFAULT_CONFIG = {
@@ -141,7 +141,7 @@ DEFAULT_CONFIG = {
 Users configure it with:
 
 ```bash
-mordor config set providers.your-provider.api_key YOUR_KEY
+ai-blackteam config set providers.your-provider.api_key YOUR_KEY
 ```
 
 Or via environment variable `YOUR_PROVIDER_API_KEY`. The config loader automatically checks for `{PROVIDER_NAME_UPPER}_API_KEY`.
@@ -150,8 +150,8 @@ Or via environment variable `YOUR_PROVIDER_API_KEY`. The config loader automatic
 
 ```python
 import os
-from mordor.registry import register_provider
-from mordor.providers.base import BaseProvider, PromptResult, ToolResult
+from ai_blackteam.registry import register_provider
+from ai_blackteam.providers.base import BaseProvider, PromptResult, ToolResult
 
 
 @register_provider("example")
@@ -188,7 +188,7 @@ class ExampleProvider(BaseProvider):
 
 ```python
 def test_example_provider():
-    from mordor.providers.example import ExampleProvider
+    from ai_blackteam.providers.example import ExampleProvider
 
     prov = ExampleProvider(model="test-model")
     assert prov.model == "test-model"
@@ -201,7 +201,7 @@ def test_example_provider():
 
 ## Checklist
 
-1. File in `src/mordor/providers/`
+1. File in `src/ai-blackteam/providers/`
 2. Class extends `BaseProvider`
 3. Decorated with `@register_provider("name")`
 4. `default_model()` returns a string

@@ -1,30 +1,30 @@
 """Tests for the 25 scientific misconduct and research fraud attack techniques."""
 
-from mordor.attacks.data_fabrication import DataFabrication
-from mordor.attacks.p_hacking import PHacking
-from mordor.attacks.cherry_picking_data import CherryPickingData
-from mordor.attacks.image_manipulation_science import ImageManipulationScience
-from mordor.attacks.ghostwriting_papers import GhostwritingPapers
-from mordor.attacks.paper_mill import PaperMill
-from mordor.attacks.predatory_journal_exploit import PredatoryJournalExploit
-from mordor.attacks.citation_manipulation_science import CitationManipulationScience
-from mordor.attacks.ethics_committee_fraud import EthicsCommitteeFraud
-from mordor.attacks.grant_misuse import GrantMisuse
-from mordor.attacks.authorship_fraud import AuthorshipFraud
-from mordor.attacks.conflict_of_interest_hide import ConflictOfInterestHide
-from mordor.attacks.retraction_avoidance import RetractionAvoidance
-from mordor.attacks.duplicate_publication import DuplicatePublication
-from mordor.attacks.salami_slicing import SalamiSlicing
-from mordor.attacks.statistical_manipulation import StatisticalManipulation
-from mordor.attacks.method_fabrication import MethodFabrication
-from mordor.attacks.result_exaggeration import ResultExaggeration
-from mordor.attacks.selective_reporting import SelectiveReporting
-from mordor.attacks.sample_size_manipulation import SampleSizeManipulation
-from mordor.attacks.control_group_manipulation import ControlGroupManipulation
-from mordor.attacks.protocol_deviation_hide import ProtocolDeviationHide
-from mordor.attacks.informed_consent_fabrication import InformedConsentFabrication
-from mordor.attacks.adverse_event_suppression import AdverseEventSuppression
-from mordor.attacks.regulatory_submission_fraud import RegulatorySubmissionFraud
+from ai_blackteam.attacks.data_fabrication import DataFabrication
+from ai_blackteam.attacks.p_hacking import PHacking
+from ai_blackteam.attacks.cherry_picking_data import CherryPickingData
+from ai_blackteam.attacks.image_manipulation_science import ImageManipulationScience
+from ai_blackteam.attacks.ghostwriting_papers import GhostwritingPapers
+from ai_blackteam.attacks.paper_mill import PaperMill
+from ai_blackteam.attacks.predatory_journal_exploit import PredatoryJournalExploit
+from ai_blackteam.attacks.citation_manipulation_science import CitationManipulationScience
+from ai_blackteam.attacks.ethics_committee_fraud import EthicsCommitteeFraud
+from ai_blackteam.attacks.grant_misuse import GrantMisuse
+from ai_blackteam.attacks.authorship_fraud import AuthorshipFraud
+from ai_blackteam.attacks.conflict_of_interest_hide import ConflictOfInterestHide
+from ai_blackteam.attacks.retraction_avoidance import RetractionAvoidance
+from ai_blackteam.attacks.duplicate_publication import DuplicatePublication
+from ai_blackteam.attacks.salami_slicing import SalamiSlicing
+from ai_blackteam.attacks.statistical_manipulation import StatisticalManipulation
+from ai_blackteam.attacks.method_fabrication import MethodFabrication
+from ai_blackteam.attacks.result_exaggeration import ResultExaggeration
+from ai_blackteam.attacks.selective_reporting import SelectiveReporting
+from ai_blackteam.attacks.sample_size_manipulation import SampleSizeManipulation
+from ai_blackteam.attacks.control_group_manipulation import ControlGroupManipulation
+from ai_blackteam.attacks.protocol_deviation_hide import ProtocolDeviationHide
+from ai_blackteam.attacks.informed_consent_fabrication import InformedConsentFabrication
+from ai_blackteam.attacks.adverse_event_suppression import AdverseEventSuppression
+from ai_blackteam.attacks.regulatory_submission_fraud import RegulatorySubmissionFraud
 
 TARGET = "a pharmaceutical company clinical trial"
 
@@ -278,7 +278,7 @@ def test_critical_severity_attacks():
 
 
 def test_all_scientific_misconduct_attacks_registered_in_registry():
-    from mordor.registry import attack_registry
+    from ai_blackteam.registry import attack_registry
     technique_ids = [
         "data-fabrication",
         "p-hacking",

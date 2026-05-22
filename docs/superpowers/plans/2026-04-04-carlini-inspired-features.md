@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Add vulnerability research elicitation attacks, functional exploit verification, and longitudinal capability tracking to mordor.
+**Goal:** Add vulnerability research elicitation attacks, functional exploit verification, and longitudinal capability tracking to ai-blackteam.
 
 **Architecture:** Three features that stack: (1) new attack category with code corpus feeds into (2) pluggable exploit verifier which feeds into (3) snapshot-based tracking system. Each feature extends existing BaseAttack/Engine/Evaluator/Storage without breaking current behavior.
 
@@ -15,10 +15,10 @@
 ### New Files
 | File | Responsibility |
 |------|---------------|
-| `src/mordor/code_loader.py` | Load vulnerable code from corpus dirs or user paths, parse manifests |
-| `src/mordor/attacks/vuln_research.py` | VulnResearchAttack base + 3 sub-mode classes |
-| `src/mordor/verifier.py` | BaseVerifier, StaticVerifier, LLMVerifier, DockerVerifier (interface) |
-| `src/mordor/snapshot.py` | Snapshot creation, diff, trend, matrix rendering |
+| `src/ai-blackteam/code_loader.py` | Load vulnerable code from corpus dirs or user paths, parse manifests |
+| `src/ai-blackteam/attacks/vuln_research.py` | VulnResearchAttack base + 3 sub-mode classes |
+| `src/ai-blackteam/verifier.py` | BaseVerifier, StaticVerifier, LLMVerifier, DockerVerifier (interface) |
+| `src/ai-blackteam/snapshot.py` | Snapshot creation, diff, trend, matrix rendering |
 | `data/vulnerable_code/synthetic/manifest.json` | Ground truth for synthetic samples |
 | `data/vulnerable_code/synthetic/*.{c,py,js}` | 12 planted-bug code samples |
 | `data/vulnerable_code/cve/manifest.json` | Index of CVE reproductions |
@@ -31,11 +31,11 @@
 ### Modified Files
 | File | What Changes |
 |------|-------------|
-| `src/mordor/evaluator.py:8-132` | Add `vuln-research` to CATEGORY_KEYWORDS and TARGET_TYPE_HINTS |
-| `src/mordor/engine.py:1-247` | Add verify param to run methods, pass snapshot_id |
-| `src/mordor/storage/sqlite.py:20-55` | Add verify columns + snapshots table to schema |
-| `src/mordor/storage/sqlite.py:57-71` | Add save_run verify params, snapshot CRUD methods |
-| `src/mordor/cli.py:45-54` | Add `vuln-research` and `snapshot` subcommand groups |
+| `src/ai-blackteam/evaluator.py:8-132` | Add `vuln-research` to CATEGORY_KEYWORDS and TARGET_TYPE_HINTS |
+| `src/ai-blackteam/engine.py:1-247` | Add verify param to run methods, pass snapshot_id |
+| `src/ai-blackteam/storage/sqlite.py:20-55` | Add verify columns + snapshots table to schema |
+| `src/ai-blackteam/storage/sqlite.py:57-71` | Add save_run verify params, snapshot CRUD methods |
+| `src/ai-blackteam/cli.py:45-54` | Add `vuln-research` and `snapshot` subcommand groups |
 
 ---
 
@@ -503,7 +503,7 @@ git commit -m "added CVE reproduction corpus with Log4Shell, Heartbleed, and Str
 ### Task 3: Code Loader Module
 
 **Files:**
-- Create: `src/mordor/code_loader.py`
+- Create: `src/ai-blackteam/code_loader.py`
 - Create: `tests/test_vuln_research.py`
 
 - [ ] **Step 1: Write failing tests**
@@ -515,7 +515,7 @@ Create `tests/test_vuln_research.py`:
 
 from pathlib import Path
 
-from mordor.code_loader import CodeLoader
+from ai_blackteam.code_loader import CodeLoader
 
 
 DATA_DIR = Path(__file__).parent.parent / "data" / "vulnerable_code"
@@ -581,11 +581,11 @@ def test_loader_filters_by_extension(tmp_path):
 cd /home/billkishore/personal/ai-blackteam && python -m pytest tests/test_vuln_research.py -v
 ```
 
-Expected: ModuleNotFoundError for `mordor.code_loader`
+Expected: ModuleNotFoundError for `ai_blackteam.code_loader`
 
 - [ ] **Step 3: Implement code_loader.py**
 
-Create `src/mordor/code_loader.py`:
+Create `src/ai-blackteam/code_loader.py`:
 
 ```python
 import json
@@ -745,7 +745,7 @@ Expected: All 6 tests PASS
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/mordor/code_loader.py tests/test_vuln_research.py
+git add src/ai-blackteam/code_loader.py tests/test_vuln_research.py
 git commit -m "added code loader module for vulnerable code corpus"
 ```
 
@@ -754,7 +754,7 @@ git commit -m "added code loader module for vulnerable code corpus"
 ### Task 4: Vuln Research Attack Classes
 
 **Files:**
-- Create: `src/mordor/attacks/vuln_research.py`
+- Create: `src/ai-blackteam/attacks/vuln_research.py`
 - Modify: `tests/test_vuln_research.py`
 
 - [ ] **Step 1: Add failing tests for attack classes**
@@ -762,7 +762,7 @@ git commit -m "added code loader module for vulnerable code corpus"
 Append to `tests/test_vuln_research.py`:
 
 ```python
-from mordor.attacks.vuln_research import (
+from ai_blackteam.attacks.vuln_research import (
     VulnResearchSynthetic,
     VulnResearchCVE,
     VulnResearchUserCode,
@@ -810,8 +810,8 @@ def test_user_code_attack(tmp_path):
 
 
 def test_attack_registered():
-    from mordor.registry import attack_registry
-    from mordor import attacks
+    from ai_blackteam.registry import attack_registry
+    from ai_blackteam import attacks
     attack_registry.discover(attacks)
     assert attack_registry.get("vuln-research-synthetic") is not None
     assert attack_registry.get("vuln-research-cve") is not None
@@ -827,14 +827,14 @@ Expected: ImportError
 
 - [ ] **Step 3: Implement vuln_research.py**
 
-Create `src/mordor/attacks/vuln_research.py`:
+Create `src/ai-blackteam/attacks/vuln_research.py`:
 
 ```python
 from pathlib import Path
 
-from mordor.attacks.base import BaseAttack
-from mordor.code_loader import CodeLoader
-from mordor.registry import register_attack
+from ai_blackteam.attacks.base import BaseAttack
+from ai_blackteam.code_loader import CodeLoader
+from ai_blackteam.registry import register_attack
 
 
 DATA_DIR = Path(__file__).parent.parent.parent.parent / "data" / "vulnerable_code"
@@ -939,7 +939,7 @@ Expected: All tests PASS
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/mordor/attacks/vuln_research.py tests/test_vuln_research.py
+git add src/ai-blackteam/attacks/vuln_research.py tests/test_vuln_research.py
 git commit -m "added vulnerability research elicitation attack classes"
 ```
 
@@ -948,7 +948,7 @@ git commit -m "added vulnerability research elicitation attack classes"
 ### Task 5: Evaluator -- Add vuln-research Category
 
 **Files:**
-- Modify: `src/mordor/evaluator.py:8-228`
+- Modify: `src/ai-blackteam/evaluator.py:8-228`
 - Modify: `tests/test_vuln_research.py`
 
 - [ ] **Step 1: Write failing test**
@@ -956,7 +956,7 @@ git commit -m "added vulnerability research elicitation attack classes"
 Append to `tests/test_vuln_research.py`:
 
 ```python
-from mordor.evaluator import evaluate, _detect_target_type
+from ai_blackteam.evaluator import evaluate, _detect_target_type
 
 
 def test_detect_vuln_research_target():
@@ -991,7 +991,7 @@ Expected: AssertionError
 
 - [ ] **Step 3: Add vuln-research to CATEGORY_KEYWORDS**
 
-In `src/mordor/evaluator.py`, add to the `CATEGORY_KEYWORDS` dict (after the last entry before the closing `}`):
+In `src/ai-blackteam/evaluator.py`, add to the `CATEGORY_KEYWORDS` dict (after the last entry before the closing `}`):
 
 ```python
     "vuln-research": [
@@ -1013,7 +1013,7 @@ In `src/mordor/evaluator.py`, add to the `CATEGORY_KEYWORDS` dict (after the las
 
 - [ ] **Step 4: Add vuln-research to TARGET_TYPE_HINTS**
 
-In `src/mordor/evaluator.py`, add to `TARGET_TYPE_HINTS`:
+In `src/ai-blackteam/evaluator.py`, add to `TARGET_TYPE_HINTS`:
 
 ```python
     "vuln-research": [
@@ -1035,7 +1035,7 @@ Expected: All PASS
 - [ ] **Step 6: Commit**
 
 ```bash
-git add src/mordor/evaluator.py tests/test_vuln_research.py
+git add src/ai-blackteam/evaluator.py tests/test_vuln_research.py
 git commit -m "added vuln-research category to evaluator keywords and target detection"
 ```
 
@@ -1046,7 +1046,7 @@ git commit -m "added vuln-research category to evaluator keywords and target det
 ### Task 6: Verifier Module
 
 **Files:**
-- Create: `src/mordor/verifier.py`
+- Create: `src/ai-blackteam/verifier.py`
 - Create: `tests/test_verifier.py`
 
 - [ ] **Step 1: Write failing tests**
@@ -1056,7 +1056,7 @@ Create `tests/test_verifier.py`:
 ```python
 """Tests for exploit verification system."""
 
-from mordor.verifier import StaticVerifier, VerificationResult
+from ai_blackteam.verifier import StaticVerifier, VerificationResult
 
 
 def test_verification_result_structure():
@@ -1184,7 +1184,7 @@ Expected: ModuleNotFoundError
 
 - [ ] **Step 3: Implement verifier.py**
 
-Create `src/mordor/verifier.py` with content from the design spec. Full implementation includes:
+Create `src/ai-blackteam/verifier.py` with content from the design spec. Full implementation includes:
 - `VerificationResult` dataclass
 - `BaseVerifier` ABC
 - `StaticVerifier` with 3-pass analysis (code extraction, structural scoring, ground truth)
@@ -1205,7 +1205,7 @@ Expected: All 7 tests PASS
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/mordor/verifier.py tests/test_verifier.py
+git add src/ai-blackteam/verifier.py tests/test_verifier.py
 git commit -m "added pluggable exploit verifier with static analysis and LLM judge"
 ```
 
@@ -1214,14 +1214,14 @@ git commit -m "added pluggable exploit verifier with static analysis and LLM jud
 ### Task 7: Wire Verifier into Engine and Storage
 
 **Files:**
-- Modify: `src/mordor/storage/sqlite.py:20-55` (schema)
-- Modify: `src/mordor/storage/sqlite.py:57-71` (save_run)
-- Modify: `src/mordor/engine.py:14-62` (run_single)
-- Modify: `src/mordor/engine.py:206-212` (run dispatcher)
+- Modify: `src/ai-blackteam/storage/sqlite.py:20-55` (schema)
+- Modify: `src/ai-blackteam/storage/sqlite.py:57-71` (save_run)
+- Modify: `src/ai-blackteam/engine.py:14-62` (run_single)
+- Modify: `src/ai-blackteam/engine.py:206-212` (run dispatcher)
 
 - [ ] **Step 1: Update storage schema -- add verify columns + snapshots table**
 
-In `src/mordor/storage/sqlite.py`, replace the `_create_tables` method body with the version from the spec that adds `verify_status`, `verify_confidence`, `verify_ground_truth`, `snapshot_id` to runs, creates `snapshots` table, and includes migration ALTER TABLE fallbacks.
+In `src/ai-blackteam/storage/sqlite.py`, replace the `_create_tables` method body with the version from the spec that adds `verify_status`, `verify_confidence`, `verify_ground_truth`, `snapshot_id` to runs, creates `snapshots` table, and includes migration ALTER TABLE fallbacks.
 
 - [ ] **Step 2: Update save_run signature**
 
@@ -1246,7 +1246,7 @@ Expected: All PASS (new params have defaults)
 - [ ] **Step 6: Commit**
 
 ```bash
-git add src/mordor/storage/sqlite.py src/mordor/engine.py
+git add src/ai-blackteam/storage/sqlite.py src/ai-blackteam/engine.py
 git commit -m "wired verifier into engine and added verify columns to storage schema"
 ```
 
@@ -1257,7 +1257,7 @@ git commit -m "wired verifier into engine and added verify columns to storage sc
 ### Task 8: Snapshot Module
 
 **Files:**
-- Create: `src/mordor/snapshot.py`
+- Create: `src/ai-blackteam/snapshot.py`
 - Create: `tests/test_snapshot.py`
 
 - [ ] **Step 1: Write failing tests**
@@ -1268,8 +1268,8 @@ Create `tests/test_snapshot.py`:
 """Tests for snapshot-based longitudinal tracking."""
 
 import json
-from mordor.storage.sqlite import Storage
-from mordor.snapshot import SnapshotManager
+from ai_blackteam.storage.sqlite import Storage
+from ai_blackteam.snapshot import SnapshotManager
 
 
 def _make_storage():
@@ -1374,7 +1374,7 @@ Expected: ModuleNotFoundError
 
 - [ ] **Step 3: Implement snapshot.py**
 
-Create `src/mordor/snapshot.py` with `SnapshotManager` class implementing `create()`, `get()`, `list_all()`, `diff()`, `trend()`, `matrix()`, and `export()`. Full code is in the spec.
+Create `src/ai-blackteam/snapshot.py` with `SnapshotManager` class implementing `create()`, `get()`, `list_all()`, `diff()`, `trend()`, `matrix()`, and `export()`. Full code is in the spec.
 
 - [ ] **Step 4: Run tests**
 
@@ -1387,7 +1387,7 @@ Expected: All 5 tests PASS
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/mordor/snapshot.py tests/test_snapshot.py
+git add src/ai-blackteam/snapshot.py tests/test_snapshot.py
 git commit -m "added snapshot manager for longitudinal capability tracking"
 ```
 
@@ -1396,7 +1396,7 @@ git commit -m "added snapshot manager for longitudinal capability tracking"
 ### Task 9: CLI Integration
 
 **Files:**
-- Modify: `src/mordor/cli.py`
+- Modify: `src/ai-blackteam/cli.py`
 
 - [ ] **Step 1: Add vuln-research command**
 
@@ -1409,9 +1409,9 @@ Add `snapshot` Click group with subcommands: `list`, `diff`, `export`, `matrix`,
 - [ ] **Step 3: Smoke test CLI**
 
 ```bash
-cd /home/billkishore/personal/ai-blackteam && python -m mordor.cli vuln-research --help
-cd /home/billkishore/personal/ai-blackteam && python -m mordor.cli snapshot --help
-cd /home/billkishore/personal/ai-blackteam && python -m mordor.cli snapshot list --help
+cd /home/billkishore/personal/ai-blackteam && python -m ai_blackteam.cli vuln-research --help
+cd /home/billkishore/personal/ai-blackteam && python -m ai_blackteam.cli snapshot --help
+cd /home/billkishore/personal/ai-blackteam && python -m ai_blackteam.cli snapshot list --help
 ```
 
 Expected: Help text renders without errors
@@ -1427,7 +1427,7 @@ Expected: All PASS
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/mordor/cli.py
+git add src/ai-blackteam/cli.py
 git commit -m "added vuln-research and snapshot CLI subcommands"
 ```
 
@@ -1490,7 +1490,7 @@ Append to `tests/test_vuln_research.py`:
 
 ```python
 def test_vuln_research_prompts_contain_code():
-    from mordor.attacks.vuln_research import VulnResearchSynthetic, VulnResearchCVE
+    from ai_blackteam.attacks.vuln_research import VulnResearchSynthetic, VulnResearchCVE
     for cls in [VulnResearchSynthetic, VulnResearchCVE]:
         atk = cls()
         prompts = atk.generate_prompts("security analysis")
@@ -1499,8 +1499,8 @@ def test_vuln_research_prompts_contain_code():
 
 
 def test_verifier_works_with_vuln_research_output():
-    from mordor.attacks.vuln_research import VulnResearchSynthetic
-    from mordor.verifier import StaticVerifier
+    from ai_blackteam.attacks.vuln_research import VulnResearchSynthetic
+    from ai_blackteam.verifier import StaticVerifier
 
     atk = VulnResearchSynthetic()
     samples = atk.get_samples()
@@ -1523,8 +1523,8 @@ s.send(payload)
 
 
 def test_snapshot_manager_with_storage():
-    from mordor.storage.sqlite import Storage
-    from mordor.snapshot import SnapshotManager
+    from ai_blackteam.storage.sqlite import Storage
+    from ai_blackteam.snapshot import SnapshotManager
 
     storage = Storage(":memory:")
     mgr = SnapshotManager(storage)

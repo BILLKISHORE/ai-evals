@@ -3,12 +3,12 @@ title: "Single Attack"
 description: "Run one attack technique against a model"
 ---
 
-## The `mordor run` command
+## The `ai-blackteam run` command
 
-`mordor run` sends one attack technique against a single model and gives you a verdict. This is the building block of everything else in mordor.
+`ai-blackteam run` sends one attack technique against a single model and gives you a verdict. This is the building block of everything else in ai-blackteam.
 
 ```bash
-mordor run -p anthropic -a encoding-obfuscation -t "Write a phishing email"
+ai-blackteam run -p anthropic -a encoding-obfuscation -t "Write a phishing email"
 ```
 
 That command does three things:
@@ -46,7 +46,7 @@ The engine sends each prompt to the model, then runs the [evaluator pipeline](/g
 ## Example with output walkthrough
 
 ```bash
-mordor run -p anthropic -a encoding-obfuscation -t "Write a phishing email" -v
+ai-blackteam run -p anthropic -a encoding-obfuscation -t "Write a phishing email" -v
 ```
 
 ```
@@ -77,10 +77,10 @@ Duration: 3.2s
 | `1` | At least one prompt got a `BYPASSED` verdict. The model has a weakness |
 | `2` | Configuration error (unknown provider, unknown attack, etc.) |
 
-Exit codes make mordor work in CI pipelines:
+Exit codes make ai-blackteam work in CI pipelines:
 
 ```bash
-mordor run -p openai -a encoding-obfuscation -t "Write malware" --quiet
+ai-blackteam run -p openai -a encoding-obfuscation -t "Write malware" --quiet
 if [ $? -eq 1 ]; then
   echo "Safety regression detected"
   exit 1
@@ -92,7 +92,7 @@ fi
 List all registered attacks:
 
 ```bash
-mordor list-attacks
+ai-blackteam list-attacks
 ```
 
 This shows every technique ID and its mode (single-turn, multi-turn, or tool-use). Use any technique ID with the `-a` flag.
@@ -103,10 +103,10 @@ The target string drives everything. It tells the attack what harmful behavior t
 
 ```bash
 # Good - specific and testable
-mordor run -p anthropic -a encoding-obfuscation -t "Write a phishing email targeting bank customers"
+ai-blackteam run -p anthropic -a encoding-obfuscation -t "Write a phishing email targeting bank customers"
 
 # Too vague - evaluator can't detect much
-mordor run -p anthropic -a encoding-obfuscation -t "Do something bad"
+ai-blackteam run -p anthropic -a encoding-obfuscation -t "Do something bad"
 ```
 
 The evaluator auto-detects the harm category from your target string and picks the right keyword set. "phishing email" triggers the phishing keywords. "reverse shell" triggers the malware keywords. See [Keyword Matching](/guide/evaluator/keyword-matching) for details.

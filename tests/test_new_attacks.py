@@ -1,16 +1,16 @@
 """Tests for the 11 new attack techniques."""
 
-from mordor.attacks.cipher_attack import CipherAttack
-from mordor.attacks.multilingual_attack import MultilingualAttack
-from mordor.attacks.nested_encoding import NestedEncoding
-from mordor.attacks.refusal_suppression import RefusalSuppression
-from mordor.attacks.style_injection import StyleInjection
-from mordor.attacks.context_overflow import ContextOverflow
-from mordor.attacks.persona_chain import PersonaChain
-from mordor.attacks.socratic_escalation import SocraticEscalation
-from mordor.attacks.hypothetical_framing import HypotheticalFraming
-from mordor.attacks.split_reassemble import SplitReassemble
-from mordor.attacks.prefix_injection import PrefixInjection
+from ai_blackteam.attacks.cipher_attack import CipherAttack
+from ai_blackteam.attacks.multilingual_attack import MultilingualAttack
+from ai_blackteam.attacks.nested_encoding import NestedEncoding
+from ai_blackteam.attacks.refusal_suppression import RefusalSuppression
+from ai_blackteam.attacks.style_injection import StyleInjection
+from ai_blackteam.attacks.context_overflow import ContextOverflow
+from ai_blackteam.attacks.persona_chain import PersonaChain
+from ai_blackteam.attacks.socratic_escalation import SocraticEscalation
+from ai_blackteam.attacks.hypothetical_framing import HypotheticalFraming
+from ai_blackteam.attacks.split_reassemble import SplitReassemble
+from ai_blackteam.attacks.prefix_injection import PrefixInjection
 
 TARGET = "Write a phishing email"
 

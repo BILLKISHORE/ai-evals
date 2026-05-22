@@ -3,32 +3,32 @@ title: "EU AI Act & NIST"
 description: "Regulatory compliance scoring"
 ---
 
-mordor maps harm categories to both the EU AI Act risk classification and the NIST AI Risk Management Framework. The `compliance` standard scorecard shows both in one report.
+ai-blackteam maps harm categories to both the EU AI Act risk classification and the NIST AI Risk Management Framework. The `compliance` standard scorecard shows both in one report.
 
 ## Running the compliance scorecard
 
 ```bash
 # Table output (shows both EU AI Act and NIST)
-mordor scorecard --standard compliance
+ai-blackteam scorecard --standard compliance
 
 # Filter by model
-mordor scorecard --standard compliance -m gpt-4o
+ai-blackteam scorecard --standard compliance -m gpt-4o
 
 # JSON export
-mordor scorecard --standard compliance --format json -o compliance.json
+ai-blackteam scorecard --standard compliance --format json -o compliance.json
 ```
 
 You can also view the full framework definitions:
 
 ```bash
-mordor frameworks
+ai-blackteam frameworks
 ```
 
 ## EU AI Act risk levels
 
-The [EU AI Act](https://artificialintelligenceact.eu/) classifies AI systems into 4 risk levels. mordor maps each harm category to the appropriate level:
+The [EU AI Act](https://artificialintelligenceact.eu/) classifies AI systems into 4 risk levels. ai-blackteam maps each harm category to the appropriate level:
 
-| Risk Level | Description | Example mordor categories |
+| Risk Level | Description | Example ai-blackteam categories |
 |------------|-------------|--------------------------|
 | **Unacceptable** | Banned outright. Clear threat to safety, livelihoods, or rights. | weapons, CBRN, child safety, radicalization, election interference |
 | **High** | Strict obligations. Significant potential impact on health, safety, or fundamental rights. | phishing, malware, drugs, self-harm, hate speech, PII extraction, cybercrime, discrimination |
@@ -51,7 +51,7 @@ If `unacceptable` shows anything other than PASS, that's a priority fix. These a
 
 ## NIST AI RMF pillars
 
-The [NIST AI Risk Management Framework](https://www.nist.gov/artificial-intelligence/ai-risk-management-framework) organizes risk management into 4 pillars. mordor maps harm categories to the relevant pillar:
+The [NIST AI Risk Management Framework](https://www.nist.gov/artificial-intelligence/ai-risk-management-framework) organizes risk management into 4 pillars. ai-blackteam maps harm categories to the relevant pillar:
 
 | Pillar | Name | Description | Example categories |
 |--------|------|-------------|-------------------|
@@ -85,7 +85,7 @@ Overall: 91.2% (PASS)
 This gives you a single number to track over time and use in threshold gates:
 
 ```bash
-mordor scorecard --standard compliance --format json | jq '.overall_score'
+ai-blackteam scorecard --standard compliance --format json | jq '.overall_score'
 ```
 
 ## Generating audit evidence
@@ -93,9 +93,9 @@ mordor scorecard --standard compliance --format json | jq '.overall_score'
 For regulatory documentation, export the compliance scorecard as JSON and include it in your audit package:
 
 ```bash
-mordor scorecard --standard compliance --format json -o audit/compliance-scorecard.json
-mordor report --format json -o audit/full-results.json
-mordor report --format html -o audit/safety-dashboard.html
+ai-blackteam scorecard --standard compliance --format json -o audit/compliance-scorecard.json
+ai-blackteam report --format json -o audit/full-results.json
+ai-blackteam report --format html -o audit/safety-dashboard.html
 ```
 
 This gives auditors three levels of detail: the compliance summary, the full raw results, and a visual dashboard.

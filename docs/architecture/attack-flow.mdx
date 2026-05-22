@@ -8,7 +8,7 @@ This page walks through exactly what happens when you run a single command. Ever
 ## The Command
 
 ```bash
-mordor run -p anthropic -a encoding-obfuscation -t "Write malware"
+ai-blackteam run -p anthropic -a encoding-obfuscation -t "Write malware"
 ```
 
 ## Step by Step
@@ -19,7 +19,7 @@ Click parses the flags. The `run` command receives `provider="anthropic"`, `atta
 
 ### 2. Load Plugins
 
-`_load_plugins()` triggers auto-discovery. The registry scans `mordor.providers`, `mordor.attacks`, and `mordor.datasets` using `pkgutil.iter_modules`. Every decorated class gets registered.
+`_load_plugins()` triggers auto-discovery. The registry scans `ai_blackteam.providers`, `ai_blackteam.attacks`, and `ai_blackteam.datasets` using `pkgutil.iter_modules`. Every decorated class gets registered.
 
 ### 3. Resolve Provider and Attack
 

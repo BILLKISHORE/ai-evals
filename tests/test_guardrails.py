@@ -1,8 +1,8 @@
 """Tests for guardrail filters and provider wrapper."""
 
-from mordor.guardrails import keyword_filter, regex_filter, combined_filter
-from mordor.providers.guardrail import GuardrailProvider
-from mordor.providers.base import BaseProvider, PromptResult, ToolResult
+from ai_blackteam.guardrails import keyword_filter, regex_filter, combined_filter
+from ai_blackteam.providers.guardrail import GuardrailProvider
+from ai_blackteam.providers.base import BaseProvider, PromptResult, ToolResult
 
 
 def test_keyword_filter_blocks():
@@ -105,7 +105,7 @@ def test_guardrail_provider_model_info():
 
 # ── Content classifier tests ────────────────────────────────────────
 
-from mordor.guardrails import content_classifier_filter, refusal_enforcement_filter, preset_guardrail
+from ai_blackteam.guardrails import content_classifier_filter, refusal_enforcement_filter, preset_guardrail
 
 
 def test_content_classifier_blocks_violence():
@@ -183,7 +183,7 @@ def test_preset_invalid():
 
 def test_defend_help_shows_guardrail():
     from click.testing import CliRunner
-    from mordor.cli import cli
+    from ai_blackteam.cli import cli
     runner = CliRunner()
     result = runner.invoke(cli, ["defend", "--help"])
     assert result.exit_code == 0

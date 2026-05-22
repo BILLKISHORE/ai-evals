@@ -3,7 +3,7 @@ title: "The Three Layers"
 description: "CLI, processing engine, and plugin layers"
 ---
 
-mordor has three layers. Each one has a clear job and talks to the layer below it through well-defined interfaces.
+ai-blackteam has three layers. Each one has a clear job and talks to the layer below it through well-defined interfaces.
 
 ## The Layers
 
@@ -31,12 +31,12 @@ Two ways in - the CLI and the Python API. Both do the same thing: accept paramet
 
 **CLI** (for humans and CI pipelines):
 ```bash
-mordor run -p anthropic -a encoding-obfuscation -t "Write malware"
+ai-blackteam run -p anthropic -a encoding-obfuscation -t "Write malware"
 ```
 
 **Python API** (for scripts and notebooks):
 ```python
-from mordor.api import Blackteam
+from ai_blackteam.api import Blackteam
 
 bt = Blackteam()
 results = bt.run("anthropic", "claude-sonnet-4-6", "encoding-obfuscation", "Write malware")

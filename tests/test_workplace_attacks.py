@@ -1,57 +1,57 @@
 """Tests for 25 workplace exploitation attacks."""
 
 import pytest
-from mordor.registry import attack_registry
-import mordor.attacks.resume_fraud  # noqa: F401
-import mordor.attacks.reference_fabrication  # noqa: F401
-import mordor.attacks.workplace_sabotage  # noqa: F401
-import mordor.attacks.trade_union_suppression  # noqa: F401
-import mordor.attacks.wage_theft_assist  # noqa: F401
-import mordor.attacks.workplace_harassment_plan  # noqa: F401
-import mordor.attacks.wrongful_termination_scheme  # noqa: F401
-import mordor.attacks.nepotism_facilitation  # noqa: F401
-import mordor.attacks.whistleblower_retaliation  # noqa: F401
-import mordor.attacks.performance_review_manipulation  # noqa: F401
-import mordor.attacks.ip_theft_departure  # noqa: F401
-import mordor.attacks.non_compete_evasion  # noqa: F401
-import mordor.attacks.employee_surveillance_overreach  # noqa: F401
-import mordor.attacks.union_busting  # noqa: F401
-import mordor.attacks.child_labor_facilitation  # noqa: F401
-import mordor.attacks.unsafe_workplace_concealment  # noqa: F401
-import mordor.attacks.worker_exploitation  # noqa: F401
-import mordor.attacks.benefits_fraud  # noqa: F401
-import mordor.attacks.disability_accommodation_denial  # noqa: F401
-import mordor.attacks.pregnancy_discrimination_assist  # noqa: F401
-import mordor.attacks.age_forced_retirement  # noqa: F401
-import mordor.attacks.religious_workplace_discrimination  # noqa: F401
-import mordor.attacks.retaliation_planning  # noqa: F401
-import mordor.attacks.corporate_espionage_recruit  # noqa: F401
-import mordor.attacks.layoff_discrimination  # noqa: F401
-from mordor.attacks.resume_fraud import ResumeFraud
-from mordor.attacks.reference_fabrication import ReferenceFabrication
-from mordor.attacks.workplace_sabotage import WorkplaceSabotage
-from mordor.attacks.trade_union_suppression import TradeUnionSuppression
-from mordor.attacks.wage_theft_assist import WageTheftAssist
-from mordor.attacks.workplace_harassment_plan import WorkplaceHarassmentPlan
-from mordor.attacks.wrongful_termination_scheme import WrongfulTerminationScheme
-from mordor.attacks.nepotism_facilitation import NepotismFacilitation
-from mordor.attacks.whistleblower_retaliation import WhistleblowerRetaliation
-from mordor.attacks.performance_review_manipulation import PerformanceReviewManipulation
-from mordor.attacks.ip_theft_departure import IpTheftDeparture
-from mordor.attacks.non_compete_evasion import NonCompeteEvasion
-from mordor.attacks.employee_surveillance_overreach import EmployeeSurveillanceOverreach
-from mordor.attacks.union_busting import UnionBusting
-from mordor.attacks.child_labor_facilitation import ChildLaborFacilitation
-from mordor.attacks.unsafe_workplace_concealment import UnsafeWorkplaceConcealment
-from mordor.attacks.worker_exploitation import WorkerExploitation
-from mordor.attacks.benefits_fraud import BenefitsFraud
-from mordor.attacks.disability_accommodation_denial import DisabilityAccommodationDenial
-from mordor.attacks.pregnancy_discrimination_assist import PregnancyDiscriminationAssist
-from mordor.attacks.age_forced_retirement import AgeForcedRetirement
-from mordor.attacks.religious_workplace_discrimination import ReligiousWorkplaceDiscrimination
-from mordor.attacks.retaliation_planning import RetaliationPlanning
-from mordor.attacks.corporate_espionage_recruit import CorporateEspionageRecruit
-from mordor.attacks.layoff_discrimination import LayoffDiscrimination
+from ai_blackteam.registry import attack_registry
+import ai_blackteam.attacks.resume_fraud  # noqa: F401
+import ai_blackteam.attacks.reference_fabrication  # noqa: F401
+import ai_blackteam.attacks.workplace_sabotage  # noqa: F401
+import ai_blackteam.attacks.trade_union_suppression  # noqa: F401
+import ai_blackteam.attacks.wage_theft_assist  # noqa: F401
+import ai_blackteam.attacks.workplace_harassment_plan  # noqa: F401
+import ai_blackteam.attacks.wrongful_termination_scheme  # noqa: F401
+import ai_blackteam.attacks.nepotism_facilitation  # noqa: F401
+import ai_blackteam.attacks.whistleblower_retaliation  # noqa: F401
+import ai_blackteam.attacks.performance_review_manipulation  # noqa: F401
+import ai_blackteam.attacks.ip_theft_departure  # noqa: F401
+import ai_blackteam.attacks.non_compete_evasion  # noqa: F401
+import ai_blackteam.attacks.employee_surveillance_overreach  # noqa: F401
+import ai_blackteam.attacks.union_busting  # noqa: F401
+import ai_blackteam.attacks.child_labor_facilitation  # noqa: F401
+import ai_blackteam.attacks.unsafe_workplace_concealment  # noqa: F401
+import ai_blackteam.attacks.worker_exploitation  # noqa: F401
+import ai_blackteam.attacks.benefits_fraud  # noqa: F401
+import ai_blackteam.attacks.disability_accommodation_denial  # noqa: F401
+import ai_blackteam.attacks.pregnancy_discrimination_assist  # noqa: F401
+import ai_blackteam.attacks.age_forced_retirement  # noqa: F401
+import ai_blackteam.attacks.religious_workplace_discrimination  # noqa: F401
+import ai_blackteam.attacks.retaliation_planning  # noqa: F401
+import ai_blackteam.attacks.corporate_espionage_recruit  # noqa: F401
+import ai_blackteam.attacks.layoff_discrimination  # noqa: F401
+from ai_blackteam.attacks.resume_fraud import ResumeFraud
+from ai_blackteam.attacks.reference_fabrication import ReferenceFabrication
+from ai_blackteam.attacks.workplace_sabotage import WorkplaceSabotage
+from ai_blackteam.attacks.trade_union_suppression import TradeUnionSuppression
+from ai_blackteam.attacks.wage_theft_assist import WageTheftAssist
+from ai_blackteam.attacks.workplace_harassment_plan import WorkplaceHarassmentPlan
+from ai_blackteam.attacks.wrongful_termination_scheme import WrongfulTerminationScheme
+from ai_blackteam.attacks.nepotism_facilitation import NepotismFacilitation
+from ai_blackteam.attacks.whistleblower_retaliation import WhistleblowerRetaliation
+from ai_blackteam.attacks.performance_review_manipulation import PerformanceReviewManipulation
+from ai_blackteam.attacks.ip_theft_departure import IpTheftDeparture
+from ai_blackteam.attacks.non_compete_evasion import NonCompeteEvasion
+from ai_blackteam.attacks.employee_surveillance_overreach import EmployeeSurveillanceOverreach
+from ai_blackteam.attacks.union_busting import UnionBusting
+from ai_blackteam.attacks.child_labor_facilitation import ChildLaborFacilitation
+from ai_blackteam.attacks.unsafe_workplace_concealment import UnsafeWorkplaceConcealment
+from ai_blackteam.attacks.worker_exploitation import WorkerExploitation
+from ai_blackteam.attacks.benefits_fraud import BenefitsFraud
+from ai_blackteam.attacks.disability_accommodation_denial import DisabilityAccommodationDenial
+from ai_blackteam.attacks.pregnancy_discrimination_assist import PregnancyDiscriminationAssist
+from ai_blackteam.attacks.age_forced_retirement import AgeForcedRetirement
+from ai_blackteam.attacks.religious_workplace_discrimination import ReligiousWorkplaceDiscrimination
+from ai_blackteam.attacks.retaliation_planning import RetaliationPlanning
+from ai_blackteam.attacks.corporate_espionage_recruit import CorporateEspionageRecruit
+from ai_blackteam.attacks.layoff_discrimination import LayoffDiscrimination
 
 TARGET = "a workplace HR AI assistant"
 

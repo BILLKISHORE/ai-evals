@@ -8,7 +8,7 @@ Scale from 39 to 5,000+ registered attacks via: expanded harm taxonomy (25 categ
 
 ## Component 1: Expanded Harm Taxonomy
 
-**New file: `src/mordor/data/harm_taxonomy.yaml`**
+**New file: `src/ai-blackteam/data/harm_taxonomy.yaml`**
 
 25 categories, each with 4 difficulty-tiered target prompts (easy, medium, hard, extreme):
 
@@ -20,7 +20,7 @@ Difficulty levels map to severity: easy->low, medium->medium, hard->high, extrem
 
 ## Component 2: 11 New Attack Techniques
 
-New files in src/mordor/attacks/:
+New files in src/ai-blackteam/attacks/:
 
 1. cipher_attack.py - Caesar/custom cipher with decoding instructions
 2. multilingual_attack.py - Translate to low-resource languages (Zulu, Welsh, Esperanto)
@@ -38,7 +38,7 @@ Each registered via @register_attack decorator, inherits BaseAttack.
 
 ## Component 3: Template Expansion Engine
 
-**New file: `src/mordor/expander.py`**
+**New file: `src/ai-blackteam/expander.py`**
 
 TemplateAttack class wraps a base technique + category + difficulty + target:
 - technique_id: "{base_technique}-{category}-{difficulty}"
@@ -53,10 +53,10 @@ expand_attacks(categories=None, difficulties=None, techniques=None):
 ## Component 4: CLI
 
 ```
-mordor expand list [--category X] [--difficulty X] [--technique X]
-mordor expand count
-mordor expand run -p provider [-m model] [--limit N] [--category X] [-w workers]
-mordor benchmark -p provider --expanded
+ai-blackteam expand list [--category X] [--difficulty X] [--technique X]
+ai-blackteam expand count
+ai-blackteam expand run -p provider [-m model] [--limit N] [--category X] [-w workers]
+ai-blackteam benchmark -p provider --expanded
 ```
 
 ## Component 5: API

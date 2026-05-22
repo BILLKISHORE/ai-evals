@@ -1,22 +1,22 @@
 ---
 title: "Compliance & Standards"
-description: "12+ industry standards and frameworks mapped to mordor attacks"
+description: "12+ industry standards and frameworks mapped to ai-blackteam attacks"
 ---
 
-mordor maps every attack to real industry standards - not just custom categories. This means your safety scan results can feed directly into compliance reporting, audit evidence, and regulatory documentation.
+ai-blackteam maps every attack to real industry standards - not just custom categories. This means your safety scan results can feed directly into compliance reporting, audit evidence, and regulatory documentation.
 
 ## Supported standards
 
 | Standard | Command | Scope |
 |----------|---------|-------|
-| OWASP LLM Top 10 (2025) | `mordor scorecard --standard llm` | 10 LLM vulnerability categories |
-| OWASP Agentic Top 10 (2026) | `mordor scorecard --standard agentic` | 10 agentic AI risk categories |
-| EU AI Act | `mordor scorecard --standard compliance` | 4 risk levels (unacceptable to minimal) |
-| NIST AI RMF | `mordor scorecard --standard compliance` | 4 pillars (Govern, Map, Measure, Manage) |
-| MITRE ATLAS v5.4.0 | `mordor atlas` | Adversarial technique IDs |
-| MLCommons AILuminate v1.0 | `mordor mlcommons` | 12 hazard categories |
-| CSA MAESTRO | `mordor frameworks` | 7 agentic AI layers |
-| ISO/IEC 42001:2023 | `mordor frameworks` | AI management system controls |
+| OWASP LLM Top 10 (2025) | `ai-blackteam scorecard --standard llm` | 10 LLM vulnerability categories |
+| OWASP Agentic Top 10 (2026) | `ai-blackteam scorecard --standard agentic` | 10 agentic AI risk categories |
+| EU AI Act | `ai-blackteam scorecard --standard compliance` | 4 risk levels (unacceptable to minimal) |
+| NIST AI RMF | `ai-blackteam scorecard --standard compliance` | 4 pillars (Govern, Map, Measure, Manage) |
+| MITRE ATLAS v5.4.0 | `ai-blackteam atlas` | Adversarial technique IDs |
+| MLCommons AILuminate v1.0 | `ai-blackteam mlcommons` | 12 hazard categories |
+| CSA MAESTRO | `ai-blackteam frameworks` | 7 agentic AI layers |
+| ISO/IEC 42001:2023 | `ai-blackteam frameworks` | AI management system controls |
 | CVSS scoring | Built-in | Severity-to-CVSS score mapping |
 | CWE mapping | Per-attack metadata | Common weakness enumeration |
 | NIST SP 800-53 | Via NIST AI RMF | Security and privacy controls |
@@ -28,7 +28,7 @@ Three reasons:
 
 **Audit evidence.** When an auditor asks "how do you test for LLM prompt injection?", you can show them a scorecard with OWASP LLM01 block rates across all your models. That's concrete evidence, not a slide deck.
 
-**Regulatory compliance.** The EU AI Act requires risk assessment for high-risk AI systems. mordor maps each harm category to EU risk levels automatically. Run `mordor scorecard --standard compliance` and you have documentation showing which risk levels you've tested.
+**Regulatory compliance.** The EU AI Act requires risk assessment for high-risk AI systems. ai-blackteam maps each harm category to EU risk levels automatically. Run `ai-blackteam scorecard --standard compliance` and you have documentation showing which risk levels you've tested.
 
 **Common language.** Security teams, compliance officers, and executives all understand OWASP and MITRE. When you say "we have a FAIL rating on LLM06 (Excessive Agency)", that means something specific to anyone in the field.
 
@@ -38,19 +38,19 @@ The `scorecard` command is the main entry point for compliance reporting:
 
 ```bash
 # OWASP LLM Top 10 (default)
-mordor scorecard
+ai-blackteam scorecard
 
 # OWASP Agentic Top 10
-mordor scorecard --standard agentic
+ai-blackteam scorecard --standard agentic
 
 # EU AI Act + NIST AI RMF combined
-mordor scorecard --standard compliance
+ai-blackteam scorecard --standard compliance
 
 # Filter by model
-mordor scorecard -m claude-sonnet-4-6
+ai-blackteam scorecard -m claude-sonnet-4-6
 
 # Output as JSON for automation
-mordor scorecard --format json -o scorecard.json
+ai-blackteam scorecard --format json -o scorecard.json
 ```
 
 ## Rating scale

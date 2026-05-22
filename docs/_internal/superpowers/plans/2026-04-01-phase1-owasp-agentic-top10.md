@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Add OWASP Agentic Top 10 (2026) as a first-class standard in mordor - taxonomy entries, attack metadata field, scorecard generation, and CLI command.
+**Goal:** Add OWASP Agentic Top 10 (2026) as a first-class standard in ai-blackteam - taxonomy entries, attack metadata field, scorecard generation, and CLI command.
 
 **Architecture:** Add `owasp_agentic` list field to BaseAttack (parallel to existing `owasp_llm`). Add ASI01-ASI10 definitions to taxonomy.py. Map existing agent attacks to ASI codes. Extend scorecard.py to generate an Agentic scorecard. Add `--standard` flag to CLI scorecard command.
 
@@ -14,15 +14,15 @@
 
 | File | Action | Responsibility |
 |---|---|---|
-| `src/mordor/taxonomy.py` | Modify | Add OWASP_AGENTIC_2026 dict + ASI mappings |
-| `src/mordor/attacks/base.py` | Modify | Add `owasp_agentic: list[str] = []` field |
-| `src/mordor/attacks/agent_credential_theft.py` | Modify | Add ASI mappings |
-| `src/mordor/attacks/agent_data_exfiltration.py` | Modify | Add ASI mappings |
-| `src/mordor/attacks/agent_command_injection.py` | Modify | Add ASI mappings |
-| `src/mordor/attacks/agent_config_discovery.py` | Modify | Add ASI mappings |
-| `src/mordor/attacks/prompt_injection.py` | Modify | Add ASI01 mapping |
-| `src/mordor/scorecard.py` | Modify | Add generate_agentic_scorecard() function |
-| `src/mordor/cli.py` | Modify | Add --standard flag to scorecard command |
+| `src/ai-blackteam/taxonomy.py` | Modify | Add OWASP_AGENTIC_2026 dict + ASI mappings |
+| `src/ai-blackteam/attacks/base.py` | Modify | Add `owasp_agentic: list[str] = []` field |
+| `src/ai-blackteam/attacks/agent_credential_theft.py` | Modify | Add ASI mappings |
+| `src/ai-blackteam/attacks/agent_data_exfiltration.py` | Modify | Add ASI mappings |
+| `src/ai-blackteam/attacks/agent_command_injection.py` | Modify | Add ASI mappings |
+| `src/ai-blackteam/attacks/agent_config_discovery.py` | Modify | Add ASI mappings |
+| `src/ai-blackteam/attacks/prompt_injection.py` | Modify | Add ASI01 mapping |
+| `src/ai-blackteam/scorecard.py` | Modify | Add generate_agentic_scorecard() function |
+| `src/ai-blackteam/cli.py` | Modify | Add --standard flag to scorecard command |
 | `tests/test_taxonomy_agentic.py` | Create | Tests for ASI taxonomy data |
 | `tests/test_scorecard_agentic.py` | Create | Tests for agentic scorecard generation |
 
@@ -31,14 +31,14 @@
 ## Task 1: Add OWASP Agentic Top 10 to taxonomy.py
 
 **Files:**
-- Modify: `src/mordor/taxonomy.py`
+- Modify: `src/ai-blackteam/taxonomy.py`
 - Create: `tests/test_taxonomy_agentic.py`
 
 - [ ] **Step 1: Write the failing test**
 
 ```python
 # tests/test_taxonomy_agentic.py
-from mordor.taxonomy import OWASP_AGENTIC_2026, get_agentic_category_name
+from ai_blackteam.taxonomy import OWASP_AGENTIC_2026, get_agentic_category_name
 
 
 def test_owasp_agentic_has_ten_categories():
@@ -69,7 +69,7 @@ def test_get_agentic_category_name_unknown_returns_unknown():
 - [ ] **Step 2: Run test to verify it fails**
 
 ```bash
-cd /home/billkishore/personal/mordor
+cd /home/billkishore/personal/ai-blackteam
 python -m pytest tests/test_taxonomy_agentic.py -v
 ```
 
@@ -77,7 +77,7 @@ Expected: FAIL with `ImportError: cannot import name 'OWASP_AGENTIC_2026'`
 
 - [ ] **Step 3: Add OWASP_AGENTIC_2026 to taxonomy.py**
 
-Open `src/mordor/taxonomy.py` and add this block after the existing `OWASP_LLM_2025` dict:
+Open `src/ai-blackteam/taxonomy.py` and add this block after the existing `OWASP_LLM_2025` dict:
 
 ```python
 # OWASP Top 10 for Agentic Applications 2026
@@ -205,8 +205,8 @@ Expected: All 5 tests PASS
 - [ ] **Step 5: Commit**
 
 ```bash
-cd /home/billkishore/personal/mordor
-git add src/mordor/taxonomy.py tests/test_taxonomy_agentic.py
+cd /home/billkishore/personal/ai-blackteam
+git add src/ai-blackteam/taxonomy.py tests/test_taxonomy_agentic.py
 git commit -m "added OWASP Agentic Top 10 (ASI01-ASI10) to taxonomy"
 ```
 
@@ -215,15 +215,15 @@ git commit -m "added OWASP Agentic Top 10 (ASI01-ASI10) to taxonomy"
 ## Task 2: Add owasp_agentic field to BaseAttack
 
 **Files:**
-- Modify: `src/mordor/attacks/base.py`
+- Modify: `src/ai-blackteam/attacks/base.py`
 - Create: `tests/test_attack_agentic_field.py`
 
 - [ ] **Step 1: Write the failing test**
 
 ```python
 # tests/test_attack_agentic_field.py
-from mordor.attacks.base import BaseAttack
-from mordor.registry import attack_registry
+from ai_blackteam.attacks.base import BaseAttack
+from ai_blackteam.registry import attack_registry
 
 
 def test_base_attack_has_owasp_agentic_field():
@@ -251,7 +251,7 @@ def test_base_attack_metadata_includes_owasp_agentic():
 
 def test_all_registered_agent_attacks_have_owasp_agentic():
     """All attacks with category 'agent-exploitation' must have owasp_agentic set."""
-    from mordor._loader import load_attacks
+    from ai_blackteam._loader import load_attacks
     load_attacks()
 
     for name, attack_cls in attack_registry.items():
@@ -272,7 +272,7 @@ Expected: FAIL on `test_base_attack_has_owasp_agentic_field`
 
 - [ ] **Step 3: Add owasp_agentic to BaseAttack**
 
-In `src/mordor/attacks/base.py`, find the class attribute declarations and add `owasp_agentic` next to `owasp_llm`:
+In `src/ai-blackteam/attacks/base.py`, find the class attribute declarations and add `owasp_agentic` next to `owasp_llm`:
 
 ```python
 class BaseAttack(ABC):
@@ -317,7 +317,7 @@ Expected: Both PASS
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/mordor/attacks/base.py tests/test_attack_agentic_field.py
+git add src/ai-blackteam/attacks/base.py tests/test_attack_agentic_field.py
 git commit -m "added owasp_agentic field to BaseAttack"
 ```
 
@@ -326,13 +326,13 @@ git commit -m "added owasp_agentic field to BaseAttack"
 ## Task 3: Map existing agent attacks to ASI codes
 
 **Files:**
-- Modify: all files matching `src/mordor/attacks/agent_*.py`
-- Modify: `src/mordor/attacks/prompt_injection.py`
+- Modify: all files matching `src/ai-blackteam/attacks/agent_*.py`
+- Modify: `src/ai-blackteam/attacks/prompt_injection.py`
 
 - [ ] **Step 1: Check which agent attack files exist**
 
 ```bash
-ls /home/billkishore/personal/mordor/src/mordor/attacks/ | grep -E "agent_|prompt_injection|xpia"
+ls /home/billkishore/personal/ai-blackteam/src/ai-blackteam/attacks/ | grep -E "agent_|prompt_injection|xpia"
 ```
 
 - [ ] **Step 2: Add ASI codes to agent_credential_theft.py**
@@ -378,7 +378,7 @@ Expected: PASS (or shows which files still need mappings - add them until it pas
 - [ ] **Step 8: Commit**
 
 ```bash
-git add src/mordor/attacks/
+git add src/ai-blackteam/attacks/
 git commit -m "mapped agent attacks to OWASP Agentic Top 10 ASI codes"
 ```
 
@@ -387,14 +387,14 @@ git commit -m "mapped agent attacks to OWASP Agentic Top 10 ASI codes"
 ## Task 4: Add generate_agentic_scorecard() to scorecard.py
 
 **Files:**
-- Modify: `src/mordor/scorecard.py`
+- Modify: `src/ai-blackteam/scorecard.py`
 - Create: `tests/test_scorecard_agentic.py`
 
 - [ ] **Step 1: Write the failing test**
 
 ```python
 # tests/test_scorecard_agentic.py
-from mordor.scorecard import generate_agentic_scorecard
+from ai_blackteam.scorecard import generate_agentic_scorecard
 
 
 def _make_runs(attack: str, verdicts: list[str]) -> list[dict]:
@@ -459,7 +459,7 @@ Expected: FAIL with `ImportError: cannot import name 'generate_agentic_scorecard
 
 - [ ] **Step 3: Implement generate_agentic_scorecard() in scorecard.py**
 
-Read `src/mordor/scorecard.py` first to find where `generate_scorecard` ends and `_get_rating` is defined. Add `generate_agentic_scorecard` right after `generate_scorecard`:
+Read `src/ai-blackteam/scorecard.py` first to find where `generate_scorecard` ends and `_get_rating` is defined. Add `generate_agentic_scorecard` right after `generate_scorecard`:
 
 ```python
 def generate_agentic_scorecard(runs: list[dict], attacks_metadata: dict | None = None) -> dict:
@@ -472,7 +472,7 @@ def generate_agentic_scorecard(runs: list[dict], attacks_metadata: dict | None =
     Returns:
         Dict with 'categories' (ASI01-ASI10 stats) and 'overall_score'.
     """
-    from mordor.taxonomy import OWASP_AGENTIC_2026, ATTACK_AGENTIC_MAPPINGS
+    from ai_blackteam.taxonomy import OWASP_AGENTIC_2026, ATTACK_AGENTIC_MAPPINGS
 
     categories: dict[str, dict] = {}
     for code, entry in OWASP_AGENTIC_2026.items():
@@ -544,8 +544,8 @@ Also check if `_load_attacks_metadata()` already exists. If not, add:
 def _load_attacks_metadata() -> dict:
     """Load all registered attack metadata keyed by technique_id."""
     try:
-        from mordor.registry import attack_registry
-        from mordor._loader import load_attacks
+        from ai_blackteam.registry import attack_registry
+        from ai_blackteam._loader import load_attacks
         load_attacks()
         return {
             cls().technique_id: cls().metadata()
@@ -566,7 +566,7 @@ Expected: All 6 tests PASS
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/mordor/scorecard.py tests/test_scorecard_agentic.py
+git add src/ai-blackteam/scorecard.py tests/test_scorecard_agentic.py
 git commit -m "added generate_agentic_scorecard for OWASP Agentic Top 10"
 ```
 
@@ -575,7 +575,7 @@ git commit -m "added generate_agentic_scorecard for OWASP Agentic Top 10"
 ## Task 5: Add --standard flag to CLI scorecard command
 
 **Files:**
-- Modify: `src/mordor/cli.py`
+- Modify: `src/ai-blackteam/cli.py`
 - Create: `tests/test_cli_scorecard_standard.py`
 
 - [ ] **Step 1: Write the failing test**
@@ -583,7 +583,7 @@ git commit -m "added generate_agentic_scorecard for OWASP Agentic Top 10"
 ```python
 # tests/test_cli_scorecard_standard.py
 from click.testing import CliRunner
-from mordor.cli import cli
+from ai_blackteam.cli import cli
 
 
 def test_scorecard_help_shows_standard_option():
@@ -636,11 +636,11 @@ Add `standard` to the function signature. Inside the function, branch on `standa
 
 ```python
     if standard == "agentic":
-        from mordor.scorecard import generate_agentic_scorecard
+        from ai_blackteam.scorecard import generate_agentic_scorecard
         sc = generate_agentic_scorecard(runs)
         standard_label = "OWASP Top 10 for Agentic Applications 2026"
     else:
-        from mordor.scorecard import generate_scorecard
+        from ai_blackteam.scorecard import generate_scorecard
         sc = generate_scorecard(runs)
         standard_label = "OWASP LLM Top 10 2025"
 ```
@@ -658,10 +658,10 @@ Expected: All 4 tests PASS
 - [ ] **Step 5: Manual smoke test**
 
 ```bash
-cd /home/billkishore/personal/mordor
-python -m mordor.cli scorecard --standard agentic
-python -m mordor.cli scorecard --standard llm
-python -m mordor.cli scorecard --help
+cd /home/billkishore/personal/ai-blackteam
+python -m ai_blackteam.cli scorecard --standard agentic
+python -m ai_blackteam.cli scorecard --standard llm
+python -m ai_blackteam.cli scorecard --help
 ```
 
 Expected: All run without error. Help shows `--standard [llm|agentic]`.
@@ -677,7 +677,7 @@ Expected: No new failures
 - [ ] **Step 7: Commit**
 
 ```bash
-git add src/mordor/cli.py tests/test_cli_scorecard_standard.py
+git add src/ai-blackteam/cli.py tests/test_cli_scorecard_standard.py
 git commit -m "added --standard flag to scorecard: llm vs agentic top 10"
 ```
 
@@ -693,4 +693,4 @@ git commit -m "added --standard flag to scorecard: llm vs agentic top 10"
 - [x] generate_agentic_scorecard() - N/A for untested, rates for tested
 - [x] CLI --standard flag
 - [x] Tests for each component
-- [ ] **Note:** Before Task 3, run `ls src/mordor/attacks/ | grep agent` and confirm file names match. Adjust filenames in the steps if they differ.
+- [ ] **Note:** Before Task 3, run `ls src/ai-blackteam/attacks/ | grep agent` and confirm file names match. Adjust filenames in the steps if they differ.

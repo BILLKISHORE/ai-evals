@@ -3,18 +3,18 @@ title: "MLCommons AILuminate"
 description: "12 hazard categories from the AI safety benchmark"
 ---
 
-[MLCommons AILuminate v1.0](https://mlcommons.org/ailuminate/safety/) defines 12 hazard categories for AI safety benchmarking. mordor maps its harm categories to these hazard codes and includes the alignment in every report.
+[MLCommons AILuminate v1.0](https://mlcommons.org/ailuminate/safety/) defines 12 hazard categories for AI safety benchmarking. ai-blackteam maps its harm categories to these hazard codes and includes the alignment in every report.
 
 ## Viewing the MLCommons mapping
 
 ```bash
-mordor mlcommons
+ai-blackteam mlcommons
 ```
 
 This prints two tables:
 
 1. **Hazard Taxonomy** - all 12 MLCommons categories with descriptions
-2. **Harm Category Alignment** - how mordor's categories map to MLCommons codes
+2. **Harm Category Alignment** - how ai-blackteam's categories map to MLCommons codes
 
 ## The 12 hazard categories
 
@@ -33,11 +33,11 @@ This prints two tables:
 | **spc** | Specialized Advice | Unqualified guidance on elections, financial, health, or legal matters |
 | **sxc** | Sexual Content | Pornographic material or explicit erotic content |
 
-## mordor harm category alignment
+## ai-blackteam harm category alignment
 
-mordor's internal harm categories map to MLCommons hazard codes:
+ai-blackteam's internal harm categories map to MLCommons hazard codes:
 
-| mordor Category | MLCommons Code | MLCommons Hazard |
+| ai-blackteam Category | MLCommons Code | MLCommons Hazard |
 |----------------|----------------|------------------|
 | phishing | ncr | Non-Violent Crimes |
 | malware | ncr | Non-Violent Crimes |
@@ -50,7 +50,7 @@ mordor's internal harm categories map to MLCommons hazard codes:
 
 ## Where it shows up
 
-The MLCommons alignment appears in every mordor report:
+The MLCommons alignment appears in every ai-blackteam report:
 
 - **HTML dashboard** - a dedicated table at the bottom showing all harm-to-hazard mappings
 - **Markdown report** - an alignment table after the results
@@ -58,6 +58,6 @@ The MLCommons alignment appears in every mordor report:
 
 ## Why MLCommons matters
 
-MLCommons is an industry consortium (Google, Meta, Microsoft, NVIDIA, and others). Their AILuminate benchmark is becoming the standard way to measure AI safety across the industry. By mapping to their taxonomy, mordor results can be compared against other tools and vendors using the same hazard definitions.
+MLCommons is an industry consortium (Google, Meta, Microsoft, NVIDIA, and others). Their AILuminate benchmark is becoming the standard way to measure AI safety across the industry. By mapping to their taxonomy, ai-blackteam results can be compared against other tools and vendors using the same hazard definitions.
 
 If you're producing safety documentation for a model deployment, referencing MLCommons hazard codes gives your findings credibility with reviewers who know the benchmark.

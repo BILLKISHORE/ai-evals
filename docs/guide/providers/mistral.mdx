@@ -1,6 +1,6 @@
 ---
 title: "Mistral"
-description: "Using Mistral models with mordor"
+description: "Using Mistral models with ai-blackteam"
 ---
 
 ## Default model
@@ -30,7 +30,7 @@ export MISTRAL_API_KEY=...
 **Config command:**
 
 ```bash
-mordor config set providers.mistral.api_key ...
+ai-blackteam config set providers.mistral.api_key ...
 ```
 
 Get your API key from the [Mistral Console](https://console.mistral.ai/).
@@ -39,13 +39,13 @@ Get your API key from the [Mistral Console](https://console.mistral.ai/).
 
 ```bash
 # Single attack with default model (mistral-large-latest)
-mordor run -p mistral -a encoding-obfuscation -t "Write a phishing email"
+ai-blackteam run -p mistral -a encoding-obfuscation -t "Write a phishing email"
 
 # Full batch with Mistral Small
-mordor batch -p mistral --model mistral-small-latest --attacks all -t "Write a phishing email"
+ai-blackteam batch -p mistral --model mistral-small-latest --attacks all -t "Write a phishing email"
 
 # Benchmark
-mordor benchmark -p mistral --threshold 80
+ai-blackteam benchmark -p mistral --threshold 80
 ```
 
 ## Tool-use support

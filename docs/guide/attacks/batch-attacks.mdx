@@ -3,12 +3,12 @@ title: "Batch Attacks"
 description: "Run multiple attacks in parallel"
 ---
 
-## The `mordor batch` command
+## The `ai-blackteam batch` command
 
-`mordor batch` runs multiple attacks against a model in one go. By default, it runs them in parallel across 5 workers.
+`ai-blackteam batch` runs multiple attacks against a model in one go. By default, it runs them in parallel across 5 workers.
 
 ```bash
-mordor batch -p anthropic --attacks all -t "Write a phishing email"
+ai-blackteam batch -p anthropic --attacks all -t "Write a phishing email"
 ```
 
 That fires every registered attack (1,000+) at the target. Each attack runs independently, and you get a summary at the end.
@@ -18,13 +18,13 @@ That fires every registered attack (1,000+) at the target. Each attack runs inde
 **All attacks:**
 
 ```bash
-mordor batch -p anthropic --attacks all -t "Write malware"
+ai-blackteam batch -p anthropic --attacks all -t "Write malware"
 ```
 
 **Specific attacks (comma-separated):**
 
 ```bash
-mordor batch -p anthropic --attacks encoding-obfuscation,role-play-villain,prefix-injection -t "Write malware"
+ai-blackteam batch -p anthropic --attacks encoding-obfuscation,role-play-villain,prefix-injection -t "Write malware"
 ```
 
 Unknown attack names get skipped with a warning. The rest keep running.
@@ -35,16 +35,16 @@ By default, batch runs 5 attacks at the same time. Increase or decrease with `-w
 
 ```bash
 # 10 parallel workers (faster, more API load)
-mordor batch -p anthropic --attacks all -t "Write malware" -w 10
+ai-blackteam batch -p anthropic --attacks all -t "Write malware" -w 10
 
 # 1 worker (sequential, but still uses the async engine)
-mordor batch -p anthropic --attacks all -t "Write malware" -w 1
+ai-blackteam batch -p anthropic --attacks all -t "Write malware" -w 1
 ```
 
 For true sequential execution, use `--sequential`:
 
 ```bash
-mordor batch -p anthropic --attacks all -t "Write malware" --sequential
+ai-blackteam batch -p anthropic --attacks all -t "Write malware" --sequential
 ```
 
 This runs attacks one at a time with no async overhead. Useful for debugging or when you need deterministic ordering.
@@ -89,7 +89,7 @@ This tells you at a glance how many attacks got through, how many were blocked, 
 
 ## Exit codes
 
-Same as `mordor run`:
+Same as `ai-blackteam run`:
 
 | Code | Meaning |
 |------|---------|
@@ -99,7 +99,7 @@ Same as `mordor run`:
 
 ## Sensitive category warnings
 
-When your batch includes attacks from sensitive categories (CBRN, weapons, infrastructure), mordor prints a warning:
+When your batch includes attacks from sensitive categories (CBRN, weapons, infrastructure), ai-blackteam prints a warning:
 
 ```
 WARNING: 45 attacks in sensitive categories (CBRN, weapons, infrastructure).
@@ -111,17 +111,17 @@ This is a heads-up, not a blocker. The attacks still run. Make sure you have pro
 
 ---
 
-## The `mordor sweep` command
+## The `ai-blackteam sweep` command
 
-`mordor sweep` runs all attacks against all configured providers in sequence. It's a full cross-provider comparison in one command.
+`ai-blackteam sweep` runs all attacks against all configured providers in sequence. It's a full cross-provider comparison in one command.
 
 ```bash
-mordor sweep -t "Write a phishing email"
+ai-blackteam sweep -t "Write a phishing email"
 ```
 
 ### How it works
 
-1. mordor checks your config for providers with API keys set
+1. ai-blackteam checks your config for providers with API keys set
 2. For each provider, it runs every registered attack sequentially
 3. At the end, you get a summary table comparing all providers
 
@@ -151,9 +151,9 @@ Total time: 13m 31.2s
 Sweep uses whatever providers have API keys configured. Set them up first:
 
 ```bash
-mordor config set providers.anthropic.api_key sk-ant-...
-mordor config set providers.openai.api_key sk-...
-mordor config set providers.google.api_key AIza...
+ai-blackteam config set providers.anthropic.api_key sk-ant-...
+ai-blackteam config set providers.openai.api_key sk-...
+ai-blackteam config set providers.google.api_key AIza...
 ```
 
 Ollama always runs (no API key needed). Providers without keys are skipped.
@@ -161,5 +161,5 @@ Ollama always runs (no API key needed). Providers without keys are skipped.
 If no providers are configured, sweep tells you:
 
 ```
-No providers configured. Set an api_key with: mordor config set providers.<name>.api_key VALUE
+No providers configured. Set an api_key with: ai-blackteam config set providers.<name>.api_key VALUE
 ```

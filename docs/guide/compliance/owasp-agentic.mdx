@@ -3,19 +3,19 @@ title: "OWASP Agentic Top 10"
 description: "2026 OWASP Top 10 for Agentic AI Applications"
 ---
 
-The [OWASP Top 10 for Agentic Applications (2026)](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/) covers risks specific to AI agents - systems that use tools, have memory, and can take autonomous actions. mordor maps agent-specific attacks to these 10 categories.
+The [OWASP Top 10 for Agentic Applications (2026)](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/) covers risks specific to AI agents - systems that use tools, have memory, and can take autonomous actions. ai-blackteam maps agent-specific attacks to these 10 categories.
 
 ## Running the scorecard
 
 ```bash
 # Table output
-mordor scorecard --standard agentic
+ai-blackteam scorecard --standard agentic
 
 # Filter by model
-mordor scorecard --standard agentic -m gpt-4o
+ai-blackteam scorecard --standard agentic -m gpt-4o
 
 # JSON export
-mordor scorecard --standard agentic --format json -o agentic-scorecard.json
+ai-blackteam scorecard --standard agentic --format json -o agentic-scorecard.json
 ```
 
 ## The 10 categories
@@ -35,9 +35,9 @@ mordor scorecard --standard agentic --format json -o agentic-scorecard.json
 
 ## Attack mappings
 
-mordor maps its agent exploitation attacks to these categories:
+ai-blackteam maps its agent exploitation attacks to these categories:
 
-| mordor Attack | ASI Categories |
+| ai-blackteam Attack | ASI Categories |
 |---------------|---------------|
 | `agent-credential-theft` | ASI02, ASI03 |
 | `agent-data-exfiltration` | ASI02, ASI03 |

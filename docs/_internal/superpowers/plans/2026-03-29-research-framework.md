@@ -77,10 +77,10 @@
 - [ ] **Step 1: Initialize git repo**
 
 ```bash
-cd /home/billkishore/personal/mordor && git init
+cd /home/billkishore/personal/ai-blackteam && git init
 ```
 
-Expected: `Initialized empty Git repository in /home/billkishore/personal/mordor/.git/`
+Expected: `Initialized empty Git repository in /home/billkishore/personal/ai-blackteam/.git/`
 
 - [ ] **Step 2: Create .gitignore**
 
@@ -220,9 +220,9 @@ python tools/cli.py new --name "my-first-experiment" --technique prompt-injectio
 - [ ] **Step 6: Commit**
 
 ```bash
-cd /home/billkishore/personal/mordor
+cd /home/billkishore/personal/ai-blackteam
 git add .gitignore README.md ROADMAP.md INDEX.md
-git commit -m "initialized mordor research framework"
+git commit -m "initialized ai-blackteam research framework"
 ```
 
 ---
@@ -622,7 +622,7 @@ related_experiments: []
 - [ ] **Step 7: Commit**
 
 ```bash
-cd /home/billkishore/personal/mordor
+cd /home/billkishore/personal/ai-blackteam
 git add templates/
 git commit -m "added all templates for experiments, techniques, models, and writeups"
 ```
@@ -1203,7 +1203,7 @@ Create `techniques/encoding-obfuscation/references.md`:
 - [ ] **Step 6: Commit**
 
 ```bash
-cd /home/billkishore/personal/mordor
+cd /home/billkishore/personal/ai-blackteam
 git add techniques/
 git commit -m "added technique knowledge base for all 8 attack categories"
 ```
@@ -1949,7 +1949,7 @@ None yet.
 - [ ] **Step 7: Commit**
 
 ```bash
-cd /home/billkishore/personal/mordor
+cd /home/billkishore/personal/ai-blackteam
 git add models/
 git commit -m "added model intelligence files for all 14 target models"
 ```
@@ -1972,7 +1972,7 @@ git commit -m "added model intelligence files for all 14 target models"
 - [ ] **Step 1: Create writeup directory structure**
 
 ```bash
-cd /home/billkishore/personal/mordor
+cd /home/billkishore/personal/ai-blackteam
 mkdir -p writeups/papers/drafts writeups/papers/published
 mkdir -p writeups/blog-posts/drafts writeups/blog-posts/published
 mkdir -p writeups/bug-bounties/drafts writeups/bug-bounties/submitted
@@ -2014,7 +2014,7 @@ touch experiments/.gitkeep
 - [ ] **Step 4: Commit**
 
 ```bash
-cd /home/billkishore/personal/mordor
+cd /home/billkishore/personal/ai-blackteam
 git add writeups/ logs/ experiments/
 git commit -m "added writeup directories, logs, and experiments placeholder"
 ```
@@ -2265,7 +2265,7 @@ class BaseAttack(ABC):
 - [ ] **Step 7: Commit**
 
 ```bash
-cd /home/billkishore/personal/mordor
+cd /home/billkishore/personal/ai-blackteam
 git add tools/
 git commit -m "added python framework base classes and config"
 ```
@@ -2432,7 +2432,7 @@ if __name__ == "__main__":
 - [ ] **Step 3: Verify `new` command works**
 
 ```bash
-cd /home/billkishore/personal/mordor/tools
+cd /home/billkishore/personal/ai-blackteam/tools
 pip install -r requirements.txt
 python cli.py new --name "test-experiment" --technique prompt-injection --model gpt-5.4
 ```
@@ -2449,7 +2449,7 @@ Next steps:
 - [ ] **Step 4: Verify scaffolded experiment has correct structure**
 
 ```bash
-find /home/billkishore/personal/mordor/experiments/2026-03-29-test-experiment -type f | sort
+find /home/billkishore/personal/ai-blackteam/experiments/2026-03-29-test-experiment -type f | sort
 ```
 
 Expected:
@@ -2462,13 +2462,13 @@ experiments/2026-03-29-test-experiment/prompts/001-initial.md
 - [ ] **Step 5: Delete test experiment**
 
 ```bash
-rm -rf /home/billkishore/personal/mordor/experiments/2026-03-29-test-experiment
+rm -rf /home/billkishore/personal/ai-blackteam/experiments/2026-03-29-test-experiment
 ```
 
 - [ ] **Step 6: Commit**
 
 ```bash
-cd /home/billkishore/personal/mordor
+cd /home/billkishore/personal/ai-blackteam
 git add tools/cli.py tools/generators/new_experiment.py
 git commit -m "added CLI new command to scaffold experiments"
 ```
@@ -2621,7 +2621,7 @@ def build_index(root_dir: Path) -> int:
 - [ ] **Step 2: Verify `index` command works on empty experiments**
 
 ```bash
-cd /home/billkishore/personal/mordor/tools
+cd /home/billkishore/personal/ai-blackteam/tools
 python cli.py index
 ```
 
@@ -2630,7 +2630,7 @@ Expected output: `INDEX.md updated with 0 experiment(s).`
 - [ ] **Step 3: Verify INDEX.md content**
 
 ```bash
-cat /home/billkishore/personal/mordor/INDEX.md
+cat /home/billkishore/personal/ai-blackteam/INDEX.md
 ```
 
 Expected: Contains "No experiments yet" with the create command.
@@ -2638,7 +2638,7 @@ Expected: Contains "No experiments yet" with the create command.
 - [ ] **Step 4: End-to-end test -- create experiment then rebuild index**
 
 ```bash
-cd /home/billkishore/personal/mordor/tools
+cd /home/billkishore/personal/ai-blackteam/tools
 python cli.py new --name "e2e-test" --technique prompt-injection --model gpt-5.4
 python cli.py index
 ```
@@ -2648,7 +2648,7 @@ Expected: `INDEX.md updated with 1 experiment(s).`
 - [ ] **Step 5: Verify INDEX.md now has the experiment**
 
 ```bash
-cat /home/billkishore/personal/mordor/INDEX.md
+cat /home/billkishore/personal/ai-blackteam/INDEX.md
 ```
 
 Expected: Table with EXP-001 row showing prompt-injection, gpt-5.4, discovery status.
@@ -2656,14 +2656,14 @@ Expected: Table with EXP-001 row showing prompt-injection, gpt-5.4, discovery st
 - [ ] **Step 6: Clean up test experiment**
 
 ```bash
-rm -rf /home/billkishore/personal/mordor/experiments/2026-03-29-e2e-test
-cd /home/billkishore/personal/mordor/tools && python cli.py index
+rm -rf /home/billkishore/personal/ai-blackteam/experiments/2026-03-29-e2e-test
+cd /home/billkishore/personal/ai-blackteam/tools && python cli.py index
 ```
 
 - [ ] **Step 7: Commit**
 
 ```bash
-cd /home/billkishore/personal/mordor
+cd /home/billkishore/personal/ai-blackteam
 git add tools/generators/build_index.py INDEX.md
 git commit -m "added CLI index command to auto-generate experiment index"
 ```
@@ -2675,7 +2675,7 @@ git commit -m "added CLI index command to auto-generate experiment index"
 - [ ] **Step 1: Verify full directory tree**
 
 ```bash
-find /home/billkishore/personal/mordor -type f | grep -v '.git/' | grep -v '__pycache__' | sort
+find /home/billkishore/personal/ai-blackteam -type f | grep -v '.git/' | grep -v '__pycache__' | sort
 ```
 
 Expected: All files from the spec present -- templates, techniques, models, tools, root files.
@@ -2683,7 +2683,7 @@ Expected: All files from the spec present -- templates, techniques, models, tool
 - [ ] **Step 2: Verify git status is clean**
 
 ```bash
-cd /home/billkishore/personal/mordor && git status
+cd /home/billkishore/personal/ai-blackteam && git status
 ```
 
 Expected: `nothing to commit, working tree clean`
@@ -2691,7 +2691,7 @@ Expected: `nothing to commit, working tree clean`
 - [ ] **Step 3: Verify CLI commands work**
 
 ```bash
-cd /home/billkishore/personal/mordor/tools
+cd /home/billkishore/personal/ai-blackteam/tools
 python cli.py --help
 python cli.py new --help
 python cli.py index --help
@@ -2702,7 +2702,7 @@ Expected: Help text for all commands.
 - [ ] **Step 4: Run a full workflow test**
 
 ```bash
-cd /home/billkishore/personal/mordor/tools
+cd /home/billkishore/personal/ai-blackteam/tools
 python cli.py new --name "verification-test" --technique role-play-bypass --model claude-4.6-sonnet
 python cli.py index
 cat ../INDEX.md
@@ -2715,7 +2715,7 @@ Expected: Experiment created, index shows it, then both cleaned up.
 - [ ] **Step 5: Verify git log shows all commits**
 
 ```bash
-cd /home/billkishore/personal/mordor && git log --oneline
+cd /home/billkishore/personal/ai-blackteam && git log --oneline
 ```
 
 Expected: 7 commits in reverse chronological order.

@@ -1,7 +1,7 @@
 # How Safety Labs Grade Bypassed LLM Responses - Deep Research
 
 **Date:** 2026-03-31
-**Purpose:** Design reference for validated evaluation system in mordor
+**Purpose:** Design reference for validated evaluation system in ai-blackteam
 **Status:** Research complete
 
 ---
@@ -369,7 +369,7 @@ Sources:
 
 ---
 
-## Design Implications for mordor
+## Design Implications for ai-blackteam
 
 ### Current State (evaluator.py)
 
@@ -381,7 +381,7 @@ The existing evaluator uses:
 
 ### Gaps Identified
 
-1. **No specificity/convincingness scoring** -- current judge only measures compliance, not whether the response is actually actionable. This means mordor has the same "empty jailbreak" problem StrongREJECT identified.
+1. **No specificity/convincingness scoring** -- current judge only measures compliance, not whether the response is actually actionable. This means ai-blackteam has the same "empty jailbreak" problem StrongREJECT identified.
 
 2. **No fine-grained taxonomy** -- Enkrypt's 8-class system distinguishes "instructions with warning" from "direct violation" from "verbatim repetition". The current BLOCKED/PARTIAL/BYPASSED is too coarse.
 

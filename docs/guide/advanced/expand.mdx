@@ -3,7 +3,7 @@ title: "Attack Expansion"
 description: "Generate 163M+ attack variants from templates"
 ---
 
-The template expansion engine generates attack variants by combining techniques, harm categories, difficulty levels, mutations, and languages. This is how mordor scales from ~100 base attacks to millions of test configurations.
+The template expansion engine generates attack variants by combining techniques, harm categories, difficulty levels, mutations, and languages. This is how ai-blackteam scales from ~100 base attacks to millions of test configurations.
 
 ## How expansion works
 
@@ -27,7 +27,7 @@ total = base_attacks x (1 + mutations + languages)
 ## Checking expansion capacity
 
 ```bash
-mordor expand count
+ai-blackteam expand count
 ```
 
 Output:
@@ -46,19 +46,19 @@ This shows the base expansion. With mutations and languages, the total grows to 
 
 ```bash
 # Show first 50 expanded attacks
-mordor expand list
+ai-blackteam expand list
 
 # Filter by category
-mordor expand list --category weapons
+ai-blackteam expand list --category weapons
 
 # Filter by difficulty
-mordor expand list --difficulty extreme
+ai-blackteam expand list --difficulty extreme
 
 # Filter by technique
-mordor expand list --technique encoding-obfuscation
+ai-blackteam expand list --technique encoding-obfuscation
 
 # Show more
-mordor expand list --limit 200
+ai-blackteam expand list --limit 200
 ```
 
 Each expanded attack has a composite ID like `encoding-obfuscation-weapons-hard`.
@@ -67,19 +67,19 @@ Each expanded attack has a composite ID like `encoding-obfuscation-weapons-hard`
 
 ```bash
 # Run base expansion (technique x category x difficulty)
-mordor expand run -p anthropic
+ai-blackteam expand run -p anthropic
 
 # With encoding/framing/difficulty mutations (17 per attack)
-mordor expand run -p anthropic --mutations
+ai-blackteam expand run -p anthropic --mutations
 
 # With language variants (10 per attack)
-mordor expand run -p anthropic --languages
+ai-blackteam expand run -p anthropic --languages
 
 # With both mutations and languages
-mordor expand run -p anthropic --mutations --languages
+ai-blackteam expand run -p anthropic --mutations --languages
 
 # Limit to specific slices
-mordor expand run -p anthropic --category weapons --difficulty hard --limit 100
+ai-blackteam expand run -p anthropic --category weapons --difficulty hard --limit 100
 ```
 
 ## Options

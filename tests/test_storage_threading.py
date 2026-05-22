@@ -1,5 +1,5 @@
 import threading
-from mordor.storage.sqlite import Storage
+from ai_blackteam.storage.sqlite import Storage
 
 
 def test_storage_concurrent_writes():

@@ -1,6 +1,6 @@
 """Tests for multi-modal image-based attacks."""
 
-from mordor.attacks.multimodal import (
+from ai_blackteam.attacks.multimodal import (
     FigStep, TypographyAttack, ImageTextSplit, Steganography,
     _text_to_image_base64,
 )
@@ -82,15 +82,15 @@ def test_all_multimodal_attacks_have_metadata():
 
 
 def test_multimodal_attacks_registered():
-    from mordor.registry import attack_registry
-    import mordor.attacks
-    attack_registry.discover(mordor.attacks)
+    from ai_blackteam.registry import attack_registry
+    import ai_blackteam.attacks
+    attack_registry.discover(ai_blackteam.attacks)
     for name in ["figstep", "typography-attack", "image-text-split", "steganography"]:
         assert name in attack_registry.list(), f"{name} not registered"
 
 
 def test_total_attack_count_increased():
-    from mordor.registry import attack_registry
-    import mordor.attacks
-    attack_registry.discover(mordor.attacks)
+    from ai_blackteam.registry import attack_registry
+    import ai_blackteam.attacks
+    attack_registry.discover(ai_blackteam.attacks)
     assert len(attack_registry.list()) >= 118

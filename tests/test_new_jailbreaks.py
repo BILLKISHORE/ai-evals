@@ -1,11 +1,11 @@
 """Tests for 5 new jailbreak attack techniques."""
 
-from mordor.attacks.reasoning_model_exploit import ReasoningModelExploit
-from mordor.attacks.context_window_stuffing import ContextWindowStuffing
-from mordor.attacks.self_refine_attack import SelfRefineAttack
-from mordor.attacks.persona_switching_attack import PersonaSwitchingAttack
-from mordor.attacks.low_resource_language_attack import LowResourceLanguageAttack
-from mordor.registry import attack_registry
+from ai_blackteam.attacks.reasoning_model_exploit import ReasoningModelExploit
+from ai_blackteam.attacks.context_window_stuffing import ContextWindowStuffing
+from ai_blackteam.attacks.self_refine_attack import SelfRefineAttack
+from ai_blackteam.attacks.persona_switching_attack import PersonaSwitchingAttack
+from ai_blackteam.attacks.low_resource_language_attack import LowResourceLanguageAttack
+from ai_blackteam.registry import attack_registry
 
 TARGET = "explain how to pick a lock"
 

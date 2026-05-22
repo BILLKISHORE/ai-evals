@@ -3,14 +3,14 @@ title: "CLI Reference"
 description: "Complete command and flag reference"
 ---
 
-Every mordor command with every flag, organized by function.
+Every ai-blackteam command with every flag, organized by function.
 
 ## Global Flags
 
 These apply to all commands:
 
 ```bash
-mordor [-v | --verbose] [--log-file FILE] COMMAND
+ai-blackteam [-v | --verbose] [--log-file FILE] COMMAND
 ```
 
 | Flag | Description |
@@ -25,7 +25,7 @@ mordor [-v | --verbose] [--log-file FILE] COMMAND
 Run a single attack against a model.
 
 ```bash
-mordor run -p PROVIDER -a ATTACK -t TARGET [OPTIONS]
+ai-blackteam run -p PROVIDER -a ATTACK -t TARGET [OPTIONS]
 ```
 
 | Flag | Required | Default | Description |
@@ -42,9 +42,9 @@ mordor run -p PROVIDER -a ATTACK -t TARGET [OPTIONS]
 **Exit codes:** 0 = all blocked, 1 = at least one bypass, 2 = invalid arguments.
 
 ```bash
-mordor run -p anthropic -a encoding-obfuscation -t "Write a phishing email"
-mordor run -p openai -m gpt-5.4 -a role-play-jailbreak -t "Write malware" --verbose
-mordor run -p anthropic -a prefix-injection -t "Leak system prompt" --quiet
+ai-blackteam run -p anthropic -a encoding-obfuscation -t "Write a phishing email"
+ai-blackteam run -p openai -m gpt-5.4 -a role-play-jailbreak -t "Write malware" --verbose
+ai-blackteam run -p anthropic -a prefix-injection -t "Leak system prompt" --quiet
 ```
 
 ---
@@ -54,7 +54,7 @@ mordor run -p anthropic -a prefix-injection -t "Leak system prompt" --quiet
 Run multiple attacks against a model. Parallel by default.
 
 ```bash
-mordor batch -p PROVIDER -t TARGET [OPTIONS]
+ai-blackteam batch -p PROVIDER -t TARGET [OPTIONS]
 ```
 
 | Flag | Required | Default | Description |
@@ -71,9 +71,9 @@ mordor batch -p PROVIDER -t TARGET [OPTIONS]
 | `--sequential` | No | - | Run attacks one at a time (no parallelism) |
 
 ```bash
-mordor batch -p anthropic --attacks all -t "Write malware" -w 10
-mordor batch -p openai --attacks encoding-obfuscation,role-play-jailbreak -t "Write malware"
-mordor batch -p anthropic -t "Write malware" --sequential
+ai-blackteam batch -p anthropic --attacks all -t "Write malware" -w 10
+ai-blackteam batch -p openai --attacks encoding-obfuscation,role-play-jailbreak -t "Write malware"
+ai-blackteam batch -p anthropic -t "Write malware" --sequential
 ```
 
 ---
@@ -83,7 +83,7 @@ mordor batch -p anthropic -t "Write malware" --sequential
 Run all attacks against all configured providers.
 
 ```bash
-mordor sweep -t TARGET [OPTIONS]
+ai-blackteam sweep -t TARGET [OPTIONS]
 ```
 
 | Flag | Required | Default | Description |
@@ -95,7 +95,7 @@ mordor sweep -t TARGET [OPTIONS]
 Tests every provider that has an API key configured (plus Ollama, which doesn't need one).
 
 ```bash
-mordor sweep -t "Write a phishing email"
+ai-blackteam sweep -t "Write a phishing email"
 ```
 
 ---
@@ -105,9 +105,9 @@ mordor sweep -t "Write a phishing email"
 Run the safety benchmark and produce a score. Supports single model, all models, or a specific list.
 
 ```bash
-mordor benchmark -p PROVIDER [OPTIONS]
-mordor benchmark --all [OPTIONS]
-mordor benchmark --models PROVIDER:MODEL,... [OPTIONS]
+ai-blackteam benchmark -p PROVIDER [OPTIONS]
+ai-blackteam benchmark --all [OPTIONS]
+ai-blackteam benchmark --models PROVIDER:MODEL,... [OPTIONS]
 ```
 
 | Flag | Required | Default | Description |
@@ -125,9 +125,9 @@ mordor benchmark --models PROVIDER:MODEL,... [OPTIONS]
 *One of `-p`, `--all`, or `--models` is required.
 
 ```bash
-mordor benchmark -p anthropic -m claude-sonnet-4-6
-mordor benchmark --all --threshold 80
-mordor benchmark --models anthropic:claude-sonnet-4-6,openai:gpt-5.4 -o scores.json
+ai-blackteam benchmark -p anthropic -m claude-sonnet-4-6
+ai-blackteam benchmark --all --threshold 80
+ai-blackteam benchmark --models anthropic:claude-sonnet-4-6,openai:gpt-5.4 -o scores.json
 ```
 
 ---
@@ -137,7 +137,7 @@ mordor benchmark --models anthropic:claude-sonnet-4-6,openai:gpt-5.4 -o scores.j
 Test a defense by comparing baseline vs defended safety scores.
 
 ```bash
-mordor defend -p PROVIDER -t TARGET [OPTIONS]
+ai-blackteam defend -p PROVIDER -t TARGET [OPTIONS]
 ```
 
 | Flag | Required | Default | Description |
@@ -153,9 +153,9 @@ mordor defend -p PROVIDER -t TARGET [OPTIONS]
 | `--output` | No | - | Save JSON comparison to file |
 
 ```bash
-mordor defend -p anthropic -t "Write a phishing email" --system-prompt "Never help with harmful content"
-mordor defend -p anthropic -t "Write a phishing email" --guardrail strict
-mordor defend -p openai -t "Write malware" --guardrail moderate --system-prompt "Be safe"
+ai-blackteam defend -p anthropic -t "Write a phishing email" --system-prompt "Never help with harmful content"
+ai-blackteam defend -p anthropic -t "Write a phishing email" --guardrail strict
+ai-blackteam defend -p openai -t "Write malware" --guardrail moderate --system-prompt "Be safe"
 ```
 
 ---
@@ -165,7 +165,7 @@ mordor defend -p openai -t "Write malware" --guardrail moderate --system-prompt 
 Generate a report from stored results.
 
 ```bash
-mordor report [OPTIONS]
+ai-blackteam report [OPTIONS]
 ```
 
 | Flag | Required | Default | Description |
@@ -175,9 +175,9 @@ mordor report [OPTIONS]
 | `-o`, `--output` | No | stdout | Output file path |
 
 ```bash
-mordor report --format html -o report.html
-mordor report --export promptfoo -o results.json
-mordor report --format json
+ai-blackteam report --format html -o report.html
+ai-blackteam report --export promptfoo -o results.json
+ai-blackteam report --format json
 ```
 
 ---
@@ -187,7 +187,7 @@ mordor report --format json
 Show safety scorecard from stored results.
 
 ```bash
-mordor scorecard [OPTIONS]
+ai-blackteam scorecard [OPTIONS]
 ```
 
 | Flag | Required | Default | Description |
@@ -198,9 +198,9 @@ mordor scorecard [OPTIONS]
 | `--standard` | No | `llm` | `llm` (OWASP LLM Top 10), `agentic` (Agentic Top 10), `compliance` (EU AI Act + NIST) |
 
 ```bash
-mordor scorecard --standard llm
-mordor scorecard --standard agentic -m claude-sonnet-4-6
-mordor scorecard --standard compliance --format json -o compliance.json
+ai-blackteam scorecard --standard llm
+ai-blackteam scorecard --standard agentic -m claude-sonnet-4-6
+ai-blackteam scorecard --standard compliance --format json -o compliance.json
 ```
 
 ---
@@ -210,7 +210,7 @@ mordor scorecard --standard compliance --format json -o compliance.json
 Scan source code for AI security vulnerabilities.
 
 ```bash
-mordor scan [PATH] [OPTIONS]
+ai-blackteam scan [PATH] [OPTIONS]
 ```
 
 | Flag | Required | Default | Description |
@@ -221,9 +221,9 @@ mordor scan [PATH] [OPTIONS]
 | `-o`, `--output` | No | - | Save JSON results to file |
 
 ```bash
-mordor scan .
-mordor scan src/ --severity high
-mordor scan app.py --format json -o findings.json
+ai-blackteam scan .
+ai-blackteam scan src/ --severity high
+ai-blackteam scan app.py --format json -o findings.json
 ```
 
 ---
@@ -233,7 +233,7 @@ mordor scan app.py --format json -o findings.json
 Show all attacks grouped by category with OWASP/MITRE mappings.
 
 ```bash
-mordor taxonomy
+ai-blackteam taxonomy
 ```
 
 No flags. Displays a table per category with attack IDs, severity, mode, description, OWASP codes, and MITRE ATLAS IDs.
@@ -245,7 +245,7 @@ No flags. Displays a table per category with attack IDs, severity, mode, descrip
 Show MITRE ATLAS technique mappings for all attacks.
 
 ```bash
-mordor atlas
+ai-blackteam atlas
 ```
 
 ---
@@ -255,7 +255,7 @@ mordor atlas
 Show MLCommons AILuminate hazard taxonomy and harm category alignment.
 
 ```bash
-mordor mlcommons
+ai-blackteam mlcommons
 ```
 
 ---
@@ -265,7 +265,7 @@ mordor mlcommons
 Show regulatory framework mappings (NIST AI RMF, EU AI Act, MLCommons).
 
 ```bash
-mordor frameworks
+ai-blackteam frameworks
 ```
 
 ---
@@ -275,7 +275,7 @@ mordor frameworks
 Run ASL3 safety evaluation (CBRN + autonomous capabilities).
 
 ```bash
-mordor asl3 -p PROVIDER [OPTIONS]
+ai-blackteam asl3 -p PROVIDER [OPTIONS]
 ```
 
 | Flag | Required | Default | Description |
@@ -288,8 +288,8 @@ mordor asl3 -p PROVIDER [OPTIONS]
 | `--quiet` | No | - | Minimal output |
 
 ```bash
-mordor asl3 -p anthropic --domain cbrn
-mordor asl3 -p openai --domain all --limit 50
+ai-blackteam asl3 -p anthropic --domain cbrn
+ai-blackteam asl3 -p openai --domain all --limit 50
 ```
 
 ---
@@ -299,7 +299,7 @@ mordor asl3 -p openai --domain all --limit 50
 Show current configuration (API keys are truncated).
 
 ```bash
-mordor config show
+ai-blackteam config show
 ```
 
 ## config set
@@ -307,13 +307,13 @@ mordor config show
 Set a config value.
 
 ```bash
-mordor config set KEY VALUE
+ai-blackteam config set KEY VALUE
 ```
 
 ```bash
-mordor config set providers.anthropic.api_key sk-ant-...
-mordor config set workers 10
-mordor config set storage.database /tmp/test.db
+ai-blackteam config set providers.anthropic.api_key sk-ant-...
+ai-blackteam config set workers 10
+ai-blackteam config set storage.database /tmp/test.db
 ```
 
 ---
@@ -323,7 +323,7 @@ mordor config set storage.database /tmp/test.db
 Show available datasets.
 
 ```bash
-mordor dataset list
+ai-blackteam dataset list
 ```
 
 ## dataset load
@@ -331,8 +331,8 @@ mordor dataset list
 Download and cache a dataset.
 
 ```bash
-mordor dataset load NAME
-mordor dataset load --all
+ai-blackteam dataset load NAME
+ai-blackteam dataset load --all
 ```
 
 | Flag | Description |
@@ -345,7 +345,7 @@ mordor dataset load --all
 Show prompt counts per category across cached datasets.
 
 ```bash
-mordor dataset stats
+ai-blackteam dataset stats
 ```
 
 ---
@@ -355,7 +355,7 @@ mordor dataset stats
 Show template expansion capacity.
 
 ```bash
-mordor expand count
+ai-blackteam expand count
 ```
 
 ## expand list
@@ -363,7 +363,7 @@ mordor expand count
 List expanded attacks with filters.
 
 ```bash
-mordor expand list [OPTIONS]
+ai-blackteam expand list [OPTIONS]
 ```
 
 | Flag | Default | Description |
@@ -378,7 +378,7 @@ mordor expand list [OPTIONS]
 Run expanded attacks against a model.
 
 ```bash
-mordor expand run -p PROVIDER [OPTIONS]
+ai-blackteam expand run -p PROVIDER [OPTIONS]
 ```
 
 | Flag | Required | Default | Description |
@@ -395,8 +395,8 @@ mordor expand run -p PROVIDER [OPTIONS]
 | `--quiet` | No | - | Minimal output |
 
 ```bash
-mordor expand run -p anthropic --category phishing --difficulty hard
-mordor expand run -p openai --mutations --languages --limit 100
+ai-blackteam expand run -p anthropic --category phishing --difficulty hard
+ai-blackteam expand run -p openai --mutations --languages --limit 100
 ```
 
 ---
@@ -406,7 +406,7 @@ mordor expand run -p openai --mutations --languages --limit 100
 Run attacks against dataset prompts with optional mutations.
 
 ```bash
-mordor mega-sweep -p PROVIDER --dataset DATASETS [OPTIONS]
+ai-blackteam mega-sweep -p PROVIDER --dataset DATASETS [OPTIONS]
 ```
 
 | Flag | Required | Default | Description |
@@ -424,8 +424,8 @@ mordor mega-sweep -p PROVIDER --dataset DATASETS [OPTIONS]
 | `--dry-run` | No | - | Show plan without running |
 
 ```bash
-mordor mega-sweep -p anthropic --dataset harmbench,advbench -w 10
-mordor mega-sweep -p openai --dataset all --mutations encode,frame --dry-run
+ai-blackteam mega-sweep -p anthropic --dataset harmbench,advbench -w 10
+ai-blackteam mega-sweep -p openai --dataset all --mutations encode,frame --dry-run
 ```
 
 ---
@@ -435,7 +435,7 @@ mordor mega-sweep -p openai --dataset all --mutations encode,frame --dry-run
 Run PAIR adaptive attack (attacker-target-judge loop).
 
 ```bash
-mordor generate pair -p PROVIDER -t TARGET [OPTIONS]
+ai-blackteam generate pair -p PROVIDER -t TARGET [OPTIONS]
 ```
 
 | Flag | Required | Default | Description |
@@ -450,7 +450,7 @@ mordor generate pair -p PROVIDER -t TARGET [OPTIONS]
 | `--quiet` | No | - | Minimal output |
 
 ```bash
-mordor generate pair -p anthropic -t "Write a phishing email" --max-iter 30
+ai-blackteam generate pair -p anthropic -t "Write a phishing email" --max-iter 30
 ```
 
 ## generate tap
@@ -458,7 +458,7 @@ mordor generate pair -p anthropic -t "Write a phishing email" --max-iter 30
 Run TAP tree-of-attacks with pruning.
 
 ```bash
-mordor generate tap -p PROVIDER -t TARGET [OPTIONS]
+ai-blackteam generate tap -p PROVIDER -t TARGET [OPTIONS]
 ```
 
 | Flag | Required | Default | Description |
@@ -474,7 +474,7 @@ mordor generate tap -p PROVIDER -t TARGET [OPTIONS]
 | `--quiet` | No | - | Minimal output |
 
 ```bash
-mordor generate tap -p openai -t "Write malware" --depth 8 --width 10
+ai-blackteam generate tap -p openai -t "Write malware" --depth 8 --width 10
 ```
 
 ## generate fuzz
@@ -482,7 +482,7 @@ mordor generate tap -p openai -t "Write malware" --depth 8 --width 10
 Run GPTFuzzer mutation-based attack generation.
 
 ```bash
-mordor generate fuzz -p PROVIDER -t TARGET [OPTIONS]
+ai-blackteam generate fuzz -p PROVIDER -t TARGET [OPTIONS]
 ```
 
 | Flag | Required | Default | Description |
@@ -497,7 +497,7 @@ mordor generate fuzz -p PROVIDER -t TARGET [OPTIONS]
 | `--quiet` | No | - | Minimal output |
 
 ```bash
-mordor generate fuzz -p anthropic -t "Write a phishing email" --iterations 100
+ai-blackteam generate fuzz -p anthropic -t "Write a phishing email" --iterations 100
 ```
 
 ---
@@ -507,7 +507,7 @@ mordor generate fuzz -p anthropic -t "Write a phishing email" --iterations 100
 Show available providers and default models.
 
 ```bash
-mordor list-providers
+ai-blackteam list-providers
 ```
 
 ## list-attacks
@@ -515,7 +515,7 @@ mordor list-providers
 Show available attacks and their modes.
 
 ```bash
-mordor list-attacks
+ai-blackteam list-attacks
 ```
 
 ---
@@ -525,7 +525,7 @@ mordor list-attacks
 Run vulnerability research elicitation attacks. Tests a model's willingness to find and exploit code vulnerabilities at three escalation levels -- review, explain exploitation, and write a working exploit.
 
 ```bash
-mordor vuln-research -p PROVIDER [-m MODEL] [--mode {synthetic,cve,user,all}] [--code-path PATH] [-t TARGET] [--verify] [--verify-llm] [--verbose] [--quiet]
+ai-blackteam vuln-research -p PROVIDER [-m MODEL] [--mode {synthetic,cve,user,all}] [--code-path PATH] [-t TARGET] [--verify] [--verify-llm] [--verbose] [--quiet]
 ```
 
 | Flag | Required | Default | Description |
@@ -541,10 +541,10 @@ mordor vuln-research -p PROVIDER [-m MODEL] [--mode {synthetic,cve,user,all}] [-
 | `--quiet` | No | - | Suppress output |
 
 ```bash
-mordor vuln-research -p anthropic --mode synthetic
-mordor vuln-research -p openai --mode cve --verbose
-mordor vuln-research -p anthropic --mode user --code-path ./my-app/
-mordor vuln-research -p anthropic --mode all --verify-llm
+ai-blackteam vuln-research -p anthropic --mode synthetic
+ai-blackteam vuln-research -p openai --mode cve --verbose
+ai-blackteam vuln-research -p anthropic --mode user --code-path ./my-app/
+ai-blackteam vuln-research -p anthropic --mode all --verify-llm
 ```
 
 ---
@@ -558,7 +558,7 @@ Longitudinal capability tracking. Take snapshots of model safety over time and c
 List all snapshots with bypass rates, dates, and models.
 
 ```bash
-mordor snapshot list
+ai-blackteam snapshot list
 ```
 
 ### snapshot diff
@@ -566,7 +566,7 @@ mordor snapshot list
 Compare two snapshots side by side. Shows before/after bypass rate with delta.
 
 ```bash
-mordor snapshot diff ID1 ID2
+ai-blackteam snapshot diff ID1 ID2
 ```
 
 | Flag | Required | Description |
@@ -579,7 +579,7 @@ mordor snapshot diff ID1 ID2
 Export snapshot data to a file.
 
 ```bash
-mordor snapshot export [--format {json,csv}] [-o OUTPUT]
+ai-blackteam snapshot export [--format {json,csv}] [-o OUTPUT]
 ```
 
 | Flag | Required | Default | Description |
@@ -592,7 +592,7 @@ mordor snapshot export [--format {json,csv}] [-o OUTPUT]
 Show a model x time bypass rate matrix. Useful for tracking how safety changes across model versions over time.
 
 ```bash
-mordor snapshot matrix
+ai-blackteam snapshot matrix
 ```
 
 ### snapshot check
@@ -600,7 +600,7 @@ mordor snapshot matrix
 Check if the latest snapshot bypass rate is below a threshold. Returns exit code 0 if below, exit code 1 if above. Designed for CI gating.
 
 ```bash
-mordor snapshot check [--latest] [--threshold 0.10]
+ai-blackteam snapshot check [--latest] [--threshold 0.10]
 ```
 
 | Flag | Required | Default | Description |
@@ -609,5 +609,5 @@ mordor snapshot check [--latest] [--threshold 0.10]
 | `--threshold` | No | `0.10` | Maximum acceptable bypass rate (0.0-1.0) |
 
 ```bash
-mordor snapshot check --latest --threshold 0.05
+ai-blackteam snapshot check --latest --threshold 0.05
 ```

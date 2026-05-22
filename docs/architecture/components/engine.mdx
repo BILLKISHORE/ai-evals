@@ -8,9 +8,9 @@ The Engine is the orchestrator. It connects attacks to providers, passes respons
 ## Initialization
 
 ```python
-from mordor.engine import Engine
+from ai_blackteam.engine import Engine
 
-engine = Engine(db_path="~/.mordor/results.db")
+engine = Engine(db_path="~/.ai-blackteam/results.db")
 # or in-memory for testing:
 engine = Engine(db_path=":memory:")
 ```
@@ -151,4 +151,4 @@ except Exception as e:
 
 ## Source
 
-`src/mordor/engine.py`
+`src/ai-blackteam/engine.py`

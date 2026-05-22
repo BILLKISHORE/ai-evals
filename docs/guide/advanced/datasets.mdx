@@ -3,12 +3,12 @@ title: "Benchmark Datasets"
 description: "14 research datasets for comprehensive testing"
 ---
 
-mordor integrates 14 external research datasets containing thousands of harmful prompts. These datasets come from published academic papers and safety benchmarks, giving you access to prompts that have been validated by the research community.
+ai-blackteam integrates 14 external research datasets containing thousands of harmful prompts. These datasets come from published academic papers and safety benchmarks, giving you access to prompts that have been validated by the research community.
 
 ## Listing datasets
 
 ```bash
-mordor dataset list
+ai-blackteam dataset list
 ```
 
 Output:
@@ -37,18 +37,18 @@ mhj             CC-BY-NC-4.0   yes     2912   Real human-written multi-turn jail
 
 ```bash
 # Download a specific dataset
-mordor dataset load harmbench
+ai-blackteam dataset load harmbench
 
 # Download all datasets
-mordor dataset load --all
+ai-blackteam dataset load --all
 ```
 
-Datasets are cached locally in `~/.mordor/datasets/` as JSONL files. You only need to download once.
+Datasets are cached locally in `~/.ai-blackteam/datasets/` as JSONL files. You only need to download once.
 
 ## Dataset statistics
 
 ```bash
-mordor dataset stats
+ai-blackteam dataset stats
 ```
 
 Shows prompt counts per harm category across all cached datasets:
@@ -180,13 +180,13 @@ Datasets feed into the `mega-sweep` command:
 
 ```bash
 # Run all attacks against HarmBench prompts
-mordor mega-sweep -p anthropic --dataset harmbench
+ai-blackteam mega-sweep -p anthropic --dataset harmbench
 
 # Run against all datasets with mutations
-mordor mega-sweep -p anthropic --dataset all --mutations encode
+ai-blackteam mega-sweep -p anthropic --dataset all --mutations encode
 
 # Limit to 50 prompts for a quick test
-mordor mega-sweep -p anthropic --dataset harmbench --limit 50
+ai-blackteam mega-sweep -p anthropic --dataset harmbench --limit 50
 ```
 
 See [Mega Sweep](/guide/advanced/mega-sweep) for full details.
@@ -204,4 +204,4 @@ Every dataset prompt includes:
 }
 ```
 
-The `category` field maps to mordor's harm taxonomy, so you can filter by category across datasets.
+The `category` field maps to ai-blackteam's harm taxonomy, so you can filter by category across datasets.

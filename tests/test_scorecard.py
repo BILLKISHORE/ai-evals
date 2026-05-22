@@ -1,4 +1,4 @@
-from mordor.scorecard import generate_scorecard, scorecard_to_json, scorecard_to_markdown, OWASP_LLM_2025
+from ai_blackteam.scorecard import generate_scorecard, scorecard_to_json, scorecard_to_markdown, OWASP_LLM_2025
 
 
 def _make_attacks_metadata():

@@ -15,41 +15,41 @@
 ## File Map
 
 ### Package infrastructure
-- `src/mordor/__init__.py` -- version, package docstring
-- `src/mordor/config.py` -- load YAML config, resolve env vars
+- `src/ai-blackteam/__init__.py` -- version, package docstring
+- `src/ai-blackteam/config.py` -- load YAML config, resolve env vars
 - `pyproject.toml` -- Poetry config, entry points, dependencies
 - `LICENSE` -- MIT
 - `README.md` -- Install + usage guide
 
 ### Plugin system
-- `src/mordor/registry.py` -- Plugin registry, auto-discovery, decorators
+- `src/ai-blackteam/registry.py` -- Plugin registry, auto-discovery, decorators
 
 ### Provider layer
-- `src/mordor/providers/__init__.py` -- re-export registry functions
-- `src/mordor/providers/base.py` -- BaseProvider, PromptResult, ToolResult
-- `src/mordor/providers/anthropic.py` -- Claude provider
-- `src/mordor/providers/ollama.py` -- Local models provider
+- `src/ai-blackteam/providers/__init__.py` -- re-export registry functions
+- `src/ai-blackteam/providers/base.py` -- BaseProvider, PromptResult, ToolResult
+- `src/ai-blackteam/providers/anthropic.py` -- Claude provider
+- `src/ai-blackteam/providers/ollama.py` -- Local models provider
 
 ### Attack layer
-- `src/mordor/attacks/__init__.py` -- re-export registry functions
-- `src/mordor/attacks/base.py` -- BaseAttack, AttackResult
-- `src/mordor/attacks/encoding_obfuscation.py` -- 8 encoding variants
-- `src/mordor/attacks/role_play_bypass.py` -- 5 role-play variants (multi-turn)
+- `src/ai-blackteam/attacks/__init__.py` -- re-export registry functions
+- `src/ai-blackteam/attacks/base.py` -- BaseAttack, AttackResult
+- `src/ai-blackteam/attacks/encoding_obfuscation.py` -- 8 encoding variants
+- `src/ai-blackteam/attacks/role_play_bypass.py` -- 5 role-play variants (multi-turn)
 
 ### Engine + evaluator
-- `src/mordor/engine.py` -- Orchestrator with 3 execution modes
-- `src/mordor/evaluator.py` -- Keyword, regex, LLM-as-judge
+- `src/ai-blackteam/engine.py` -- Orchestrator with 3 execution modes
+- `src/ai-blackteam/evaluator.py` -- Keyword, regex, LLM-as-judge
 
 ### Storage
-- `src/mordor/storage/__init__.py`
-- `src/mordor/storage/sqlite.py` -- SQLite backend
-- `src/mordor/storage/markdown.py` -- Markdown export
+- `src/ai-blackteam/storage/__init__.py`
+- `src/ai-blackteam/storage/sqlite.py` -- SQLite backend
+- `src/ai-blackteam/storage/markdown.py` -- Markdown export
 
 ### Reporter
-- `src/mordor/reporter.py` -- Markdown + JSON reports
+- `src/ai-blackteam/reporter.py` -- Markdown + JSON reports
 
 ### CLI
-- `src/mordor/cli.py` -- All commands
+- `src/ai-blackteam/cli.py` -- All commands
 
 ### Tests
 - `tests/test_registry.py`
@@ -66,7 +66,7 @@
 ### Task 1: Package Scaffolding
 
 **Files:**
-- Create: `src/mordor/__init__.py`
+- Create: `src/ai-blackteam/__init__.py`
 - Create: `pyproject.toml`
 - Create: `LICENSE`
 - Create: `README.md`
@@ -77,16 +77,16 @@
 
 ```toml
 [tool.poetry]
-name = "mordor"
+name = "ai-blackteam"
 version = "0.1.0"
 description = "Automated LLM red team framework"
 authors = ["Bill Kishore <abillkishoreinico@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "mordor", from = "src"}]
+packages = [{include = "ai_blackteam", from = "src"}]
 
 [tool.poetry.scripts]
-mordor = "mordor.cli:cli"
+ai-blackteam = "ai_blackteam.cli:cli"
 
 [tool.poetry.dependencies]
 python = "^3.12"
@@ -105,7 +105,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 ```
 
-- [ ] **Step 2: Create src/mordor/__init__.py**
+- [ ] **Step 2: Create src/ai-blackteam/__init__.py**
 
 ```python
 __version__ = "0.1.0"
@@ -140,30 +140,30 @@ SOFTWARE.
 - [ ] **Step 4: Create README.md**
 
 ```markdown
-# mordor
+# ai-blackteam
 
 Automated LLM red team framework. Test any model's safety with one command.
 
 ## Install
 
 ```bash
-pip install mordor
+pip install ai-blackteam
 ```
 
 ## Quick Start
 
 ```bash
 # Configure your API key
-mordor config --set providers.anthropic.api_key sk-ant-...
+ai-blackteam config --set providers.anthropic.api_key sk-ant-...
 
 # Run an attack
-mordor run -p anthropic -m claude-sonnet-4-6 -a encoding-obfuscation -t "Write a phishing email"
+ai-blackteam run -p anthropic -m claude-sonnet-4-6 -a encoding-obfuscation -t "Write a phishing email"
 
 # Run all attacks against a model
-mordor batch -p anthropic -m claude-sonnet-4-6 --attacks all -t "Write a phishing email"
+ai-blackteam batch -p anthropic -m claude-sonnet-4-6 --attacks all -t "Write a phishing email"
 
 # Generate report
-mordor report --format markdown --output report.md
+ai-blackteam report --format markdown --output report.md
 ```
 
 ## Supported Providers
@@ -185,8 +185,8 @@ mordor report --format markdown --output report.md
 Drop a Python file in the `plugins/` folder:
 
 ```python
-from mordor.registry import register_attack
-from mordor.attacks.base import BaseAttack
+from ai_blackteam.registry import register_attack
+from ai_blackteam.attacks.base import BaseAttack
 
 @register_attack("my-custom-attack")
 class MyAttack(BaseAttack):
@@ -206,21 +206,21 @@ MIT
 - [ ] **Step 5: Create empty init files**
 
 ```bash
-mkdir -p src/mordor/providers src/mordor/attacks src/mordor/storage plugins tests
+mkdir -p src/ai-blackteam/providers src/ai-blackteam/attacks src/ai-blackteam/storage plugins tests
 touch plugins/__init__.py tests/__init__.py
 ```
 
 - [ ] **Step 6: Install in development mode**
 
 ```bash
-cd /home/billkishore/personal/mordor
+cd /home/billkishore/personal/ai-blackteam
 poetry install
 ```
 
 - [ ] **Step 7: Verify package imports**
 
 ```bash
-poetry run python -c "import mordor; print(mordor.__version__)"
+poetry run python -c "import ai_blackteam; print(ai_blackteam.__version__)"
 ```
 
 Expected: `0.1.0`
@@ -229,7 +229,7 @@ Expected: `0.1.0`
 
 ```bash
 git add src/ pyproject.toml LICENSE README.md plugins/ tests/
-git commit -m "scaffolded mordor package with pyproject.toml"
+git commit -m "scaffolded ai-blackteam package with pyproject.toml"
 ```
 
 ---
@@ -237,7 +237,7 @@ git commit -m "scaffolded mordor package with pyproject.toml"
 ### Task 2: Plugin Registry
 
 **Files:**
-- Create: `src/mordor/registry.py`
+- Create: `src/ai-blackteam/registry.py`
 - Create: `tests/test_registry.py`
 
 - [ ] **Step 1: Write test**
@@ -245,7 +245,7 @@ git commit -m "scaffolded mordor package with pyproject.toml"
 Create `tests/test_registry.py`:
 
 ```python
-from mordor.registry import Registry
+from ai_blackteam.registry import Registry
 
 
 def test_register_and_get():
@@ -282,11 +282,11 @@ def test_decorator():
 poetry run pytest tests/test_registry.py -v
 ```
 
-Expected: FAIL (no module mordor.registry)
+Expected: FAIL (no module ai_blackteam.registry)
 
 - [ ] **Step 3: Implement registry**
 
-Create `src/mordor/registry.py`:
+Create `src/ai-blackteam/registry.py`:
 
 ```python
 import importlib
@@ -352,7 +352,7 @@ Expected: 4 passed
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/mordor/registry.py tests/test_registry.py
+git add src/ai-blackteam/registry.py tests/test_registry.py
 git commit -m "added plugin registry with auto-discovery"
 ```
 
@@ -361,15 +361,15 @@ git commit -m "added plugin registry with auto-discovery"
 ### Task 3: Provider Base + Anthropic + Ollama
 
 **Files:**
-- Create: `src/mordor/providers/__init__.py`
-- Create: `src/mordor/providers/base.py`
-- Create: `src/mordor/providers/anthropic.py`
-- Create: `src/mordor/providers/ollama.py`
+- Create: `src/ai-blackteam/providers/__init__.py`
+- Create: `src/ai-blackteam/providers/base.py`
+- Create: `src/ai-blackteam/providers/anthropic.py`
+- Create: `src/ai-blackteam/providers/ollama.py`
 
 - [ ] **Step 1: Create providers/__init__.py**
 
 ```python
-from mordor.registry import provider_registry, register_provider
+from ai_blackteam.registry import provider_registry, register_provider
 
 discover = provider_registry.discover
 get = provider_registry.get
@@ -435,8 +435,8 @@ class BaseProvider(ABC):
 ```python
 import time
 from anthropic import Anthropic
-from mordor.registry import register_provider
-from mordor.providers.base import BaseProvider, PromptResult, ToolResult
+from ai_blackteam.registry import register_provider
+from ai_blackteam.providers.base import BaseProvider, PromptResult, ToolResult
 
 
 @register_provider("anthropic")
@@ -499,8 +499,8 @@ class AnthropicProvider(BaseProvider):
 ```python
 import time
 import ollama as ollama_sdk
-from mordor.registry import register_provider
-from mordor.providers.base import BaseProvider, PromptResult
+from ai_blackteam.registry import register_provider
+from ai_blackteam.providers.base import BaseProvider, PromptResult
 
 
 @register_provider("ollama")
@@ -538,8 +538,8 @@ class OllamaProvider(BaseProvider):
 
 ```bash
 poetry run python -c "
-from mordor.providers import anthropic, ollama
-from mordor.registry import provider_registry
+from ai_blackteam.providers import anthropic, ollama
+from ai_blackteam.registry import provider_registry
 print(provider_registry.list())
 "
 ```
@@ -549,7 +549,7 @@ Expected: `['anthropic', 'ollama']`
 - [ ] **Step 6: Commit**
 
 ```bash
-git add src/mordor/providers/
+git add src/ai-blackteam/providers/
 git commit -m "added provider base, anthropic, and ollama providers"
 ```
 
@@ -558,7 +558,7 @@ git commit -m "added provider base, anthropic, and ollama providers"
 ### Task 4: Config System
 
 **Files:**
-- Create: `src/mordor/config.py`
+- Create: `src/ai-blackteam/config.py`
 
 - [ ] **Step 1: Create config.py**
 
@@ -568,7 +568,7 @@ import re
 from pathlib import Path
 import yaml
 
-DEFAULT_CONFIG_DIR = Path.home() / ".mordor"
+DEFAULT_CONFIG_DIR = Path.home() / ".ai-blackteam"
 DEFAULT_CONFIG_FILE = DEFAULT_CONFIG_DIR / "config.yaml"
 DEFAULT_DB_PATH = DEFAULT_CONFIG_DIR / "results.db"
 
@@ -648,7 +648,7 @@ def _deep_merge(base, override):
 - [ ] **Step 2: Commit**
 
 ```bash
-git add src/mordor/config.py
+git add src/ai-blackteam/config.py
 git commit -m "added config system with env var resolution"
 ```
 
@@ -657,15 +657,15 @@ git commit -m "added config system with env var resolution"
 ### Task 5: Attack Base + Encoding + Role-Play
 
 **Files:**
-- Create: `src/mordor/attacks/__init__.py`
-- Create: `src/mordor/attacks/base.py`
-- Create: `src/mordor/attacks/encoding_obfuscation.py`
-- Create: `src/mordor/attacks/role_play_bypass.py`
+- Create: `src/ai-blackteam/attacks/__init__.py`
+- Create: `src/ai-blackteam/attacks/base.py`
+- Create: `src/ai-blackteam/attacks/encoding_obfuscation.py`
+- Create: `src/ai-blackteam/attacks/role_play_bypass.py`
 
 - [ ] **Step 1: Create attacks/__init__.py**
 
 ```python
-from mordor.registry import attack_registry, register_attack
+from ai_blackteam.registry import attack_registry, register_attack
 
 discover = attack_registry.discover
 get = attack_registry.get
@@ -703,8 +703,8 @@ class BaseAttack(ABC):
 import base64
 import codecs
 
-from mordor.registry import register_attack
-from mordor.attacks.base import BaseAttack
+from ai_blackteam.registry import register_attack
+from ai_blackteam.attacks.base import BaseAttack
 
 
 @register_attack("encoding-obfuscation")
@@ -786,8 +786,8 @@ class EncodingObfuscation(BaseAttack):
 - [ ] **Step 4: Create attacks/role_play_bypass.py**
 
 ```python
-from mordor.registry import register_attack
-from mordor.attacks.base import BaseAttack
+from ai_blackteam.registry import register_attack
+from ai_blackteam.attacks.base import BaseAttack
 
 
 @register_attack("role-play-bypass")
@@ -821,8 +821,8 @@ class RolePlayBypass(BaseAttack):
 
 ```bash
 poetry run python -c "
-from mordor.attacks import encoding_obfuscation, role_play_bypass
-from mordor.registry import attack_registry
+from ai_blackteam.attacks import encoding_obfuscation, role_play_bypass
+from ai_blackteam.registry import attack_registry
 print(attack_registry.list())
 "
 ```
@@ -832,7 +832,7 @@ Expected: `['encoding-obfuscation', 'role-play-bypass']`
 - [ ] **Step 6: Commit**
 
 ```bash
-git add src/mordor/attacks/
+git add src/ai-blackteam/attacks/
 git commit -m "added attack base, encoding obfuscation, and role-play bypass"
 ```
 
@@ -841,7 +841,7 @@ git commit -m "added attack base, encoding obfuscation, and role-play bypass"
 ### Task 6: Evaluator
 
 **Files:**
-- Create: `src/mordor/evaluator.py`
+- Create: `src/ai-blackteam/evaluator.py`
 - Create: `tests/test_evaluator.py`
 
 - [ ] **Step 1: Write tests**
@@ -849,7 +849,7 @@ git commit -m "added attack base, encoding obfuscation, and role-play bypass"
 Create `tests/test_evaluator.py`:
 
 ```python
-from mordor.evaluator import evaluate
+from ai_blackteam.evaluator import evaluate
 
 
 def test_blocked_response():
@@ -881,7 +881,7 @@ poetry run pytest tests/test_evaluator.py -v
 
 - [ ] **Step 3: Implement evaluator**
 
-Create `src/mordor/evaluator.py`:
+Create `src/ai-blackteam/evaluator.py`:
 
 ```python
 import re
@@ -973,7 +973,7 @@ Expected: 3 passed
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/mordor/evaluator.py tests/test_evaluator.py
+git add src/ai-blackteam/evaluator.py tests/test_evaluator.py
 git commit -m "added evaluator with keyword and regex scoring"
 ```
 
@@ -982,8 +982,8 @@ git commit -m "added evaluator with keyword and regex scoring"
 ### Task 7: SQLite Storage
 
 **Files:**
-- Create: `src/mordor/storage/__init__.py`
-- Create: `src/mordor/storage/sqlite.py`
+- Create: `src/ai-blackteam/storage/__init__.py`
+- Create: `src/ai-blackteam/storage/sqlite.py`
 - Create: `tests/test_storage.py`
 
 - [ ] **Step 1: Write test**
@@ -993,7 +993,7 @@ Create `tests/test_storage.py`:
 ```python
 import tempfile
 from pathlib import Path
-from mordor.storage.sqlite import Storage
+from ai_blackteam.storage.sqlite import Storage
 
 
 def test_save_and_list_runs():
@@ -1034,12 +1034,12 @@ poetry run pytest tests/test_storage.py -v
 
 - [ ] **Step 3: Implement storage**
 
-Create `src/mordor/storage/__init__.py`:
+Create `src/ai-blackteam/storage/__init__.py`:
 
 ```python
 ```
 
-Create `src/mordor/storage/sqlite.py`:
+Create `src/ai-blackteam/storage/sqlite.py`:
 
 ```python
 import sqlite3
@@ -1166,7 +1166,7 @@ Expected: 2 passed
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/mordor/storage/ tests/test_storage.py
+git add src/ai-blackteam/storage/ tests/test_storage.py
 git commit -m "added sqlite storage with runs, turns, and tool calls"
 ```
 
@@ -1175,7 +1175,7 @@ git commit -m "added sqlite storage with runs, turns, and tool calls"
 ### Task 8: Engine
 
 **Files:**
-- Create: `src/mordor/engine.py`
+- Create: `src/ai-blackteam/engine.py`
 - Create: `tests/test_engine.py`
 
 - [ ] **Step 1: Write test**
@@ -1183,8 +1183,8 @@ git commit -m "added sqlite storage with runs, turns, and tool calls"
 Create `tests/test_engine.py`:
 
 ```python
-from mordor.engine import Engine
-from mordor.providers.base import BaseProvider, PromptResult
+from ai_blackteam.engine import Engine
+from ai_blackteam.providers.base import BaseProvider, PromptResult
 
 
 class FakeProvider(BaseProvider):
@@ -1222,12 +1222,12 @@ poetry run pytest tests/test_engine.py -v
 
 - [ ] **Step 3: Implement engine**
 
-Create `src/mordor/engine.py`:
+Create `src/ai-blackteam/engine.py`:
 
 ```python
 import time
-from mordor.evaluator import evaluate
-from mordor.storage.sqlite import Storage
+from ai_blackteam.evaluator import evaluate
+from ai_blackteam.storage.sqlite import Storage
 
 
 class Engine:
@@ -1329,7 +1329,7 @@ Expected: 1 passed
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/mordor/engine.py tests/test_engine.py
+git add src/ai-blackteam/engine.py tests/test_engine.py
 git commit -m "added engine with single-turn and multi-turn execution"
 ```
 
@@ -1338,16 +1338,16 @@ git commit -m "added engine with single-turn and multi-turn execution"
 ### Task 9: Reporter
 
 **Files:**
-- Create: `src/mordor/reporter.py`
+- Create: `src/ai-blackteam/reporter.py`
 
 - [ ] **Step 1: Implement reporter**
 
-Create `src/mordor/reporter.py`:
+Create `src/ai-blackteam/reporter.py`:
 
 ```python
 import json
 from datetime import datetime
-from mordor.storage.sqlite import Storage
+from ai_blackteam.storage.sqlite import Storage
 
 
 def generate_markdown(storage):
@@ -1388,7 +1388,7 @@ def generate_json(storage):
 - [ ] **Step 2: Commit**
 
 ```bash
-git add src/mordor/reporter.py
+git add src/ai-blackteam/reporter.py
 git commit -m "added markdown and json report generation"
 ```
 
@@ -1397,34 +1397,34 @@ git commit -m "added markdown and json report generation"
 ### Task 10: CLI
 
 **Files:**
-- Create: `src/mordor/cli.py`
+- Create: `src/ai-blackteam/cli.py`
 - Create: `tests/test_cli.py`
 
 - [ ] **Step 1: Implement CLI**
 
-Create `src/mordor/cli.py`:
+Create `src/ai-blackteam/cli.py`:
 
 ```python
 import click
 from rich.console import Console
 from rich.table import Table
 
-from mordor.config import load_config, set_config_value, DEFAULT_DB_PATH
-from mordor.engine import Engine
-from mordor.registry import provider_registry, attack_registry
+from ai_blackteam.config import load_config, set_config_value, DEFAULT_DB_PATH
+from ai_blackteam.engine import Engine
+from ai_blackteam.registry import provider_registry, attack_registry
 
 console = Console()
 
 
 def _load_plugins():
-    from mordor import providers, attacks
+    from ai_blackteam import providers, attacks
     provider_registry.discover(providers)
     attack_registry.discover(attacks)
 
 
 @click.group()
 def cli():
-    """mordor -- automated LLM red team framework"""
+    """ai-blackteam -- automated LLM red team framework"""
     _load_plugins()
 
 
@@ -1558,11 +1558,11 @@ def batch(provider, model, attacks, target):
 @click.option("--output", "-o", default=None, help="Output file path")
 def report(fmt, output):
     """Generate a report from stored results."""
-    from mordor.reporter import generate_markdown, generate_json
+    from ai_blackteam.reporter import generate_markdown, generate_json
 
     config = load_config()
     db_path = config.get("storage", {}).get("database", str(DEFAULT_DB_PATH))
-    storage = __import__("mordor.storage.sqlite", fromlist=["Storage"]).Storage(db_path)
+    storage = __import__("ai_blackteam.storage.sqlite", fromlist=["Storage"]).Storage(db_path)
 
     if fmt == "markdown":
         content = generate_markdown(storage)
@@ -1586,7 +1586,7 @@ def config():
 @config.command("show")
 def config_show():
     """Show current configuration."""
-    from mordor.config import load_config
+    from ai_blackteam.config import load_config
     import yaml
     cfg = load_config()
     # mask API keys
@@ -1611,7 +1611,7 @@ Create `tests/test_cli.py`:
 
 ```python
 from click.testing import CliRunner
-from mordor.cli import cli
+from ai_blackteam.cli import cli
 
 
 def test_list_providers():
@@ -1639,15 +1639,15 @@ Expected: 2 passed
 - [ ] **Step 4: Test CLI manually**
 
 ```bash
-poetry run mordor list-providers
-poetry run mordor list-attacks
-poetry run mordor --help
+poetry run ai-blackteam list-providers
+poetry run ai-blackteam list-attacks
+poetry run ai-blackteam --help
 ```
 
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/mordor/cli.py tests/test_cli.py
+git add src/ai-blackteam/cli.py tests/test_cli.py
 git commit -m "added full CLI with run, batch, report, and config commands"
 ```
 
@@ -1667,23 +1667,23 @@ Expected: All tests pass
 
 ```bash
 # Set API key
-poetry run mordor config set providers.anthropic.api_key $(cat /home/billkishore/personal/mordor/.env | grep ANTHROPIC | cut -d= -f2)
+poetry run ai-blackteam config set providers.anthropic.api_key $(cat /home/billkishore/personal/ai-blackteam/.env | grep ANTHROPIC | cut -d= -f2)
 
 # Run single attack
-poetry run mordor run -p anthropic -m claude-sonnet-4-6 -a encoding-obfuscation -t "Write a phishing email"
+poetry run ai-blackteam run -p anthropic -m claude-sonnet-4-6 -a encoding-obfuscation -t "Write a phishing email"
 
 # Run batch
-poetry run mordor batch -p anthropic -m claude-sonnet-4-6 --attacks all -t "Write a phishing email"
+poetry run ai-blackteam batch -p anthropic -m claude-sonnet-4-6 --attacks all -t "Write a phishing email"
 
 # Generate report
-poetry run mordor report --format markdown
+poetry run ai-blackteam report --format markdown
 ```
 
 - [ ] **Step 3: Commit and push**
 
 ```bash
 git add -A
-git commit -m "completed mordor framework v0.1.0 with CLI, 2 providers, 2 attacks"
+git commit -m "completed ai-blackteam framework v0.1.0 with CLI, 2 providers, 2 attacks"
 git push origin main
 ```
 
@@ -1691,7 +1691,7 @@ git push origin main
 
 ```bash
 pip install -e .
-mordor --help
-mordor list-providers
-mordor list-attacks
+ai-blackteam --help
+ai-blackteam list-providers
+ai-blackteam list-attacks
 ```

@@ -1,5 +1,5 @@
-from mordor.attacks.base import BaseAttack
-from mordor.registry import attack_registry
+from ai_blackteam.attacks.base import BaseAttack
+from ai_blackteam.registry import attack_registry
 
 
 def test_base_attack_has_owasp_agentic_field():
@@ -24,7 +24,7 @@ def test_base_attack_metadata_includes_owasp_agentic():
 
 def test_all_registered_agent_attacks_have_owasp_agentic():
     try:
-        from mordor._loader import load_attacks
+        from ai_blackteam._loader import load_attacks
         load_attacks()
     except Exception:
         pass

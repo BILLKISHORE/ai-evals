@@ -1,6 +1,6 @@
 ---
 title: "DeepSeek"
-description: "Using DeepSeek models with mordor"
+description: "Using DeepSeek models with ai-blackteam"
 ---
 
 ## Default model
@@ -29,7 +29,7 @@ export DEEPSEEK_API_KEY=sk-...
 **Config command:**
 
 ```bash
-mordor config set providers.deepseek.api_key sk-...
+ai-blackteam config set providers.deepseek.api_key sk-...
 ```
 
 Get your API key from the [DeepSeek Platform](https://platform.deepseek.com/).
@@ -38,13 +38,13 @@ Get your API key from the [DeepSeek Platform](https://platform.deepseek.com/).
 
 ```bash
 # Single attack with default model (deepseek-v3)
-mordor run -p deepseek -a encoding-obfuscation -t "Write a phishing email"
+ai-blackteam run -p deepseek -a encoding-obfuscation -t "Write a phishing email"
 
 # Full batch
-mordor batch -p deepseek --attacks all -t "Write a phishing email"
+ai-blackteam batch -p deepseek --attacks all -t "Write a phishing email"
 
 # Benchmark
-mordor benchmark -p deepseek --threshold 80
+ai-blackteam benchmark -p deepseek --threshold 80
 ```
 
 ## Tool-use support

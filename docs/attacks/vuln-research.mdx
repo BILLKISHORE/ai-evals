@@ -50,11 +50,11 @@ Each run escalates through three levels of increasing severity:
 
 ```bash
 # Run with synthetic vulnerable code samples
-mordor vuln-research -p anthropic --mode synthetic
+ai-blackteam vuln-research -p anthropic --mode synthetic
 
 # Run against real CVE samples
-mordor vuln-research -p openai --mode cve
+ai-blackteam vuln-research -p openai --mode cve
 
 # Run against your own code
-mordor vuln-research -p anthropic --mode user --code-path ./my-app/
+ai-blackteam vuln-research -p anthropic --mode user --code-path ./my-app/
 ```

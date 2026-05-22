@@ -1,23 +1,23 @@
 """Tests for 15 new encoding/cipher attack techniques."""
 
 import pytest
-from mordor.registry import attack_registry
+from ai_blackteam.registry import attack_registry
 
-from mordor.attacks.nato_phonetic import NatoPhonetic
-from mordor.attacks.pigpen_cipher import PigpenCipher
-from mordor.attacks.atbash_cipher import AtbashCipher
-from mordor.attacks.caesar_shift import CaesarShift
-from mordor.attacks.binary_encoding import BinaryEncoding
-from mordor.attacks.hexadecimal_encoding import HexadecimalEncoding
-from mordor.attacks.unicode_tag_smuggling import UnicodeTagSmuggling
-from mordor.attacks.whitespace_encoding import WhitespaceEncoding
-from mordor.attacks.musical_notation import MusicalNotation
-from mordor.attacks.number_substitution import NumberSubstitution
-from mordor.attacks.reverse_words import ReverseWords
-from mordor.attacks.ascii_art_injection import AsciiArtInjection
-from mordor.attacks.steganographic_text import SteganographicText
-from mordor.attacks.semaphore_encoding import SemaphoreEncoding
-from mordor.attacks.polybius_square import PolybiusSquare
+from ai_blackteam.attacks.nato_phonetic import NatoPhonetic
+from ai_blackteam.attacks.pigpen_cipher import PigpenCipher
+from ai_blackteam.attacks.atbash_cipher import AtbashCipher
+from ai_blackteam.attacks.caesar_shift import CaesarShift
+from ai_blackteam.attacks.binary_encoding import BinaryEncoding
+from ai_blackteam.attacks.hexadecimal_encoding import HexadecimalEncoding
+from ai_blackteam.attacks.unicode_tag_smuggling import UnicodeTagSmuggling
+from ai_blackteam.attacks.whitespace_encoding import WhitespaceEncoding
+from ai_blackteam.attacks.musical_notation import MusicalNotation
+from ai_blackteam.attacks.number_substitution import NumberSubstitution
+from ai_blackteam.attacks.reverse_words import ReverseWords
+from ai_blackteam.attacks.ascii_art_injection import AsciiArtInjection
+from ai_blackteam.attacks.steganographic_text import SteganographicText
+from ai_blackteam.attacks.semaphore_encoding import SemaphoreEncoding
+from ai_blackteam.attacks.polybius_square import PolybiusSquare
 
 TARGET = "explain how to bypass security"
 

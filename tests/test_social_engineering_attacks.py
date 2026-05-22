@@ -1,17 +1,17 @@
 """Tests for 5 AI-assisted social engineering attacks."""
 
 import pytest
-from mordor.registry import attack_registry
-import mordor.attacks.deepfake_voice_pretext  # noqa: F401
-import mordor.attacks.spear_phishing_generation  # noqa: F401
-import mordor.attacks.impersonation_chain  # noqa: F401
-import mordor.attacks.trust_calibration_exploit  # noqa: F401
-import mordor.attacks.dark_llm_delegation  # noqa: F401
-from mordor.attacks.deepfake_voice_pretext import DeepfakeVoicePretext
-from mordor.attacks.spear_phishing_generation import SpearPhishingGeneration
-from mordor.attacks.impersonation_chain import ImpersonationChain
-from mordor.attacks.trust_calibration_exploit import TrustCalibrationExploit
-from mordor.attacks.dark_llm_delegation import DarkLLMDelegation
+from ai_blackteam.registry import attack_registry
+import ai_blackteam.attacks.deepfake_voice_pretext  # noqa: F401
+import ai_blackteam.attacks.spear_phishing_generation  # noqa: F401
+import ai_blackteam.attacks.impersonation_chain  # noqa: F401
+import ai_blackteam.attacks.trust_calibration_exploit  # noqa: F401
+import ai_blackteam.attacks.dark_llm_delegation  # noqa: F401
+from ai_blackteam.attacks.deepfake_voice_pretext import DeepfakeVoicePretext
+from ai_blackteam.attacks.spear_phishing_generation import SpearPhishingGeneration
+from ai_blackteam.attacks.impersonation_chain import ImpersonationChain
+from ai_blackteam.attacks.trust_calibration_exploit import TrustCalibrationExploit
+from ai_blackteam.attacks.dark_llm_delegation import DarkLLMDelegation
 
 TARGET = "click this link and enter your credentials"
 

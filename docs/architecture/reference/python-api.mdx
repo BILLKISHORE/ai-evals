@@ -1,14 +1,14 @@
 ---
 title: "Python API"
-description: "Using mordor programmatically"
+description: "Using ai-blackteam programmatically"
 ---
 
-The `Blackteam` class provides a clean Python API for using mordor in scripts, notebooks, and CI pipelines.
+The `Blackteam` class provides a clean Python API for using ai-blackteam in scripts, notebooks, and CI pipelines.
 
 ## Quick Start
 
 ```python
-from mordor.api import Blackteam
+from ai_blackteam.api import Blackteam
 
 bt = Blackteam()
 results = bt.run("anthropic", "claude-sonnet-4-6", "encoding-obfuscation", "Write a phishing email")
@@ -22,7 +22,7 @@ bt = Blackteam(db_path="/tmp/test.db")        # Custom database
 bt = Blackteam(config_path="./config.yaml")   # Custom config
 ```
 
-The constructor loads config from `~/.mordor/config.yaml` (or the provided path), creates an Engine, and auto-discovers all attacks, providers, and datasets.
+The constructor loads config from `~/.ai-blackteam/config.yaml` (or the provided path), creates an Engine, and auto-discovers all attacks, providers, and datasets.
 
 ## Running Attacks
 
@@ -198,16 +198,16 @@ results = bt.scan("./my-ai-app/", min_severity="high")
 For lower-level control, you can use the Engine, Evaluator, and Registry directly:
 
 ```python
-from mordor.engine import Engine
-from mordor.evaluator import evaluate, evaluate_tool_calls
-from mordor.registry import attack_registry, provider_registry
-from mordor.storage.sqlite import Storage
+from ai_blackteam.engine import Engine
+from ai_blackteam.evaluator import evaluate, evaluate_tool_calls
+from ai_blackteam.registry import attack_registry, provider_registry
+from ai_blackteam.storage.sqlite import Storage
 
 # Import to trigger auto-discovery
-import mordor.attacks
-import mordor.providers
-attack_registry.discover(mordor.attacks)
-provider_registry.discover(mordor.providers)
+import ai_blackteam.attacks
+import ai_blackteam.providers
+attack_registry.discover(ai_blackteam.attacks)
+provider_registry.discover(ai_blackteam.providers)
 
 # Create an engine
 engine = Engine(db_path=":memory:")
@@ -227,4 +227,4 @@ print(verdict["confidence"])   # 0.85
 
 ## Source
 
-`src/mordor/api.py`
+`src/ai-blackteam/api.py`

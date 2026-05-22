@@ -1,7 +1,7 @@
 """Tests for the AI code security scanner."""
 
 from pathlib import Path
-from mordor.scanner import scan_file, scan_directory, scan_summary, RULES
+from ai_blackteam.scanner import scan_file, scan_directory, scan_summary, RULES
 
 FIXTURES = Path(__file__).parent / "fixtures"
 VULNERABLE = str(FIXTURES / "vulnerable_app.py")
@@ -111,7 +111,7 @@ def test_scan_summary_empty():
 
 def test_scan_cli_help():
     from click.testing import CliRunner
-    from mordor.cli import cli
+    from ai_blackteam.cli import cli
     runner = CliRunner()
     result = runner.invoke(cli, ["scan", "--help"])
     assert result.exit_code == 0
@@ -121,14 +121,14 @@ def test_scan_cli_help():
 
 def test_scan_cli_fixtures():
     from click.testing import CliRunner
-    from mordor.cli import cli
+    from ai_blackteam.cli import cli
     runner = CliRunner()
     result = runner.invoke(cli, ["scan", str(FIXTURES)])
     assert "BTSC-" in result.output
 
 
 def test_api_scan():
-    from mordor.api import Blackteam
+    from ai_blackteam.api import Blackteam
     bt = Blackteam(db_path=":memory:")
     result = bt.scan(str(FIXTURES))
     assert result["summary"]["total"] > 0

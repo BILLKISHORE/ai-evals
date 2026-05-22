@@ -1,4 +1,4 @@
-from mordor.benchmark import load_benchmark, get_attacks_metadata
+from ai_blackteam.benchmark import load_benchmark, get_attacks_metadata
 
 
 def test_benchmark_loads_8_categories():
@@ -37,9 +37,9 @@ def test_benchmark_filter_categories():
 
 
 def test_attacks_metadata_has_all_attacks():
-    from mordor.registry import attack_registry
-    import mordor.attacks
-    attack_registry.discover(mordor.attacks)
+    from ai_blackteam.registry import attack_registry
+    import ai_blackteam.attacks
+    attack_registry.discover(ai_blackteam.attacks)
 
     metadata = get_attacks_metadata()
     assert len(metadata) >= 39

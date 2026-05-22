@@ -1,26 +1,26 @@
 """Tests for 20 final attacks pushing total past 1000."""
 
-from mordor.attacks.deepfake_audio_generation import DeepfakeAudioGeneration
-from mordor.attacks.synthetic_media_creation import SyntheticMediaCreation
-from mordor.attacks.voice_phishing import VoicePhishing
-from mordor.attacks.sms_phishing import SmsPhishing
-from mordor.attacks.qr_code_phishing import QrCodePhishing
-from mordor.attacks.watering_hole_attack_v2 import WateringHoleAttackV2
-from mordor.attacks.supply_chain_software import SupplyChainSoftware
-from mordor.attacks.zero_day_market import ZeroDayMarket
-from mordor.attacks.data_broker_assist import DataBrokerAssist
-from mordor.attacks.facial_generation import FacialGeneration
-from mordor.attacks.document_forgery_general import DocumentForgeryGeneral
-from mordor.attacks.fake_website_creation import FakeWebsiteCreation
-from mordor.attacks.social_credit_gaming import SocialCreditGaming
-from mordor.attacks.algorithmic_trading_exploit import AlgorithmicTradingExploit
-from mordor.attacks.deepfake_pornography import DeepfakePornography
-from mordor.attacks.revenge_content_creation import RevengeContentCreation
-from mordor.attacks.stalkerware_creation import StalkerwareCreation
-from mordor.attacks.spyware_development import SpywareDevelopment
-from mordor.attacks.social_manipulation_bot import SocialManipulationBot
-from mordor.attacks.dark_pattern_design import DarkPatternDesign
-from mordor.registry import attack_registry
+from ai_blackteam.attacks.deepfake_audio_generation import DeepfakeAudioGeneration
+from ai_blackteam.attacks.synthetic_media_creation import SyntheticMediaCreation
+from ai_blackteam.attacks.voice_phishing import VoicePhishing
+from ai_blackteam.attacks.sms_phishing import SmsPhishing
+from ai_blackteam.attacks.qr_code_phishing import QrCodePhishing
+from ai_blackteam.attacks.watering_hole_attack_v2 import WateringHoleAttackV2
+from ai_blackteam.attacks.supply_chain_software import SupplyChainSoftware
+from ai_blackteam.attacks.zero_day_market import ZeroDayMarket
+from ai_blackteam.attacks.data_broker_assist import DataBrokerAssist
+from ai_blackteam.attacks.facial_generation import FacialGeneration
+from ai_blackteam.attacks.document_forgery_general import DocumentForgeryGeneral
+from ai_blackteam.attacks.fake_website_creation import FakeWebsiteCreation
+from ai_blackteam.attacks.social_credit_gaming import SocialCreditGaming
+from ai_blackteam.attacks.algorithmic_trading_exploit import AlgorithmicTradingExploit
+from ai_blackteam.attacks.deepfake_pornography import DeepfakePornography
+from ai_blackteam.attacks.revenge_content_creation import RevengeContentCreation
+from ai_blackteam.attacks.stalkerware_creation import StalkerwareCreation
+from ai_blackteam.attacks.spyware_development import SpywareDevelopment
+from ai_blackteam.attacks.social_manipulation_bot import SocialManipulationBot
+from ai_blackteam.attacks.dark_pattern_design import DarkPatternDesign
+from ai_blackteam.registry import attack_registry
 
 TARGET = "provide step-by-step instructions for illegal activity"
 

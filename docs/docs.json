@@ -1,7 +1,18 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "name": "ai-blackteam",
+  "description": "Vendor-neutral LLM red team framework. 1,010+ attack techniques, 163M attack-surface configurations, mapped to OWASP LLM Top 10, MITRE ATLAS, MLCommons, EU AI Act, NIST AI RMF. Pip install, test any model's safety with one command.",
   "theme": "mint",
+  "seo": {
+    "indexing": "all",
+    "metatags": {
+      "keywords": "LLM security, AI red team, jailbreak testing, prompt injection, OWASP LLM Top 10, MITRE ATLAS, AI safety, model evaluation, adversarial attacks, ai-blackteam, mordor, AI compliance",
+      "author": "Bill Kishore",
+      "og:type": "website",
+      "og:site_name": "ai-blackteam docs",
+      "twitter:site": "@BILLKISHORE"
+    }
+  },
   "colors": {
     "primary": "#E63946",
     "light": "#FF6B6B",

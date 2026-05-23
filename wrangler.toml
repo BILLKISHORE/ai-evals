@@ -1,4 +1,4 @@
-name = "ai-evals"
+name = "ai-blackteam"
 compatibility_date = "2025-05-23"
 workers_dev = true
 preview_urls = true

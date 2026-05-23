@@ -6,6 +6,7 @@
   "seo": {
     "indexing": "all",
     "metatags": {
+      "google-site-verification": "0c06Q2Zr_99H9SPeNHtqZsmhytSFQf2KpRGrFiaaL-Q",
       "keywords": "LLM security, AI red team, jailbreak testing, prompt injection, OWASP LLM Top 10, MITRE ATLAS, AI safety, model evaluation, adversarial attacks, ai-blackteam, mordor, AI compliance",
       "author": "Bill Kishore",
       "og:type": "website",

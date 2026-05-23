@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "name": "ai-blackteam",
-  "theme": "dark",
+  "theme": "mint",
   "colors": {
     "primary": "#E63946",
     "light": "#FF6B6B",

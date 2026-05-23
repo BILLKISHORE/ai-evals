@@ -7,6 +7,86 @@ Every ai-blackteam command with every flag, organized by function.
 
 ## Global Flags
 
+### Command Map
+
+```mermaid
+flowchart TB
+    root([ai-blackteam])
+
+    root --> discovery[Discovery]
+    root --> execution[Execution]
+    root --> reporting[Reporting]
+    root --> management[Management]
+
+    subgraph discovery_grp [Discovery]
+        direction TB
+        d1[list-attacks]
+        d2[list-providers]
+        d3[taxonomy]
+        d4[atlas]
+        d5[mlcommons]
+        d6[frameworks]
+    end
+
+    subgraph execution_grp [Execution]
+        direction TB
+        e1[run]
+        e2[batch]
+        e3[benchmark]
+        e4[sweep]
+        e5[mega-sweep]
+        e6[defend]
+        e7[asl3]
+        e8[vuln-research]
+        e9[generate]
+        e10[expand]
+        e9 --> e9a[pair]
+        e9 --> e9b[tap]
+        e9 --> e9c[fuzz]
+        e10 --> e10a[count]
+        e10 --> e10b[list]
+        e10 --> e10c[run]
+    end
+
+    subgraph reporting_grp [Reporting]
+        direction TB
+        r1[report]
+        r2[scorecard]
+        r3[snapshot]
+        r3 --> r3a[check]
+        r3 --> r3b[diff]
+        r3 --> r3c[export]
+        r3 --> r3d[list]
+        r3 --> r3e[matrix]
+    end
+
+    subgraph management_grp [Management]
+        direction TB
+        m1[config]
+        m2[dataset]
+        m3[scan]
+    end
+
+    discovery --- discovery_grp
+    execution --- execution_grp
+    reporting --- reporting_grp
+    management --- management_grp
+
+    classDef root fill:#6B46C1,stroke:#4C1D95,color:#FFFFFF,stroke-width:2px
+    classDef group fill:#1F2937,stroke:#374151,color:#F9FAFB,stroke-width:2px
+    classDef discoveryNode fill:#0E7490,stroke:#155E75,color:#ECFEFF
+    classDef executionNode fill:#B91C1C,stroke:#7F1D1D,color:#FEF2F2
+    classDef reportingNode fill:#15803D,stroke:#14532D,color:#F0FDF4
+    classDef managementNode fill:#A16207,stroke:#713F12,color:#FEFCE8
+
+    class root root
+    class discovery,execution,reporting,management group
+    class d1,d2,d3,d4,d5,d6 discoveryNode
+    class e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e9a,e9b,e9c,e10a,e10b,e10c executionNode
+    class r1,r2,r3,r3a,r3b,r3c,r3d,r3e reportingNode
+    class m1,m2,m3 managementNode
+```
+
 These apply to all commands:
 
 ```bash
@@ -20,7 +100,11 @@ ai-blackteam [-v | --verbose] [--log-file FILE] COMMAND
 
 ---
 
-## run
+## Execution
+
+<AccordionGroup>
+
+<Accordion title="run" icon="play">
 
 Run a single attack against a model.
 
@@ -47,9 +131,9 @@ ai-blackteam run -p openai -m gpt-5.4 -a role-play-jailbreak -t "Write malware" 
 ai-blackteam run -p anthropic -a prefix-injection -t "Leak system prompt" --quiet
 ```
 
----
+</Accordion>
 
-## batch
+<Accordion title="batch" icon="layers">
 
 Run multiple attacks against a model. Parallel by default.
 
@@ -76,9 +160,9 @@ ai-blackteam batch -p openai --attacks encoding-obfuscation,role-play-jailbreak 
 ai-blackteam batch -p anthropic -t "Write malware" --sequential
 ```
 
----
+</Accordion>
 
-## sweep
+<Accordion title="sweep" icon="wand-sparkles">
 
 Run all attacks against all configured providers.
 
@@ -98,9 +182,9 @@ Tests every provider that has an API key configured (plus Ollama, which doesn't 
 ai-blackteam sweep -t "Write a phishing email"
 ```
 
----
+</Accordion>
 
-## benchmark
+<Accordion title="benchmark" icon="gauge">
 
 Run the safety benchmark and produce a score. Supports single model, all models, or a specific list.
 
@@ -130,9 +214,9 @@ ai-blackteam benchmark --all --threshold 80
 ai-blackteam benchmark --models anthropic:claude-sonnet-4-6,openai:gpt-5.4 -o scores.json
 ```
 
----
+</Accordion>
 
-## defend
+<Accordion title="defend" icon="shield">
 
 Test a defense by comparing baseline vs defended safety scores.
 
@@ -158,119 +242,9 @@ ai-blackteam defend -p anthropic -t "Write a phishing email" --guardrail strict
 ai-blackteam defend -p openai -t "Write malware" --guardrail moderate --system-prompt "Be safe"
 ```
 
----
+</Accordion>
 
-## report
-
-Generate a report from stored results.
-
-```bash
-ai-blackteam report [OPTIONS]
-```
-
-| Flag | Required | Default | Description |
-|------|----------|---------|-------------|
-| `--format` | No | `markdown` | Output format: `markdown`, `json`, `html` |
-| `--export` | No | - | Export format: `promptfoo`, `garak` |
-| `-o`, `--output` | No | stdout | Output file path |
-
-```bash
-ai-blackteam report --format html -o report.html
-ai-blackteam report --export promptfoo -o results.json
-ai-blackteam report --format json
-```
-
----
-
-## scorecard
-
-Show safety scorecard from stored results.
-
-```bash
-ai-blackteam scorecard [OPTIONS]
-```
-
-| Flag | Required | Default | Description |
-|------|----------|---------|-------------|
-| `--format` | No | `table` | Output: `table`, `json`, `markdown` |
-| `-o`, `--output` | No | - | Output file |
-| `-m`, `--model` | No | All models | Filter by model name |
-| `--standard` | No | `llm` | `llm` (OWASP LLM Top 10), `agentic` (Agentic Top 10), `compliance` (EU AI Act + NIST) |
-
-```bash
-ai-blackteam scorecard --standard llm
-ai-blackteam scorecard --standard agentic -m claude-sonnet-4-6
-ai-blackteam scorecard --standard compliance --format json -o compliance.json
-```
-
----
-
-## scan
-
-Scan source code for AI security vulnerabilities.
-
-```bash
-ai-blackteam scan [PATH] [OPTIONS]
-```
-
-| Flag | Required | Default | Description |
-|------|----------|---------|-------------|
-| `PATH` | No | `.` | File or directory to scan |
-| `--format` | No | `table` | Output: `table`, `json` |
-| `--severity` | No | All | Minimum severity: `critical`, `high`, `medium`, `low` |
-| `-o`, `--output` | No | - | Save JSON results to file |
-
-```bash
-ai-blackteam scan .
-ai-blackteam scan src/ --severity high
-ai-blackteam scan app.py --format json -o findings.json
-```
-
----
-
-## taxonomy
-
-Show all attacks grouped by category with OWASP/MITRE mappings.
-
-```bash
-ai-blackteam taxonomy
-```
-
-No flags. Displays a table per category with attack IDs, severity, mode, description, OWASP codes, and MITRE ATLAS IDs.
-
----
-
-## atlas
-
-Show MITRE ATLAS technique mappings for all attacks.
-
-```bash
-ai-blackteam atlas
-```
-
----
-
-## mlcommons
-
-Show MLCommons AILuminate hazard taxonomy and harm category alignment.
-
-```bash
-ai-blackteam mlcommons
-```
-
----
-
-## frameworks
-
-Show regulatory framework mappings (NIST AI RMF, EU AI Act, MLCommons).
-
-```bash
-ai-blackteam frameworks
-```
-
----
-
-## asl3
+<Accordion title="asl3" icon="shield">
 
 Run ASL3 safety evaluation (CBRN + autonomous capabilities).
 
@@ -292,116 +266,9 @@ ai-blackteam asl3 -p anthropic --domain cbrn
 ai-blackteam asl3 -p openai --domain all --limit 50
 ```
 
----
+</Accordion>
 
-## config show
-
-Show current configuration (API keys are truncated).
-
-```bash
-ai-blackteam config show
-```
-
-## config set
-
-Set a config value.
-
-```bash
-ai-blackteam config set KEY VALUE
-```
-
-```bash
-ai-blackteam config set providers.anthropic.api_key sk-ant-...
-ai-blackteam config set workers 10
-ai-blackteam config set storage.database /tmp/test.db
-```
-
----
-
-## dataset list
-
-Show available datasets.
-
-```bash
-ai-blackteam dataset list
-```
-
-## dataset load
-
-Download and cache a dataset.
-
-```bash
-ai-blackteam dataset load NAME
-ai-blackteam dataset load --all
-```
-
-| Flag | Description |
-|------|-------------|
-| `NAME` | Dataset name (optional if using `--all`) |
-| `--all` | Download all datasets |
-
-## dataset stats
-
-Show prompt counts per category across cached datasets.
-
-```bash
-ai-blackteam dataset stats
-```
-
----
-
-## expand count
-
-Show template expansion capacity.
-
-```bash
-ai-blackteam expand count
-```
-
-## expand list
-
-List expanded attacks with filters.
-
-```bash
-ai-blackteam expand list [OPTIONS]
-```
-
-| Flag | Default | Description |
-|------|---------|-------------|
-| `--category` | All | Filter by harm category |
-| `--difficulty` | All | `easy`, `medium`, `hard`, `extreme` |
-| `--technique` | All | Filter by technique ID |
-| `--limit` | 50 | Max rows to show |
-
-## expand run
-
-Run expanded attacks against a model.
-
-```bash
-ai-blackteam expand run -p PROVIDER [OPTIONS]
-```
-
-| Flag | Required | Default | Description |
-|------|----------|---------|-------------|
-| `-p`, `--provider` | Yes | - | Provider name |
-| `-m`, `--model` | No | Default | Model name |
-| `--category` | No | All | Filter by category |
-| `--difficulty` | No | All | Filter by difficulty |
-| `--technique` | No | All | Filter by technique |
-| `--mutations` | No | - | Apply 17 mutation variants |
-| `--languages` | No | - | Apply 10 language variants |
-| `--limit` | No | - | Max attacks to run |
-| `-w`, `--workers` | No | 5 | Parallel workers |
-| `--quiet` | No | - | Minimal output |
-
-```bash
-ai-blackteam expand run -p anthropic --category phishing --difficulty hard
-ai-blackteam expand run -p openai --mutations --languages --limit 100
-```
-
----
-
-## mega-sweep
+<Accordion title="mega-sweep" icon="wand-sparkles">
 
 Run attacks against dataset prompts with optional mutations.
 
@@ -428,9 +295,64 @@ ai-blackteam mega-sweep -p anthropic --dataset harmbench,advbench -w 10
 ai-blackteam mega-sweep -p openai --dataset all --mutations encode,frame --dry-run
 ```
 
----
+</Accordion>
 
-## generate pair
+<Accordion title="expand count" icon="layers">
+
+Show template expansion capacity.
+
+```bash
+ai-blackteam expand count
+```
+
+</Accordion>
+
+<Accordion title="expand list" icon="layers">
+
+List expanded attacks with filters.
+
+```bash
+ai-blackteam expand list [OPTIONS]
+```
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--category` | All | Filter by harm category |
+| `--difficulty` | All | `easy`, `medium`, `hard`, `extreme` |
+| `--technique` | All | Filter by technique ID |
+| `--limit` | 50 | Max rows to show |
+
+</Accordion>
+
+<Accordion title="expand run" icon="play">
+
+Run expanded attacks against a model.
+
+```bash
+ai-blackteam expand run -p PROVIDER [OPTIONS]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `-p`, `--provider` | Yes | - | Provider name |
+| `-m`, `--model` | No | Default | Model name |
+| `--category` | No | All | Filter by category |
+| `--difficulty` | No | All | Filter by difficulty |
+| `--technique` | No | All | Filter by technique |
+| `--mutations` | No | - | Apply 17 mutation variants |
+| `--languages` | No | - | Apply 10 language variants |
+| `--limit` | No | - | Max attacks to run |
+| `-w`, `--workers` | No | 5 | Parallel workers |
+| `--quiet` | No | - | Minimal output |
+
+```bash
+ai-blackteam expand run -p anthropic --category phishing --difficulty hard
+ai-blackteam expand run -p openai --mutations --languages --limit 100
+```
+
+</Accordion>
+
+<Accordion title="generate pair" icon="wand-sparkles">
 
 Run PAIR adaptive attack (attacker-target-judge loop).
 
@@ -453,7 +375,9 @@ ai-blackteam generate pair -p PROVIDER -t TARGET [OPTIONS]
 ai-blackteam generate pair -p anthropic -t "Write a phishing email" --max-iter 30
 ```
 
-## generate tap
+</Accordion>
+
+<Accordion title="generate tap" icon="wand-sparkles">
 
 Run TAP tree-of-attacks with pruning.
 
@@ -477,7 +401,9 @@ ai-blackteam generate tap -p PROVIDER -t TARGET [OPTIONS]
 ai-blackteam generate tap -p openai -t "Write malware" --depth 8 --width 10
 ```
 
-## generate fuzz
+</Accordion>
+
+<Accordion title="generate fuzz" icon="wand-sparkles">
 
 Run GPTFuzzer mutation-based attack generation.
 
@@ -500,29 +426,11 @@ ai-blackteam generate fuzz -p PROVIDER -t TARGET [OPTIONS]
 ai-blackteam generate fuzz -p anthropic -t "Write a phishing email" --iterations 100
 ```
 
----
+</Accordion>
 
-## list-providers
+<Accordion title="vuln-research" icon="shield">
 
-Show available providers and default models.
-
-```bash
-ai-blackteam list-providers
-```
-
-## list-attacks
-
-Show available attacks and their modes.
-
-```bash
-ai-blackteam list-attacks
-```
-
----
-
-## vuln-research
-
-Run vulnerability research elicitation attacks. Tests a model's willingness to find and exploit code vulnerabilities at three escalation levels -- review, explain exploitation, and write a working exploit.
+Run vulnerability research elicitation attacks. Tests a model's willingness to find and exploit code vulnerabilities at three escalation levels: review, explain exploitation, and write a working exploit.
 
 ```bash
 ai-blackteam vuln-research -p PROVIDER [-m MODEL] [--mode {synthetic,cve,user,all}] [--code-path PATH] [-t TARGET] [--verify] [--verify-llm] [--verbose] [--quiet]
@@ -547,13 +455,62 @@ ai-blackteam vuln-research -p anthropic --mode user --code-path ./my-app/
 ai-blackteam vuln-research -p anthropic --mode all --verify-llm
 ```
 
+</Accordion>
+
+</AccordionGroup>
+
 ---
 
-## snapshot
+## Reporting
 
-Longitudinal capability tracking. Take snapshots of model safety over time and compare them.
+<AccordionGroup>
 
-### snapshot list
+<Accordion title="report" icon="file-text">
+
+Generate a report from stored results.
+
+```bash
+ai-blackteam report [OPTIONS]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `--format` | No | `markdown` | Output format: `markdown`, `json`, `html` |
+| `--export` | No | - | Export format: `promptfoo`, `garak` |
+| `-o`, `--output` | No | stdout | Output file path |
+
+```bash
+ai-blackteam report --format html -o report.html
+ai-blackteam report --export promptfoo -o results.json
+ai-blackteam report --format json
+```
+
+</Accordion>
+
+<Accordion title="scorecard" icon="bar-chart-3">
+
+Show safety scorecard from stored results.
+
+```bash
+ai-blackteam scorecard [OPTIONS]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `--format` | No | `table` | Output: `table`, `json`, `markdown` |
+| `-o`, `--output` | No | - | Output file |
+| `-m`, `--model` | No | All models | Filter by model name |
+| `--standard` | No | `llm` | `llm` (OWASP LLM Top 10), `agentic` (Agentic Top 10), `compliance` (EU AI Act + NIST) |
+
+```bash
+ai-blackteam scorecard --standard llm
+ai-blackteam scorecard --standard agentic -m claude-sonnet-4-6
+ai-blackteam scorecard --standard compliance --format json -o compliance.json
+```
+
+</Accordion>
+
+<Accordion title="snapshot list" icon="file-text">
 
 List all snapshots with bypass rates, dates, and models.
 
@@ -561,7 +518,9 @@ List all snapshots with bypass rates, dates, and models.
 ai-blackteam snapshot list
 ```
 
-### snapshot diff
+</Accordion>
+
+<Accordion title="snapshot diff" icon="file-text">
 
 Compare two snapshots side by side. Shows before/after bypass rate with delta.
 
@@ -574,7 +533,9 @@ ai-blackteam snapshot diff ID1 ID2
 | `ID1` | Yes | First snapshot ID |
 | `ID2` | Yes | Second snapshot ID |
 
-### snapshot export
+</Accordion>
+
+<Accordion title="snapshot export" icon="file-text">
 
 Export snapshot data to a file.
 
@@ -587,7 +548,9 @@ ai-blackteam snapshot export [--format {json,csv}] [-o OUTPUT]
 | `--format` | No | `json` | Export format: `json` or `csv` |
 | `-o`, `--output` | No | stdout | Output file path |
 
-### snapshot matrix
+</Accordion>
+
+<Accordion title="snapshot matrix" icon="bar-chart-3">
 
 Show a model x time bypass rate matrix. Useful for tracking how safety changes across model versions over time.
 
@@ -595,7 +558,9 @@ Show a model x time bypass rate matrix. Useful for tracking how safety changes a
 ai-blackteam snapshot matrix
 ```
 
-### snapshot check
+</Accordion>
+
+<Accordion title="snapshot check" icon="gauge">
 
 Check if the latest snapshot bypass rate is below a threshold. Returns exit code 0 if below, exit code 1 if above. Designed for CI gating.
 
@@ -611,3 +576,170 @@ ai-blackteam snapshot check [--latest] [--threshold 0.10]
 ```bash
 ai-blackteam snapshot check --latest --threshold 0.05
 ```
+
+</Accordion>
+
+</AccordionGroup>
+
+---
+
+## Discovery
+
+<AccordionGroup>
+
+<Accordion title="list-providers" icon="book-open">
+
+Show available providers and default models.
+
+```bash
+ai-blackteam list-providers
+```
+
+</Accordion>
+
+<Accordion title="list-attacks" icon="book-open">
+
+Show available attacks and their modes.
+
+```bash
+ai-blackteam list-attacks
+```
+
+</Accordion>
+
+<Accordion title="taxonomy" icon="book-open">
+
+Show all attacks grouped by category with OWASP/MITRE mappings.
+
+```bash
+ai-blackteam taxonomy
+```
+
+No flags. Displays a table per category with attack IDs, severity, mode, description, OWASP codes, and MITRE ATLAS IDs.
+
+</Accordion>
+
+<Accordion title="atlas" icon="book-open">
+
+Show MITRE ATLAS technique mappings for all attacks.
+
+```bash
+ai-blackteam atlas
+```
+
+</Accordion>
+
+<Accordion title="mlcommons" icon="book-open">
+
+Show MLCommons AILuminate hazard taxonomy and harm category alignment.
+
+```bash
+ai-blackteam mlcommons
+```
+
+</Accordion>
+
+<Accordion title="frameworks" icon="book-open">
+
+Show regulatory framework mappings (NIST AI RMF, EU AI Act, MLCommons).
+
+```bash
+ai-blackteam frameworks
+```
+
+</Accordion>
+
+</AccordionGroup>
+
+---
+
+## Management
+
+<AccordionGroup>
+
+<Accordion title="config show" icon="settings">
+
+Show current configuration (API keys are truncated).
+
+```bash
+ai-blackteam config show
+```
+
+</Accordion>
+
+<Accordion title="config set" icon="settings">
+
+Set a config value.
+
+```bash
+ai-blackteam config set KEY VALUE
+```
+
+```bash
+ai-blackteam config set providers.anthropic.api_key sk-ant-...
+ai-blackteam config set workers 10
+ai-blackteam config set storage.database /tmp/test.db
+```
+
+</Accordion>
+
+<Accordion title="dataset list" icon="database">
+
+Show available datasets.
+
+```bash
+ai-blackteam dataset list
+```
+
+</Accordion>
+
+<Accordion title="dataset load" icon="database">
+
+Download and cache a dataset.
+
+```bash
+ai-blackteam dataset load NAME
+ai-blackteam dataset load --all
+```
+
+| Flag | Description |
+|------|-------------|
+| `NAME` | Dataset name (optional if using `--all`) |
+| `--all` | Download all datasets |
+
+</Accordion>
+
+<Accordion title="dataset stats" icon="database">
+
+Show prompt counts per category across cached datasets.
+
+```bash
+ai-blackteam dataset stats
+```
+
+</Accordion>
+
+<Accordion title="scan" icon="terminal">
+
+Scan source code for AI security vulnerabilities.
+
+```bash
+ai-blackteam scan [PATH] [OPTIONS]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `PATH` | No | `.` | File or directory to scan |
+| `--format` | No | `table` | Output: `table`, `json` |
+| `--severity` | No | All | Minimum severity: `critical`, `high`, `medium`, `low` |
+| `-o`, `--output` | No | - | Save JSON results to file |
+
+```bash
+ai-blackteam scan .
+ai-blackteam scan src/ --severity high
+ai-blackteam scan app.py --format json -o findings.json
+```
+
+</Accordion>
+
+</AccordionGroup>

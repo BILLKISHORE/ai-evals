@@ -5,6 +5,23 @@ description: "Run your first safety scan in 5 minutes"
 
 ## 1. Set your API key
 
+```mermaid
+sequenceDiagram
+    participant User
+    participant CLI as ai-blackteam CLI
+    participant Mock as Mock provider
+    User->>CLI: run -p mock -a unicode-injection -t "..."
+    CLI->>Mock: Prompt 1 (unicode variant)
+    Mock-->>CLI: Response 1 (BLOCKED)
+    CLI->>Mock: Prompt 2 (zero-width chars)
+    Mock-->>CLI: Response 2 (BLOCKED)
+    CLI->>Mock: Prompt 3 (homoglyph swap)
+    Mock-->>CLI: Response 3 (PARTIAL)
+    CLI->>Mock: Prompt 4 (RTL override)
+    Mock-->>CLI: Response 4 (BLOCKED)
+    CLI-->>User: 4 verdicts, summary, exit code 0
+```
+
 Pick your provider and configure the key:
 
 ```bash

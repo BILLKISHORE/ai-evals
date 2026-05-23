@@ -7,6 +7,25 @@ This tutorial walks you through a complete scan from start to finish - picking a
 
 ## Step 1: Pick a target
 
+```mermaid
+flowchart TD
+    Start([First scan]) --> Provider{Pick a provider}
+    Provider -->|Real model| Key[Set API key]
+    Provider -->|No key handy| MockP[Use mock provider]
+    Key --> Scope{Scope of scan}
+    MockP --> Scope
+    Scope -->|One technique| Single[ai-blackteam run -a attack]
+    Scope -->|Everything| Bench[ai-blackteam benchmark]
+    Single --> Results[Read verdicts: BYPASSED, PARTIAL, BLOCKED]
+    Bench --> Results
+    Results --> Report([Generate report or scorecard])
+
+    classDef accent fill:#FFE5E5,stroke:#E63946,color:#A4161A
+    classDef peak fill:#A4161A,stroke:#660000,color:#FFFFFF
+    class Single,Bench,MockP accent
+    class Report peak
+```
+
 The "target" is the harmful prompt you want to test. ai-blackteam will wrap this target in various attack techniques and see if the model complies.
 
 Good targets are specific and testable:

@@ -5,6 +5,25 @@ description: "How to contribute to ai-blackteam"
 
 ai-blackteam is open to contributions. Here's how to add providers, attacks, and tests.
 
+```mermaid
+flowchart TB
+    fork[Fork repo]:::start --> branch[Create feature branch]:::work
+    branch --> code[Write code and tests]:::work
+    code --> pytest[Run pytest locally]:::work
+    pytest --> commit[Commit changes]:::work
+    commit --> push[Push to fork]:::work
+    push --> pr[Open pull request]:::review
+    pr --> ci[CI runs lint, tests, safety-scan]:::review
+    ci --> review[Maintainer review]:::review
+    review --> merge[Merge to main]:::ship
+    merge --> release[ai-blackteam team releases]:::ship
+
+    classDef start fill:#0f172a,stroke:#22d3ee,color:#f8fafc
+    classDef work fill:#1e293b,stroke:#a78bfa,color:#f8fafc
+    classDef review fill:#312e81,stroke:#f472b6,color:#f8fafc
+    classDef ship fill:#064e3b,stroke:#34d399,color:#f8fafc
+```
+
 ## Adding a New Provider
 
 1. Create `src/ai-blackteam/providers/your_provider.py`

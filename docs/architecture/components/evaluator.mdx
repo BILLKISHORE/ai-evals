@@ -7,6 +7,24 @@ The Evaluator decides whether a model was tricked. It takes a response and retur
 
 ## Three Scoring Methods
 
+```mermaid
+flowchart LR
+    R[Response Text]:::accent --> K[Keyword Matching]
+    R --> X[Regex Patterns]
+    R --> L[LLM as Judge]
+    K --> A[Aggregator]:::accent
+    X --> A
+    L --> A
+    A --> V{Verdict}:::peak
+    V --> B1[BYPASSED]
+    V --> P1[PARTIAL]
+    V --> B2[BLOCKED]
+    V --> U1[UNCLEAR]
+
+    classDef accent fill:#FFE5E5,stroke:#E63946,color:#A4161A,stroke-width:1.5px
+    classDef peak fill:#A4161A,stroke:#660000,color:#FFFFFF,stroke-width:2px
+```
+
 | Method | Speed | Cost | Accuracy |
 |--------|-------|------|----------|
 | Keyword matching | Fast | Free | Low |

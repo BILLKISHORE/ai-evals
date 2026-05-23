@@ -5,6 +5,22 @@ description: "Compare baseline vs defended safety with side-by-side results"
 
 ## What `ai-blackteam defend` does
 
+```mermaid
+flowchart LR
+    A[Attack set] --> B[Phase 1, baseline run]
+    A --> D[Phase 2, defended run]
+    B --> BR[Baseline verdicts]
+    D --> DR[Defended verdicts]
+    BR --> C[Phase 3, compare]
+    DR --> C
+    C --> T[Delta table, improved, unchanged, regressed]
+
+    classDef accent fill:#FFE5E5,stroke:#E63946,color:#A4161A
+    classDef peak fill:#A4161A,stroke:#660000,color:#FFFFFF
+    class B,D accent
+    class T peak
+```
+
 `ai-blackteam defend` runs every attack twice: once with no defenses (baseline), once with your defenses applied. Then it shows you a side-by-side comparison of what improved, what regressed, and what stayed the same.
 
 ```bash

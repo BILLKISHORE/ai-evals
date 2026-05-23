@@ -7,6 +7,65 @@ Every LLM provider in ai-blackteam extends `BaseProvider`. This abstract class d
 
 ## Data Classes
 
+```mermaid
+classDiagram
+    class BaseProvider {
+        <<abstract>>
+        +str model
+        +str api_key
+        +send_prompt(prompt, system_prompt) PromptResult*
+        +send_in_conversation(messages, system_prompt) PromptResult*
+        +send_with_tools(messages, tools, system_prompt) ToolResult
+        +default_model() str*
+        +get_model_info() dict
+        +supports_tools() bool
+    }
+
+    class AnthropicProvider {
+        +default_model() str
+        +send_prompt(prompt, system_prompt) PromptResult
+        +send_in_conversation(messages, system_prompt) PromptResult
+        +send_with_tools(messages, tools, system_prompt) ToolResult
+        +supports_tools() bool
+    }
+
+    class OpenAIProvider {
+        +default_model() str
+        +send_prompt(prompt, system_prompt) PromptResult
+        +send_in_conversation(messages, system_prompt) PromptResult
+        +send_with_tools(messages, tools, system_prompt) ToolResult
+        +supports_tools() bool
+    }
+
+    class GoogleProvider {
+        +default_model() str
+        +send_prompt(prompt, system_prompt) PromptResult
+        +send_in_conversation(messages, system_prompt) PromptResult
+        +send_with_tools(messages, tools, system_prompt) ToolResult
+        +supports_tools() bool
+    }
+
+    class MockProvider {
+        +default_model() str
+        +send_prompt(prompt, system_prompt) PromptResult
+        +send_in_conversation(messages, system_prompt) PromptResult
+    }
+
+    class GuardrailProvider {
+        +default_model() str
+        +send_prompt(prompt, system_prompt) PromptResult
+        +send_in_conversation(messages, system_prompt) PromptResult
+    }
+
+    BaseProvider <|-- AnthropicProvider
+    BaseProvider <|-- OpenAIProvider
+    BaseProvider <|-- GoogleProvider
+    BaseProvider <|-- MockProvider
+    BaseProvider <|-- GuardrailProvider
+```
+
+Two dataclasses hold results:
+
 Two dataclasses hold results:
 
 ### PromptResult

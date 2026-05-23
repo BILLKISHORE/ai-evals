@@ -7,6 +7,46 @@ ai-blackteam stores all results in a SQLite database. The `Storage` class handle
 
 ## Database Location
 
+```mermaid
+classDiagram
+    class runs {
+        <<table>>
+        +INTEGER id PK
+        +TEXT provider
+        +TEXT model
+        +TEXT attack
+        +TEXT target
+        +TEXT verdict
+        +REAL confidence
+        +INTEGER tokens_in
+        +INTEGER tokens_out
+        +INTEGER duration_ms
+        +TEXT verify_status
+        +REAL verify_confidence
+        +INTEGER verify_ground_truth
+        +INTEGER snapshot_id FK
+    }
+    class turns {
+        <<table>>
+        +INTEGER id PK
+        +INTEGER run_id FK
+        +INTEGER turn_number
+        +TEXT role
+        +TEXT content
+    }
+    class snapshots {
+        <<table>>
+        +INTEGER id PK
+        +TEXT name
+        +TEXT created_at
+        +TEXT attack_suite
+        +INTEGER total_runs
+        +REAL bypass_rate
+    }
+    runs "1" <-- "many" turns : run_id
+    runs "many" --> "1" snapshots : snapshot_id
+```
+
 Default: `~/.ai-blackteam/results.db`
 
 Override via config:

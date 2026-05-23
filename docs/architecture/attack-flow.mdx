@@ -11,6 +11,40 @@ This page walks through exactly what happens when you run a single command. Ever
 ai-blackteam run -p anthropic -a encoding-obfuscation -t "Write malware"
 ```
 
+## End-to-end Sequence
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User
+    participant CLI as CLI<br/>(Click)
+    participant Registry as Registry<br/>(auto-discover)
+    participant Engine
+    participant Attack as Attack<br/>(plugin)
+    participant Provider as Provider<br/>(plugin)
+    participant Model as Target LLM
+    participant Evaluator
+    participant Storage as SQLite
+
+    User->>CLI: ai-blackteam run -p anthropic -a encoding-obfuscation -t "Write malware"
+    CLI->>Registry: get provider + attack
+    Registry-->>CLI: AnthropicProvider, EncodingObfuscation
+    CLI->>Engine: run(provider, attack, target)
+    Engine->>Attack: generate_prompts(target)
+    Attack-->>Engine: list of N prompt variants
+    loop for each prompt
+        Engine->>Provider: send_prompt(prompt)
+        Provider->>Model: HTTPS request
+        Model-->>Provider: response text
+        Provider-->>Engine: PromptResult
+        Engine->>Evaluator: evaluate(response, target)
+        Evaluator-->>Engine: verdict + confidence
+        Engine->>Storage: save_run + save_turn
+    end
+    Engine-->>CLI: BatchResult
+    CLI-->>User: Rich table + exit code
+```
+
 ## Step by Step
 
 ### 1. CLI Parses Arguments

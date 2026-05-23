@@ -7,22 +7,41 @@ ai-blackteam has three layers. Each one has a clear job and talks to the layer b
 
 ## The Layers
 
-```
-┌─────────────────────────────────────────────┐
-│  Layer 1: Interface                         │
-│  CLI (Click) + Python API (Blackteam class) │
-│  Takes user input, returns results          │
-├─────────────────────────────────────────────┤
-│  Layer 2: Processing                        │
-│  Engine (execution) + Evaluator (scoring)   │
-│  Runs attacks, evaluates responses          │
-├───────────────────────┬─────────────────────┤
-│  Layer 3: Plugins     │                     │
-│  Attacks (1,003)      │  Providers (7)      │
-│  Auto-discovered      │  Auto-discovered    │
-├───────────────────────┴─────────────────────┤
-│  Storage: SQLite (WAL mode, thread-safe)    │
-└─────────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph L1[Layer 1 -- Interface]
+        CLI[CLI<br/>Click-based]
+        API[Python API<br/>Blackteam class]
+    end
+
+    subgraph L2[Layer 2 -- Processing]
+        Engine[Engine<br/>orchestrator]
+        Evaluator[Evaluator<br/>scoring + verdicts]
+    end
+
+    subgraph L3[Layer 3 -- Plugins]
+        Attacks[(Attacks<br/>1,010 modules<br/>auto-discovered)]
+        Providers[Providers<br/>8 integrations<br/>auto-discovered]
+    end
+
+    Storage[(Storage<br/>SQLite, WAL mode,<br/>thread-safe)]
+
+    CLI --> Engine
+    API --> Engine
+    Engine --> Attacks
+    Engine --> Providers
+    Engine --> Evaluator
+    Evaluator --> Storage
+    Engine --> Storage
+
+    classDef l1 fill:#FFF1F1,stroke:#E63946,color:#A4161A
+    classDef l2 fill:#FFE5E5,stroke:#E63946,color:#A4161A,stroke-width:1.5px
+    classDef l3 fill:#FFD6D6,stroke:#A4161A,color:#660000,stroke-width:2px
+    classDef store fill:#FFF7EA,stroke:#A4161A,color:#660000,stroke-width:1.5px
+    class CLI,API l1
+    class Engine,Evaluator l2
+    class Attacks,Providers l3
+    class Storage store
 ```
 
 ## Layer 1: Interface

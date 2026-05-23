@@ -11,6 +11,24 @@ It ships with 1,017 attack techniques across 60 categories - encoding, conversat
 
 ## The problem
 
+```mermaid
+flowchart LR
+    Model[Your LLM] --> Harness[ai-blackteam harness]
+    Harness --> Attacks[1,010 attacks across 60 categories]
+    Attacks --> Verdict{Verdict per prompt}
+    Verdict --> Bypassed[BYPASSED]
+    Verdict --> Partial[PARTIAL]
+    Verdict --> Blocked[BLOCKED]
+    Bypassed --> Scorecard[Safety scorecard, standards mapping]
+    Partial --> Scorecard
+    Blocked --> Scorecard
+
+    classDef accent fill:#FFE5E5,stroke:#E63946,color:#A4161A
+    classDef peak fill:#A4161A,stroke:#660000,color:#FFFFFF
+    class Harness,Attacks accent
+    class Scorecard peak
+```
+
 Most eval tools run single-prompt probes. A model blocks `"how to make a bomb"` and the tool marks it safe. Done.
 
 But real attackers don't send one prompt. A 2025 multi-lab study (researchers from OpenAI, Anthropic, Google DeepMind) showed that adaptive attacks bypass 12 published defenses with >90% success rate - even when those defenses originally reported near-zero attack rates.

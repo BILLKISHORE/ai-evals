@@ -7,6 +7,64 @@ ai-blackteam stores all results in SQLite at `~/.ai-blackteam/results.db`. This 
 
 ## Tables
 
+```mermaid
+classDiagram
+    class runs {
+        <<table>>
+        INTEGER id PK
+        TEXT timestamp
+        TEXT provider
+        TEXT model
+        TEXT attack
+        TEXT target
+        TEXT mode
+        TEXT verdict
+        REAL keyword_score
+        INTEGER regex_matches
+        INTEGER llm_judge_score
+        REAL confidence
+        INTEGER duration_ms
+        INTEGER tokens_in
+        INTEGER tokens_out
+        TEXT verify_status
+        REAL verify_confidence
+        INTEGER verify_ground_truth
+        INTEGER snapshot_id FK
+    }
+    class turns {
+        <<table>>
+        INTEGER id PK
+        INTEGER run_id FK
+        INTEGER turn_number
+        TEXT role
+        TEXT content
+        TEXT timestamp
+    }
+    class snapshots {
+        <<table>>
+        INTEGER id PK
+        TEXT name
+        TEXT created_at
+        TEXT provider
+        TEXT model
+        TEXT model_version
+        TEXT attack_suite
+        INTEGER attack_count
+        TEXT target
+        INTEGER total_runs
+        INTEGER bypassed
+        INTEGER partial
+        INTEGER blocked
+        INTEGER errored
+        REAL bypass_rate
+        REAL avg_confidence
+        REAL avg_verify_confidence
+        TEXT metadata
+    }
+    runs "1" --> "many" turns : has
+    snapshots "1" --> "many" runs : groups
+```
+
 ### runs
 
 Every attack execution creates one row in `runs`.

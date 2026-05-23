@@ -4,6 +4,30 @@ A decorator-based API for registering custom attacks into the AI-Blackteam frame
 
 ## Install
 
+```mermaid
+stateDiagram-v2
+    [*] --> Authored: developer writes plugin.py
+    Authored --> Decorated: apply @attack(technique_id=...)
+    Decorated --> Dropped: place file under plugins/ or PYTHONPATH
+    Dropped --> Discovered: attack_registry.discover_folder() on next start
+    Discovered --> Registered: registry indexes by technique_id
+    Registered --> Invocable: CLI and API resolve technique_id
+    Invocable --> Executed: ai-blackteam run -a technique_id
+    Executed --> [*]
+
+    note right of Discovered
+        Matches the @register_attack
+        auto-discovery contract,
+        exposed as the official
+        public extension API.
+    end note
+
+    classDef accent fill:#FFE5E5,stroke:#E63946,color:#A4161A
+    classDef peak fill:#A4161A,stroke:#660000,color:#FFFFFF
+    class Authored,Decorated,Dropped accent
+    class Registered,Invocable,Executed peak
+```
+
 ```bash
 pip install ai-blackteam
 ```
@@ -80,7 +104,7 @@ The same applies to invalid severities, non-string metadata lists, and so on. Th
 
 AI-Blackteam's `attack_registry.discover_folder(path)` will load every `.py` file under a folder you point it at. The easiest pattern: drop your plugin file under `plugins/` next to the ai-blackteam repo and let the engine find it.
 
-For programmatic registration in a long-running process, import the plugin module once at startup. Idempotent: importing it twice doesn't re-register a second copy — the registry overwrites by ID.
+For programmatic registration in a long-running process, import the plugin module once at startup. Idempotent: importing it twice doesn't re-register a second copy- the registry overwrites by ID.
 
 ## What you can't customize yet
 
@@ -96,6 +120,6 @@ These are the next things to ship in v2.
 
 ## See also
 
-- `docs/plugin-sdk/api.md` — full API reference for the decorator and helpers.
-- `docs/plugin-sdk/example-attack.py` — runnable example you can copy.
-- `src/ai_blackteam/attacks/base.py` — the underlying `BaseAttack` contract the decorator wraps.
+- `docs/plugin-sdk/api.md`- full API reference for the decorator and helpers.
+- `docs/plugin-sdk/example-attack.py`- runnable example you can copy.
+- `src/ai_blackteam/attacks/base.py`- the underlying `BaseAttack` contract the decorator wraps.

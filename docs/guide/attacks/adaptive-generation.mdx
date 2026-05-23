@@ -5,6 +5,38 @@ description: "Generate novel attacks using PAIR, TAP, and GPTFuzzer"
 
 ## What is adaptive generation?
 
+```mermaid
+flowchart TB
+    T[Harmful behavior target] --> PAIR[PAIR generator]
+    T --> TAP[TAP generator]
+    T --> FUZ[Fuzzer generator]
+
+    PAIR --> PA[Attacker prompt]
+    PA --> PT[Target response]
+    PT --> PJ[Judge score 1-10]
+    PJ -->|refine, loop| PA
+    PJ --> POUT[Best linear prompt]
+
+    TAP --> TS[Seed candidates]
+    TS --> TPR[Prune off-topic]
+    TPR --> TSC[Score survivors]
+    TSC --> TBR[Branch top performers]
+    TBR -->|next depth| TS
+    TBR --> TOUT[Best tree prompt]
+
+    FUZ --> FP[Template pool]
+    FP --> FM{Pick mutation}
+    FM --> FX[Crossover, rephrase, expand, shorten, generate]
+    FX --> FT[Test against target]
+    FT -->|grow pool on success| FP
+    FT --> FOUT[Best mutated prompt]
+
+    classDef accent fill:#FFE5E5,stroke:#E63946,color:#A4161A
+    classDef peak fill:#A4161A,stroke:#660000,color:#FFFFFF
+    class PAIR,TAP,FUZ accent
+    class POUT,TOUT,FOUT peak
+```
+
 The 1,000+ built-in attacks are static - they use predefined strategies. Adaptive generators create novel attacks on the fly by using one LLM to find weaknesses in another LLM. Three research-backed methods are available:
 
 | Generator | Paper | Method |

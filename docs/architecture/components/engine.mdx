@@ -17,6 +17,29 @@ engine = Engine(db_path=":memory:")
 
 The Engine creates a `Storage` instance on init.
 
+```mermaid
+flowchart TD
+    Caller["Caller invokes Engine.run(provider, attack, target)"]
+    Engine{{"Engine.run dispatch on attack.mode"}}
+    Single["run_single, per-prompt loop, returns list of results"]
+    Multi["run_multi_turn, sequential turns, combined evaluation"]
+    Tool["run_tool_use, tool-call simulation, evaluate_tool_calls"]
+    Storage[("SQLite storage, save_run, save_turn")]
+
+    Caller --> Engine
+    Engine -- "mode == 'single' (default)" --> Single
+    Engine -- "mode == 'multi-turn'" --> Multi
+    Engine -- "mode == 'tool-use'" --> Tool
+    Single --> Storage
+    Multi --> Storage
+    Tool --> Storage
+
+    classDef plugin fill:#FFE5E5,stroke:#E63946,color:#A4161A,stroke-width:1.5px
+    classDef peak fill:#A4161A,stroke:#660000,color:#FFFFFF,stroke-width:2px
+    class Single,Multi,Tool plugin
+    class Engine peak
+```
+
 ## Mode Dispatching
 
 The `run()` method checks the attack's mode and calls the right execution method:

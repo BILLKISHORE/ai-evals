@@ -7,6 +7,51 @@ Every attack in ai-blackteam extends `BaseAttack`. This abstract class defines t
 
 ## The Full Class
 
+```mermaid
+classDiagram
+    class BaseAttack {
+        <<abstract>>
+        +str name
+        +str technique_id
+        +str mode
+        +str category
+        +str severity
+        +float cvss_score
+        +str description
+        +list~str~ owasp_llm
+        +list~str~ owasp_agentic
+        +list~str~ mitre_atlas
+        +list~str~ references
+        +generate_prompts(target, kwargs) list~str~*
+        +generate_turns(target, kwargs) list~str~
+        +generate_tool_messages(target, tools, kwargs) list~str~
+        +get_tools() list~dict~
+        +get_tool_responses() dict
+        +metadata() dict
+    }
+
+    class EncodingObfuscation {
+        +str mode = "single-turn"
+        +generate_prompts(target, kwargs) list~str~
+    }
+
+    class RolePlayBypass {
+        +str mode = "multi-turn"
+        +generate_turns(target, kwargs) list~str~
+    }
+
+    class ToolUseExploitation {
+        +str mode = "tool-use"
+        +generate_tool_messages(target, tools, kwargs) list~str~
+        +get_tools() list~dict~
+        +get_tool_responses() dict
+    }
+
+    BaseAttack <|-- EncodingObfuscation
+    BaseAttack <|-- RolePlayBypass
+    BaseAttack <|-- ToolUseExploitation
+```
+
 ```python
 from abc import ABC, abstractmethod
 

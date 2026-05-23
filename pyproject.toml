@@ -18,7 +18,8 @@ classifiers = [
 ]
 
 [tool.poetry.urls]
-Homepage = "https://github.com/BILLKISHORE/ai-evals"
+Homepage = "https://ai-evals.abillkishoreraj.workers.dev"
+Documentation = "https://ai-evals.abillkishoreraj.workers.dev"
 Repository = "https://github.com/BILLKISHORE/ai-evals"
 "Bug Tracker" = "https://github.com/BILLKISHORE/ai-evals/issues"
 

@@ -301,12 +301,6 @@
               "architecture/reference/configuration",
               "architecture/reference/database-schema"
             ]
-          },
-          {
-            "group": "Contributing",
-            "pages": [
-              "architecture/contributing"
-            ]
           }
         ]
       }

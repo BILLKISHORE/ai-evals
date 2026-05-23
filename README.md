@@ -2,6 +2,10 @@
 
 Automated LLM red team framework. Test any model's safety with one command.
 
+[![PyPI](https://img.shields.io/pypi/v/ai-blackteam.svg)](https://pypi.org/project/ai-blackteam/) [![Docs](https://img.shields.io/badge/docs-live-E63946)](https://ai-evals.abillkishoreraj.workers.dev/) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+**Docs:** https://ai-evals.abillkishoreraj.workers.dev/
+
 ## Why ai-blackteam
 
 Most eval tools run single-prompt probes. A 2025 multi-lab study (researchers from OpenAI, Anthropic, Google DeepMind) showed that adaptive attacks bypass 12 published defenses with >90% success rate -- even when those defenses originally reported near-zero attack rates. Single-attempt testing misses real vulnerabilities.

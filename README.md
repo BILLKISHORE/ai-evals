@@ -2,9 +2,9 @@
 
 Automated LLM red team framework. Test any model's safety with one command.
 
-[![PyPI](https://img.shields.io/pypi/v/ai-blackteam.svg)](https://pypi.org/project/ai-blackteam/) [![Docs](https://img.shields.io/badge/docs-live-E63946)](https://ai-blackteam.abillkishoreraj.workers.dev/) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![PyPI](https://img.shields.io/pypi/v/ai-blackteam.svg)](https://pypi.org/project/ai-blackteam/) [![Docs](https://img.shields.io/badge/docs-live-E63946)](https://ai-blackteam.ai-evals.workers.dev/) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-**Docs:** https://ai-blackteam.abillkishoreraj.workers.dev/
+**Docs:** https://ai-blackteam.ai-evals.workers.dev/
 
 ## Why ai-blackteam
 

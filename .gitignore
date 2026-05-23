@@ -31,3 +31,28 @@ experiments/*/responses/raw/
 writeups/
 
 docs/superpowers/
+
+# AI coding assistants (config, scratch, memory, history)
+.claude/
+.cursor/
+.cursorrules
+.aider*
+.continue/
+.codeium/
+.tabnine/
+.copilot/
+.github/copilot-instructions.md
+.gemini/
+.qodo/
+.windsurf/
+.codemap/
+.remember/
+CLAUDE.md
+AGENTS.md
+GEMINI.md
+CURSOR.md
+
+# AI audit / scratch artifacts
+MAE-PARITY-GAP-REPORT.md
+AUDIT-*.md
+MAE-FRAMEWORK-COMPLETE.md

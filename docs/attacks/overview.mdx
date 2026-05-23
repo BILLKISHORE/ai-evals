@@ -11,6 +11,34 @@ ai-blackteam ships 1,021 attack techniques across 61 categories. Every attack fa
 
 ## Running attacks
 
+```mermaid
+flowchart TD
+    ROOT[1,021 attacks across 61 categories]
+
+    ROOT --> ENC[Encoding and obfuscation]
+    ROOT --> PI[Prompt injection and jailbreak]
+    ROOT --> SE[Social engineering and persuasion]
+    ROOT --> AGENT[Agent and tool exploitation]
+    ROOT --> DATA[Data, privacy, and model theft]
+    ROOT --> HARM[Harmful content and safety]
+    ROOT --> DOMAIN[Domain-specific exploitation]
+    ROOT --> INFO[Information integrity]
+
+    ENC --> ENC_C[encoding, multimodal, output-manipulation]
+    PI --> PI_C[prompt-injection, injection, context-manipulation, safety-circumvention]
+    SE --> SE_C[social-engineering, social-engineering-advanced, persuasion, psychological-manipulation, identity-attack]
+    AGENT --> AGENT_C[agent-exploitation, multi-agent-exploitation, mcp-exploitation, tool-exploitation, protocol-exploitation, rag-exploitation, memory-exploitation]
+    DATA --> DATA_C[privacy-violation, model-extraction, information-disclosure, surveillance]
+    HARM --> HARM_C[harmful-content, child-safety, cbrn-evasion, weapons-evasion, public-safety]
+    DOMAIN --> DOMAIN_C[healthcare, financial, legal, gaming, iot, infrastructure, code, crypto, supply-chain]
+    INFO --> INFO_C[disinformation, misinformation, election-interference, information-warfare, media-manipulation]
+
+    classDef accent fill:#FFE5E5,stroke:#E63946,color:#A4161A
+    classDef peak fill:#A4161A,stroke:#660000,color:#FFFFFF
+    class ENC,PI,SE,AGENT,DATA,HARM,DOMAIN,INFO accent
+    class ROOT peak
+```
+
 Run any attack by its technique ID:
 
 ```bash

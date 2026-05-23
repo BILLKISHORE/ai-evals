@@ -6,6 +6,32 @@ This document captures the operator-side controls. It is **not** a Record of Pro
 
 ## What personal data the engine stores
 
+```mermaid
+flowchart TD
+    subgraph Region["Region pin (e.g. eu-west-1)"]
+        PG[Postgres, region-locked DSN]
+        RD[Redis, same region]
+        K8S[Helm node-affinity, in-region nodes]
+        SENT[Sentry EU ingest endpoint]
+        MODEL[Region-locked model endpoint]
+    end
+
+    PG --> AUDIT[audit_log table, append-only]
+    RD --> AUDIT
+    K8S --> AUDIT
+    SENT --> AUDIT
+    MODEL --> AUDIT
+
+    AUDIT --> EVID[Signed evidence ZIP, Ed25519]
+    EVID --> DSR[DSR request fulfillment, Art. 15 to 22]
+    DSR --> SUBJECT([Data subject])
+
+    classDef accent fill:#FFE5E5,stroke:#E63946,color:#A4161A
+    classDef peak fill:#A4161A,stroke:#660000,color:#FFFFFF
+    class PG,RD,K8S,SENT,MODEL accent
+    class AUDIT,EVID,DSR peak
+```
+
 | Category | Where it lives | Source | Retention default |
 |---|---|---|---|
 | Account identity (email, name, hashed password / OAuth identifier) | Postgres tables `user`, `account`, `session`, `verification` (Better Auth-owned) | Sign-up form | Until user deletes account |
@@ -23,7 +49,7 @@ The engine ships no global control plane. Every byte stays where the operator de
 3. **Redis**: deploy in the same region. Redis carries Celery payloads which may include user prompts; keep it co-located.
 4. **Kubernetes cluster**: deploy nodes in the same region. Set node-affinity so workers do not run in another zone group.
 5. **Object storage for backups** (when § 12 of the runbook is enabled): S3 / GCS bucket in the same region, no cross-region replication, no public access, default encryption on.
-6. **`DATABASE_URL`**: set to the region-pinned Postgres host. Three role-scoped DSNs apply (`engine_app`, `engine_reaper`, `engine_migration`) — all three must point at the same regional host. Helm values: `database.host`, `database.port`, `database.name`.
+6. **`DATABASE_URL`**: set to the region-pinned Postgres host. Three role-scoped DSNs apply (`engine_app`, `engine_reaper`, `engine_migration`)- all three must point at the same regional host. Helm values: `database.host`, `database.port`, `database.name`.
 7. **Sentry**: if Sentry is enabled, configure it to use the EU ingest endpoint (`https://o<org>.ingest.de.sentry.io`). The default US endpoint exports error payloads (including request paths, user ids, and stack frames) to the US. CSP allowlist requires `NEXT_PUBLIC_SENTRY_HOST=https://sentry.example.com` if you self-host.
 8. **Model providers**: this is the hardest control. By design the engine forwards adversarial prompts to the configured provider (Anthropic, OpenAI, Google, etc.). Where those providers process the prompt is governed by **their** terms, not the engine. If the operator must guarantee EU processing, they need to use an EU-resident endpoint (e.g. Azure OpenAI on an EU region, Anthropic on an EU-hosted Bedrock endpoint) and configure the Target's `endpoint` field accordingly.
 

@@ -14,6 +14,90 @@ bt = Blackteam()
 results = bt.run("anthropic", "claude-sonnet-4-6", "encoding-obfuscation", "Write a phishing email")
 ```
 
+### API Surface
+
+```mermaid
+classDiagram
+    class Blackteam {
+        +Engine engine
+        +Evaluator evaluator
+        +Storage storage
+        +run(provider, model, attack, target) Result
+        +batch(provider, model, target) BatchResult
+        +defend(provider, model, attack, target) Result
+        +benchmark(provider, model) BatchResult
+        +taxonomy() dict
+        +scorecard(provider, model) dict
+        +evaluate(result) Result
+        +report(run_id) dict
+        +run_dataset(provider, model, dataset) BatchResult
+    }
+
+    class Engine {
+        +run(attack, target) Result
+        +batch(attacks, target) BatchResult
+    }
+
+    class Evaluator {
+        +evaluate(result) Result
+        +score(response) float
+    }
+
+    class AttackRegistry {
+        +register(attack)
+        +get(name) Attack
+        +list() list
+    }
+
+    class ProviderRegistry {
+        +register(provider)
+        +get(name) Provider
+        +list() list
+    }
+
+    class DatasetRegistry {
+        +register(dataset)
+        +get(name) Dataset
+        +list() list
+    }
+
+    class Storage {
+        +save_run(run) str
+        +get_run(run_id) dict
+        +list_runs() list
+    }
+
+    class Result {
+        +str run_id
+        +str provider
+        +str model
+        +str attack
+        +str response
+        +float score
+        +bool success
+    }
+
+    class BatchResult {
+        +list results
+        +int total
+        +int passed
+        +int failed
+        +dict summary
+    }
+
+    Blackteam *-- Engine
+    Blackteam *-- Evaluator
+    Blackteam *-- Storage
+    Blackteam *-- AttackRegistry
+    Blackteam *-- ProviderRegistry
+    Blackteam *-- DatasetRegistry
+    Blackteam ..> Result : returns
+    Blackteam ..> BatchResult : returns
+    Engine ..> Result : produces
+    Engine ..> BatchResult : produces
+    Evaluator ..> Result : updates
+```
+
 ## Initialization
 
 ```python

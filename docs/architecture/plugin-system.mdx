@@ -5,6 +5,19 @@ description: "How attacks and providers register and auto-discover"
 
 The plugin system is the heart of ai-blackteam. It lets you add attacks and providers by dropping a single Python file - no config changes, no import lists, nothing else to update.
 
+## Lifecycle of a plugin
+
+```mermaid
+stateDiagram-v2
+    [*] --> Authored: developer writes<br/>one .py file
+    Authored --> Decorated: @register_attack("name")<br/>or @attack(...) SDK
+    Decorated --> Discovered: pkgutil.iter_modules<br/>walks the package
+    Discovered --> Registered: decorator runs at<br/>module import
+    Registered --> Resolved: registry.get("name")<br/>from CLI or API
+    Resolved --> Executed: engine calls<br/>generate_prompts()
+    Executed --> [*]: results saved<br/>to SQLite
+```
+
 ## The Power Outlet Analogy
 
 Think of a power outlet in a wall. Any device - lamp, phone charger, laptop - can plug into it. The wall doesn't care what you plug in. As long as your plug fits the shape, it works.

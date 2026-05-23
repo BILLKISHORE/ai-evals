@@ -7,6 +7,18 @@ ai-blackteam integrates 9 benchmark datasets (HarmBench, AdvBench, JailbreakBenc
 
 ## How Dataset Loaders Work
 
+```mermaid
+stateDiagram-v2
+    [*] --> DecideDataset: developer plans new dataset loader
+    DecideDataset --> WriteClass: subclass DatasetLoader
+    WriteClass --> Decorate: apply @register_dataset
+    Decorate --> ImplementDownload: implement download() returning prompt dicts
+    ImplementDownload --> DropFile: save under src/ai-blackteam/datasets/
+    DropFile --> AutoDiscover: registry scans at startup
+    AutoDiscover --> AvailableInCLI: usable via dataset list, load, and sweep
+    AvailableInCLI --> [*]
+```
+
 Every dataset loader inherits from `DatasetLoader` and registers itself with `@register_dataset`. The base class handles caching - your loader just needs to implement `download()`.
 
 ```python

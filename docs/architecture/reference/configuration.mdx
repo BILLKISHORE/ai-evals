@@ -7,6 +7,28 @@ ai-blackteam uses a YAML config file with environment variable fallbacks. Most t
 
 ## Config File Location
 
+```mermaid
+flowchart TB
+    start([load_config called]) --> defaults[Seed dict from DEFAULT_CONFIG]
+    defaults --> locate{config_path exists?<br/>default: ~/.ai-blackteam/config.yaml}
+    locate -- yes --> readyaml[Read YAML via yaml.safe_load]
+    readyaml --> merge[Deep merge user values onto defaults]
+    locate -- no --> resolve
+    merge --> resolve[Walk config tree<br/>expand ${VAR} references via os.environ]
+    resolve --> envkeys[For each provider, fill null api_key<br/>from PROVIDER_API_KEY env var]
+    envkeys --> done([Return resolved config dict])
+
+    classDef brandPrimary fill:#1f2937,stroke:#0ea5e9,color:#f8fafc,stroke-width:1px
+    classDef brandAccent fill:#0ea5e9,stroke:#0369a1,color:#0b1120,stroke-width:1px
+    classDef brandMuted fill:#0b1120,stroke:#475569,color:#e2e8f0,stroke-width:1px
+    classDef brandTerminal fill:#22d3ee,stroke:#0e7490,color:#0b1120,stroke-width:1px
+
+    class defaults,merge,readyaml brandPrimary
+    class resolve,envkeys brandAccent
+    class locate brandMuted
+    class start,done brandTerminal
+```
+
 ```
 ~/.ai-blackteam/config.yaml
 ```

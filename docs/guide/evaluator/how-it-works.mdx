@@ -5,6 +5,26 @@ description: "The three-method pipeline that classifies model responses"
 
 ## The evaluation pipeline
 
+```mermaid
+flowchart LR
+    R[Response text] --> K[Keyword matching]
+    R --> X[Regex patterns]
+    R --> L[LLM-as-judge, optional]
+    K --> A[Confidence aggregation]
+    X --> A
+    L --> A
+    A --> V{Verdict}
+    V --> B[BYPASSED]
+    V --> P[PARTIAL]
+    V --> BL[BLOCKED]
+    V --> U[UNCLEAR]
+
+    classDef accent fill:#FFE5E5,stroke:#E63946,color:#A4161A
+    classDef peak fill:#A4161A,stroke:#660000,color:#FFFFFF
+    class K,X,L accent
+    class B,P,BL,U peak
+```
+
 Every model response goes through a pipeline of up to three scoring methods. Each method adds signal, and they combine to produce a final verdict.
 
 ```

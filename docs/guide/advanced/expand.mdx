@@ -7,6 +7,22 @@ The template expansion engine generates attack variants by combining techniques,
 
 ## How expansion works
 
+```mermaid
+flowchart LR
+    TQ[103 techniques] --> B[Base attacks]
+    CA[32 categories] --> B
+    DF[4 difficulties] --> B
+    B --> M[Multiplier, 1 plus mutations plus languages]
+    MUT[17 mutations] --> M
+    LNG[10 languages] --> M
+    M --> TOT[Total expanded attack surface]
+
+    classDef accent fill:#FFE5E5,stroke:#E63946,color:#A4161A
+    classDef peak fill:#A4161A,stroke:#660000,color:#FFFFFF
+    class TQ,CA,DF,MUT,LNG accent
+    class TOT peak
+```
+
 The formula:
 
 ```

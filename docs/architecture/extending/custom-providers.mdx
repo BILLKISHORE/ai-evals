@@ -7,6 +7,18 @@ Adding a new LLM provider to ai-blackteam requires implementing the `BaseProvide
 
 ## Quick Start
 
+```mermaid
+stateDiagram-v2
+    [*] --> DecideProvider: developer plans new provider
+    DecideProvider --> WriteClass: subclass BaseProvider
+    WriteClass --> Decorate: apply @register_provider
+    Decorate --> ImplementMethods: implement default_model, send_prompt, send_in_conversation
+    ImplementMethods --> RegisterConfig: add defaults to config.py
+    RegisterConfig --> AutoDiscover: registry loads at startup
+    AutoDiscover --> AvailableInCLI: selectable via -p flag
+    AvailableInCLI --> [*]
+```
+
 Create `src/ai-blackteam/providers/your_provider.py`:
 
 ```python

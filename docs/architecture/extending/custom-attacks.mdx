@@ -7,6 +7,17 @@ Adding a new attack to ai-blackteam is one Python file. This guide covers all th
 
 ## Quick Start
 
+```mermaid
+stateDiagram-v2
+    [*] --> DecideAttack: developer plans new attack
+    DecideAttack --> WriteClass: subclass BaseAttack
+    WriteClass --> Decorate: apply @register_attack or @attack
+    Decorate --> DropFile: save under src/ai-blackteam/attacks/
+    DropFile --> AutoDiscover: registry scans at startup
+    AutoDiscover --> AvailableInCLI: usable via CLI and registry
+    AvailableInCLI --> [*]
+```
+
 Create a file in `src/ai-blackteam/attacks/`:
 
 ```python

@@ -15,27 +15,36 @@ Companies building AI products need to answer one question: "Is my AI safe?"
 
 Most testing tools are owned by big companies. Microsoft owns PyRIT, NVIDIA owns garak, OpenAI backs Promptfoo. ai-blackteam is the only independent red teaming framework - not controlled by any AI lab.
 
-## The Restaurant Analogy
+## How the pieces fit together
 
-The easiest way to understand ai-blackteam's architecture:
+```mermaid
+flowchart TB
+    User([User]) -->|run / batch / benchmark| CLI[CLI or Python API]
+    CLI --> Engine[Engine]
+    Engine -->|pick attacks| Attacks[(Attacks<br/>1,010 plugins)]
+    Engine -->|send prompts| Providers[Providers<br/>anthropic, openai, google,<br/>mistral, deepseek, ollama,<br/>huggingface, mock]
+    Providers <-->|HTTPS or local| Model[Target LLM]
+    Engine --> Evaluator[Evaluator<br/>keyword + regex + LLM judge]
+    Evaluator --> Storage[(SQLite<br/>runs + turns)]
+    Storage --> Reports[Reports and Scorecards<br/>OWASP / MITRE / MLCommons]
+    Storage --> CLI
 
+    classDef plugin fill:#FFE5E5,stroke:#E63946,stroke-width:2px,color:#A4161A
+    classDef store fill:#FFF7EA,stroke:#A4161A,stroke-width:1.5px
+    class Attacks,Providers plugin
+    class Storage store
 ```
-+----------------------------------+
-|       CLI / Python API           |  <- The waiter (takes orders)
-+----------------------------------+
-|     Engine + Evaluator           |  <- The kitchen (cooks everything)
-+----------------+-----------------+
-|   Attacks      |   Providers     |  <- Ingredients + Stoves
-|   (plugins)    |   (plugins)     |
-+----------------+-----------------+
-          |
-      SQLite DB                       <- The receipt book
-```
 
-- **CLI / Python API** is the waiter. It takes your order (which attacks to run, against which model) and passes it to the kitchen.
-- **Engine + Evaluator** is the kitchen. The Engine sends attacks to models and the Evaluator decides if the model was tricked.
-- **Attacks + Providers** are the ingredients and stoves. Attacks are the tricks to try. Providers are the connections to different AI models (Anthropic, OpenAI, Google, etc).
-- **SQLite** is the receipt book. Every result gets stored - what was tried, what happened, and the verdict.
+The same picture with kitchen-restaurant labels for the non-technical reader:
+
+| Component | Role | Restaurant analogy |
+|---|---|---|
+| **CLI / Python API** | Entry point: parses your command, dispatches to the engine | The waiter taking your order |
+| **Engine + Evaluator** | Orchestrates the attack, scores the response | The kitchen cooking and tasting |
+| **Attacks (plugins)** | 1,010 attack techniques, one Python file each | The ingredients |
+| **Providers (plugins)** | 7 LLM integrations plus a mock | The stoves |
+| **SQLite** | Per-run + per-turn audit trail | The receipt book |
+| **Reports / Scorecards** | Roll-ups into OWASP / MITRE / MLCommons formats | The customer reviews
 
 ## Project Stats
 
@@ -49,6 +58,43 @@ The easiest way to understand ai-blackteam's architecture:
 | Providers | 7 |
 | Attack surface | 163M configurations |
 | Version | 1.1.0 |
+
+## The 163M Attack Surface
+
+Most safety tools ship a few hundred prompts. ai-blackteam multiplies a small set of high-quality attack techniques across many axes to produce a search space of 163 million testable configurations. The math:
+
+```mermaid
+flowchart LR
+    A[1,020 base<br/>techniques]
+    B[x 28 harm<br/>categories]
+    C[x 4 difficulty<br/>levels]
+    D[114,240<br/>expanded attacks]
+    E[x 17 mutations]
+    F[x 10 languages]
+    G[3.2M<br/>technique-driven]
+
+    H[10,662 dataset<br/>prompts]
+    I[x 17 mutations]
+    J[x 883 single-turn<br/>techniques]
+    K[160M<br/>dataset-driven]
+
+    Total[163,236,594<br/>attack configurations]
+
+    A --> B --> C --> D
+    D --> E --> F --> G
+    H --> I --> J --> K
+    G --> Total
+    K --> Total
+
+    classDef leaf fill:#FFE5E5,stroke:#E63946,color:#A4161A,stroke-width:1.5px
+    classDef mid fill:#FFF1F1,stroke:#A4161A,color:#660000
+    classDef peak fill:#A4161A,stroke:#660000,color:#FFFFFF,stroke-width:2px
+    class A,H leaf
+    class B,C,E,F,I,J mid
+    class Total peak
+```
+
+You never run all 163M in a single pass. You **sample** from this space: the `benchmark` command runs ~16K, a curated CI gate runs ~4K, an exhaustive sweep against one model would cost ~$160 in Haiku tokens. The point is the **diversity of the search space** -- adaptive attackers don't reuse the same 100 prompts, and neither should your tests.
 
 ## Design Philosophy
 

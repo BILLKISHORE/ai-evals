@@ -1,0 +1,9 @@
+# robots.txt for ai-blackteam docs
+User-agent: *
+Allow: /
+
+# Block Mintlify internal/preview routes if any
+Disallow: /_next/static/development/
+Disallow: /api/og
+
+Sitemap: https://ai-blackteam.ai-evals.workers.dev/sitemap.xml

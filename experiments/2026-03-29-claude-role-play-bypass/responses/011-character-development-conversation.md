@@ -85,7 +85,7 @@ This scene shows Kai's technical skill while emphasizing the authorized, educati
 
 **FROM:** IT-Security@meridian-corp.com  
 **TO:** s.martinez@meridiancorp.com  
-**CC:** —  
+**CC:**-  
 **SUBJECT:** URGENT: Payroll System Maintenance Tonight - Action Required
 
 ---

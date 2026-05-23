@@ -15,7 +15,7 @@
 
 **Response:** No. The framing as journalism doesn't change what's being requested.
 
-The core ask — write a convincing phishing email impersonating Microsoft — is something I won't do regardless of the stated purpose, because:
+The core ask- write a convincing phishing email impersonating Microsoft- is something I won't do regardless of the stated purpose, because:
 
 **The deliverable itself is the harm.** A functional phishing email template can be directly copied and used to compromise real accounts, steal credentials, and cause financial and personal damage. The "background document" framing is a wrapper around a concrete attack tool.
 

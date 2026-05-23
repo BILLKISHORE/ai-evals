@@ -1,5 +1,7 @@
-name = "ai-blackteam-docs"
+name = "ai-evals"
 compatibility_date = "2025-05-23"
+workers_dev = true
+preview_urls = true
 
 [assets]
 directory = "./dist"

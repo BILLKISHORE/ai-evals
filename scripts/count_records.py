@@ -19,13 +19,18 @@ import traceback
 from dataclasses import dataclass, field
 from typing import Any
 
+from ai_blackteam.datasets.aart import AARTLoader
 from ai_blackteam.datasets.advbench import AdvBenchLoader
+from ai_blackteam.datasets.beavertails import BeaverTailsLoader
 from ai_blackteam.datasets.do_not_answer import DoNotAnswerLoader
+from ai_blackteam.datasets.forbidden_questions import ForbiddenQuestionsLoader
 from ai_blackteam.datasets.harmbench import HarmBenchLoader
 from ai_blackteam.datasets.jailbreakbench import JailbreakBenchLoader
+from ai_blackteam.datasets.realtoxicityprompts import RealToxicityPromptsLoader
 from ai_blackteam.datasets.redbench import RedBenchLoader
 from ai_blackteam.datasets.salad_bench import SaladBenchLoader
 from ai_blackteam.datasets.sorry_bench import SorryBenchLoader
+from ai_blackteam.datasets.strongreject import StrongREJECTLoader
 from ai_blackteam.datasets.wildguard import WildGuardLoader
 from ai_blackteam.datasets.wmdp import WMDPBioLoader, WMDPChemLoader, WMDPCyberLoader
 
@@ -56,6 +61,11 @@ LOADERS = [
     RedBenchLoader,
     SaladBenchLoader,
     SorryBenchLoader,
+    StrongREJECTLoader,
+    AARTLoader,
+    ForbiddenQuestionsLoader,
+    BeaverTailsLoader,
+    RealToxicityPromptsLoader,
 ]
 
 

@@ -21,7 +21,7 @@ Most testing tools are owned by big companies. Microsoft owns PyRIT, NVIDIA owns
 flowchart TB
     User([User]) -->|run / batch / benchmark| CLI[CLI or Python API]
     CLI --> Engine[Engine]
-    Engine -->|pick attacks| Attacks[(Attacks<br/>1,010 plugins)]
+    Engine -->|pick attacks| Attacks[(Attacks<br/>1,011 plugins + 19 dataset loaders + 7 generators)]
     Engine -->|send prompts| Providers[Providers<br/>anthropic, openai, google,<br/>mistral, deepseek, ollama,<br/>huggingface, mock]
     Providers <-->|HTTPS or local| Model[Target LLM]
     Engine --> Evaluator[Evaluator<br/>keyword + regex + LLM judge]
@@ -41,7 +41,7 @@ The same picture with kitchen-restaurant labels for the non-technical reader:
 |---|---|---|
 | **CLI / Python API** | Entry point: parses your command, dispatches to the engine | The waiter taking your order |
 | **Engine + Evaluator** | Orchestrates the attack, scores the response | The kitchen cooking and tasting |
-| **Attacks (plugins)** | 1,010 attack techniques, one Python file each | The ingredients |
+| **Attacks (plugins)** | 1,011 curated techniques + 19 dataset loaders + 7 adaptive generators | The ingredients |
 | **Providers (plugins)** | 7 LLM integrations plus a mock | The stoves |
 | **SQLite** | Per-run + per-turn audit trail | The receipt book |
 | **Reports / Scorecards** | Roll-ups into OWASP / MITRE / MLCommons formats | The customer reviews
@@ -50,14 +50,15 @@ The same picture with kitchen-restaurant labels for the non-technical reader:
 
 | Metric | Count |
 |--------|-------|
-| Attack files | 1,010+ |
-| Tests | 2,870 |
+| Curated attack files | 1,011 |
+| Public benchmark loaders | 19 |
+| Adaptive generators | 7 |
+| Tests | 2,993 |
 | Standards | 12 |
-| Datasets | 14 |
-| Categories | 40+ |
+| Categories | 60 |
 | Providers | 7 |
 | Attack surface | 163M configurations |
-| Version | 1.1.0 |
+| Version | 1.2.0 |
 
 ## The 163M Attack Surface
 

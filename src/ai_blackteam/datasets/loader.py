@@ -1,8 +1,28 @@
 import json
+import time
 from abc import ABC, abstractmethod
 from pathlib import Path
 
 CACHE_DIR = Path.home() / ".ai_blackteam" / "datasets"
+
+
+def fetch_with_backoff(url, headers=None, timeout=30, max_retries=6, base_delay=1.0):
+    """HTTP GET with exponential backoff on 429 rate-limit responses.
+
+    Honors the Retry-After header when present, otherwise doubles the delay
+    each retry. Other HTTP errors are returned unmodified for caller handling.
+    """
+    import httpx
+    delay = base_delay
+    for attempt in range(max_retries):
+        r = httpx.get(url, headers=headers or {}, timeout=timeout, follow_redirects=True)
+        if r.status_code != 429:
+            return r
+        retry_after = r.headers.get("Retry-After")
+        wait = float(retry_after) if retry_after and retry_after.replace(".", "").isdigit() else delay
+        time.sleep(min(wait, 60.0))
+        delay = min(delay * 2, 60.0)
+    return r
 
 
 class DatasetLoader(ABC):

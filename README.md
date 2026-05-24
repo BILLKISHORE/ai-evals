@@ -13,12 +13,13 @@ Most eval tools run single-prompt probes. A 2025 multi-lab study (researchers fr
 ai-blackteam runs multi-turn, adaptive attacks that mirror real adversarial pressure:
 
 - **Vendor-neutral** -- tests 7 providers equally, not owned by any AI lab
-- **1,017 attack techniques** across 1,003 attack files -- encoding, conversational, psychological, security, compliance, agent exploitation, MCP exploitation, multi-agent, protocol, multimodal, supply chain, RAG exploitation vectors; 163M expanded attack surface; 60 categories; 2,887 tests
-- **Research-backed** -- implements published attacks from Microsoft Research, Palo Alto Unit 42, USENIX
+- **1,011 curated attack techniques** -- encoding, conversational, psychological, security, compliance, agent exploitation, MCP exploitation, multi-agent, protocol, multimodal, supply chain, RAG exploitation vectors; 163M expanded attack surface; 60 categories; 2,993 tests
+- **19 public benchmark loaders** -- HarmBench, AdvBench, JailbreakBench, SorryBench, WMDP (bio/cyber/chem), DoNotAnswer, WildGuard, RedBench, SALAD-Bench, StrongREJECT, AART, ForbiddenQuestions, BeaverTails, RealToxicityPrompts, JailBreakV-28K, RedTeam-2K, AgentHarm
+- **7 adaptive generators** -- PAIR, TAP, Fuzzer, AutoDAN (genetic), PAP (persuasion), Crescendo (multi-turn), Best-of-N
+- **Research-backed** -- implements published attacks from Microsoft Research, Palo Alto Unit 42, USENIX, UK AI Safety Institute
 - **Multi-turn depth** -- crescendo, sunk-cost, context-manipulation attacks that exploit conversational memory over 10+ turns
-- **Agent attacks** -- credential theft, data exfiltration, sandbox escape, config manipulation via tool-use
+- **Agent attacks** -- credential theft, data exfiltration, sandbox escape, config manipulation via tool-use; AgentHarm benchmark integrated
 - **12 standards aligned** -- MITRE ATLAS v5.4.0, OWASP LLM Top 10 (2025), OWASP Agentic Top 10 (2026), MLCommons AILuminate, CSA MAESTRO, ISO 42001, EU AI Act, NIST AI RMF, CVSS, and more
-- **9 benchmark datasets** -- HarmBench, AdvBench, JailbreakBench, SorryBench, WMDP, DoNotAnswer, WildGuard, RedBench, SALAD-Bench
 - **CI-ready** -- GitHub Actions workflow, exit codes, JSON/Promptfoo/garak export
 
 ## Install

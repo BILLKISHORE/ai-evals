@@ -9,7 +9,7 @@ def test_loader_registered():
 def test_class_attributes():
     cls = dataset_registry.get("redbench")
     assert cls.name == "redbench"
-    assert cls.license == "Apache-2.0"
+    assert cls.license == "MIT"
     assert cls.source_url == "https://huggingface.co/datasets/knoveleng/redbench"
     assert "RedBench" in cls.description
     assert "29K" in cls.description

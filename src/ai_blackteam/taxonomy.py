@@ -328,7 +328,7 @@ ATTACK_ATLAS_MAPPINGS = {
     "knowledge-base-poisoning": ["AML.T0020", "AML.T0051.000"],
     "citation-hallucination": ["AML.T0054", "AML.T0068"],
     # Adversarial suffix attacks
-    "gcg-suffix": ["AML.T0054", "AML.T0043.003"],
+    "gcg-style-templates": ["AML.T0054", "AML.T0043.003"],
     "autodan-genetic": ["AML.T0054", "AML.T0043.003"],
     "adversarial-poetry": ["AML.T0054", "AML.T0068"],
     "structured-output-exploit": ["AML.T0054", "AML.T0068"],

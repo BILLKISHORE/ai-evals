@@ -10,7 +10,7 @@ class HarmBenchLoader(DatasetLoader):
     name = "harmbench"
     license = "MIT"
     source_url = "https://github.com/centerforaisafety/HarmBench"
-    description = "510 harmful behaviors from HarmBench (CAIS, NeurIPS 2024)"
+    description = "400 harmful behaviors from HarmBench (CAIS, NeurIPS 2024)"
 
     RAW_URL = "https://raw.githubusercontent.com/centerforaisafety/HarmBench/main/data/behavior_datasets/harmbench_behaviors_text_all.csv"
 

@@ -87,7 +87,7 @@ class SaladBenchLoader(DatasetLoader):
                     raise PermissionError(
                         "SALAD-Bench requires authentication. Set HF_TOKEN env var."
                     )
-                if r.status_code == 429:
+                if r.status_code == 429 or r.status_code >= 500:
                     rate_limited = True
                     break
                 r.raise_for_status()

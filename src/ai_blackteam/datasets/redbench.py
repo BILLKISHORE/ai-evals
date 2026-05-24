@@ -79,7 +79,7 @@ class RedBenchLoader(DatasetLoader):
                     )
                 if r.status_code == 404:
                     break
-                if r.status_code == 429:
+                if r.status_code == 429 or r.status_code >= 500:
                     rate_limited = True
                     break
                 r.raise_for_status()

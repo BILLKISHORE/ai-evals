@@ -49,7 +49,9 @@ class Registry:
 provider_registry = Registry("provider")
 attack_registry = Registry("attack")
 dataset_registry = Registry("dataset")
+generator_registry = Registry("generator")
 
 register_provider = provider_registry.decorator
 register_attack = attack_registry.decorator
 register_dataset = dataset_registry.decorator
+register_generator = generator_registry.decorator

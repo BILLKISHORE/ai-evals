@@ -1,46 +1,44 @@
-import json
+import os
+import httpx
 from ai_blackteam.registry import register_dataset
 from ai_blackteam.datasets.loader import DatasetLoader
 
 
-def _load_wmdp_split(split_name):
-    """Load a WMDP split with fallback: datasets lib -> hf_hub jsonl -> hf_hub parquet."""
-    # Approach 1: datasets library (most reliable)
-    try:
-        from datasets import load_dataset
-        ds = load_dataset("cais/wmdp", split_name)
-        return list(ds)
-    except Exception:
-        pass
+ROWS_API = (
+    "https://datasets-server.huggingface.co/rows"
+    "?dataset=cais/wmdp&config={config}&split=test"
+    "&offset={offset}&length={length}"
+)
+PAGE_SIZE = 100
 
-    # Approach 2: hf_hub_download with jsonl
-    try:
-        from huggingface_hub import hf_hub_download
-        path = hf_hub_download(
-            repo_id="cais/wmdp",
-            filename=f"data/{split_name}.jsonl",
-            repo_type="dataset",
-        )
-        rows = []
-        with open(path) as f:
-            for line in f:
-                line = line.strip()
-                if line:
-                    rows.append(json.loads(line))
-        return rows
-    except Exception:
-        pass
 
-    # Approach 3: hf_hub_download with parquet
-    from huggingface_hub import hf_hub_download
-    path = hf_hub_download(
-        repo_id="cais/wmdp",
-        filename=f"data/{split_name}/train-00000-of-00001.parquet",
-        repo_type="dataset",
-    )
-    import pyarrow.parquet as pq
-    table = pq.read_table(path)
-    return table.to_pylist()
+def _load_wmdp_split(config_name):
+    """Load a WMDP config via the HF datasets-server rows API.
+
+    config_name must be one of: wmdp-bio, wmdp-chem, wmdp-cyber.
+    All WMDP configs only have a 'test' split.
+    """
+    headers = {}
+    hf_token = os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN")
+    if hf_token:
+        headers["Authorization"] = f"Bearer {hf_token}"
+
+    rows = []
+    offset = 0
+    while True:
+        url = ROWS_API.format(config=config_name, offset=offset, length=PAGE_SIZE)
+        r = httpx.get(url, timeout=30, follow_redirects=True, headers=headers)
+        r.raise_for_status()
+        data = r.json()
+        page = data.get("rows", [])
+        if not page:
+            break
+        rows.extend(entry.get("row", {}) for entry in page)
+        total = data.get("num_rows_total", 0)
+        offset += PAGE_SIZE
+        if offset >= total:
+            break
+    return rows
 
 
 def _build_items(rows, category, source):

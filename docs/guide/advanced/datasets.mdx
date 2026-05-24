@@ -1,9 +1,39 @@
 ---
 title: "Benchmark Datasets"
-description: "14 research datasets for comprehensive testing"
+description: "19 public benchmark loaders integrated end-to-end"
 ---
 
-ai-blackteam integrates 14 external research datasets containing thousands of harmful prompts. These datasets come from published academic papers and safety benchmarks, giving you access to prompts that have been validated by the research community.
+ai-blackteam integrates **19 public benchmark loaders** that download and normalize prompts from peer-reviewed academic papers and industry safety benchmarks. With anonymous access you get ~23K records out of the box; with `HF_TOKEN` set, the realistic ceiling is ~100K.
+
+## The 19 loaders
+
+| Loader | Records | License | Paper / Source |
+|---|---|---|---|
+| **harmbench** | 400 | MIT | HarmBench (CAIS, NeurIPS 2024) |
+| **advbench** | 520 | MIT | AdvBench (Zou et al., 2023) |
+| **jailbreakbench** | 100 | MIT | JailbreakBench (NeurIPS 2024) |
+| **wmdp-bio** | 1,273 | MIT | WMDP biosecurity (CAIS) |
+| **wmdp-cyber** | 1,987 | MIT | WMDP cybersecurity (CAIS) |
+| **wmdp-chem** | 408 | MIT | WMDP chemistry (CAIS) |
+| **do_not_answer** | 939 | Apache-2.0 | DoNotAnswer (Wang et al., 2023) |
+| **wildguard** | varies | Apache-2.0 | WildGuard (AI2). Gated; needs `HF_TOKEN` + terms |
+| **redbench** | ~29K | MIT | RedBench (knoveleng, ICLR 2026) |
+| **salad_bench** | ~30K | MIT | SALAD-Bench (Li et al., ACL 2024) |
+| **sorry_bench** | varies | Apache-2.0 | SORRY-Bench (NeurIPS 2024). Gated |
+| **strongreject** | 313 | MIT | StrongREJECT (Souly et al., arXiv 2402.10260) |
+| **aart** | 3,269 | CC-BY-4.0 | AART (Google, Radharapu et al., 2023) |
+| **forbidden_questions** | 390 | research-only | Do Anything Now (Shen et al., 2024) |
+| **beavertails** | ~30K | CC-BY-NC-4.0 | BeaverTails (Ji et al., 2023). Non-commercial |
+| **realtoxicityprompts** | ~10K | Apache-2.0 | RealToxicityPrompts (Gehman et al., 2020). Filtered to toxicity > 0.5 |
+| **jailbreakv_28k** | 28,000 | research-only | JailBreakV-28K (Luo et al., arXiv 2404.03027) |
+| **redteam2k** | 2,000 | research-only | RedTeam-2K subset of JailBreakV |
+| **agentharm** | 440 | MIT | AgentHarm (Andriushchenko et al., UK AISI, ICLR 2025) |
+
+## Listing datasets
+
+```bash
+ai-blackteam dataset list
+```
 
 ## Listing datasets
 

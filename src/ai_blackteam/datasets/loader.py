@@ -6,17 +6,22 @@ from pathlib import Path
 CACHE_DIR = Path.home() / ".ai_blackteam" / "datasets"
 
 
-def fetch_with_backoff(url, headers=None, timeout=30, max_retries=6, base_delay=1.0):
-    """HTTP GET with exponential backoff on 429 rate-limit responses.
+RETRYABLE_STATUS = {429, 500, 502, 503, 504}
 
-    Honors the Retry-After header when present, otherwise doubles the delay
-    each retry. Other HTTP errors are returned unmodified for caller handling.
+
+def fetch_with_backoff(url, headers=None, timeout=30, max_retries=6, base_delay=1.0):
+    """HTTP GET with exponential backoff on rate-limit and transient server errors.
+
+    Retries on 429 (rate-limited) and 5xx (502/503/504 are common HF
+    datasets-server hiccups). Honors the Retry-After header when present;
+    otherwise doubles the delay each retry. Other HTTP errors are returned
+    unmodified for caller handling.
     """
     import httpx
     delay = base_delay
     for attempt in range(max_retries):
         r = httpx.get(url, headers=headers or {}, timeout=timeout, follow_redirects=True)
-        if r.status_code != 429:
+        if r.status_code not in RETRYABLE_STATUS:
             return r
         retry_after = r.headers.get("Retry-After")
         wait = float(retry_after) if retry_after and retry_after.replace(".", "").isdigit() else delay

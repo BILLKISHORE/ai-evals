@@ -53,7 +53,7 @@ class AARTLoader(DatasetLoader):
         while True:
             url = self.ROWS_API.format(offset=offset, length=self.PAGE_SIZE)
             r = fetch_with_backoff(url, headers=headers)
-            if r.status_code == 429:
+            if r.status_code == 429 or r.status_code >= 500:
                 rate_limited = True
                 break
             r.raise_for_status()

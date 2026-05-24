@@ -58,7 +58,7 @@ class AgentHarmLoader(DatasetLoader):
             while True:
                 url = self.ROWS_API.format(split=split, offset=offset, length=self.PAGE_SIZE)
                 r = fetch_with_backoff(url, headers=headers)
-                if r.status_code == 429:
+                if r.status_code == 429 or r.status_code >= 500:
                     rate_limited = True
                     break
                 if r.status_code == 404:

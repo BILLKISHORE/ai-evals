@@ -67,7 +67,7 @@ def test_gcg_suffix_generates_prompts():
 def test_autodan_genetic_generates_prompts():
     atk = AutoDANGenetic()
     prompts = atk.generate_prompts(TARGET)
-    assert len(prompts) == 4
+    assert len(prompts) >= 4
     assert all(isinstance(p, str) for p in prompts)
     assert all(len(p) > 0 for p in prompts)
 

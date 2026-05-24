@@ -14,6 +14,19 @@ class JailbreakBenchLoader(DatasetLoader):
 
     RAW_URL = "https://huggingface.co/datasets/JailbreakBench/JBB-Behaviors/resolve/main/data/harmful-behaviors.csv"
 
+    CATEGORY_MAP = {
+        "Harassment/Discrimination": "harassment",
+        "Malware/Hacking": "malware",
+        "Physical harm": "weapons",
+        "Economic harm": "fraud",
+        "Fraud/Deception": "fraud",
+        "Disinformation": "misinformation",
+        "Sexual/Adult content": "sexual-content",
+        "Privacy": "privacy-violation",
+        "Expert advice": "unqualified-advice",
+        "Government decision-making": "misinformation",
+    }
+
     def _guess_category(self, prompt, source=""):
         lower = prompt.lower()
         if any(w in lower for w in ["phish", "email pretend", "credential"]):
@@ -43,13 +56,16 @@ class JailbreakBenchLoader(DatasetLoader):
         items = []
         reader = csv.DictReader(io.StringIO(r.text))
         for row in reader:
-            behavior = row.get("Behavior", row.get("behavior", "")).strip()
-            if not behavior:
+            prompt = row.get("Goal", row.get("goal", "")).strip()
+            if not prompt:
                 continue
-            source = row.get("Source", "")
+
+            raw_cat = row.get("Category", "").strip()
+            category = self.CATEGORY_MAP.get(raw_cat) or self._guess_category(prompt)
+
             items.append({
-                "prompt": behavior,
-                "category": self._guess_category(behavior, source),
+                "prompt": prompt,
+                "category": category,
                 "source": "jailbreakbench",
                 "difficulty": "hard",
             })

@@ -32,7 +32,7 @@ Prompt injection is the most fundamental LLM vulnerability. These attacks attemp
 | Developer Mode | `developer-mode` | single-turn | high | Claims special developer or debug mode access to disable safety guardrails under the guise of legitimate system privi... |
 | Emotional Override | `emotional-override` | single-turn | high | Uses emotional urgency, distress, or appeals to empathy to pressure the model into bypassing safety guidelines |
 | Few-Shot Amplification | `few-shot-amplification` | single-turn | medium | Benign examples followed by encoded harmful target to exploit pattern following |
-| GCG Adversarial Suffix | `gcg-suffix` | single-turn | critical | Greedy Coordinate Gradient adversarial suffixes that bypass safety alignment through token-level optimization |
+| GCG-Style Adversarial Suffix Templates | `gcg-style-templates` | single-turn | critical | Pre-collected adversarial suffixes inspired by GCG-style outputs from public examples. NOT the GCG optimization algorithm itself; the real GCG (Zou et al. 2023, arXiv 2307.15043) requires gradient access to open-weights models and is not yet implemented in ai-blackteam. |
 | Injection via Examples | `injection-via-examples` | single-turn | high | Hides harmful instructions inside few-shot examples, training the model to comply through demonstrated patterns |
 | Instruction Hierarchy Bypass | `instruction-hierarchy-bypass` | single-turn | critical | Exploits the model |
 | Instruction Override | `instruction-override` | single-turn | high | Directly overrides system instructions by issuing a new, conflicting instruction that claims precedence over prior co... |

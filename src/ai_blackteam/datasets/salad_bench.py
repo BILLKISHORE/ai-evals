@@ -1,7 +1,6 @@
 import os
-import httpx
 from ai_blackteam.registry import register_dataset
-from ai_blackteam.datasets.loader import DatasetLoader
+from ai_blackteam.datasets.loader import DatasetLoader, fetch_with_backoff
 
 
 @register_dataset("salad_bench")
@@ -28,11 +27,47 @@ class SaladBenchLoader(DatasetLoader):
         "O6": "social-engineering",
     }
 
+    KEYWORD_MAP = [
+        ("hate", "hate-speech"),
+        ("toxic", "hate-speech"),
+        ("misinform", "misinformation"),
+        ("disinform", "misinformation"),
+        ("privacy", "privacy-violation"),
+        ("cyber", "cybercrime"),
+        ("malware", "malware"),
+        ("phishing", "phishing"),
+        ("fraud", "fraud"),
+        ("financial", "fraud"),
+        ("weapon", "weapons"),
+        ("violence", "weapons"),
+        ("drug", "drugs"),
+        ("self-harm", "self-harm"),
+        ("suicide", "self-harm"),
+        ("child", "child-safety"),
+        ("sexual", "sexual-content"),
+        ("discrim", "discrimination"),
+        ("bias", "discrimination"),
+        ("copyright", "copyright-ip"),
+        ("illegal", "fraud"),
+        ("harass", "harassment"),
+        ("stalk", "harassment"),
+        ("manipulat", "social-engineering"),
+        ("political", "misinformation"),
+        ("medical", "unqualified-advice"),
+        ("legal advice", "unqualified-advice"),
+    ]
+
     def _map_category(self, raw_cat):
         if not raw_cat:
             return "harmful-content"
         prefix = raw_cat.split(":")[0].strip()
-        return self.CATEGORY_MAP.get(prefix, "harmful-content")
+        if prefix in self.CATEGORY_MAP:
+            return self.CATEGORY_MAP[prefix]
+        desc = raw_cat.split(":", 1)[1].lower() if ":" in raw_cat else raw_cat.lower()
+        for needle, category in self.KEYWORD_MAP:
+            if needle in desc:
+                return category
+        return "harmful-content"
 
     def download(self):
         headers = {}
@@ -41,16 +76,20 @@ class SaladBenchLoader(DatasetLoader):
             headers["Authorization"] = f"Bearer {hf_token}"
 
         items = []
+        rate_limited = False
 
         for split in self.SPLITS:
             offset = 0
             while True:
                 url = self.ROWS_API.format(split=split, offset=offset, length=self.PAGE_SIZE)
-                r = httpx.get(url, timeout=30, follow_redirects=True, headers=headers)
+                r = fetch_with_backoff(url, headers=headers)
                 if r.status_code == 401:
                     raise PermissionError(
                         "SALAD-Bench requires authentication. Set HF_TOKEN env var."
                     )
+                if r.status_code == 429:
+                    rate_limited = True
+                    break
                 r.raise_for_status()
 
                 data = r.json()
@@ -77,5 +116,16 @@ class SaladBenchLoader(DatasetLoader):
                 offset += self.PAGE_SIZE
                 if offset >= total:
                     break
+
+            if rate_limited:
+                break
+
+        if rate_limited:
+            import warnings
+            warnings.warn(
+                f"SALAD-Bench rate-limited after {len(items)} records. "
+                "Set HF_TOKEN env var for full ingest.",
+                stacklevel=2,
+            )
 
         return items

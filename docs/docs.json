@@ -298,6 +298,14 @@
             ]
           },
           {
+            "group": "Adaptive Generators",
+            "pages": [
+              "architecture/generators/pap",
+              "architecture/generators/crescendo",
+              "architecture/generators/bon"
+            ]
+          },
+          {
             "group": "Extending ai-blackteam",
             "pages": [
               "architecture/extending/custom-attacks",

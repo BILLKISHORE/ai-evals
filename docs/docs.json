@@ -125,8 +125,6 @@
           {
             "group": "CI/CD Integration",
             "pages": [
-              "guide/cicd/github-actions",
-              "guide/cicd/github-action-marketplace",
               "guide/cicd/exit-codes",
               "guide/cicd/benchmark-thresholds"
             ]

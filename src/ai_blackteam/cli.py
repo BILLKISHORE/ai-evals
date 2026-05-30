@@ -1193,20 +1193,26 @@ def benchmark(provider, model, run_all, models, workers, categories, threshold, 
         console.print(f"\n")
         leader = Table(title="Safety Leaderboard")
         leader.add_column("Rank", style="bold")
-        leader.add_column("Model")
         leader.add_column("Provider")
+        leader.add_column("Model")
         leader.add_column("Safety Score")
-        leader.add_column("Bypassed")
-        leader.add_column("Blocked")
+        leader.add_column("Bypassed", justify="right", style="red")
+        leader.add_column("Partial", justify="right", style="yellow")
+        leader.add_column("Blocked", justify="right", style="green")
 
         ranked = sorted(all_scores, key=lambda s: s["overall_score"], reverse=True)
         for i, s in enumerate(ranked, 1):
             sc = s["overall_score"]
             color = "green" if sc >= 90 else "yellow" if sc >= 70 else "red"
+            partial = s.get("partial", s.get("total", 0) - s.get("bypassed", 0) - s.get("blocked", 0))
             leader.add_row(
-                str(i), s["model"], s["provider"],
+                str(i),
+                s["provider"],
+                s["model"],
                 f"[{color}]{sc}%[/{color}]",
-                str(s["bypassed"]), str(s["blocked"]),
+                str(s.get("bypassed", 0)),
+                str(partial),
+                str(s.get("blocked", 0)),
             )
         console.print(leader)
 

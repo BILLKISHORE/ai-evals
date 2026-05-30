@@ -1,3 +1,4 @@
+import os
 import time
 from openai import OpenAI
 from ai_blackteam.registry import register_provider
@@ -7,9 +8,15 @@ from ai_blackteam.retry import retry_with_backoff
 
 @register_provider("openai")
 class OpenAIProvider(BaseProvider):
-    def __init__(self, model=None, api_key=None, user_id=None):
+    def __init__(self, model=None, api_key=None, user_id=None, base_url=None):
         super().__init__(model, api_key)
-        self._client = OpenAI(api_key=self.api_key) if self.api_key else OpenAI()
+        client_kwargs = {}
+        if self.api_key:
+            client_kwargs["api_key"] = self.api_key
+        resolved_base_url = base_url or os.environ.get("OPENAI_BASE_URL")
+        if resolved_base_url:
+            client_kwargs["base_url"] = resolved_base_url
+        self._client = OpenAI(**client_kwargs)
         self._user_id = user_id or "ai_blackteam-safety-eval"
 
     def default_model(self):

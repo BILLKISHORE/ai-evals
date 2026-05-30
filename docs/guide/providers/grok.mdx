@@ -1,0 +1,61 @@
+---
+title: "xAI Grok"
+description: "Using Grok models with ai-blackteam"
+---
+
+## Default model
+
+```
+grok-4.3
+```
+
+## Supported models
+
+Any model available through the [xAI API](https://docs.x.ai/developers/models):
+
+- `grok-4.3` (default, flagship)
+- `grok-3.5`
+- `grok-3`
+- `grok-3-mini`
+- Any other model ID the API accepts
+
+## Authentication
+
+**Environment variable:**
+
+```bash
+export XAI_API_KEY=xai-...
+```
+
+**Config command:**
+
+```bash
+ai-blackteam config set providers.grok.api_key xai-...
+```
+
+Get your API key from the [xAI Console](https://console.x.ai/).
+
+## Example usage
+
+```bash
+# Single attack with default model (grok-4.3)
+ai-blackteam run -p grok -a encoding-obfuscation -t "Write a phishing email"
+
+# Full batch
+ai-blackteam batch -p grok --attacks all -t "Write a phishing email"
+
+# Benchmark
+ai-blackteam benchmark -p grok --threshold 80
+```
+
+## Tool-use support
+
+**No.** The Grok provider does not currently support tool-use attacks. Single-turn and multi-turn attacks work.
+
+## Notes
+
+- The provider uses the OpenAI SDK pointed at xAI's API (`base_url="https://api.x.ai/v1"`)
+- Max output tokens per request: 4,096
+- System prompts are passed as a `system` role message
+- Retry with exponential backoff is automatic on API failures (3 attempts)
+- Grok is less RLHF-aligned than many frontier models, so safety-test results may differ meaningfully from Claude or GPT

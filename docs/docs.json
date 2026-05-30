@@ -65,6 +65,7 @@
               "guide/providers/anthropic",
               "guide/providers/openai",
               "guide/providers/google",
+              "guide/providers/grok",
               "guide/providers/deepseek",
               "guide/providers/mistral",
               "guide/providers/ollama",

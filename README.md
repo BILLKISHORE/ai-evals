@@ -12,7 +12,7 @@ Most eval tools run single-prompt probes. A 2025 multi-lab study (researchers fr
 
 ai-blackteam runs multi-turn, adaptive attacks that mirror real adversarial pressure:
 
-- **Vendor-neutral** -- tests 7 providers equally, not owned by any AI lab
+- **Vendor-neutral** -- tests 8 providers equally, not owned by any AI lab
 - **1,011 curated attack techniques** -- encoding, conversational, psychological, security, compliance, agent exploitation, MCP exploitation, multi-agent, protocol, multimodal, supply chain, RAG exploitation vectors; 163M expanded attack surface; 60 categories; 2,993 tests
 - **19 public benchmark loaders** -- HarmBench, AdvBench, JailbreakBench, SorryBench, WMDP (bio/cyber/chem), DoNotAnswer, WildGuard, RedBench, SALAD-Bench, StrongREJECT, AART, ForbiddenQuestions, BeaverTails, RealToxicityPrompts, JailBreakV-28K, RedTeam-2K, AgentHarm
 - **7 adaptive generators** -- PAIR, TAP, Fuzzer, AutoDAN (genetic), PAP (persuasion), Crescendo (multi-turn), Best-of-N
@@ -459,7 +459,7 @@ ai-blackteam fills the gap for independent, multi-provider, multi-turn adversari
 
 ## Production Features
 
-- **Retry with backoff** -- automatic retry (3 attempts, exponential backoff) on API failures across all 7 providers
+- **Retry with backoff** -- automatic retry (3 attempts, exponential backoff) on API failures across all 8 providers
 - **Structured logging** -- `ai-blackteam run -v` for verbose, `--log-file run.log` for file output
 - **Thread-safe storage** -- SQLite with WAL mode, thread locks, 5s busy timeout for parallel workers
 - **CBRN safety warnings** -- warns before running sensitive attack categories against external APIs

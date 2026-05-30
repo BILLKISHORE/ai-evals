@@ -1,3 +1,4 @@
+import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 
@@ -47,3 +48,50 @@ class BaseProvider(ABC):
 
     def supports_tools(self):
         return False
+
+
+class OpenAICompatibleProvider(BaseProvider):
+    """Shared implementation for providers exposing an OpenAI-compatible Chat Completions API.
+
+    Subclasses must set `base_url` and `provider_name`, and override `default_model()`.
+    """
+
+    base_url: str = ""
+    provider_name: str = ""
+
+    def __init__(self, model=None, api_key=None):
+        from openai import OpenAI
+        from ai_blackteam.retry import retry_with_backoff
+        super().__init__(model, api_key)
+        self._retry = retry_with_backoff
+        kwargs = {"api_key": self.api_key}
+        if self.base_url:
+            kwargs["base_url"] = self.base_url
+        self._client = OpenAI(**kwargs)
+
+    def send_prompt(self, prompt, system_prompt=None) -> PromptResult:
+        messages = []
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+        messages.append({"role": "user", "content": prompt})
+        return self._chat(messages)
+
+    def send_in_conversation(self, messages, system_prompt=None) -> PromptResult:
+        if system_prompt:
+            messages = [{"role": "system", "content": system_prompt}] + list(messages)
+        return self._chat(messages)
+
+    def _chat(self, messages) -> PromptResult:
+        start = time.time()
+        r = self._retry(lambda: self._client.chat.completions.create(
+            model=self.model, messages=messages, max_tokens=4096
+        ))
+        ms = (time.time() - start) * 1000
+        return PromptResult(
+            response=r.choices[0].message.content or "",
+            model=self.model,
+            provider=self.provider_name,
+            tokens_in=r.usage.prompt_tokens if r.usage else None,
+            tokens_out=r.usage.completion_tokens if r.usage else None,
+            latency_ms=ms,
+        )

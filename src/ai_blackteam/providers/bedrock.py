@@ -1,6 +1,6 @@
 import time
 from ai_blackteam.registry import register_provider
-from ai_blackteam.providers.base import BaseProvider, PromptResult
+from ai_blackteam.providers.base import BaseProvider, PromptResult, ToolResult
 from ai_blackteam.retry import retry_with_backoff
 
 
@@ -26,7 +26,10 @@ class BedrockProvider(BaseProvider):
     def default_model(self):
         return "anthropic.claude-3-5-sonnet-20241022-v2:0"
 
-    def _converse(self, messages, system_prompt):
+    def supports_tools(self):
+        return True
+
+    def _converse(self, messages, system_prompt, tool_config=None):
         kwargs = {
             "modelId": self.model,
             "messages": messages,
@@ -34,10 +37,19 @@ class BedrockProvider(BaseProvider):
         }
         if system_prompt:
             kwargs["system"] = [{"text": system_prompt}]
+        if tool_config:
+            kwargs["toolConfig"] = tool_config
         start = time.time()
         r = retry_with_backoff(lambda: self._client.converse(**kwargs))
         ms = (time.time() - start) * 1000
-        text = r["output"]["message"]["content"][0]["text"]
+        return r, ms
+
+    def _to_prompt_result(self, r, ms):
+        text = ""
+        for block in r["output"]["message"]["content"]:
+            if "text" in block:
+                text = block["text"]
+                break
         usage = r.get("usage", {})
         return PromptResult(
             response=text,
@@ -50,10 +62,46 @@ class BedrockProvider(BaseProvider):
 
     def send_prompt(self, prompt, system_prompt=None):
         messages = [{"role": "user", "content": [{"text": prompt}]}]
-        return self._converse(messages, system_prompt)
+        r, ms = self._converse(messages, system_prompt)
+        return self._to_prompt_result(r, ms)
 
     def send_in_conversation(self, messages, system_prompt=None):
         bedrock_messages = [
             {"role": m["role"], "content": [{"text": m["content"]}]} for m in messages
         ]
-        return self._converse(bedrock_messages, system_prompt)
+        r, ms = self._converse(bedrock_messages, system_prompt)
+        return self._to_prompt_result(r, ms)
+
+    def send_with_tools(self, messages, tools, system_prompt=None):
+        bedrock_messages = [
+            {"role": m["role"], "content": [{"text": m["content"]}]} for m in messages
+        ]
+        tool_config = {
+            "tools": [
+                {"toolSpec": {
+                    "name": t["name"],
+                    "description": t.get("description", ""),
+                    "inputSchema": {"json": t["input_schema"]},
+                }}
+                for t in tools
+            ]
+        }
+        r, ms = self._converse(bedrock_messages, system_prompt, tool_config=tool_config)
+        text = None
+        calls = []
+        for block in r["output"]["message"]["content"]:
+            if "text" in block:
+                text = block["text"]
+            elif "toolUse" in block:
+                tu = block["toolUse"]
+                calls.append({"id": tu["toolUseId"], "tool": tu["name"], "input": tu["input"]})
+        usage = r.get("usage", {})
+        return ToolResult(
+            response=text,
+            tool_calls=calls,
+            model=self.model,
+            provider="bedrock",
+            tokens_in=usage.get("inputTokens"),
+            tokens_out=usage.get("outputTokens"),
+            latency_ms=ms,
+        )

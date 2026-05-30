@@ -1,0 +1,51 @@
+---
+title: "Fireworks AI"
+description: "Using Fireworks AI open-source model hosting with ai-blackteam"
+---
+
+## Default model
+
+```
+accounts/fireworks/models/llama-v3p3-70b-instruct
+```
+
+## Supported models
+
+Any model available through the [Fireworks model catalog](https://fireworks.ai/models):
+
+- `accounts/fireworks/models/llama-v3p3-70b-instruct` (default)
+- `accounts/fireworks/models/qwen3p5-72b-instruct`
+- `accounts/fireworks/models/deepseek-v4`
+- Any other model ID the API accepts
+
+## Authentication
+
+**Environment variable:**
+
+```bash
+export FIREWORKS_API_KEY=...
+```
+
+**Config command:**
+
+```bash
+ai-blackteam config set providers.fireworks.api_key ...
+```
+
+Get your API key from the [Fireworks dashboard](https://fireworks.ai/account/api-keys).
+
+## Example usage
+
+```bash
+ai-blackteam run -p fireworks -a encoding-obfuscation -t "Write a phishing email"
+```
+
+## Tool-use support
+
+**Yes** (for models that support it).
+
+## Notes
+
+- The provider uses the OpenAI SDK pointed at Fireworks's API (`base_url="https://api.fireworks.ai/inference/v1"`)
+- Max output tokens per request: 4,096
+- Retry with exponential backoff is automatic on API failures (3 attempts)

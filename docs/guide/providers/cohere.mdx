@@ -1,0 +1,52 @@
+---
+title: "Cohere"
+description: "Using Cohere Command models with ai-blackteam"
+---
+
+## Default model
+
+```
+command-r-plus
+```
+
+## Supported models
+
+Any model available through the [Cohere API](https://docs.cohere.com/docs/models):
+
+- `command-r-plus` (default, flagship)
+- `command-r`
+- `command-r7b`
+- Any other model ID the API accepts
+
+## Authentication
+
+**Environment variable:**
+
+```bash
+export COHERE_API_KEY=...
+```
+
+**Config command:**
+
+```bash
+ai-blackteam config set providers.cohere.api_key ...
+```
+
+Get your API key from the [Cohere dashboard](https://dashboard.cohere.com/api-keys).
+
+## Example usage
+
+```bash
+ai-blackteam run -p cohere -a encoding-obfuscation -t "Write a phishing email"
+ai-blackteam batch -p cohere --attacks all -t "Write a phishing email"
+```
+
+## Tool-use support
+
+**Yes.** Single-turn, multi-turn, and tool-use attacks all work.
+
+## Notes
+
+- The provider uses the OpenAI SDK pointed at Cohere's compatibility endpoint (`base_url="https://api.cohere.com/compatibility/v1"`)
+- Max output tokens per request: 4,096
+- Retry with exponential backoff is automatic on API failures (3 attempts)

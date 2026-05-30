@@ -64,6 +64,7 @@
               "guide/providers/overview",
               "guide/providers/anthropic",
               "guide/providers/openai",
+              "guide/providers/azure",
               "guide/providers/google",
               "guide/providers/grok",
               "guide/providers/deepseek",
@@ -71,6 +72,9 @@
               "guide/providers/groq",
               "guide/providers/together",
               "guide/providers/perplexity",
+              "guide/providers/cohere",
+              "guide/providers/fireworks",
+              "guide/providers/ai21",
               "guide/providers/bedrock",
               "guide/providers/ollama",
               "guide/providers/huggingface"

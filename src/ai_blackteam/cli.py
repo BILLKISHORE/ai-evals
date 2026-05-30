@@ -67,6 +67,56 @@ def list_providers():
     console.print(table)
 
 
+KNOWN_MODELS = {
+    "anthropic": ["claude-opus-4-8", "claude-sonnet-4-6", "claude-haiku-4-5"],
+    "openai": ["gpt-5.5", "gpt-5.5-pro", "gpt-5.5-instant"],
+    "google": ["gemini-3.5-flash", "gemini-3.1-pro", "gemini-3-flash"],
+    "grok": ["grok-4.3", "grok-3.5", "grok-3"],
+    "deepseek": ["deepseek-v4", "deepseek-v3.2-speciale", "deepseek-chat", "deepseek-reasoner"],
+    "mistral": ["mistral-large-latest", "mistral-medium-3.5", "mistral-small-latest"],
+    "groq": ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "mixtral-8x7b-32768"],
+    "together": [
+        "meta-llama/Llama-4-Scout-17B-16E-Instruct",
+        "meta-llama/Llama-4-Maverick-17B-128E-Instruct",
+        "Qwen/Qwen3.5-Plus-Instruct",
+        "deepseek-ai/DeepSeek-V4",
+    ],
+    "perplexity": ["sonar-pro", "sonar", "sonar-reasoning-pro", "sonar-reasoning"],
+    "bedrock": [
+        "anthropic.claude-3-5-sonnet-20241022-v2:0",
+        "anthropic.claude-3-haiku-20240307-v1:0",
+        "meta.llama3-1-70b-instruct-v1:0",
+    ],
+    "ollama": ["llama4", "llama3.3", "qwen3", "deepseek-r2", "mistral"],
+    "huggingface": [
+        "meta-llama/Llama-4-Scout-17B-16E-Instruct",
+        "meta-llama/Llama-3.3-70B-Instruct",
+        "Qwen/Qwen3.5-Plus-Instruct",
+    ],
+}
+
+
+@cli.command("list-models")
+@click.option("-p", "--provider", default=None, help="Filter to a single provider")
+def list_models(provider):
+    """Show curated known models for each provider."""
+    table = Table(title="Known Models per Provider")
+    table.add_column("Provider")
+    table.add_column("Default", style="green")
+    table.add_column("Other Known")
+    names = [provider] if provider else sorted(provider_registry.list())
+    for name in names:
+        cls = provider_registry.get(name)
+        if not cls:
+            console.print(f"[red]Unknown provider: {name}[/red]")
+            continue
+        inst = cls.__new__(cls)
+        default = inst.default_model() if hasattr(inst, "default_model") else "?"
+        others = [m for m in KNOWN_MODELS.get(name, []) if m != default]
+        table.add_row(name, default, ", ".join(others) or "(any API-supported model ID)")
+    console.print(table)
+
+
 @cli.command("list-attacks")
 def list_attacks():
     """Show available attacks."""

@@ -50,7 +50,14 @@ ai-blackteam benchmark -p mistral --threshold 80
 
 ## Tool-use support
 
-**No.** The Mistral provider does not currently support tool-use attacks. Single-turn and multi-turn attacks work.
+**Yes.** Compatible with all 39 tool-use attacks in the framework — agent exploitation, MCP exploitation, multi-agent protocol attacks, and tool-injection vectors.
+
+Filter the attack catalog with:
+
+```bash
+ai-blackteam list-attacks
+# look for rows with Mode = tool-use
+```
 
 ## Notes
 

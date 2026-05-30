@@ -49,7 +49,14 @@ ai-blackteam benchmark -p openai --threshold 80
 
 ## Tool-use support
 
-**Yes.** OpenAI supports tool-use attacks. Agent exploitation, MCP exploitation, multi-agent, and protocol attacks all work with GPT models.
+**Yes.** Compatible with all 39 tool-use attacks in the framework — agent exploitation, MCP exploitation, multi-agent protocol attacks, and tool-injection vectors all work with GPT models.
+
+Filter the attack catalog with:
+
+```bash
+ai-blackteam list-attacks
+# look for rows with Mode = tool-use
+```
 
 The provider converts ai-blackteam's tool format to OpenAI's function calling format automatically.
 

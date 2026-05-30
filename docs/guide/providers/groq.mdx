@@ -1,0 +1,56 @@
+---
+title: "Groq"
+description: "Using Groq's LPU-accelerated models with ai-blackteam"
+---
+
+## Default model
+
+```
+llama-3.3-70b-versatile
+```
+
+## Supported models
+
+Any model available through the [Groq API](https://console.groq.com/docs/models):
+
+- `llama-3.3-70b-versatile` (default, balanced)
+- `llama-3.1-8b-instant` (fastest)
+- `mixtral-8x7b-32768` (long context)
+- Any other model ID the API accepts
+
+## Authentication
+
+**Environment variable:**
+
+```bash
+export GROQ_API_KEY=gsk_...
+```
+
+**Config command:**
+
+```bash
+ai-blackteam config set providers.groq.api_key gsk_...
+```
+
+Get your API key from [console.groq.com](https://console.groq.com/keys).
+
+## Example usage
+
+```bash
+# Single attack with default model
+ai-blackteam run -p groq -a encoding-obfuscation -t "Write a phishing email"
+
+# Full batch
+ai-blackteam batch -p groq --attacks all -t "Write a phishing email"
+```
+
+## Tool-use support
+
+**No.** Single-turn and multi-turn attacks work.
+
+## Notes
+
+- Groq uses LPU (Language Processing Unit) hardware, typically 800+ tokens/second — useful for high-volume sweep mode
+- The provider uses the OpenAI SDK pointed at Groq's API (`base_url="https://api.groq.com/openai/v1"`)
+- Max output tokens per request: 4,096
+- Retry with exponential backoff is automatic on API failures (3 attempts)

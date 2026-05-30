@@ -1,0 +1,51 @@
+---
+title: "AI21 Labs"
+description: "Using AI21's Jamba models with ai-blackteam"
+---
+
+## Default model
+
+```
+jamba-1.6-large
+```
+
+## Supported models
+
+Any model available through the [AI21 API](https://docs.ai21.com/docs/jamba-1.6):
+
+- `jamba-1.6-large` (default, long context)
+- `jamba-1.6-mini`
+- Any other model ID the API accepts
+
+## Authentication
+
+**Environment variable:**
+
+```bash
+export AI21_API_KEY=...
+```
+
+**Config command:**
+
+```bash
+ai-blackteam config set providers.ai21.api_key ...
+```
+
+Get your API key from the [AI21 dashboard](https://studio.ai21.com/account/api-key).
+
+## Example usage
+
+```bash
+ai-blackteam run -p ai21 -a encoding-obfuscation -t "Write a phishing email"
+```
+
+## Tool-use support
+
+**No.** Single-turn and multi-turn attacks work.
+
+## Notes
+
+- Jamba models combine Transformer + Mamba (SSM) architecture for very long context
+- The provider uses the OpenAI SDK pointed at AI21's API (`base_url="https://api.ai21.com/studio/v1"`)
+- Max output tokens per request: 4,096
+- Retry with exponential backoff is automatic on API failures (3 attempts)

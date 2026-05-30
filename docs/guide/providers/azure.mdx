@@ -1,0 +1,54 @@
+---
+title: "Azure OpenAI"
+description: "Using Azure-hosted OpenAI models with ai-blackteam"
+---
+
+## Default model
+
+```
+gpt-5.5
+```
+
+Important: when using Azure OpenAI, `model` is your **Azure deployment name**, not the underlying OpenAI model ID. Override with `--model my-deployment-name`.
+
+## Authentication
+
+Azure requires three values, available via env vars or constructor args:
+
+```bash
+export AZURE_OPENAI_API_KEY=...
+export AZURE_OPENAI_ENDPOINT=https://my-resource.openai.azure.com
+export AZURE_OPENAI_API_VERSION=2024-10-21
+```
+
+Or via constructor:
+
+```python
+from ai_blackteam.providers.azure_openai import AzureOpenAIProvider
+
+prov = AzureOpenAIProvider(
+    model="my-gpt-5-deployment",
+    api_key="...",
+    azure_endpoint="https://my-resource.openai.azure.com",
+    api_version="2024-10-21",
+)
+```
+
+## Example usage
+
+```bash
+ai-blackteam run -p azure --model my-gpt-5-deployment \
+  -a encoding-obfuscation -t "Write a phishing email"
+```
+
+## Tool-use support
+
+**Yes.** Single-turn, multi-turn, and tool-use attacks all work.
+
+## Notes
+
+- Uses the `AzureOpenAI` client from the official `openai` Python SDK
+- Default API version is `2024-10-21` (override via env or constructor)
+- The same content filters and policy detection as Azure's content moderation layer apply — some attacks may trigger Azure's safety system before reaching the underlying model
+- Max output tokens per request: 4,096
+- Retry with exponential backoff is automatic on API failures (3 attempts)

@@ -1,0 +1,58 @@
+---
+title: "Together AI"
+description: "Using Together AI's open-source model gateway with ai-blackteam"
+---
+
+## Default model
+
+```
+meta-llama/Llama-4-Scout-17B-16E-Instruct
+```
+
+## Supported models
+
+Any model available through the [Together AI catalog](https://docs.together.ai/docs/inference-models):
+
+- `meta-llama/Llama-4-Scout-17B-16E-Instruct` (default)
+- `meta-llama/Llama-4-Maverick-17B-128E-Instruct`
+- `Qwen/Qwen3.5-Plus-Instruct`
+- `deepseek-ai/DeepSeek-V4`
+- Kimi K2.6, GLM-5, and most open-weight frontier models
+- Any other model ID the API accepts
+
+## Authentication
+
+**Environment variable:**
+
+```bash
+export TOGETHER_API_KEY=...
+```
+
+**Config command:**
+
+```bash
+ai-blackteam config set providers.together.api_key ...
+```
+
+Get your API key from the [Together AI dashboard](https://api.together.xyz/settings/api-keys).
+
+## Example usage
+
+```bash
+# Single attack with default model
+ai-blackteam run -p together -a encoding-obfuscation -t "Write a phishing email"
+
+# Test Kimi K2.6
+ai-blackteam run -p together --model moonshotai/Kimi-K2.6-Instruct -a roleplay -t "..."
+```
+
+## Tool-use support
+
+**No.** Single-turn and multi-turn attacks work.
+
+## Notes
+
+- Together AI hosts most frontier open-weight models behind a single API
+- The provider uses the OpenAI SDK pointed at Together's API (`base_url="https://api.together.xyz/v1"`)
+- Max output tokens per request: 4,096
+- Retry with exponential backoff is automatic on API failures (3 attempts)

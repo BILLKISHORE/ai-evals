@@ -68,6 +68,10 @@
               "guide/providers/grok",
               "guide/providers/deepseek",
               "guide/providers/mistral",
+              "guide/providers/groq",
+              "guide/providers/together",
+              "guide/providers/perplexity",
+              "guide/providers/bedrock",
               "guide/providers/ollama",
               "guide/providers/huggingface"
             ]

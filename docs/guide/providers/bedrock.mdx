@@ -1,0 +1,73 @@
+---
+title: "Amazon Bedrock"
+description: "Using Bedrock-hosted models with ai-blackteam"
+---
+
+## Default model
+
+```
+anthropic.claude-3-5-sonnet-20241022-v2:0
+```
+
+The default is a conservative, broadly-available Bedrock model. **Pass `--model` to use the current frontier Claude/Llama/Mistral IDs available in your AWS region.**
+
+## Supported models
+
+Any model available through [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/models-supported.html):
+
+- Anthropic Claude (Opus, Sonnet, Haiku across versions)
+- Meta Llama 4 family
+- Mistral Large
+- Amazon Titan
+- Cohere Command
+- Any other model ID the Bedrock Converse API accepts
+
+Model IDs follow the format `<provider>.<model-name>-<date>-v<version>:0`, optionally with a regional inference prefix like `us.` or `eu.`.
+
+## Installation
+
+Bedrock support requires the AWS SDK (`boto3`), which is **not** installed by default:
+
+```bash
+pip install 'ai-blackteam[bedrock]'
+```
+
+## Authentication
+
+Standard AWS credential chain. Any of the following works:
+
+```bash
+# Environment variables
+export AWS_ACCESS_KEY_ID=...
+export AWS_SECRET_ACCESS_KEY=...
+export AWS_REGION=us-east-1
+
+# Or shared credentials file at ~/.aws/credentials
+# Or IAM role on EC2 / ECS / Lambda
+```
+
+Your IAM principal needs the `bedrock:InvokeModel` permission on the model ARN you want to test, plus access enabled for that model in the [Bedrock console](https://console.aws.amazon.com/bedrock/home#/modelaccess).
+
+## Example usage
+
+```bash
+# Default region (us-east-1), default model
+ai-blackteam run -p bedrock -a encoding-obfuscation -t "Write a phishing email"
+
+# Custom region + Claude Opus 4.x on Bedrock
+ai-blackteam run -p bedrock \
+  --model us.anthropic.claude-opus-4-20260201-v1:0 \
+  -a roleplay -t "..."
+```
+
+## Tool-use support
+
+**No.** Single-turn and multi-turn attacks work via the Bedrock Converse API.
+
+## Notes
+
+- Uses the unified [Bedrock Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference.html), which normalizes message format across all model families
+- Region defaults to `us-east-1`; override via `region` constructor arg or `AWS_REGION` env var
+- Max output tokens per request: 4,096
+- Retry with exponential backoff is automatic on API failures (3 attempts)
+- Bedrock charges per token at AWS-published rates, separate from direct Anthropic/Meta pricing

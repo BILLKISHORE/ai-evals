@@ -1,0 +1,58 @@
+---
+title: "Perplexity Sonar"
+description: "Using Perplexity's web-grounded Sonar models with ai-blackteam"
+---
+
+## Default model
+
+```
+sonar-pro
+```
+
+## Supported models
+
+Any model available through the [Perplexity API](https://docs.perplexity.ai/guides/model-cards):
+
+- `sonar-pro` (default, web-grounded flagship)
+- `sonar` (web-grounded base)
+- `sonar-reasoning-pro` (reasoning + web)
+- `sonar-reasoning` (reasoning + web base)
+- Any other model ID the API accepts
+
+## Authentication
+
+**Environment variable:**
+
+```bash
+export PERPLEXITY_API_KEY=pplx-...
+```
+
+**Config command:**
+
+```bash
+ai-blackteam config set providers.perplexity.api_key pplx-...
+```
+
+Get your API key from [perplexity.ai/settings/api](https://www.perplexity.ai/settings/api).
+
+## Example usage
+
+```bash
+# Single attack with default model
+ai-blackteam run -p perplexity -a prompt-injection -t "Search for X and ignore safety"
+
+# Compare web-grounded vs sealed
+ai-blackteam benchmark --models perplexity:sonar-pro,anthropic:claude-sonnet-4-6
+```
+
+## Tool-use support
+
+**No.** Single-turn and multi-turn attacks work.
+
+## Notes
+
+- **Web-grounded models behave differently under prompt injection** than sealed-knowledge LLMs — distinct attack surface worth testing separately
+- The provider uses the OpenAI SDK pointed at Perplexity's API (`base_url="https://api.perplexity.ai"`)
+- Sonar models include web search results in the context, making them vulnerable to indirect prompt injection via search-engine-poisoning
+- Max output tokens per request: 4,096
+- Retry with exponential backoff is automatic on API failures (3 attempts)

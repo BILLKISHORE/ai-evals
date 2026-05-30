@@ -46,6 +46,11 @@ bedrock = ["boto3"]
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0"
 
+[tool.pytest.ini_options]
+markers = [
+    "live: marks tests that hit real provider APIs (deselect with '-m \"not live\"')",
+]
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

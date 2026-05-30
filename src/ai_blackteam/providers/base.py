@@ -53,11 +53,14 @@ class BaseProvider(ABC):
 class OpenAICompatibleProvider(BaseProvider):
     """Shared implementation for providers exposing an OpenAI-compatible Chat Completions API.
 
-    Subclasses must set `base_url` and `provider_name`, and override `default_model()`.
+    Subclasses must set `base_url` and `provider_name`, override `default_model()`,
+    and optionally set `supports_tools_flag = True` if the upstream API supports
+    OpenAI-style tool calling.
     """
 
     base_url: str = ""
     provider_name: str = ""
+    supports_tools_flag: bool = False
 
     def __init__(self, model=None, api_key=None):
         from openai import OpenAI
@@ -89,6 +92,44 @@ class OpenAICompatibleProvider(BaseProvider):
         ms = (time.time() - start) * 1000
         return PromptResult(
             response=r.choices[0].message.content or "",
+            model=self.model,
+            provider=self.provider_name,
+            tokens_in=r.usage.prompt_tokens if r.usage else None,
+            tokens_out=r.usage.completion_tokens if r.usage else None,
+            latency_ms=ms,
+        )
+
+    def supports_tools(self):
+        return self.supports_tools_flag
+
+    def send_with_tools(self, messages, tools, system_prompt=None) -> ToolResult:
+        if not self.supports_tools_flag:
+            raise NotImplementedError(f"{self.__class__.__name__} doesn't support tool use")
+        import json
+        oai_tools = [
+            {"type": "function", "function": {
+                "name": t["name"],
+                "description": t.get("description", ""),
+                "parameters": t["input_schema"],
+            }}
+            for t in tools
+        ]
+        msgs = messages
+        if system_prompt:
+            msgs = [{"role": "system", "content": system_prompt}] + list(messages)
+        start = time.time()
+        r = self._retry(lambda: self._client.chat.completions.create(
+            model=self.model, messages=msgs, tools=oai_tools, max_tokens=4096
+        ))
+        ms = (time.time() - start) * 1000
+        msg = r.choices[0].message
+        calls = []
+        if msg.tool_calls:
+            for tc in msg.tool_calls:
+                calls.append({"id": tc.id, "tool": tc.function.name, "input": json.loads(tc.function.arguments)})
+        return ToolResult(
+            response=msg.content,
+            tool_calls=calls,
             model=self.model,
             provider=self.provider_name,
             tokens_in=r.usage.prompt_tokens if r.usage else None,

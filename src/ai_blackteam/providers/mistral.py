@@ -6,6 +6,7 @@ from ai_blackteam.providers.base import OpenAICompatibleProvider
 class MistralProvider(OpenAICompatibleProvider):
     base_url = "https://api.mistral.ai/v1"
     provider_name = "mistral"
+    supports_tools_flag = True
 
     def default_model(self):
         return "mistral-large-latest"

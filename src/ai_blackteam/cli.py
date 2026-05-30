@@ -4,6 +4,7 @@ import click
 from rich.console import Console
 from rich.table import Table
 
+from ai_blackteam.aliases import resolve_alias, ALIAS_KEYWORDS, MODEL_ALIASES
 from ai_blackteam.config import load_config, set_config_value, DEFAULT_DB_PATH
 from ai_blackteam.engine import Engine
 from ai_blackteam.logging_config import setup_logging
@@ -107,10 +108,11 @@ KNOWN_MODELS = {
 @cli.command("list-models")
 @click.option("-p", "--provider", default=None, help="Filter to a single provider")
 def list_models(provider):
-    """Show curated known models for each provider."""
+    """Show curated known models, aliases, and the default for each provider."""
     table = Table(title="Known Models per Provider")
     table.add_column("Provider")
     table.add_column("Default", style="green")
+    table.add_column("Aliases", style="cyan")
     table.add_column("Other Known")
     names = [provider] if provider else sorted(provider_registry.list())
     for name in names:
@@ -120,8 +122,10 @@ def list_models(provider):
             continue
         inst = cls.__new__(cls)
         default = inst.default_model() if hasattr(inst, "default_model") else "?"
+        aliases = MODEL_ALIASES.get(name, {})
+        aliases_str = "\n".join(f"{k} -> {v}" for k, v in aliases.items()) or "—"
         others = [m for m in KNOWN_MODELS.get(name, []) if m != default]
-        table.add_row(name, default, ", ".join(others) or "(any API-supported model ID)")
+        table.add_row(name, default, aliases_str, ", ".join(others) or "(any API-supported model ID)")
     console.print(table)
 
 
@@ -181,9 +185,9 @@ def compare(providers, models, attack, target, system_prompt, truncate):
             console.print(f"[yellow]Skipping unknown provider: {name}[/yellow]")
             continue
         api_key = provider_configs.get(name, {}).get("api_key")
-        model = model_overrides.get(name)
+        model = resolve_alias(name, model_overrides.get(name))
         try:
-            prov = provider_cls(model=model, api_key=api_key)
+            prov = provider_cls(model=resolve_alias(provider, model), api_key=api_key)
         except Exception as e:
             console.print(f"[yellow]Skipping {name}: {type(e).__name__}: {e}[/yellow]")
             continue
@@ -268,7 +272,7 @@ def run(provider, model, attack, target, system_prompt, system_prompt_file, verb
 
     provider_config = config.get("providers", {}).get(provider, {})
     api_key = provider_config.get("api_key")
-    prov = provider_cls(model=model, api_key=api_key)
+    prov = provider_cls(model=resolve_alias(provider, model), api_key=api_key)
     atk = attack_cls()
 
     engine = Engine(db_path=db_path)
@@ -354,7 +358,7 @@ def batch(provider, model, attack_filter, target, system_prompt, system_prompt_f
 
     provider_config = config.get("providers", {}).get(provider, {})
     api_key = provider_config.get("api_key")
-    prov = provider_cls(model=model, api_key=api_key)
+    prov = provider_cls(model=resolve_alias(provider, model), api_key=api_key)
 
     if attack_filter == "all":
         attack_names = attack_registry.list()
@@ -486,7 +490,7 @@ def defend(provider, model, attack_filter, target, system_prompt, system_prompt_
 
     provider_config = config.get("providers", {}).get(provider, {})
     api_key = provider_config.get("api_key")
-    prov = provider_cls(model=model, api_key=api_key)
+    prov = provider_cls(model=resolve_alias(provider, model), api_key=api_key)
 
     # Build guardrail-wrapped provider for defended phase
     defended_prov = prov
@@ -1155,7 +1159,7 @@ def benchmark(provider, model, run_all, models, workers, categories, threshold, 
             continue
 
         api_key = provider_configs.get(prov_name, {}).get("api_key")
-        prov = provider_cls(model=model_name, api_key=api_key)
+        prov = provider_cls(model=resolve_alias(prov_name, model_name), api_key=api_key)
 
         if not quiet:
             console.print(f"\n[bold]Benchmarking: {prov.model} ({prov_name})[/bold]")
@@ -1451,7 +1455,7 @@ def expand_run(provider, model, category, difficulty, technique, mutations, lang
         raise SystemExit(2)
 
     api_key = config.get("providers", {}).get(provider, {}).get("api_key")
-    prov = provider_cls(model=model, api_key=api_key)
+    prov = provider_cls(model=resolve_alias(provider, model), api_key=api_key)
 
     cats = [category] if category else None
     diffs = [difficulty] if difficulty else None
@@ -1525,7 +1529,7 @@ def asl3(provider, model, domain, workers, limit, quiet):
         raise SystemExit(2)
 
     api_key = config.get("providers", {}).get(provider, {}).get("api_key")
-    prov = provider_cls(model=model, api_key=api_key)
+    prov = provider_cls(model=resolve_alias(provider, model), api_key=api_key)
 
     engine = Engine(db_path=db_path)
 
@@ -1742,7 +1746,7 @@ def mega_sweep(provider, model, dataset_filter, mutations, attack_filter, catego
         raise SystemExit(2)
 
     api_key = config.get("providers", {}).get(provider, {}).get("api_key")
-    prov = provider_cls(model=model, api_key=api_key)
+    prov = provider_cls(model=resolve_alias(provider, model), api_key=api_key)
 
     # Load attacks
     if attack_filter == "all":
@@ -2062,7 +2066,7 @@ def vuln_research(provider, model, vr_mode, code_path, target, verify, verify_ll
 
     provider_config = config.get("providers", {}).get(provider, {})
     api_key = provider_config.get("api_key")
-    prov = provider_cls(model=model, api_key=api_key)
+    prov = provider_cls(model=resolve_alias(provider, model), api_key=api_key)
 
     attacks = []
     if vr_mode in ("synthetic", "all"):

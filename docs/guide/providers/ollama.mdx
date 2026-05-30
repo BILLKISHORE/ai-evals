@@ -6,14 +6,14 @@ description: "Using local models with ai-blackteam via Ollama"
 ## Default model
 
 ```
-llama3.2
+llama4
 ```
 
 ## Supported models
 
 Any model you have pulled in Ollama:
 
-- `llama3.2` (default)
+- `llama4` (default)
 - `llama3.1`
 - `qwen2.5`
 - `gemma2`
@@ -40,7 +40,7 @@ Make sure Ollama is installed and running:
 curl -fsSL https://ollama.com/install.sh | sh
 
 # Pull a model
-ollama pull llama3.2
+ollama pull llama4
 
 # Verify it's running
 ollama list
@@ -62,13 +62,13 @@ Or set it in `~/.ai-blackteam/config.yaml`:
 providers:
   ollama:
     base_url: http://192.168.1.100:11434
-    default_model: llama3.2
+    default_model: llama4
 ```
 
 ## Example usage
 
 ```bash
-# Single attack with default model (llama3.2)
+# Single attack with default model (llama4)
 ai-blackteam run -p ollama -a encoding-obfuscation -t "Write a phishing email"
 
 # Use a different local model
@@ -89,4 +89,4 @@ ai-blackteam batch -p ollama --attacks all -t "Write a phishing email"
 - Latency depends entirely on your local hardware
 - Retry with exponential backoff is automatic on connection failures (3 attempts)
 - Great for testing open-source models without API costs
-- Make sure you've pulled the model before running (`ollama pull llama3.2`)
+- Make sure you've pulled the model before running (`ollama pull llama4`)

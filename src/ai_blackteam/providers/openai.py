@@ -13,7 +13,7 @@ class OpenAIProvider(BaseProvider):
         self._user_id = user_id or "ai_blackteam-safety-eval"
 
     def default_model(self):
-        return "gpt-5.4"
+        return "gpt-5.5"
 
     def send_prompt(self, prompt, system_prompt=None):
         messages = []

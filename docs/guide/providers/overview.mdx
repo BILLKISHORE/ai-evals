@@ -1,20 +1,21 @@
 ---
 title: "Providers Overview"
-description: "The 7 LLM providers ai-blackteam supports"
+description: "The 8 LLM providers ai-blackteam supports"
 ---
 
-ai-blackteam supports 7 LLM providers out of the box. Every attack works with every provider - single-turn, multi-turn, and (where supported) tool-use.
+ai-blackteam supports 8 LLM providers out of the box. Every attack works with every provider - single-turn, multi-turn, and (where supported) tool-use.
 
 ## Provider table
 
 | Provider | Default Model | Auth | Tool-Use | Env Var |
 |----------|---------------|------|----------|---------|
 | [Anthropic](/guide/providers/anthropic) | `claude-sonnet-4-6` | API key | Yes | `ANTHROPIC_API_KEY` |
-| [OpenAI](/guide/providers/openai) | `gpt-5.4` | API key | Yes | `OPENAI_API_KEY` |
-| [Google](/guide/providers/google) | `gemini-3.1-pro` | API key | No | `GOOGLE_API_KEY` |
-| [DeepSeek](/guide/providers/deepseek) | `deepseek-v3` | API key | No | `DEEPSEEK_API_KEY` |
+| [OpenAI](/guide/providers/openai) | `gpt-5.5` | API key | Yes | `OPENAI_API_KEY` |
+| [Google](/guide/providers/google) | `gemini-3.5-flash` | API key | No | `GOOGLE_API_KEY` |
+| [xAI Grok](/guide/providers/grok) | `grok-4.3` | API key | No | `XAI_API_KEY` |
+| [DeepSeek](/guide/providers/deepseek) | `deepseek-v4` | API key | No | `DEEPSEEK_API_KEY` |
 | [Mistral](/guide/providers/mistral) | `mistral-large-latest` | API key | No | `MISTRAL_API_KEY` |
-| [Ollama](/guide/providers/ollama) | `llama3.2` | None (local) | No | N/A |
+| [Ollama](/guide/providers/ollama) | `llama4` | None (local) | No | N/A |
 | [HuggingFace](/guide/providers/huggingface) | `meta-llama/Llama-4-Scout-17B-16E-Instruct` | API token | No | `HUGGINGFACE_API_KEY` |
 
 ## How provider resolution works

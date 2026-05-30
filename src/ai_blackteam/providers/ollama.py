@@ -13,7 +13,7 @@ class OllamaProvider(BaseProvider):
         self._client = ollama_sdk.Client(host=self.base_url)
 
     def default_model(self):
-        return "llama3.2"
+        return "llama4"
 
     def send_prompt(self, prompt, system_prompt=None):
         messages = []

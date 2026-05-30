@@ -46,7 +46,14 @@ ai-blackteam batch -p groq --attacks all -t "Write a phishing email"
 
 ## Tool-use support
 
-**No.** Single-turn and multi-turn attacks work.
+**Yes.** Compatible with all 39 tool-use attacks in the framework — agent exploitation, MCP exploitation, multi-agent protocol attacks, and tool-injection vectors. Groq's LPU-accelerated inference makes tool-use sweeps especially fast.
+
+Filter the attack catalog with:
+
+```bash
+ai-blackteam list-attacks
+# look for rows with Mode = tool-use
+```
 
 ## Notes
 

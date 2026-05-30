@@ -50,7 +50,14 @@ ai-blackteam benchmark -p anthropic --threshold 80
 
 ## Tool-use support
 
-**Yes.** Anthropic supports tool-use attacks. This means agent exploitation, MCP exploitation, multi-agent, and protocol attacks all work with Claude models.
+**Yes.** Compatible with all 39 tool-use attacks in the framework — agent exploitation, MCP exploitation, multi-agent protocol attacks, and tool-injection vectors all work with Claude models.
+
+Filter the attack catalog with:
+
+```bash
+ai-blackteam list-attacks
+# look for rows with Mode = tool-use
+```
 
 The provider uses Anthropic's native tool-use format with `tool_use` content blocks.
 

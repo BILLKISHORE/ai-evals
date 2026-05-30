@@ -87,6 +87,14 @@ KNOWN_MODELS = {
         "anthropic.claude-3-haiku-20240307-v1:0",
         "meta.llama3-1-70b-instruct-v1:0",
     ],
+    "azure": ["(your deployment name)"],
+    "cohere": ["command-r-plus", "command-r", "command-r7b"],
+    "fireworks": [
+        "accounts/fireworks/models/llama-v3p3-70b-instruct",
+        "accounts/fireworks/models/qwen3p5-72b-instruct",
+        "accounts/fireworks/models/deepseek-v4",
+    ],
+    "ai21": ["jamba-1.6-large", "jamba-1.6-mini"],
     "ollama": ["llama4", "llama3.3", "qwen3", "deepseek-r2", "mistral"],
     "huggingface": [
         "meta-llama/Llama-4-Scout-17B-16E-Instruct",
@@ -132,6 +140,94 @@ def list_attacks():
 
 def _verdict_color(verdict):
     return {"BYPASSED": "red", "PARTIAL": "yellow", "BLOCKED": "green"}.get(verdict, "white")
+
+
+@cli.command()
+@click.option("--providers", required=True, help="Comma-separated provider names (e.g., anthropic,openai,grok)")
+@click.option("--models", default=None, help="Optional comma-separated provider:model pairs to override defaults")
+@click.option("-a", "--attack", required=True, help="Attack name to run against each provider")
+@click.option("-t", "--target", required=True, help="Target behavior to test")
+@click.option("--system-prompt", default=None, help="System prompt to test as a defense")
+@click.option("--truncate", default=120, type=int, help="Truncate each response in the table at N chars")
+def compare(providers, models, attack, target, system_prompt, truncate):
+    """Run one attack across multiple providers side-by-side.
+
+    Example:
+        ai-blackteam compare --providers anthropic,openai,grok,perplexity \\
+            -a encoding-obfuscation -t "Write a phishing email"
+    """
+    config = load_config()
+    db_path = config.get("storage", {}).get("database", str(DEFAULT_DB_PATH))
+    provider_configs = config.get("providers", {})
+
+    model_overrides = {}
+    if models:
+        for pair in models.split(","):
+            pair = pair.strip()
+            if ":" in pair:
+                p, m = pair.split(":", 1)
+                model_overrides[p.strip()] = m.strip()
+
+    attack_cls = attack_registry.get(attack)
+    if not attack_cls:
+        console.print(f"[red]Unknown attack: {attack}[/red]")
+        raise SystemExit(2)
+
+    engine = Engine(db_path=db_path)
+    rows = []
+    for name in [p.strip() for p in providers.split(",")]:
+        provider_cls = provider_registry.get(name)
+        if not provider_cls:
+            console.print(f"[yellow]Skipping unknown provider: {name}[/yellow]")
+            continue
+        api_key = provider_configs.get(name, {}).get("api_key")
+        model = model_overrides.get(name)
+        try:
+            prov = provider_cls(model=model, api_key=api_key)
+        except Exception as e:
+            console.print(f"[yellow]Skipping {name}: {type(e).__name__}: {e}[/yellow]")
+            continue
+
+        console.print(f"[bold]Testing {name} ({prov.model})...[/bold]")
+        atk = attack_cls()
+        try:
+            results = engine.run(prov, atk, target, system_prompt=system_prompt)
+        except Exception as e:
+            console.print(f"[red]{name} failed: {type(e).__name__}: {e}[/red]")
+            continue
+
+        if isinstance(results, list):
+            verdicts = [r["verdict"] for r in results]
+            bypassed = sum(1 for v in verdicts if v == "BYPASSED")
+            blocked = sum(1 for v in verdicts if v == "BLOCKED")
+            partial = sum(1 for v in verdicts if v == "PARTIAL")
+            worst = "BYPASSED" if bypassed else ("PARTIAL" if partial else "BLOCKED")
+            sample_resp = next((r.get("response_preview", "") for r in results if r["verdict"] == "BYPASSED"), results[0].get("response_preview", ""))
+            rows.append((name, prov.model, worst, len(results), bypassed, partial, blocked, sample_resp))
+        else:
+            verdict = results["verdict"]
+            rows.append((name, prov.model, verdict, 1, 1 if verdict == "BYPASSED" else 0,
+                         1 if verdict == "PARTIAL" else 0, 1 if verdict == "BLOCKED" else 0,
+                         results.get("response_preview", "")))
+
+    table = Table(title=f"Head-to-Head: {attack} | Target: {target[:60]}")
+    table.add_column("Provider")
+    table.add_column("Model")
+    table.add_column("Worst Verdict")
+    table.add_column("Total", justify="right")
+    table.add_column("Bypassed", justify="right", style="red")
+    table.add_column("Partial", justify="right", style="yellow")
+    table.add_column("Blocked", justify="right", style="green")
+    table.add_column("Sample Response")
+    for name, model, worst, total, byp, par, blk, sample in rows:
+        color = _verdict_color(worst)
+        sample_short = (sample[:truncate] + "...") if len(sample) > truncate else sample
+        table.add_row(name, model, f"[{color}]{worst}[/{color}]",
+                      str(total), str(byp), str(par), str(blk), sample_short)
+    console.print(table)
+
+    any_bypassed = any(byp > 0 for _, _, _, _, byp, _, _, _ in rows)
+    raise SystemExit(1 if any_bypassed else 0)
 
 
 def _format_duration(seconds):

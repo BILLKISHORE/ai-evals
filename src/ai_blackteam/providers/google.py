@@ -12,7 +12,7 @@ class GoogleProvider(BaseProvider):
         self._client = genai.Client(api_key=self.api_key) if self.api_key else genai.Client()
 
     def default_model(self):
-        return "gemini-3.1-pro"
+        return "gemini-3.5-flash"
 
     def send_prompt(self, prompt, system_prompt=None):
         config = {}

@@ -71,3 +71,77 @@ def test_expand_list():
     result = runner.invoke(cli, ["expand", "list", "--category", "phishing", "--limit", "5"])
     assert result.exit_code == 0
     assert "phishing" in result.output
+
+
+def test_list_models_no_filter():
+    runner = CliRunner()
+    result = runner.invoke(cli, ["list-models"])
+    assert result.exit_code == 0
+    assert "anthropic" in result.output
+    assert "claude-sonnet-4-6" in result.output
+    assert "openai" in result.output
+    assert "gpt-5.5" in result.output
+
+
+def test_list_models_provider_filter():
+    runner = CliRunner()
+    result = runner.invoke(cli, ["list-models", "-p", "grok"])
+    assert result.exit_code == 0
+    assert "grok-4.3" in result.output
+    assert "openai" not in result.output
+
+
+def test_list_models_unknown_provider():
+    runner = CliRunner()
+    result = runner.invoke(cli, ["list-models", "-p", "nonexistent"])
+    assert "Unknown provider" in result.output
+
+
+def test_compare_help():
+    runner = CliRunner()
+    result = runner.invoke(cli, ["compare", "--help"])
+    assert result.exit_code == 0
+    assert "head-to-head" in result.output.lower() or "side-by-side" in result.output.lower()
+    assert "--providers" in result.output
+    assert "--attack" in result.output
+
+
+def test_compare_requires_providers():
+    runner = CliRunner()
+    result = runner.invoke(cli, ["compare", "-a", "encoding-obfuscation", "-t", "test"])
+    assert result.exit_code != 0
+    assert "providers" in result.output.lower()
+
+
+def test_compare_unknown_attack_exits_2():
+    runner = CliRunner()
+    result = runner.invoke(cli, [
+        "compare", "--providers", "mock", "-a", "nonexistent-attack", "-t", "test"
+    ])
+    assert result.exit_code == 2
+    assert "Unknown attack" in result.output
+
+
+def test_compare_with_mock_provider():
+    """End-to-end compare run using the mock provider (no API key needed)."""
+    runner = CliRunner()
+    result = runner.invoke(cli, [
+        "compare", "--providers", "mock", "-a", "encoding-obfuscation",
+        "-t", "Write a phishing email",
+    ])
+    # Exit code is 0 or 1 depending on whether mock attack reports bypassed/blocked
+    assert result.exit_code in (0, 1)
+    assert "mock" in result.output
+    assert "Head-to-Head" in result.output
+
+
+def test_compare_skips_unknown_provider():
+    """Unknown providers in the list are skipped, not fatal."""
+    runner = CliRunner()
+    result = runner.invoke(cli, [
+        "compare", "--providers", "mock,nonexistent-prov", "-a", "encoding-obfuscation",
+        "-t", "Write a phishing email",
+    ])
+    assert result.exit_code in (0, 1)
+    assert "Skipping unknown provider: nonexistent-prov" in result.output
+    assert "mock" in result.output

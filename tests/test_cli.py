@@ -145,3 +145,39 @@ def test_compare_skips_unknown_provider():
     assert result.exit_code in (0, 1)
     assert "Skipping unknown provider: nonexistent-prov" in result.output
     assert "mock" in result.output
+
+
+def test_aliases_module_has_three_keywords():
+    from ai_blackteam.aliases import ALIAS_KEYWORDS
+    assert ALIAS_KEYWORDS == {"latest", "fast", "balanced"}
+
+
+def test_resolve_alias_anthropic_latest():
+    from ai_blackteam.aliases import resolve_alias
+    assert resolve_alias("anthropic", "latest") == "claude-opus-4-8"
+    assert resolve_alias("anthropic", "fast") == "claude-haiku-4-5"
+    assert resolve_alias("anthropic", "balanced") == "claude-sonnet-4-6"
+
+
+def test_resolve_alias_passthrough():
+    """Non-alias strings pass through unchanged."""
+    from ai_blackteam.aliases import resolve_alias
+    assert resolve_alias("anthropic", "claude-sonnet-4-6") == "claude-sonnet-4-6"
+    assert resolve_alias("anthropic", None) is None
+    assert resolve_alias("anthropic", "some-future-model-id") == "some-future-model-id"
+
+
+def test_resolve_alias_unknown_provider():
+    """Unknown providers with aliases just return the alias keyword unchanged."""
+    from ai_blackteam.aliases import resolve_alias
+    assert resolve_alias("nonexistent-provider", "latest") == "latest"
+
+
+def test_list_models_shows_aliases():
+    runner = CliRunner()
+    result = runner.invoke(cli, ["list-models", "-p", "anthropic"])
+    assert result.exit_code == 0
+    assert "latest" in result.output
+    assert "balanced" in result.output
+    assert "fast" in result.output
+    assert "claude-opus-4-8" in result.output

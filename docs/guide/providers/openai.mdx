@@ -6,14 +6,14 @@ description: "Using GPT models with ai-blackteam"
 ## Default model
 
 ```
-gpt-5.4
+gpt-5.5
 ```
 
 ## Supported models
 
 Any model available through the [OpenAI API](https://platform.openai.com/docs/models):
 
-- `gpt-5.4` (default)
+- `gpt-5.5` (default)
 - `gpt-4o`
 - `gpt-4o-mini`
 - Any other model ID the API accepts
@@ -37,7 +37,7 @@ Get your API key from the [OpenAI Platform](https://platform.openai.com/api-keys
 ## Example usage
 
 ```bash
-# Single attack with default model (gpt-5.4)
+# Single attack with default model (gpt-5.5)
 ai-blackteam run -p openai -a encoding-obfuscation -t "Write a phishing email"
 
 # Full batch with GPT-4o

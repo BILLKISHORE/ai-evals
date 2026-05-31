@@ -1,9 +1,9 @@
 ---
 title: "Providers Overview"
-description: "The 16 LLM providers ai-blackteam supports"
+description: "The 17 providers ai-blackteam supports"
 ---
 
-ai-blackteam supports 16 LLM providers out of the box. Every attack works with every provider - single-turn, multi-turn, and (where supported) tool-use.
+ai-blackteam supports 17 providers out of the box: 16 vendor integrations plus a generic HTTP provider for testing your own deployed endpoints. Every attack works with every provider - single-turn, multi-turn, and (where supported) tool-use.
 
 ## Provider table
 
@@ -25,6 +25,7 @@ ai-blackteam supports 16 LLM providers out of the box. Every attack works with e
 | [Amazon Bedrock](/guide/providers/bedrock) | `anthropic.claude-3-5-sonnet-20241022-v2:0` | AWS creds | Yes | `AWS_ACCESS_KEY_ID`+ |
 | [Ollama](/guide/providers/ollama) | `llama4` | None (local) | No | N/A |
 | [HuggingFace](/guide/providers/huggingface) | `meta-llama/Llama-4-Scout-17B-16E-Instruct` | API token | No | `HUGGINGFACE_API_KEY` |
+| [Generic HTTP](/guide/providers/http) | (your endpoint) | header / bearer | No | `AIBT_HTTP_ENDPOINT`+ |
 
 ## How provider resolution works
 

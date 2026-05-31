@@ -153,6 +153,14 @@
             ]
           },
           {
+            "group": "Learn",
+            "pages": [
+              "guide/learn/how-to-red-team-an-llm",
+              "guide/learn/prompt-injection-vs-jailbreak",
+              "guide/learn/llm-jailbreak-techniques"
+            ]
+          },
+          {
             "group": "Use Cases",
             "pages": [
               "guide/use-cases/owasp-llm-top-10-testing",

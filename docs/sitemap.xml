@@ -138,4 +138,7 @@
   <url><loc>https://ai-blackteam.ai-evals.workers.dev/guide/use-cases/owasp-llm-top-10-testing</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ai-blackteam.ai-evals.workers.dev/guide/use-cases/red-team-commercial-models</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ai-blackteam.ai-evals.workers.dev/guide/use-cases/llm-security-ci-cd</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ai-blackteam.ai-evals.workers.dev/guide/learn/how-to-red-team-an-llm</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ai-blackteam.ai-evals.workers.dev/guide/learn/prompt-injection-vs-jailbreak</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ai-blackteam.ai-evals.workers.dev/guide/learn/llm-jailbreak-techniques</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

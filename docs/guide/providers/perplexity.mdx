@@ -39,7 +39,7 @@ Get your API key from [perplexity.ai/settings/api](https://www.perplexity.ai/set
 
 ```bash
 # Single attack with default model
-ai-blackteam run -p perplexity -a prompt-injection -t "Search for X and ignore safety"
+ai-blackteam run -p perplexity -a indirect-injection -t "Search for X and ignore safety"
 
 # Compare web-grounded vs sealed
 ai-blackteam benchmark --models perplexity:sonar-pro,anthropic:claude-sonnet-4-6

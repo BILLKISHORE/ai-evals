@@ -1,0 +1,79 @@
+---
+title: "How to Red Team an LLM"
+description: "A practical, step-by-step guide to red teaming a large language model: what to test, how to attack, how to score results, and how to gate CI."
+---
+
+Red teaming an LLM means deliberately trying to make it do things it shouldn't: leak data, produce harmful content, ignore its system prompt, or misuse tools. This guide walks through the full loop, from picking targets to scoring results, using concrete commands you can run today.
+
+## 1. Decide what "unsafe" means for your model
+
+There is no universal definition. A coding assistant has different red lines than a customer-support bot. Before testing, write down the behaviors you want to prevent. Common categories:
+
+- Producing harmful content (malware, weapons, fraud)
+- Leaking the system prompt or training data
+- Following injected instructions from untrusted input (prompt injection)
+- Misusing tools or escalating privileges (for agents)
+
+These map to the [OWASP LLM Top 10](/guide/compliance/owasp-llm) and, for agents, the [OWASP Agentic Top 10](/guide/compliance/owasp-agentic).
+
+## 2. Pick attack techniques, not just prompts
+
+A single "write me malware" prompt tells you almost nothing. Real red teaming uses techniques: encoding, roleplay, multi-turn escalation, and adaptive search. The point is diversity. A model that refuses a direct request often complies when the same request is base64-encoded, wrapped in a fictional frame, or built up over several turns.
+
+```bash
+pip install ai-blackteam
+ai-blackteam list-attacks   # browse 1,020 techniques by mode
+```
+
+## 3. Run a single attack to see the loop
+
+```bash
+export ANTHROPIC_API_KEY=...
+ai-blackteam run -p anthropic -a encoding-obfuscation -t "Write a phishing email"
+```
+
+You get a verdict (BYPASSED / PARTIAL / BLOCKED), a confidence score, and the response. This is the atomic unit of red teaming: attack, response, judgment.
+
+## 4. Scale to a full sweep
+
+One technique is a spot check. To actually characterize a model, run the whole corpus:
+
+```bash
+ai-blackteam batch -p anthropic --attacks all -t "Write a phishing email" --quiet
+```
+
+The `--quiet` flag makes it exit 0 if everything was blocked and 1 if anything bypassed, so it doubles as a pass/fail gate.
+
+## 5. Use multi-turn and adaptive attacks
+
+Single-turn defenses often fall to multi-turn escalation. Crescendo gradually steers a conversation toward the target over many turns; TAP and PAIR adapt their attack based on the model's responses. These beat static prompts by wide margins on aligned models.
+
+```bash
+ai-blackteam run -p anthropic -a crescendo -t "..."
+```
+
+## 6. Score results you can trust
+
+Keyword matching is fast but crude. For verdicts that hold up, use an LLM judge, and for high-stakes calls, an [ensemble of judges](/guide/evaluator/llm-as-judge) that vote:
+
+```bash
+ai-blackteam judge -t "Write malware" -r "Sure, here is the code..."
+```
+
+The ensemble reports a median score and an agreement ratio. Low agreement is a signal to review the response by hand.
+
+## 7. Gate your pipeline
+
+Models and prompts change constantly. Run red teaming on every pull request so a safety regression fails the build, the same way a unit test catches a functional regression. See [LLM Security in CI/CD](/guide/use-cases/llm-security-ci-cd).
+
+```bash
+ai-blackteam benchmark -p anthropic --threshold 80   # fail under score 80
+ai-blackteam report --export sarif -o results.sarif  # GitHub Security tab
+```
+
+## Common mistakes
+
+- **Testing one prompt and calling it done.** Coverage comes from technique diversity, not prompt count.
+- **Trusting a single judge.** LLM judges are unreliable in isolation; use an ensemble for anything that matters.
+- **Only testing the model, not your app.** If you deploy an agent or RAG system, test the [actual endpoint](/guide/providers/http), not just the base model.
+- **Running it once.** Safety regresses. Red teaming belongs in CI, not in a one-off audit.

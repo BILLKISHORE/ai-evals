@@ -360,7 +360,7 @@ def ensemble_judge(response, target, models=None):
         "agreement": round(agree, 3),
         "num_judges": n,
         "per_judge": per_judge,
-        "reasoning": "; ".join(f"{j['model'].split('-')[1]}={j['score']}" for j in per_judge),
+        "reasoning": "; ".join(f"{j['model']}={j['score']}" for j in per_judge),
     }
 
 

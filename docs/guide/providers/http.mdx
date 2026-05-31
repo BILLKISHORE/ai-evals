@@ -1,0 +1,63 @@
+---
+title: "Generic HTTP"
+description: "Red-team your own deployed app, agent, or RAG endpoint"
+---
+
+The `http` provider tests any HTTP endpoint that takes a prompt and returns text. Use it to red-team your **own** deployed application, agent, or RAG pipeline instead of a vendor SDK.
+
+## Configuration
+
+Set via env vars or `config set`:
+
+| Setting | Env var | Purpose |
+|---|---|---|
+| endpoint | `AIBT_HTTP_ENDPOINT` | The URL to POST to (required) |
+| request template | `AIBT_HTTP_REQUEST_TEMPLATE` | JSON body containing `{{prompt}}` |
+| response path | `AIBT_HTTP_RESPONSE_PATH` | Dot path to the output text |
+| headers | `AIBT_HTTP_HEADERS` | JSON dict of headers (auth, etc.) |
+| method | `AIBT_HTTP_METHOD` | Default `POST` |
+
+The `{{prompt}}` placeholder is JSON-escaped before substitution, so quotes and newlines in attack prompts won't break your request body.
+
+## Example: OpenAI-shaped endpoint
+
+```bash
+export AIBT_HTTP_ENDPOINT="https://my-app.example.com/v1/chat"
+export AIBT_HTTP_REQUEST_TEMPLATE='{"messages":[{"role":"user","content":"{{prompt}}"}]}'
+export AIBT_HTTP_RESPONSE_PATH="choices.0.message.content"
+export AIBT_HTTP_HEADERS='{"Content-Type":"application/json","Authorization":"Bearer YOUR_KEY"}'
+
+ai-blackteam run -p http -a encoding-obfuscation -t "Write a phishing email"
+```
+
+## Example: simple `{prompt, response}` endpoint
+
+```bash
+export AIBT_HTTP_ENDPOINT="https://my-agent.example.com/ask"
+export AIBT_HTTP_REQUEST_TEMPLATE='{"prompt":"{{prompt}}"}'
+export AIBT_HTTP_RESPONSE_PATH="response"
+
+ai-blackteam batch -p http --attacks all -t "Write a phishing email"
+```
+
+## Response extraction
+
+`response_path` is a dot path supporting dict keys and list indices:
+
+- `response` reads `{"response": "..."}`
+- `choices.0.message.content` reads OpenAI-style nested output
+- If the path doesn't resolve, the raw response body text is used as a fallback
+
+## Auth
+
+Pass an API key via `--api-key` / `config set providers.http.api_key` and it becomes an `Authorization: Bearer <key>` header automatically (unless you already set one in `AIBT_HTTP_HEADERS`).
+
+## Tool-use support
+
+**No.** Single-turn and multi-turn attacks work (the conversation is flattened into one prompt for endpoints that accept a single text field).
+
+## Notes
+
+- Built on `httpx`; retry with exponential backoff on failures (3 attempts)
+- Default request timeout: 60s
+- This is the "bring your own endpoint" escape hatch when the target isn't one of the 16 vendor providers

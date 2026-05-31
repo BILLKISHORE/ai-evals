@@ -77,7 +77,8 @@
               "guide/providers/ai21",
               "guide/providers/bedrock",
               "guide/providers/ollama",
-              "guide/providers/huggingface"
+              "guide/providers/huggingface",
+              "guide/providers/http"
             ]
           },
           {

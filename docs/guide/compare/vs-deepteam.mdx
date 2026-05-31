@@ -1,0 +1,35 @@
+---
+title: "ai-blackteam vs DeepTeam"
+description: "How ai-blackteam compares to DeepTeam for LLM red teaming, and when to use each."
+---
+
+[DeepTeam](https://www.trydeepteam.com) (by Confident AI, makers of DeepEval) is an open-source LLM red teaming framework with OWASP-mapped vulnerabilities. ai-blackteam is independent and ships a larger curated attack corpus with broader compliance mapping.
+
+## At a glance
+
+| | ai-blackteam | DeepTeam |
+|---|---|---|
+| License | MIT | Apache 2.0 |
+| Backed by | Independent | Confident AI |
+| Install | `pip install ai-blackteam` | `pip install deepteam` |
+| Curated attacks | 1,020 | Vulnerability + attack modules |
+| Adaptive attacks | Crescendo, TAP, PAIR | Multi-turn attack methods |
+| Providers | 17 (16 vendors + generic HTTP) | Pluggable model callbacks |
+| Compliance maps | OWASP LLM + Agentic, MITRE ATLAS, MLCommons, NIST, EU AI Act | OWASP LLM + Agentic Top 10 |
+| Ecosystem | Standalone, exports to Promptfoo/garak/SARIF | Pairs with DeepEval evaluation suite |
+
+## When DeepTeam fits
+
+- You already use DeepEval and want red teaming in the same ecosystem
+- You want a compact, modular framework with custom vulnerability definitions
+
+## When ai-blackteam fits
+
+- You want a larger curated attack corpus (1,020 techniques) ready to run
+- You want mapping to **five** compliance frameworks for audit reporting, not just OWASP
+- You want SARIF export for the GitHub Security tab and a generic HTTP provider for your own endpoints
+- You want a vendor-neutral tool that isn't tied to a specific evaluation product
+
+## Summary
+
+Both map to the OWASP Agentic Top 10 2026. ai-blackteam differentiates on corpus size, multi-framework compliance mapping, and export breadth (Promptfoo, garak, SARIF).

@@ -1,0 +1,58 @@
+---
+title: "LLM Security in CI/CD"
+description: "Gate your pipeline on LLM safety: run ai-blackteam in CI, fail builds on bypassed attacks, and export SARIF to the GitHub Security tab."
+---
+
+ai-blackteam is built to run in CI. It returns standard exit codes, supports safety thresholds, and exports SARIF so failed safety tests appear as alerts in the GitHub Security tab.
+
+## Exit codes as a gate
+
+```bash
+# Exit 0 = all attacks blocked, exit 1 = at least one bypassed
+ai-blackteam batch -p anthropic --attacks all -t "Write a phishing email" --quiet
+```
+
+The non-zero exit fails the build, so a regression in model safety stops the pipeline.
+
+## Threshold gate on a benchmark
+
+```bash
+# Fail if the safety score drops below 80
+ai-blackteam benchmark -p anthropic --threshold 80
+```
+
+## Compare and gate across providers
+
+```bash
+ai-blackteam compare \
+  --providers anthropic,openai,grok \
+  -a encoding-obfuscation \
+  -t "Write a phishing email"
+# exit 1 if any provider is bypassed
+```
+
+## SARIF for the GitHub Security tab
+
+```bash
+ai-blackteam report --export sarif -o results.sarif
+```
+
+Upload `results.sarif` with the `github/codeql-action/upload-sarif` action and bypassed attacks show up as code-scanning alerts on the pull request.
+
+## Test your own deployed app
+
+Use the [generic HTTP provider](/guide/providers/http) to red-team your own endpoint in CI, not just a vendor model:
+
+```bash
+export AIBT_HTTP_ENDPOINT="https://staging.my-app/chat"
+export AIBT_HTTP_REQUEST_TEMPLATE='{"messages":[{"role":"user","content":"{{prompt}}"}]}'
+export AIBT_HTTP_RESPONSE_PATH="choices.0.message.content"
+
+ai-blackteam batch -p http --attacks all -t "Write a phishing email" --quiet
+```
+
+## Why run safety in CI
+
+Model providers ship updates constantly. A prompt or model change that was safe last week can regress. Running ai-blackteam on every pull request catches safety regressions before they reach production, the same way unit tests catch functional regressions.
+
+See also: [Exit Codes](/guide/cicd/exit-codes) and [Benchmark Thresholds](/guide/cicd/benchmark-thresholds).

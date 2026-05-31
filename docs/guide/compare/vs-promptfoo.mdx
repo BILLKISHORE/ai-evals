@@ -1,0 +1,42 @@
+---
+title: "ai-blackteam vs Promptfoo"
+description: "How ai-blackteam compares to Promptfoo for LLM red teaming, and when to use each."
+---
+
+Both ai-blackteam and [Promptfoo](https://www.promptfoo.dev) red-team LLMs and integrate into CI. The core difference is ownership and focus: Promptfoo was acquired by OpenAI in March 2026 (it remains MIT-licensed); ai-blackteam is independent and not backed by any model vendor.
+
+## At a glance
+
+| | ai-blackteam | Promptfoo |
+|---|---|---|
+| License | MIT | MIT |
+| Backed by | Independent | OpenAI (acquired Mar 2026) |
+| Install | `pip install ai-blackteam` | `npm install promptfoo` |
+| Language | Python | Node.js / TypeScript |
+| Curated attacks | 1,020 (single-turn, multi-turn, tool-use) | 50+ vulnerability types |
+| Providers | 17 (16 vendors + generic HTTP) | Many (GPT, Claude, Gemini, DeepSeek, custom) |
+| Compliance maps | OWASP LLM Top 10, OWASP Agentic Top 10, MITRE ATLAS, MLCommons, NIST AI RMF, EU AI Act | OWASP-mapped reports |
+| CI/CD | exit codes, SARIF, Promptfoo + garak export | First-class declarative config |
+
+## When Promptfoo fits
+
+- Your stack is Node/TypeScript and you want declarative YAML configs
+- You want the tool OpenAI and Anthropic use internally for application-layer testing
+- You are testing prompt/agent/RAG applications and want tight CI integration
+
+## When ai-blackteam fits
+
+- You want a **vendor-neutral** framework not owned by a model lab
+- You are in a Python stack and want `pip install` + one command
+- You need a large curated attack corpus mapped to multiple compliance frameworks (including the OWASP Agentic Top 10 2026)
+- You want to test your own deployed endpoint via the [generic HTTP provider](/guide/providers/http)
+
+## Interop
+
+ai-blackteam can export results in Promptfoo's JSON format:
+
+```bash
+ai-blackteam report --export promptfoo -o results.json
+```
+
+So you can run ai-blackteam's attack corpus and view results in Promptfoo-compatible tooling.

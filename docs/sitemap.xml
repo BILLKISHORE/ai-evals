@@ -131,4 +131,11 @@
   <url><loc>https://ai-blackteam.ai-evals.workers.dev/guide/reports/promptfoo-export</loc><lastmod>2026-05-24</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://ai-blackteam.ai-evals.workers.dev/plugin-sdk/README</loc><lastmod>2026-05-24</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ai-blackteam.ai-evals.workers.dev/plugin-sdk/api</loc><lastmod>2026-05-24</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ai-blackteam.ai-evals.workers.dev/guide/compare/vs-promptfoo</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ai-blackteam.ai-evals.workers.dev/guide/compare/vs-garak</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ai-blackteam.ai-evals.workers.dev/guide/compare/vs-pyrit</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ai-blackteam.ai-evals.workers.dev/guide/compare/vs-deepteam</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ai-blackteam.ai-evals.workers.dev/guide/use-cases/owasp-llm-top-10-testing</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ai-blackteam.ai-evals.workers.dev/guide/use-cases/red-team-commercial-models</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ai-blackteam.ai-evals.workers.dev/guide/use-cases/llm-security-ci-cd</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>

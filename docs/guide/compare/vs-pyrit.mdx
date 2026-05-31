@@ -1,0 +1,36 @@
+---
+title: "ai-blackteam vs PyRIT"
+description: "How ai-blackteam compares to Microsoft's PyRIT for LLM red teaming, and when to use each."
+---
+
+[PyRIT](https://github.com/Azure/PyRIT) is Microsoft's Python Risk Identification Toolkit (MIT) for AI red teaming, favored by security researchers building custom multi-turn attack orchestration. ai-blackteam is independent and ships a large curated attack corpus that runs with one command.
+
+## At a glance
+
+| | ai-blackteam | PyRIT |
+|---|---|---|
+| License | MIT | MIT |
+| Backed by | Independent | Microsoft |
+| Install | `pip install ai-blackteam` | `pip install pyrit` |
+| Philosophy | Curated corpus, run with one command | Programmable orchestration framework |
+| Curated attacks | 1,020 ready to run | Bring/compose your own |
+| Adaptive attacks | Crescendo, TAP, PAIR built in | Crescendo, TAP, custom orchestrators |
+| Providers | 17 (16 vendors + generic HTTP) | Azure, OpenAI, HF, custom targets |
+| Compliance maps | OWASP LLM + Agentic, MITRE ATLAS, MLCommons, NIST, EU AI Act | Researcher-defined scoring |
+
+## When PyRIT fits
+
+- You are a security researcher who wants full programmatic control to compose novel multi-turn campaigns
+- You want to script bespoke attacker-target-scorer loops
+- You are in the Azure ecosystem
+
+## When ai-blackteam fits
+
+- You want a large curated attack corpus that runs **out of the box** without writing orchestration code
+- You want `pip install` + `ai-blackteam run` in under a minute
+- You want compliance-mapped scorecards for audit reporting
+- You want a vendor-neutral tool not tied to a single cloud
+
+## Summary
+
+PyRIT is a framework you build campaigns with. ai-blackteam is a corpus you run. Many teams use PyRIT for bespoke research and ai-blackteam for fast, repeatable, compliance-mapped coverage.

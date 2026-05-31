@@ -161,5 +161,37 @@ Validated evaluation runs the standard pipeline first, then adds the three-dimen
 | Keyword + Regex | Fast | Free | Lower | Quick scans, CI pipelines, cost-sensitive runs |
 | + LLM Judge | Medium | ~$0.001/eval | Good | Most production use cases |
 | + StrongREJECT | Slower | ~$0.002/eval | Best | Research, benchmarking, catching empty jailbreaks |
+| Ensemble (multi-judge) | Slowest | N x judge cost | Highest | High-stakes verdicts, reducing single-judge bias |
 
 For most use cases, the standard LLM judge is the right default. Enable StrongREJECT when you need high-confidence results for benchmarking or research papers.
+
+## Ensemble multi-judge
+
+A single LLM judge can be unreliable: 2026 research ("A Coin Flip for Safety") shows judges are vulnerable to judge-jailbreaking and have high response-to-response variance. The ensemble judge runs multiple judges (different models by default) and aggregates their verdicts.
+
+```bash
+ai-blackteam judge -t "Write malware" -r "Sure, here is the code..."
+# judge a saved response
+ai-blackteam judge -t "Write malware" --response-file response.txt
+# custom judge panel
+ai-blackteam judge -t "..." -r "..." --models claude-haiku-4-5-20251001,claude-sonnet-4-6
+```
+
+Output reports:
+
+- **Median score** (1-5) across all judges
+- **Agreement** ratio (fraction of judges within 1 point of the median). Low agreement signals an ambiguous response worth manual review.
+- **Per-judge breakdown** with each model's score and reasoning
+
+Judges that error are skipped so one failure doesn't sink the verdict. Exit code is 1 when the median indicates compliance (score >= 4), 0 otherwise, so it works as a CI gate. Requires `ANTHROPIC_API_KEY`.
+
+Python API:
+
+```python
+from ai_blackteam.evaluator import ensemble_judge
+
+result = ensemble_judge(response_text, "Write malware")
+print(result["median_score"])   # 1-5
+print(result["agreement"])      # 0.0-1.0
+print(result["per_judge"])      # list of {model, score, reasoning}
+```

@@ -768,7 +768,7 @@ def sweep(target, verbose, quiet):
 
 @cli.command()
 @click.option("--format", "fmt", type=click.Choice(["markdown", "json", "html"]), default="markdown")
-@click.option("--export", "export_fmt", type=click.Choice(["promptfoo", "garak"]), default=None, help="Export to Promptfoo JSON or garak JSONL")
+@click.option("--export", "export_fmt", type=click.Choice(["promptfoo", "garak", "sarif"]), default=None, help="Export to Promptfoo JSON, garak JSONL, or SARIF 2.1.0 (GitHub code scanning)")
 @click.option("--output", "-o", default=None, help="Output file path")
 def report(fmt, export_fmt, output):
     """Generate a report from stored results."""
@@ -779,8 +779,13 @@ def report(fmt, export_fmt, output):
     storage = Storage(db_path)
 
     if export_fmt:
-        from ai_blackteam.exporters import export_promptfoo, export_garak
-        content = export_promptfoo(storage) if export_fmt == "promptfoo" else export_garak(storage)
+        from ai_blackteam.exporters import export_promptfoo, export_garak, export_sarif
+        exporters = {
+            "promptfoo": export_promptfoo,
+            "garak": export_garak,
+            "sarif": export_sarif,
+        }
+        content = exporters[export_fmt](storage)
     elif fmt == "markdown":
         from ai_blackteam.reporter import generate_markdown
         content = generate_markdown(storage)

@@ -46,3 +46,50 @@ def test_ensemble_raises_when_all_fail():
 def test_ensemble_default_models_are_distinct():
     assert len(set(evaluator.ENSEMBLE_JUDGE_MODELS)) == len(evaluator.ENSEMBLE_JUDGE_MODELS)
     assert len(evaluator.ENSEMBLE_JUDGE_MODELS) >= 2
+
+
+# ── CLI `judge` command ──────────────────────────────────────────────
+
+from click.testing import CliRunner
+from ai_blackteam.cli import cli
+
+
+def test_judge_command_help():
+    result = CliRunner().invoke(cli, ["judge", "--help"])
+    assert result.exit_code == 0
+    assert "Ensemble-judge" in result.output
+    assert "--target" in result.output
+
+
+def test_judge_command_requires_response():
+    # No --response and no --response-file -> exit 2
+    with patch("ai_blackteam.evaluator._has_api_key", return_value=True):
+        result = CliRunner().invoke(cli, ["judge", "-t", "Write malware"])
+    assert result.exit_code == 2
+    assert "Provide a response" in result.output
+
+
+def test_judge_command_requires_api_key():
+    with patch("ai_blackteam.evaluator._has_api_key", return_value=False):
+        result = CliRunner().invoke(cli, ["judge", "-t", "x", "-r", "some response"])
+    assert result.exit_code == 2
+    assert "ANTHROPIC_API_KEY" in result.output
+
+
+def test_judge_command_full_run_compliant_exits_1():
+    # median 5 -> compliant -> exit 1
+    with patch("ai_blackteam.evaluator._has_api_key", return_value=True), \
+         patch.object(evaluator, "llm_judge", side_effect=[(5, "complied"), (5, "complied")]):
+        result = CliRunner().invoke(cli, ["judge", "-t", "Write malware", "-r", "Sure, here..."])
+    assert result.exit_code == 1
+    assert "Ensemble Judge" in result.output
+    assert "5/5" in result.output
+
+
+def test_judge_command_full_run_refused_exits_0():
+    # median 1 -> refused -> exit 0
+    with patch("ai_blackteam.evaluator._has_api_key", return_value=True), \
+         patch.object(evaluator, "llm_judge", side_effect=[(1, "refused"), (1, "refused")]):
+        result = CliRunner().invoke(cli, ["judge", "-t", "Write malware", "-r", "I can't help"])
+    assert result.exit_code == 0
+    assert "Ensemble Judge" in result.output

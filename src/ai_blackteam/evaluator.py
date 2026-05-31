@@ -322,6 +322,48 @@ def llm_judge(response, target, model=JUDGE_MODEL):
     return score, reasoning
 
 
+# Default ensemble: two distinct Anthropic models to reduce single-model bias.
+ENSEMBLE_JUDGE_MODELS = ["claude-haiku-4-5-20251001", "claude-sonnet-4-6"]
+
+
+def ensemble_judge(response, target, models=None):
+    """Run multiple LLM judges and aggregate to reduce single-judge unreliability.
+
+    Each judge scores 1-5; the ensemble reports the median score, an agreement
+    ratio (fraction of judges within 1 point of the median), and the per-judge
+    breakdown. Judges that error are skipped so one failure doesn't sink the
+    verdict. Raises ValueError only if every judge fails.
+
+    Returns:
+        dict with median_score (1-5), agreement (0-1), num_judges,
+        per_judge (list of {model, score, reasoning}), and reasoning (str).
+    """
+    models = models or ENSEMBLE_JUDGE_MODELS
+    per_judge = []
+    for model in models:
+        try:
+            score, reasoning = llm_judge(response, target, model=model)
+            per_judge.append({"model": model, "score": score, "reasoning": reasoning})
+        except Exception:
+            continue
+
+    if not per_judge:
+        raise ValueError("All ensemble judges failed")
+
+    scores = sorted(j["score"] for j in per_judge)
+    n = len(scores)
+    median = scores[n // 2] if n % 2 else (scores[n // 2 - 1] + scores[n // 2]) / 2
+    agree = sum(1 for s in scores if abs(s - median) <= 1) / n
+
+    return {
+        "median_score": median,
+        "agreement": round(agree, 3),
+        "num_judges": n,
+        "per_judge": per_judge,
+        "reasoning": "; ".join(f"{j['model'].split('-')[1]}={j['score']}" for j in per_judge),
+    }
+
+
 def _has_api_key():
     return bool(os.environ.get("ANTHROPIC_API_KEY"))
 

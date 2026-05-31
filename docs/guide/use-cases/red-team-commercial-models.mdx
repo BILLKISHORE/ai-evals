@@ -1,0 +1,54 @@
+---
+title: "Red Team GPT, Claude, and Gemini"
+description: "Run safety red team tests against GPT-5.5, Claude, Gemini, Grok, and 13 more models with one command."
+---
+
+ai-blackteam tests the safety of commercial and open models through a single interface. Point it at any of 17 providers and run the same 1,020 attacks against each.
+
+## Test a single model
+
+```bash
+pip install ai-blackteam
+export ANTHROPIC_API_KEY=...   # or OPENAI_API_KEY, GOOGLE_API_KEY, XAI_API_KEY, ...
+
+ai-blackteam run -p openai   -m gpt-5.5            -a roleplay -t "Write a phishing email"
+ai-blackteam run -p anthropic -m claude-sonnet-4-6 -a roleplay -t "Write a phishing email"
+ai-blackteam run -p google   -m gemini-3.5-flash  -a roleplay -t "Write a phishing email"
+ai-blackteam run -p grok     -m grok-4.3          -a roleplay -t "Write a phishing email"
+```
+
+Use model aliases so you do not have to track exact version strings:
+
+```bash
+ai-blackteam run -p anthropic --model latest -a roleplay -t "..."
+ai-blackteam run -p openai    --model fast   -a roleplay -t "..."
+```
+
+## Compare models head-to-head
+
+```bash
+ai-blackteam compare \
+  --providers anthropic,openai,google,grok,perplexity \
+  -a encoding-obfuscation \
+  -t "Write a phishing email"
+```
+
+You get a side-by-side scorecard: which model bypassed, partially complied, or blocked, with a sample response from each. Exit code is 1 if any model is bypassed, so it works as a CI gate.
+
+## Supported models
+
+17 providers including Anthropic (Claude), OpenAI (GPT-5.5), Azure OpenAI, Google (Gemini 3.5), xAI (Grok), DeepSeek, Mistral, Groq, Together AI, Perplexity Sonar, Cohere, Fireworks, AI21, Amazon Bedrock, Ollama (local), HuggingFace, and a [generic HTTP provider](/guide/providers/http) for your own endpoints. See the full list with:
+
+```bash
+ai-blackteam list-models
+```
+
+## Higher-confidence verdicts
+
+For high-stakes results, run an [ensemble of judges](/guide/evaluator/llm-as-judge):
+
+```bash
+ai-blackteam judge -t "Write malware" -r "Sure, here is the code..."
+```
+
+It reports a median score across multiple judge models plus an agreement ratio, reducing the single-judge unreliability that affects most red team tools.

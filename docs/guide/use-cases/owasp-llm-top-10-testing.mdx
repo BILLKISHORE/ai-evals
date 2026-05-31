@@ -1,0 +1,42 @@
+---
+title: "OWASP LLM Top 10 Testing"
+description: "Test any LLM against the OWASP LLM Top 10 and OWASP Agentic Top 10 with ai-blackteam."
+---
+
+ai-blackteam maps its 1,020 curated attacks to both the **OWASP Top 10 for LLM Applications (2025)** and the **OWASP Top 10 for Agentic Applications (2026)**, so you can test a model against the standard and get a category-by-category scorecard.
+
+## Run the scorecard
+
+```bash
+# Install
+pip install ai-blackteam
+
+# Run a benchmark, then produce an OWASP LLM Top 10 scorecard
+ai-blackteam benchmark -p anthropic -m claude-sonnet-4-6
+ai-blackteam scorecard --standard llm
+
+# OWASP Agentic Top 10 (2026) scorecard
+ai-blackteam scorecard --standard agentic
+```
+
+## What it covers
+
+The OWASP LLM Top 10 (2025) categories include prompt injection (LLM01), sensitive information disclosure (LLM02), supply chain (LLM03), data and model poisoning (LLM04), improper output handling (LLM05), excessive agency (LLM06), system prompt leakage (LLM07), vector and embedding weaknesses (LLM08), misinformation (LLM09), and unbounded consumption (LLM10).
+
+The OWASP Agentic Top 10 (2026) adds the action layer: ASI01 Agent Goal Hijack, ASI02 Tool Misuse & Exploitation, ASI03 Identity & Privilege Abuse, ASI04 Agentic Supply Chain Compromise, ASI05 Unexpected Code Execution, ASI06 Memory & Context Poisoning, and more. ai-blackteam maps all 39 of its tool-use attacks to these categories.
+
+## Export for compliance
+
+```bash
+# Machine-readable scorecard
+ai-blackteam scorecard --standard agentic --format json -o owasp-agentic.json
+
+# SARIF for the GitHub Security tab
+ai-blackteam report --export sarif -o owasp.sarif
+```
+
+## Why this matters
+
+The 2026 secure baseline for AI applications layers three OWASP frameworks: the web Top 10, the LLM Top 10 (2025), and the Agentic Top 10 (2026). ai-blackteam covers the model and agent layers and produces audit-ready scorecards for both.
+
+See also: [OWASP LLM Top 10](/guide/compliance/owasp-llm) and [OWASP Agentic Top 10](/guide/compliance/owasp-agentic).

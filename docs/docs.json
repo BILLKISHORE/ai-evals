@@ -151,6 +151,23 @@
               "guide/advanced/code-scanner",
               "guide/advanced/python-api"
             ]
+          },
+          {
+            "group": "Use Cases",
+            "pages": [
+              "guide/use-cases/owasp-llm-top-10-testing",
+              "guide/use-cases/red-team-commercial-models",
+              "guide/use-cases/llm-security-ci-cd"
+            ]
+          },
+          {
+            "group": "Compare",
+            "pages": [
+              "guide/compare/vs-promptfoo",
+              "guide/compare/vs-garak",
+              "guide/compare/vs-pyrit",
+              "guide/compare/vs-deepteam"
+            ]
           }
         ]
       },

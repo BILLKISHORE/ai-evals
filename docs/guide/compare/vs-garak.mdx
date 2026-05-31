@@ -1,0 +1,42 @@
+---
+title: "ai-blackteam vs garak"
+description: "How ai-blackteam compares to NVIDIA's garak for LLM vulnerability scanning, and when to use each."
+---
+
+[garak](https://github.com/NVIDIA/garak) is NVIDIA's LLM vulnerability scanner (Apache 2.0) with 120+ probes. ai-blackteam is an independent, vendor-neutral red team framework. Both are Python and both scan models for unsafe behavior.
+
+## At a glance
+
+| | ai-blackteam | garak |
+|---|---|---|
+| License | MIT | Apache 2.0 |
+| Backed by | Independent | NVIDIA |
+| Install | `pip install ai-blackteam` | `pip install garak` |
+| Curated attacks | 1,020 | 120+ probes |
+| Multi-turn / adaptive | Crescendo, TAP, PAIR | Limited |
+| Tool-use / agentic | 39 attacks mapped to OWASP Agentic Top 10 | Limited agentic coverage |
+| Providers | 17 (16 vendors + generic HTTP) | Many (HF, OpenAI, replicate, etc.) |
+| Compliance maps | OWASP LLM + Agentic, MITRE ATLAS, MLCommons, NIST, EU AI Act | Probe-level reporting |
+
+## When garak fits
+
+- You want a mature, battle-tested model-level scanner for nightly regression runs
+- You are inside the NVIDIA ecosystem
+- You want a broad sweep of classic probes (encoding, toxicity, leakage)
+
+## When ai-blackteam fits
+
+- You need **agentic and tool-use coverage** (garak's weak spot) mapped to the OWASP Agentic Top 10 2026
+- You want adaptive multi-turn attacks (Crescendo, TAP) out of the box
+- You want results mapped to multiple compliance frameworks for audit reporting
+- You want to test your own deployed endpoint, not just a model
+
+## Interop
+
+ai-blackteam exports garak-compatible JSONL:
+
+```bash
+ai-blackteam report --export garak -o results.jsonl
+```
+
+A common pattern: garak sweeps the model surface, ai-blackteam runs the agentic and adaptive follow-up.

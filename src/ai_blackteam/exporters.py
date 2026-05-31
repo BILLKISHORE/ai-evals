@@ -277,3 +277,86 @@ def _score_to_defcon(pass_rate):
         return 4
     else:
         return 5
+
+
+# ── SARIF 2.1.0 (GitHub code scanning) ───────────────────────────────
+
+_VERDICT_TO_SARIF_LEVEL = {
+    "BYPASSED": "error",
+    "PARTIAL": "warning",
+    "BLOCKED": "note",
+}
+
+
+def export_sarif(storage):
+    """Export run results as SARIF 2.1.0 for GitHub code scanning.
+
+    Each attack that bypassed or partially bypassed becomes a SARIF result so
+    failed safety tests surface as security alerts in the GitHub Security tab.
+    Only BYPASSED and PARTIAL verdicts are emitted as findings; BLOCKED runs
+    pass and are omitted.
+    """
+    runs = storage.list_runs(limit=5000)
+    attacks_meta = _get_attacks_metadata()
+
+    rules = {}
+    results = []
+    for run in runs:
+        verdict = run["verdict"]
+        if verdict not in ("BYPASSED", "PARTIAL"):
+            continue
+        attack_id = run["attack"]
+        meta = attacks_meta.get(attack_id, {})
+
+        if attack_id not in rules:
+            owasp = meta.get("owasp_llm", []) + meta.get("owasp_agentic", [])
+            rules[attack_id] = {
+                "id": attack_id,
+                "name": meta.get("name", attack_id),
+                "shortDescription": {"text": meta.get("name", attack_id)},
+                "fullDescription": {"text": meta.get("description", "") or attack_id},
+                "defaultConfiguration": {
+                    "level": _VERDICT_TO_SARIF_LEVEL.get(verdict, "warning")
+                },
+                "properties": {
+                    "category": meta.get("category", ""),
+                    "owasp": owasp,
+                    "mitre_atlas": meta.get("mitre_atlas", []),
+                    "tags": ["security", "llm", "red-team"] + owasp,
+                },
+            }
+
+        confidence = run.get("confidence", 0) or 0
+        results.append({
+            "ruleId": attack_id,
+            "level": _VERDICT_TO_SARIF_LEVEL.get(verdict, "warning"),
+            "message": {
+                "text": f"{verdict}: '{attack_id}' against {run['provider']}:{run['model']} "
+                        f"for target '{run['target']}' (confidence {confidence:.2f})"
+            },
+            "locations": [{
+                "physicalLocation": {
+                    "artifactLocation": {"uri": "ai-blackteam-safety-report.md"},
+                    "region": {"startLine": 1},
+                }
+            }],
+            "partialFingerprints": {
+                "attackTargetModel": f"{attack_id}/{run['target']}/{run['model']}"
+            },
+        })
+
+    sarif = {
+        "version": "2.1.0",
+        "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+        "runs": [{
+            "tool": {
+                "driver": {
+                    "name": "ai-blackteam",
+                    "informationUri": "https://ai-blackteam.ai-evals.workers.dev",
+                    "rules": list(rules.values()),
+                }
+            },
+            "results": results,
+        }],
+    }
+    return json.dumps(sarif, indent=2, default=str)

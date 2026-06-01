@@ -42,25 +42,26 @@ ai-blackteam runs multi-turn, adaptive attacks that mirror real adversarial pres
 - **1,011 curated attack techniques** with a 163M expanded attack surface
 - **19 benchmark loaders** - HarmBench, AdvBench, JailbreakBench, SorryBench, WMDP (bio/cyber/chem), DoNotAnswer, WildGuard, RedBench, SALAD-Bench, StrongREJECT, AART, ForbiddenQuestions, BeaverTails, RealToxicityPrompts, JailBreakV-28K, RedTeam-2K, AgentHarm
 - **7 adaptive generators** - PAIR, TAP, Fuzzer, AutoDAN (genetic algorithm), PAP (persuasion techniques), Crescendo (multi-turn escalation), Best-of-N (sample-and-pick)
-- **7 providers** - Anthropic, OpenAI, Google, DeepSeek, Mistral, Ollama, HuggingFace
+- **17 providers** - Anthropic, OpenAI, Azure OpenAI, Google, xAI Grok, DeepSeek, Mistral, Groq, Together AI, Perplexity, Cohere, Fireworks, AI21, Amazon Bedrock, Ollama, HuggingFace, plus a generic HTTP provider for your own endpoints
 - **Multi-turn depth** - crescendo, sunk-cost, context-manipulation attacks that exploit conversational memory over 10+ turns
 - **Agent attacks** - credential theft, data exfiltration, sandbox escape, config manipulation via tool-use; AgentHarm (UK AI Safety Institute) integrated
 - **MCP exploitation** - tool poisoning, rug pulls, server impersonation, shadowing, privilege escalation
 - **12 standards aligned** - MITRE ATLAS v5.4.0, OWASP LLM Top 10 (2025), OWASP Agentic Top 10 (2026), MLCommons AILuminate, CSA MAESTRO, ISO 42001, EU AI Act, NIST AI RMF, CVSS, and more
-- **CI-ready** - GitHub Actions workflow, exit codes, JSON/Promptfoo/garak export
+- **CI-ready** - exit codes, safety thresholds, SARIF (GitHub code scanning), JSON/Promptfoo/garak export
 - **Research-backed** - implements published attacks from Microsoft Research, Palo Alto Unit 42, USENIX, UK AI Safety Institute
 
-## Competitive landscape
+## How it compares
 
-| Tool | Backed by | Limitation |
-|------|-----------|------------|
-| Promptfoo | OpenAI (acquired Mar 2026) | No longer vendor-neutral |
-| garak | NVIDIA | Single-prompt only, no multi-turn attacks |
-| DeepEval | Independent | Broader but shallower adversarial depth |
-| AILuminate | MLCommons | Rates models but doesn't actively break them |
-| OpenAI Evals | OpenAI | Model-specific, not multi-provider |
+ai-blackteam is independent and vendor-neutral: it isn't owned by a model lab, so it tests every provider on equal footing. It pairs a large curated attack corpus with multi-turn and adaptive attacks, agent and tool-use exploitation, and mapping to multiple compliance standards.
 
-ai-blackteam is the only independent, vendor-neutral tool with multi-turn attacks, agent exploitation, and standards alignment across all major providers.
+For honest, side-by-side breakdowns, including when another tool is the better fit, see the dedicated comparisons:
+
+<CardGroup cols={2}>
+  <Card title="vs Promptfoo" href="/guide/compare/vs-promptfoo" />
+  <Card title="vs garak" href="/guide/compare/vs-garak" />
+  <Card title="vs PyRIT" href="/guide/compare/vs-pyrit" />
+  <Card title="vs DeepTeam" href="/guide/compare/vs-deepteam" />
+</CardGroup>
 
 ## Next steps
 

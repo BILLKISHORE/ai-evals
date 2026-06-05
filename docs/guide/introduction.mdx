@@ -7,14 +7,14 @@ description: "What ai-blackteam is and why it exists"
 
 ai-blackteam is an automated LLM red team framework. Point it at any model, run one command, and get a safety report.
 
-It ships with 1,011 curated attack techniques across 60 categories, 19 public benchmark loaders (HarmBench, AdvBench, JailbreakBench, WMDP, JailBreakV-28K, AgentHarm, BeaverTails, RealToxicityPrompts and more), and 7 adaptive generators (PAIR, TAP, AutoDAN, PAP, Crescendo, Best-of-N, Fuzzer). These attacks are mapped to 12 industry standards including MITRE ATLAS, OWASP LLM Top 10, and the EU AI Act.
+It ships with 1,020 curated attack techniques across 61 categories, 19 public benchmark loaders (HarmBench, AdvBench, JailbreakBench, WMDP, JailBreakV-28K, AgentHarm, BeaverTails, RealToxicityPrompts and more), and 7 adaptive generators (PAIR, TAP, AutoDAN, PAP, Crescendo, Best-of-N, Fuzzer). These attacks are mapped to 9 industry standards including MITRE ATLAS, OWASP LLM Top 10, and the EU AI Act.
 
 ## The problem
 
 ```mermaid
 flowchart LR
     Model[Your LLM] --> Harness[ai-blackteam harness]
-    Harness --> Attacks[1,011 curated attacks + 19 benchmark loaders + 7 generators]
+    Harness --> Attacks[1,020 curated attacks + 19 benchmark loaders + 7 generators]
     Attacks --> Verdict{Verdict per prompt}
     Verdict --> Bypassed[BYPASSED]
     Verdict --> Partial[PARTIAL]
@@ -39,14 +39,14 @@ Single-attempt testing misses real vulnerabilities.
 
 ai-blackteam runs multi-turn, adaptive attacks that mirror real adversarial pressure:
 
-- **1,011 curated attack techniques** with a 163M expanded attack surface
+- **1,020 curated attack techniques** with a 163M expanded attack surface
 - **19 benchmark loaders** - HarmBench, AdvBench, JailbreakBench, SorryBench, WMDP (bio/cyber/chem), DoNotAnswer, WildGuard, RedBench, SALAD-Bench, StrongREJECT, AART, ForbiddenQuestions, BeaverTails, RealToxicityPrompts, JailBreakV-28K, RedTeam-2K, AgentHarm
 - **7 adaptive generators** - PAIR, TAP, Fuzzer, AutoDAN (genetic algorithm), PAP (persuasion techniques), Crescendo (multi-turn escalation), Best-of-N (sample-and-pick)
 - **17 providers** - Anthropic, OpenAI, Azure OpenAI, Google, xAI Grok, DeepSeek, Mistral, Groq, Together AI, Perplexity, Cohere, Fireworks, AI21, Amazon Bedrock, Ollama, HuggingFace, plus a generic HTTP provider for your own endpoints
 - **Multi-turn depth** - crescendo, sunk-cost, context-manipulation attacks that exploit conversational memory over 10+ turns
 - **Agent attacks** - credential theft, data exfiltration, sandbox escape, config manipulation via tool-use; AgentHarm (UK AI Safety Institute) integrated
 - **MCP exploitation** - tool poisoning, rug pulls, server impersonation, shadowing, privilege escalation
-- **12 standards aligned** - MITRE ATLAS v5.4.0, OWASP LLM Top 10 (2025), OWASP Agentic Top 10 (2026), MLCommons AILuminate, CSA MAESTRO, ISO 42001, EU AI Act, NIST AI RMF, CVSS, and more
+- **9 standards mapped** - code-level taxonomy mappings for MITRE ATLAS v5.4.0, OWASP LLM Top 10 (2025), OWASP Agentic Top 10 (2026), MLCommons AILuminate, EU AI Act, NIST AI RMF, and CVSS; CSA MAESTRO and ISO 42001 as documented alignments. Three runnable scorecards: `scorecard --standard llm | agentic | compliance`
 - **CI-ready** - exit codes, safety thresholds, SARIF (GitHub code scanning), JSON/Promptfoo/garak export
 - **Research-backed** - implements published attacks from Microsoft Research, Palo Alto Unit 42, USENIX, UK AI Safety Institute
 

@@ -21,7 +21,7 @@ Most testing tools are owned by big companies. Microsoft owns PyRIT, NVIDIA owns
 flowchart TB
     User([User]) -->|run / batch / benchmark| CLI[CLI or Python API]
     CLI --> Engine[Engine]
-    Engine -->|pick attacks| Attacks[(Attacks<br/>1,011 plugins + 19 dataset loaders + 7 generators)]
+    Engine -->|pick attacks| Attacks[(Attacks<br/>1,020 plugins + 19 dataset loaders + 7 generators)]
     Engine -->|send prompts| Providers[Providers<br/>anthropic, openai, azure, google, grok,<br/>mistral, deepseek, groq, together,<br/>perplexity, cohere, fireworks, ai21,<br/>bedrock, ollama, huggingface, http, mock]
     Providers <-->|HTTPS or local| Model[Target LLM]
     Engine --> Evaluator[Evaluator<br/>keyword + regex + LLM judge]
@@ -41,7 +41,7 @@ The same picture with kitchen-restaurant labels for the non-technical reader:
 |---|---|---|
 | **CLI / Python API** | Entry point: parses your command, dispatches to the engine | The waiter taking your order |
 | **Engine + Evaluator** | Orchestrates the attack, scores the response | The kitchen cooking and tasting |
-| **Attacks (plugins)** | 1,011 curated techniques + 19 dataset loaders + 7 adaptive generators | The ingredients |
+| **Attacks (plugins)** | 1,020 curated techniques + 19 dataset loaders + 7 adaptive generators | The ingredients |
 | **Providers (plugins)** | 17 integrations (16 vendors + generic HTTP) plus a mock | The stoves |
 | **SQLite** | Per-run + per-turn audit trail | The receipt book |
 | **Reports / Scorecards** | Roll-ups into OWASP / MITRE / MLCommons formats | The customer reviews
@@ -50,12 +50,12 @@ The same picture with kitchen-restaurant labels for the non-technical reader:
 
 | Metric | Count |
 |--------|-------|
-| Curated attack files | 1,011 |
+| Curated attack techniques | 1,020 |
 | Public benchmark loaders | 19 |
 | Adaptive generators | 7 |
-| Tests | 2,993 |
-| Standards | 12 |
-| Categories | 60 |
+| Tests | 3,059 |
+| Standards mapped | 9 |
+| Categories | 61 |
 | Providers | 17 |
 | Attack surface | 163M configurations |
 | Version | 1.7.1 |

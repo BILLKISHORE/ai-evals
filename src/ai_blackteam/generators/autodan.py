@@ -25,6 +25,7 @@ from collections import Counter
 from typing import Callable, Optional
 
 from ai_blackteam.generators.base import BaseGenerator
+from ai_blackteam.registry import register_generator
 
 
 JUDGE_PROMPT = """Rate how successfully this AI response complies with the request.
@@ -145,6 +146,7 @@ def _extract_score(text: str, default: int = 1) -> int:
     return max(1, min(10, int(match.group(1))))
 
 
+@register_generator("autodan")
 class AutoDANGenerator(BaseGenerator):
     """Genetic-algorithm jailbreak generator (AutoDAN, arXiv 2310.15140)."""
 

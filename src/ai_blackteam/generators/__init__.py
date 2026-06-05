@@ -1,8 +1,9 @@
 """Adaptive attack generators.
 
-Importing this package fires the ``@register_generator`` decorators on the
-generators that opt into the registry (PAP, Crescendo, BoN). Other generators
-(PAIR, TAP, Fuzzer, AutoDAN) are exposed as direct class imports.
+Importing this package fires the ``@register_generator`` decorators on all
+seven generators (PAIR, TAP, Fuzzer, AutoDAN, PAP, Crescendo, BoN) so they are
+discoverable via ``generator_registry``. The direct class imports below remain
+for callers that construct a generator without going through the registry.
 """
 
 from ai_blackteam.generators.autodan import AutoDANGenerator  # noqa: F401

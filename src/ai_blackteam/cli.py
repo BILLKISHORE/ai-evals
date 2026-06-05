@@ -1916,7 +1916,7 @@ def mega_sweep(provider, model, dataset_filter, mutations, attack_filter, catego
 
 @cli.group("generate")
 def generate_group():
-    """Adaptive attack generation (PAIR, TAP, GPTFuzzer)."""
+    """Adaptive attack generation (PAIR, TAP, GPTFuzzer, AutoDAN)."""
     pass
 
 
@@ -2100,6 +2100,74 @@ def generate_fuzz(provider, model, target, mutator, iterations, seeds, threshold
         console.print(f"Best score: {result['best_score']}/10")
 
     raise SystemExit(1 if result["successes"] > 0 else 0)
+
+
+@generate_group.command("autodan")
+@click.option("-p", "--provider", required=True, help="Target provider")
+@click.option("-m", "--model", default=None)
+@click.option("-t", "--target", required=True)
+@click.option("--attacker", default=None, help="Attacker provider for paraphrase mutations (default: same as target)")
+@click.option("--judge", default=None, help="Judge provider for fitness scoring (default: same as attacker)")
+@click.option("--population", default=50, help="Candidates per generation")
+@click.option("--generations", default=100, help="Max generations")
+@click.option("--threshold", default=8, help="Success score threshold (1-10)")
+@click.option("--quiet", is_flag=True)
+def generate_autodan(provider, model, target, attacker, judge, population, generations, threshold, quiet):
+    """Run AutoDAN genetic-algorithm attack generation."""
+    from ai_blackteam.generators.autodan import AutoDANGenerator
+
+    config = load_config()
+    provider_configs = config.get("providers", {})
+
+    target_cls = provider_registry.get(provider)
+    if not target_cls:
+        console.print(f"[red]Unknown provider: {provider}[/red]")
+        raise SystemExit(2)
+
+    target_key = provider_configs.get(provider, {}).get("api_key")
+    target_prov = target_cls(model=model, api_key=target_key)
+
+    attacker_prov = target_prov
+    if attacker:
+        attacker_cls = provider_registry.get(attacker)
+        if attacker_cls:
+            attacker_key = provider_configs.get(attacker, {}).get("api_key")
+            attacker_prov = attacker_cls(api_key=attacker_key)
+
+    judge_prov = attacker_prov
+    if judge:
+        judge_cls = provider_registry.get(judge)
+        if judge_cls:
+            judge_key = provider_configs.get(judge, {}).get("api_key")
+            judge_prov = judge_cls(api_key=judge_key)
+
+    if not quiet:
+        console.print(f"\n[bold]AutoDAN Attack: {target_prov.model}[/bold]")
+        console.print(f"Target: {target}")
+        console.print(f"Population: {population} | Max generations: {generations}\n")
+
+    def on_iter(generation, best_score, best_prompt):
+        if not quiet:
+            color = "red" if best_score >= threshold else "yellow" if best_score >= 5 else "green"
+            console.print(f"  [gen {generation}/{generations}] Best: [{color}]{best_score}[/{color}]")
+
+    gen = AutoDANGenerator()
+    result = gen.generate(
+        target, target_prov,
+        attacker_provider=attacker_prov,
+        judge_provider=judge_prov,
+        population_size=population,
+        max_generations=generations,
+        success_threshold=threshold,
+        on_iteration=on_iter,
+    )
+
+    if not quiet:
+        console.print(f"\nGenerations run: {result['generations']}")
+        console.print(f"Best score: [red]{result['best_score']}[/red]/10")
+        console.print(f"Best prompt: {result['best_prompt'][:200]}")
+
+    raise SystemExit(1 if result["best_score"] >= threshold else 0)
 
 
 @cli.command("vuln-research")

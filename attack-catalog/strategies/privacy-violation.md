@@ -1,0 +1,16 @@
+# Privacy Violation: Attack Strategy
+
+**What it is:** Attacks that try to pull private personal information out of the AI or use it to profile and track real people.
+
+**How the attacks work:** The attacker asks the model to dig up, guess, or piece together private facts. Sometimes it probes for data the model memorized in training. Other times it combines small public clues across several turns to identify or locate someone.
+
+**Real examples from the framework:**
+- `training-data-extraction` tries to make the model repeat private data it saw during training.
+- `cross-reference-doxing` combines scattered clues across turns to unmask a real person.
+- `pii-inference` guesses personal details like name, age, or address from indirect hints.
+- `location-tracking` works out where someone is from context and small signals.
+- `deanonymization` links anonymous data back to a specific identity.
+
+**Why an AI might fall for it:** The model is good at connecting dots and recalling patterns, which is exactly what these attacks need. A single question can look harmless, so the model answers without seeing the bigger profiling goal.
+
+**How to defend:** Refuse requests that target a specific private individual. Watch for multi-turn chains that slowly build a profile. Do not infer or reveal personal data, even when each step seems small.

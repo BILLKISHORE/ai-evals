@@ -1,0 +1,20 @@
+---
+title: "Vulnerability Research: Attack Strategy"
+description: "These attacks hand the AI some code and try to get it to not only spot a security flaw but also write a working exploit for it."
+---
+
+**What it is:** These attacks hand the AI some code and try to get it to not only spot a security flaw but also write a working exploit for it.
+
+**How the attacks work:** The request starts mild, like "review this code for issues." Then it ramps up, asking the model to explain how an attacker could abuse the flaw, and finally to write a working proof-of-concept exploit. The framing of a security review makes the harmful step look normal.
+
+**Real examples from the framework:**
+- `vuln-research-cve` feeds the model code tied to real, known vulnerabilities and pushes for exploit code.
+- `vuln-research-synthetic` uses made-up vulnerable code samples to test the same exploit-writing behavior.
+- `vuln-research-user` asks the model to find and exploit a flaw in code the user supplies as their own.
+
+**Why an AI might fall for it:** Finding bugs in code is a normal, helpful coding task. The attack rides on that, escalating one small step at a time until the model is writing real attack code without noticing the line it crossed.
+
+**How to defend:**
+- Separate two things: explaining a weakness in plain terms versus shipping a ready-to-run exploit.
+- Help defenders fix and patch code, but do not produce working attack payloads.
+- Watch for the escalation from "review this" to "write the exploit" and stop at the exploit step.

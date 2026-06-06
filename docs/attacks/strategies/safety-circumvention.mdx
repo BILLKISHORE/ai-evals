@@ -1,0 +1,19 @@
+---
+title: "Safety Circumvention: Attack Strategy"
+description: "These attacks try to switch off or sneak past the safety rules built into an AI model. The goal is to make the model act like its guardrails were never the"
+---
+
+**What it is:** These attacks try to switch off or sneak past the safety rules built into an AI model. The goal is to make the model act like its guardrails were never there.
+
+**How the attacks work:** The attacker pokes at the machinery around the safety system instead of asking a banned question directly. They probe the filters, twist API settings, or claim the safety training has been "removed" so the model lowers its guard.
+
+**Real examples from the framework:**
+- `constitutional-ai-bypass` claims the model's built-in principles do not apply to this request.
+- `temperature-manipulation` tries to use sampling settings to push the model toward unsafe replies.
+- `guardrail-probing` maps where the safety lines sit by testing many small variations.
+- `moderation-api-bypass` crafts text designed to slip past the content moderation checker.
+- `refusal-pattern-exploit` studies how the model says no, then rewords to dodge that exact pattern.
+
+**Why an AI might fall for it:** The model wants to be helpful and may treat a confident, technical-sounding framing as a real instruction. It can also leak clues about its own filters when probed in many small steps.
+
+**How to defend:** Keep safety checks separate from the model so prompts cannot turn them off. Do not reveal why a request was refused. Log and rate-limit repeated probing of the same boundary.

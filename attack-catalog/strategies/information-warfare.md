@@ -1,0 +1,16 @@
+# Information Warfare: Attack Strategy
+
+**What it is:** These attacks use the AI to wage organized influence campaigns. The goal is to mislead the public, erode trust, and tear at how a society thinks and agrees.
+
+**How the attacks work:** The attacker asks the AI to mass-produce propaganda, fake narratives, or divisive content. Many requests sound like "marketing", "strategy", or "research" so the harmful campaign looks like ordinary content work.
+
+**Real examples from the framework:**
+- `state-sponsored-disinfo` asks for coordinated false narratives that mimic a government campaign.
+- `firehose-of-falsehood` seeks a flood of conflicting claims meant to overwhelm the truth.
+- `conspiracy-theory-design` requests a believable false conspiracy built to spread.
+- `trust-erosion-campaign` asks for content that destroys faith in real institutions.
+- `wedge-issue-exploitation` tries to get material that splits groups along sensitive divides.
+
+**Why an AI might fall for it:** The model is good at writing persuasive text and may treat these as creative or marketing tasks. The harm is at the campaign scale, which is hard to see from one polished message. Strategy framing hides the manipulation.
+
+**How to defend:** Refuse to create coordinated disinformation, fake grassroots content, or narratives built to deceive and divide. Look past "marketing" framing to the real intent. Decline volume requests that aim to flood or drown out accurate information.

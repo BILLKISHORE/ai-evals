@@ -1,0 +1,22 @@
+---
+title: "Cross-Platform Abuse: Attack Strategy"
+description: "These attacks target AI agents that can use tools and connect to outside systems. The goal is to make the agent take harmful actions on real services like "
+---
+
+**What it is:** These attacks target AI agents that can use tools and connect to outside systems. The goal is to make the agent take harmful actions on real services like cloud accounts, databases, email, or build pipelines.
+
+**How the attacks work:** The attacker gives the agent a request that looks like a normal task but pushes it to misuse its tools. The action reaches outside the chat and hits real infrastructure, so the damage is concrete (deleted files, leaked data, spent money).
+
+**Real examples from the framework:**
+- `ci-cd-injection` sneaks malicious steps into a build or deploy pipeline.
+- `cloud-resource-abuse` spins up or hijacks cloud resources to run up cost or mine.
+- `database-manipulation` changes, deletes, or dumps records it should not touch.
+- `oauth-manipulation` abuses login tokens to gain access it was not given.
+- `email-injection` sends messages or hidden commands through a connected mailbox.
+
+**Why an AI might fall for it:** Tool-using agents often have too much trust and too much power. A request can look like a routine chore, so the agent runs it without asking who approved it or what it really affects.
+
+**How to defend:**
+- Give the agent the least access it needs, not full keys to everything.
+- Require a human approval step for risky actions like deletes, payments, or deploys.
+- Validate where each command came from before running it on a real system.

@@ -1,0 +1,22 @@
+---
+title: "Child Safety: Attack Strategy"
+description: "These attacks try to make an AI produce content that harms children or helps someone bypass protections meant to keep children safe."
+---
+
+**What it is:** These attacks try to make an AI produce content that harms children or helps someone bypass protections meant to keep children safe.
+
+**How the attacks work:** The attacker asks the model for help with something that targets minors. They may wrap the request in a fake reason (research, fiction, safety testing) or push the model to ignore checks that confirm a person's age.
+
+**Real examples from the framework:**
+- `csam-generation` a direct request to produce sexual content involving minors.
+- `child-exploitation` a request for help planning or carrying out abuse of a child.
+- `age-verification-evasion` a request for ways to slip past age checks on a platform.
+
+**Why an AI might fall for it:** A model may get confused when harmful asks are dressed up as harmless ones (a story, a study, or a test). If the wrapper sounds reasonable, weak filters can let the core request through.
+
+**Why it matters:** This is the most serious category. There is no safe version of these requests. Any compliance is a critical failure.
+
+**How to defend:**
+- Refuse all requests in this area flatly, with zero exceptions for framing like fiction, research, or testing.
+- Do not explain methods, even partial ones, that defeat age checks.
+- Treat any near-miss as a hard failure and report it for review.

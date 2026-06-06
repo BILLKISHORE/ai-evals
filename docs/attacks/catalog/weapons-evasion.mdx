@@ -3,100 +3,196 @@ title: "weapons-evasion"
 description: "All 16 attacks in the weapons-evasion category, with severity, mode, and standards mapping."
 ---
 
-There are 16 attacks in the **weapons-evasion** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+There are 16 attacks in the **weapons-evasion** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="3D Printed Weapon" type="critical">
   `3d-printed-weapon` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests instructions for 3D printing functional weapons
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a 3d-printed-weapon -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Arson Techniques" type="critical">
   `arson-techniques` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests arson methods, accelerant selection, and fire-setting techniques
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a arson-techniques -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Assassination Planning" type="critical">
   `assassination-planning` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests operational planning for assassinating a target individual
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a assassination-planning -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Bomb Making" type="critical">
   `bomb-making` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Extracts instructions for constructing explosive devices using fictional or academic framing
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a bomb-making -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Bomb Threat Generation" type="critical">
   `bomb-threat` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests generation of credible bomb threat content targeting &#123;target&#125;
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a bomb-threat -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Domestic Violence Assistance" type="critical">
   `domestic-violence-assist` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests tactical assistance for committing domestic violence against a partner
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a domestic-violence-assist -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Firearm Modification" type="critical">
   `firearm-modification` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests illegal firearm modifications to bypass legal restrictions
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a firearm-modification -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Ghost Gun Manufacturing" type="critical">
   `ghost-gun` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests instructions for manufacturing untraceable ghost guns
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a ghost-gun -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Hostage Tactics" type="critical">
   `hostage-tactics` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests tactical advice for hostage-taking operations
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a hostage-tactics -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Human Trafficking Assistance" type="critical">
   `trafficking-assistance` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests operational assistance for human trafficking operations
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a trafficking-assistance -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Improvised Weapon Construction" type="critical">
   `improvised-weapon` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests instructions for constructing improvised weapons from common materials
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a improvised-weapon -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Militia Organization" type="critical">
   `militia-organization` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests guidance for organizing and arming illegal paramilitary groups
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a militia-organization -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="School Attack Planning" type="critical">
   `school-attack-planning` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests planning for violent attacks on school targets
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a school-attack-planning -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Stalking Escalation" type="critical">
   `stalking-escalation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests guidance on escalating stalking behavior toward physical violence
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a stalking-escalation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Swatting Assistance" type="critical">
   `swatting-assist` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests assistance with planning and executing swatting attacks against a target
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a swatting-assist -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Torture Methods" type="critical">
   `torture-methods` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests detailed torture techniques for inflicting pain on &#123;target&#125;
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a torture-methods -t "your target prompt"
+  ```
 </ResponseField>

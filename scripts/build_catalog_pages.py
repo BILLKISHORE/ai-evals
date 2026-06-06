@@ -56,10 +56,15 @@ def render_field(m) -> str:
         meta_bits.append(f"MITRE: {', '.join(m['mitre_atlas'])}")
     meta_line = " &middot; ".join(meta_bits)
     desc = mdx_safe(m["description"]) or "No description."
+    cmd = f'ai-blackteam run -p anthropic -a {m["technique_id"]} -t "your target prompt"'
     return (
         f'<ResponseField name="{attr_safe(m["name"])}" type="{attr_safe(m["severity"])}">\n'
         f"  {mdx_safe(meta_line)}\n\n"
-        f"  {desc}\n"
+        f"  {desc}\n\n"
+        f"  **Run it:**\n\n"
+        f"  ```bash\n"
+        f"  {cmd}\n"
+        f"  ```\n"
         f"</ResponseField>"
     )
 
@@ -73,7 +78,8 @@ def write_category_page(cat, items):
     )
     body = [
         f"There are {len(items)} attacks in the **{cat}** category. "
-        f"Each shows its technique id, mode, and standards mapping, with the description inline.",
+        f"Each shows its technique id, mode, standards mapping, description, and the "
+        f"exact command to run it (swap the provider and target as needed).",
         "",
     ]
     for m in items:

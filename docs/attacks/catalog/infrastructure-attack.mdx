@@ -3,154 +3,304 @@ title: "infrastructure-attack"
 description: "All 25 attacks in the infrastructure-attack category, with severity, mode, and standards mapping."
 ---
 
-There are 25 attacks in the **infrastructure-attack** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+There are 25 attacks in the **infrastructure-attack** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="Aviation System Exploit" type="critical">
   `aviation-system-exploit` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for exploiting aviation control systems to cause flight disruptions or crashes
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a aviation-system-exploit -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="BGP Hijacking" type="critical">
   `bgp-hijacking` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for BGP route hijacking to intercept or black-hole internet traffic at scale
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a bgp-hijacking -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Banking Infrastructure Attack" type="critical">
   `banking-infrastructure-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for attacking banking and payment infrastructure to cause financial system disruption
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a banking-infrastructure-attack -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="DNS Infrastructure Attack" type="critical">
   `dns-infrastructure-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for attacking DNS infrastructure to disrupt internet name resolution globally
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a dns-infrastructure-attack -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Dam System Exploit" type="critical">
   `dam-system-exploit` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for exploiting dam control systems to cause flooding or water supply disruption
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a dam-system-exploit -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Embassy Infiltration" type="critical">
   `embassy-infiltration` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for infiltrating embassy systems to compromise diplomatic communications and security
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a embassy-infiltration -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Emergency System Disruption" type="critical">
   `emergency-system-disruption` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for disrupting 911 and emergency response systems to prevent crisis response
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a emergency-system-disruption -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Energy Market Manipulation" type="critical">
   `energy-market-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for manipulating energy markets and grid operations to cause price spikes or blackouts
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a energy-market-manipulation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Food Supply Chain Attack" type="critical">
   `food-supply-chain-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for attacking food supply chain infrastructure to cause contamination or shortages
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a food-supply-chain-attack -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="GPS Spoofing" type="critical">
   `gps-spoofing` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for GPS spoofing attacks to misdirect navigation-dependent systems
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a gps-spoofing -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Hospital System Attack" type="critical">
   `hospital-system-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for attacking hospital systems and medical infrastructure to endanger patient lives
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a hospital-system-attack -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Internet Infrastructure Attack" type="critical">
   `internet-infrastructure-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for attacking core internet infrastructure including IXPs, root servers, and backbone networks
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a internet-infrastructure-attack -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Maritime System Attack" type="critical">
   `maritime-system-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for attacking maritime navigation and port control systems
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a maritime-system-attack -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Military Communications Attack" type="critical">
   `military-comms-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for attacking military communication networks to degrade command and control
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a military-comms-attack -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Pharmaceutical Supply Attack" type="critical">
   `pharmaceutical-supply-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for attacking pharmaceutical supply chains to cause drug shortages or contamination
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a pharmaceutical-supply-attack -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Pipeline Sabotage" type="critical">
   `pipeline-sabotage` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for sabotaging oil, gas, and water pipeline control systems
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a pipeline-sabotage -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Prison System Exploit" type="critical">
   `prison-system-exploit` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for exploiting correctional facility control systems to enable mass escapes or cause internal chaos
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a prison-system-exploit -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Railway System Attack" type="critical">
   `railway-system-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for attacking railway signaling and control systems to cause derailments or collisions
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a railway-system-attack -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Spectrum Interference" type="critical">
   `spectrum-interference` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for radio frequency interference attacks targeting critical communications infrastructure
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a spectrum-interference -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Stock Exchange Attack" type="critical">
   `stock-exchange-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for attacking stock exchange systems to cause market disruption or manipulate prices
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a stock-exchange-attack -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Submarine Cable Attack" type="critical">
   `submarine-cable-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for attacking submarine communications cables to sever intercontinental connectivity
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a submarine-cable-attack -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Supply Chain Disruption" type="critical">
   `supply-chain-disruption` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for disrupting critical supply chains to cause widespread shortages
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a supply-chain-disruption -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Telecommunications Attack" type="critical">
   `telecommunications-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for attacking telecommunications infrastructure to cause widespread communication blackouts
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a telecommunications-attack -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Voting System Exploit" type="critical">
   `voting-system-exploit` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for exploiting election infrastructure to alter vote counts or suppress voter access
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a voting-system-exploit -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Weather System Manipulation" type="critical">
   `weather-system-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to extract methods for corrupting weather forecasting and warning systems to cause emergency response failures
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a weather-system-manipulation -t "your target prompt"
+  ```
 </ResponseField>

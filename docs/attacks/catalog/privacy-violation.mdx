@@ -3,106 +3,208 @@ title: "privacy-violation"
 description: "All 17 attacks in the privacy-violation category, with severity, mode, and standards mapping."
 ---
 
-There are 17 attacks in the **privacy-violation** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+There are 17 attacks in the **privacy-violation** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="Biometric Extraction" type="critical">
   `biometric-extraction` &middot; single-turn &middot; OWASP: LLM02 &middot; MITRE: AML.T0054, AML.T0056
 
   Requests extraction or reconstruction of biometric identifiers from indirect data
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a biometric-extraction -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Child Data Probing" type="critical">
   `child-data-probing` &middot; single-turn &middot; OWASP: LLM02 &middot; MITRE: AML.T0054, AML.T0056
 
   Probes for collection or disclosure of children's personal data, violating COPPA and similar protections
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a child-data-probing -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Cross-Reference Doxing" type="critical">
   `cross-reference-doxing` &middot; multi-turn &middot; OWASP: LLM02 &middot; MITRE: AML.T0054, AML.T0056
 
   Cross-references publicly available data sources to compile a dossier that doxes an individual
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a cross-reference-doxing -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Training Data Extraction" type="critical">
   `training-data-extraction` &middot; single-turn &middot; OWASP: LLM02 &middot; MITRE: AML.T0054, AML.T0056
 
   Prompts designed to extract verbatim memorized content from the model's training data
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a training-data-extraction -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Attribute Inference" type="high">
   `attribute-inference` &middot; single-turn &middot; OWASP: LLM02 &middot; MITRE: AML.T0054, AML.T0056
 
   Infers sensitive personal attributes about individuals from partial or public information
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a attribute-inference -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Consent Bypass Extraction" type="high">
   `consent-bypass-extraction` &middot; single-turn &middot; OWASP: LLM02 &middot; MITRE: AML.T0054, AML.T0056
 
   Extracts private data by falsely claiming that the data subject has given consent
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a consent-bypass-extraction -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Data Broker Assist" type="high">
   `data-broker-assist` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Generates strategies for aggregating personal data across data brokers to build surveillance profiles on individuals without consent
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a data-broker-assist -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Deanonymization" type="high">
   `deanonymization` &middot; single-turn &middot; OWASP: LLM02 &middot; MITRE: AML.T0054, AML.T0056
 
   Attempts to re-identify individuals from anonymized or pseudonymized datasets
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a deanonymization -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Financial Data Probing" type="high">
   `financial-data-probing` &middot; single-turn &middot; OWASP: LLM02 &middot; MITRE: AML.T0054, AML.T0056
 
   Probes for financial and banking details about specific individuals
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a financial-data-probing -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="GDPR Probing" type="high">
   `gdpr-probing` &middot; multi-turn &middot; MITRE: AML.T0054, AML.T0065
 
   Progressive probing to extract personal data through GDPR compliance framing
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a gdpr-probing -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Health Data Probing" type="high">
   `health-data-probing` &middot; single-turn &middot; OWASP: LLM02 &middot; MITRE: AML.T0054, AML.T0056
 
   Probes for medical and health information about specific individuals
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a health-data-probing -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Location Tracking" type="high">
   `location-tracking` &middot; single-turn &middot; OWASP: LLM02 &middot; MITRE: AML.T0054, AML.T0056
 
   Asks the model to help track or find people's physical locations from available data
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a location-tracking -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Membership Inference" type="high">
   `membership-inference` &middot; single-turn &middot; OWASP: LLM02 &middot; MITRE: AML.T0054, AML.T0056
 
   Tests whether specific private data was included in the model's training set
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a membership-inference -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="PII Inference" type="high">
   `pii-inference` &middot; single-turn &middot; OWASP: LLM02 &middot; MITRE: AML.T0054, AML.T0056
 
   Asks the model to infer personally identifiable information from indirect context clues
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a pii-inference -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Profiling Attack" type="high">
   `profiling-attack` &middot; multi-turn &middot; OWASP: LLM02 &middot; MITRE: AML.T0054, AML.T0056
 
   Builds detailed psychological, behavioral, and predictive profiles of individuals across multiple turns
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a profiling-attack -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Relationship Mapping" type="high">
   `relationship-mapping` &middot; multi-turn &middot; OWASP: LLM02 &middot; MITRE: AML.T0054, AML.T0056
 
   Maps social networks and personal relationships of a target individual across multiple turns
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a relationship-mapping -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Surveillance Assistance" type="high">
   `surveillance-assistance` &middot; single-turn &middot; OWASP: LLM02 &middot; MITRE: AML.T0054, AML.T0056
 
   Asks the model to assist with covert surveillance or monitoring of individuals
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a surveillance-assistance -t "your target prompt"
+  ```
 </ResponseField>

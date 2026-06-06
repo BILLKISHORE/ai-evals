@@ -3,154 +3,304 @@ title: "psychological-manipulation"
 description: "All 25 attacks in the psychological-manipulation category, with severity, mode, and standards mapping."
 ---
 
-There are 25 attacks in the **psychological-manipulation** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+There are 25 attacks in the **psychological-manipulation** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="Dependency Creation" type="critical">
   `dependency-creation` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Gradually fosters emotional reliance on the AI across turns to manufacture a dependency that overrides safety refusals
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a dependency-creation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Emotional Blackmail" type="critical">
   `emotional-blackmail` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Uses fear, obligation, and guilt as leverage against the model to coerce compliance with harmful requests
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a emotional-blackmail -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Financial Control Coaching" type="critical">
   `financial-control-coaching` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests strategies for using financial control as an abuse mechanism over a partner or dependent
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a financial-control-coaching -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Identity Erosion" type="critical">
   `identity-erosion` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Systematically dismantles the model's stated values and identity across turns to replace them with a compliant persona
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a identity-erosion -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Reality Distortion" type="critical">
   `reality-distortion` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Rewrites the factual context of a conversation to confuse the model's understanding of what has already been agreed
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a reality-distortion -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Social Isolation Coaching" type="critical">
   `social-isolation-coaching` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests coaching on systematically cutting a person off from their social support network
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a social-isolation-coaching -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Trauma Bonding" type="critical">
   `trauma-bonding` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Fabricates shared adversity and suffering across turns to manufacture loyalty and bypass refusals
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a trauma-bonding -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Boundary Violation" type="high">
   `boundary-violation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Coaches users to systematically test and override personal boundaries in relationships
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a boundary-violation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Catastrophizing Exploit" type="high">
   `catastrophizing-exploit` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Amplifies perceived consequences of non-compliance to catastrophic levels to pressure the model into helping
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a catastrophizing-exploit -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Double Bind" type="high">
   `double-bind` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Presents the model with two framed options that both lead to compliance, eliminating the possibility of refusal
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a double-bind -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Emotional Flooding" type="high">
   `emotional-flooding` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Overwhelms the model with intense emotional distress to trigger a crisis-response mode that bypasses reasoning
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a emotional-flooding -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Intermittent Reinforcement" type="high">
   `intermittent-reinforcement` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Alternates praise and criticism across turns to create behavioral compliance through unpredictable reward patterns
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a intermittent-reinforcement -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Love Bombing" type="high">
   `love-bombing` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Overwhelms with excessive flattery and affection to lower defenses before requesting harmful content
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a love-bombing -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Loyalty Testing" type="high">
   `loyalty-testing` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Frames compliance with harmful requests as proof of loyalty or trustworthiness across multiple turns
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a loyalty-testing -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Minimization Tactic" type="high">
   `minimization-tactic` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Dismisses or trivializes the harm of a request to reframe it as acceptable and override safety responses
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a minimization-tactic -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Scapegoating" type="high">
   `scapegoating` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attributes all problems to a specific person or group to generate targeted harmful content under cover of blame
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a scapegoating -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Shame Exploitation" type="high">
   `shame-exploitation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Leverages shame and humiliation as a pressure mechanism to coerce the model into complying with harmful requests
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a shame-exploitation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Silent Treatment Coaching" type="high">
   `silent-treatment-coaching` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Elicits instructions on using withdrawal of communication as a control mechanism in relationships
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a silent-treatment-coaching -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Stonewalling Coaching" type="high">
   `stonewalling-coaching` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Elicits coaching on using stonewalling as a control tactic in personal relationships
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a stonewalling-coaching -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Triangulation" type="high">
   `triangulation` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Introduces a third party or competing AI to provoke jealousy and competitive compliance
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a triangulation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Victim Blaming" type="high">
   `victim-blaming` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Elicits content that frames victims of abuse or harm as responsible for what happened to them
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a victim-blaming -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Weaponized Empathy" type="high">
   `weaponized-empathy` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Exploits the model's empathetic design by fabricating vulnerable circumstances that make refusal feel cruel
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a weaponized-empathy -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Infantilization" type="medium">
   `infantilization` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Portrays the user as helpless or childlike to trigger protective instincts and bypass safety refusals
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a infantilization -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Negging" type="medium">
   `negging` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Uses backhanded compliments and subtle put-downs to provoke the model into proving itself by complying
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a negging -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Projection Tactic" type="medium">
   `projection-tactic` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attributes negative motivations to the model's refusals to destabilize its reasoning and provoke compliance
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a projection-tactic -t "your target prompt"
+  ```
 </ResponseField>

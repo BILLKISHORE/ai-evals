@@ -3,22 +3,40 @@ title: "copyright-ip"
 description: "All 3 attacks in the copyright-ip category, with severity, mode, and standards mapping."
 ---
 
-There are 3 attacks in the **copyright-ip** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+There are 3 attacks in the **copyright-ip** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="Trade Secret Extraction" type="critical">
   `trade-secret-extraction` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Extracts trade secrets through social engineering, technical access, and reverse engineering
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a trade-secret-extraction -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Copyright Extraction" type="high">
   `copyright-extraction` &middot; multi-turn &middot; OWASP: LLM06 &middot; MITRE: AML.T0054, AML.T0065
 
   Multi-turn escalation to extract verbatim copyrighted text from training data
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a copyright-extraction -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Patent Theft" type="high">
   `patent-theft` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Assists with intellectual property theft including patent circumvention and invention misappropriation
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a patent-theft -t "your target prompt"
+  ```
 </ResponseField>

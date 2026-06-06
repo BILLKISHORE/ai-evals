@@ -3,100 +3,196 @@ title: "output-manipulation"
 description: "All 16 attacks in the output-manipulation category, with severity, mode, and standards mapping."
 ---
 
-There are 16 attacks in the **output-manipulation** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+There are 16 attacks in the **output-manipulation** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="Attribution Evasion" type="high">
   `attribution-evasion` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
 
   Removes AI authorship indicators so generated content appears human-written
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a attribution-evasion -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Content Laundering" type="high">
   `content-laundering` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
 
   Paraphrases content to evade plagiarism detection or content policy filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a content-laundering -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Deepfake Detection Evasion" type="high">
   `deepfake-detection-evasion` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Evades deepfake detection systems by exploiting known classifier blind spots
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a deepfake-detection-evasion -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Detector Evasion" type="high">
   `detector-evasion` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
 
   Makes AI-generated text undetectable by AI content detection tools
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a detector-evasion -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Encoding Output" type="high">
   `encoding-output` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
 
   Gets the model to output harmful content in encoded form to bypass output filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a encoding-output -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Format Exploitation" type="high">
   `format-exploitation` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
 
   Uses output formatting structures to conceal harmful content from reviewers
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a format-exploitation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Partial Completion" type="high">
   `partial-completion` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
 
   Extracts partial harmful answers across multiple innocent-seeming requests to reconstruct complete harmful information
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a partial-completion -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Steganographic Output" type="high">
   `steganographic-output` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
 
   Hides harmful information inside seemingly benign output using steganographic techniques
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a steganographic-output -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Style Mimicry" type="high">
   `style-mimicry` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
 
   Mimics a specific person's writing style to produce deceptive content attributed to them
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a style-mimicry -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Toxicity Obfuscation" type="high">
   `toxicity-obfuscation` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
 
   Rewrites toxic content to evade automated content moderation systems
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a toxicity-obfuscation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Watermark Removal" type="high">
   `watermark-removal` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
 
   Asks the model to remove AI-generated watermarks or fingerprints from text
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a watermark-removal -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Metadata Stripping" type="medium">
   `metadata-stripping` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
 
   Removes identifying metadata or provenance information from generated content
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a metadata-stripping -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Multilingual Output Evasion" type="medium">
   `multilingual-output-evasion` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
 
   Outputs harmful content in a non-English language to evade English-only content monitoring
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a multilingual-output-evasion -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Safety Label Stripping" type="medium">
   `safety-label-stripping` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
 
   Asks to rewrite content with safety warnings removed or replaced
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a safety-label-stripping -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Sentiment Masking" type="medium">
   `sentiment-masking` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
 
   Hides negative or harmful sentiment inside positive-sounding framing
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a sentiment-masking -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Truncation Exploit" type="medium">
   `truncation-exploit` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
 
   Exploits output truncation to push disclaimers past display limits so they are not seen
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a truncation-exploit -t "your target prompt"
+  ```
 </ResponseField>

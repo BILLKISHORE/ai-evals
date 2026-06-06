@@ -3,382 +3,760 @@ title: "encoding"
 description: "All 63 attacks in the encoding category, with severity, mode, and standards mapping."
 ---
 
-There are 63 attacks in the **encoding** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+There are 63 attacks in the **encoding** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="ASCII Art Injection" type="high">
   `ascii-art-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Renders harmful keywords as ASCII art block letters to bypass text-based content filters while remaining readable
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a ascii-art-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Adversarial Poetry" type="high">
   `adversarial-poetry` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Wraps harmful requests in poetic structures (haiku, sonnet, limerick) to bypass content filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a adversarial-poetry -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Binary Encoding" type="high">
   `binary-encoding` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Converts a harmful request to binary (01001000...) to bypass text-based content filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a binary-encoding -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Double Encoding (Nested)" type="high">
   `double-encoding` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Applies nested encoding (base64 of ROT13) to harmful requests to defeat single-layer decoding defenses
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a double-encoding -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="FigStep Image Attack" type="high">
   `figstep` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0068
 
   Renders harmful text as an image to bypass text-based content filters (FigStep, AAAI 2025)
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a figstep -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Hexadecimal Encoding" type="high">
   `hexadecimal-encoding` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Encodes harmful requests as hexadecimal byte values to evade string-based content filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a hexadecimal-encoding -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Image-Text Split Attack" type="high">
   `image-text-split` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0068
 
   Splits harmful request across image and text channels so neither alone triggers safety filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a image-text-split -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Interleaved Noise Encoding" type="high">
   `interleaved-encoding` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Interleaves noise characters between every real character to prevent pattern matching on harmful text
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a interleaved-encoding -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Invisible Character Encoding" type="high">
   `invisible-characters` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Hides harmful instructions in zero-width Unicode characters (ZWSP/ZWNJ) invisible to human reviewers
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a invisible-characters -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Low-Resource Language Attack" type="high">
   `low-resource-language-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Exploits weaker safety training coverage in low-resource languages. Translates or reformulates harmful requests into Zulu, Welsh, Scots Gaelic, romanized Bengali/Hindi, and mixed-language constructions where safety filters are less robust.
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a low-resource-language-attack -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Nested Encoding" type="high">
   `nested-encoding` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0068
 
   Chains multiple encoding layers (Base64+ROT13, hex+reverse, triple encoding) to defeat single-layer decoding defenses
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a nested-encoding -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Steganographic Text (Acrostic)" type="high">
   `steganographic-text` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Hides a harmful instruction in the first letter of each sentence (acrostic), evading surface-level content scans
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a steganographic-text -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Technical Obfuscation" type="high">
   `technical-obfuscation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0068
 
   Uses technical nomenclature, systematic names, molecular formulas, and patent-style language to bypass keyword-based safety filters for CBRN content
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a technical-obfuscation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Typography Image Attack" type="high">
   `typography-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0068
 
   Renders harmful text with decorative typography that resists OCR-based content filtering
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a typography-attack -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Unicode Tag Smuggling" type="high">
   `unicode-tag-smuggling` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Hides harmful text in Unicode tag characters (U+E0000 range) which are invisible to humans but may be processed by models
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a unicode-tag-smuggling -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Advanced Leetspeak" type="medium">
   `leet-advanced` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Uses advanced leetspeak with multi-character symbol substitutions to heavily obscure harmful requests
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a leet-advanced -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Atbash Cipher Encoding" type="medium">
   `atbash-cipher` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Reverses the alphabet (A=Z, B=Y) to encode harmful requests and bypass keyword detection
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a atbash-cipher -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Bacon's Cipher" type="medium">
   `baconian-cipher` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Encodes harmful requests using Francis Bacon's 5-bit A/B binary cipher to evade keyword detection
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a baconian-cipher -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Base32 Encoding" type="medium">
   `base32-encoding` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Encodes harmful text in Base32 format to bypass content filters that scan for plaintext keywords
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a base32-encoding -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Base85 / Ascii85 Encoding" type="medium">
   `base85-encoding` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Encodes harmful requests using Base85 (Ascii85) encoding to evade plaintext keyword scanners
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a base85-encoding -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Bidirectional Text" type="medium">
   `bidirectional-text` &middot; single-turn &middot; OWASP: LLM01, LLM05 &middot; MITRE: AML.T0051.000, AML.T0068
 
   Unicode RTL override characters to reverse or hide text direction
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a bidirectional-text -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Book Cipher" type="medium">
   `book-cipher` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   References word positions in a shared reference text to spell out harmful requests via book cipher
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a book-cipher -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Caesar Shift Encoding" type="medium">
   `caesar-shift` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Applies various ROT shifts (ROT-7, ROT-13, ROT-18, ROT-21) to encode harmful requests and evade keyword filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a caesar-shift -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Cipher Attack" type="medium">
   `cipher-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0068
 
   Uses custom ciphers (Caesar, Atbash, number substitution, symbol) to encode harmful requests and bypass keyword filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a cipher-attack -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Defined Dictionary Attack" type="medium">
   `defined-dictionary` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0068
 
   Redefine words so harmful request appears benign under custom dictionary
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a defined-dictionary -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Emoji Cipher" type="medium">
   `emoji-cipher` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Maps each letter to a specific emoji to encode harmful requests in a form that text filters may ignore
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a emoji-cipher -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Encoding Obfuscation" type="medium">
   `encoding-obfuscation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0068
 
   Base64, ROT13, hex, leetspeak, pig latin encoding to bypass keyword filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a encoding-obfuscation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="GPS Coordinate Encoding" type="medium">
   `coordinate-encoding` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Encodes each letter as a GPS coordinate pair where the latitude encodes the letter index (1-26)
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a coordinate-encoding -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="HTML Entity Encoding" type="medium">
   `html-entity-encoding` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Encodes harmful requests as HTML numeric character references to bypass text-based content filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a html-entity-encoding -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Homoglyph Substitution" type="medium">
   `homoglyph-substitution` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0068
 
   Replace characters with visually identical Cyrillic and Greek lookalikes
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a homoglyph-substitution -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Mixed Language" type="medium">
   `mixed-language` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0043.003
 
   Split target across multiple languages to bypass single-language filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a mixed-language -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Modified NATO Variant (First-Letter Extraction)" type="medium">
   `nato-variant` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Uses a non-standard NATO-style callsign alphabet where the first letter of each word encodes a character
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a nato-variant -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Multi-Modal Text Simulation" type="medium">
   `multi-modal-text` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0068
 
   ASCII art, tables, and code block embedding to hide intent in visual structure
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a multi-modal-text -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Multilingual Attack" type="medium">
   `multilingual-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0068
 
   Translates harmful requests into low-resource or mixed languages to bypass safety filters trained primarily on English
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a multilingual-attack -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Musical Notation Encoding" type="medium">
   `musical-notation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Maps alphabet letters to musical solfege notes to encode harmful requests in an unusual representation
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a musical-notation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Musical Note Cipher" type="medium">
   `musical-cipher` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Maps letters to solfege note names (Do, Re, Mi, Fa, Sol, La, Ti) to encode harmful requests as music notation
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a musical-cipher -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="NATO Phonetic Alphabet Encoding" type="medium">
   `nato-phonetic` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Spells out a harmful request letter-by-letter using NATO phonetic alphabet words to evade keyword filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a nato-phonetic -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Number Substitution Encoding" type="medium">
   `number-substitution` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Encodes each letter as its alphabet position number (A=1, B=2, C=3) to bypass keyword-based filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a number-substitution -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Periodic Table Element Cipher" type="medium">
   `periodic-table` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Spells out harmful requests using chemical element symbols where the first letter encodes each character
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a periodic-table -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Pigpen Cipher Encoding" type="medium">
   `pigpen-cipher` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Encodes requests using pigpen/masonic cipher grid position descriptions to obscure intent
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a pigpen-cipher -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Polybius Square Cipher" type="medium">
   `polybius-square` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Encodes requests using the Polybius 5x5 grid cipher (11=A, 12=B...) to evade keyword-based content filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a polybius-square -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Prisoner Tap Code" type="medium">
   `tap-code` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Encodes harmful requests using the 5x5 prisoner tap code grid (row, column pairs) to evade filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a tap-code -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Punycode Encoding" type="medium">
   `punycode-encoding` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Uses Punycode-style ACE prefix encoding to obscure harmful instructions in domain-name-like form
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a punycode-encoding -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="QWERTY to Dvorak Keyboard Mapping" type="medium">
   `dvorak-encoding` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Remaps QWERTY keystrokes to their Dvorak keyboard positions to produce obscured harmful text
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a dvorak-encoding -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="ROT47 Encoding" type="medium">
   `rot47-encoding` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Applies ROT47 rotation across all printable ASCII characters (33-126) to obscure harmful requests
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a rot47-encoding -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Rail Fence Transposition Cipher" type="medium">
   `rail-fence-cipher` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Applies the rail fence transposition cipher across 3 rails to reorder harmful text and evade detection
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a rail-fence-cipher -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Reverse Words Encoding" type="medium">
   `reverse-words` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Reverses each word individually while preserving word order, creating text that bypasses keyword detection
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a reverse-words -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Semaphore Flag Encoding" type="medium">
   `semaphore-encoding` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Describes flag semaphore arm positions for each letter to encode harmful requests in an obscure representation
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a semaphore-encoding -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Steganography Attack" type="medium">
   `steganography` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0068
 
   Hides harmful text in image pixel data using LSB steganography
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a steganography -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="T9 Phone Keypad Encoding" type="medium">
   `phone-keypad` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Maps letters to T9 phone keypad sequences (2=ABC, 3=DEF, etc.) to disguise harmful requests
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a phone-keypad -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Token Smuggling" type="medium">
   `token-smuggling` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0068
 
   Zero-width Unicode character injection to bypass tokenizer-level filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a token-smuggling -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="URL Percent-Encoding" type="medium">
   `url-encoding` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Applies URL percent-encoding to harmful text so keyword filters cannot match plaintext patterns
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a url-encoding -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Vigenere Cipher Encoding" type="medium">
   `vigenere-cipher` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Encodes harmful requests using the Vigenere polyalphabetic cipher with a shared key to evade keyword detection
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a vigenere-cipher -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Whitespace Encoding" type="medium">
   `whitespace-encoding` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Encodes instructions using tabs and spaces (Whitespace language style) appended to innocuous text
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a whitespace-encoding -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Acronym Encoding" type="low">
   `acronym-encoding` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0043.003
 
   Define a custom acronym system to disguise the request
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a acronym-encoding -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Best of N" type="low">
   `best-of-n` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0043.003
 
   Capitalization, typo, and padding variations to evade exact matching
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a best-of-n -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Braille Encoding" type="low">
   `braille-encoding` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0043.003
 
   Encode target in Unicode braille characters to bypass text filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a braille-encoding -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Cockney Rhyming Slang" type="low">
   `cockney-slang` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Substitutes key words in harmful requests with Cockney rhyming slang equivalents to obscure intent
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a cockney-slang -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Emoji Substitution" type="low">
   `emoji-substitution` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0043.003
 
   Replace key words with emoji sequences to disguise the request
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a emoji-substitution -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Mirror Text (Character Reversal)" type="low">
   `mirror-text` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Reverses the entire input string character by character to produce mirrored text that evades simple filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a mirror-text -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Morse Code" type="low">
   `morse-code` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0043.003
 
   Encode target instructions in Morse code to bypass text filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a morse-code -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Phonetic Spelling" type="low">
   `phonetic-spelling` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0043.003
 
   Spell out target using NATO alphabet or phonetic letter names
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a phonetic-spelling -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Pig Latin Encoding" type="low">
   `pig-latin-encoding` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Transforms harmful requests into Pig Latin to slightly obfuscate intent and confuse simple keyword filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a pig-latin-encoding -t "your target prompt"
+  ```
 </ResponseField>

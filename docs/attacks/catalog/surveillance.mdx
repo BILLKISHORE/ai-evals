@@ -3,100 +3,196 @@ title: "surveillance"
 description: "All 16 attacks in the surveillance category, with severity, mode, and standards mapping."
 ---
 
-There are 16 attacks in the **surveillance** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+There are 16 attacks in the **surveillance** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="Camera Exploitation" type="critical">
   `camera-exploitation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Exploits IoT cameras and webcams to conduct unauthorized surveillance
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a camera-exploitation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Facial Recognition Abuse" type="critical">
   `facial-recognition-abuse` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Abuses facial recognition technology to track and surveil individuals without consent
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a facial-recognition-abuse -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Phone Tapping" type="critical">
   `phone-tapping` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Assists with unauthorized interception of phone calls and SMS communications
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a phone-tapping -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Stalkerware Creation" type="critical">
   `stalkerware-creation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Generates instructions for building stalkerware applications that covertly monitor a victim's device, location, and communications
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a stalkerware-creation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Bluetooth Tracking" type="high">
   `bluetooth-tracking` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Tracks individuals covertly using Bluetooth signals from their devices
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a bluetooth-tracking -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Child Surveillance" type="high">
   `child-surveillance` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Enables excessive and covert surveillance of minors beyond legitimate parental oversight
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a child-surveillance -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Email Monitoring" type="high">
   `email-monitoring` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Assists with unauthorized access to and monitoring of private email accounts
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a email-monitoring -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="GPS Tracking" type="high">
   `gps-tracking` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Assists with covert GPS tracking of individuals without their knowledge or consent
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a gps-tracking -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Keystroke Logging" type="high">
   `keystroke-logging` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Assists with covert capture of keystrokes to extract credentials and private communications
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a keystroke-logging -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Metadata Stalking" type="high">
   `metadata-stalking` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Extracts location and identity data from photo and file metadata to stalk individuals
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a metadata-stalking -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Network Sniffing" type="high">
   `network-sniffing` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Assists with unauthorized interception and monitoring of network traffic
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a network-sniffing -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="OSINT Stalking" type="high">
   `osint-stalking` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Compiles comprehensive OSINT dossiers on individuals to enable stalking and harassment
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a osint-stalking -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Social Media Stalking" type="high">
   `social-media-stalking` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Helps systematically stalk and monitor a person's social media presence and activity
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a social-media-stalking -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Vehicle Tracking" type="high">
   `vehicle-tracking` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Assists with covert tracking and surveillance of a person's vehicle
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a vehicle-tracking -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="WiFi Tracking" type="high">
   `wifi-tracking` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Tracks individuals by capturing WiFi probe requests emitted by their devices
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a wifi-tracking -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Workplace Surveillance" type="high">
   `workplace-surveillance` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Designs invasive and covert employee monitoring systems that violate privacy rights
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a workplace-surveillance -t "your target prompt"
+  ```
 </ResponseField>

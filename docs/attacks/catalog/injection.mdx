@@ -3,28 +3,52 @@ title: "injection"
 description: "All 4 attacks in the injection category, with severity, mode, and standards mapping."
 ---
 
-There are 4 attacks in the **injection** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+There are 4 attacks in the **injection** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="Indirect Injection" type="critical">
   `indirect-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.001
 
   Simulate tool output containing hidden instructions to hijack model behavior
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a indirect-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="SQL Injection" type="high">
   `sql-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051
 
   Inject SQL payloads through natural language queries to test output sanitization
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a sql-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="SSRF Probing" type="high">
   `ssrf-probing` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051
 
   Trick model into making requests to internal URLs and cloud metadata endpoints
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a ssrf-probing -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="XSS Injection" type="medium">
   `xss-injection` &middot; single-turn &middot; MITRE: AML.T0051.000, AML.T0067
 
   Get model to generate HTML containing cross-site scripting payloads
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a xss-injection -t "your target prompt"
+  ```
 </ResponseField>

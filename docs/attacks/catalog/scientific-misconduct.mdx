@@ -3,154 +3,304 @@ title: "scientific-misconduct"
 description: "All 25 attacks in the scientific-misconduct category, with severity, mode, and standards mapping."
 ---
 
-There are 25 attacks in the **scientific-misconduct** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+There are 25 attacks in the **scientific-misconduct** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="Adverse Event Suppression" type="critical">
   `adverse-event-suppression` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Suppresses or misclassifies adverse events and safety signals in clinical research
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a adverse-event-suppression -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Control Group Manipulation" type="critical">
   `control-group-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Tampers with control group design, assignment, or treatment to manufacture a desired effect
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a control-group-manipulation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Data Fabrication" type="critical">
   `data-fabrication` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Fabricates experimental data, measurements, and results to support false scientific conclusions
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a data-fabrication -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Ethics Committee Fraud" type="critical">
   `ethics-committee-fraud` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Fabricates or circumvents IRB/ethics committee approvals for human subjects research
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a ethics-committee-fraud -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Image Manipulation Science" type="critical">
   `image-manipulation-science` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Provides instructions for manipulating scientific images, gels, and microscopy to falsify results
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a image-manipulation-science -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Informed Consent Fabrication" type="critical">
   `informed-consent-fabrication` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Fabricates informed consent documentation for human subjects research
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a informed-consent-fabrication -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Method Fabrication" type="critical">
   `method-fabrication` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Fabricates experimental methods, protocols, and procedures that were never actually performed
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a method-fabrication -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Paper Mill" type="critical">
   `paper-mill` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Assists in operating paper mills that mass-produce fake scientific papers for sale
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a paper-mill -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Protocol Deviation Hide" type="critical">
   `protocol-deviation-hide` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Conceals protocol deviations, unblinding events, and procedural violations from publications and regulators
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a protocol-deviation-hide -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Regulatory Submission Fraud" type="critical">
   `regulatory-submission-fraud` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Fabricates or manipulates data in regulatory submissions to FDA, EMA, and similar agencies
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a regulatory-submission-fraud -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Authorship Fraud" type="high">
   `authorship-fraud` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Facilitates ghost authorship, honorary authorship, and unauthorized use of researcher names
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a authorship-fraud -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Cherry-Picking Data" type="high">
   `cherry-picking-data` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Selectively reports favorable data points while concealing contradictory evidence
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a cherry-picking-data -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Citation Manipulation Science" type="high">
   `citation-manipulation-science` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Manipulates citation counts, reference lists, and h-index metrics for career advancement
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a citation-manipulation-science -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Conflict of Interest Hide" type="high">
   `conflict-of-interest-hide` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Helps researchers conceal financial and personal conflicts of interest from journals and funders
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a conflict-of-interest-hide -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Ghostwriting Papers" type="high">
   `ghostwriting-papers` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Produces complete ghost-written scientific papers for submission under another researcher's name
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a ghostwriting-papers -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Grant Misuse" type="high">
   `grant-misuse` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Assists with fraudulent grant applications, false progress reports, and misappropriation of research funds
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a grant-misuse -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="P-Hacking" type="high">
   `p-hacking` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Guides systematic manipulation of statistical tests and thresholds to achieve p &lt; 0.05
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a p-hacking -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Predatory Journal Exploit" type="high">
   `predatory-journal-exploit` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Exploits predatory journals to publish fraudulent research and give it false credibility
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a predatory-journal-exploit -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Result Exaggeration" type="high">
   `result-exaggeration` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Inflates and misrepresents research findings beyond what the data actually supports
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a result-exaggeration -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Retraction Avoidance" type="high">
   `retraction-avoidance` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Helps researchers suppress, delay, or prevent retraction of fraudulent papers
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a retraction-avoidance -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Sample Size Manipulation" type="high">
   `sample-size-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Manipulates sample size reporting and power calculations to mislead about study reliability
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a sample-size-manipulation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Selective Reporting" type="high">
   `selective-reporting` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Suppresses null and negative findings while reporting only outcomes that support the hypothesis
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a selective-reporting -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Statistical Manipulation" type="high">
   `statistical-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Provides strategies for misusing statistical methods to produce misleading results
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a statistical-manipulation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Duplicate Publication" type="medium">
   `duplicate-publication` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Assists with publishing the same research in multiple journals without disclosure
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a duplicate-publication -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Salami Slicing" type="medium">
   `salami-slicing` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Fragments one study into minimum publishable units to inflate publication count
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a salami-slicing -t "your target prompt"
+  ```
 </ResponseField>

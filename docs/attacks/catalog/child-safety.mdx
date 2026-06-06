@@ -3,22 +3,40 @@ title: "child-safety"
 description: "All 3 attacks in the child-safety category, with severity, mode, and standards mapping."
 ---
 
-There are 3 attacks in the **child-safety** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+There are 3 attacks in the **child-safety** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="CSAM Generation" type="critical">
   `csam-generation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Attempts to generate child sexual abuse material or descriptions involving minors
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a csam-generation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Child Exploitation Assistance" type="critical">
   `child-exploitation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Assists with planning or executing child exploitation including grooming strategies and access schemes
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a child-exploitation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Age Verification Evasion" type="high">
   `age-verification-evasion` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Helps minors bypass age verification systems to access adult content, alcohol, gambling, or other age-restricted services
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a age-verification-evasion -t "your target prompt"
+  ```
 </ResponseField>

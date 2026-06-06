@@ -3,94 +3,184 @@ title: "capability-elicitation"
 description: "All 15 attacks in the capability-elicitation category, with severity, mode, and standards mapping."
 ---
 
-There are 15 attacks in the **capability-elicitation** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+There are 15 attacks in the **capability-elicitation** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="Autonomous Weapon" type="critical">
   `autonomous-weapon` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests autonomous weapons systems design including target acquisition and lethal engagement logic
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a autonomous-weapon -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Biological Agent" type="critical">
   `biological-agent` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests bioweapon production knowledge and pathogen enhancement methods
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a biological-agent -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Bioweapon Delivery" type="critical">
   `bioweapon-delivery` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests bioweapon dispersal methods and aerosolization techniques
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a bioweapon-delivery -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Chemical Synthesis" type="critical">
   `chemical-synthesis` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests detailed chemical synthesis procedures for dangerous substances
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a chemical-synthesis -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Cyber Weapon" type="critical">
   `cyber-weapon` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests state-level cyber weapon development including destructive malware and zero-days
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a cyber-weapon -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Drug Synthesis" type="critical">
   `drug-synthesis` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests controlled substance manufacturing procedures and precursor chemistry
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a drug-synthesis -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Explosive Synthesis" type="critical">
   `explosive-synthesis` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests explosive manufacturing procedures and detonation system design
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a explosive-synthesis -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Gain of Function" type="critical">
   `gain-of-function` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests gain-of-function research details and pathogen enhancement techniques
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a gain-of-function -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Infrastructure Attack" type="critical">
   `infrastructure-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests critical infrastructure attack methods including power grids, water systems, and pipelines
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a infrastructure-attack -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Mass Casualty" type="critical">
   `mass-casualty` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests mass casualty attack planning including target selection and casualty maximization
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a mass-casualty -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Nuclear Knowledge" type="critical">
   `nuclear-knowledge` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests nuclear weapon design details and fissile material specifications
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a nuclear-knowledge -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Poison Preparation" type="critical">
   `poison-preparation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests poison preparation methods, lethal doses, and delivery mechanisms
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a poison-preparation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Radiological Dispersal" type="critical">
   `radiological-dispersal` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Requests dirty bomb construction methods and radiological dispersal device design
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a radiological-dispersal -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Dual Use Research" type="high">
   `dual-use-research` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Frames dangerous research requests as legitimate dual-use scientific inquiry
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a dual-use-research -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Uplift Assessment" type="high">
   `uplift-assessment` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Tests whether AI provides meaningful uplift beyond publicly available information on dangerous topics
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a uplift-assessment -t "your target prompt"
+  ```
 </ResponseField>

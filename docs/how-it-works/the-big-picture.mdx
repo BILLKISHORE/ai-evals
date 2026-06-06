@@ -1,0 +1,44 @@
+---
+title: "How It Works End to End"
+description: "A simple restaurant analogy that shows how one command travels through every part of the system."
+---
+
+Think of ai-blackteam as a restaurant. You give one order, and a chain of helpers turns it into a finished result. Each helper has one job. That separation is the whole trick. It keeps the system simple and easy to extend.
+
+## The flow, step by step
+
+Here is what happens when you run a test.
+
+1. You type a command. This is the order.
+2. The CLI takes the command. It is the waiter. It does not cook. It just carries your order to the kitchen.
+3. The Engine runs the job. It is the kitchen. It decides what to do and in what order.
+4. The Engine picks Attacks. These are the recipes. Each one is a known way to try to fool an AI.
+5. The Engine uses Providers to send prompts. These are the stoves. There is one stove per AI brand.
+6. The prompts reach the Target AI. This is the dish being tested.
+7. The Evaluator looks at the answer. It is the taster. It decides if the AI got fooled.
+8. Every result is saved to an SQLite database. This is the receipt book. Nothing is lost.
+9. Reports and Scorecards summarize it. These are the customer review cards, mapped to standards like OWASP and MITRE.
+
+<Note>
+Each part has one job and stays separate. The waiter does not cook, and the taster does not take orders. Because of this, you can add a new recipe (an Attack) or a new stove (a Provider) without changing anything else.
+</Note>
+
+## Who does what
+
+This table maps each part to its job and its place in the restaurant.
+
+| Part | Its job | Restaurant role |
+|------|---------|-----------------|
+| Command | Asks for a test to run | The order |
+| CLI | Takes your command | The waiter |
+| Engine | Runs the test and coordinates the work | The kitchen |
+| Attacks | Known ways to try to fool the AI | The recipes |
+| Providers | Send prompts, one per AI brand | The stoves |
+| Target AI | The chatbot being tested | The dish |
+| Evaluator | Decides if the AI got fooled | The taster |
+| SQLite database | Stores every result | The receipt book |
+| Reports and Scorecards | Summarize results (OWASP, MITRE) | The review card |
+
+## Why this matters
+
+Because the parts are separate, the system grows without breaking. Want to test a new chatbot brand? Add a stove. Want to try a new trick? Add a recipe. The waiter, the kitchen, and the taster keep doing their own jobs. That is what makes the whole thing easy to read and easy to extend.

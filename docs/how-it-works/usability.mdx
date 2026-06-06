@@ -1,0 +1,42 @@
+---
+title: "Built to Be Easy to Use"
+description: "The small touches that make ai-blackteam pleasant to run, from model nicknames to safe API keys and auto-retry."
+---
+
+A good tool gets out of your way. ai-blackteam has a layer of small touches that make daily use smooth. You barely notice them when they work, and that is exactly the point. Good tools hide the friction.
+
+Here are the five touches that do the quiet work.
+
+## The five touches
+
+| Touch | What it does |
+| --- | --- |
+| Model nicknames | Use `latest`, `fast`, or `balanced` instead of long names. |
+| API keys stored safely | Set your key once and never paste it into commands. |
+| Auto-retry | Failed requests try again on their own, up to 3 times. |
+| A Python API | Use ai-blackteam inside your own Python code. |
+| The Plugin SDK | Outsiders can add their own attacks with a simple tag. |
+
+## Model nicknames
+
+Model names can be long, like `claude-opus-4-8`. You do not have to remember them. Pick a nickname instead. Use `latest` for the most powerful model, `fast` for the cheap quick one, or `balanced` for the middle option. The tool picks the right model for whichever brand you chose.
+
+## API keys stored safely
+
+You set your key one time. Put it in a config file in your home folder, or read it from your environment. After that, the tool finds it for you. You never paste a secret into a command, which keeps your keys out of your command history.
+
+## Auto-retry
+
+A long run can hit a bad moment on the network. If a request to an AI fails, the tool tries again on its own. It retries up to 3 times, with a growing wait between tries. One network blip does not ruin a whole run.
+
+## A Python API
+
+You do not have to type commands. Developers can call ai-blackteam straight from their own Python code. That lets you build the tool into your own systems and run safety tests as part of a larger workflow.
+
+## The Plugin SDK
+
+Outsiders can add their own attacks. You write an attack and mark it with a simple tag (a decorator). The tag checks that the attack is filled in correctly before it runs. A company can add its own private attacks, and they plug right in next to the built-in ones.
+
+<Note>
+This whole layer is invisible when it works. That is the goal. Good tools hide the friction so you can focus on the testing, not the plumbing.
+</Note>

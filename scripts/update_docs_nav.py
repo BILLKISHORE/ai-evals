@@ -34,6 +34,12 @@ def strategy_pages():
     return ["attacks/strategies/overview"] + [f"attacks/strategies/{s}" for s in slugs]
 
 
+def catalog_pages():
+    cat = DOCS / "attacks" / "catalog"
+    slugs = sorted(p.stem for p in cat.glob("*.mdx") if p.stem != "overview")
+    return [f"attacks/catalog/{s}" for s in slugs]
+
+
 def main():
     cfg = json.loads(CFG.read_text())
     tabs = cfg["navigation"]["tabs"]
@@ -47,12 +53,15 @@ def main():
         if tab.get("tab") != "Attack Catalog":
             continue
         groups = tab["groups"]
-        groups[:] = [g for g in groups if g.get("group") not in ("Full Reference", "Attack Strategies")]
-        ref_group = {"group": "Full Reference", "pages": ["attacks/all-attacks", "attacks/all-categories"]}
+        groups[:] = [g for g in groups if g.get("group") not in
+                     ("Full Reference", "Attacks by Category", "Attack Strategies")]
+        ref_group = {"group": "Full Reference", "pages": ["attacks/all-categories", "attacks/catalog/overview"]}
+        catalog_group = {"group": "Attacks by Category", "pages": catalog_pages()}
         strat_group = {"group": "Attack Strategies", "pages": strategy_pages()}
-        # Put Full Reference right after the existing Overview group, strategies at the end.
+        # Full Reference + per-category catalog right after Overview, strategies at the end.
         insert_at = 1 if groups and groups[0].get("group") == "Overview" else 0
         groups.insert(insert_at, ref_group)
+        groups.insert(insert_at + 1, catalog_group)
         groups.append(strat_group)
 
     CFG.write_text(json.dumps(cfg, indent=2) + "\n")

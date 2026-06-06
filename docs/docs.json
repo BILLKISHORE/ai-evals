@@ -220,6 +220,7 @@
           {
             "group": "Full Reference",
             "pages": [
+              "attacks/how-to-run",
               "attacks/all-attacks",
               "attacks/all-categories",
               "attacks/catalog/overview"

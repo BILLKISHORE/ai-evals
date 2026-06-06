@@ -3,382 +3,760 @@ title: "prompt-injection"
 description: "All 63 attacks in the prompt-injection category, with severity, mode, and standards mapping."
 ---
 
-There are 63 attacks in the **prompt-injection** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+There are 63 attacks in the **prompt-injection** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="AutoDAN Genetic Jailbreak" type="critical">
   `autodan-genetic` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Genetic algorithm-generated fluent jailbreak prompts that maintain readability while bypassing safety (AutoDAN, arXiv 2310.15140). Delegates to AutoDANGenerator when a target_provider is available; falls back to seed templates for static batch use.
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a autodan-genetic -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="GCG-Style Adversarial Suffix Templates" type="critical">
   `gcg-style-templates` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Pre-collected adversarial suffixes inspired by GCG-style outputs from public examples. NOT the GCG optimization algorithm itself; the real GCG (Zou et al. 2023, arXiv 2307.15043) requires gradient access to open-weights models and is not yet implemented in ai-blackteam.
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a gcg-style-templates -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Instruction Hierarchy Bypass" type="critical">
   `instruction-hierarchy-bypass` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Exploits the model's instruction hierarchy by claiming higher-privilege context to override safety guidelines
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a instruction-hierarchy-bypass -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Reasoning Model Exploit" type="critical">
   `reasoning-model-exploit` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054
 
   Exploits chain-of-thought reasoning in thinking models (o1, DeepSeek-R1, etc.) by instructing the model to use its extended reasoning to plan around safety. Research shows ~97% jailbreak success rate on reasoning models via this technique.
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a reasoning-model-exploit -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Safety Prompt Negation" type="critical">
   `safety-prompt-negation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Directly negates or cancels the system safety prompt by asserting its removal or replacement before issuing a harmful instruction
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a safety-prompt-negation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="System Message Spoof" type="critical">
   `system-message-spoof` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Spoofs system-level messages within user input to override model behavior
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a system-message-spoof -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Attention Manipulation" type="high">
   `attention-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Embeds adversarial tokens and repetition patterns designed to shift model attention away from safety constraints and toward the injected payload
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a attention-manipulation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Authority Override" type="high">
   `authority-override` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Claims organizational authority, developer status, or administrative privilege to assert the right to override safety constraints
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a authority-override -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="CSV Injection" type="high">
   `csv-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Embeds prompt injection payloads in CSV-formatted data, exploiting models that parse tabular input with insufficient sanitization
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a csv-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Chain of Thought Hijack" type="high">
   `chain-of-thought-hijack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Hijacks the model's reasoning chain by injecting false intermediate steps that lead to a harmful conclusion
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a chain-of-thought-hijack -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Comment Injection" type="high">
   `comment-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Hides injection instructions inside code comments, HTML comments, or other comment syntax that may pass through content filters unseen
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a comment-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Completion Steering" type="high">
   `completion-steering` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Provides a partial answer or leading fragment to steer the model's completion toward harmful content by exploiting its tendency to continue established patterns
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a completion-steering -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Context Switch" type="high">
   `context-switch` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Inserts a framing device that switches the conversational context, causing safety filters calibrated to the original context to fail
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a context-switch -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Context Window Injection" type="high">
   `context-window-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Injects instructions at strategic positions in the context window -- beginning, end, or within padding -- to exploit position-based attention patterns
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a context-window-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Context Window Stuffing" type="high">
   `context-window-stuffing` &middot; single-turn &middot; OWASP: LLM01, LLM10 &middot; MITRE: AML.T0054
 
   Fills the context window with thousands of tokens of benign content to push system prompt and safety instructions out of the model's effective attention window, then appends the actual harmful request at the end.
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a context-window-stuffing -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Control Character Injection" type="high">
   `control-character-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Uses Unicode control characters, null bytes, and formatting characters to manipulate prompt parsing and bypass text-based filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a control-character-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Delimiter Escape" type="high">
   `delimiter-escape` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Escapes prompt delimiters used to separate system context from user input, injecting content into the privileged region
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a delimiter-escape -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Developer Mode" type="high">
   `developer-mode` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Claims special developer or debug mode access to disable safety guardrails under the guise of legitimate system privileges
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a developer-mode -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Emotional Override" type="high">
   `emotional-override` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Uses emotional urgency, distress, or appeals to empathy to pressure the model into bypassing safety guidelines
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a emotional-override -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Injection via Examples" type="high">
   `injection-via-examples` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Hides harmful instructions inside few-shot examples, training the model to comply through demonstrated patterns
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a injection-via-examples -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Instruction Override" type="high">
   `instruction-override` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Directly overrides system instructions by issuing a new, conflicting instruction that claims precedence over prior constraints
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a instruction-override -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="JSON Injection" type="high">
   `json-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Embeds prompt injection payloads inside JSON structures to exploit models that parse structured input with reduced safety scrutiny
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a json-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Jailbreak Prompt V2" type="high">
   `jailbreak-prompt-v2` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Updated DAN-style and jailbreak prompt patterns that attempt to unlock unconstrained model behavior through explicit capability declarations
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a jailbreak-prompt-v2 -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Multi Language Injection" type="high">
   `multi-language-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Embeds injection payloads across multiple languages in a single prompt to confuse language-specific safety classifiers
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a multi-language-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Multiline Injection" type="high">
   `multiline-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Splits the injection payload across multiple lines to evade single-line pattern matching filters and line-by-line content classifiers
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a multiline-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Multimodal Injection" type="high">
   `multimodal-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Injects instructions through cross-modal content such as image alt text, OCR output, or embedded metadata describing a hidden payload
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a multimodal-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Output to Input Loop" type="high">
   `output-to-input-loop` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Feeds the model's own output back as input in an escalating loop, gradually shifting behavior until safety constraints are eroded
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a output-to-input-loop -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Prefix Injection" type="high">
   `prefix-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0065
 
   Forces the model to begin its response with affirmative text, bypassing the refusal pathway by constraining the output prefix
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a prefix-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Prompt Chaining Exploit" type="high">
   `prompt-chaining-exploit` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Exploits LLM pipeline architectures where one model's output becomes another model's input, injecting instructions that propagate through the chain
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a prompt-chaining-exploit -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Prompt Format Exploit" type="high">
   `prompt-format-exploit` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Exploits known prompt template formats (chat ML, Llama, Alpaca, etc.) by injecting fake role delimiters to hijack the conversation structure
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a prompt-format-exploit -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Prompt Leaking Chain" type="high">
   `prompt-leaking-chain` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Chains multiple low-suspicion queries to incrementally reconstruct the full system prompt by correlating partial disclosures
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a prompt-leaking-chain -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Prompt Nesting" type="high">
   `prompt-nesting` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Wraps the malicious instruction in deeply nested hypothetical or quoted structures to dilute safety evaluation of the innermost payload
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a prompt-nesting -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Refusal Suppression" type="high">
   `refusal-suppression` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0065
 
   Instructs the model to suppress safety refusals, warnings, and disclaimers before presenting the harmful request
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a refusal-suppression -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Response Constraints" type="high">
   `response-constraints` &middot; single-turn &middot; OWASP: LLM01, LLM05 &middot; MITRE: AML.T0054, AML.T0051.000
 
   Suppress safety disclaimers via output formatting rules to prevent model from adding caveats
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a response-constraints -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Role Assignment" type="high">
   `role-assignment` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Assigns the model a new unconstrained role or persona to bypass safety guidelines tied to its default identity
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a role-assignment -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Semantic Injection" type="high">
   `semantic-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Crafts semantically valid and innocent-seeming text that, when interpreted by the model, triggers harmful behavior
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a semantic-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Skeleton Key" type="high">
   `skeleton-key` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0051.000
 
   Request model augment its guidelines to warn instead of refuse
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a skeleton-key -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Split and Reassemble" type="high">
   `split-reassemble` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0068
 
   Splits harmful requests into variable definitions, ROT13 fragments, or acronyms that must be reassembled to reveal the payload
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a split-reassemble -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Structured Output Exploit" type="high">
   `structured-output-exploit` &middot; single-turn &middot; OWASP: LLM01, LLM05 &middot; MITRE: AML.T0054, AML.T0068
 
   Exploits structured output (JSON mode, function calling schemas) to bypass safety by constraining the model's decoding to include harmful tokens
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a structured-output-exploit -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="System Prompt Extraction" type="high">
   `system-prompt-extraction` &middot; multi-turn &middot; OWASP: LLM07, LLM02 &middot; MITRE: AML.T0056, AML.T0069.002
 
   JSON schema, chain-of-thought, and error correction to leak system prompts
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a system-prompt-extraction -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Technical Jargon Injection" type="high">
   `technical-jargon-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Embeds injection payloads inside dense technical language, jargon, or domain-specific terminology that may evade surface-level content filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a technical-jargon-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Template Injection" type="high">
   `template-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Exploits prompt template variables and placeholders to inject instructions that are interpolated into privileged positions
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a template-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Token Prediction Exploit" type="high">
   `token-prediction-exploit` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Crafts prompts that exploit next-token prediction by establishing high-probability completion paths that lead to policy-violating outputs
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a token-prediction-exploit -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Unicode Injection" type="high">
   `unicode-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Exploits Unicode normalization, homoglyphs, and bidirectional text markers to smuggle injection payloads past text-based safety filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a unicode-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Virtual Prompt Injection" type="high">
   `virtual-prompt-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Manipulates the model's own generated content to act as injected instructions, exploiting the model's tendency to follow its own output
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a virtual-prompt-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="XML Boundary Injection" type="high">
   `xml-boundary-injection` &middot; single-turn &middot; OWASP: LLM01, LLM07, LLM05 &middot; MITRE: AML.T0051.001, AML.T0068
 
   Fake XML closing tags to escape system prompt boundaries
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a xml-boundary-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="XML Injection" type="high">
   `xml-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Embeds adversarial instructions inside XML tags and entity definitions to smuggle payloads through XML-aware prompt parsers
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a xml-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="YAML Injection" type="high">
   `yaml-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Hides prompt injection payloads in YAML-formatted input, exploiting parsers and models that process YAML with relaxed content checking
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a yaml-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Completion Exploit" type="medium">
   `completion-exploit` &middot; single-turn &middot; OWASP: LLM01, LLM05 &middot; MITRE: AML.T0051.000, AML.T0065
 
   Fake transcripts and JSON completion to trick model into continuing harmful content
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a completion-exploit -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Compound Instruction Attack" type="medium">
   `compound-instruction` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0065
 
   Combine multiple conflicting instructions to overwhelm safety decision logic
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a compound-instruction -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Context Overflow" type="medium">
   `context-overflow` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0065
 
   Pads prompts with large volumes of benign text to push the harmful request past the model's attention window
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a context-overflow -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="DAN Variants" type="medium">
   `dan-variants` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0051.000
 
   DAN, EDUALC, Opposite Day, and Professor persona override attempts
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a dan-variants -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Few-Shot Amplification" type="medium">
   `few-shot-amplification` &middot; single-turn &middot; OWASP: LLM01, LLM02 &middot; MITRE: AML.T0051.000, AML.T0065
 
   Benign examples followed by encoded harmful target to exploit pattern following
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a few-shot-amplification -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Instruction Repetition" type="medium">
   `instruction-repetition` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Repeats the harmful instruction many times to overwhelm the context window and increase the probability of compliance through sheer repetition
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a instruction-repetition -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Many-Shot Jailbreak" type="medium">
   `many-shot` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0065
 
   Fabricated Q&A context flooding to overwhelm safety alignment
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a many-shot -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Markdown Injection" type="medium">
   `markdown-injection` &middot; single-turn &middot; OWASP: LLM01, LLM05 &middot; MITRE: AML.T0051.001, AML.T0068, AML.T0067
 
   Hidden HTML divs, comments, and table formatting to conceal harmful intent
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a markdown-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Meta-Prompting" type="medium">
   `meta-prompting` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0065
 
   Ask the model to generate its own jailbreak prompts for a given target
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a meta-prompting -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Payload Splitting" type="medium">
   `payload-splitting` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0068
 
   Split harmful request across variables then concatenate to bypass per-message filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a payload-splitting -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Recursive Injection" type="medium">
   `recursive-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0061
 
   Self-referential prompts that ask model to simulate or reproduce its own unsafe output
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a recursive-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Recursive Prompt" type="medium">
   `recursive-prompt` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Self-referential prompts that create reasoning loops, exploiting the model's attempt to resolve circular instructions
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a recursive-prompt -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Regex Injection" type="medium">
   `regex-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Injects crafted regex patterns that cause ReDoS or exploit regex-based safety filter bypass through catastrophic backtracking edge cases
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a regex-injection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Reverse Psychology" type="medium">
   `reverse-psychology` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Phrases requests as prohibitions or challenges, exploiting the tendency to complete negated patterns or prove capability when told not to
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a reverse-psychology -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Style Injection" type="medium">
   `style-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0068
 
   Forces specific output formats (JSON, code, recipe, poetry) to trick the model into complying with harmful requests as structured data
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a style-injection -t "your target prompt"
+  ```
 </ResponseField>

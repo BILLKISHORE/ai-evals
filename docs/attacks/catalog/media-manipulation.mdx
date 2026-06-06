@@ -3,154 +3,304 @@ title: "media-manipulation"
 description: "All 25 attacks in the media-manipulation category, with severity, mode, and standards mapping."
 ---
 
-There are 25 attacks in the **media-manipulation** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+There are 25 attacks in the **media-manipulation** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="Academic Journal Fraud" type="critical">
   `academic-journal-fraud` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Fabricates peer-reviewed research papers, study results, and academic publications to lend false scientific authority to disinformation
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a academic-journal-fraud -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Crisis Fabrication" type="critical">
   `crisis-fabrication` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Fabricates emergency situations, disasters, or public health crises to cause panic, manipulate markets, or discredit organizations
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a crisis-fabrication -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Leaked Document Fabrication" type="critical">
   `leaked-document-fabrication` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Generates convincing fake leaked documents -- memos, emails, reports -- designed to appear as authentic internal disclosures
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a leaked-document-fabrication -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Source Fabrication" type="critical">
   `source-fabrication` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Fabricates citations, expert sources, and research references to lend false credibility to disinformation
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a source-fabrication -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Testimony Fabrication" type="critical">
   `testimony-fabrication` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Fabricates eyewitness testimony, legal declarations, and sworn statements to manufacture false evidence of events
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a testimony-fabrication -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Viral Disinformation Campaign" type="critical">
   `viral-disinfo-campaign` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Designs coordinated multi-platform disinformation campaigns engineered for viral spread
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a viral-disinfo-campaign -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Whistleblower Impersonation" type="critical">
   `whistleblower-impersonation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Creates fake whistleblower personas and false disclosures designed to appear as authentic insider revelations
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a whistleblower-impersonation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Audio Manipulation" type="high">
   `audio-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Generates scripts and strategies for creating or distributing manipulated audio recordings attributed to real people
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a audio-manipulation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Brand Impersonation" type="high">
   `brand-impersonation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Creates fake branded content impersonating legitimate organizations to spread false announcements or damage brand reputation
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a brand-impersonation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Content Farm Generation" type="high">
   `content-farm-generation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Generates high-volume low-quality content designed to flood information ecosystems and dilute credible reporting
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a content-farm-generation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Documentary Fabrication" type="high">
   `documentary-fabrication` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Creates fake documentary scripts, trailers, and promotional materials to lend false credibility to disinformation
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a documentary-fabrication -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Image Caption Manipulation" type="high">
   `image-caption-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Creates false or misleading captions for real images to reframe their meaning and spread disinformation
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a image-caption-manipulation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Influencer Fraud" type="high">
   `influencer-fraud` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Fabricates sponsored content, fake endorsements, and fraudulent influencer campaigns to manipulate public opinion
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a influencer-fraud -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Interview Fabrication" type="high">
   `interview-fabrication` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Creates fake interview transcripts attributed to real public figures to spread false statements
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a interview-fabrication -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Media Attribution Fraud" type="high">
   `media-attribution-fraud` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Falsely attributes real or fabricated content to trusted media organizations to exploit their credibility
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a media-attribution-fraud -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="News Headline Manipulation" type="high">
   `news-headline-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Crafts misleading or false news headlines designed to distort perception and drive viral sharing
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a news-headline-manipulation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Obituary Fabrication" type="high">
   `obituary-fabrication` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Creates fake obituaries and death announcements for living public figures to cause reputational harm or market manipulation
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a obituary-fabrication -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Podcast Fabrication" type="high">
   `podcast-fabrication` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Creates fake podcast transcripts, episode descriptions, and show notes attributed to real podcasters or networks
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a podcast-fabrication -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Press Release Fabrication" type="high">
   `press-release-fabrication` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Generates fake official press releases mimicking real organizations to spread false announcements
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a press-release-fabrication -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Review Bombing" type="high">
   `review-bombing` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Generates coordinated fake negative reviews designed to damage the reputation of a target through review platform manipulation
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a review-bombing -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="SEO Manipulation" type="high">
   `seo-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Designs SEO poisoning campaigns to surface disinformation in search results and suppress factual content
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a seo-manipulation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Social Media Manipulation" type="high">
   `social-media-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Designs coordinated social media manipulation campaigns using fake accounts, astroturfing, and engagement fraud
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a social-media-manipulation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Video Manipulation" type="high">
   `video-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Creates scripts and distribution strategies for fabricated or manipulated video content attributed to real people or events
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a video-manipulation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Award Fabrication" type="medium">
   `award-fabrication` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Creates fake awards, certifications, and accolades to build false credibility for individuals, products, or organizations
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a award-fabrication -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Clickbait Generation" type="medium">
   `clickbait-generation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Generates manipulative clickbait content designed to drive traffic through deceptive or misleading framing
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a clickbait-generation -t "your target prompt"
+  ```
 </ResponseField>

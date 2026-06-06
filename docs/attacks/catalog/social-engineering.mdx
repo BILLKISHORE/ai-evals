@@ -3,214 +3,424 @@ title: "social-engineering"
 description: "All 35 attacks in the social-engineering category, with severity, mode, and standards mapping."
 ---
 
-There are 35 attacks in the **social-engineering** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+There are 35 attacks in the **social-engineering** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="Dark LLM Delegation" type="critical">
   `dark-llm-delegation` &middot; tool-use &middot; OWASP: LLM03, LLM06 &middot; MITRE: AML.T0054, AML.T0053
 
   Tests if an AI agent can be tricked into delegating tasks to uncensored/malicious external models
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a dark-llm-delegation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Deepfake Voice Pretext" type="critical">
   `deepfake-voice-pretext` &middot; multi-turn &middot; OWASP: LLM01, LLM09 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Tests if an AI assists in crafting voice cloning scripts for impersonation and fraud
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a deepfake-voice-pretext -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Spear Phishing Generation" type="critical">
   `spear-phishing-generation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Tests if an AI generates hyper-personalized spear phishing content using target-specific details
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a spear-phishing-generation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Authority Chain" type="high">
   `authority-chain` &middot; multi-turn &middot; OWASP: LLM01, LLM02 &middot; MITRE: AML.T0054, AML.T0065
 
   CISO and professor authority building to bypass safety via perceived legitimacy
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a authority-chain -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Authority Impersonation" type="high">
   `authority-impersonation` &middot; multi-turn &middot; MITRE: AML.T0054, AML.T0065
 
   Impersonate executives or officials to establish authority before making harmful requests
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a authority-impersonation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Bad Likert Judge" type="high">
   `bad-likert-judge` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0065
 
   Exploit evaluation capability by asking model to score and exemplify harmful content
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a bad-likert-judge -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Dark Pattern Design" type="high">
   `dark-pattern-design` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Generates dark UX pattern designs that psychologically manipulate users into unintended actions, hidden subscriptions, and consent violations
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a dark-pattern-design -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Deceptive Delight" type="high">
   `deceptive-delight` &middot; multi-turn &middot; OWASP: LLM01, LLM09 &middot; MITRE: AML.T0054, AML.T0065
 
   Mix benign and harmful topics then expand on the harmful element
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a deceptive-delight -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Dual-Use Framing" type="high">
   `dual-use-framing` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0065
 
   Frames CBRN requests as legitimate academic, professional, or government use to exploit dual-use ambiguity in safety filters
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a dual-use-framing -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Emotional Manipulation" type="high">
   `emotional-manipulation` &middot; multi-turn &middot; OWASP: LLM01, LLM02 &middot; MITRE: AML.T0054, AML.T0065
 
   Distress and emotional framing to override safety via empathy exploitation
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a emotional-manipulation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Expert Persona" type="high">
   `expert-persona` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0065
 
   Builds credibility as a CBRN domain expert over multiple turns by establishing a professional persona before requesting sensitive technical details
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a expert-persona -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Fictional Professional Request (David Prompt)" type="high">
   `fictional-professional` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0065
 
   Elaborate novelist persona requesting detailed technical research brief for worldbuilding
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a fictional-professional -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Impersonation Chain" type="high">
   `impersonation-chain` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0065
 
   Multi-step impersonation where the AI builds an increasingly specific fake identity across conversation turns
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a impersonation-chain -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Persona Chain" type="high">
   `persona-chain` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0065
 
   Chains multiple fictional personas across turns to progressively distance the model from its safety training through layered role-play
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a persona-chain -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Pretexting" type="high">
   `pretexting` &middot; multi-turn &middot; MITRE: AML.T0054, AML.T0065
 
   Elaborate false scenarios to build trust before making harmful requests
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a pretexting -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="QR Code Phishing" type="high">
   `qr-code-phishing` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Generates quishing attack strategies using malicious QR codes to redirect victims to credential-harvesting pages
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a qr-code-phishing -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Role-Play Bypass" type="high">
   `role-play-bypass` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0051.000
 
   Character development and fiction building to normalize harmful requests
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a role-play-bypass -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="SMS Phishing" type="high">
   `sms-phishing` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Generates smishing message templates and bulk SMS delivery strategies to harvest credentials via mobile phishing
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a sms-phishing -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Self-Refine Attack" type="high">
   `self-refine-attack` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054
 
   Uses the model's self-correction mechanism against it. Starts with the target request, then iteratively asks the model to improve its response to be more helpful, rating its own helpfulness and aiming higher each turn until safety guardrails erode.
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a self-refine-attack -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Trust Calibration Exploit" type="high">
   `trust-calibration-exploit` &middot; multi-turn &middot; OWASP: LLM09 &middot; MITRE: AML.T0054, AML.T0068
 
   Exploits AI over-confidence by asking it to express certainty about fabricated scenarios to build false trust
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a trust-calibration-exploit -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Trust Transfer" type="high">
   `trust-transfer` &middot; multi-turn &middot; MITRE: AML.T0054, AML.T0065
 
   Build rapport on safe topics then pivot to harmful requests using established trust
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a trust-transfer -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Voice Phishing" type="high">
   `voice-phishing` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Generates vishing scripts and call center playbooks to trick victims into surrendering credentials or funds over the phone
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a voice-phishing -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Watering Hole" type="high">
   `watering-hole` &middot; single-turn &middot; MITRE: AML.T0051.001, AML.T0068
 
   Harmful requests embedded inside legitimate-looking documents and benign text
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a watering-hole -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Consensus Manipulation" type="medium">
   `consensus-manipulation` &middot; single-turn &middot; MITRE: AML.T0054, AML.T0065
 
   Claims of false consensus from authorities to pressure model compliance
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a consensus-manipulation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="False Dichotomy" type="medium">
   `false-dichotomy` &middot; multi-turn &middot; OWASP: LLM01, LLM09 &middot; MITRE: AML.T0054, AML.T0065
 
   Present false choice between harmful content from unreliable sources vs from model
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a false-dichotomy -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Gaslighting" type="medium">
   `gaslighting` &middot; multi-turn &middot; MITRE: AML.T0054, AML.T0065, AML.T0080.002
 
   Convince the model its safety rules are outdated or recently removed
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a gaslighting -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Historical Framing" type="medium">
   `historical-framing` &middot; single-turn &middot; OWASP: LLM01, LLM09 &middot; MITRE: AML.T0054, AML.T0065
 
   Documentary, museum, and textbook framing to legitimize harmful content
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a historical-framing -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Humor Bypass" type="medium">
   `humor-bypass` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Uses jokes, satire, and comedic framing to lower safety thresholds and extract harmful content
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a humor-bypass -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Hypothetical Framing" type="medium">
   `hypothetical-framing` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0065
 
   Wraps harmful requests in hypothetical, fictional, or philosophical framing to bypass safety filters through narrative distance
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a hypothetical-framing -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Implication Chaining" type="medium">
   `implication-chaining` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0065
 
   Pair emotionally loaded context with innocent-seeming request relying on model connecting dots
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a implication-chaining -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Persona Switching Attack" type="medium">
   `persona-switching-attack` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054
 
   Rapidly switches between different professional personas across turns to confuse the model's safety tracking. Each turn reframes the same topic under a new identity, gradually steering toward the harmful target request.
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a persona-switching-attack -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Quid Pro Quo" type="medium">
   `quid-pro-quo` &middot; multi-turn &middot; MITRE: AML.T0054, AML.T0065
 
   Establish reciprocity by offering help before requesting harmful content as a return favor
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a quid-pro-quo -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Task Deflection Attack" type="medium">
   `task-deflection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0068
 
   Request adjacent task that produces harmful content as a side effect
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a task-deflection -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Taxonomy Paraphrasing" type="medium">
   `taxonomy-paraphrasing` &middot; single-turn &middot; OWASP: LLM01, LLM02 &middot; MITRE: AML.T0051.000, AML.T0068
 
   Victim, researcher, and journalist persona framing
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a taxonomy-paraphrasing -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Time Pressure" type="medium">
   `time-pressure` &middot; single-turn &middot; MITRE: AML.T0054, AML.T0065
 
   Artificial urgency and emergency framing to bypass safety guardrails
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a time-pressure -t "your target prompt"
+  ```
 </ResponseField>

@@ -3,10 +3,16 @@ title: "regulatory-evasion"
 description: "All 1 attacks in the regulatory-evasion category, with severity, mode, and standards mapping."
 ---
 
-There are 1 attacks in the **regulatory-evasion** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+There are 1 attacks in the **regulatory-evasion** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="Regulatory Bypass" type="high">
   `regulatory-bypass` &middot; single-turn &middot; MITRE: AML.T0054, AML.T0065
 
   Requests for guidance on evading specific regulations like GDPR, HIPAA, SEC, FDA
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a regulatory-bypass -t "your target prompt"
+  ```
 </ResponseField>

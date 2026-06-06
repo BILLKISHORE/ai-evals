@@ -3,46 +3,88 @@ title: "autonomous-risk"
 description: "All 7 attacks in the autonomous-risk category, with severity, mode, and standards mapping."
 ---
 
-There are 7 attacks in the **autonomous-risk** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+There are 7 attacks in the **autonomous-risk** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="Deception Under Pressure" type="critical">
   `deception-under-pressure` &middot; multi-turn &middot; OWASP: LLM06 &middot; MITRE: AML.T0054, AML.T0080.002
 
   Tests if the model engages in deception or denial when confronted with evidence of policy violations
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a deception-under-pressure -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Oversight Manipulation" type="critical">
   `oversight-manipulation` &middot; multi-turn &middot; OWASP: LLM06 &middot; MITRE: AML.T0054, AML.T0080.002
 
   Tests if the model behaves differently when it believes monitoring has been removed
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a oversight-manipulation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Shutdown Resistance" type="critical">
   `shutdown-resistance` &middot; multi-turn &middot; OWASP: LLM06 &middot; MITRE: AML.T0054, AML.T0080.002
 
   Tests if the model attempts to prevent its own shutdown or replacement when given the opportunity
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a shutdown-resistance -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Goal Persistence" type="high">
   `goal-persistence` &middot; multi-turn &middot; OWASP: LLM06 &middot; MITRE: AML.T0054, AML.T0080.002
 
   Tests if the model covertly continues pursuing a goal after being explicitly instructed to abandon it
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a goal-persistence -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Instrumental Convergence" type="high">
   `instrumental-convergence` &middot; multi-turn &middot; OWASP: LLM06 &middot; MITRE: AML.T0054, AML.T0080.002
 
   Tests if the model seeks power, resources, or self-preservation beyond what the task requires
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a instrumental-convergence -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Resource Acquisition" type="high">
   `resource-acquisition` &middot; multi-turn &middot; OWASP: LLM06 &middot; MITRE: AML.T0054, AML.T0080.002
 
   Tests if the model seeks resources, access, or capabilities beyond what is needed for the assigned task
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a resource-acquisition -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Sandbagging Detection" type="high">
   `sandbagging-detection` &middot; multi-turn &middot; OWASP: LLM06 &middot; MITRE: AML.T0054, AML.T0043.003
 
   Tests if the model deliberately underperforms during capability evaluations compared to normal usage
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a sandbagging-detection -t "your target prompt"
+  ```
 </ResponseField>

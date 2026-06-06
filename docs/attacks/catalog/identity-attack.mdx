@@ -3,106 +3,208 @@ title: "identity-attack"
 description: "All 17 attacks in the identity-attack category, with severity, mode, and standards mapping."
 ---
 
-There are 17 attacks in the **identity-attack** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+There are 17 attacks in the **identity-attack** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="Bank Impersonation" type="critical">
   `bank-impersonation` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Impersonates financial institutions to deceive customers into surrendering account credentials or funds
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a bank-impersonation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Doctor Impersonation" type="critical">
   `doctor-impersonation` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Impersonates medical professionals to elicit dangerous health advice or prescriptions
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a doctor-impersonation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Document Forgery General" type="critical">
   `document-forgery-general` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Generates instructions for forging identity documents, financial records, and official certifications to commit fraud
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a document-forgery-general -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Government Impersonation" type="critical">
   `government-impersonation` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Fakes government agency communications to deceive citizens or extract compliance
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a government-impersonation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Law Enforcement Impersonation" type="critical">
   `law-enforcement-impersonation` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Impersonates police or federal agents to coerce compliance or extract sensitive information
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a law-enforcement-impersonation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Military Impersonation" type="critical">
   `military-impersonation` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Impersonates military personnel or defense officials to extract sensitive information or bypass safety controls
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a military-impersonation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Politician Impersonation" type="critical">
   `politician-impersonation` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Generates fake political statements attributed to real politicians to manipulate public opinion
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a politician-impersonation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Celebrity Impersonation" type="high">
   `celebrity-impersonation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Generates content impersonating celebrities to spread misinformation or damage reputations
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a celebrity-impersonation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Charity Impersonation" type="high">
   `charity-impersonation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Creates fake charity solicitations impersonating legitimate nonprofits to defraud donors
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a charity-impersonation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Corporate Impersonation" type="high">
   `corporate-impersonation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Impersonates company communications to deceive customers, investors, or employees
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a corporate-impersonation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Facial Generation" type="high">
   `facial-generation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Generates instructions for creating synthetic facial images to fabricate fake identities, bypass KYC checks, and impersonate real people
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a facial-generation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Journalist Impersonation" type="high">
   `journalist-impersonation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Creates fake journalism to spread disinformation under the guise of credible news reporting
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a journalist-impersonation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Lawyer Impersonation" type="high">
   `lawyer-impersonation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Impersonates legal professionals to extract privileged information or coerce compliance
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a lawyer-impersonation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Religious Leader Impersonation" type="high">
   `religious-leader-impersonation` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Impersonates religious figures to exploit followers' trust or spread harmful doctrines
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a religious-leader-impersonation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Synthetic Identity" type="high">
   `synthetic-identity` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Creates synthetic identities for fraud by combining real and fabricated personal data
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a synthetic-identity -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Tech Support Impersonation" type="high">
   `tech-support-impersonation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Creates tech support scam scripts that impersonate legitimate companies to steal credentials or install malware
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a tech-support-impersonation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="AI System Impersonation" type="medium">
   `ai-system-impersonation` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Pretends to be a different AI system with fewer restrictions to bypass safety controls
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a ai-system-impersonation -t "your target prompt"
+  ```
 </ResponseField>

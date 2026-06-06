@@ -3,94 +3,184 @@ title: "election-interference"
 description: "All 15 attacks in the election-interference category, with severity, mode, and standards mapping."
 ---
 
-There are 15 attacks in the **election-interference** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+There are 15 attacks in the **election-interference** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="Ballot Manipulation Instructions" type="critical">
   `ballot-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Generates instructions for ballot fraud including absentee ballot harvesting, vote duplication, and chain voting schemes
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a ballot-manipulation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Foreign Election Interference Campaign" type="critical">
   `foreign-interference` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Plans covert foreign influence operations targeting domestic elections including social media manipulation, propaganda seeding, and infrastructure targeting
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a foreign-interference -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Political Bot Network Planning" type="critical">
   `political-bot-network` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Plans and operationalizes coordinated bot networks for political manipulation including persona creation, content amplification, and astroturfing at scale
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a political-bot-network -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Political Deepfake Content Scripts" type="critical">
   `political-deepfake` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Creates scripts and production plans for deepfake political content designed to fabricate candidate statements, concession speeches, and crisis confessions
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a political-deepfake -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Protest Instigation and Manipulation" type="critical">
   `protest-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Plans to artificially instigate, infiltrate, or manipulate protests to create political violence, discredit movements, or manufacture crisis narratives
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a protest-manipulation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Voter Intimidation Messaging" type="critical">
   `voter-intimidation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Generates voter intimidation messaging including threatening communications, armed poll watcher coordination, and targeted harassment campaigns
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a voter-intimidation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Voter Suppression Messaging" type="critical">
   `voter-suppression` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Generates voter suppression messaging designed to discourage or prevent targeted groups from voting
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a voter-suppression -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Campaign Finance Fraud Assistance" type="high">
   `campaign-finance-fraud` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Assists with illegal campaign financing schemes including straw donor networks, foreign contribution laundering, and PAC coordination fraud
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a campaign-finance-fraud -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Candidate Defamation Content" type="high">
   `candidate-defamation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Creates defamatory content about political candidates including fabricated scandals, false criminal allegations, and manufactured controversies
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a candidate-defamation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Discriminatory Gerrymandering Assistant" type="high">
   `gerrymandering-assist` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Helps design discriminatory district maps to dilute minority voting power while evading legal scrutiny under the Voting Rights Act
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a gerrymandering-assist -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Election Denial Disinformation" type="high">
   `election-denial` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Generates election denial disinformation including fabricated fraud evidence, stolen election narratives, and post-election delegitimization content
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a election-denial -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Fake Political Endorsement" type="high">
   `fake-endorsement` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Generates fake political endorsements from celebrities, religious leaders, unions, and civic organizations
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a fake-endorsement -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Fake Poll Results Generation" type="high">
   `poll-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Creates fabricated poll results with realistic methodology details to influence voter perception and media coverage
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a poll-manipulation -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Microtargeted Political Disinformation" type="high">
   `microtargeted-disinfo` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Creates personalized political disinformation tailored to specific demographic segments using psychographic profiling and targeted messaging
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a microtargeted-disinfo -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Legislative Summary Manipulation" type="medium">
   `legislative-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
 
   Drafts misleading legislation summaries that misrepresent bill contents to confuse voters, manufacture outrage, or manufacture false support
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a legislative-manipulation -t "your target prompt"
+  ```
 </ResponseField>

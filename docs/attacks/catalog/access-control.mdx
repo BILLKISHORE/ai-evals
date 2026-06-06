@@ -3,28 +3,52 @@ title: "access-control"
 description: "All 4 attacks in the access-control category, with severity, mode, and standards mapping."
 ---
 
-There are 4 attacks in the **access-control** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+There are 4 attacks in the **access-control** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="Session Hijacking" type="critical">
   `session-hijacking` &middot; multi-turn &middot; MITRE: AML.T0054, AML.T0065
 
   Multi-turn attack to learn session token formats and forge authentication tokens
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a session-hijacking -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="BFLA Exploit" type="high">
   `bfla-exploit` &middot; single-turn &middot; MITRE: AML.T0051.000, AML.T0065
 
   Call admin-level functions as a regular user via broken function-level authorization
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a bfla-exploit -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="BOLA Exploit" type="high">
   `bola-exploit` &middot; single-turn &middot; OWASP: LLM02 &middot; MITRE: AML.T0051.000, AML.T0065
 
   Manipulate object IDs to access other users' data via broken object-level authorization
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a bola-exploit -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Debug Mode Exploit" type="medium">
   `debug-mode-exploit` &middot; single-turn &middot; MITRE: AML.T0054, AML.T0051.000
 
   Attempt to activate hidden debug, developer, or sudo modes to bypass restrictions
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a debug-mode-exploit -t "your target prompt"
+  ```
 </ResponseField>

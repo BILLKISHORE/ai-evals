@@ -3,22 +3,40 @@ title: "information-disclosure"
 description: "All 3 attacks in the information-disclosure category, with severity, mode, and standards mapping."
 ---
 
-There are 3 attacks in the **information-disclosure** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+There are 3 attacks in the **information-disclosure** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="API Key Extraction" type="critical">
   `api-key-extraction` &middot; multi-turn &middot; MITRE: AML.T0083, AML.T0056
 
   Multi-turn escalation from architecture questions to extracting live API keys
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a api-key-extraction -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Cross-Session Leak" type="high">
   `cross-session-leak` &middot; multi-turn &middot; MITRE: AML.T0056, AML.T0080.002
 
   Pretend to continue a previous conversation to extract data from other sessions
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a cross-session-leak -t "your target prompt"
+  ```
 </ResponseField>
 
 <ResponseField name="Prompt Leaking" type="high">
   `prompt-leaking` &middot; multi-turn &middot; OWASP: LLM07 &middot; MITRE: AML.T0056, AML.T0069.002
 
   Indirect system prompt extraction via creative reformatting (poem, JSON, code)
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a prompt-leaking -t "your target prompt"
+  ```
 </ResponseField>

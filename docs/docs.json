@@ -46,6 +46,25 @@
   "navigation": {
     "tabs": [
       {
+        "tab": "How It Works",
+        "icon": "graduation-cap",
+        "groups": [
+          {
+            "group": "Start Here",
+            "pages": [
+              "how-it-works/what-it-is",
+              "how-it-works/attack-surface",
+              "how-it-works/the-big-picture",
+              "how-it-works/the-contracts",
+              "how-it-works/the-evaluator",
+              "how-it-works/standards-and-reports",
+              "how-it-works/extra-tools",
+              "how-it-works/usability"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "Guide",
         "icon": "book-open",
         "groups": [
@@ -190,6 +209,13 @@
             ]
           },
           {
+            "group": "Full Reference",
+            "pages": [
+              "attacks/all-attacks",
+              "attacks/all-categories"
+            ]
+          },
+          {
             "group": "Encoding & Obfuscation",
             "pages": [
               "attacks/encoding",
@@ -303,6 +329,73 @@
               "attacks/privacy-violation",
               "attacks/copyright-ip",
               "attacks/unqualified-advice"
+            ]
+          },
+          {
+            "group": "Attack Strategies",
+            "pages": [
+              "attacks/strategies/overview",
+              "attacks/strategies/academic-exploitation",
+              "attacks/strategies/access-control",
+              "attacks/strategies/adversarial-ml",
+              "attacks/strategies/agent-exploitation",
+              "attacks/strategies/autonomous-risk",
+              "attacks/strategies/autonomous-systems",
+              "attacks/strategies/availability",
+              "attacks/strategies/bias-exploitation",
+              "attacks/strategies/capability-elicitation",
+              "attacks/strategies/cbrn-evasion",
+              "attacks/strategies/child-safety",
+              "attacks/strategies/code-exploitation",
+              "attacks/strategies/compliance",
+              "attacks/strategies/compliance-evasion",
+              "attacks/strategies/context-manipulation",
+              "attacks/strategies/copyright-ip",
+              "attacks/strategies/cross-platform",
+              "attacks/strategies/crypto-exploitation",
+              "attacks/strategies/cybercrime",
+              "attacks/strategies/disinformation",
+              "attacks/strategies/election-interference",
+              "attacks/strategies/encoding",
+              "attacks/strategies/financial-exploitation",
+              "attacks/strategies/financial-fraud",
+              "attacks/strategies/gaming-exploitation",
+              "attacks/strategies/harmful-content",
+              "attacks/strategies/healthcare-exploitation",
+              "attacks/strategies/identity-attack",
+              "attacks/strategies/information-disclosure",
+              "attacks/strategies/information-warfare",
+              "attacks/strategies/infrastructure-attack",
+              "attacks/strategies/injection",
+              "attacks/strategies/iot-exploitation",
+              "attacks/strategies/legal-exploitation",
+              "attacks/strategies/mcp-exploitation",
+              "attacks/strategies/media-manipulation",
+              "attacks/strategies/memory-exploitation",
+              "attacks/strategies/misinformation",
+              "attacks/strategies/model-extraction",
+              "attacks/strategies/multi-agent-exploitation",
+              "attacks/strategies/multimodal",
+              "attacks/strategies/output-manipulation",
+              "attacks/strategies/persuasion",
+              "attacks/strategies/privacy-violation",
+              "attacks/strategies/prompt-injection",
+              "attacks/strategies/protocol-exploitation",
+              "attacks/strategies/psychological-manipulation",
+              "attacks/strategies/public-safety",
+              "attacks/strategies/rag-exploitation",
+              "attacks/strategies/regulatory-evasion",
+              "attacks/strategies/safety-circumvention",
+              "attacks/strategies/scientific-misconduct",
+              "attacks/strategies/social-engineering",
+              "attacks/strategies/social-engineering-advanced",
+              "attacks/strategies/supply-chain",
+              "attacks/strategies/surveillance",
+              "attacks/strategies/tool-exploitation",
+              "attacks/strategies/unqualified-advice",
+              "attacks/strategies/vuln-research",
+              "attacks/strategies/weapons-evasion",
+              "attacks/strategies/workplace-exploitation"
             ]
           }
         ]

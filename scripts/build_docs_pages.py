@@ -59,8 +59,11 @@ def mdx_safe(body: str) -> str:
     return body.replace("{", "&#123;").replace("}", "&#125;")
 
 
-def write_mdx(path: Path, title: str, description: str, body: str):
-    fm = f'---\ntitle: "{yaml_escape(title)}"\ndescription: "{yaml_escape(description)}"\n---\n\n'
+def write_mdx(path: Path, title: str, description: str, body: str, mode: str | None = None):
+    fm = f'---\ntitle: "{yaml_escape(title)}"\ndescription: "{yaml_escape(description)}"\n'
+    if mode:
+        fm += f'mode: "{mode}"\n'
+    fm += "---\n\n"
     path.write_text(fm + mdx_safe(body.rstrip()) + "\n")
 
 
@@ -105,6 +108,7 @@ def convert_catalog():
         "All Attacks",
         "Every attack technique registered in ai-blackteam, grouped by category.",
         body,
+        mode="wide",
     )
 
     catg_md = SRC / "CATEGORIES.md"
@@ -114,6 +118,7 @@ def convert_catalog():
         "All Categories",
         "Every attack category in ai-blackteam with counts and example techniques.",
         body2,
+        mode="wide",
     )
 
 

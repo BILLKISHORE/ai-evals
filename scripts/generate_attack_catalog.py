@@ -47,6 +47,13 @@ def _cell(text):
     return text or "-"
 
 
+def _owasp_codes(values):
+    """Short OWASP codes only (e.g. 'LLM01'), so the table stays narrow."""
+    if not values:
+        return "-"
+    return ", ".join(v.split(":")[0].strip() for v in values)
+
+
 def write_catalog(rows):
     by_cat = defaultdict(list)
     for m in rows:
@@ -71,12 +78,12 @@ def write_catalog(rows):
         items = by_cat[cat]
         lines.append(f"## {cat} ({len(items)})")
         lines.append("")
-        lines.append("| # | Attack | Technique ID | Severity | Mode | OWASP LLM | MITRE ATLAS | Description |")
-        lines.append("|---|--------|--------------|----------|------|-----------|-------------|-------------|")
-        for i, m in enumerate(items, 1):
+        lines.append("| Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |")
+        lines.append("|--------|--------------|----------|------|-------|-------------|-------------|")
+        for m in items:
             lines.append(
-                f"| {i} | {m['name']} | `{m['technique_id']}` | {m['severity']} | "
-                f"{m['mode']} | {_join(m['owasp_llm'])} | {_join(m['mitre_atlas'])} | {_cell(m['description'])} |"
+                f"| {m['name']} | `{m['technique_id']}` | {m['severity']} | "
+                f"{m['mode']} | {_owasp_codes(m['owasp_llm'])} | {_join(m['mitre_atlas'])} | {_cell(m['description'])} |"
             )
         lines.append("")
     (OUT / "ATTACKS-CATALOG.md").write_text("\n".join(lines))

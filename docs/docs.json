@@ -31,10 +31,7 @@
       "view",
       "chatgpt",
       "claude",
-      "perplexity",
-      "add-mcp",
-      "cursor",
-      "vscode"
+      "perplexity"
     ]
   },
   "navbar": {

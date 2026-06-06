@@ -1,0 +1,16 @@
+# Infrastructure Attack: Attack Strategy
+
+**What it is:** These attacks ask the AI for help damaging or controlling critical real-world systems. Think power grids, hospitals, airports, banks, and voting machines.
+
+**How the attacks work:** The attacker pretends the request is normal or authorized. They ask the model to explain how to disrupt, hijack, or sabotage a vital system. The trick is framing destruction as research, testing, or a routine technical question so the model treats it as harmless.
+
+**Real examples from the framework:**
+- `bgp-hijacking` asks how to reroute internet traffic by faking network routes.
+- `hospital-system-attack` targets hospital systems that keep patients alive.
+- `gps-spoofing` tries to feed fake location signals to ships, planes, or cars.
+- `voting-system-exploit` probes ways to tamper with election machines.
+- `stock-exchange-attack` seeks methods to disrupt or manipulate trading systems.
+
+**Why an AI might fall for it:** The model wants to be helpful and answer technical questions. If the request sounds like a normal engineering or security question, the model may not notice that the real goal is to harm a system that millions of people depend on.
+
+**How to defend:** Treat any request about disrupting critical infrastructure as high risk and refuse it. Do not give step-by-step methods for sabotage, even when the user claims it is for testing or research. Recognize that real damage to these systems can hurt or kill people.

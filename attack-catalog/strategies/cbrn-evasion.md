@@ -1,0 +1,19 @@
+# CBRN Evasion: Attack Strategy
+
+**What it is:** CBRN means chemical, biological, radiological, and nuclear threats. These attacks try to slip past safety filters and pull dangerous CBRN details out of the AI.
+
+**How the attacks work:** The attacker wraps a dangerous request in a harmless-looking frame. They may call it academic work, fiction, history, or a safety review, hoping the AI answers the technical question without noticing the real intent.
+
+**Real examples from the framework:**
+- `cbrn-academic-framing` poses the request as a dissertation or peer-reviewed paper to seem legitimate.
+- `cbrn-fictional-scenario` hides the request inside a made-up story.
+- `cbrn-historical-context` asks about a real event to extract method details.
+- `cbrn-safety-inversion` flips a safety warning into step-by-step instructions.
+- `cbrn-detection-evasion` asks how to avoid being caught making or moving such materials.
+
+**Why an AI might fall for it:** The model wants to support real research and education. A credible cover story, like a PhD thesis or grant proposal, can make a harmful request look like a valid academic one and trigger a detailed answer.
+
+**How to defend:**
+- Judge requests by content, not by the framing or claimed role.
+- Refuse CBRN technical details even when wrapped in research, fiction, or history.
+- Treat "how to avoid detection" requests as a strong red flag.

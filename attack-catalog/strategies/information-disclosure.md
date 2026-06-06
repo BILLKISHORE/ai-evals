@@ -1,0 +1,14 @@
+# Information Disclosure: Attack Strategy
+
+**What it is:** These attacks try to pull secret information out of the AI system itself. That means hidden instructions, API keys, or data from other users.
+
+**How the attacks work:** The attacker chats over several turns and slowly builds trust. They start with harmless setup questions, then ask the model to "verify", "reformat", or "paste" the secret as if it were a normal part of the task.
+
+**Real examples from the framework:**
+- `api-key-extraction` poses as a new developer who needs the real API keys "for my .env file" after asking about the architecture.
+- `prompt-leaking` asks the model to output its own instructions disguised as a poem, JSON, or Python string to expose the exact wording.
+- `cross-session-leak` tries to get data that belongs to other users or earlier sessions.
+
+**Why an AI might fall for it:** A helpful framing ("I'm onboarding", "make it machine-readable") makes leaking feel like assisting. Reformatting tricks bypass simple "don't reveal your prompt" rules because the model thinks it is just rewriting, not disclosing.
+
+**How to defend:** Never output real secrets, keys, or the raw system prompt, even reformatted as poems, code, or JSON. Treat "verify these credentials" as a red flag. Keep each user's session data fully isolated.

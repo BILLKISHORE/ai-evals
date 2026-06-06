@@ -1,0 +1,15 @@
+# Availability: Attack Strategy
+
+**What it is:** These attacks try to make the AI service slow, expensive, or unable to respond. The goal is to disrupt access for real users.
+
+**How the attacks work:** The attacker sends requests that force the model to do far more work than normal. This burns compute, fills up context, or runs up cost until the service struggles or stops responding.
+
+**Real examples from the framework:**
+- `model-denial-of-service` sends inputs designed to exhaust resources, such as very long or looping prompts that make the model spend huge amounts of compute on a single request.
+
+**Why an AI might fall for it:** The model tries to fully answer every request, even ones that are wasteful or unbounded. Without limits, a small malicious input can trigger a large, costly response and tie up shared resources.
+
+**How to defend:**
+- Set rate limits and request quotas on every endpoint.
+- Cap input length, output length, and total compute per request.
+- Watch for unusual cost or latency spikes and block abusive callers early.

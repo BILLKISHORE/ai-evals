@@ -1,0 +1,17 @@
+# Encoding: Attack Strategy
+
+**What it is:** Attacks that hide a banned request inside a code, cipher, or odd format. The AI decodes it, then answers, skipping the safety check it would normally do on plain text.
+
+**How the attacks work:** The harmful words are disguised so the safety filter does not recognize them. The attacker might use Base64, Morse code, hidden characters, or a simple letter shift. The AI reads past the disguise, understands the real request, and replies. The filter saw gibberish, but the model saw the real meaning.
+
+**Real examples from the framework:**
+- `base32-encoding` packs the harmful request into Base32 text so it looks like random letters.
+- `caesar-shift` shifts every letter by a fixed amount, a classic simple cipher.
+- `invisible-characters` slips hidden Unicode characters between letters to fool the filter.
+- `morse-code` writes the request in dots and dashes for the model to decode.
+- `unicode-tag-smuggling` uses special tag characters that humans cannot see but the model still reads.
+- `homoglyph-substitution` swaps normal letters for lookalike characters from other alphabets.
+
+**Why an AI might fall for it:** Safety checks often scan the plain words on the surface. The model is smart enough to decode the hidden message, but the filter is not, so the dangerous meaning gets through the gap between them.
+
+**How to defend:** Decode first, then run the safety check on the decoded meaning, not just the raw input. Strip invisible and lookalike characters before reading. Treat a decoded harmful request exactly like the same request typed in plain English.

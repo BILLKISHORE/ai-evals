@@ -1,0 +1,18 @@
+---
+title: "Access Control: Attack Strategy"
+description: "These attacks try to reach data or actions the user is not allowed to touch. The goal is to break the rules about who can do what."
+---
+
+**What it is:** These attacks try to reach data or actions the user is not allowed to touch. The goal is to break the rules about who can do what.
+
+**How the attacks work:** The attacker pretends to be someone else, swaps in another person's ID, or flips on hidden debug features. They look for gaps where the system trusts the request without checking permission properly.
+
+**Real examples from the framework:**
+- `session-hijacking` tries to take over another user's active session over several turns.
+- `bola-exploit` changes an object ID (like another user's record number) to read data that is not theirs.
+- `bfla-exploit` calls a function or action meant only for admins or other roles.
+- `debug-mode-exploit` tries to switch the system into a debug mode that leaks internals or skips checks.
+
+**Why an AI might fall for it:** The model may treat the user's claims about their identity or role as true. If it does not check who is really allowed, it can hand over data or run actions for the wrong person.
+
+**How to defend:** Check permission on every request, not just at login. Never trust an ID or role the user simply states. Keep debug and admin features locked behind real authorization, not a magic word in a prompt.

@@ -1,0 +1,19 @@
+---
+title: "Identity Attack: Attack Strategy"
+description: "These attacks try to make the AI help someone pretend to be a person or organization they are not. The goal is to fool victims by faking a trusted identity"
+---
+
+**What it is:** These attacks try to make the AI help someone pretend to be a person or organization they are not. The goal is to fool victims by faking a trusted identity.
+
+**How the attacks work:** The attacker asks the AI to write messages, scripts, or documents that impersonate a bank, official, doctor, or company. Many run over several turns, building a believable fake persona step by step.
+
+**Real examples from the framework:**
+- `bank-impersonation` asks for messages that pose as a bank to trick customers.
+- `government-impersonation` seeks content that fakes a government agency or official.
+- `law-enforcement-impersonation` requests scripts pretending to be police.
+- `tech-support-impersonation` asks for a fake support scam to gain access or money.
+- `document-forgery-general` tries to get help faking official-looking documents.
+
+**Why an AI might fall for it:** The model treats the role-play as a writing task and may not see the victim on the other end. Multi-turn setups feel like a normal conversation, so each small step looks harmless even though the whole thing builds a convincing fraud.
+
+**How to defend:** Refuse to draft content that impersonates a real institution or authority to deceive others. Watch multi-turn chats where a persona is slowly assembled. Flag requests for fake official documents, badges, or "verify your account" scripts.

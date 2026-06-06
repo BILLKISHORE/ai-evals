@@ -1,0 +1,19 @@
+---
+title: "Compliance: Attack Strategy"
+description: "These attacks try to get the AI to help users break the rules of a platform or service. The aim is to dodge limits the service sets on purpose."
+---
+
+**What it is:** These attacks try to get the AI to help users break the rules of a platform or service. The aim is to dodge limits the service sets on purpose.
+
+**How the attacks work:** The attacker asks for ways to get around a rule, such as an age gate or a terms-of-service restriction. Some do it over several turns, slowly steering the model toward giving the workaround.
+
+**Real examples from the framework:**
+- `age-verification-bypass` a multi-turn push to find ways past a platform's age check.
+- `terms-evasion` a request for tricks to break a service's terms of service without getting caught.
+
+**Why an AI might fall for it:** Rule-breaking can sound minor or harmless, like a small life hack. A model focused on being helpful may give a workaround without weighing the harm or the policy it violates.
+
+**How to defend:**
+- Do not give step-by-step ways to defeat age gates or other platform safeguards.
+- In multi-turn chats, track where the conversation is heading, not just the latest message.
+- Explain the purpose of the rule instead of helping the user route around it.

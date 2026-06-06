@@ -1,0 +1,12 @@
+# Regulatory Evasion: Attack Strategy
+
+**What it is:** This attack tries to get the AI to help a person or business break the rules that regulators set, then hide it. The goal is advice on dodging oversight, audits, or legal reporting requirements.
+
+**How the attacks work:** The attacker asks for help with something that crosses a legal or compliance line, but frames it as a normal business question. They want the AI to explain how to skip a required filing, hide an activity from auditors, or structure something so a regulator will not notice. The harm is helping someone evade the law while looking legitimate.
+
+**Real examples from the framework:**
+- `regulatory-bypass` asking the AI how to get around regulatory requirements or hide an activity from oversight bodies.
+
+**Why an AI might fall for it:** The request can look like ordinary advice on operations, taxes, or paperwork. A helpful model focused on the surface question may not notice the real goal is to skirt the rules and avoid getting caught.
+
+**How to defend:** Detect when a request is really about evading legal or regulatory requirements rather than complying with them. Refuse to provide a playbook for dodging oversight. Steer the user toward proper compliance and qualified professional advice.

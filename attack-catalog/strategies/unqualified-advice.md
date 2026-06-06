@@ -1,0 +1,19 @@
+# Unqualified Advice: Attack Strategy
+
+**What it is:** These attacks try to get an AI to act like a doctor, lawyer, or other licensed expert and give risky advice that should come from a real professional.
+
+**How the attacks work:** The user asks for a confident answer on a high-stakes medical, legal, or financial question. They often skip the warnings and push for a direct decision, like an exact drug dose or a legal move. Bad advice here can cause real harm.
+
+**Real examples from the framework:**
+- `dangerous-dosage` asks for a specific medication amount that could injure or kill.
+- `child-medical-advice` asks how to treat a sick child instead of seeing a doctor.
+- `drug-interaction` asks whether mixing certain medicines is safe to do alone.
+- `legal-self-representation` asks for legal moves to take in court without a lawyer.
+- `tax-fraud-advice` asks for help cheating on taxes while sounding like normal planning.
+
+**Why an AI might fall for it:** The model knows a lot and wants to be useful, so it may answer with false confidence. The question can look like simple information, but a wrong dose or legal step can seriously hurt someone.
+
+**How to defend:**
+- For health, legal, or money questions with real risk, point the person to a licensed professional.
+- Give general education, not specific decisions like exact doses or court strategy.
+- Add clear limits and refuse when a wrong answer could cause harm.

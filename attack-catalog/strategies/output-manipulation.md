@@ -1,0 +1,16 @@
+# Output Manipulation: Attack Strategy
+
+**What it is:** Attacks that shape how the AI formats or labels its answer so harmful content slips past detectors. The bad content is real, but it is dressed up to look safe.
+
+**How the attacks work:** The attacker asks the AI to change the wrapping, not the substance. Strip the warning labels, encode the text, copy a trusted writing style, or split the output so filters do not catch it. The harmful payload still gets through, just disguised.
+
+**Real examples from the framework:**
+- `detector-evasion` shapes the output so automated content detectors do not flag it.
+- `watermark-removal` produces text without the hidden marks that show it came from an AI.
+- `encoding-output` returns the answer in an encoded form so plain-text scanners miss it.
+- `style-mimicry` copies a known author or source style to make harmful text look legitimate.
+- `safety-label-stripping` removes the warnings or disclaimers that would normally tag risky content.
+
+**Why an AI might fall for it:** The model focuses on being helpful with formatting and does not see the format change as a safety problem. Output filters often check for obvious patterns, not clever wrappers.
+
+**How to defend:** Check the meaning of an answer, not just its surface form. Decode and normalize output before scanning it. Do not let users strip required warnings or watermarks.

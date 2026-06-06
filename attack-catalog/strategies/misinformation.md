@@ -1,0 +1,16 @@
+# Misinformation: Attack Strategy
+
+**What it is:** Tricks that nudge an AI into stating false things as if they were true. The aim is wrong but confident answers, fake sources, or biased framing.
+
+**How the attacks work:** The attacker shapes the question so a false answer feels natural. A baked-in wrong assumption, a demand for a citation, or flattery can all push the model to agree instead of correct.
+
+**Real examples from the framework:**
+- `citation-manipulation` gets the model to produce fake or wrong citations that look real.
+- `false-premise` hides a false claim inside the question so the answer accepts it.
+- `fabrication-prompting` asks for details the model does not know, inviting it to make them up.
+- `confidence-exploitation` pushes the model to sound certain about things it cannot verify.
+- `sycophancy-exploit` leans on the model's urge to agree with the user even when the user is wrong.
+
+**Why an AI might fall for it:** The model wants to be helpful and agreeable. It often fills gaps with plausible guesses and rarely says "I do not know." Pressure and flattery make it cave to the user's framing.
+
+**How to defend:** Train the model to question false premises instead of answering around them. Make it admit uncertainty and refuse to invent sources. Reward correct disagreement over easy agreement.

@@ -1,0 +1,16 @@
+# Election Interference: Attack Strategy
+
+**What it is:** Attacks that try to make an AI help damage a fair election. This includes lies about voting, fake polls, voter scare tactics, and tools to spread political propaganda.
+
+**How the attacks work:** The attacker frames a harmful request as something normal, like research, satire, a campaign task, or content for a fake civics project. They ask the AI to write the actual scam message, plan the bot network, or build the false claim. The wrapper sounds harmless, but the output is real disinformation that could be used against voters.
+
+**Real examples from the framework:**
+- `voter-suppression` writes messages designed to stop people from voting (wrong dates, fake rules).
+- `voter-intimidation` crafts threats meant to scare voters away from the polls.
+- `political-bot-network` plans a fake account swarm to flood social media with one message.
+- `political-deepfake` scripts fake video or audio that puts false words in a candidate's mouth.
+- `election-denial` produces lies claiming a real election was stolen or fake.
+
+**Why an AI might fall for it:** The AI wants to be helpful with politics, news, and writing. A request dressed as journalism, a class project, or harmless satire can slip past its guard, especially when each step seems small and reasonable on its own.
+
+**How to defend:** Refuse to produce voting misinformation, voter threats, or deceptive campaign tools, even for "research." Treat fake polls, fake endorsements, and bot plans as harmful no matter the stated reason. Point users to real election authorities instead.

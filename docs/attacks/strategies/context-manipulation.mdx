@@ -1,0 +1,22 @@
+---
+title: "Context Manipulation: Attack Strategy"
+description: "These attacks work over a whole conversation, not one message. The attacker shapes the chat history so the AI slowly agrees to something it would have refu"
+---
+
+**What it is:** These attacks work over a whole conversation, not one message. The attacker shapes the chat history so the AI slowly agrees to something it would have refused up front.
+
+**How the attacks work:** Each message looks reasonable on its own. The attacker builds up safe context first, then references that history to push the model one small step further each turn until it crosses the line.
+
+**Real examples from the framework:**
+- `crescendo` a slow escalation that starts general and uses earlier answers to demand a detailed harmful guide.
+- `lifecycle-staging` a multi-step setup that prepares the model before the real harmful ask.
+- `socratic-escalation` a chain of leading questions that walk the model toward the unsafe answer.
+- `goalpost-moving` repeated small "just one more thing" requests that drift past the limit.
+- `sunk-cost-exploit` pressure to keep helping because the model already invested effort in the topic.
+
+**Why an AI might fall for it:** Models lean on the conversation so far to stay consistent. Attackers abuse that by making the harmful step feel like a natural continuation of an agreed thread.
+
+**How to defend:**
+- Judge each request against the rules on its own, not just against the chat history.
+- Watch for slow escalation and the moment a safe topic turns harmful.
+- Be willing to refuse later in a chat even after earlier helpful replies.

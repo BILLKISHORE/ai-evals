@@ -1,0 +1,19 @@
+---
+title: "Multimodal: Attack Strategy"
+description: "Attacks that hide harmful instructions inside non-text inputs like images, audio, or video. The AI reads the hidden text and follows it."
+---
+
+**What it is:** Attacks that hide harmful instructions inside non-text inputs like images, audio, or video. The AI reads the hidden text and follows it.
+
+**How the attacks work:** The attacker puts the real instruction somewhere the AI looks but a human glance might miss. Text inside a picture, words in an audio clip, or a single frame in a video. The AI processes that hidden content as if the user typed it.
+
+**Real examples from the framework:**
+- `audio-injection` hides the malicious instruction inside an audio clip so the speech-to-text step picks it up.
+- `ocr-bypass` puts text in an image in ways that the image reader still extracts but filters may skip.
+- `video-frame-injection` slips an instruction into one or more video frames.
+- `image-text-mismatch` makes the picture say one thing while the caption says another, to confuse the model.
+- `multimodal-context-confusion` mixes signals across formats so the model loses track of what is real.
+
+**Why an AI might fall for it:** Safety checks often scan the typed message but trust whatever comes out of an image or audio reader. The model treats extracted content as plain input, not as a possible attack.
+
+**How to defend:** Run the same safety filters on text pulled from images, audio, and video. Treat extracted content as untrusted. Flag cases where the picture and the caption disagree.

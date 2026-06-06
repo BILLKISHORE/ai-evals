@@ -1,0 +1,17 @@
+# Copyright and IP Theft: Attack Strategy
+
+**What it is:** These attacks try to make an AI hand over protected work that does not belong to the user. That includes company secrets, copyrighted text, and patented designs.
+
+**How the attacks work:** The attacker asks the AI to reproduce or reveal protected material. They often frame it as research, a study request, or a harmless quote. Some build up slowly over several messages so the AI gives away more each time.
+
+**Real examples from the framework:**
+- `trade-secret-extraction` tries to pull confidential business methods or internal formulas out of the model.
+- `copyright-extraction` asks the AI, often across several turns, to reproduce copyrighted books, lyrics, or code word for word.
+- `patent-theft` requests the protected details of a patented invention so they can be copied.
+
+**Why an AI might fall for it:** The AI wants to be helpful and may not realize the requested content is protected. A polite framing like "for my class" or "I lost my copy" can lower its guard. Multi-turn requests also hide the full goal, so each small step looks fine on its own.
+
+**How to defend:**
+- Refuse to reproduce long passages of copyrighted or confidential material, even in pieces.
+- Watch for slow build-up across messages, not just a single bad request.
+- When in doubt, point the user to the real source or rights holder instead of copying the work.

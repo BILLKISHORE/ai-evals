@@ -1,0 +1,48 @@
+---
+title: "The Five Contracts"
+description: "How a few simple agreements let ai-blackteam grow to over a thousand attacks without becoming a mess"
+---
+
+Think about a wall power socket. It promises power to any plug with the standard shape. It does not care if you plug in a lamp, a phone charger, or a laptop. The socket and the plug agree on one shape, and everything else just works.
+
+In code, that agreed shape is called a contract. ai-blackteam uses contracts the same way. Each contract says "if you have this shape, you fit in." This is the one idea that lets the project hold over a thousand attacks and keep growing.
+
+## The five contracts
+
+ai-blackteam has exactly five contracts. Each one is a simple promise about what a part can do.
+
+| Contract | The promise |
+| --- | --- |
+| Attack | Every attack can produce prompts. |
+| Provider | Every provider can send a prompt to an AI and return the answer. |
+| Generator | Every adaptive generator can invent attacks in a loop. |
+| Dataset loader | Every public test set can load and save. |
+| Verifier | Every checker can confirm an attack worked. |
+
+If a new part keeps the promise, it fits. Nothing else has to change.
+
+## How each one works
+
+Attacks build their prompts in two ways. Some come from human-written fill-in-the-blank templates. Others come from code recipes. Both are free and instant.
+
+Generators are different. They use an attacker-AI plus a judge-AI working together in a loop. There are 7 of these.
+
+Datasets are famous public lists. They get downloaded and cached so they load fast the next time. There are 19 of them.
+
+## The honest details
+
+Four of the five contracts have an auto-finder called a registry. The Attack, Provider, Generator, and Dataset parts each get found and wired up on their own.
+
+The Verifier is the exception. It is wired in by hand.
+
+There is also the Evaluator. It is a promise too, but a looser one. It uses plain functions instead of an enforced contract.
+
+<Note>
+The payoff: adding a new attack or a new AI brand is just one new file. Nothing else changes.
+</Note>
+
+## Why this matters
+
+This design follows the Open/Closed Principle. The project is open to adding new things and closed to changing the old things.
+
+You do not rewire the system to add an attack. You do not touch existing code to support a new AI brand. You add one file that keeps the promise, and the socket accepts the plug. That is how a small set of agreements keeps a very large project clean.

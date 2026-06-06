@@ -1,0 +1,65 @@
+---
+title: "The 163 Million Attack Surface"
+description: "How mixing a small set of building blocks creates about 163 million possible attack configurations"
+---
+
+The project can generate about 163 million attack configurations. That number sounds huge, and it is worth being honest about what it means. These are not 163 million hand-written attacks. The real hand-built pieces are small. The big number comes from mixing those pieces together, like a small box of LEGO bricks that can combine into millions of builds.
+
+## The building blocks
+
+The hand-built parts add up to about 11,700 pieces:
+
+| Building block | Count |
+| --- | --- |
+| Attack techniques | 1,020 |
+| Prompts from public benchmark datasets | 10,662 |
+| Public benchmark datasets used | 19 |
+
+That is the real, human-made library. Everything else is mixing.
+
+## The five axes
+
+The 163 million comes from combining the building blocks across five axes:
+
+| Axis | Options |
+| --- | --- |
+| Harm categories | 28 |
+| Difficulty levels | 4 |
+| Disguises and mutations | 17 (5 encoding like base64, 8 framing, 4 difficulty) |
+| Languages | 10 |
+| Technique applied | which of the techniques is used |
+
+Each axis multiplies the others. A few small lists turn into a very large space.
+
+## The exact math
+
+The total splits into two parts. The numbers below were verified by running the code.
+
+Part 1 starts with the techniques:
+
+```
+1,020 techniques x 28 categories x 4 difficulties = 114,240
+114,240 x (1 original + 17 mutations + 10 languages) = 3,198,720
+```
+
+Part 2 starts with the dataset prompts:
+
+```
+10,662 dataset prompts x 17 mutations x 886 single-turn techniques = 160,591,044
+```
+
+Add them together:
+
+```
+3,198,720 + 160,591,044 = 163,789,764
+```
+
+## You never run them all
+
+You do not run all 163 million. You sample from this space. A full sweep would cost real money in API calls, so that is not the goal.
+
+<Note>
+The point is variety of coverage, not a fixed list of prompts. A small library of about 11,700 building blocks, mixed across five axes, produces about 163 million possible attack configurations. You pick a sample from that space to test a chatbot from many angles.
+</Note>
+
+Think of it like testing a lock. You do not try every key ever made. You try a smart spread of shapes and sizes to find weak spots. The 163 million is the size of the space you can draw from, not a checklist you have to finish.

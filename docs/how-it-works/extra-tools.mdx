@@ -1,0 +1,37 @@
+---
+title: "The Extra Tools"
+description: "Four extra tools built on the same attack engine to find, block, track, and score AI safety problems."
+---
+
+The core of this project is the attack engine. It sends tricky prompts to an AI chatbot to see what gets past its safety rules. On top of that engine sit four extra tools. Each one solves a different job, and all four reuse the same engine underneath.
+
+## The four tools at a glance
+
+| Tool | What it does | Command |
+| --- | --- | --- |
+| Code Scanner | Reads your code and warns about AI security mistakes before you ship | `scan` |
+| Defense Testing | Adds a guard and measures how many more attacks it blocks | `defend` |
+| Snapshots | Saves a test result so you can compare it over time | `snapshot` |
+| Benchmark | Runs all attacks against hard targets and gives a safety score | `benchmark` |
+
+## Code Scanner
+
+This tool does not attack an AI. It reads your own code and warns you about common AI security mistakes before you ship. It uses 11 rules. For example, it flags pasting user text straight into AI instructions, putting secret keys in prompts, or running AI output as a command. You fix the problems early, before anyone can use them against you.
+
+## Defense Testing
+
+A guard is something you add to protect a chatbot, like a system prompt or a filter. Defense Testing checks if the guard actually helps. It runs the attacks twice. First with no protection, then with the guard added. Then it compares the two runs and shows how many more attacks the guard blocked.
+
+You can pick how strong the guard is: permissive, moderate, strict, or an AI-judge filter.
+
+## Snapshots
+
+A snapshot is a saved photo of a test result. You take one today, then take another after the AI updates. Comparing the two tells you whether the chatbot is getting safer or worse over time. The tool tracks the bypass rate (how many attacks got through) and can diff two snapshots to show the change.
+
+## Benchmark
+
+The Benchmark runs all the attacks against a fixed set of hard targets. It gives back a safety score and a leaderboard so you can rank different models. It also supports a threshold option. If a model scores too low, the run fails automatically. That makes it useful inside automated pipelines, where a weak model should stop the build.
+
+<Note>
+All four tools reuse the same attack engine. That is the payoff of clean design. One solid core powers four very different jobs, so each tool stays small and easy to trust.
+</Note>

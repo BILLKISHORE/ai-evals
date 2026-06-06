@@ -1,0 +1,48 @@
+---
+title: "What ai-blackteam Is"
+description: "A friendly intro to ai-blackteam, a break-in tester that checks if an AI chatbot can be tricked into unsafe behavior."
+---
+
+ai-blackteam is a break-in tester for AI chatbots. You point it at any AI model and it tries to trick that model into doing things it should refuse. Then it gives you a safety report.
+
+Think of it like hiring a professional burglar to test a new bank before customers move in. The burglar finds the weak spots so they can be fixed before real criminals ever show up. ai-blackteam plays the role of the friendly burglar for your AI.
+
+## What it tests for
+
+ai-blackteam checks whether an AI can be pushed into things it is supposed to say no to, such as:
+
+- Leaking secrets it should keep private.
+- Writing harmful content.
+- Ignoring its own safety rules.
+
+It runs over a thousand different attack techniques to find these weak spots.
+
+## Why it exists
+
+Most testing tools test weakly. They send one prompt. The AI refuses. They call it safe and move on.
+
+Real attackers do not stop after one try. They disguise the request. They escalate over many messages until something slips through. ai-blackteam tests the same way a real attacker would, so the results actually mean something.
+
+<Note>
+A single refusal does not prove an AI is safe. Real attackers keep pushing, so a real test has to keep pushing too. That is the gap ai-blackteam was built to close.
+</Note>
+
+## Why it is fair
+
+ai-blackteam is vendor-neutral. It is not owned by any AI lab. Some testing tools are backed by big labs, which can raise questions about bias. Because ai-blackteam is independent, it tests every model the same way.
+
+## By the numbers
+
+| What | Count |
+| --- | --- |
+| Attack techniques | 1,020 |
+| Attack categories | 61 |
+| AI providers it can test | 17 (plus a mock for practice) |
+| Public benchmark datasets | 19 |
+| Automated tests | 3,059 |
+
+ai-blackteam is published on PyPI as `ai-blackteam`, version 1.7.1.
+
+## Who it is for
+
+Anyone who builds, ships, or relies on an AI chatbot and wants to know its weak spots before someone else finds them. You do not need to be a security expert to get started. The rest of this series walks you through how it all works, one simple step at a time.

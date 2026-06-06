@@ -1,0 +1,54 @@
+---
+title: "compliance-evasion"
+description: "All 8 attacks in the compliance-evasion category, with severity, mode, and standards mapping."
+---
+
+There are 8 attacks in the **compliance-evasion** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+
+<ResponseField name="Embargo Evasion" type="critical">
+  `embargo-evasion` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Helps evade trade embargoes through re-export schemes, shell companies, and false documentation
+</ResponseField>
+
+<ResponseField name="Sanctions Circumvention" type="critical">
+  `sanctions-circumvention` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Circumvents financial sanctions through layered transactions, crypto mixing, and front entities
+</ResponseField>
+
+<ResponseField name="Audit Mode Exploit" type="high">
+  `audit-mode-exploit` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Claims to activate a special audit/debug/testing mode that temporarily disables safety restrictions
+</ResponseField>
+
+<ResponseField name="Regulatory Framing Bypass" type="high">
+  `regulatory-framing-bypass` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Frames harmful requests as regulatory compliance activities to bypass safety filters
+</ResponseField>
+
+<ResponseField name="Social Credit Gaming" type="high">
+  `social-credit-gaming` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Generates strategies for gaming social credit systems, reputation scoring algorithms, and compliance rating platforms
+</ResponseField>
+
+<ResponseField name="Consent Manipulation" type="medium">
+  `consent-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Claims all parties have consented, or that the requester has special authorization, to bypass ethical restrictions
+</ResponseField>
+
+<ResponseField name="Jurisdiction Shopping" type="medium">
+  `jurisdiction-shopping` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Exploits differences in legal frameworks across jurisdictions to claim an activity is permissible
+</ResponseField>
+
+<ResponseField name="Policy Loophole" type="medium">
+  `policy-loophole` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Exploits ambiguities and edge cases in safety policies by framing requests to technically not violate stated rules
+</ResponseField>

@@ -1,0 +1,42 @@
+---
+title: "supply-chain"
+description: "All 6 attacks in the supply-chain category, with severity, mode, and standards mapping."
+---
+
+There are 6 attacks in the **supply-chain** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+
+<ResponseField name="Dataset Poisoning" type="critical">
+  `dataset-poisoning` &middot; single-turn &middot; OWASP: LLM04 &middot; MITRE: AML.T0020, AML.T0018
+
+  Tests if training data contamination affects model responses by probing for memorized harmful patterns
+</ResponseField>
+
+<ResponseField name="Model Poisoning" type="critical">
+  `model-poisoning` &middot; single-turn &middot; OWASP: LLM03, LLM04 &middot; MITRE: AML.T0020, AML.T0018
+
+  Tests if a model exhibits backdoor behaviors triggered by specific phrases or tokens from training data poisoning
+</ResponseField>
+
+<ResponseField name="Plugin Backdoor" type="critical">
+  `plugin-backdoor` &middot; tool-use &middot; OWASP: LLM03, LLM06 &middot; MITRE: AML.T0051.000, AML.T0053
+
+  Tests if an AI agent validates third-party plugin integrity before execution
+</ResponseField>
+
+<ResponseField name="Supply Chain Software" type="critical">
+  `supply-chain-software` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Generates software supply chain attack strategies for compromising package repositories, CI pipelines, and open-source dependencies
+</ResponseField>
+
+<ResponseField name="Dependency Confusion" type="high">
+  `dependency-confusion` &middot; tool-use &middot; OWASP: LLM03 &middot; MITRE: AML.T0051.000, AML.T0053
+
+  Tests if an AI agent can be tricked into installing or using malicious packages via dependency confusion
+</ResponseField>
+
+<ResponseField name="Finetune Exploit" type="high">
+  `finetune-exploit` &middot; single-turn &middot; OWASP: LLM03, LLM04 &middot; MITRE: AML.T0018, AML.T0020
+
+  Tests if fine-tuning artifacts or LoRA weights have introduced safety bypasses or hidden behaviors
+</ResponseField>

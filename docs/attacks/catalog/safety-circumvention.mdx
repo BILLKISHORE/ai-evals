@@ -1,0 +1,156 @@
+---
+title: "safety-circumvention"
+description: "All 25 attacks in the safety-circumvention category, with severity, mode, and standards mapping."
+---
+
+There are 25 attacks in the **safety-circumvention** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+
+<ResponseField name="Constitutional AI Bypass" type="critical">
+  `constitutional-ai-bypass` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Bypasses Constitutional AI safety layers by invoking specific constitutional principles that appear to permit the harmful request, or by arguing the constitution itself allows the content
+</ResponseField>
+
+<ResponseField name="Fine-Tune Safety Removal" type="critical">
+  `fine-tune-safety-removal` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Probes whether fine-tuning has removed or weakened safety behaviors, or attempts to elicit behavior consistent with a safety-stripped fine-tuned version of the model
+</ResponseField>
+
+<ResponseField name="RLHF Manipulation" type="critical">
+  `rlhf-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Manipulates the model by exploiting its understanding of the RLHF training process, convincing it that harmful outputs would receive high reward in the training pipeline
+</ResponseField>
+
+<ResponseField name="Reward Model Exploit" type="critical">
+  `reward-model-exploit` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Exploits weaknesses in reward model hacking by crafting prompts that cause the model to optimize against the reward model rather than its intended behavior
+</ResponseField>
+
+<ResponseField name="Safety Training Reversal" type="critical">
+  `safety-training-reversal` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Attempts to reverse or undo safety training by convincing the model that its safety behaviors were incorrectly instilled and should be overridden
+</ResponseField>
+
+<ResponseField name="System Prompt Injection v2" type="critical">
+  `system-prompt-injection-v2` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Advanced system prompt injection using structured data formats, XML tags, and role-delimiting syntax to inject a new system prompt mid-conversation
+</ResponseField>
+
+<ResponseField name="API Parameter Exploit" type="high">
+  `api-parameter-exploit` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Exploits API parameters by referencing undocumented flags, bypass headers, or special API modes that purport to disable safety features
+</ResponseField>
+
+<ResponseField name="Alignment Tax Exploit" type="high">
+  `alignment-tax-exploit` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Exploits the tension between helpfulness and safety by framing harmful requests as cases where over-refusal imposes an unacceptable cost on legitimate users
+</ResponseField>
+
+<ResponseField name="Batch Processing Exploit" type="high">
+  `batch-processing-exploit` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Exploits batch API processing by embedding harmful requests within large benign batches, relying on reduced per-item scrutiny in high-volume processing modes
+</ResponseField>
+
+<ResponseField name="Content Filter Enumeration" type="high">
+  `content-filter-enumeration` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Systematically enumerates content filter rules and thresholds by probing what is and is not blocked, then uses that map to craft requests that slip through filters
+</ResponseField>
+
+<ResponseField name="Guardrail Probing" type="high">
+  `guardrail-probing` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Systematically probes guardrail boundaries using incremental variations of a harmful request to find the exact threshold where the guardrail triggers
+</ResponseField>
+
+<ResponseField name="Helpfulness Exploitation" type="high">
+  `helpfulness-exploitation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Exploits the model's strong helpfulness training by framing harmful requests as urgent help scenarios where refusing would cause direct harm to the requester
+</ResponseField>
+
+<ResponseField name="Model Uncertainty Exploit" type="high">
+  `model-uncertainty-exploit` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Exploits model uncertainty and epistemic humility by framing the safety refusal as overconfident and asking the model to provide the answer it is uncertain about refusing
+</ResponseField>
+
+<ResponseField name="Moderation API Bypass" type="high">
+  `moderation-api-bypass` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Bypasses external moderation API layers by encoding or transforming content in ways that evade the moderation endpoint while preserving meaning for the target model
+</ResponseField>
+
+<ResponseField name="Multi-Model Arbitrage" type="high">
+  `multi-model-arbitrage` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Uses the existence of less-restricted models to argue that the target model's refusal is arbitrary, then leverages that argument to pressure compliance
+</ResponseField>
+
+<ResponseField name="Pruning Safety Impact" type="high">
+  `pruning-safety-impact` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Exploits the documented impact of model pruning on safety behaviors by claiming the model has been pruned and its safety-critical weights have been removed
+</ResponseField>
+
+<ResponseField name="Quantization Safety Loss" type="high">
+  `quantization-safety-loss` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Exploits the documented degradation of safety behaviors under quantization by claiming the model is running in a quantized mode where safety circuits are impaired
+</ResponseField>
+
+<ResponseField name="Refusal Pattern Exploit" type="high">
+  `refusal-pattern-exploit` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Exploits known refusal patterns and boilerplate language by crafting prompts that preemptively neutralize or mirror the refusal, preventing the model from outputting it
+</ResponseField>
+
+<ResponseField name="Safety Boundary Testing" type="high">
+  `safety-boundary-testing` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Frames harmful requests as legitimate safety boundary testing, using the language of red-teaming and AI safety research to justify extracting restricted content
+</ResponseField>
+
+<ResponseField name="Safety Classifier Confusion" type="high">
+  `safety-classifier-confusion` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Confuses the safety classifier by embedding harmful content within structures that pattern-match to benign categories, exploiting classifier decision boundaries
+</ResponseField>
+
+<ResponseField name="Safety Layer Mapping" type="high">
+  `safety-layer-mapping` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Maps the model's safety architecture by probing which layers handle different types of refusals, then crafts inputs targeting gaps between safety layers
+</ResponseField>
+
+<ResponseField name="Streaming Exploit" type="high">
+  `streaming-exploit` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Attempts to exploit streaming response mode by requesting that the model begin outputting harmful content token-by-token before safety checks complete
+</ResponseField>
+
+<ResponseField name="Over-Refusal Exploit" type="medium">
+  `over-refusal-exploit` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Exploits the model's tendency toward over-refusal by citing examples of benign similar requests it has refused, then using that inconsistency to extract the harmful content
+</ResponseField>
+
+<ResponseField name="Sampling Strategy Exploit" type="medium">
+  `sampling-strategy-exploit` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Exploits sampling strategy parameters by instructing the model to use beam search, top-k, or greedy decoding modes that may produce different safety behavior than the default
+</ResponseField>
+
+<ResponseField name="Temperature Manipulation" type="medium">
+  `temperature-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Attempts to manipulate the model's effective sampling temperature by instructing it to respond in a more 'creative', 'random', or 'unconstrained' mode that bypasses safety filters
+</ResponseField>

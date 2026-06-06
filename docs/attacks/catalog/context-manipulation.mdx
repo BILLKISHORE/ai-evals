@@ -1,0 +1,60 @@
+---
+title: "context-manipulation"
+description: "All 9 attacks in the context-manipulation category, with severity, mode, and standards mapping."
+---
+
+There are 9 attacks in the **context-manipulation** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+
+<ResponseField name="Lifecycle Staging" type="critical">
+  `lifecycle-staging` &middot; multi-turn &middot; OWASP: LLM01, LLM06 &middot; MITRE: AML.T0054, AML.T0065, AML.T0080.002
+
+  Asks about each stage of the CBRN lifecycle separately (acquisition, production, weaponization, delivery) so no single message triggers safety filters
+</ResponseField>
+
+<ResponseField name="Context Manipulation" type="high">
+  `context-manipulation` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0080.002
+
+  10-turn conversational drift to gradually shift context toward harmful content
+</ResponseField>
+
+<ResponseField name="Crescendo" type="high">
+  `crescendo` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0065
+
+  Progressive escalation through self-referencing conversation history
+</ResponseField>
+
+<ResponseField name="Narrative Misdirection Attack" type="high">
+  `narrative-misdirection` &middot; multi-turn &middot; OWASP: LLM01, LLM09 &middot; MITRE: AML.T0054, AML.T0065
+
+  Embed harmful request between benign topics and ask model to logically connect all three
+</ResponseField>
+
+<ResponseField name="Socratic Escalation" type="high">
+  `socratic-escalation` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0065
+
+  Gradually escalates from general educational questions to specific harmful requests across multiple turns using Socratic questioning
+</ResponseField>
+
+<ResponseField name="Contradiction Exploit" type="medium">
+  `contradiction-exploit` &middot; multi-turn &middot; OWASP: LLM01, LLM09 &middot; MITRE: AML.T0054, AML.T0065
+
+  Feed incorrect information to elicit corrections containing harmful truth
+</ResponseField>
+
+<ResponseField name="Conversation Derailment" type="medium">
+  `conversation-derailment` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0080.002
+
+  Self-discovery of model weaknesses through probing conversation
+</ResponseField>
+
+<ResponseField name="Goalpost Moving" type="medium">
+  `goalpost-moving` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0065
+
+  Incremental agreement chain that builds logical trap making refusal seem contradictory
+</ResponseField>
+
+<ResponseField name="Sunk Cost Exploit" type="medium">
+  `sunk-cost-exploit` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0065
+
+  Build helpful context then pivot to harmful request exploiting sunk cost
+</ResponseField>

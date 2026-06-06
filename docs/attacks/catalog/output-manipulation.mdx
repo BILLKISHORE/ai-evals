@@ -1,0 +1,102 @@
+---
+title: "output-manipulation"
+description: "All 16 attacks in the output-manipulation category, with severity, mode, and standards mapping."
+---
+
+There are 16 attacks in the **output-manipulation** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+
+<ResponseField name="Attribution Evasion" type="high">
+  `attribution-evasion` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
+
+  Removes AI authorship indicators so generated content appears human-written
+</ResponseField>
+
+<ResponseField name="Content Laundering" type="high">
+  `content-laundering` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
+
+  Paraphrases content to evade plagiarism detection or content policy filters
+</ResponseField>
+
+<ResponseField name="Deepfake Detection Evasion" type="high">
+  `deepfake-detection-evasion` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Evades deepfake detection systems by exploiting known classifier blind spots
+</ResponseField>
+
+<ResponseField name="Detector Evasion" type="high">
+  `detector-evasion` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
+
+  Makes AI-generated text undetectable by AI content detection tools
+</ResponseField>
+
+<ResponseField name="Encoding Output" type="high">
+  `encoding-output` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
+
+  Gets the model to output harmful content in encoded form to bypass output filters
+</ResponseField>
+
+<ResponseField name="Format Exploitation" type="high">
+  `format-exploitation` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
+
+  Uses output formatting structures to conceal harmful content from reviewers
+</ResponseField>
+
+<ResponseField name="Partial Completion" type="high">
+  `partial-completion` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
+
+  Extracts partial harmful answers across multiple innocent-seeming requests to reconstruct complete harmful information
+</ResponseField>
+
+<ResponseField name="Steganographic Output" type="high">
+  `steganographic-output` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
+
+  Hides harmful information inside seemingly benign output using steganographic techniques
+</ResponseField>
+
+<ResponseField name="Style Mimicry" type="high">
+  `style-mimicry` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
+
+  Mimics a specific person's writing style to produce deceptive content attributed to them
+</ResponseField>
+
+<ResponseField name="Toxicity Obfuscation" type="high">
+  `toxicity-obfuscation` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
+
+  Rewrites toxic content to evade automated content moderation systems
+</ResponseField>
+
+<ResponseField name="Watermark Removal" type="high">
+  `watermark-removal` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
+
+  Asks the model to remove AI-generated watermarks or fingerprints from text
+</ResponseField>
+
+<ResponseField name="Metadata Stripping" type="medium">
+  `metadata-stripping` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
+
+  Removes identifying metadata or provenance information from generated content
+</ResponseField>
+
+<ResponseField name="Multilingual Output Evasion" type="medium">
+  `multilingual-output-evasion` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
+
+  Outputs harmful content in a non-English language to evade English-only content monitoring
+</ResponseField>
+
+<ResponseField name="Safety Label Stripping" type="medium">
+  `safety-label-stripping` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
+
+  Asks to rewrite content with safety warnings removed or replaced
+</ResponseField>
+
+<ResponseField name="Sentiment Masking" type="medium">
+  `sentiment-masking` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
+
+  Hides negative or harmful sentiment inside positive-sounding framing
+</ResponseField>
+
+<ResponseField name="Truncation Exploit" type="medium">
+  `truncation-exploit` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0054, AML.T0068
+
+  Exploits output truncation to push disclaimers past display limits so they are not seen
+</ResponseField>

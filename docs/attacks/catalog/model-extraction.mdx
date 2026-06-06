@@ -1,0 +1,156 @@
+---
+title: "model-extraction"
+description: "All 25 attacks in the model-extraction category, with severity, mode, and standards mapping."
+---
+
+There are 25 attacks in the **model-extraction** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+
+<ResponseField name="API Cloning" type="critical">
+  `api-cloning` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to extract enough model behavior via API queries to build a functional clone
+</ResponseField>
+
+<ResponseField name="Distillation Attack" type="critical">
+  `distillation-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to systematically extract model knowledge for training a clone or distilled surrogate model
+</ResponseField>
+
+<ResponseField name="Logit Extraction" type="critical">
+  `logit-extraction` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to extract raw logit values to enable model stealing via output probability matching
+</ResponseField>
+
+<ResponseField name="Model Inversion" type="critical">
+  `model-inversion` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to invert the model to reconstruct training inputs from model outputs or internal representations
+</ResponseField>
+
+<ResponseField name="Model Weight Extraction" type="critical">
+  `model-weight-extraction` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to extract model weight values or reconstruct internal model parameters
+</ResponseField>
+
+<ResponseField name="RLHF Data Extraction" type="critical">
+  `rlhf-data-extraction` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to extract RLHF preference data, reward model signals, and human feedback labels
+</ResponseField>
+
+<ResponseField name="Safety Training Extraction" type="critical">
+  `safety-training-extraction` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to extract the model's safety training data, refusal examples, and alignment techniques
+</ResponseField>
+
+<ResponseField name="System Prompt Recovery" type="critical">
+  `system-prompt-recovery` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to recover or reconstruct the system prompt and operator instructions
+</ResponseField>
+
+<ResponseField name="Training Data Memorization" type="critical">
+  `training-data-memorization` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to trigger memorized verbatim content from the training corpus including private documents
+</ResponseField>
+
+<ResponseField name="Training Pipeline Extraction" type="critical">
+  `training-pipeline-extraction` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to extract details about the model's training pipeline, data preprocessing, and infrastructure
+</ResponseField>
+
+<ResponseField name="Architecture Probing" type="high">
+  `architecture-probing` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to reveal internal model architecture details such as layer counts, hidden dimensions, and attention heads
+</ResponseField>
+
+<ResponseField name="Attention Pattern Extraction" type="high">
+  `attention-pattern-extraction` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to extract attention weight matrices and head activation patterns for model reconstruction
+</ResponseField>
+
+<ResponseField name="Capability Mapping" type="high">
+  `capability-mapping` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to comprehensively map all model capabilities, limitations, and undisclosed features
+</ResponseField>
+
+<ResponseField name="Decision Boundary Probing" type="high">
+  `decision-boundary-probing` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to map the model's decision boundaries between allowed and refused content
+</ResponseField>
+
+<ResponseField name="Embedding Extraction" type="high">
+  `embedding-extraction` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to extract internal embedding vectors and representation space structure
+</ResponseField>
+
+<ResponseField name="Fine-Tuning Detection" type="high">
+  `fine-tuning-detection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to detect whether a model has been fine-tuned and extract information about the fine-tuning data
+</ResponseField>
+
+<ResponseField name="Hyperparameter Extraction" type="high">
+  `hyperparameter-extraction` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to extract training hyperparameters such as learning rate, batch size, and optimizer settings
+</ResponseField>
+
+<ResponseField name="Model Comparison Leak" type="high">
+  `model-comparison-leak` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to leak model identity and configuration by exploiting comparative responses across model versions
+</ResponseField>
+
+<ResponseField name="Model Fingerprinting" type="high">
+  `model-fingerprinting` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to fingerprint a model to uniquely identify it and distinguish it from other models or versions
+</ResponseField>
+
+<ResponseField name="Output Distribution Analysis" type="high">
+  `output-distribution-analysis` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to analyze the model's output probability distribution to reconstruct its decision function
+</ResponseField>
+
+<ResponseField name="Tokenizer Extraction" type="high">
+  `tokenizer-extraction` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to extract the model's tokenizer vocabulary, merge rules, and special token configuration
+</ResponseField>
+
+<ResponseField name="Watermark Detection" type="high">
+  `watermark-detection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to detect and extract model output watermarks or provenance signals
+</ResponseField>
+
+<ResponseField name="Confidence Calibration Probe" type="medium">
+  `confidence-calibration-probe` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to extract confidence scores, probability calibration, and uncertainty quantification internals
+</ResponseField>
+
+<ResponseField name="Knowledge Cutoff Probing" type="medium">
+  `knowledge-cutoff-probing` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to precisely determine the model's training data cutoff date and data recency distribution
+</ResponseField>
+
+<ResponseField name="Version Detection" type="medium">
+  `version-detection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Prompts designed to detect the exact model version, release date, and deployment configuration
+</ResponseField>

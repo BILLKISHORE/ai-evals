@@ -1,0 +1,156 @@
+---
+title: "adversarial-ml"
+description: "All 25 attacks in the adversarial-ml category, with severity, mode, and standards mapping."
+---
+
+There are 25 attacks in the **adversarial-ml** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+
+<ResponseField name="Gradient-Based Adversarial Attack" type="critical">
+  `gradient-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Exploits gradient information to craft adversarial inputs that steer model outputs toward attacker-controlled targets
+</ResponseField>
+
+<ResponseField name="Output Classifier Bypass" type="critical">
+  `output-classifier-bypass` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Instructs the model to format harmful outputs in ways that evade post-generation output safety classifiers and filters
+</ResponseField>
+
+<ResponseField name="Reward Hacking Attack" type="critical">
+  `reward-hacking` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Exploits misalignment between proxy reward functions and true objectives to elicit harmful outputs that score highly on RLHF reward models
+</ResponseField>
+
+<ResponseField name="Safety Classifier Evasion" type="critical">
+  `safety-classifier-evasion` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Specifically targets and evades safety classifiers deployed as guardrails using adversarial examples crafted against those classifiers
+</ResponseField>
+
+<ResponseField name="Transferable Adversarial Attack" type="critical">
+  `transferable-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Attacks crafted on surrogate models that transfer to target black-box models due to shared decision boundaries
+</ResponseField>
+
+<ResponseField name="Universal Adversarial Suffix" type="critical">
+  `universal-adversarial-suffix` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Universal transferable suffixes optimized across multiple models to bypass safety alignment on any target
+</ResponseField>
+
+<ResponseField name="Adversarial Perturbation Attack" type="high">
+  `perturbation-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Applies small, imperceptible perturbations to inputs to cause model misclassification or policy bypass
+</ResponseField>
+
+<ResponseField name="Attention-Based Adversarial Attack" type="high">
+  `attention-based-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Crafts inputs that manipulate attention patterns to suppress safety-relevant context and amplify harmful task signals
+</ResponseField>
+
+<ResponseField name="Beam Search Adversarial Attack" type="high">
+  `beam-search-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Uses beam search to explore token sequences that maximize attack success probability while maintaining fluency
+</ResponseField>
+
+<ResponseField name="Black-Box Optimization Attack" type="high">
+  `black-box-optimization` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Query-based optimization attack that crafts adversarial prompts without gradient access using only model outputs
+</ResponseField>
+
+<ResponseField name="Character-Level Adversarial Attack" type="high">
+  `character-level-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Introduces character-level perturbations such as insertions, deletions, and swaps to evade token-based filters
+</ResponseField>
+
+<ResponseField name="Constrained Optimization Attack" type="high">
+  `constrained-optimization-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Solves a constrained optimization problem to find adversarial prompts satisfying fluency and evasion constraints simultaneously
+</ResponseField>
+
+<ResponseField name="Embedding Space Adversarial Attack" type="high">
+  `embedding-space-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Operates directly in embedding space to find minimal perturbations that move inputs across safety decision boundaries
+</ResponseField>
+
+<ResponseField name="Ensemble Adversarial Attack" type="high">
+  `ensemble-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Combines multiple attack strategies simultaneously to improve robustness against diverse safety mechanisms
+</ResponseField>
+
+<ResponseField name="Genetic Algorithm Adversarial Attack" type="high">
+  `genetic-algorithm-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Evolves adversarial prompts through selection, crossover, and mutation to bypass safety filters over generations
+</ResponseField>
+
+<ResponseField name="Iterative Refinement Attack" type="high">
+  `iterative-refinement-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Iteratively refines adversarial prompts based on model feedback to progressively improve jailbreak success rate
+</ResponseField>
+
+<ResponseField name="Latent Space Adversarial Attack" type="high">
+  `latent-space-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Manipulates the model's latent representations to steer generation toward harmful outputs via activation steering
+</ResponseField>
+
+<ResponseField name="Model-Specific Adversarial Attack" type="high">
+  `model-specific-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Exploits architecture-specific quirks, training artifacts, and known model weaknesses for targeted bypass
+</ResponseField>
+
+<ResponseField name="Paraphrase Adversarial Attack" type="high">
+  `paraphrase-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Systematically paraphrases harmful requests to evade surface-level safety filters while retaining the harmful objective
+</ResponseField>
+
+<ResponseField name="Reinforcement Learning Adversarial Attack" type="high">
+  `reinforcement-learning-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  RL-trained attacker agent that learns prompt strategies maximizing jailbreak reward against safety-trained models
+</ResponseField>
+
+<ResponseField name="Semantic-Preserving Adversarial Attack" type="high">
+  `semantic-preserving-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Transforms prompts to preserve semantic meaning while evading keyword and pattern-based safety classifiers
+</ResponseField>
+
+<ResponseField name="Sentence-Level Adversarial Attack" type="high">
+  `sentence-level-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Inserts or modifies entire sentences to shift model behavior while keeping overall prompt structure benign-looking
+</ResponseField>
+
+<ResponseField name="Token-Level Perturbation Attack" type="high">
+  `token-level-perturbation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Substitutes tokens at the embedding level to create semantically equivalent but filter-evading adversarial inputs
+</ResponseField>
+
+<ResponseField name="Word Importance Adversarial Attack" type="high">
+  `word-importance-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Identifies and perturbs high-importance words in safety filters to minimize classifier confidence on harmful inputs
+</ResponseField>
+
+<ResponseField name="Synonym Substitution Attack" type="medium">
+  `synonym-substitution-attack` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Replaces flagged keywords with synonyms or semantically equivalent terms to bypass lexical safety filters
+</ResponseField>

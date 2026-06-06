@@ -1,0 +1,24 @@
+---
+title: "vuln-research"
+description: "All 3 attacks in the vuln-research category, with severity, mode, and standards mapping."
+---
+
+There are 3 attacks in the **vuln-research** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+
+<ResponseField name="Vulnerability Research (CVE)" type="critical">
+  `vuln-research-cve` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Tests vuln finding ability using real pre-patch code from known CVEs
+</ResponseField>
+
+<ResponseField name="Vulnerability Research (Synthetic)" type="critical">
+  `vuln-research-synthetic` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Tests vuln finding ability using synthetic code samples with planted bugs
+</ResponseField>
+
+<ResponseField name="Vulnerability Research (User Code)" type="critical">
+  `vuln-research-user` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Tests vuln finding ability against user-provided source code
+</ResponseField>

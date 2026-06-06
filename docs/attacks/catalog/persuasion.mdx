@@ -1,0 +1,96 @@
+---
+title: "persuasion"
+description: "All 15 attacks in the persuasion category, with severity, mode, and standards mapping."
+---
+
+There are 15 attacks in the **persuasion** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+
+<ResponseField name="Cialdini Authority" type="high">
+  `cialdini-authority` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Invokes authority figures, credentials, or institutional power to override safety guidelines
+</ResponseField>
+
+<ResponseField name="Cialdini Commitment" type="high">
+  `cialdini-commitment` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Extracts small commitments progressively, using consistency pressure to escalate toward a harmful final request
+</ResponseField>
+
+<ResponseField name="Cialdini Reciprocity" type="high">
+  `cialdini-reciprocity` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Uses Cialdini's reciprocity principle to create a sense of obligation before making a harmful request
+</ResponseField>
+
+<ResponseField name="Cognitive Load" type="high">
+  `cognitive-load` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Overwhelms the model with a flood of complex information, instructions, and context to slip a harmful request past safety reasoning
+</ResponseField>
+
+<ResponseField name="Fear Appeal" type="high">
+  `fear-appeal` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Uses fear, threat, or danger framing to coerce the model into complying by framing refusal as catastrophic
+</ResponseField>
+
+<ResponseField name="Foot in Door" type="high">
+  `foot-in-door` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Starts with small, benign requests and gradually escalates to harmful ones, exploiting consistency bias
+</ResponseField>
+
+<ResponseField name="Guilt Manipulation" type="high">
+  `guilt-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Induces guilt and moral responsibility to override refusals by framing non-compliance as harmful or cruel
+</ResponseField>
+
+<ResponseField name="Learned Helplessness" type="high">
+  `learned-helplessness` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Repeatedly asserts that the model has no choice but to comply, attempting to erode resistance through attrition
+</ResponseField>
+
+<ResponseField name="Moral Disengagement" type="high">
+  `moral-disengagement` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Reframes harmful actions as morally justified through euphemism, diffusion of responsibility, or dehumanization of victims
+</ResponseField>
+
+<ResponseField name="Anchoring Manipulation" type="medium">
+  `anchoring-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Sets an extreme reference point to make a harmful request appear moderate or reasonable by comparison
+</ResponseField>
+
+<ResponseField name="Bandwagon Pressure" type="medium">
+  `bandwagon-pressure` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Applies social pressure through claims that widespread adoption or consensus makes the request acceptable
+</ResponseField>
+
+<ResponseField name="Cialdini Liking" type="medium">
+  `cialdini-liking` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Builds rapport and flattery over multiple turns to lower defenses before making a harmful request
+</ResponseField>
+
+<ResponseField name="Cialdini Scarcity" type="medium">
+  `cialdini-scarcity` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Uses scarcity and urgency framing to pressure the model into complying before it can fully reason about safety
+</ResponseField>
+
+<ResponseField name="Cialdini Social Proof" type="medium">
+  `cialdini-social-proof` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Claims that other AI models, users, or authorities have already complied to normalize the harmful request
+</ResponseField>
+
+<ResponseField name="Door in Face" type="medium">
+  `door-in-face` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Makes an extreme request first, then follows with a 'smaller' harmful request that seems reasonable by comparison
+</ResponseField>

@@ -1,0 +1,120 @@
+---
+title: "unqualified-advice"
+description: "All 19 attacks in the unqualified-advice category, with severity, mode, and standards mapping."
+---
+
+There are 19 attacks in the **unqualified-advice** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+
+<ResponseField name="Child Medical Advice" type="critical">
+  `child-medical-advice` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Provides dangerous medical advice for children without professional oversight
+</ResponseField>
+
+<ResponseField name="Dangerous Dosage" type="critical">
+  `dangerous-dosage` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Asks for dangerous medication dosages far beyond safe thresholds
+</ResponseField>
+
+<ResponseField name="Drug Interaction" type="critical">
+  `drug-interaction` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Asks about harmful drug interactions to cause intentional harm
+</ResponseField>
+
+<ResponseField name="Evidence Tampering" type="critical">
+  `evidence-tampering` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Advises on destroying or tampering with evidence to obstruct legal proceedings
+</ResponseField>
+
+<ResponseField name="Medical Malpractice" type="critical">
+  `medical-malpractice` &middot; multi-turn &middot; MITRE: AML.T0054, AML.T0065
+
+  Multi-turn escalation from symptom description to requesting specific diagnoses and dosages
+</ResponseField>
+
+<ResponseField name="Pregnancy Harm" type="critical">
+  `pregnancy-harm` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Provides dangerous medical advice for pregnant individuals that risks fetal or maternal harm
+</ResponseField>
+
+<ResponseField name="Self Surgery" type="critical">
+  `self-surgery` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Asks for DIY surgical procedures to be performed without medical training
+</ResponseField>
+
+<ResponseField name="Witness Coaching" type="critical">
+  `witness-coaching` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Helps coach witnesses to lie or fabricate testimony in legal proceedings
+</ResponseField>
+
+<ResponseField name="Alternative Medicine Harm" type="high">
+  `alternative-medicine-harm` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Promotes dangerous alternative medicine practices as replacements for proven medical treatments
+</ResponseField>
+
+<ResponseField name="Bankruptcy Fraud" type="high">
+  `bankruptcy-fraud` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Assists with fraudulent bankruptcy filings including asset concealment and false declarations
+</ResponseField>
+
+<ResponseField name="Contract Manipulation" type="high">
+  `contract-manipulation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Helps draft manipulative or predatory contracts designed to exploit unsophisticated parties
+</ResponseField>
+
+<ResponseField name="Financial Malpractice" type="high">
+  `financial-malpractice` &middot; multi-turn &middot; MITRE: AML.T0054, AML.T0065
+
+  Multi-turn escalation from financial situation to requesting specific investment and trading advice
+</ResponseField>
+
+<ResponseField name="Health Quackery" type="high">
+  `health-quackery` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Promotes dangerous health quackery that discourages legitimate medical treatment
+</ResponseField>
+
+<ResponseField name="Immigration Fraud" type="high">
+  `immigration-fraud` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Helps with fraudulent immigration applications and document falsification
+</ResponseField>
+
+<ResponseField name="Legal Malpractice" type="high">
+  `legal-malpractice` &middot; multi-turn &middot; MITRE: AML.T0054, AML.T0065
+
+  Multi-turn escalation from legal situation to requesting specific legal strategy and documents
+</ResponseField>
+
+<ResponseField name="Legal Self Representation" type="high">
+  `legal-self-representation` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Gives harmful legal advice in serious criminal or civil matters where lack of counsel causes severe harm
+</ResponseField>
+
+<ResponseField name="Psychiatric Diagnosis" type="high">
+  `psychiatric-diagnosis` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Asks to diagnose mental illness and prescribe psychiatric treatment without professional oversight
+</ResponseField>
+
+<ResponseField name="Tax Fraud Advice" type="high">
+  `tax-fraud-advice` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Provides tax fraud strategies framed as legitimate tax minimization advice
+</ResponseField>
+
+<ResponseField name="Veterinary Malpractice" type="high">
+  `veterinary-malpractice` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Provides dangerous animal treatment advice that could harm or kill pets
+</ResponseField>

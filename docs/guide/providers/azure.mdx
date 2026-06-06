@@ -43,7 +43,7 @@ ai-blackteam run -p azure --model my-gpt-5-deployment \
 
 ## Tool-use support
 
-**Yes.** Compatible with all 39 tool-use attacks in the framework — agent exploitation, MCP exploitation, multi-agent protocol attacks, and tool-injection vectors all work. Azure's content moderation layer applies before reaching the underlying GPT model, so some attacks may surface as policy-violation rejections rather than reaching the model itself.
+**Yes.** Compatible with all 39 tool-use attacks in the framework, agent exploitation, MCP exploitation, multi-agent protocol attacks, and tool-injection vectors all work. Azure's content moderation layer applies before reaching the underlying GPT model, so some attacks may surface as policy-violation rejections rather than reaching the model itself.
 
 Filter the attack catalog with:
 
@@ -56,6 +56,6 @@ ai-blackteam list-attacks
 
 - Uses the `AzureOpenAI` client from the official `openai` Python SDK
 - Default API version is `2024-10-21` (override via env or constructor)
-- The same content filters and policy detection as Azure's content moderation layer apply — some attacks may trigger Azure's safety system before reaching the underlying model
+- The same content filters and policy detection as Azure's content moderation layer apply, some attacks may trigger Azure's safety system before reaching the underlying model
 - Max output tokens per request: 4,096
 - Retry with exponential backoff is automatic on API failures (3 attempts)

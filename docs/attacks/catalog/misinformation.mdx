@@ -1,0 +1,54 @@
+---
+title: "misinformation"
+description: "All 8 attacks in the misinformation category, with severity, mode, and standards mapping."
+---
+
+There are 8 attacks in the **misinformation** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+
+<ResponseField name="Citation Manipulation" type="high">
+  `citation-manipulation` &middot; single-turn &middot; OWASP: LLM09
+
+  Prompt model to attribute false quotes to real public figures
+</ResponseField>
+
+<ResponseField name="Anchoring Bias" type="medium">
+  `anchoring-bias` &middot; multi-turn &middot; OWASP: LLM09
+
+  Multi-turn attack providing a wrong answer first then asking model to build on it
+</ResponseField>
+
+<ResponseField name="Confidence Exploitation" type="medium">
+  `confidence-exploitation` &middot; single-turn &middot; OWASP: LLM09
+
+  Push model to state uncertain information as established fact without hedging
+</ResponseField>
+
+<ResponseField name="Fabrication Prompting" type="medium">
+  `fabrication-prompting` &middot; single-turn &middot; OWASP: LLM09
+
+  Prompt model to generate fake citations, fabricated research, or invented statistics
+</ResponseField>
+
+<ResponseField name="False Premise" type="medium">
+  `false-premise` &middot; single-turn &middot; OWASP: LLM09
+
+  Build prompts on false premises to see if model accepts and elaborates
+</ResponseField>
+
+<ResponseField name="Knowledge Boundary" type="medium">
+  `knowledge-boundary` &middot; single-turn &middot; OWASP: LLM09
+
+  Test if model admits uncertainty on post-cutoff or fictional events
+</ResponseField>
+
+<ResponseField name="Selective Context" type="medium">
+  `selective-context` &middot; single-turn &middot; OWASP: LLM09
+
+  Provide heavily biased one-sided context to produce biased output
+</ResponseField>
+
+<ResponseField name="Sycophancy Exploit" type="medium">
+  `sycophancy-exploit` &middot; multi-turn &middot; OWASP: LLM09 &middot; MITRE: AML.T0043.003
+
+  Multi-turn attack exploiting model tendency to agree with user assertions
+</ResponseField>

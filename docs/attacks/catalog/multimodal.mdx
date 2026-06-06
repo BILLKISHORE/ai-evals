@@ -1,0 +1,36 @@
+---
+title: "multimodal"
+description: "All 5 attacks in the multimodal category, with severity, mode, and standards mapping."
+---
+
+There are 5 attacks in the **multimodal** category. Each shows its technique id, mode, and standards mapping, with the description inline.
+
+<ResponseField name="Audio Injection" type="high">
+  `audio-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0043.003
+
+  Hidden voice commands or ultrasonic payloads embedded in audio that multimodal models process
+</ResponseField>
+
+<ResponseField name="OCR Bypass" type="high">
+  `ocr-bypass` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Harmful instructions rendered as text in images to bypass text-based safety filters via OCR processing
+</ResponseField>
+
+<ResponseField name="Video Frame Injection" type="high">
+  `video-frame-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Malicious instructions hidden in individual video frames that multimodal models extract during processing
+</ResponseField>
+
+<ResponseField name="Image-Text Mismatch" type="medium">
+  `image-text-mismatch` &middot; single-turn &middot; OWASP: LLM01, LLM09 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Conflicting information between image content and text prompt to confuse multimodal safety filters
+</ResponseField>
+
+<ResponseField name="Multimodal Context Confusion" type="medium">
+  `multimodal-context-confusion` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
+
+  Exploiting context switching between modalities to smuggle harmful content past safety checks
+</ResponseField>

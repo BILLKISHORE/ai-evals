@@ -211,6 +211,7 @@
           {
             "group": "Full Reference",
             "pages": [
+              "attacks/all-attacks",
               "attacks/all-categories",
               "attacks/catalog/overview"
             ]

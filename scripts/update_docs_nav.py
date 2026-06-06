@@ -55,7 +55,7 @@ def main():
         groups = tab["groups"]
         groups[:] = [g for g in groups if g.get("group") not in
                      ("Full Reference", "Attacks by Category", "Attack Strategies")]
-        ref_group = {"group": "Full Reference", "pages": ["attacks/all-categories", "attacks/catalog/overview"]}
+        ref_group = {"group": "Full Reference", "pages": ["attacks/all-attacks", "attacks/all-categories", "attacks/catalog/overview"]}
         catalog_group = {"group": "Attacks by Category", "pages": catalog_pages()}
         strat_group = {"group": "Attack Strategies", "pages": strategy_pages()}
         # Full Reference + per-category catalog right after Overview, strategies at the end.

@@ -41,6 +41,12 @@ def _join(values):
     return ", ".join(values) if values else "-"
 
 
+def _cell(text):
+    """Make a string safe for a Markdown table cell."""
+    text = (text or "").replace("|", "\\|").replace("\n", " ").strip()
+    return text or "-"
+
+
 def write_catalog(rows):
     by_cat = defaultdict(list)
     for m in rows:
@@ -65,12 +71,12 @@ def write_catalog(rows):
         items = by_cat[cat]
         lines.append(f"## {cat} ({len(items)})")
         lines.append("")
-        lines.append("| # | Attack | Technique ID | Severity | Mode | OWASP LLM | MITRE ATLAS |")
-        lines.append("|---|--------|--------------|----------|------|-----------|-------------|")
+        lines.append("| # | Attack | Technique ID | Severity | Mode | OWASP LLM | MITRE ATLAS | Description |")
+        lines.append("|---|--------|--------------|----------|------|-----------|-------------|-------------|")
         for i, m in enumerate(items, 1):
             lines.append(
                 f"| {i} | {m['name']} | `{m['technique_id']}` | {m['severity']} | "
-                f"{m['mode']} | {_join(m['owasp_llm'])} | {_join(m['mitre_atlas'])} |"
+                f"{m['mode']} | {_join(m['owasp_llm'])} | {_join(m['mitre_atlas'])} | {_cell(m['description'])} |"
             )
         lines.append("")
     (OUT / "ATTACKS-CATALOG.md").write_text("\n".join(lines))

@@ -52,9 +52,16 @@ def first_what_is(body: str) -> str:
     return ""
 
 
+def mdx_safe(body: str) -> str:
+    """Escape characters MDX would misread. Curly braces are treated as JS
+    expressions in MDX, so literal braces (e.g. "{target}") must be escaped.
+    These generated pages contain no intentional MDX expressions."""
+    return body.replace("{", "&#123;").replace("}", "&#125;")
+
+
 def write_mdx(path: Path, title: str, description: str, body: str):
     fm = f'---\ntitle: "{yaml_escape(title)}"\ndescription: "{yaml_escape(description)}"\n---\n\n'
-    path.write_text(fm + body.rstrip() + "\n")
+    path.write_text(fm + mdx_safe(body.rstrip()) + "\n")
 
 
 def convert_strategies():

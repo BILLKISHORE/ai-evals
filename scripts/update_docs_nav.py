@@ -64,6 +64,16 @@ def main():
         groups.insert(insert_at + 1, catalog_group)
         groups.append(strat_group)
 
+    # 3) Research tab (benchmarks / findings), idempotent.
+    tabs[:] = [t for t in tabs if t.get("tab") != "Research"]
+    research_tab = {
+        "tab": "Research",
+        "icon": "flask",
+        "groups": [{"group": "Benchmarks", "pages": ["research/model-robustness"]}],
+    }
+    cat_idx = next((i for i, t in enumerate(tabs) if t.get("tab") == "Attack Catalog"), len(tabs) - 1)
+    tabs.insert(cat_idx + 1, research_tab)
+
     CFG.write_text(json.dumps(cfg, indent=2) + "\n")
     print("nav updated:")
     print("  + How It Works tab (first):", len(LESSON_PAGES), "lessons")

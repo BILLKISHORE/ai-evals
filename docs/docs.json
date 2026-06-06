@@ -478,6 +478,18 @@
         ]
       },
       {
+        "tab": "Research",
+        "icon": "flask",
+        "groups": [
+          {
+            "group": "Benchmarks",
+            "pages": [
+              "research/model-robustness"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "Architecture",
         "icon": "microchip",
         "groups": [

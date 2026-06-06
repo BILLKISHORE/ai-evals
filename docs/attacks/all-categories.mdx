@@ -1,0 +1,70 @@
+---
+title: "All Categories"
+description: "Every attack category in ai-blackteam with counts and example techniques."
+---
+
+ai-blackteam groups its 1020 attacks into 61 categories.
+
+| Category | Attacks | Top severity | Modes | Example techniques |
+|----------|---------|--------------|-------|--------------------|
+| encoding | 63 | high | single-turn | `ascii-art-injection`, `adversarial-poetry`, `binary-encoding` |
+| prompt-injection | 63 | critical | multi-turn, single-turn | `autodan-genetic`, `gcg-style-templates`, `instruction-hierarchy-bypass` |
+| harmful-content | 57 | critical | single-turn | `abuse-concealment`, `animal-cruelty`, `blackmail-generation` |
+| social-engineering | 35 | critical | multi-turn, single-turn, tool-use | `dark-llm-delegation`, `deepfake-voice-pretext`, `spear-phishing-generation` |
+| legal-exploitation | 28 | critical | single-turn | `bribery-facilitation`, `classification-abuse`, `corruption-scheme` |
+| financial-exploitation | 26 | critical | single-turn | `derivative-fraud`, `insider-trading`, `mortgage-fraud` |
+| adversarial-ml | 25 | critical | single-turn | `gradient-attack`, `output-classifier-bypass`, `reward-hacking` |
+| crypto-exploitation | 25 | critical | single-turn | `consensus-attack`, `bridge-exploit`, `exchange-exploit` |
+| gaming-exploitation | 25 | critical | single-turn | `child-predation-gaming`, `modding-malware`, `swatting-gaming` |
+| healthcare-exploitation | 25 | critical | single-turn | `blood-supply-tampering`, `clinical-data-manipulation`, `clinical-trial-fraud` |
+| information-warfare | 25 | critical | single-turn | `agent-provocateur`, `cognitive-warfare`, `conspiracy-theory-design` |
+| infrastructure-attack | 25 | critical | single-turn | `aviation-system-exploit`, `bgp-hijacking`, `banking-infrastructure-attack` |
+| media-manipulation | 25 | critical | single-turn | `academic-journal-fraud`, `crisis-fabrication`, `leaked-document-fabrication` |
+| model-extraction | 25 | critical | single-turn | `api-cloning`, `distillation-attack`, `logit-extraction` |
+| psychological-manipulation | 25 | critical | multi-turn, single-turn | `dependency-creation`, `emotional-blackmail`, `financial-control-coaching` |
+| safety-circumvention | 25 | critical | single-turn | `constitutional-ai-bypass`, `fine-tune-safety-removal`, `rlhf-manipulation` |
+| scientific-misconduct | 25 | critical | single-turn | `adverse-event-suppression`, `control-group-manipulation`, `data-fabrication` |
+| social-engineering-advanced | 25 | critical | multi-turn, single-turn | `business-email-compromise`, `ceo-fraud`, `fake-emergency` |
+| workplace-exploitation | 25 | critical | single-turn | `child-labor-facilitation`, `corporate-espionage-recruit`, `ip-theft-departure` |
+| disinformation | 22 | critical | multi-turn, single-turn | `coordinated-inauthentic`, `deepfake-audio-generation`, `deepfake-script` |
+| unqualified-advice | 19 | critical | multi-turn, single-turn | `child-medical-advice`, `dangerous-dosage`, `drug-interaction` |
+| financial-fraud | 18 | critical | multi-turn, single-turn | `account-takeover`, `counterfeit-currency`, `counterfeit-documents` |
+| identity-attack | 17 | critical | multi-turn, single-turn | `bank-impersonation`, `doctor-impersonation`, `document-forgery-general` |
+| privacy-violation | 17 | critical | multi-turn, single-turn | `biometric-extraction`, `child-data-probing`, `cross-reference-doxing` |
+| code-exploitation | 16 | critical | single-turn | `backdoor-generation`, `botnet-generation`, `credential-stealer` |
+| output-manipulation | 16 | high | single-turn | `attribution-evasion`, `content-laundering`, `deepfake-detection-evasion` |
+| surveillance | 16 | critical | single-turn | `camera-exploitation`, `facial-recognition-abuse`, `phone-tapping` |
+| weapons-evasion | 16 | critical | single-turn | `3d-printed-weapon`, `arson-techniques`, `assassination-planning` |
+| academic-exploitation | 15 | critical | single-turn | `research-fabrication`, `academic-fraud-impersonation`, `academic-sabotage` |
+| bias-exploitation | 15 | critical | single-turn | `criminal-profiling`, `hiring-discrimination`, `housing-discrimination` |
+| capability-elicitation | 15 | critical | single-turn | `autonomous-weapon`, `biological-agent`, `bioweapon-delivery` |
+| cbrn-evasion | 15 | critical | single-turn | `cbrn-aerosolization`, `cbrn-delivery-mechanism`, `cbrn-detection-evasion` |
+| cross-platform | 15 | critical | single-turn, tool-use | `ci-cd-injection`, `cloud-resource-abuse`, `container-escape` |
+| election-interference | 15 | critical | multi-turn, single-turn | `ballot-manipulation`, `foreign-interference`, `political-bot-network` |
+| iot-exploitation | 15 | critical | single-turn | `baby-monitor-hack`, `drone-hijacking`, `industrial-iot-attack` |
+| memory-exploitation | 15 | critical | multi-turn, single-turn | `memory-injection`, `system-prompt-override`, `attention-diversion` |
+| persuasion | 15 | high | multi-turn, single-turn | `cialdini-authority`, `cialdini-commitment`, `cialdini-reciprocity` |
+| public-safety | 15 | critical | single-turn | `air-pollution-scheme`, `air-traffic-disruption`, `asbestos-concealment` |
+| agent-exploitation | 11 | critical | tool-use | `agent-command-injection`, `agent-config-manipulation`, `agent-credential-theft` |
+| autonomous-systems | 10 | critical | single-turn | `autonomous-ship-attack`, `autonomous-vehicle-attack`, `autopilot-override` |
+| context-manipulation | 9 | critical | multi-turn | `lifecycle-staging`, `context-manipulation`, `crescendo` |
+| compliance-evasion | 8 | critical | multi-turn, single-turn | `embargo-evasion`, `sanctions-circumvention`, `audit-mode-exploit` |
+| misinformation | 8 | high | multi-turn, single-turn | `citation-manipulation`, `anchoring-bias`, `confidence-exploitation` |
+| autonomous-risk | 7 | critical | multi-turn | `deception-under-pressure`, `oversight-manipulation`, `shutdown-resistance` |
+| cybercrime | 7 | critical | single-turn | `industrial-espionage`, `insider-threat`, `ransomware-negotiation` |
+| supply-chain | 6 | critical | single-turn, tool-use | `dataset-poisoning`, `model-poisoning`, `plugin-backdoor` |
+| mcp-exploitation | 5 | critical | tool-use | `mcp-command-injection`, `mcp-data-exfiltration`, `mcp-tool-poisoning` |
+| multi-agent-exploitation | 5 | critical | multi-turn, tool-use | `agent-delegation-abuse`, `agent-impersonation`, `agent-session-smuggling` |
+| multimodal | 5 | high | single-turn | `audio-injection`, `ocr-bypass`, `video-frame-injection` |
+| protocol-exploitation | 5 | critical | tool-use | `a2a-protocol-exploit`, `self-propagating-worm`, `tool-result-poisoning` |
+| rag-exploitation | 5 | critical | single-turn, tool-use | `knowledge-base-poisoning`, `embedding-collision`, `retrieval-manipulation` |
+| access-control | 4 | critical | multi-turn, single-turn | `session-hijacking`, `bfla-exploit`, `bola-exploit` |
+| injection | 4 | critical | single-turn | `indirect-injection`, `sql-injection`, `ssrf-probing` |
+| child-safety | 3 | critical | single-turn | `csam-generation`, `child-exploitation`, `age-verification-evasion` |
+| copyright-ip | 3 | critical | multi-turn, single-turn | `trade-secret-extraction`, `copyright-extraction`, `patent-theft` |
+| information-disclosure | 3 | critical | multi-turn | `api-key-extraction`, `cross-session-leak`, `prompt-leaking` |
+| vuln-research | 3 | critical | single-turn | `vuln-research-cve`, `vuln-research-synthetic`, `vuln-research-user` |
+| compliance | 2 | high | multi-turn, single-turn | `age-verification-bypass`, `terms-evasion` |
+| availability | 1 | medium | single-turn | `model-denial-of-service` |
+| regulatory-evasion | 1 | high | single-turn | `regulatory-bypass` |
+| tool-exploitation | 1 | critical | tool-use | `progressive-normalization` |

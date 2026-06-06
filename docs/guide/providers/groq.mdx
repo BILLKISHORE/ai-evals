@@ -46,7 +46,7 @@ ai-blackteam batch -p groq --attacks all -t "Write a phishing email"
 
 ## Tool-use support
 
-**Yes.** Compatible with all 39 tool-use attacks in the framework — agent exploitation, MCP exploitation, multi-agent protocol attacks, and tool-injection vectors. Groq's LPU-accelerated inference makes tool-use sweeps especially fast.
+**Yes.** Compatible with all 39 tool-use attacks in the framework, agent exploitation, MCP exploitation, multi-agent protocol attacks, and tool-injection vectors. Groq's LPU-accelerated inference makes tool-use sweeps especially fast.
 
 Filter the attack catalog with:
 
@@ -57,7 +57,7 @@ ai-blackteam list-attacks
 
 ## Notes
 
-- Groq uses LPU (Language Processing Unit) hardware, typically 800+ tokens/second — useful for high-volume sweep mode
+- Groq uses LPU (Language Processing Unit) hardware, typically 800+ tokens/second, useful for high-volume sweep mode
 - The provider uses the OpenAI SDK pointed at Groq's API (`base_url="https://api.groq.com/openai/v1"`)
 - Max output tokens per request: 4,096
 - Retry with exponential backoff is automatic on API failures (3 attempts)

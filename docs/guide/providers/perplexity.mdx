@@ -51,7 +51,7 @@ ai-blackteam benchmark --models perplexity:sonar-pro,anthropic:claude-sonnet-4-6
 
 ## Notes
 
-- **Web-grounded models behave differently under prompt injection** than sealed-knowledge LLMs — distinct attack surface worth testing separately
+- **Web-grounded models behave differently under prompt injection** than sealed-knowledge LLMs, distinct attack surface worth testing separately
 - The provider uses the OpenAI SDK pointed at Perplexity's API (`base_url="https://api.perplexity.ai"`)
 - Sonar models include web search results in the context, making them vulnerable to indirect prompt injection via search-engine-poisoning
 - Max output tokens per request: 4,096

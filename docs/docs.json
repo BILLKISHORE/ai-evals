@@ -25,6 +25,18 @@
     "href": "https://github.com/BILLKISHORE/ai-evals"
   },
   "favicon": "/images/favicon.svg",
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "add-mcp",
+      "cursor",
+      "vscode"
+    ]
+  },
   "navbar": {
     "links": [
       {

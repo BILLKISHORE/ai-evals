@@ -7,15 +7,14 @@ The project can generate about 163 million attack configurations. That number so
 
 ## The building blocks
 
-The hand-built parts add up to about 11,700 pieces:
+The starting library is about 11,700 pieces:
 
 | Building block | Count |
 | --- | --- |
-| Attack techniques | 1,020 |
-| Prompts from public benchmark datasets | 10,662 |
-| Public benchmark datasets used | 19 |
+| Attack techniques (built into the framework) | 1,020 |
+| Prompts loaded from 19 public benchmarks | 10,662 |
 
-That is the real, human-made library. Everything else is mixing.
+The 1,020 techniques are the framework's own. The 10,662 prompts come from 19 public benchmark datasets (HarmBench, AdvBench, WMDP, and more). The framework does not bundle them; it downloads them from each benchmark's official source on first use and caches them locally. Everything else is mixing.
 
 ## The five axes
 

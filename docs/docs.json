@@ -11,7 +11,10 @@
       "author": "Bill Kishore",
       "og:type": "website",
       "og:site_name": "ai-blackteam docs",
-      "twitter:site": "@BILLKISHORE"
+      "og:image": "https://ai-blackteam.ai-evals.workers.dev/images/og.png",
+      "twitter:card": "summary_large_image",
+      "twitter:site": "@BILLKISHORE",
+      "twitter:image": "https://ai-blackteam.ai-evals.workers.dev/images/og.png"
     }
   },
   "colors": {

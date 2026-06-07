@@ -3,17 +3,7 @@ title: "Architecture Overview"
 description: "How ai-blackteam is built and why"
 ---
 
-## What Is ai-blackteam?
-
-AI chatbots (ChatGPT, Claude, Gemini) are like buildings. Before people move in, you hire someone to try to break in - check the locks, windows, back doors. If they find weak spots, you fix them before bad guys find them.
-
-ai-blackteam is that break-in tester, but for AI. It tries 1,000+ tricks on AI chatbots to see if they can be fooled into doing bad things - leaking secrets, writing harmful content, or ignoring safety rules.
-
-## Why It Exists
-
-Companies building AI products need to answer one question: "Is my AI safe?"
-
-Most testing tools are owned by big companies. Microsoft owns PyRIT, NVIDIA owns garak, OpenAI backs Promptfoo. ai-blackteam is the only independent red teaming framework - not controlled by any AI lab.
+New to the project? Start with [What ai-blackteam Is](/how-it-works/what-it-is) for the plain-English tour. This page is the system design: how a single run flows from your command to a scored safety report.
 
 ## How the pieces fit together
 
@@ -60,51 +50,20 @@ The same picture with kitchen-restaurant labels for the non-technical reader:
 | Attack surface | 163M configurations |
 | Version | 1.7.1 |
 
-## The 163M Attack Surface
+## Attack surface
 
-Most safety tools ship a few hundred prompts. ai-blackteam multiplies a small set of high-quality attack techniques across many axes to produce a search space of 163 million testable configurations. The math:
+The framework multiplies a small set of building blocks (1,020 techniques, plus prompts loaded from 19 public benchmarks) across harm categories, difficulty levels, mutations, and languages to reach a search space of about 163 million configurations. You sample from it, you never run it all. The full breakdown and exact math live in [The 163 Million Attack Surface](/how-it-works/attack-surface).
 
-```mermaid
-flowchart LR
-    A[1,020 base<br/>techniques]
-    B[x 28 harm<br/>categories]
-    C[x 4 difficulty<br/>levels]
-    D[114,240<br/>expanded attacks]
-    E[x 17 mutations]
-    F[x 10 languages]
-    G[3.2M<br/>technique-driven]
+## Design philosophy
 
-    H[10,662 loaded<br/>benchmark prompts]
-    I[x 17 mutations]
-    J[x 883 single-turn<br/>techniques]
-    K[160M<br/>dataset-driven]
+Five plugin contracts power everything. Each is an abstract base class, so adding a new one is a single Python file with no changes elsewhere:
 
-    Total[163,236,594<br/>attack configurations]
+| Contract | What it guarantees |
+|----------|-------------------|
+| `BaseAttack` | Every attack generates prompts for any target |
+| `BaseProvider` | Every provider sends prompts and returns responses |
+| `BaseGenerator` | Every adaptive generator rewrites and escalates prompts from a target's responses |
+| `DatasetLoader` | Every loader pulls and normalizes a public benchmark dataset |
+| `BaseVerifier` | Every verifier turns a response into a verdict |
 
-    A --> B --> C --> D
-    D --> E --> F --> G
-    H --> I --> J --> K
-    G --> Total
-    K --> Total
-
-    classDef leaf fill:#FFE5E5,stroke:#E63946,color:#A4161A,stroke-width:1.5px
-    classDef mid fill:#FFF1F1,stroke:#A4161A,color:#660000
-    classDef peak fill:#A4161A,stroke:#660000,color:#FFFFFF,stroke-width:2px
-    class A,H leaf
-    class B,C,E,F,I,J mid
-    class Total peak
-```
-
-You never run all 163M in a single pass. You **sample** from this space: the `benchmark` command runs ~16K, a curated CI gate runs ~4K, an exhaustive sweep against one model would cost ~$160 in Haiku tokens. The point is the **diversity of the search space** -- adaptive attackers don't reuse the same 100 prompts, and neither should your tests.
-
-## Design Philosophy
-
-Three contracts power everything:
-
-| Interface | What It Guarantees |
-|-----------|-------------------|
-| `BaseAttack` | Every attack can generate prompts for any target |
-| `BaseProvider` | Every provider can send prompts and return responses |
-| `Evaluator` | Every evaluation returns a verdict dict |
-
-This means adding a new attack = one Python file. Adding a new provider = one Python file. Nothing else changes. The next pages explain each layer in detail.
+The evaluator sits alongside these as a set of scoring functions, not a class. For the full walkthrough see [The Five Contracts](/how-it-works/the-contracts), or the per-component pages in this tab.

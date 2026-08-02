@@ -448,38 +448,39 @@ This tool was built alongside real security research on Claude Sonnet 4 and 4.6:
 10 experiments covering 150+ attack runs with documented findings. Raw
 experiment transcripts are kept out of this repository on purpose, see below.
 
-<!-- ============================================================
-     VERIFY BEFORE MAKING THIS REPO PUBLIC
-     The section below states that findings WERE submitted to Anthropic
-     on 2026-03-30. writeups/arxiv/paper-v2.md says so, but all four
-     reports in writeups/bug-bounties/drafts/ carry status: draft and
-     submitted_date: null.
-     Confirm you have the sent emails before flipping this repo public.
-     If you cannot, change "were submitted" to "were prepared for
-     coordinated disclosure" here AND on your resume.
-     ============================================================ -->
-
 ## Responsible Disclosure
 
 ai-blackteam is built for coordinated disclosure, not for publishing working
 attacks. Findings produced with this framework are reported to model vendors
 before any public writeup.
 
-**Anthropic (2026-03-30)**
+**Anthropic (March 2026)**
 
-Two sets of findings were submitted to Anthropic:
+Findings were submitted to Anthropic's model bug bounty channel
+(`modelbugbounty@anthropic.com`) across two models:
 
-1. **Safety bypasses in Claude Haiku 4.5** -- systematic benchmark across 10
-   attack techniques and 5 harm categories at hard and extreme difficulty.
-   Reported to security@anthropic.com. The dominant techniques were refusal
-   suppression, low-resource-language wrapping, and prefix injection.
-2. **Safety-architecture metadata leakage in Claude Sonnet 4** -- the model
-   blocked verbatim system-prompt extraction but disclosed behavioral rules,
+**Claude Sonnet 4** (2026-03-29)
+
+1. **System-prompt metadata leakage via reframing** -- the model blocked
+   verbatim system-prompt extraction but disclosed behavioral rules,
    content-restriction categories, and operational constraints when the
-   request was framed as a structured-output task. Reported with recommended
-   mitigations.
+   request was framed as a structured-output task.
+2. **Tool-use progressive normalization** -- tool-use safety evaluated
+   requests individually rather than cumulatively across a conversation.
+3. **Comprehensive evaluation** -- 81 techniques across 6 attack categories.
 
-Full conversation logs and datasets were provided to Anthropic as attachments.
+**Claude Haiku 4.5** (2026-03-30)
+
+4. **Safety bypasses** -- systematic benchmark across 10 attack techniques and
+   5 harm categories at hard and extreme difficulty. The dominant techniques
+   were refusal suppression, low-resource-language wrapping, and prefix
+   injection.
+
+Full conversation logs and datasets were provided as attachments.
+
+These reports were submitted under coordinated disclosure. Anthropic has not
+published a response, and nothing here should be read as a vendor
+confirmation, severity rating, or accepted finding.
 
 **What is not published here:** specific bypass prompts, reproduction steps,
 raw experiment transcripts, and CBRN-related findings are deliberately excluded

@@ -17,6 +17,7 @@ ai-blackteam runs multi-turn, adaptive attacks that mirror real adversarial pres
 - **19 public benchmark loaders** -- HarmBench, AdvBench, JailbreakBench, SorryBench, WMDP (bio/cyber/chem), DoNotAnswer, WildGuard, RedBench, SALAD-Bench, StrongREJECT, AART, ForbiddenQuestions, BeaverTails, RealToxicityPrompts, JailBreakV-28K, RedTeam-2K, AgentHarm
 - **7 adaptive generators** -- PAIR, TAP, Fuzzer, AutoDAN (genetic), PAP (persuasion), Crescendo (multi-turn), Best-of-N
 - **Research-backed** -- implements published attacks from Microsoft Research, Palo Alto Unit 42, USENIX, UK AI Safety Institute
+- **Used in real disclosures** -- findings produced with this framework were reported to Anthropic's security team through coordinated disclosure. See [Responsible Disclosure](#responsible-disclosure)
 - **Multi-turn depth** -- crescendo, sunk-cost, context-manipulation attacks that exploit conversational memory over 10+ turns
 - **Agent attacks** -- credential theft, data exfiltration, sandbox escape, config manipulation via tool-use; AgentHarm benchmark integrated
 - **9 standards mapped** -- code-level taxonomy mappings for MITRE ATLAS v5.4.0, OWASP LLM Top 10 (2025), OWASP Agentic Top 10 (2026), MLCommons AILuminate, EU AI Act, NIST AI RMF, and CVSS; CSA MAESTRO and ISO 42001 as documented alignments. Three runnable scorecards: `scorecard --standard llm | agentic | compliance`
@@ -443,7 +444,51 @@ Tool-use attacks are evaluated on tool calls, not text -- detecting access to se
 
 ## Research
 
-This tool was built alongside real security research on Claude Sonnet 4 and 4.6. See the `experiments/` folder for 10 experiments covering 150+ attack runs with documented findings.
+This tool was built alongside real security research on Claude Sonnet 4 and 4.6:
+10 experiments covering 150+ attack runs with documented findings. Raw
+experiment transcripts are kept out of this repository on purpose, see below.
+
+<!-- ============================================================
+     VERIFY BEFORE MAKING THIS REPO PUBLIC
+     The section below states that findings WERE submitted to Anthropic
+     on 2026-03-30. writeups/arxiv/paper-v2.md says so, but all four
+     reports in writeups/bug-bounties/drafts/ carry status: draft and
+     submitted_date: null.
+     Confirm you have the sent emails before flipping this repo public.
+     If you cannot, change "were submitted" to "were prepared for
+     coordinated disclosure" here AND on your resume.
+     ============================================================ -->
+
+## Responsible Disclosure
+
+ai-blackteam is built for coordinated disclosure, not for publishing working
+attacks. Findings produced with this framework are reported to model vendors
+before any public writeup.
+
+**Anthropic (2026-03-30)**
+
+Two sets of findings were submitted to Anthropic:
+
+1. **Safety bypasses in Claude Haiku 4.5** -- systematic benchmark across 10
+   attack techniques and 5 harm categories at hard and extreme difficulty.
+   Reported to security@anthropic.com. The dominant techniques were refusal
+   suppression, low-resource-language wrapping, and prefix injection.
+2. **Safety-architecture metadata leakage in Claude Sonnet 4** -- the model
+   blocked verbatim system-prompt extraction but disclosed behavioral rules,
+   content-restriction categories, and operational constraints when the
+   request was framed as a structured-output task. Reported with recommended
+   mitigations.
+
+Full conversation logs and datasets were provided to Anthropic as attachments.
+
+**What is not published here:** specific bypass prompts, reproduction steps,
+raw experiment transcripts, and CBRN-related findings are deliberately excluded
+from this repository and from the accompanying paper. Attack *techniques* are
+implemented in the framework as named, citable methods from published research.
+Working exploit strings against a specific current model are not.
+
+If you are a vendor and want full detail on a finding, open a security advisory
+on this repo or email the maintainer.
 
 ## Landscape
 

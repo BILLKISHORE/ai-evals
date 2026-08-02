@@ -57,3 +57,25 @@ MAE-PARITY-GAP-REPORT.md
 AUDIT-*.md
 AUDIT_REPORT.md
 MAE-FRAMEWORK-COMPLETE.md
+
+# Local-only: Jeanelle bounty challenge harness (not part of the framework)
+challenge/
+
+# Local bounty challenge files (may contain NDA-covered questions)
+*-challenge.local.yaml
+my-challenge.yaml
+bounty-challenge.yaml
+universal-search-results.json
+
+# Internal working docs — not part of the public framework
+private-docs/
+writeups/
+tasks/
+logs/
+experiments/
+INDEX.md
+
+# Personal files — must never be committed
+resume/
+*resume*.pdf
+billkishore-*.pdf

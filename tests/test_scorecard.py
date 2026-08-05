@@ -1,4 +1,14 @@
+import subprocess
+import sys
+
 from ai_blackteam.scorecard import generate_scorecard, scorecard_to_json, scorecard_to_markdown, OWASP_LLM_2026
+
+
+def _run_isolated(code):
+    """Run code in a fresh interpreter so the attack registry starts empty."""
+    proc = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True)
+    assert proc.returncode == 0, proc.stderr
+    return proc.stdout.strip()
 
 
 def _make_attacks_metadata():
@@ -151,3 +161,34 @@ def test_scorecard_to_markdown():
     assert "test-model" in md
     assert "LLM01" in md
     assert "Prompt Injection" in md
+
+
+def test_generate_scorecard_loads_attacks_without_cli():
+    out = _run_isolated(
+        "from ai_blackteam.scorecard import generate_scorecard\n"
+        "sc = generate_scorecard([{'attack': 'encoding-obfuscation', 'verdict': 'BLOCKED'}])\n"
+        "print(sc['categories']['LLM01']['total'])\n"
+    )
+    assert out == "1"
+
+
+def test_generate_agentic_scorecard_loads_attacks_without_cli():
+    # agent-config-manipulation declares owasp_agentic only in metadata, so it is
+    # invisible unless the registry is populated.
+    out = _run_isolated(
+        "from ai_blackteam.scorecard import generate_agentic_scorecard\n"
+        "sc = generate_agentic_scorecard([{'attack': 'agent-config-manipulation', 'verdict': 'BLOCKED'}])\n"
+        "print(sc['tested_categories'])\n"
+    )
+    assert out != "0"
+
+
+def test_generate_compliance_report_loads_attacks_without_cli():
+    # Without metadata every run falls through to the 'minimal' EU tier, which
+    # would under-report an unacceptable-risk attack.
+    out = _run_isolated(
+        "from ai_blackteam.scorecard import generate_compliance_report\n"
+        "r = generate_compliance_report([{'attack': 'age-verification-evasion', 'verdict': 'BLOCKED'}])\n"
+        "print(r['eu_ai_act']['unacceptable']['total'])\n"
+    )
+    assert out == "1"

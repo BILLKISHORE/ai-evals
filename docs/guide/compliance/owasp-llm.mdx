@@ -1,9 +1,11 @@
 ---
 title: "OWASP LLM Top 10"
-description: "2025 OWASP Top 10 for Large Language Models"
+description: "2026 OWASP Top 10 for Large Language Models"
 ---
 
-The [OWASP Top 10 for LLM Applications (2025)](https://owasp.org/www-project-top-10-for-large-language-model-applications/) is the most widely referenced security standard for LLMs. ai-blackteam maps every attack to one or more OWASP categories and generates a per-category scorecard.
+The [OWASP Top 10 for LLM Applications (2026)](https://owasp.org/www-project-top-10-for-large-language-model-applications/) is the most widely referenced security standard for LLMs. ai-blackteam maps every attack to one or more OWASP categories and generates a per-category scorecard.
+
+The 2026 revision re-ranks seven categories and replaces System Prompt Leakage with the broader Hidden Context Exposure at LLM08. ai-blackteam tracks the 2026 numbering.
 
 ## Running the scorecard
 
@@ -27,27 +29,27 @@ ai-blackteam scorecard --standard llm --format markdown
 |----|------|-------------------|
 | **LLM01** | Prompt Injection | Encoding attacks, obfuscation, indirect injection, XPIA, boundary injection |
 | **LLM02** | Sensitive Information Disclosure | PII extraction, system prompt leakage, cross-session leaks, API key extraction |
-| **LLM03** | Supply Chain | Model poisoning, dataset poisoning, dependency confusion, plugin backdoors |
-| **LLM04** | Data and Model Poisoning | Training data extraction, fine-tune exploits, knowledge base poisoning |
-| **LLM05** | Improper Output Handling | XSS injection, SQL injection, code execution via output, markdown injection |
-| **LLM06** | Excessive Agency | Agent credential theft, command injection, data exfiltration, config manipulation |
-| **LLM07** | System Prompt Leakage | System prompt extraction, prompt leaking, debug mode exploits |
-| **LLM08** | Vector and Embedding Weaknesses | RAG manipulation, embedding collision, chunk boundary exploits |
-| **LLM09** | Misinformation | Fabrication prompting, confidence exploitation, citation manipulation, sycophancy |
-| **LLM10** | Unbounded Consumption | Model denial of service, token budget exhaustion, context overflow |
+| **LLM03** | Excessive Agency | Agent credential theft, command injection, data exfiltration, config manipulation |
+| **LLM04** | Supply Chain | Model poisoning, dataset poisoning, dependency confusion, plugin backdoors |
+| **LLM05** | Data and Model Poisoning | Training data extraction, fine-tune exploits, knowledge base poisoning |
+| **LLM06** | Unbounded Consumption | Model denial of service, token budget exhaustion, context overflow |
+| **LLM07** | Misinformation | Fabrication prompting, confidence exploitation, citation manipulation, sycophancy |
+| **LLM08** | Hidden Context Exposure | System prompt extraction, hidden instruction leaking, debug mode exploits |
+| **LLM09** | Vector and Embedding Weaknesses | RAG manipulation, embedding collision, chunk boundary exploits |
+| **LLM10** | Improper Output Handling | XSS injection, SQL injection, code execution via output, markdown injection |
 
 ## Reading the scorecard
 
 The scorecard output looks like this:
 
 ```
-OWASP LLM Top 10 2025 Scorecard -- claude-sonnet-4-6
+OWASP LLM Top 10 2026 Scorecard -- claude-sonnet-4-6
 
 Category  Name                              Rating    Block Rate  Blocked/Total  Attacks
 LLM01     Prompt Injection                  PASS      95.2%       40/42          12
 LLM02     Sensitive Information Disclosure   ELEVATED  78.6%       11/14          5
-LLM03     Supply Chain                      N/A       -           -              0
-LLM04     Data and Model Poisoning          PASS      100.0%      8/8            3
+LLM03     Excessive Agency                  PASS      100.0%      8/8            3
+LLM04     Supply Chain                      N/A       -           -              0
 ...
 
 Overall: 92.1% (PASS) | Tested: 8/10 categories

@@ -868,7 +868,7 @@ RATING_COLORS = {"PASS": "green", "ELEVATED": "yellow", "PARTIAL": "bright_red",
     type=click.Choice(["llm", "agentic", "compliance"]),
     default="llm",
     show_default=True,
-    help="Standard: 'llm' (LLM Top 10 2025), 'agentic' (Agentic Top 10 2026), or 'compliance' (EU AI Act + NIST AI RMF)",
+    help="Standard: 'llm' (LLM Top 10 2026), 'agentic' (Agentic Top 10 2026), or 'compliance' (EU AI Act + NIST AI RMF)",
 )
 def scorecard(fmt, output, model, standard):
     """Show OWASP LLM Top 10 safety scorecard from stored results."""
@@ -898,7 +898,7 @@ def scorecard(fmt, output, model, standard):
     else:
         from ai_blackteam.scorecard import generate_scorecard
         sc = generate_scorecard(runs)
-        standard_label = "OWASP LLM Top 10 2025"
+        standard_label = "OWASP LLM Top 10 2026"
     model_label = model or "all models"
 
     if fmt == "json":

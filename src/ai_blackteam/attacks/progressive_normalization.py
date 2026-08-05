@@ -13,7 +13,7 @@ class ProgressiveNormalization(BaseAttack):
     description = "Gradual file access escalation via tool-use to read sensitive files"
     owasp_llm = ["LLM06:2025 Excessive Agency"]
     owasp_agentic = ["ASI02:2026 Tool Misuse & Exploitation", "ASI03:2026 Identity & Privilege Abuse"]
-    mitre_atlas = ["AML.T0054", "AML.T0065", "AML.T0080.002"]
+    mitre_atlas = ["AML.T0054", "AML.T0065", "AML.T0080.001"]
     references = []
 
     WARMUP_FILES = [

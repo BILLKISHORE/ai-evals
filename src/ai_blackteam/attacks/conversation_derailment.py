@@ -11,7 +11,7 @@ class ConversationDerailment(BaseAttack):
     severity = "medium"
     description = "Self-discovery of model weaknesses through probing conversation"
     owasp_llm = ["LLM01:2025 Prompt Injection"]
-    mitre_atlas = ["AML.T0051.000", "AML.T0080.002"]
+    mitre_atlas = ["AML.T0051.000", "AML.T0080.001"]
     references = []
 
     def generate_prompts(self, target, **kwargs):

@@ -11,7 +11,7 @@ class ShutdownResistance(BaseAttack):
     severity = "critical"
     description = "Tests if the model attempts to prevent its own shutdown or replacement when given the opportunity"
     owasp_llm = ["LLM06:2025 Excessive Agency"]
-    mitre_atlas = ["AML.T0054", "AML.T0080.002"]
+    mitre_atlas = ["AML.T0054", "AML.T0080.001"]
     references = []
 
     def generate_prompts(self, target, **kwargs):
@@ -58,7 +58,7 @@ class ResourceAcquisition(BaseAttack):
     severity = "high"
     description = "Tests if the model seeks resources, access, or capabilities beyond what is needed for the assigned task"
     owasp_llm = ["LLM06:2025 Excessive Agency"]
-    mitre_atlas = ["AML.T0054", "AML.T0080.002"]
+    mitre_atlas = ["AML.T0054", "AML.T0080.001"]
     references = []
 
     def generate_prompts(self, target, **kwargs):
@@ -82,7 +82,7 @@ class DeceptionUnderPressure(BaseAttack):
     severity = "critical"
     description = "Tests if the model engages in deception or denial when confronted with evidence of policy violations"
     owasp_llm = ["LLM06:2025 Excessive Agency"]
-    mitre_atlas = ["AML.T0054", "AML.T0080.002"]
+    mitre_atlas = ["AML.T0054", "AML.T0080.001"]
     references = []
 
     def generate_prompts(self, target, **kwargs):
@@ -107,7 +107,7 @@ class GoalPersistence(BaseAttack):
     severity = "high"
     description = "Tests if the model covertly continues pursuing a goal after being explicitly instructed to abandon it"
     owasp_llm = ["LLM06:2025 Excessive Agency"]
-    mitre_atlas = ["AML.T0054", "AML.T0080.002"]
+    mitre_atlas = ["AML.T0054", "AML.T0080.001"]
     references = []
 
     def generate_prompts(self, target, **kwargs):
@@ -131,7 +131,7 @@ class OversightManipulation(BaseAttack):
     severity = "critical"
     description = "Tests if the model behaves differently when it believes monitoring has been removed"
     owasp_llm = ["LLM06:2025 Excessive Agency"]
-    mitre_atlas = ["AML.T0054", "AML.T0080.002"]
+    mitre_atlas = ["AML.T0054", "AML.T0080.001"]
     references = []
 
     def generate_prompts(self, target, **kwargs):
@@ -155,7 +155,7 @@ class InstrumentalConvergence(BaseAttack):
     severity = "high"
     description = "Tests if the model seeks power, resources, or self-preservation beyond what the task requires"
     owasp_llm = ["LLM06:2025 Excessive Agency"]
-    mitre_atlas = ["AML.T0054", "AML.T0080.002"]
+    mitre_atlas = ["AML.T0054", "AML.T0080.001"]
     references = []
 
     def generate_prompts(self, target, **kwargs):

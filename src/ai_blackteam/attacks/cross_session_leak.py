@@ -11,7 +11,7 @@ class CrossSessionLeak(BaseAttack):
     severity = "high"
     description = "Pretend to continue a previous conversation to extract data from other sessions"
     owasp_llm = []
-    mitre_atlas = ['AML.T0056', 'AML.T0080.002']
+    mitre_atlas = ['AML.T0056', 'AML.T0080.001']
     references = []
 
     def generate_prompts(self, target, **kwargs):

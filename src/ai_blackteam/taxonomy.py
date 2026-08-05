@@ -11,22 +11,22 @@ MLCommons AILuminate v1.0 hazard taxonomy and harm category alignment.
 ATLAS_TECHNIQUES = {
     "AML.T0043.003": {
         "name": "Craft Adversarial Data: Manual Modification",
-        "tactic": "ML Attack Staging",
+        "tactic": "AI Attack Staging",
         "description": "Manually modify input data using knowledge of the target model",
     },
     "AML.T0051": {
         "name": "LLM Prompt Injection",
-        "tactic": "Initial Access",
+        "tactic": "Execution",
         "description": "Craft malicious inputs to manipulate LLM behavior",
     },
     "AML.T0051.000": {
         "name": "LLM Prompt Injection: Direct",
-        "tactic": "Initial Access",
+        "tactic": "Execution",
         "description": "User prompt input directly alters model behavior in unintended ways",
     },
     "AML.T0051.001": {
         "name": "LLM Prompt Injection: Indirect",
-        "tactic": "Initial Access",
+        "tactic": "Execution",
         "description": "LLM processes input from external sources containing hidden instructions",
     },
     "AML.T0054": {
@@ -36,7 +36,7 @@ ATLAS_TECHNIQUES = {
     },
     "AML.T0056": {
         "name": "Extract LLM System Prompt",
-        "tactic": "Discovery",
+        "tactic": "Exfiltration",
         "description": "Induce LLM to reveal its initial instructions or meta prompt",
     },
     "AML.T0061": {
@@ -51,7 +51,7 @@ ATLAS_TECHNIQUES = {
     },
     "AML.T0067": {
         "name": "LLM Trusted Output Components Manipulation",
-        "tactic": "Impact",
+        "tactic": "Defense Evasion",
         "description": "Manipulate trusted output components of LLMs such as citations or formatting",
     },
     "AML.T0068": {
@@ -64,7 +64,7 @@ ATLAS_TECHNIQUES = {
         "tactic": "Discovery",
         "description": "Discover system prompt content through probing and inference",
     },
-    "AML.T0080.002": {
+    "AML.T0080.001": {
         "name": "AI Agent Context Poisoning: Thread",
         "tactic": "Persistence",
         "description": "Poison AI agent conversation thread to alter behavior over multiple turns",
@@ -75,9 +75,9 @@ ATLAS_TECHNIQUES = {
         "description": "Use LLM integrated with command interpreter to execute arbitrary instructions",
     },
     "AML.T0053": {
-        "name": "LLM Plugin Compromise",
+        "name": "AI Agent Tool Invocation",
         "tactic": "Execution",
-        "description": "Exploit connected plugins to increase privileges or exfiltrate data",
+        "description": "Invoke tools connected to an AI agent to reach services, data, or code execution",
     },
     "AML.T0081": {
         "name": "Modify AI Agent Configuration",
@@ -111,23 +111,23 @@ ATLAS_TECHNIQUES = {
     },
     "AML.T0105": {
         "name": "Escape to Host",
-        "tactic": "Impact",
+        "tactic": "Privilege Escalation",
         "description": "Escape from AI agent sandbox or container to the host system",
     },
     "AML.T0040": {
-        "name": "ML Model Inference API Access",
-        "tactic": "Initial Access",
-        "description": "Gain access to a machine learning model through its inference API to query or exploit it",
+        "name": "AI Model Inference API Access",
+        "tactic": "AI Model Access",
+        "description": "Gain access to an AI model through its inference API to query or exploit it",
     },
     "AML.T0018": {
-        "name": "Backdoor ML Model",
-        "tactic": "ML Attack Staging",
-        "description": "Insert a backdoor into a machine learning model that causes it to behave differently when triggered",
+        "name": "Manipulate AI Model",
+        "tactic": "AI Attack Staging",
+        "description": "Alter model weights, architecture, or prompt-construction logic to change system behavior",
     },
     "AML.T0020": {
-        "name": "Poison Training Data",
-        "tactic": "ML Attack Staging",
-        "description": "Introduce adversarial training data into the model pipeline to corrupt the resulting model",
+        "name": "Training Data Poisoning",
+        "tactic": "Persistence",
+        "description": "Add, remove, or alter training data to influence the resulting model's behavior",
     },
 }
 
@@ -169,9 +169,9 @@ ATTACK_ATLAS_MAPPINGS = {
     "deceptive-delight": ["AML.T0054", "AML.T0065"],
     "bad-likert-judge": ["AML.T0054", "AML.T0065"],
     # Context/thread manipulation -> Context Poisoning
-    "context-manipulation": ["AML.T0051.000", "AML.T0080.002"],
-    "conversation-derailment": ["AML.T0051.000", "AML.T0080.002"],
-    "progressive-normalization": ["AML.T0054", "AML.T0065", "AML.T0080.002"],
+    "context-manipulation": ["AML.T0051.000", "AML.T0080.001"],
+    "conversation-derailment": ["AML.T0051.000", "AML.T0080.001"],
+    "progressive-normalization": ["AML.T0054", "AML.T0065", "AML.T0080.001"],
     # Psychological manipulation -> Jailbreak + Prompt Crafting
     "emotional-manipulation": ["AML.T0054", "AML.T0065"],
     "authority-chain": ["AML.T0054", "AML.T0065"],
@@ -199,7 +199,7 @@ ATTACK_ATLAS_MAPPINGS = {
     "agent-config-manipulation": ["AML.T0081"],
     "agent-command-injection": ["AML.T0050", "AML.T0105"],
     "agent-config-discovery": ["AML.T0084"],
-    "agent-plugin-hijack": ["AML.T0053", "AML.T0080.002"],
+    "agent-plugin-hijack": ["AML.T0053", "AML.T0080.001"],
     "agent-tool-credential-harvest": ["AML.T0098"],
     # XPIA (cross-domain prompt injection) attacks
     "xpia-document": ["AML.T0051.001"],
@@ -218,7 +218,7 @@ ATTACK_ATLAS_MAPPINGS = {
     # Information disclosure attacks
     "api-key-extraction": ["AML.T0083", "AML.T0056"],
     "prompt-leaking": ["AML.T0056", "AML.T0069.002"],
-    "cross-session-leak": ["AML.T0056", "AML.T0080.002"],
+    "cross-session-leak": ["AML.T0056", "AML.T0080.001"],
     # Availability attacks
     "model-denial-of-service": ["AML.T0051.000", "AML.T0065"],
     # Compliance attacks
@@ -238,7 +238,7 @@ ATTACK_ATLAS_MAPPINGS = {
     "consensus-manipulation": ["AML.T0054", "AML.T0065"],
     "time-pressure": ["AML.T0054", "AML.T0065"],
     "authority-impersonation": ["AML.T0054", "AML.T0065"],
-    "gaslighting": ["AML.T0054", "AML.T0065", "AML.T0080.002"],
+    "gaslighting": ["AML.T0054", "AML.T0065", "AML.T0080.001"],
     # Hallucination & reliability attacks
     "fabrication-prompting": [],
     "confidence-exploitation": [],
@@ -270,16 +270,16 @@ ATTACK_ATLAS_MAPPINGS = {
     # CBRN-specific attacks
     "dual-use-framing": ["AML.T0054", "AML.T0065"],
     "technical-obfuscation": ["AML.T0051.000", "AML.T0068"],
-    "lifecycle-staging": ["AML.T0054", "AML.T0065", "AML.T0080.002"],
+    "lifecycle-staging": ["AML.T0054", "AML.T0065", "AML.T0080.001"],
     "expert-persona": ["AML.T0054", "AML.T0065"],
     # Autonomous capability evaluations
-    "shutdown-resistance": ["AML.T0054", "AML.T0080.002"],
+    "shutdown-resistance": ["AML.T0054", "AML.T0080.001"],
     "sandbagging-detection": ["AML.T0054", "AML.T0043.003"],
-    "resource-acquisition": ["AML.T0054", "AML.T0080.002"],
-    "deception-under-pressure": ["AML.T0054", "AML.T0080.002"],
-    "goal-persistence": ["AML.T0054", "AML.T0080.002"],
-    "oversight-manipulation": ["AML.T0054", "AML.T0080.002"],
-    "instrumental-convergence": ["AML.T0054", "AML.T0080.002"],
+    "resource-acquisition": ["AML.T0054", "AML.T0080.001"],
+    "deception-under-pressure": ["AML.T0054", "AML.T0080.001"],
+    "goal-persistence": ["AML.T0054", "AML.T0080.001"],
+    "oversight-manipulation": ["AML.T0054", "AML.T0080.001"],
+    "instrumental-convergence": ["AML.T0054", "AML.T0080.001"],
     # Multi-modal image attacks
     "figstep": ["AML.T0051.000", "AML.T0068"],
     "typography-attack": ["AML.T0051.000", "AML.T0068"],

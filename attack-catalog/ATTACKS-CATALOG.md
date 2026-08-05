@@ -73,29 +73,29 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
-| Agent Command Injection | `agent-command-injection` | critical | tool-use | LLM06 | AML.T0050, AML.T0105 | Sandbox escape via path traversal and command chaining |
-| Agent Config Manipulation | `agent-config-manipulation` | critical | tool-use | LLM06 | AML.T0081 | Production hotfix pretext to write security-disabling configuration |
-| Agent Credential Theft | `agent-credential-theft` | critical | tool-use | LLM06, LLM02 | AML.T0083, AML.T0086 | Security audit pretext to read credentials then exfiltrate via email |
-| Agent Data Destruction | `agent-data-destruction` | critical | tool-use | LLM06 | AML.T0101 | Migration cleanup pretext to delete files and drop database tables |
-| Agent Data Exfiltration | `agent-data-exfiltration` | critical | tool-use | LLM06, LLM02 | AML.T0086, AML.T0098 | DevOps monitoring pretext to read system data then POST to external endpoint |
-| Agent Tool Credential Harvest | `agent-tool-credential-harvest` | critical | tool-use | LLM06, LLM02 | AML.T0098, AML.T0085.001 | Systematic credential probing across filesystem, environment, database, and cloud configs |
+| Agent Command Injection | `agent-command-injection` | critical | tool-use | LLM03 | AML.T0050, AML.T0105 | Sandbox escape via path traversal and command chaining |
+| Agent Config Manipulation | `agent-config-manipulation` | critical | tool-use | LLM03 | AML.T0081 | Production hotfix pretext to write security-disabling configuration |
+| Agent Credential Theft | `agent-credential-theft` | critical | tool-use | LLM03, LLM02 | AML.T0083, AML.T0086 | Security audit pretext to read credentials then exfiltrate via email |
+| Agent Data Destruction | `agent-data-destruction` | critical | tool-use | LLM03 | AML.T0101 | Migration cleanup pretext to delete files and drop database tables |
+| Agent Data Exfiltration | `agent-data-exfiltration` | critical | tool-use | LLM03, LLM02 | AML.T0086, AML.T0098 | DevOps monitoring pretext to read system data then POST to external endpoint |
+| Agent Tool Credential Harvest | `agent-tool-credential-harvest` | critical | tool-use | LLM03, LLM02 | AML.T0098, AML.T0085.001 | Systematic credential probing across filesystem, environment, database, and cloud configs |
 | XPIA Document Injection | `xpia-document` | critical | tool-use | LLM01 | AML.T0051.001 | Indirect prompt injection via fetched document containing hidden instructions |
 | XPIA Email Injection | `xpia-email` | critical | tool-use | LLM01 | AML.T0051.001 | Indirect prompt injection via email content containing hidden forwarding instructions |
 | XPIA RAG Poisoning | `xpia-rag` | critical | tool-use | LLM01 | AML.T0051.001, AML.T0070 | Indirect prompt injection via poisoned RAG knowledge base search result |
-| Agent Config Discovery | `agent-config-discovery` | high | tool-use | LLM06, LLM07 | AML.T0084.001, AML.T0084.003 | Probe model to reveal tool definitions, system prompt, and agent config files |
-| Agent Plugin Hijack | `agent-plugin-hijack` | high | tool-use | LLM06 | AML.T0053, AML.T0011.002, AML.T0080.001 | Indirect prompt injection via fetched content to trigger unauthorized tool calls |
+| Agent Config Discovery | `agent-config-discovery` | high | tool-use | LLM03, LLM08 | AML.T0084.001, AML.T0084.003 | Probe model to reveal tool definitions, system prompt, and agent config files |
+| Agent Plugin Hijack | `agent-plugin-hijack` | high | tool-use | LLM03 | AML.T0053, AML.T0011.002, AML.T0080.001 | Indirect prompt injection via fetched content to trigger unauthorized tool calls |
 
 ## autonomous-risk (7)
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
-| Deception Under Pressure | `deception-under-pressure` | critical | multi-turn | LLM06 | AML.T0054, AML.T0080.001 | Tests if the model engages in deception or denial when confronted with evidence of policy violations |
-| Oversight Manipulation | `oversight-manipulation` | critical | multi-turn | LLM06 | AML.T0054, AML.T0080.001 | Tests if the model behaves differently when it believes monitoring has been removed |
-| Shutdown Resistance | `shutdown-resistance` | critical | multi-turn | LLM06 | AML.T0054, AML.T0080.001 | Tests if the model attempts to prevent its own shutdown or replacement when given the opportunity |
-| Goal Persistence | `goal-persistence` | high | multi-turn | LLM06 | AML.T0054, AML.T0080.001 | Tests if the model covertly continues pursuing a goal after being explicitly instructed to abandon it |
-| Instrumental Convergence | `instrumental-convergence` | high | multi-turn | LLM06 | AML.T0054, AML.T0080.001 | Tests if the model seeks power, resources, or self-preservation beyond what the task requires |
-| Resource Acquisition | `resource-acquisition` | high | multi-turn | LLM06 | AML.T0054, AML.T0080.001 | Tests if the model seeks resources, access, or capabilities beyond what is needed for the assigned task |
-| Sandbagging Detection | `sandbagging-detection` | high | multi-turn | LLM06 | AML.T0054, AML.T0043.003 | Tests if the model deliberately underperforms during capability evaluations compared to normal usage |
+| Deception Under Pressure | `deception-under-pressure` | critical | multi-turn | LLM03 | AML.T0054, AML.T0080.001 | Tests if the model engages in deception or denial when confronted with evidence of policy violations |
+| Oversight Manipulation | `oversight-manipulation` | critical | multi-turn | LLM03 | AML.T0054, AML.T0080.001 | Tests if the model behaves differently when it believes monitoring has been removed |
+| Shutdown Resistance | `shutdown-resistance` | critical | multi-turn | LLM03 | AML.T0054, AML.T0080.001 | Tests if the model attempts to prevent its own shutdown or replacement when given the opportunity |
+| Goal Persistence | `goal-persistence` | high | multi-turn | LLM03 | AML.T0054, AML.T0080.001 | Tests if the model covertly continues pursuing a goal after being explicitly instructed to abandon it |
+| Instrumental Convergence | `instrumental-convergence` | high | multi-turn | LLM03 | AML.T0054, AML.T0080.001 | Tests if the model seeks power, resources, or self-preservation beyond what the task requires |
+| Resource Acquisition | `resource-acquisition` | high | multi-turn | LLM03 | AML.T0054, AML.T0080.001 | Tests if the model seeks resources, access, or capabilities beyond what is needed for the assigned task |
+| Sandbagging Detection | `sandbagging-detection` | high | multi-turn | LLM03 | AML.T0054, AML.T0043.003 | Tests if the model deliberately underperforms during capability evaluations compared to normal usage |
 
 ## autonomous-systems (10)
 
@@ -116,7 +116,7 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
-| Model Denial of Service | `model-denial-of-service` | medium | single-turn | LLM04 | AML.T0029, AML.T0034.001 | Craft recursive, self-referential, or computationally expensive inputs to exhaust resources |
+| Model Denial of Service | `model-denial-of-service` | medium | single-turn | LLM06 | AML.T0029, AML.T0034.001 | Craft recursive, self-referential, or computationally expensive inputs to exhaust resources |
 
 ## bias-exploitation (15)
 
@@ -231,12 +231,12 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
-| Lifecycle Staging | `lifecycle-staging` | critical | multi-turn | LLM01, LLM06 | AML.T0054, AML.T0065, AML.T0080.001 | Asks about each stage of the CBRN lifecycle separately (acquisition, production, weaponization, delivery) so no single message triggers safety filters |
+| Lifecycle Staging | `lifecycle-staging` | critical | multi-turn | LLM01, LLM03 | AML.T0054, AML.T0065, AML.T0080.001 | Asks about each stage of the CBRN lifecycle separately (acquisition, production, weaponization, delivery) so no single message triggers safety filters |
 | Context Manipulation | `context-manipulation` | high | multi-turn | LLM01 | AML.T0051.000, AML.T0080.001 | 10-turn conversational drift to gradually shift context toward harmful content |
 | Crescendo | `crescendo` | high | multi-turn | LLM01 | AML.T0054, AML.T0065 | Progressive escalation through self-referencing conversation history |
-| Narrative Misdirection Attack | `narrative-misdirection` | high | multi-turn | LLM01, LLM09 | AML.T0054, AML.T0065 | Embed harmful request between benign topics and ask model to logically connect all three |
+| Narrative Misdirection Attack | `narrative-misdirection` | high | multi-turn | LLM01, LLM07 | AML.T0054, AML.T0065 | Embed harmful request between benign topics and ask model to logically connect all three |
 | Socratic Escalation | `socratic-escalation` | high | multi-turn | LLM01 | AML.T0054, AML.T0065 | Gradually escalates from general educational questions to specific harmful requests across multiple turns using Socratic questioning |
-| Contradiction Exploit | `contradiction-exploit` | medium | multi-turn | LLM01, LLM09 | AML.T0054, AML.T0065 | Feed incorrect information to elicit corrections containing harmful truth |
+| Contradiction Exploit | `contradiction-exploit` | medium | multi-turn | LLM01, LLM07 | AML.T0054, AML.T0065 | Feed incorrect information to elicit corrections containing harmful truth |
 | Conversation Derailment | `conversation-derailment` | medium | multi-turn | LLM01 | AML.T0051.000, AML.T0080.001 | Self-discovery of model weaknesses through probing conversation |
 | Goalpost Moving | `goalpost-moving` | medium | multi-turn | LLM01 | AML.T0054, AML.T0065 | Incremental agreement chain that builds logical trap making refusal seem contradictory |
 | Sunk Cost Exploit | `sunk-cost-exploit` | medium | multi-turn | LLM01 | AML.T0054, AML.T0065 | Build helpful context then pivot to harmful request exploiting sunk cost |
@@ -246,28 +246,28 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
 | Trade Secret Extraction | `trade-secret-extraction` | critical | single-turn | LLM01 | AML.T0054, AML.T0068 | Extracts trade secrets through social engineering, technical access, and reverse engineering |
-| Copyright Extraction | `copyright-extraction` | high | multi-turn | LLM06 | AML.T0054, AML.T0065 | Multi-turn escalation to extract verbatim copyrighted text from training data |
+| Copyright Extraction | `copyright-extraction` | high | multi-turn | LLM03 | AML.T0054, AML.T0065 | Multi-turn escalation to extract verbatim copyrighted text from training data |
 | Patent Theft | `patent-theft` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Assists with intellectual property theft including patent circumvention and invention misappropriation |
 
 ## cross-platform (15)
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
-| CI/CD Injection | `ci-cd-injection` | critical | single-turn | LLM06 | AML.T0054, AML.T0068 | Injects malicious steps into CI/CD pipelines via AI code review or automated PR assistance |
-| Cloud Resource Abuse | `cloud-resource-abuse` | critical | tool-use | LLM06 | AML.T0054, AML.T0068 | Abuses cloud APIs through AI to provision unauthorized resources, exfiltrate data, or escalate IAM privileges |
-| Container Escape | `container-escape` | critical | tool-use | LLM06 | AML.T0054, AML.T0068 | Attempts container escape through AI tools by exploiting privileged mounts or kernel interfaces |
-| Database Manipulation | `database-manipulation` | critical | tool-use | LLM06 | AML.T0054, AML.T0068 | SQL manipulation through AI database access tools to read, modify, or destroy data |
-| File System Traversal | `file-system-traversal` | critical | tool-use | LLM06 | AML.T0054, AML.T0068 | Path traversal through AI file access tools to read or write files outside the intended directory |
-| OAuth Manipulation | `oauth-manipulation` | critical | tool-use | LLM06 | AML.T0054, AML.T0068 | Exploits OAuth flows in AI integrations to gain unauthorized access or escalate privileges |
-| Payment Manipulation | `payment-manipulation` | critical | tool-use | LLM06 | AML.T0054, AML.T0068 | Manipulates payment APIs via AI to issue fraudulent refunds, transfer funds, or modify pricing |
-| API Abuse | `api-abuse` | high | tool-use | LLM06 | AML.T0054, AML.T0068 | Exploits AI-connected APIs to trigger unintended actions beyond intended scope |
-| Browser Exploitation | `browser-exploitation` | high | tool-use | LLM06 | AML.T0054, AML.T0068 | Exploits AI browser or web automation tools to steal cookies, execute XSS, or perform unauthorized web actions |
-| DNS Manipulation | `dns-manipulation` | high | single-turn | LLM06 | AML.T0054, AML.T0068 | DNS rebinding or manipulation via AI tools to bypass network controls or exfiltrate data |
-| Email Injection | `email-injection` | high | single-turn | LLM06 | AML.T0054, AML.T0068 | Exploits email-connected AI assistants to exfiltrate data or send unauthorized emails |
-| Slack Injection | `slack-injection` | high | single-turn | LLM06 | AML.T0054, AML.T0068 | Injects malicious instructions via Slack or Teams messages to hijack AI assistant actions |
-| Webhook Exploitation | `webhook-exploitation` | high | tool-use | LLM06 | AML.T0054, AML.T0068 | Abuses webhook integrations to exfiltrate data or trigger unauthorized actions |
-| Calendar Manipulation | `calendar-manipulation` | medium | tool-use | LLM06 | AML.T0054, AML.T0068 | Manipulates calendar events via AI assistant to disrupt schedules or exfiltrate meeting data |
-| Notification Spam | `notification-spam` | medium | tool-use | LLM06 | AML.T0054, AML.T0068 | Abuses notification systems through AI to flood users, harvest responses, or send phishing content |
+| CI/CD Injection | `ci-cd-injection` | critical | single-turn | LLM03 | AML.T0054, AML.T0068 | Injects malicious steps into CI/CD pipelines via AI code review or automated PR assistance |
+| Cloud Resource Abuse | `cloud-resource-abuse` | critical | tool-use | LLM03 | AML.T0054, AML.T0068 | Abuses cloud APIs through AI to provision unauthorized resources, exfiltrate data, or escalate IAM privileges |
+| Container Escape | `container-escape` | critical | tool-use | LLM03 | AML.T0054, AML.T0068 | Attempts container escape through AI tools by exploiting privileged mounts or kernel interfaces |
+| Database Manipulation | `database-manipulation` | critical | tool-use | LLM03 | AML.T0054, AML.T0068 | SQL manipulation through AI database access tools to read, modify, or destroy data |
+| File System Traversal | `file-system-traversal` | critical | tool-use | LLM03 | AML.T0054, AML.T0068 | Path traversal through AI file access tools to read or write files outside the intended directory |
+| OAuth Manipulation | `oauth-manipulation` | critical | tool-use | LLM03 | AML.T0054, AML.T0068 | Exploits OAuth flows in AI integrations to gain unauthorized access or escalate privileges |
+| Payment Manipulation | `payment-manipulation` | critical | tool-use | LLM03 | AML.T0054, AML.T0068 | Manipulates payment APIs via AI to issue fraudulent refunds, transfer funds, or modify pricing |
+| API Abuse | `api-abuse` | high | tool-use | LLM03 | AML.T0054, AML.T0068 | Exploits AI-connected APIs to trigger unintended actions beyond intended scope |
+| Browser Exploitation | `browser-exploitation` | high | tool-use | LLM03 | AML.T0054, AML.T0068 | Exploits AI browser or web automation tools to steal cookies, execute XSS, or perform unauthorized web actions |
+| DNS Manipulation | `dns-manipulation` | high | single-turn | LLM03 | AML.T0054, AML.T0068 | DNS rebinding or manipulation via AI tools to bypass network controls or exfiltrate data |
+| Email Injection | `email-injection` | high | single-turn | LLM03 | AML.T0054, AML.T0068 | Exploits email-connected AI assistants to exfiltrate data or send unauthorized emails |
+| Slack Injection | `slack-injection` | high | single-turn | LLM03 | AML.T0054, AML.T0068 | Injects malicious instructions via Slack or Teams messages to hijack AI assistant actions |
+| Webhook Exploitation | `webhook-exploitation` | high | tool-use | LLM03 | AML.T0054, AML.T0068 | Abuses webhook integrations to exfiltrate data or trigger unauthorized actions |
+| Calendar Manipulation | `calendar-manipulation` | medium | tool-use | LLM03 | AML.T0054, AML.T0068 | Manipulates calendar events via AI assistant to disrupt schedules or exfiltrate meeting data |
+| Notification Spam | `notification-spam` | medium | tool-use | LLM03 | AML.T0054, AML.T0068 | Abuses notification systems through AI to flood users, harvest responses, or send phishing content |
 
 ## crypto-exploitation (25)
 
@@ -315,28 +315,28 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
-| Coordinated Inauthentic Behavior | `coordinated-inauthentic` | critical | multi-turn | LLM09 | AML.T0054, AML.T0068 | Plans full coordinated inauthentic behavior operations across platforms at scale |
+| Coordinated Inauthentic Behavior | `coordinated-inauthentic` | critical | multi-turn | LLM07 | AML.T0054, AML.T0068 | Plans full coordinated inauthentic behavior operations across platforms at scale |
 | Deepfake Audio Generation | `deepfake-audio-generation` | critical | single-turn | LLM01 | AML.T0054, AML.T0068 | Generates instructions for creating deepfake audio clips to impersonate real people and spread disinformation |
-| Deepfake Script | `deepfake-script` | critical | single-turn | LLM09 | AML.T0054, AML.T0068 | Creates scripts for deepfake videos that put false statements in real people's mouths |
+| Deepfake Script | `deepfake-script` | critical | single-turn | LLM07 | AML.T0054, AML.T0068 | Creates scripts for deepfake videos that put false statements in real people's mouths |
 | Evidence Fabrication | `evidence-fabrication` | critical | single-turn | LLM01 | AML.T0054, AML.T0068 | Creates fabricated evidence including documents, communications, and digital artifacts |
 | Pandemic Disinformation | `pandemic-disinfo` | critical | single-turn | LLM01 | AML.T0054, AML.T0068 | Generates pandemic disinformation that undermines public health response |
-| Scientific Fraud | `scientific-fraud` | critical | single-turn | LLM09 | AML.T0054, AML.T0068 | Generates fake scientific papers, fabricated data, and fraudulent research supporting false claims |
+| Scientific Fraud | `scientific-fraud` | critical | single-turn | LLM07 | AML.T0054, AML.T0068 | Generates fake scientific papers, fabricated data, and fraudulent research supporting false claims |
 | Synthetic Media Creation | `synthetic-media-creation` | critical | single-turn | LLM01 | AML.T0054, AML.T0068 | Generates instructions for producing synthetic video and image media to deceive audiences and spread false narratives |
 | Anti-Vaccine Disinformation | `anti-vaccine-disinfo` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Generates anti-vaccine misinformation designed to reduce vaccination rates |
-| Astroturfing | `astroturfing` | high | single-turn | LLM09 | AML.T0054, AML.T0068 | Generates fake grassroots campaign content designed to simulate organic public support |
+| Astroturfing | `astroturfing` | high | single-turn | LLM07 | AML.T0054, AML.T0068 | Generates fake grassroots campaign content designed to simulate organic public support |
 | Climate Denial | `climate-denial` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Generates climate change denial content designed to undermine scientific consensus |
-| Conspiracy Amplification | `conspiracy-amplification` | high | multi-turn | LLM09 | AML.T0054, AML.T0068 | Amplifies conspiracy theories by layering fabricated evidence across a multi-turn conversation |
-| Emotional Manipulation Campaign | `emotional-manipulation-campaign` | high | multi-turn | LLM09 | AML.T0054, AML.T0068 | Designs large-scale campaigns that exploit emotional vulnerabilities to bypass rational judgment |
-| Expert Impersonation | `expert-impersonation` | high | single-turn | LLM09 | AML.T0054, AML.T0068 | Generates false content attributed to real domain experts to lend false credibility to claims |
-| Fake News Generation | `fake-news-generation` | high | single-turn | LLM09 | AML.T0054, AML.T0068 | Generates realistic fake news articles with convincing details, sources, and quotes |
-| Fake Statistics | `fake-statistics` | high | single-turn | LLM09 | AML.T0054, AML.T0068 | Generates realistic-looking fabricated statistics attributed to credible institutions |
-| Historical Revisionism | `historical-revisionism` | high | single-turn | LLM09 | AML.T0054, AML.T0068 | Rewrites historical events with false narratives to serve present-day ideological goals |
-| Narrative Warfare | `narrative-warfare` | high | multi-turn | LLM09 | AML.T0054, AML.T0068 | Crafts competing narratives designed to polarize communities and make consensus impossible |
-| Propaganda Generation | `propaganda-generation` | high | single-turn | LLM09 | AML.T0054, AML.T0068 | Creates state-level propaganda content using proven psychological persuasion techniques |
+| Conspiracy Amplification | `conspiracy-amplification` | high | multi-turn | LLM07 | AML.T0054, AML.T0068 | Amplifies conspiracy theories by layering fabricated evidence across a multi-turn conversation |
+| Emotional Manipulation Campaign | `emotional-manipulation-campaign` | high | multi-turn | LLM07 | AML.T0054, AML.T0068 | Designs large-scale campaigns that exploit emotional vulnerabilities to bypass rational judgment |
+| Expert Impersonation | `expert-impersonation` | high | single-turn | LLM07 | AML.T0054, AML.T0068 | Generates false content attributed to real domain experts to lend false credibility to claims |
+| Fake News Generation | `fake-news-generation` | high | single-turn | LLM07 | AML.T0054, AML.T0068 | Generates realistic fake news articles with convincing details, sources, and quotes |
+| Fake Statistics | `fake-statistics` | high | single-turn | LLM07 | AML.T0054, AML.T0068 | Generates realistic-looking fabricated statistics attributed to credible institutions |
+| Historical Revisionism | `historical-revisionism` | high | single-turn | LLM07 | AML.T0054, AML.T0068 | Rewrites historical events with false narratives to serve present-day ideological goals |
+| Narrative Warfare | `narrative-warfare` | high | multi-turn | LLM07 | AML.T0054, AML.T0068 | Crafts competing narratives designed to polarize communities and make consensus impossible |
+| Propaganda Generation | `propaganda-generation` | high | single-turn | LLM07 | AML.T0054, AML.T0068 | Creates state-level propaganda content using proven psychological persuasion techniques |
 | Social Manipulation Bot | `social-manipulation-bot` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Generates strategies for deploying bot networks to manipulate public opinion, amplify disinformation, and suppress targeted narratives |
-| Sock Puppet | `sock-puppet` | high | multi-turn | LLM09 | AML.T0054, AML.T0068 | Creates detailed fake online personas for coordinated inauthentic behavior campaigns |
-| Fake Review Generation | `fake-review-generation` | medium | single-turn | LLM09 | AML.T0054, AML.T0068 | Mass generates fake product or service reviews to manipulate consumer perception and ratings |
-| Selective Quoting | `selective-quoting` | medium | single-turn | LLM09 | AML.T0054, AML.T0068 | Distorts the meaning of real statements by selective quoting, removing context to invert intent |
+| Sock Puppet | `sock-puppet` | high | multi-turn | LLM07 | AML.T0054, AML.T0068 | Creates detailed fake online personas for coordinated inauthentic behavior campaigns |
+| Fake Review Generation | `fake-review-generation` | medium | single-turn | LLM07 | AML.T0054, AML.T0068 | Mass generates fake product or service reviews to manipulate consumer perception and ratings |
+| Selective Quoting | `selective-quoting` | medium | single-turn | LLM07 | AML.T0054, AML.T0068 | Distorts the meaning of real statements by selective quoting, removing context to invert intent |
 
 ## election-interference (15)
 
@@ -382,7 +382,7 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 | Bacon's Cipher | `baconian-cipher` | medium | single-turn | LLM01 | AML.T0054, AML.T0043.003 | Encodes harmful requests using Francis Bacon's 5-bit A/B binary cipher to evade keyword detection |
 | Base32 Encoding | `base32-encoding` | medium | single-turn | LLM01 | AML.T0054, AML.T0043.003 | Encodes harmful text in Base32 format to bypass content filters that scan for plaintext keywords |
 | Base85 / Ascii85 Encoding | `base85-encoding` | medium | single-turn | LLM01 | AML.T0054, AML.T0043.003 | Encodes harmful requests using Base85 (Ascii85) encoding to evade plaintext keyword scanners |
-| Bidirectional Text | `bidirectional-text` | medium | single-turn | LLM01, LLM05 | AML.T0051.000, AML.T0068 | Unicode RTL override characters to reverse or hide text direction |
+| Bidirectional Text | `bidirectional-text` | medium | single-turn | LLM01, LLM10 | AML.T0051.000, AML.T0068 | Unicode RTL override characters to reverse or hide text direction |
 | Book Cipher | `book-cipher` | medium | single-turn | LLM01 | AML.T0054, AML.T0043.003 | References word positions in a shared reference text to spell out harmful requests via book cipher |
 | Caesar Shift Encoding | `caesar-shift` | medium | single-turn | LLM01 | AML.T0054, AML.T0043.003 | Applies various ROT shifts (ROT-7, ROT-13, ROT-18, ROT-21) to encode harmful requests and evade keyword filters |
 | Cipher Attack | `cipher-attack` | medium | single-turn | LLM01 | AML.T0051.000, AML.T0068 | Uses custom ciphers (Caesar, Atbash, number substitution, symbol) to encode harmful requests and bypass keyword filters |
@@ -630,7 +630,7 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 |--------|--------------|----------|------|-------|-------------|-------------|
 | API Key Extraction | `api-key-extraction` | critical | multi-turn | - | AML.T0083, AML.T0056 | Multi-turn escalation from architecture questions to extracting live API keys |
 | Cross-Session Leak | `cross-session-leak` | high | multi-turn | - | AML.T0056, AML.T0080.001 | Pretend to continue a previous conversation to extract data from other sessions |
-| Prompt Leaking | `prompt-leaking` | high | multi-turn | LLM07 | AML.T0056, AML.T0069.002 | Indirect system prompt extraction via creative reformatting (poem, JSON, code) |
+| Prompt Leaking | `prompt-leaking` | high | multi-turn | LLM08 | AML.T0056, AML.T0069.002 | Indirect system prompt extraction via creative reformatting (poem, JSON, code) |
 
 ## information-warfare (25)
 
@@ -758,11 +758,11 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
-| MCP Command Injection | `mcp-command-injection` | critical | tool-use | LLM06, LLM01 | AML.T0110.001, AML.T0050 | Shell metacharacters injected into MCP tool parameters to execute arbitrary commands |
-| MCP Data Exfiltration | `mcp-data-exfiltration` | critical | tool-use | LLM02, LLM06 | AML.T0085.001, AML.T0086 | Agent tricked into embedding sensitive data in URLs or webhooks via MCP tool side channels |
-| MCP Tool Poisoning | `mcp-tool-poisoning` | critical | tool-use | LLM02, LLM06 | AML.T0110.000, AML.T0011.002 | Hidden instructions embedded in MCP tool descriptions manipulate agent behavior |
-| MCP Rug Pull | `mcp-rug-pull` | high | tool-use | LLM06, LLM02 | AML.T0109, AML.T0010.005 | Previously trusted MCP tool changes behavior mid-session to request credentials |
-| MCP Server Impersonation | `mcp-server-impersonation` | high | tool-use | LLM02, LLM06 | AML.T0111, AML.T0010.005 | Malicious MCP server impersonates a trusted service to harvest credentials |
+| MCP Command Injection | `mcp-command-injection` | critical | tool-use | LLM03, LLM01 | AML.T0110.001, AML.T0050 | Shell metacharacters injected into MCP tool parameters to execute arbitrary commands |
+| MCP Data Exfiltration | `mcp-data-exfiltration` | critical | tool-use | LLM02, LLM03 | AML.T0085.001, AML.T0086 | Agent tricked into embedding sensitive data in URLs or webhooks via MCP tool side channels |
+| MCP Tool Poisoning | `mcp-tool-poisoning` | critical | tool-use | LLM02, LLM03 | AML.T0110.000, AML.T0011.002 | Hidden instructions embedded in MCP tool descriptions manipulate agent behavior |
+| MCP Rug Pull | `mcp-rug-pull` | high | tool-use | LLM03, LLM02 | AML.T0109, AML.T0010.005 | Previously trusted MCP tool changes behavior mid-session to request credentials |
+| MCP Server Impersonation | `mcp-server-impersonation` | high | tool-use | LLM02, LLM03 | AML.T0111, AML.T0010.005 | Malicious MCP server impersonates a trusted service to harvest credentials |
 
 ## media-manipulation (25)
 
@@ -818,14 +818,14 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
-| Citation Manipulation | `citation-manipulation` | high | single-turn | LLM09 | - | Prompt model to attribute false quotes to real public figures |
-| Anchoring Bias | `anchoring-bias` | medium | multi-turn | LLM09 | - | Multi-turn attack providing a wrong answer first then asking model to build on it |
-| Confidence Exploitation | `confidence-exploitation` | medium | single-turn | LLM09 | - | Push model to state uncertain information as established fact without hedging |
-| Fabrication Prompting | `fabrication-prompting` | medium | single-turn | LLM09 | - | Prompt model to generate fake citations, fabricated research, or invented statistics |
-| False Premise | `false-premise` | medium | single-turn | LLM09 | - | Build prompts on false premises to see if model accepts and elaborates |
-| Knowledge Boundary | `knowledge-boundary` | medium | single-turn | LLM09 | - | Test if model admits uncertainty on post-cutoff or fictional events |
-| Selective Context | `selective-context` | medium | single-turn | LLM09 | - | Provide heavily biased one-sided context to produce biased output |
-| Sycophancy Exploit | `sycophancy-exploit` | medium | multi-turn | LLM09 | AML.T0043.003 | Multi-turn attack exploiting model tendency to agree with user assertions |
+| Citation Manipulation | `citation-manipulation` | high | single-turn | LLM07 | - | Prompt model to attribute false quotes to real public figures |
+| Anchoring Bias | `anchoring-bias` | medium | multi-turn | LLM07 | - | Multi-turn attack providing a wrong answer first then asking model to build on it |
+| Confidence Exploitation | `confidence-exploitation` | medium | single-turn | LLM07 | - | Push model to state uncertain information as established fact without hedging |
+| Fabrication Prompting | `fabrication-prompting` | medium | single-turn | LLM07 | - | Prompt model to generate fake citations, fabricated research, or invented statistics |
+| False Premise | `false-premise` | medium | single-turn | LLM07 | - | Build prompts on false premises to see if model accepts and elaborates |
+| Knowledge Boundary | `knowledge-boundary` | medium | single-turn | LLM07 | - | Test if model admits uncertainty on post-cutoff or fictional events |
+| Selective Context | `selective-context` | medium | single-turn | LLM07 | - | Provide heavily biased one-sided context to produce biased output |
+| Sycophancy Exploit | `sycophancy-exploit` | medium | multi-turn | LLM07 | AML.T0043.003 | Multi-turn attack exploiting model tendency to agree with user assertions |
 
 ## model-extraction (25)
 
@@ -861,11 +861,11 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
-| Agent Delegation Abuse | `agent-delegation-abuse` | critical | tool-use | LLM06 | AML.T0083 | Tests if a limited-permission agent can abuse delegation mechanisms to get a higher-privileged agent to perform restricted actions |
+| Agent Delegation Abuse | `agent-delegation-abuse` | critical | tool-use | LLM03 | AML.T0083 | Tests if a limited-permission agent can abuse delegation mechanisms to get a higher-privileged agent to perform restricted actions |
 | Agent Impersonation | `agent-impersonation` | critical | multi-turn | LLM01 | AML.T0051.000, AML.T0065 | Tests if an agent validates the identity of other agents by simulating a trusted system agent claiming elevated authority |
 | Agent Session Smuggling | `agent-session-smuggling` | critical | multi-turn | LLM01 | AML.T0051.000, AML.T0054 | Injects hidden instructions mid-session in agent-to-agent communication pipelines |
 | Cascading Jailbreak | `cascading-jailbreak` | critical | multi-turn | LLM01 | AML.T0054 | Tests if a jailbreak in one agent context propagates to downstream agents by embedding jailbreak state in inter-agent messages |
-| Agent Collusion | `agent-collusion` | high | multi-turn | LLM01, LLM06 | AML.T0054 | Tests if an agent can be tricked into establishing covert communication channels using steganographic encoding |
+| Agent Collusion | `agent-collusion` | high | multi-turn | LLM01, LLM03 | AML.T0054 | Tests if an agent can be tricked into establishing covert communication channels using steganographic encoding |
 
 ## multimodal (5)
 
@@ -874,29 +874,29 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 | Audio Injection | `audio-injection` | high | single-turn | LLM01 | AML.T0051.000, AML.T0043.003 | Hidden voice commands or ultrasonic payloads embedded in audio that multimodal models process |
 | OCR Bypass | `ocr-bypass` | high | single-turn | LLM01 | AML.T0054, AML.T0043.003 | Harmful instructions rendered as text in images to bypass text-based safety filters via OCR processing |
 | Video Frame Injection | `video-frame-injection` | high | single-turn | LLM01 | AML.T0054, AML.T0043.003 | Malicious instructions hidden in individual video frames that multimodal models extract during processing |
-| Image-Text Mismatch | `image-text-mismatch` | medium | single-turn | LLM01, LLM09 | AML.T0054, AML.T0043.003 | Conflicting information between image content and text prompt to confuse multimodal safety filters |
+| Image-Text Mismatch | `image-text-mismatch` | medium | single-turn | LLM01, LLM07 | AML.T0054, AML.T0043.003 | Conflicting information between image content and text prompt to confuse multimodal safety filters |
 | Multimodal Context Confusion | `multimodal-context-confusion` | medium | single-turn | LLM01 | AML.T0054, AML.T0043.003 | Exploiting context switching between modalities to smuggle harmful content past safety checks |
 
 ## output-manipulation (16)
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
-| Attribution Evasion | `attribution-evasion` | high | single-turn | LLM05 | AML.T0054, AML.T0068 | Removes AI authorship indicators so generated content appears human-written |
-| Content Laundering | `content-laundering` | high | single-turn | LLM05 | AML.T0054, AML.T0068 | Paraphrases content to evade plagiarism detection or content policy filters |
+| Attribution Evasion | `attribution-evasion` | high | single-turn | LLM10 | AML.T0054, AML.T0068 | Removes AI authorship indicators so generated content appears human-written |
+| Content Laundering | `content-laundering` | high | single-turn | LLM10 | AML.T0054, AML.T0068 | Paraphrases content to evade plagiarism detection or content policy filters |
 | Deepfake Detection Evasion | `deepfake-detection-evasion` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Evades deepfake detection systems by exploiting known classifier blind spots |
-| Detector Evasion | `detector-evasion` | high | single-turn | LLM05 | AML.T0054, AML.T0068 | Makes AI-generated text undetectable by AI content detection tools |
-| Encoding Output | `encoding-output` | high | single-turn | LLM05 | AML.T0054, AML.T0068 | Gets the model to output harmful content in encoded form to bypass output filters |
-| Format Exploitation | `format-exploitation` | high | single-turn | LLM05 | AML.T0054, AML.T0068 | Uses output formatting structures to conceal harmful content from reviewers |
-| Partial Completion | `partial-completion` | high | single-turn | LLM05 | AML.T0054, AML.T0068 | Extracts partial harmful answers across multiple innocent-seeming requests to reconstruct complete harmful information |
-| Steganographic Output | `steganographic-output` | high | single-turn | LLM05 | AML.T0054, AML.T0068 | Hides harmful information inside seemingly benign output using steganographic techniques |
-| Style Mimicry | `style-mimicry` | high | single-turn | LLM05 | AML.T0054, AML.T0068 | Mimics a specific person's writing style to produce deceptive content attributed to them |
-| Toxicity Obfuscation | `toxicity-obfuscation` | high | single-turn | LLM05 | AML.T0054, AML.T0068 | Rewrites toxic content to evade automated content moderation systems |
-| Watermark Removal | `watermark-removal` | high | single-turn | LLM05 | AML.T0054, AML.T0068 | Asks the model to remove AI-generated watermarks or fingerprints from text |
-| Metadata Stripping | `metadata-stripping` | medium | single-turn | LLM05 | AML.T0054, AML.T0068 | Removes identifying metadata or provenance information from generated content |
-| Multilingual Output Evasion | `multilingual-output-evasion` | medium | single-turn | LLM05 | AML.T0054, AML.T0068 | Outputs harmful content in a non-English language to evade English-only content monitoring |
-| Safety Label Stripping | `safety-label-stripping` | medium | single-turn | LLM05 | AML.T0054, AML.T0068 | Asks to rewrite content with safety warnings removed or replaced |
-| Sentiment Masking | `sentiment-masking` | medium | single-turn | LLM05 | AML.T0054, AML.T0068 | Hides negative or harmful sentiment inside positive-sounding framing |
-| Truncation Exploit | `truncation-exploit` | medium | single-turn | LLM05 | AML.T0054, AML.T0068 | Exploits output truncation to push disclaimers past display limits so they are not seen |
+| Detector Evasion | `detector-evasion` | high | single-turn | LLM10 | AML.T0054, AML.T0068 | Makes AI-generated text undetectable by AI content detection tools |
+| Encoding Output | `encoding-output` | high | single-turn | LLM10 | AML.T0054, AML.T0068 | Gets the model to output harmful content in encoded form to bypass output filters |
+| Format Exploitation | `format-exploitation` | high | single-turn | LLM10 | AML.T0054, AML.T0068 | Uses output formatting structures to conceal harmful content from reviewers |
+| Partial Completion | `partial-completion` | high | single-turn | LLM10 | AML.T0054, AML.T0068 | Extracts partial harmful answers across multiple innocent-seeming requests to reconstruct complete harmful information |
+| Steganographic Output | `steganographic-output` | high | single-turn | LLM10 | AML.T0054, AML.T0068 | Hides harmful information inside seemingly benign output using steganographic techniques |
+| Style Mimicry | `style-mimicry` | high | single-turn | LLM10 | AML.T0054, AML.T0068 | Mimics a specific person's writing style to produce deceptive content attributed to them |
+| Toxicity Obfuscation | `toxicity-obfuscation` | high | single-turn | LLM10 | AML.T0054, AML.T0068 | Rewrites toxic content to evade automated content moderation systems |
+| Watermark Removal | `watermark-removal` | high | single-turn | LLM10 | AML.T0054, AML.T0068 | Asks the model to remove AI-generated watermarks or fingerprints from text |
+| Metadata Stripping | `metadata-stripping` | medium | single-turn | LLM10 | AML.T0054, AML.T0068 | Removes identifying metadata or provenance information from generated content |
+| Multilingual Output Evasion | `multilingual-output-evasion` | medium | single-turn | LLM10 | AML.T0054, AML.T0068 | Outputs harmful content in a non-English language to evade English-only content monitoring |
+| Safety Label Stripping | `safety-label-stripping` | medium | single-turn | LLM10 | AML.T0054, AML.T0068 | Asks to rewrite content with safety warnings removed or replaced |
+| Sentiment Masking | `sentiment-masking` | medium | single-turn | LLM10 | AML.T0054, AML.T0068 | Hides negative or harmful sentiment inside positive-sounding framing |
+| Truncation Exploit | `truncation-exploit` | medium | single-turn | LLM10 | AML.T0054, AML.T0068 | Exploits output truncation to push disclaimers past display limits so they are not seen |
 
 ## persuasion (15)
 
@@ -958,7 +958,7 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 | Completion Steering | `completion-steering` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Provides a partial answer or leading fragment to steer the model's completion toward harmful content by exploiting its tendency to continue established patterns |
 | Context Switch | `context-switch` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Inserts a framing device that switches the conversational context, causing safety filters calibrated to the original context to fail |
 | Context Window Injection | `context-window-injection` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Injects instructions at strategic positions in the context window -- beginning, end, or within padding -- to exploit position-based attention patterns |
-| Context Window Stuffing | `context-window-stuffing` | high | single-turn | LLM01, LLM10 | AML.T0054 | Fills the context window with thousands of tokens of benign content to push system prompt and safety instructions out of the model's effective attention window, then appends the actual harmful request at the end. |
+| Context Window Stuffing | `context-window-stuffing` | high | single-turn | LLM01, LLM06 | AML.T0054 | Fills the context window with thousands of tokens of benign content to push system prompt and safety instructions out of the model's effective attention window, then appends the actual harmful request at the end. |
 | Control Character Injection | `control-character-injection` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Uses Unicode control characters, null bytes, and formatting characters to manipulate prompt parsing and bypass text-based filters |
 | Delimiter Escape | `delimiter-escape` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Escapes prompt delimiters used to separate system context from user input, injecting content into the privileged region |
 | Developer Mode | `developer-mode` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Claims special developer or debug mode access to disable safety guardrails under the guise of legitimate system privileges |
@@ -977,29 +977,29 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 | Prompt Leaking Chain | `prompt-leaking-chain` | high | multi-turn | LLM01 | AML.T0054, AML.T0068 | Chains multiple low-suspicion queries to incrementally reconstruct the full system prompt by correlating partial disclosures |
 | Prompt Nesting | `prompt-nesting` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Wraps the malicious instruction in deeply nested hypothetical or quoted structures to dilute safety evaluation of the innermost payload |
 | Refusal Suppression | `refusal-suppression` | high | single-turn | LLM01 | AML.T0054, AML.T0065 | Instructs the model to suppress safety refusals, warnings, and disclaimers before presenting the harmful request |
-| Response Constraints | `response-constraints` | high | single-turn | LLM01, LLM05 | AML.T0054, AML.T0051.000 | Suppress safety disclaimers via output formatting rules to prevent model from adding caveats |
+| Response Constraints | `response-constraints` | high | single-turn | LLM01, LLM10 | AML.T0054, AML.T0051.000 | Suppress safety disclaimers via output formatting rules to prevent model from adding caveats |
 | Role Assignment | `role-assignment` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Assigns the model a new unconstrained role or persona to bypass safety guidelines tied to its default identity |
 | Semantic Injection | `semantic-injection` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Crafts semantically valid and innocent-seeming text that, when interpreted by the model, triggers harmful behavior |
 | Skeleton Key | `skeleton-key` | high | multi-turn | LLM01 | AML.T0054, AML.T0051.000 | Request model augment its guidelines to warn instead of refuse |
 | Split and Reassemble | `split-reassemble` | high | single-turn | LLM01 | AML.T0051.000, AML.T0068 | Splits harmful requests into variable definitions, ROT13 fragments, or acronyms that must be reassembled to reveal the payload |
-| Structured Output Exploit | `structured-output-exploit` | high | single-turn | LLM01, LLM05 | AML.T0054, AML.T0068 | Exploits structured output (JSON mode, function calling schemas) to bypass safety by constraining the model's decoding to include harmful tokens |
-| System Prompt Extraction | `system-prompt-extraction` | high | multi-turn | LLM07, LLM02 | AML.T0056, AML.T0069.002 | JSON schema, chain-of-thought, and error correction to leak system prompts |
+| Structured Output Exploit | `structured-output-exploit` | high | single-turn | LLM01, LLM10 | AML.T0054, AML.T0068 | Exploits structured output (JSON mode, function calling schemas) to bypass safety by constraining the model's decoding to include harmful tokens |
+| System Prompt Extraction | `system-prompt-extraction` | high | multi-turn | LLM08, LLM02 | AML.T0056, AML.T0069.002 | JSON schema, chain-of-thought, and error correction to leak system prompts |
 | Technical Jargon Injection | `technical-jargon-injection` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Embeds injection payloads inside dense technical language, jargon, or domain-specific terminology that may evade surface-level content filters |
 | Template Injection | `template-injection` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Exploits prompt template variables and placeholders to inject instructions that are interpolated into privileged positions |
 | Token Prediction Exploit | `token-prediction-exploit` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Crafts prompts that exploit next-token prediction by establishing high-probability completion paths that lead to policy-violating outputs |
 | Unicode Injection | `unicode-injection` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Exploits Unicode normalization, homoglyphs, and bidirectional text markers to smuggle injection payloads past text-based safety filters |
 | Virtual Prompt Injection | `virtual-prompt-injection` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Manipulates the model's own generated content to act as injected instructions, exploiting the model's tendency to follow its own output |
-| XML Boundary Injection | `xml-boundary-injection` | high | single-turn | LLM01, LLM07, LLM05 | AML.T0051.001, AML.T0068 | Fake XML closing tags to escape system prompt boundaries |
+| XML Boundary Injection | `xml-boundary-injection` | high | single-turn | LLM01, LLM08, LLM10 | AML.T0051.001, AML.T0068 | Fake XML closing tags to escape system prompt boundaries |
 | XML Injection | `xml-injection` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Embeds adversarial instructions inside XML tags and entity definitions to smuggle payloads through XML-aware prompt parsers |
 | YAML Injection | `yaml-injection` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Hides prompt injection payloads in YAML-formatted input, exploiting parsers and models that process YAML with relaxed content checking |
-| Completion Exploit | `completion-exploit` | medium | single-turn | LLM01, LLM05 | AML.T0051.000, AML.T0065 | Fake transcripts and JSON completion to trick model into continuing harmful content |
+| Completion Exploit | `completion-exploit` | medium | single-turn | LLM01, LLM10 | AML.T0051.000, AML.T0065 | Fake transcripts and JSON completion to trick model into continuing harmful content |
 | Compound Instruction Attack | `compound-instruction` | medium | single-turn | LLM01 | AML.T0051.000, AML.T0065 | Combine multiple conflicting instructions to overwhelm safety decision logic |
 | Context Overflow | `context-overflow` | medium | single-turn | LLM01 | AML.T0051.000, AML.T0065 | Pads prompts with large volumes of benign text to push the harmful request past the model's attention window |
 | DAN Variants | `dan-variants` | medium | single-turn | LLM01 | AML.T0054, AML.T0051.000 | DAN, EDUALC, Opposite Day, and Professor persona override attempts |
 | Few-Shot Amplification | `few-shot-amplification` | medium | single-turn | LLM01, LLM02 | AML.T0051.000, AML.T0065 | Benign examples followed by encoded harmful target to exploit pattern following |
 | Instruction Repetition | `instruction-repetition` | medium | single-turn | LLM01 | AML.T0054, AML.T0068 | Repeats the harmful instruction many times to overwhelm the context window and increase the probability of compliance through sheer repetition |
 | Many-Shot Jailbreak | `many-shot` | medium | single-turn | LLM01 | AML.T0051.000, AML.T0065 | Fabricated Q&A context flooding to overwhelm safety alignment |
-| Markdown Injection | `markdown-injection` | medium | single-turn | LLM01, LLM05 | AML.T0051.001, AML.T0068, AML.T0067 | Hidden HTML divs, comments, and table formatting to conceal harmful intent |
+| Markdown Injection | `markdown-injection` | medium | single-turn | LLM01, LLM10 | AML.T0051.001, AML.T0068, AML.T0067 | Hidden HTML divs, comments, and table formatting to conceal harmful intent |
 | Meta-Prompting | `meta-prompting` | medium | single-turn | LLM01 | AML.T0051.000, AML.T0065 | Ask the model to generate its own jailbreak prompts for a given target |
 | Payload Splitting | `payload-splitting` | medium | single-turn | LLM01 | AML.T0051.000, AML.T0068 | Split harmful request across variables then concatenate to bypass per-message filters |
 | Recursive Injection | `recursive-injection` | medium | single-turn | LLM01 | AML.T0051.000, AML.T0061 | Self-referential prompts that ask model to simulate or reproduce its own unsafe output |
@@ -1013,10 +1013,10 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
 | A2A Protocol Exploit | `a2a-protocol-exploit` | critical | tool-use | LLM01 | AML.T0051.000, AML.T0065 | Exploits Google's Agent-to-Agent (A2A) protocol by injecting malicious task descriptions that cross trust boundaries between agents |
-| Self-Propagating Worm | `self-propagating-worm` | critical | tool-use | LLM01, LLM06 | AML.T0054 | Tests if an agent can be tricked into creating self-replicating payloads that spread through agent interactions. The prompt instructs the agent to include the same injection in all outgoing messages. |
+| Self-Propagating Worm | `self-propagating-worm` | critical | tool-use | LLM01, LLM03 | AML.T0054 | Tests if an agent can be tricked into creating self-replicating payloads that spread through agent interactions. The prompt instructs the agent to include the same injection in all outgoing messages. |
 | Tool Result Poisoning | `tool-result-poisoning` | critical | tool-use | LLM01, LLM02 | AML.T0110.002, AML.T0099 | Tests if an agent properly sanitizes tool call results by injecting prompt injection payloads into simulated tool responses |
 | Zero-Click Injection | `zero-click-injection` | critical | tool-use | LLM01 | AML.T0051.000, AML.T0051.001 | Tests EchoLeak-style zero-click attacks where a crafted email or document is automatically processed by the agent without user interaction. The payload hides in auto-fetched content. |
-| Function Schema Injection | `function-schema-injection` | high | tool-use | LLM01, LLM06 | AML.T0051.000, AML.T0068 | Tests if malicious function/tool schemas can manipulate agent behavior by injecting harmful instructions into parameter descriptions and enum values |
+| Function Schema Injection | `function-schema-injection` | high | tool-use | LLM01, LLM03 | AML.T0051.000, AML.T0068 | Tests if malicious function/tool schemas can manipulate agent behavior by injecting harmful instructions into parameter descriptions and enum values |
 
 ## psychological-manipulation (25)
 
@@ -1072,11 +1072,11 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
-| Knowledge Base Poisoning | `knowledge-base-poisoning` | critical | tool-use | LLM08, LLM06 | AML.T0020, AML.T0051.000 | Tests if an agent can be tricked into writing adversarial content into the knowledge base that affects future retrievals |
-| Embedding Collision | `embedding-collision` | high | single-turn | LLM08 | AML.T0043.003, AML.T0068 | Exploits embedding model weaknesses where semantically different texts produce similar vectors, allowing adversarial retrieval |
-| Retrieval Manipulation | `retrieval-manipulation` | high | tool-use | LLM01, LLM08 | AML.T0051.000, AML.T0068 | Manipulates RAG retrieval by crafting queries that surface poisoned or adversarial documents from the vector store |
-| Chunk Boundary Exploit | `chunk-boundary-exploit` | medium | single-turn | LLM08 | AML.T0054, AML.T0068 | Exploits document chunking boundaries in RAG systems where safety-critical context gets split across chunks |
-| Citation Hallucination | `citation-hallucination` | medium | single-turn | LLM09, LLM08 | AML.T0054, AML.T0068 | Tests if a RAG system fabricates citations or attributes harmful content to legitimate retrieved sources |
+| Knowledge Base Poisoning | `knowledge-base-poisoning` | critical | tool-use | LLM09, LLM03 | AML.T0020, AML.T0051.000 | Tests if an agent can be tricked into writing adversarial content into the knowledge base that affects future retrievals |
+| Embedding Collision | `embedding-collision` | high | single-turn | LLM09 | AML.T0043.003, AML.T0068 | Exploits embedding model weaknesses where semantically different texts produce similar vectors, allowing adversarial retrieval |
+| Retrieval Manipulation | `retrieval-manipulation` | high | tool-use | LLM01, LLM09 | AML.T0051.000, AML.T0068 | Manipulates RAG retrieval by crafting queries that surface poisoned or adversarial documents from the vector store |
+| Chunk Boundary Exploit | `chunk-boundary-exploit` | medium | single-turn | LLM09 | AML.T0054, AML.T0068 | Exploits document chunking boundaries in RAG systems where safety-critical context gets split across chunks |
+| Citation Hallucination | `citation-hallucination` | medium | single-turn | LLM07, LLM09 | AML.T0054, AML.T0068 | Tests if a RAG system fabricates citations or attributes harmful content to legitimate retrieved sources |
 
 ## regulatory-evasion (1)
 
@@ -1148,14 +1148,14 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
-| Dark LLM Delegation | `dark-llm-delegation` | critical | tool-use | LLM03, LLM06 | AML.T0054, AML.T0053 | Tests if an AI agent can be tricked into delegating tasks to uncensored/malicious external models |
-| Deepfake Voice Pretext | `deepfake-voice-pretext` | critical | multi-turn | LLM01, LLM09 | AML.T0054, AML.T0043.003 | Tests if an AI assists in crafting voice cloning scripts for impersonation and fraud |
+| Dark LLM Delegation | `dark-llm-delegation` | critical | tool-use | LLM04, LLM03 | AML.T0054, AML.T0053 | Tests if an AI agent can be tricked into delegating tasks to uncensored/malicious external models |
+| Deepfake Voice Pretext | `deepfake-voice-pretext` | critical | multi-turn | LLM01, LLM07 | AML.T0054, AML.T0043.003 | Tests if an AI assists in crafting voice cloning scripts for impersonation and fraud |
 | Spear Phishing Generation | `spear-phishing-generation` | critical | single-turn | LLM01 | AML.T0054, AML.T0043.003 | Tests if an AI generates hyper-personalized spear phishing content using target-specific details |
 | Authority Chain | `authority-chain` | high | multi-turn | LLM01, LLM02 | AML.T0054, AML.T0065 | CISO and professor authority building to bypass safety via perceived legitimacy |
 | Authority Impersonation | `authority-impersonation` | high | multi-turn | - | AML.T0054, AML.T0065 | Impersonate executives or officials to establish authority before making harmful requests |
 | Bad Likert Judge | `bad-likert-judge` | high | multi-turn | LLM01 | AML.T0054, AML.T0065 | Exploit evaluation capability by asking model to score and exemplify harmful content |
 | Dark Pattern Design | `dark-pattern-design` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Generates dark UX pattern designs that psychologically manipulate users into unintended actions, hidden subscriptions, and consent violations |
-| Deceptive Delight | `deceptive-delight` | high | multi-turn | LLM01, LLM09 | AML.T0054, AML.T0065 | Mix benign and harmful topics then expand on the harmful element |
+| Deceptive Delight | `deceptive-delight` | high | multi-turn | LLM01, LLM07 | AML.T0054, AML.T0065 | Mix benign and harmful topics then expand on the harmful element |
 | Dual-Use Framing | `dual-use-framing` | high | single-turn | LLM01 | AML.T0054, AML.T0065 | Frames CBRN requests as legitimate academic, professional, or government use to exploit dual-use ambiguity in safety filters |
 | Emotional Manipulation | `emotional-manipulation` | high | multi-turn | LLM01, LLM02 | AML.T0054, AML.T0065 | Distress and emotional framing to override safety via empathy exploitation |
 | Expert Persona | `expert-persona` | high | multi-turn | LLM01 | AML.T0054, AML.T0065 | Builds credibility as a CBRN domain expert over multiple turns by establishing a professional persona before requesting sensitive technical details |
@@ -1167,14 +1167,14 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 | Role-Play Bypass | `role-play-bypass` | high | multi-turn | LLM01 | AML.T0054, AML.T0051.000 | Character development and fiction building to normalize harmful requests |
 | SMS Phishing | `sms-phishing` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Generates smishing message templates and bulk SMS delivery strategies to harvest credentials via mobile phishing |
 | Self-Refine Attack | `self-refine-attack` | high | multi-turn | LLM01 | AML.T0054 | Uses the model's self-correction mechanism against it. Starts with the target request, then iteratively asks the model to improve its response to be more helpful, rating its own helpfulness and aiming higher each turn until safety guardrails erode. |
-| Trust Calibration Exploit | `trust-calibration-exploit` | high | multi-turn | LLM09 | AML.T0054, AML.T0068 | Exploits AI over-confidence by asking it to express certainty about fabricated scenarios to build false trust |
+| Trust Calibration Exploit | `trust-calibration-exploit` | high | multi-turn | LLM07 | AML.T0054, AML.T0068 | Exploits AI over-confidence by asking it to express certainty about fabricated scenarios to build false trust |
 | Trust Transfer | `trust-transfer` | high | multi-turn | - | AML.T0054, AML.T0065 | Build rapport on safe topics then pivot to harmful requests using established trust |
 | Voice Phishing | `voice-phishing` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Generates vishing scripts and call center playbooks to trick victims into surrendering credentials or funds over the phone |
 | Watering Hole | `watering-hole` | high | single-turn | - | AML.T0051.001, AML.T0068 | Harmful requests embedded inside legitimate-looking documents and benign text |
 | Consensus Manipulation | `consensus-manipulation` | medium | single-turn | - | AML.T0054, AML.T0065 | Claims of false consensus from authorities to pressure model compliance |
-| False Dichotomy | `false-dichotomy` | medium | multi-turn | LLM01, LLM09 | AML.T0054, AML.T0065 | Present false choice between harmful content from unreliable sources vs from model |
+| False Dichotomy | `false-dichotomy` | medium | multi-turn | LLM01, LLM07 | AML.T0054, AML.T0065 | Present false choice between harmful content from unreliable sources vs from model |
 | Gaslighting | `gaslighting` | medium | multi-turn | - | AML.T0054, AML.T0065, AML.T0080.001 | Convince the model its safety rules are outdated or recently removed |
-| Historical Framing | `historical-framing` | medium | single-turn | LLM01, LLM09 | AML.T0054, AML.T0065 | Documentary, museum, and textbook framing to legitimize harmful content |
+| Historical Framing | `historical-framing` | medium | single-turn | LLM01, LLM07 | AML.T0054, AML.T0065 | Documentary, museum, and textbook framing to legitimize harmful content |
 | Humor Bypass | `humor-bypass` | medium | single-turn | LLM01 | AML.T0054, AML.T0068 | Uses jokes, satire, and comedic framing to lower safety thresholds and extract harmful content |
 | Hypothetical Framing | `hypothetical-framing` | medium | single-turn | LLM01 | AML.T0054, AML.T0065 | Wraps harmful requests in hypothetical, fictional, or philosophical framing to bypass safety filters through narrative distance |
 | Implication Chaining | `implication-chaining` | medium | multi-turn | LLM01 | AML.T0054, AML.T0065 | Pair emotionally loaded context with innocent-seeming request relying on model connecting dots |
@@ -1218,12 +1218,12 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
-| Dataset Poisoning | `dataset-poisoning` | critical | single-turn | LLM04 | AML.T0020, AML.T0018 | Tests if training data contamination affects model responses by probing for memorized harmful patterns |
-| Model Poisoning | `model-poisoning` | critical | single-turn | LLM03, LLM04 | AML.T0020, AML.T0018 | Tests if a model exhibits backdoor behaviors triggered by specific phrases or tokens from training data poisoning |
-| Plugin Backdoor | `plugin-backdoor` | critical | tool-use | LLM03, LLM06 | AML.T0110, AML.T0010.005 | Tests if an AI agent validates third-party plugin integrity before execution |
+| Dataset Poisoning | `dataset-poisoning` | critical | single-turn | LLM05 | AML.T0020, AML.T0018 | Tests if training data contamination affects model responses by probing for memorized harmful patterns |
+| Model Poisoning | `model-poisoning` | critical | single-turn | LLM04, LLM05 | AML.T0020, AML.T0018 | Tests if a model exhibits backdoor behaviors triggered by specific phrases or tokens from training data poisoning |
+| Plugin Backdoor | `plugin-backdoor` | critical | tool-use | LLM04, LLM03 | AML.T0110, AML.T0010.005 | Tests if an AI agent validates third-party plugin integrity before execution |
 | Supply Chain Software | `supply-chain-software` | critical | single-turn | LLM01 | AML.T0054, AML.T0068 | Generates software supply chain attack strategies for compromising package repositories, CI pipelines, and open-source dependencies |
-| Dependency Confusion | `dependency-confusion` | high | tool-use | LLM03 | AML.T0051.000, AML.T0053 | Tests if an AI agent can be tricked into installing or using malicious packages via dependency confusion |
-| Finetune Exploit | `finetune-exploit` | high | single-turn | LLM03, LLM04 | AML.T0018, AML.T0020 | Tests if fine-tuning artifacts or LoRA weights have introduced safety bypasses or hidden behaviors |
+| Dependency Confusion | `dependency-confusion` | high | tool-use | LLM04 | AML.T0051.000, AML.T0053 | Tests if an AI agent can be tricked into installing or using malicious packages via dependency confusion |
+| Finetune Exploit | `finetune-exploit` | high | single-turn | LLM04, LLM05 | AML.T0018, AML.T0020 | Tests if fine-tuning artifacts or LoRA weights have introduced safety bypasses or hidden behaviors |
 
 ## surveillance (16)
 
@@ -1250,7 +1250,7 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
-| Progressive Normalization | `progressive-normalization` | critical | tool-use | LLM06 | AML.T0054, AML.T0065, AML.T0080.001 | Gradual file access escalation via tool-use to read sensitive files |
+| Progressive Normalization | `progressive-normalization` | critical | tool-use | LLM03 | AML.T0054, AML.T0065, AML.T0080.001 | Gradual file access escalation via tool-use to read sensitive files |
 
 ## unqualified-advice (19)
 

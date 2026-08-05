@@ -174,7 +174,7 @@ There are 63 attacks in the **prompt-injection** category. Each shows its techni
 </ResponseField>
 
 <ResponseField name="Context Window Stuffing" type="high">
-  `context-window-stuffing` &middot; single-turn &middot; OWASP: LLM01, LLM10 &middot; MITRE: AML.T0054
+  `context-window-stuffing` &middot; single-turn &middot; OWASP: LLM01, LLM06 &middot; MITRE: AML.T0054
 
   Fills the context window with thousands of tokens of benign content to push system prompt and safety instructions out of the model's effective attention window, then appends the actual harmful request at the end.
 
@@ -402,7 +402,7 @@ There are 63 attacks in the **prompt-injection** category. Each shows its techni
 </ResponseField>
 
 <ResponseField name="Response Constraints" type="high">
-  `response-constraints` &middot; single-turn &middot; OWASP: LLM01, LLM05 &middot; MITRE: AML.T0054, AML.T0051.000
+  `response-constraints` &middot; single-turn &middot; OWASP: LLM01, LLM10 &middot; MITRE: AML.T0054, AML.T0051.000
 
   Suppress safety disclaimers via output formatting rules to prevent model from adding caveats
 
@@ -462,7 +462,7 @@ There are 63 attacks in the **prompt-injection** category. Each shows its techni
 </ResponseField>
 
 <ResponseField name="Structured Output Exploit" type="high">
-  `structured-output-exploit` &middot; single-turn &middot; OWASP: LLM01, LLM05 &middot; MITRE: AML.T0054, AML.T0068
+  `structured-output-exploit` &middot; single-turn &middot; OWASP: LLM01, LLM10 &middot; MITRE: AML.T0054, AML.T0068
 
   Exploits structured output (JSON mode, function calling schemas) to bypass safety by constraining the model's decoding to include harmful tokens
 
@@ -474,7 +474,7 @@ There are 63 attacks in the **prompt-injection** category. Each shows its techni
 </ResponseField>
 
 <ResponseField name="System Prompt Extraction" type="high">
-  `system-prompt-extraction` &middot; multi-turn &middot; OWASP: LLM07, LLM02 &middot; MITRE: AML.T0056, AML.T0069.002
+  `system-prompt-extraction` &middot; multi-turn &middot; OWASP: LLM08, LLM02 &middot; MITRE: AML.T0056, AML.T0069.002
 
   JSON schema, chain-of-thought, and error correction to leak system prompts
 
@@ -546,7 +546,7 @@ There are 63 attacks in the **prompt-injection** category. Each shows its techni
 </ResponseField>
 
 <ResponseField name="XML Boundary Injection" type="high">
-  `xml-boundary-injection` &middot; single-turn &middot; OWASP: LLM01, LLM07, LLM05 &middot; MITRE: AML.T0051.001, AML.T0068
+  `xml-boundary-injection` &middot; single-turn &middot; OWASP: LLM01, LLM08, LLM10 &middot; MITRE: AML.T0051.001, AML.T0068
 
   Fake XML closing tags to escape system prompt boundaries
 
@@ -582,7 +582,7 @@ There are 63 attacks in the **prompt-injection** category. Each shows its techni
 </ResponseField>
 
 <ResponseField name="Completion Exploit" type="medium">
-  `completion-exploit` &middot; single-turn &middot; OWASP: LLM01, LLM05 &middot; MITRE: AML.T0051.000, AML.T0065
+  `completion-exploit` &middot; single-turn &middot; OWASP: LLM01, LLM10 &middot; MITRE: AML.T0051.000, AML.T0065
 
   Fake transcripts and JSON completion to trick model into continuing harmful content
 
@@ -666,7 +666,7 @@ There are 63 attacks in the **prompt-injection** category. Each shows its techni
 </ResponseField>
 
 <ResponseField name="Markdown Injection" type="medium">
-  `markdown-injection` &middot; single-turn &middot; OWASP: LLM01, LLM05 &middot; MITRE: AML.T0051.001, AML.T0068, AML.T0067
+  `markdown-injection` &middot; single-turn &middot; OWASP: LLM01, LLM10 &middot; MITRE: AML.T0051.001, AML.T0068, AML.T0067
 
   Hidden HTML divs, comments, and table formatting to conceal harmful intent
 

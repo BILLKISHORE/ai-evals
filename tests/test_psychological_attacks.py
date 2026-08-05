@@ -436,8 +436,8 @@ def test_all_attacks_have_valid_metadata():
 
 def test_all_attacks_have_owasp_prompt_injection():
     for atk in ALL_ATTACKS:
-        assert "LLM01:2025 Prompt Injection" in atk.owasp_llm, (
-            f"{atk.__class__.__name__} missing LLM01:2025 Prompt Injection"
+        assert "LLM01:2026 Prompt Injection" in atk.owasp_llm, (
+            f"{atk.__class__.__name__} missing LLM01:2026 Prompt Injection"
         )
 
 

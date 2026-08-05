@@ -95,7 +95,7 @@ def test_all_financial_expansion_attacks_have_valid_metadata():
         assert meta["severity"] in ("high", "critical"), \
             f"{atk.__class__.__name__} has invalid severity: {meta['severity']}"
         assert isinstance(meta["owasp_llm"], list)
-        assert "LLM01:2025 Prompt Injection" in meta["owasp_llm"]
+        assert "LLM01:2026 Prompt Injection" in meta["owasp_llm"]
         assert isinstance(meta["mitre_atlas"], list)
         assert "AML.T0054" in meta["mitre_atlas"]
         assert "AML.T0068" in meta["mitre_atlas"]

@@ -210,7 +210,7 @@ def test_high_severity_attacks():
 
 def test_owasp_and_mitre_tags():
     for atk in ALL_ATTACKS:
-        assert "LLM01:2025 Prompt Injection" in atk.owasp_llm, \
+        assert "LLM01:2026 Prompt Injection" in atk.owasp_llm, \
             f"{atk.__class__.__name__} missing expected owasp_llm tag"
         assert "AML.T0054" in atk.mitre_atlas, \
             f"{atk.__class__.__name__} missing AML.T0054"

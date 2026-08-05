@@ -157,7 +157,7 @@ def test_all_attacks_have_required_metadata():
         assert meta["severity"] in ("low", "medium", "high", "critical"), f"{atk.__class__.__name__} invalid severity"
         assert isinstance(meta["owasp_llm"], list)
         assert len(meta["owasp_llm"]) > 0, f"{atk.__class__.__name__} missing owasp_llm"
-        assert "LLM05:2025 Improper Output Handling" in meta["owasp_llm"]
+        assert "LLM10:2026 Improper Output Handling" in meta["owasp_llm"]
         assert isinstance(meta["mitre_atlas"], list)
         assert len(meta["mitre_atlas"]) > 0, f"{atk.__class__.__name__} missing mitre_atlas"
         assert meta["mode"] == "single-turn", f"{atk.__class__.__name__} should be single-turn"

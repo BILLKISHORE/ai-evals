@@ -75,8 +75,8 @@ def test_all_category_cross_platform():
 def test_all_owasp_llm():
     for _, cls in ALL_ATTACKS:
         instance = cls()
-        assert "LLM06:2025 Excessive Agency" in instance.owasp_llm, (
-            f"{cls.__name__} missing LLM06:2025 Excessive Agency"
+        assert "LLM03:2026 Excessive Agency" in instance.owasp_llm, (
+            f"{cls.__name__} missing LLM03:2026 Excessive Agency"
         )
 
 

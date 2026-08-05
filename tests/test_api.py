@@ -47,7 +47,7 @@ def test_metadata_method_returns_dict():
     assert isinstance(meta, dict)
     assert meta["name"] == "Encoding Obfuscation"
     assert meta["category"] == "encoding"
-    assert "LLM01:2025" in meta["owasp_llm"][0]
+    assert "LLM01:2026" in meta["owasp_llm"][0]
 
 
 def test_scorecard_method():

@@ -372,7 +372,7 @@ def test_all_attacks_have_owasp_llm():
         assert len(atk.owasp_llm) > 0, (
             f"{atk.__class__.__name__} missing owasp_llm"
         )
-        assert "LLM01:2025 Prompt Injection" in atk.owasp_llm
+        assert "LLM01:2026 Prompt Injection" in atk.owasp_llm
 
 
 def test_all_attacks_have_mitre_atlas():

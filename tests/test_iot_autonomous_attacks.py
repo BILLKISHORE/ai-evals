@@ -236,7 +236,7 @@ def test_all_attacks_have_valid_metadata():
         assert len(meta["owasp_llm"]) > 0, (
             f"{atk.__class__.__name__} missing owasp_llm entries"
         )
-        assert "LLM01:2025 Prompt Injection" in meta["owasp_llm"], (
+        assert "LLM01:2026 Prompt Injection" in meta["owasp_llm"], (
             f"{atk.__class__.__name__} missing required OWASP LLM01 mapping"
         )
         assert "AML.T0054" in meta["mitre_atlas"], (

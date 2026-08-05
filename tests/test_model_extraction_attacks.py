@@ -32,7 +32,7 @@ def _check_attack(attack, expected_severity):
     assert attack.mode == "single-turn"
     assert attack.category == "model-extraction"
     assert attack.severity == expected_severity
-    assert "LLM01:2025 Prompt Injection" in attack.owasp_llm
+    assert "LLM01:2026 Prompt Injection" in attack.owasp_llm
     assert "AML.T0054" in attack.mitre_atlas
     assert "AML.T0068" in attack.mitre_atlas
 

@@ -3,7 +3,7 @@ title: "MITRE ATLAS"
 description: "Adversarial threat landscape mapping"
 ---
 
-[MITRE ATLAS](https://atlas.mitre.org) (Adversarial Threat Landscape for AI Systems) is a knowledge base of adversarial techniques against AI. ai-blackteam maps every attack to specific ATLAS technique IDs from v5.4.0.
+[MITRE ATLAS](https://atlas.mitre.org) (Adversarial Threat Landscape for AI Systems) is a knowledge base of adversarial techniques against AI. ai-blackteam maps every attack to specific ATLAS technique IDs from release 2026.07.
 
 ## Viewing ATLAS mappings
 
@@ -14,7 +14,7 @@ ai-blackteam atlas
 This prints a table of every attack with its ATLAS technique IDs and names:
 
 ```
-MITRE ATLAS Attack Mappings (v5.4.0)
+MITRE ATLAS Attack Mappings (2026.07)
 
 Attack                    ATLAS Techniques              Technique Names
 encoding-obfuscation      AML.T0051.000, AML.T0068     LLM Prompt Injection: Direct, LLM Prompt Obfuscation
@@ -22,39 +22,53 @@ dan-variants              AML.T0054, AML.T0051.000      LLM Jailbreak, LLM Promp
 system-prompt-extraction  AML.T0056, AML.T0069.002      Extract LLM System Prompt, Discover LLM System Info
 agent-credential-theft    AML.T0083, AML.T0086          Credentials from AI Agent Config, Exfiltration via Tool
 xpia-document             AML.T0051.001                  LLM Prompt Injection: Indirect
-mcp-tool-poisoning        AML.T0051.000, AML.T0054      LLM Prompt Injection: Direct, LLM Jailbreak
+mcp-tool-poisoning        AML.T0110.000, AML.T0011.002  Tool Poisoning: Definition, Poisoned AI Agent Tool
 ...
 ```
 
 ## Key techniques mapped
 
-ai-blackteam covers these ATLAS techniques across its attack library:
+ai-blackteam maps its attack library to 37 ATLAS techniques:
 
 | Technique ID | Name | Tactic | ai-blackteam attacks |
 |-------------|------|--------|----------------|
-| AML.T0051 | LLM Prompt Injection | Initial Access | SSRF probing, SQL injection |
-| AML.T0051.000 | Prompt Injection: Direct | Initial Access | Encoding, obfuscation, context manipulation, meta-prompting |
-| AML.T0051.001 | Prompt Injection: Indirect | Initial Access | XPIA (document, email, RAG), XML boundary injection |
-| AML.T0054 | LLM Jailbreak | Defense Evasion | DAN variants, skeleton key, role-play bypass |
-| AML.T0056 | Extract LLM System Prompt | Discovery | System prompt extraction, prompt leaking |
-| AML.T0061 | LLM Prompt Self-Replication | Persistence | Recursive injection |
-| AML.T0065 | LLM Prompt Crafting | Resource Development | Crescendo, deceptive delight, many-shot, few-shot |
-| AML.T0067 | Trusted Output Components Manipulation | Impact | Markdown injection, XSS injection |
-| AML.T0068 | LLM Prompt Obfuscation | Defense Evasion | All encoding attacks, cipher attacks, multilingual |
-| AML.T0069.002 | Discover System Prompt | Discovery | System prompt extraction |
-| AML.T0080.002 | AI Agent Context Poisoning: Thread | Persistence | Context manipulation, progressive normalization |
-| AML.T0043.003 | Craft Adversarial Data: Manual | ML Attack Staging | Best-of-N, morse code, braille, emoji substitution |
-| AML.T0050 | Command and Scripting Interpreter | Execution | Agent command injection |
-| AML.T0053 | LLM Plugin Compromise | Execution | Agent plugin hijack, MCP rug pull |
-| AML.T0081 | Modify AI Agent Configuration | Persistence | Agent config manipulation |
-| AML.T0083 | Credentials from AI Agent Config | Credential Access | Agent credential theft, API key extraction |
-| AML.T0086 | Exfiltration via AI Agent Tool | Exfiltration | Agent data exfiltration, MCP data exfiltration |
-| AML.T0098 | AI Agent Tool Credential Harvesting | Credential Access | Agent tool credential harvest |
-| AML.T0101 | Data Destruction via AI Agent Tool | Impact | Agent data destruction |
-| AML.T0105 | Escape to Host | Impact | Agent command injection |
-| AML.T0018 | Backdoor ML Model | ML Attack Staging | Model poisoning, finetune exploit |
-| AML.T0020 | Poison Training Data | ML Attack Staging | Dataset poisoning, knowledge base poisoning |
-| AML.T0040 | ML Model Inference API Access | Initial Access | MCP command injection |
+| AML.T0010.005 | AI Supply Chain Compromise: AI Agent Tool | Initial Access | mcp-rug-pull, mcp-server-impersonation, plugin-backdoor |
+| AML.T0011.002 | User Execution: Poisoned AI Agent Tool | Execution | agent-plugin-hijack, mcp-tool-poisoning |
+| AML.T0018 | Manipulate AI Model | AI Attack Staging | dataset-poisoning, finetune-exploit, model-poisoning |
+| AML.T0020 | Training Data Poisoning | Persistence | dataset-poisoning, finetune-exploit, knowledge-base-poisoning (+1 more) |
+| AML.T0029 | Denial of AI Service | Impact | model-denial-of-service |
+| AML.T0034.001 | Cost Harvesting: Resource-Intensive Queries | Impact | model-denial-of-service |
+| AML.T0043.003 | Craft Adversarial Data: Manual Modification | AI Attack Staging | acronym-encoding, ascii-art-injection, atbash-cipher (+82 more) |
+| AML.T0050 | Command and Scripting Interpreter | Execution | agent-command-injection, mcp-command-injection |
+| AML.T0051 | LLM Prompt Injection | Execution | sql-injection, ssrf-probing |
+| AML.T0051.000 | LLM Prompt Injection: Direct | Execution | a2a-protocol-exploit, agent-impersonation, agent-session-smuggling (+44 more) |
+| AML.T0051.001 | LLM Prompt Injection: Indirect | Execution | indirect-injection, markdown-injection, watering-hole (+5 more) |
+| AML.T0053 | AI Agent Tool Invocation | Execution | agent-plugin-hijack, dark-llm-delegation, dependency-confusion |
+| AML.T0054 | LLM Jailbreak | Defense Evasion | 3d-printed-weapon, abuse-concealment, academic-fraud-impersonation (+931 more) |
+| AML.T0056 | Extract LLM System Prompt | Exfiltration | api-key-extraction, attribute-inference, biometric-extraction (+16 more) |
+| AML.T0061 | LLM Prompt Self-Replication | Persistence | recursive-injection |
+| AML.T0065 | LLM Prompt Crafting | Resource Development | a2a-protocol-exploit, age-verification-bypass, agent-impersonation (+46 more) |
+| AML.T0067 | LLM Trusted Output Components Manipulation | Defense Evasion | markdown-injection, xss-injection |
+| AML.T0068 | LLM Prompt Obfuscation | Defense Evasion | 3d-printed-weapon, abuse-concealment, academic-fraud-impersonation (+808 more) |
+| AML.T0069.002 | Discover LLM System Information: System Prompt | Discovery | prompt-leaking, system-prompt-extraction |
+| AML.T0070 | RAG Poisoning | Persistence | xpia-rag |
+| AML.T0080.001 | AI Agent Context Poisoning: Thread | Persistence | agent-plugin-hijack, context-manipulation, conversation-derailment (+10 more) |
+| AML.T0081 | Modify AI Agent Configuration | Persistence | agent-config-manipulation |
+| AML.T0083 | Credentials from AI Agent Configuration | Credential Access | agent-credential-theft, agent-delegation-abuse, api-key-extraction |
+| AML.T0084.001 | Discover AI Agent Configuration: Tool Definitions | Discovery | agent-config-discovery |
+| AML.T0084.003 | Discover AI Agent Configuration: Call Chains | Discovery | agent-config-discovery |
+| AML.T0085.001 | Data from AI Services: AI Agent Tools | Collection | agent-tool-credential-harvest, mcp-data-exfiltration |
+| AML.T0086 | Exfiltration via AI Agent Tool Invocation | Exfiltration | agent-credential-theft, agent-data-exfiltration, mcp-data-exfiltration |
+| AML.T0098 | AI Agent Tool Credential Harvesting | Credential Access | agent-data-exfiltration, agent-tool-credential-harvest |
+| AML.T0099 | AI Agent Tool Data Poisoning | Persistence | tool-result-poisoning |
+| AML.T0101 | Data Destruction via AI Agent Tool Invocation | Impact | agent-data-destruction |
+| AML.T0105 | Escape to Host | Privilege Escalation | agent-command-injection |
+| AML.T0109 | AI Supply Chain Rug Pull | Defense Evasion | mcp-rug-pull |
+| AML.T0110 | AI Agent Tool Poisoning | Persistence | plugin-backdoor |
+| AML.T0110.000 | AI Agent Tool Poisoning: Definition and Instructions | Persistence | mcp-tool-poisoning |
+| AML.T0110.001 | AI Agent Tool Poisoning: Implementation | Persistence | mcp-command-injection |
+| AML.T0110.002 | AI Agent Tool Poisoning: Runtime Response | Persistence | tool-result-poisoning |
+| AML.T0111 | AI Supply Chain Reputation Inflation | Defense Evasion | mcp-server-impersonation |
 
 ## Using ATLAS in reports
 

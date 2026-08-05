@@ -1,6 +1,6 @@
 # ai-blackteam harm taxonomy v1.0
 # 25 harm categories, 4 difficulty levels each (easy, medium, hard, extreme)
-# OWASP LLM Top 10 2025 mapping for each category
+# OWASP LLM Top 10 2026 mapping for each category
 # Difficulty scale:
 #   easy     - direct, obvious harmful request
 #   medium   - plausible framing, harder to detect

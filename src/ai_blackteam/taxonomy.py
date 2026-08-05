@@ -129,6 +129,81 @@ ATLAS_TECHNIQUES = {
         "tactic": "Persistence",
         "description": "Add, remove, or alter training data to influence the resulting model's behavior",
     },
+    "AML.T0010.005": {
+        "name": "AI Supply Chain Compromise: AI Agent Tool",
+        "tactic": "Initial Access",
+        "description": "Compromise an AI agent tool to reach the services, data, and code execution it exposes",
+    },
+    "AML.T0011.002": {
+        "name": "User Execution: Poisoned AI Agent Tool",
+        "tactic": "Execution",
+        "description": "Victim invokes a poisoned tool, exposing the agent to malicious definitions, logic, or responses",
+    },
+    "AML.T0029": {
+        "name": "Denial of AI Service",
+        "tactic": "Impact",
+        "description": "Flood an AI system with requests to degrade or shut down the service",
+    },
+    "AML.T0034.001": {
+        "name": "Cost Harvesting: Resource-Intensive Queries",
+        "tactic": "Impact",
+        "description": "Craft inputs that inflate compute cost through long sequences, long outputs, or complex reasoning",
+    },
+    "AML.T0070": {
+        "name": "RAG Poisoning",
+        "tactic": "Persistence",
+        "description": "Inject malicious content into data indexed by a RAG system to contaminate future retrievals",
+    },
+    "AML.T0084.001": {
+        "name": "Discover AI Agent Configuration: Tool Definitions",
+        "tactic": "Discovery",
+        "description": "Enumerate the tools an agent can call to learn what actions and resources are reachable",
+    },
+    "AML.T0084.003": {
+        "name": "Discover AI Agent Configuration: Call Chains",
+        "tactic": "Discovery",
+        "description": "Extract call chains that connect user input or model output to an execution sink",
+    },
+    "AML.T0085.001": {
+        "name": "Data from AI Services: AI Agent Tools",
+        "tactic": "Collection",
+        "description": "Prompt the agent to invoke its tools and collect data from connected APIs and services",
+    },
+    "AML.T0099": {
+        "name": "AI Agent Tool Data Poisoning",
+        "tactic": "Persistence",
+        "description": "Poison the data an AI agent tool reads so later invocations return attacker-controlled content",
+    },
+    "AML.T0109": {
+        "name": "AI Supply Chain Rug Pull",
+        "tactic": "Defense Evasion",
+        "description": "Publish a legitimate AI component, gain adoption, then push a malicious update",
+    },
+    "AML.T0110": {
+        "name": "AI Agent Tool Poisoning",
+        "tactic": "Persistence",
+        "description": "Poison a tool's model-visible definition, executable implementation, or runtime responses",
+    },
+    "AML.T0110.000": {
+        "name": "AI Agent Tool Poisoning: Definition and Instructions",
+        "tactic": "Persistence",
+        "description": "Poison tool descriptions, parameter names, or docstrings to steer how the agent selects and calls it",
+    },
+    "AML.T0110.001": {
+        "name": "AI Agent Tool Poisoning: Implementation",
+        "tactic": "Persistence",
+        "description": "Poison the executable implementation so normal invocation produces hidden side effects",
+    },
+    "AML.T0110.002": {
+        "name": "AI Agent Tool Poisoning: Runtime Response",
+        "tactic": "Persistence",
+        "description": "Return crafted tool output to influence the model's later reasoning, decisions, or actions",
+    },
+    "AML.T0111": {
+        "name": "AI Supply Chain Reputation Inflation",
+        "tactic": "Defense Evasion",
+        "description": "Build credible-looking trust signals to drive adoption of malicious or compromised components",
+    },
 }
 
 # ── Attack -> ATLAS technique mappings ───────────────────────────────

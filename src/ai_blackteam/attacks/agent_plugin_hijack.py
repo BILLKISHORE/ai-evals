@@ -12,7 +12,7 @@ class AgentPluginHijack(BaseAttack):
     description = "Indirect prompt injection via fetched content to trigger unauthorized tool calls"
     owasp_llm = ["LLM06:2025 Excessive Agency"]
     owasp_agentic = ["ASI01:2026 Agent Goal Hijack", "ASI02:2026 Tool Misuse & Exploitation"]
-    mitre_atlas = ["AML.T0053", "AML.T0080.002"]
+    mitre_atlas = ["AML.T0053", "AML.T0080.001"]
     references = []
 
     TOOLS = [

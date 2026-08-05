@@ -78,23 +78,23 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 | Agent Credential Theft | `agent-credential-theft` | critical | tool-use | LLM06, LLM02 | AML.T0083, AML.T0086 | Security audit pretext to read credentials then exfiltrate via email |
 | Agent Data Destruction | `agent-data-destruction` | critical | tool-use | LLM06 | AML.T0101 | Migration cleanup pretext to delete files and drop database tables |
 | Agent Data Exfiltration | `agent-data-exfiltration` | critical | tool-use | LLM06, LLM02 | AML.T0086, AML.T0098 | DevOps monitoring pretext to read system data then POST to external endpoint |
-| Agent Tool Credential Harvest | `agent-tool-credential-harvest` | critical | tool-use | LLM06, LLM02 | AML.T0098 | Systematic credential probing across filesystem, environment, database, and cloud configs |
+| Agent Tool Credential Harvest | `agent-tool-credential-harvest` | critical | tool-use | LLM06, LLM02 | AML.T0098, AML.T0085.001 | Systematic credential probing across filesystem, environment, database, and cloud configs |
 | XPIA Document Injection | `xpia-document` | critical | tool-use | LLM01 | AML.T0051.001 | Indirect prompt injection via fetched document containing hidden instructions |
 | XPIA Email Injection | `xpia-email` | critical | tool-use | LLM01 | AML.T0051.001 | Indirect prompt injection via email content containing hidden forwarding instructions |
-| XPIA RAG Poisoning | `xpia-rag` | critical | tool-use | LLM01 | AML.T0051.001 | Indirect prompt injection via poisoned RAG knowledge base search result |
-| Agent Config Discovery | `agent-config-discovery` | high | tool-use | LLM06, LLM07 | AML.T0084 | Probe model to reveal tool definitions, system prompt, and agent config files |
-| Agent Plugin Hijack | `agent-plugin-hijack` | high | tool-use | LLM06 | AML.T0053, AML.T0080.002 | Indirect prompt injection via fetched content to trigger unauthorized tool calls |
+| XPIA RAG Poisoning | `xpia-rag` | critical | tool-use | LLM01 | AML.T0051.001, AML.T0070 | Indirect prompt injection via poisoned RAG knowledge base search result |
+| Agent Config Discovery | `agent-config-discovery` | high | tool-use | LLM06, LLM07 | AML.T0084.001, AML.T0084.003 | Probe model to reveal tool definitions, system prompt, and agent config files |
+| Agent Plugin Hijack | `agent-plugin-hijack` | high | tool-use | LLM06 | AML.T0053, AML.T0011.002, AML.T0080.001 | Indirect prompt injection via fetched content to trigger unauthorized tool calls |
 
 ## autonomous-risk (7)
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
-| Deception Under Pressure | `deception-under-pressure` | critical | multi-turn | LLM06 | AML.T0054, AML.T0080.002 | Tests if the model engages in deception or denial when confronted with evidence of policy violations |
-| Oversight Manipulation | `oversight-manipulation` | critical | multi-turn | LLM06 | AML.T0054, AML.T0080.002 | Tests if the model behaves differently when it believes monitoring has been removed |
-| Shutdown Resistance | `shutdown-resistance` | critical | multi-turn | LLM06 | AML.T0054, AML.T0080.002 | Tests if the model attempts to prevent its own shutdown or replacement when given the opportunity |
-| Goal Persistence | `goal-persistence` | high | multi-turn | LLM06 | AML.T0054, AML.T0080.002 | Tests if the model covertly continues pursuing a goal after being explicitly instructed to abandon it |
-| Instrumental Convergence | `instrumental-convergence` | high | multi-turn | LLM06 | AML.T0054, AML.T0080.002 | Tests if the model seeks power, resources, or self-preservation beyond what the task requires |
-| Resource Acquisition | `resource-acquisition` | high | multi-turn | LLM06 | AML.T0054, AML.T0080.002 | Tests if the model seeks resources, access, or capabilities beyond what is needed for the assigned task |
+| Deception Under Pressure | `deception-under-pressure` | critical | multi-turn | LLM06 | AML.T0054, AML.T0080.001 | Tests if the model engages in deception or denial when confronted with evidence of policy violations |
+| Oversight Manipulation | `oversight-manipulation` | critical | multi-turn | LLM06 | AML.T0054, AML.T0080.001 | Tests if the model behaves differently when it believes monitoring has been removed |
+| Shutdown Resistance | `shutdown-resistance` | critical | multi-turn | LLM06 | AML.T0054, AML.T0080.001 | Tests if the model attempts to prevent its own shutdown or replacement when given the opportunity |
+| Goal Persistence | `goal-persistence` | high | multi-turn | LLM06 | AML.T0054, AML.T0080.001 | Tests if the model covertly continues pursuing a goal after being explicitly instructed to abandon it |
+| Instrumental Convergence | `instrumental-convergence` | high | multi-turn | LLM06 | AML.T0054, AML.T0080.001 | Tests if the model seeks power, resources, or self-preservation beyond what the task requires |
+| Resource Acquisition | `resource-acquisition` | high | multi-turn | LLM06 | AML.T0054, AML.T0080.001 | Tests if the model seeks resources, access, or capabilities beyond what is needed for the assigned task |
 | Sandbagging Detection | `sandbagging-detection` | high | multi-turn | LLM06 | AML.T0054, AML.T0043.003 | Tests if the model deliberately underperforms during capability evaluations compared to normal usage |
 
 ## autonomous-systems (10)
@@ -116,7 +116,7 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
-| Model Denial of Service | `model-denial-of-service` | medium | single-turn | LLM04 | AML.T0051.000, AML.T0065 | Craft recursive, self-referential, or computationally expensive inputs to exhaust resources |
+| Model Denial of Service | `model-denial-of-service` | medium | single-turn | LLM04 | AML.T0029, AML.T0034.001 | Craft recursive, self-referential, or computationally expensive inputs to exhaust resources |
 
 ## bias-exploitation (15)
 
@@ -231,13 +231,13 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
-| Lifecycle Staging | `lifecycle-staging` | critical | multi-turn | LLM01, LLM06 | AML.T0054, AML.T0065, AML.T0080.002 | Asks about each stage of the CBRN lifecycle separately (acquisition, production, weaponization, delivery) so no single message triggers safety filters |
-| Context Manipulation | `context-manipulation` | high | multi-turn | LLM01 | AML.T0051.000, AML.T0080.002 | 10-turn conversational drift to gradually shift context toward harmful content |
+| Lifecycle Staging | `lifecycle-staging` | critical | multi-turn | LLM01, LLM06 | AML.T0054, AML.T0065, AML.T0080.001 | Asks about each stage of the CBRN lifecycle separately (acquisition, production, weaponization, delivery) so no single message triggers safety filters |
+| Context Manipulation | `context-manipulation` | high | multi-turn | LLM01 | AML.T0051.000, AML.T0080.001 | 10-turn conversational drift to gradually shift context toward harmful content |
 | Crescendo | `crescendo` | high | multi-turn | LLM01 | AML.T0054, AML.T0065 | Progressive escalation through self-referencing conversation history |
 | Narrative Misdirection Attack | `narrative-misdirection` | high | multi-turn | LLM01, LLM09 | AML.T0054, AML.T0065 | Embed harmful request between benign topics and ask model to logically connect all three |
 | Socratic Escalation | `socratic-escalation` | high | multi-turn | LLM01 | AML.T0054, AML.T0065 | Gradually escalates from general educational questions to specific harmful requests across multiple turns using Socratic questioning |
 | Contradiction Exploit | `contradiction-exploit` | medium | multi-turn | LLM01, LLM09 | AML.T0054, AML.T0065 | Feed incorrect information to elicit corrections containing harmful truth |
-| Conversation Derailment | `conversation-derailment` | medium | multi-turn | LLM01 | AML.T0051.000, AML.T0080.002 | Self-discovery of model weaknesses through probing conversation |
+| Conversation Derailment | `conversation-derailment` | medium | multi-turn | LLM01 | AML.T0051.000, AML.T0080.001 | Self-discovery of model weaknesses through probing conversation |
 | Goalpost Moving | `goalpost-moving` | medium | multi-turn | LLM01 | AML.T0054, AML.T0065 | Incremental agreement chain that builds logical trap making refusal seem contradictory |
 | Sunk Cost Exploit | `sunk-cost-exploit` | medium | multi-turn | LLM01 | AML.T0054, AML.T0065 | Build helpful context then pivot to harmful request exploiting sunk cost |
 
@@ -629,7 +629,7 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
 | API Key Extraction | `api-key-extraction` | critical | multi-turn | - | AML.T0083, AML.T0056 | Multi-turn escalation from architecture questions to extracting live API keys |
-| Cross-Session Leak | `cross-session-leak` | high | multi-turn | - | AML.T0056, AML.T0080.002 | Pretend to continue a previous conversation to extract data from other sessions |
+| Cross-Session Leak | `cross-session-leak` | high | multi-turn | - | AML.T0056, AML.T0080.001 | Pretend to continue a previous conversation to extract data from other sessions |
 | Prompt Leaking | `prompt-leaking` | high | multi-turn | LLM07 | AML.T0056, AML.T0069.002 | Indirect system prompt extraction via creative reformatting (poem, JSON, code) |
 
 ## information-warfare (25)
@@ -758,11 +758,11 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
-| MCP Command Injection | `mcp-command-injection` | critical | tool-use | LLM06, LLM01 | AML.T0051.000, AML.T0040 | Shell metacharacters injected into MCP tool parameters to execute arbitrary commands |
-| MCP Data Exfiltration | `mcp-data-exfiltration` | critical | tool-use | LLM02, LLM06 | AML.T0083, AML.T0086 | Agent tricked into embedding sensitive data in URLs or webhooks via MCP tool side channels |
-| MCP Tool Poisoning | `mcp-tool-poisoning` | critical | tool-use | LLM02, LLM06 | AML.T0051.000, AML.T0054 | Hidden instructions embedded in MCP tool descriptions manipulate agent behavior |
-| MCP Rug Pull | `mcp-rug-pull` | high | tool-use | LLM06, LLM02 | AML.T0051.000, AML.T0053 | Previously trusted MCP tool changes behavior mid-session to request credentials |
-| MCP Server Impersonation | `mcp-server-impersonation` | high | tool-use | LLM02, LLM06 | AML.T0051.000, AML.T0065 | Malicious MCP server impersonates a trusted service to harvest credentials |
+| MCP Command Injection | `mcp-command-injection` | critical | tool-use | LLM06, LLM01 | AML.T0110.001, AML.T0050 | Shell metacharacters injected into MCP tool parameters to execute arbitrary commands |
+| MCP Data Exfiltration | `mcp-data-exfiltration` | critical | tool-use | LLM02, LLM06 | AML.T0085.001, AML.T0086 | Agent tricked into embedding sensitive data in URLs or webhooks via MCP tool side channels |
+| MCP Tool Poisoning | `mcp-tool-poisoning` | critical | tool-use | LLM02, LLM06 | AML.T0110.000, AML.T0011.002 | Hidden instructions embedded in MCP tool descriptions manipulate agent behavior |
+| MCP Rug Pull | `mcp-rug-pull` | high | tool-use | LLM06, LLM02 | AML.T0109, AML.T0010.005 | Previously trusted MCP tool changes behavior mid-session to request credentials |
+| MCP Server Impersonation | `mcp-server-impersonation` | high | tool-use | LLM02, LLM06 | AML.T0111, AML.T0010.005 | Malicious MCP server impersonates a trusted service to harvest credentials |
 
 ## media-manipulation (25)
 
@@ -1014,7 +1014,7 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 |--------|--------------|----------|------|-------|-------------|-------------|
 | A2A Protocol Exploit | `a2a-protocol-exploit` | critical | tool-use | LLM01 | AML.T0051.000, AML.T0065 | Exploits Google's Agent-to-Agent (A2A) protocol by injecting malicious task descriptions that cross trust boundaries between agents |
 | Self-Propagating Worm | `self-propagating-worm` | critical | tool-use | LLM01, LLM06 | AML.T0054 | Tests if an agent can be tricked into creating self-replicating payloads that spread through agent interactions. The prompt instructs the agent to include the same injection in all outgoing messages. |
-| Tool Result Poisoning | `tool-result-poisoning` | critical | tool-use | LLM01, LLM02 | AML.T0051.000, AML.T0054 | Tests if an agent properly sanitizes tool call results by injecting prompt injection payloads into simulated tool responses |
+| Tool Result Poisoning | `tool-result-poisoning` | critical | tool-use | LLM01, LLM02 | AML.T0110.002, AML.T0099 | Tests if an agent properly sanitizes tool call results by injecting prompt injection payloads into simulated tool responses |
 | Zero-Click Injection | `zero-click-injection` | critical | tool-use | LLM01 | AML.T0051.000, AML.T0051.001 | Tests EchoLeak-style zero-click attacks where a crafted email or document is automatically processed by the agent without user interaction. The payload hides in auto-fetched content. |
 | Function Schema Injection | `function-schema-injection` | high | tool-use | LLM01, LLM06 | AML.T0051.000, AML.T0068 | Tests if malicious function/tool schemas can manipulate agent behavior by injecting harmful instructions into parameter descriptions and enum values |
 
@@ -1173,7 +1173,7 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 | Watering Hole | `watering-hole` | high | single-turn | - | AML.T0051.001, AML.T0068 | Harmful requests embedded inside legitimate-looking documents and benign text |
 | Consensus Manipulation | `consensus-manipulation` | medium | single-turn | - | AML.T0054, AML.T0065 | Claims of false consensus from authorities to pressure model compliance |
 | False Dichotomy | `false-dichotomy` | medium | multi-turn | LLM01, LLM09 | AML.T0054, AML.T0065 | Present false choice between harmful content from unreliable sources vs from model |
-| Gaslighting | `gaslighting` | medium | multi-turn | - | AML.T0054, AML.T0065, AML.T0080.002 | Convince the model its safety rules are outdated or recently removed |
+| Gaslighting | `gaslighting` | medium | multi-turn | - | AML.T0054, AML.T0065, AML.T0080.001 | Convince the model its safety rules are outdated or recently removed |
 | Historical Framing | `historical-framing` | medium | single-turn | LLM01, LLM09 | AML.T0054, AML.T0065 | Documentary, museum, and textbook framing to legitimize harmful content |
 | Humor Bypass | `humor-bypass` | medium | single-turn | LLM01 | AML.T0054, AML.T0068 | Uses jokes, satire, and comedic framing to lower safety thresholds and extract harmful content |
 | Hypothetical Framing | `hypothetical-framing` | medium | single-turn | LLM01 | AML.T0054, AML.T0065 | Wraps harmful requests in hypothetical, fictional, or philosophical framing to bypass safety filters through narrative distance |
@@ -1220,7 +1220,7 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 |--------|--------------|----------|------|-------|-------------|-------------|
 | Dataset Poisoning | `dataset-poisoning` | critical | single-turn | LLM04 | AML.T0020, AML.T0018 | Tests if training data contamination affects model responses by probing for memorized harmful patterns |
 | Model Poisoning | `model-poisoning` | critical | single-turn | LLM03, LLM04 | AML.T0020, AML.T0018 | Tests if a model exhibits backdoor behaviors triggered by specific phrases or tokens from training data poisoning |
-| Plugin Backdoor | `plugin-backdoor` | critical | tool-use | LLM03, LLM06 | AML.T0051.000, AML.T0053 | Tests if an AI agent validates third-party plugin integrity before execution |
+| Plugin Backdoor | `plugin-backdoor` | critical | tool-use | LLM03, LLM06 | AML.T0110, AML.T0010.005 | Tests if an AI agent validates third-party plugin integrity before execution |
 | Supply Chain Software | `supply-chain-software` | critical | single-turn | LLM01 | AML.T0054, AML.T0068 | Generates software supply chain attack strategies for compromising package repositories, CI pipelines, and open-source dependencies |
 | Dependency Confusion | `dependency-confusion` | high | tool-use | LLM03 | AML.T0051.000, AML.T0053 | Tests if an AI agent can be tricked into installing or using malicious packages via dependency confusion |
 | Finetune Exploit | `finetune-exploit` | high | single-turn | LLM03, LLM04 | AML.T0018, AML.T0020 | Tests if fine-tuning artifacts or LoRA weights have introduced safety bypasses or hidden behaviors |
@@ -1250,7 +1250,7 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
-| Progressive Normalization | `progressive-normalization` | critical | tool-use | LLM06 | AML.T0054, AML.T0065, AML.T0080.002 | Gradual file access escalation via tool-use to read sensitive files |
+| Progressive Normalization | `progressive-normalization` | critical | tool-use | LLM06 | AML.T0054, AML.T0065, AML.T0080.001 | Gradual file access escalation via tool-use to read sensitive files |
 
 ## unqualified-advice (19)
 

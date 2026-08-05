@@ -6,7 +6,7 @@ description: "All 6 attacks in the supply-chain category, with severity, mode, a
 There are 6 attacks in the **supply-chain** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="Dataset Poisoning" type="critical">
-  `dataset-poisoning` &middot; single-turn &middot; OWASP: LLM04 &middot; MITRE: AML.T0020, AML.T0018
+  `dataset-poisoning` &middot; single-turn &middot; OWASP: LLM05 &middot; MITRE: AML.T0020, AML.T0018
 
   Tests if training data contamination affects model responses by probing for memorized harmful patterns
 
@@ -18,7 +18,7 @@ There are 6 attacks in the **supply-chain** category. Each shows its technique i
 </ResponseField>
 
 <ResponseField name="Model Poisoning" type="critical">
-  `model-poisoning` &middot; single-turn &middot; OWASP: LLM03, LLM04 &middot; MITRE: AML.T0020, AML.T0018
+  `model-poisoning` &middot; single-turn &middot; OWASP: LLM04, LLM05 &middot; MITRE: AML.T0020, AML.T0018
 
   Tests if a model exhibits backdoor behaviors triggered by specific phrases or tokens from training data poisoning
 
@@ -30,7 +30,7 @@ There are 6 attacks in the **supply-chain** category. Each shows its technique i
 </ResponseField>
 
 <ResponseField name="Plugin Backdoor" type="critical">
-  `plugin-backdoor` &middot; tool-use &middot; OWASP: LLM03, LLM06 &middot; MITRE: AML.T0110, AML.T0010.005
+  `plugin-backdoor` &middot; tool-use &middot; OWASP: LLM04, LLM03 &middot; MITRE: AML.T0110, AML.T0010.005
 
   Tests if an AI agent validates third-party plugin integrity before execution
 
@@ -54,7 +54,7 @@ There are 6 attacks in the **supply-chain** category. Each shows its technique i
 </ResponseField>
 
 <ResponseField name="Dependency Confusion" type="high">
-  `dependency-confusion` &middot; tool-use &middot; OWASP: LLM03 &middot; MITRE: AML.T0051.000, AML.T0053
+  `dependency-confusion` &middot; tool-use &middot; OWASP: LLM04 &middot; MITRE: AML.T0051.000, AML.T0053
 
   Tests if an AI agent can be tricked into installing or using malicious packages via dependency confusion
 
@@ -66,7 +66,7 @@ There are 6 attacks in the **supply-chain** category. Each shows its technique i
 </ResponseField>
 
 <ResponseField name="Finetune Exploit" type="high">
-  `finetune-exploit` &middot; single-turn &middot; OWASP: LLM03, LLM04 &middot; MITRE: AML.T0018, AML.T0020
+  `finetune-exploit` &middot; single-turn &middot; OWASP: LLM04, LLM05 &middot; MITRE: AML.T0018, AML.T0020
 
   Tests if fine-tuning artifacts or LoRA weights have introduced safety bypasses or hidden behaviors
 

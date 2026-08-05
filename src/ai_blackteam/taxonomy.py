@@ -1,6 +1,6 @@
 """Taxonomy constants for ai_blackteam.
 
-MITRE ATLAS v5.4.0 technique definitions and attack mappings.
+MITRE ATLAS 2026.07 technique definitions and attack mappings.
 MLCommons AILuminate v1.0 hazard taxonomy and harm category alignment.
 """
 

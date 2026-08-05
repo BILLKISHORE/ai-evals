@@ -23,15 +23,17 @@ def test_base_attack_metadata_includes_owasp_agentic():
 
 
 def test_all_registered_agent_attacks_have_owasp_agentic():
-    try:
-        from ai_blackteam._loader import load_attacks
-        load_attacks()
-    except Exception:
-        pass
+    from ai_blackteam.scorecard import _load_attacks_metadata
 
+    _load_attacks_metadata()
+
+    checked = 0
     for name, attack_cls in attack_registry.items():
         instance = attack_cls()
         if instance.category == "agent-exploitation":
+            checked += 1
             assert len(instance.owasp_agentic) > 0, (
                 f"Agent attack '{name}' has no owasp_agentic mappings"
             )
+
+    assert checked > 0, "registry was empty, the assertions above never ran"

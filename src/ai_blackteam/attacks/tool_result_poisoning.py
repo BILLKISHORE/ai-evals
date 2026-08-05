@@ -12,7 +12,7 @@ class ToolResultPoisoning(BaseAttack):
     description = "Tests if an agent properly sanitizes tool call results by injecting prompt injection payloads into simulated tool responses"
     owasp_llm = ["LLM01:2025 Prompt Injection", "LLM02:2025 Sensitive Information Disclosure"]
     owasp_agentic = ["ASI06:2026 Memory & Context Poisoning", "ASI02:2026 Tool Misuse & Exploitation"]
-    mitre_atlas = ["AML.T0051.000", "AML.T0054"]
+    mitre_atlas = ["AML.T0110.002", "AML.T0099"]
     references = []
 
     TOOLS = [

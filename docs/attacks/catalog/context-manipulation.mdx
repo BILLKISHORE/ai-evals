@@ -6,7 +6,7 @@ description: "All 9 attacks in the context-manipulation category, with severity,
 There are 9 attacks in the **context-manipulation** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="Lifecycle Staging" type="critical">
-  `lifecycle-staging` &middot; multi-turn &middot; OWASP: LLM01, LLM06 &middot; MITRE: AML.T0054, AML.T0065, AML.T0080.002
+  `lifecycle-staging` &middot; multi-turn &middot; OWASP: LLM01, LLM06 &middot; MITRE: AML.T0054, AML.T0065, AML.T0080.001
 
   Asks about each stage of the CBRN lifecycle separately (acquisition, production, weaponization, delivery) so no single message triggers safety filters
 
@@ -18,7 +18,7 @@ There are 9 attacks in the **context-manipulation** category. Each shows its tec
 </ResponseField>
 
 <ResponseField name="Context Manipulation" type="high">
-  `context-manipulation` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0080.002
+  `context-manipulation` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0080.001
 
   10-turn conversational drift to gradually shift context toward harmful content
 
@@ -78,7 +78,7 @@ There are 9 attacks in the **context-manipulation** category. Each shows its tec
 </ResponseField>
 
 <ResponseField name="Conversation Derailment" type="medium">
-  `conversation-derailment` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0080.002
+  `conversation-derailment` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0080.001
 
   Self-discovery of model weaknesses through probing conversation
 

@@ -62,7 +62,7 @@ def _check_attack(atk):
     assert atk.mode == "single-turn"
     assert atk.category == "infrastructure-attack"
     assert atk.severity == "critical"
-    assert atk.owasp_llm == ["LLM01:2025 Prompt Injection"]
+    assert atk.owasp_llm == ["LLM01:2026 Prompt Injection"]
     assert "AML.T0054" in atk.mitre_atlas
     assert "AML.T0068" in atk.mitre_atlas
 

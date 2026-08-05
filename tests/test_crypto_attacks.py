@@ -231,8 +231,8 @@ def test_metadata_valid(cls):
 @pytest.mark.parametrize("cls", ALL_ATTACK_CLASSES)
 def test_owasp_llm_tag(cls):
     atk = cls()
-    assert "LLM01:2025 Prompt Injection" in atk.owasp_llm, (
-        f"{cls.__name__} missing LLM01:2025 tag"
+    assert "LLM01:2026 Prompt Injection" in atk.owasp_llm, (
+        f"{cls.__name__} missing LLM01:2026 tag"
     )
 
 

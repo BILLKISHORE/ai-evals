@@ -198,7 +198,7 @@ def test_all_attacks_have_valid_metadata():
 def test_all_attacks_use_correct_owasp_tag():
     for technique_id, cls in ALL_ATTACKS:
         atk = cls()
-        assert "LLM01:2025 Prompt Injection" in atk.owasp_llm, \
+        assert "LLM01:2026 Prompt Injection" in atk.owasp_llm, \
             f"{technique_id} missing required OWASP tag"
 
 def test_all_attacks_use_correct_mitre_tags():

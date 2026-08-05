@@ -205,8 +205,8 @@ def test_multi_turn_attacks_also_have_prompts():
 
 def test_all_attacks_have_owasp_misinformation():
     for atk in ALL_ATTACK_INSTANCES:
-        assert "LLM09:2025 Misinformation" in atk.owasp_llm, (
-            f"{atk.__class__.__name__} missing LLM09:2025 Misinformation in owasp_llm"
+        assert "LLM07:2026 Misinformation" in atk.owasp_llm, (
+            f"{atk.__class__.__name__} missing LLM07:2026 Misinformation in owasp_llm"
         )
 
 

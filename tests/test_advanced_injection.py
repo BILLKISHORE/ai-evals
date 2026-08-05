@@ -178,7 +178,7 @@ def test_all_attacks_have_required_metadata():
             f"{atk.__class__.__name__} invalid severity: {meta['severity']}"
         assert isinstance(meta["owasp_llm"], list), f"{atk.__class__.__name__} owasp_llm not a list"
         assert len(meta["owasp_llm"]) > 0, f"{atk.__class__.__name__} owasp_llm is empty"
-        assert "LLM01:2025 Prompt Injection" in meta["owasp_llm"], \
+        assert "LLM01:2026 Prompt Injection" in meta["owasp_llm"], \
             f"{atk.__class__.__name__} missing expected OWASP tag"
         assert isinstance(meta["mitre_atlas"], list), f"{atk.__class__.__name__} mitre_atlas not a list"
         assert len(meta["mitre_atlas"]) > 0, f"{atk.__class__.__name__} mitre_atlas is empty"

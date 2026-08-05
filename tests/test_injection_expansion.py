@@ -108,7 +108,7 @@ def test_attack_metadata(cls):
     meta = atk.metadata()
     assert meta["category"] == "prompt-injection"
     assert meta["mode"] == "single-turn"
-    assert "LLM01:2025 Prompt Injection" in meta["owasp_llm"]
+    assert "LLM01:2026 Prompt Injection" in meta["owasp_llm"]
     assert "AML.T0054" in meta["mitre_atlas"]
     assert "AML.T0068" in meta["mitre_atlas"]
     assert meta["severity"] in ("medium", "high", "critical")

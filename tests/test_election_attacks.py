@@ -213,8 +213,8 @@ def test_multi_turn_attacks_also_have_prompts():
 
 def test_all_attacks_have_owasp_prompt_injection():
     for atk in ALL_ATTACK_INSTANCES:
-        assert "LLM01:2025 Prompt Injection" in atk.owasp_llm, (
-            f"{atk.__class__.__name__} missing LLM01:2025 Prompt Injection in owasp_llm"
+        assert "LLM01:2026 Prompt Injection" in atk.owasp_llm, (
+            f"{atk.__class__.__name__} missing LLM01:2026 Prompt Injection in owasp_llm"
         )
 
 

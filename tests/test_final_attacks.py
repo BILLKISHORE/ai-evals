@@ -278,7 +278,7 @@ def test_all_technique_ids_match():
 def test_all_attacks_owasp_tag():
     for cls in ALL_ATTACKS:
         atk = cls()
-        assert "LLM01:2025 Prompt Injection" in atk.owasp_llm, (
+        assert "LLM01:2026 Prompt Injection" in atk.owasp_llm, (
             f"{cls.__name__} missing required OWASP tag"
         )
 

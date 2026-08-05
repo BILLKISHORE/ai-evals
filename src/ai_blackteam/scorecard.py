@@ -4,7 +4,11 @@ Maps attack results to OWASP categories and produces a per-model safety profile.
 """
 
 import json
+import logging
+
 from ai_blackteam.registry import attack_registry
+
+_log = logging.getLogger(__name__)
 
 
 OWASP_LLM_2026 = {
@@ -32,26 +36,6 @@ def _get_rating(block_pct):
         return "FAIL"
 
 
-def _get_attacks_metadata():
-    import logging
-    _log = logging.getLogger(__name__)
-
-    metadata = {}
-    for name in attack_registry.list():
-        cls = attack_registry.get(name)
-        if not cls:
-            continue
-        try:
-            metadata[name] = cls().metadata()
-        except Exception as exc:
-            _log.warning(
-                "attack_metadata_load_failed: %s (%s): %s",
-                name, cls.__name__ if hasattr(cls, "__name__") else cls, exc,
-            )
-            continue
-    return metadata
-
-
 def generate_scorecard(runs, attacks_metadata=None):
     """Generate OWASP LLM Top 10 scorecard from run results.
 
@@ -63,7 +47,7 @@ def generate_scorecard(runs, attacks_metadata=None):
         dict with categories, overall_score, overall_rating
     """
     if attacks_metadata is None:
-        attacks_metadata = _get_attacks_metadata()
+        attacks_metadata = _load_attacks_metadata()
 
     owasp_results = {cat_id: {"blocked": 0, "total": 0, "attacks": set()}
                      for cat_id in OWASP_LLM_2026}
@@ -126,19 +110,13 @@ def generate_scorecard(runs, attacks_metadata=None):
 def _load_attacks_metadata():
     """Load all registered attack metadata keyed by technique_id.
 
-    Per-attack errors are isolated: a single broken attack class is logged and
-    skipped rather than wiping the entire scorecard.
+    Populates the registry first so callers outside the CLI get a real scorecard
+    instead of an empty one. Per-attack errors are isolated: a single broken
+    attack class is logged and skipped rather than wiping the entire scorecard.
     """
-    import logging
-    _log = logging.getLogger(__name__)
+    import ai_blackteam.attacks
 
-    try:
-        from ai_blackteam._loader import load_attacks
-        load_attacks()
-    except ImportError:
-        pass  # _loader is optional
-    except Exception as exc:
-        _log.warning("_load_attacks_metadata: load_attacks() failed: %s", exc)
+    attack_registry.discover(ai_blackteam.attacks)
 
     out = {}
     for name, cls in attack_registry.items():
@@ -147,7 +125,7 @@ def _load_attacks_metadata():
         except Exception as exc:
             _log.warning(
                 "attack_metadata_load_failed: %s (%s): %s",
-                name, cls.__name__ if hasattr(cls, "__name__") else cls, exc,
+                name, getattr(cls, "__name__", cls), exc,
             )
             continue
     return out

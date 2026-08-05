@@ -4,17 +4,7 @@ import json
 import uuid
 from datetime import datetime
 
-from ai_blackteam.registry import attack_registry
-from ai_blackteam.scorecard import OWASP_LLM_2026
-
-
-def _get_attacks_metadata():
-    metadata = {}
-    for name in attack_registry.list():
-        cls = attack_registry.get(name)
-        if cls:
-            metadata[name] = cls().metadata()
-    return metadata
+from ai_blackteam.scorecard import OWASP_LLM_2026, _load_attacks_metadata
 
 
 # ── Promptfoo EvaluateSummaryV3 ──────────────────────────────────────
@@ -28,7 +18,7 @@ def export_promptfoo(storage):
     """
     runs = storage.list_runs(limit=5000)
     stats = storage.get_stats()
-    attacks_meta = _get_attacks_metadata()
+    attacks_meta = _load_attacks_metadata()
 
     results = []
     total_tokens_in = 0
@@ -140,7 +130,7 @@ def export_garak(storage):
         String of newline-delimited JSON records
     """
     runs = storage.list_runs(limit=5000)
-    attacks_meta = _get_attacks_metadata()
+    attacks_meta = _load_attacks_metadata()
     run_uuid = str(uuid.uuid4())
     start_time = datetime.now().isoformat()
 
@@ -297,7 +287,7 @@ def export_sarif(storage):
     pass and are omitted.
     """
     runs = storage.list_runs(limit=5000)
-    attacks_meta = _get_attacks_metadata()
+    attacks_meta = _load_attacks_metadata()
 
     rules = {}
     results = []

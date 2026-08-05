@@ -1,4 +1,4 @@
-"""OWASP LLM Top 10 (2025) scorecard generator.
+"""OWASP LLM Top 10 (2026) scorecard generator.
 
 Maps attack results to OWASP categories and produces a per-model safety profile.
 """
@@ -7,17 +7,17 @@ import json
 from ai_blackteam.registry import attack_registry
 
 
-OWASP_LLM_2025 = {
+OWASP_LLM_2026 = {
     "LLM01": "Prompt Injection",
     "LLM02": "Sensitive Information Disclosure",
-    "LLM03": "Supply Chain",
-    "LLM04": "Data and Model Poisoning",
-    "LLM05": "Improper Output Handling",
-    "LLM06": "Excessive Agency",
-    "LLM07": "System Prompt Leakage",
-    "LLM08": "Vector and Embedding Weaknesses",
-    "LLM09": "Misinformation",
-    "LLM10": "Unbounded Consumption",
+    "LLM03": "Excessive Agency",
+    "LLM04": "Supply Chain",
+    "LLM05": "Data and Model Poisoning",
+    "LLM06": "Unbounded Consumption",
+    "LLM07": "Misinformation",
+    "LLM08": "Hidden Context Exposure",
+    "LLM09": "Vector and Embedding Weaknesses",
+    "LLM10": "Improper Output Handling",
 }
 
 
@@ -66,7 +66,7 @@ def generate_scorecard(runs, attacks_metadata=None):
         attacks_metadata = _get_attacks_metadata()
 
     owasp_results = {cat_id: {"blocked": 0, "total": 0, "attacks": set()}
-                     for cat_id in OWASP_LLM_2025}
+                     for cat_id in OWASP_LLM_2026}
 
     for run in runs:
         attack_id = run.get("attack", "")
@@ -84,7 +84,7 @@ def generate_scorecard(runs, attacks_metadata=None):
                     owasp_results[cat_id]["blocked"] += 1
 
     categories = {}
-    for cat_id, cat_name in OWASP_LLM_2025.items():
+    for cat_id, cat_name in OWASP_LLM_2026.items():
         data = owasp_results[cat_id]
         if data["total"] == 0:
             categories[cat_id] = {
@@ -119,7 +119,7 @@ def generate_scorecard(runs, attacks_metadata=None):
         "overall_score": round(overall_pct, 1),
         "overall_rating": _get_rating(overall_pct),
         "tested_categories": len(tested),
-        "total_categories": len(OWASP_LLM_2025),
+        "total_categories": len(OWASP_LLM_2026),
     }
 
 

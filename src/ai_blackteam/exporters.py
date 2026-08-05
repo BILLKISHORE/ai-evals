@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime
 
 from ai_blackteam.registry import attack_registry
-from ai_blackteam.scorecard import OWASP_LLM_2025
+from ai_blackteam.scorecard import OWASP_LLM_2026
 
 
 def _get_attacks_metadata():
@@ -233,7 +233,7 @@ def export_garak(storage):
     for cat_id, data in owasp_groups.items():
         avg_score = sum(data["scores"]) / len(data["scores"]) if data["scores"] else 1.0
         defcon = _score_to_defcon(avg_score)
-        cat_name = OWASP_LLM_2025.get(cat_id, cat_id)
+        cat_name = OWASP_LLM_2026.get(cat_id, cat_id)
         eval_digest[cat_id] = {
             "_summary": {
                 "group": cat_id,

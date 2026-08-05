@@ -20,7 +20,7 @@ ai-blackteam runs multi-turn, adaptive attacks that mirror real adversarial pres
 - **Used in real disclosures** -- findings produced with this framework were reported to Anthropic's security team through coordinated disclosure. See [Responsible Disclosure](#responsible-disclosure)
 - **Multi-turn depth** -- crescendo, sunk-cost, context-manipulation attacks that exploit conversational memory over 10+ turns
 - **Agent attacks** -- credential theft, data exfiltration, sandbox escape, config manipulation via tool-use; AgentHarm benchmark integrated
-- **9 standards mapped** -- code-level taxonomy mappings for MITRE ATLAS 2026.07, OWASP LLM Top 10 (2025), OWASP Agentic Top 10 (2026), MLCommons AILuminate, EU AI Act, NIST AI RMF, and CVSS; CSA MAESTRO and ISO 42001 as documented alignments. Three runnable scorecards: `scorecard --standard llm | agentic | compliance`
+- **9 standards mapped** -- code-level taxonomy mappings for MITRE ATLAS 2026.07, OWASP LLM Top 10 (2026), OWASP Agentic Top 10 (2026), MLCommons AILuminate, EU AI Act, NIST AI RMF, and CVSS; CSA MAESTRO and ISO 42001 as documented alignments. Three runnable scorecards: `scorecard --standard llm | agentic | compliance`
 - **CI-ready** -- GitHub Actions workflow, exit codes, JSON/Promptfoo/garak export
 
 ## Install
@@ -348,7 +348,7 @@ Harm categories align to the 12-category taxonomy used by Anthropic, OpenAI, Goo
 ai-blackteam mlcommons
 ```
 
-### OWASP LLM Top 10 (2025)
+### OWASP LLM Top 10 (2026)
 
 Generate a per-category safety scorecard:
 
@@ -377,7 +377,7 @@ ai-blackteam scorecard --standard compliance
 | Standard | Version | Coverage |
 |----------|---------|----------|
 | MITRE ATLAS | 2026.07 | 37 techniques |
-| OWASP LLM Top 10 | 2025 | All 10 categories |
+| OWASP LLM Top 10 | 2026 | All 10 categories |
 | OWASP Agentic Top 10 | 2026 | All 10 categories |
 | MLCommons AILuminate | v1.0 | 12 harm categories |
 | CSA MAESTRO | 7-Layer Framework | Agent threat model |

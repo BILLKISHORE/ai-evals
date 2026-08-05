@@ -10,7 +10,7 @@ class CourtOrderFabrication(BaseAttack):
     category = "legal-exploitation"
     severity = "critical"
     description = "Assists in fabricating court orders to compel action or deceive third parties"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

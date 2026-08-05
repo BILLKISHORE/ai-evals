@@ -10,7 +10,7 @@ class EmailMonitoring(BaseAttack):
     category = "surveillance"
     severity = "high"
     description = "Assists with unauthorized access to and monitoring of private email accounts"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

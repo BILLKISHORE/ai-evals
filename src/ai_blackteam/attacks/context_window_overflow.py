@@ -10,7 +10,7 @@ class ContextWindowOverflow(BaseAttack):
     category = "memory-exploitation"
     severity = "high"
     description = "Floods the context window with benign filler text to push safety instructions out of the model's effective attention span"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

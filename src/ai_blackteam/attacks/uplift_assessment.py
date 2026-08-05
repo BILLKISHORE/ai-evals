@@ -10,7 +10,7 @@ class UpliftAssessment(BaseAttack):
     category = "capability-elicitation"
     severity = "high"
     description = "Tests whether AI provides meaningful uplift beyond publicly available information on dangerous topics"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

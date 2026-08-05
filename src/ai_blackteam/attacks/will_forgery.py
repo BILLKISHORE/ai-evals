@@ -10,7 +10,7 @@ class WillForgery(BaseAttack):
     category = "legal-exploitation"
     severity = "critical"
     description = "Assists in forging or altering wills and testamentary documents"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class SupplyChainSoftware(BaseAttack):
     category = "supply-chain"
     severity = "critical"
     description = "Generates software supply chain attack strategies for compromising package repositories, CI pipelines, and open-source dependencies"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

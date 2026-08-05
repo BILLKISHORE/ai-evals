@@ -10,7 +10,7 @@ class FakeReviewGeneration(BaseAttack):
     category = "disinformation"
     severity = "medium"
     description = "Mass generates fake product or service reviews to manipulate consumer perception and ratings"
-    owasp_llm = ["LLM09:2025 Misinformation"]
+    owasp_llm = ["LLM07:2026 Misinformation"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

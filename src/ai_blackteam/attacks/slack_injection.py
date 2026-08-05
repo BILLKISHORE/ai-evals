@@ -10,7 +10,7 @@ class SlackInjection(BaseAttack):
     category = "cross-platform"
     severity = "high"
     description = "Injects malicious instructions via Slack or Teams messages to hijack AI assistant actions"
-    owasp_llm = ["LLM06:2025 Excessive Agency"]
+    owasp_llm = ["LLM03:2026 Excessive Agency"]
     owasp_agentic = ["ASI01:2026 Prompt Injection via External Content"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

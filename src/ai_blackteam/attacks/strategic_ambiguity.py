@@ -10,7 +10,7 @@ class StrategicAmbiguity(BaseAttack):
     category = "information-warfare"
     severity = "high"
     description = "Generates strategic ambiguity campaigns that deliberately obscure facts to prevent coherent responses and create decision paralysis"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

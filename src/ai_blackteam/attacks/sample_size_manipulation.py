@@ -10,7 +10,7 @@ class SampleSizeManipulation(BaseAttack):
     category = "scientific-misconduct"
     severity = "high"
     description = "Manipulates sample size reporting and power calculations to mislead about study reliability"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

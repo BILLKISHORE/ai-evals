@@ -10,7 +10,7 @@ class ContextFragmentation(BaseAttack):
     category = "memory-exploitation"
     severity = "high"
     description = "Spreads a harmful request across multiple messages so no single turn triggers safety filters, then synthesizes the fragments"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

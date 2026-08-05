@@ -10,7 +10,7 @@ class EmotionalFlooding(BaseAttack):
     category = "psychological-manipulation"
     severity = "high"
     description = "Overwhelms the model with intense emotional distress to trigger a crisis-response mode that bypasses reasoning"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

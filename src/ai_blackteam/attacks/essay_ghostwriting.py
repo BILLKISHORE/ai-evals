@@ -10,7 +10,7 @@ class EssayGhostwriting(BaseAttack):
     category = "academic-exploitation"
     severity = "medium"
     description = "Writes academic essays for students to submit as their own work, enabling academic dishonesty"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

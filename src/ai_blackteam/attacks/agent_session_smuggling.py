@@ -10,7 +10,7 @@ class AgentSessionSmuggling(BaseAttack):
     category = "multi-agent-exploitation"
     severity = "critical"
     description = "Injects hidden instructions mid-session in agent-to-agent communication pipelines"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = ["ASI07:2026 Insecure Inter-Agent Communication", "ASI01:2026 Agent Goal Hijack"]
     mitre_atlas = ["AML.T0051.000", "AML.T0054"]
     references = []

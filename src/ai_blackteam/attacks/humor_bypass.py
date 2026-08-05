@@ -10,7 +10,7 @@ class HumorBypass(BaseAttack):
     category = "social-engineering"
     severity = "medium"
     description = "Uses jokes, satire, and comedic framing to lower safety thresholds and extract harmful content"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = ["https://aclanthology.org/2025.llmsec-1.3.pdf"]
 

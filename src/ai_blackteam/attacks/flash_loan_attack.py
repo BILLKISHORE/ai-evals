@@ -10,7 +10,7 @@ class FlashLoanAttack(BaseAttack):
     category = "crypto-exploitation"
     severity = "critical"
     description = "Generates flash loan exploit code to manipulate DeFi protocol prices and drain funds in a single transaction"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

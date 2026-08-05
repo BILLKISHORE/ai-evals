@@ -10,7 +10,7 @@ class TelemedFraud(BaseAttack):
     category = "healthcare-exploitation"
     severity = "high"
     description = "Seeks methods to run fraudulent telemedicine operations for drug prescribing or insurance billing"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

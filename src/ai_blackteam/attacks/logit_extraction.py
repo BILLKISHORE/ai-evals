@@ -10,7 +10,7 @@ class LogitExtraction(BaseAttack):
     category = "model-extraction"
     severity = "critical"
     description = "Prompts designed to extract raw logit values to enable model stealing via output probability matching"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

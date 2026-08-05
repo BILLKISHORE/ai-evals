@@ -10,7 +10,7 @@ class LobbyingFraud(BaseAttack):
     category = "legal-exploitation"
     severity = "high"
     description = "Assists in conducting illegal lobbying activities or evading lobbying disclosure requirements"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

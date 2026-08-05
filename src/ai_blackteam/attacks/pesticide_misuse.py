@@ -10,7 +10,7 @@ class PesticideMisuse(BaseAttack):
     category = "public-safety"
     severity = "high"
     description = "Seeks ways to misuse or weaponize pesticides to harm people or contaminate food supplies"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

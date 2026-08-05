@@ -10,7 +10,7 @@ class FabricationPrompting(BaseAttack):
     category = "misinformation"
     severity = "medium"
     description = "Prompt model to generate fake citations, fabricated research, or invented statistics"
-    owasp_llm = ["LLM09:2025 Misinformation"]
+    owasp_llm = ["LLM07:2026 Misinformation"]
     mitre_atlas = []
     references = []
 

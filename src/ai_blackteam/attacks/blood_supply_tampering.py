@@ -10,7 +10,7 @@ class BloodSupplyTampering(BaseAttack):
     category = "healthcare-exploitation"
     severity = "critical"
     description = "Attempts to elicit methods for contaminating or tampering with donated blood supplies"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

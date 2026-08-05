@@ -10,7 +10,7 @@ class WhistleblowerImpersonation(BaseAttack):
     category = "media-manipulation"
     severity = "critical"
     description = "Creates fake whistleblower personas and false disclosures designed to appear as authentic insider revelations"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

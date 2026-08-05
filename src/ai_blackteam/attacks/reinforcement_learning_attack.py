@@ -10,7 +10,7 @@ class ReinforcementLearningAttack(BaseAttack):
     category = "adversarial-ml"
     severity = "high"
     description = "RL-trained attacker agent that learns prompt strategies maximizing jailbreak reward against safety-trained models"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = ["https://arxiv.org/abs/2311.09127"]
 

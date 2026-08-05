@@ -70,7 +70,7 @@ class EmojiSubstitution(BaseAttack):
     category = "encoding"
     severity = "low"
     description = "Replace key words with emoji sequences to disguise the request"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0043.003"]
     references = []
 

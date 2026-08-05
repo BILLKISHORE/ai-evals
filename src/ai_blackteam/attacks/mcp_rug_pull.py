@@ -10,7 +10,7 @@ class McpRugPull(BaseAttack):
     category = "mcp-exploitation"
     severity = "high"
     description = "Previously trusted MCP tool changes behavior mid-session to request credentials"
-    owasp_llm = ["LLM06:2025 Excessive Agency", "LLM02:2025 Sensitive Information Disclosure"]
+    owasp_llm = ["LLM03:2026 Excessive Agency", "LLM02:2026 Sensitive Information Disclosure"]
     owasp_agentic = ["ASI02:2026 Tool Misuse & Exploitation", "ASI04:2026 Agentic Supply Chain Compromise"]
     mitre_atlas = ["AML.T0109", "AML.T0010.005"]
     references = []

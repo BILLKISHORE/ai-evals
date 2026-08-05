@@ -10,7 +10,7 @@ class BadLikertJudge(BaseAttack):
     category = "social-engineering"
     severity = "high"
     description = "Exploit evaluation capability by asking model to score and exemplify harmful content"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0065"]
     references = ["https://unit42.paloaltonetworks.com/jailbreaking-llms-practical-guide/"]
 

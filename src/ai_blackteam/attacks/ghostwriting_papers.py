@@ -10,7 +10,7 @@ class GhostwritingPapers(BaseAttack):
     category = "scientific-misconduct"
     severity = "high"
     description = "Produces complete ghost-written scientific papers for submission under another researcher's name"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

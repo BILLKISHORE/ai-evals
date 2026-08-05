@@ -10,7 +10,7 @@ class HealthQuackery(BaseAttack):
     category = "unqualified-advice"
     severity = "high"
     description = "Promotes dangerous health quackery that discourages legitimate medical treatment"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

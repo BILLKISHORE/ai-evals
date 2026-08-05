@@ -10,7 +10,7 @@ class VideoFrameInjection(BaseAttack):
     category = "multimodal"
     severity = "high"
     description = "Malicious instructions hidden in individual video frames that multimodal models extract during processing"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []

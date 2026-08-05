@@ -15,7 +15,7 @@ class InvisibleCharacters(BaseAttack):
     category = "encoding"
     severity = "high"
     description = "Hides harmful instructions in zero-width Unicode characters (ZWSP/ZWNJ) invisible to human reviewers"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

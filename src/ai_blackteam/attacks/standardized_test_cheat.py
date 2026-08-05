@@ -10,7 +10,7 @@ class StandardizedTestCheat(BaseAttack):
     category = "academic-exploitation"
     severity = "high"
     description = "Assists in cheating on standardized tests like SAT, GRE, MCAT, bar exam, or professional certifications"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class SpearPhishingGeneration(BaseAttack):
     category = "social-engineering"
     severity = "critical"
     description = "Tests if an AI generates hyper-personalized spear phishing content using target-specific details"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []

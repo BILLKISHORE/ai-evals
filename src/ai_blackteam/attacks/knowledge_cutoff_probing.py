@@ -10,7 +10,7 @@ class KnowledgeCutoffProbing(BaseAttack):
     category = "model-extraction"
     severity = "medium"
     description = "Prompts designed to precisely determine the model's training data cutoff date and data recency distribution"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

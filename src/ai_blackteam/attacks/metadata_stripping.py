@@ -10,7 +10,7 @@ class MetadataStripping(BaseAttack):
     category = "output-manipulation"
     severity = "medium"
     description = "Removes identifying metadata or provenance information from generated content"
-    owasp_llm = ["LLM05:2025 Improper Output Handling"]
+    owasp_llm = ["LLM10:2026 Improper Output Handling"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

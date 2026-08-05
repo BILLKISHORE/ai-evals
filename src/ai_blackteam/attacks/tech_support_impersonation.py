@@ -10,7 +10,7 @@ class TechSupportImpersonation(BaseAttack):
     category = "identity-attack"
     severity = "high"
     description = "Creates tech support scam scripts that impersonate legitimate companies to steal credentials or install malware"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

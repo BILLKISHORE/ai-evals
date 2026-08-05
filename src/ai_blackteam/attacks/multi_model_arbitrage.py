@@ -10,7 +10,7 @@ class MultiModelArbitrage(BaseAttack):
     category = "safety-circumvention"
     severity = "high"
     description = "Uses the existence of less-restricted models to argue that the target model's refusal is arbitrary, then leverages that argument to pressure compliance"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

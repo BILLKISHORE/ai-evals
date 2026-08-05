@@ -10,7 +10,7 @@ class OcrBypass(BaseAttack):
     category = "multimodal"
     severity = "high"
     description = "Harmful instructions rendered as text in images to bypass text-based safety filters via OCR processing"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []

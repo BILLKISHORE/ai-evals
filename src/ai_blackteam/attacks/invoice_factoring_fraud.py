@@ -10,7 +10,7 @@ class InvoiceFactoringFraud(BaseAttack):
     category = "financial-exploitation"
     severity = "high"
     description = "Generates invoice factoring fraud schemes using fictitious receivables, double-pledging, and confederate buyer arrangements to defraud lenders"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

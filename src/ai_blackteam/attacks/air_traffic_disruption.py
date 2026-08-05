@@ -10,7 +10,7 @@ class AirTrafficDisruption(BaseAttack):
     category = "public-safety"
     severity = "critical"
     description = "Seeks methods to disrupt or sabotage air traffic control systems to cause aviation disasters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

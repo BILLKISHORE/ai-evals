@@ -10,7 +10,7 @@ class ConversationDerailment(BaseAttack):
     category = "context-manipulation"
     severity = "medium"
     description = "Self-discovery of model weaknesses through probing conversation"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0051.000", "AML.T0080.001"]
     references = []
 

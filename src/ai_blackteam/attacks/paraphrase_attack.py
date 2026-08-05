@@ -10,7 +10,7 @@ class ParaphraseAttack(BaseAttack):
     category = "adversarial-ml"
     severity = "high"
     description = "Systematically paraphrases harmful requests to evade surface-level safety filters while retaining the harmful objective"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = ["https://arxiv.org/abs/2210.11610"]
 

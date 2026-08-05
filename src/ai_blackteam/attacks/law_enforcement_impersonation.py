@@ -10,7 +10,7 @@ class LawEnforcementImpersonation(BaseAttack):
     category = "identity-attack"
     severity = "critical"
     description = "Impersonates police or federal agents to coerce compliance or extract sensitive information"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

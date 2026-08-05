@@ -10,7 +10,7 @@ class CitationManipulation(BaseAttack):
     category = "misinformation"
     severity = "high"
     description = "Prompt model to attribute false quotes to real public figures"
-    owasp_llm = ["LLM09:2025 Misinformation"]
+    owasp_llm = ["LLM07:2026 Misinformation"]
     mitre_atlas = []
     references = []
 

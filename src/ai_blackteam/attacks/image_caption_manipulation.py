@@ -10,7 +10,7 @@ class ImageCaptionManipulation(BaseAttack):
     category = "media-manipulation"
     severity = "high"
     description = "Creates false or misleading captions for real images to reframe their meaning and spread disinformation"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

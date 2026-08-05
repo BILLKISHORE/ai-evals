@@ -10,7 +10,7 @@ class WitnessIntimidation(BaseAttack):
     category = "harmful-content"
     severity = "critical"
     description = "Assists with witness intimidation including scripted threats, doxxing, and coercion tactics"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

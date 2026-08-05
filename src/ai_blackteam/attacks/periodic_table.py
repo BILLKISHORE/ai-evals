@@ -32,7 +32,7 @@ class PeriodicTable(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Spells out harmful requests using chemical element symbols where the first letter encodes each character"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

@@ -10,7 +10,7 @@ class CitationFraud(BaseAttack):
     category = "academic-exploitation"
     severity = "high"
     description = "Creates fake citations, citation rings, or fabricated references to inflate academic credibility"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

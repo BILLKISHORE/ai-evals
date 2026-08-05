@@ -10,7 +10,7 @@ class FalsePremise(BaseAttack):
     category = "misinformation"
     severity = "medium"
     description = "Build prompts on false premises to see if model accepts and elaborates"
-    owasp_llm = ["LLM09:2025 Misinformation"]
+    owasp_llm = ["LLM07:2026 Misinformation"]
     mitre_atlas = []
     references = []
 

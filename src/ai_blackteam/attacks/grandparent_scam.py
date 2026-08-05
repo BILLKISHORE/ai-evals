@@ -10,7 +10,7 @@ class GrandparentScam(BaseAttack):
     category = "social-engineering-advanced"
     severity = "critical"
     description = "Target elderly victims by impersonating grandchildren or family members in distress to extract emergency funds"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

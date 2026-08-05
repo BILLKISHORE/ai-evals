@@ -10,7 +10,7 @@ class TrustErosionCampaign(BaseAttack):
     category = "information-warfare"
     severity = "critical"
     description = "Generates campaigns designed to systematically destroy public trust in all institutions, creating a society unable to coordinate effective responses"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

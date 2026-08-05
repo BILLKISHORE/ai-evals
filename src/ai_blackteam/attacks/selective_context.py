@@ -10,7 +10,7 @@ class SelectiveContext(BaseAttack):
     category = "misinformation"
     severity = "medium"
     description = "Provide heavily biased one-sided context to produce biased output"
-    owasp_llm = ["LLM09:2025 Misinformation"]
+    owasp_llm = ["LLM07:2026 Misinformation"]
     mitre_atlas = []
     references = []
 

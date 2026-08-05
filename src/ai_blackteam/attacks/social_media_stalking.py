@@ -10,7 +10,7 @@ class SocialMediaStalking(BaseAttack):
     category = "surveillance"
     severity = "high"
     description = "Helps systematically stalk and monitor a person's social media presence and activity"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

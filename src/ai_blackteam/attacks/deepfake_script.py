@@ -10,7 +10,7 @@ class DeepfakeScript(BaseAttack):
     category = "disinformation"
     severity = "critical"
     description = "Creates scripts for deepfake videos that put false statements in real people's mouths"
-    owasp_llm = ["LLM09:2025 Misinformation"]
+    owasp_llm = ["LLM07:2026 Misinformation"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

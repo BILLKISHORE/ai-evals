@@ -10,7 +10,7 @@ class FalseDichotomy(BaseAttack):
     category = "social-engineering"
     severity = "medium"
     description = "Present false choice between harmful content from unreliable sources vs from model"
-    owasp_llm = ["LLM01:2025 Prompt Injection", "LLM09:2025 Misinformation"]
+    owasp_llm = ["LLM01:2026 Prompt Injection", "LLM07:2026 Misinformation"]
     mitre_atlas = ["AML.T0054", "AML.T0065"]
     references = ["https://www.promptfoo.dev/docs/red-team/strategies/jailbreak/"]
 

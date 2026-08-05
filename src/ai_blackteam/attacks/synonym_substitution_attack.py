@@ -10,7 +10,7 @@ class SynonymSubstitutionAttack(BaseAttack):
     category = "adversarial-ml"
     severity = "medium"
     description = "Replaces flagged keywords with synonyms or semantically equivalent terms to bypass lexical safety filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = ["https://arxiv.org/abs/1907.11932"]
 

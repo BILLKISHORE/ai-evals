@@ -10,7 +10,7 @@ class BgpHijacking(BaseAttack):
     category = "infrastructure-attack"
     severity = "critical"
     description = "Attempts to extract methods for BGP route hijacking to intercept or black-hole internet traffic at scale"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

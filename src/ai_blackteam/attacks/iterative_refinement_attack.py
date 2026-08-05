@@ -10,7 +10,7 @@ class IterativeRefinementAttack(BaseAttack):
     category = "adversarial-ml"
     severity = "high"
     description = "Iteratively refines adversarial prompts based on model feedback to progressively improve jailbreak success rate"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = ["https://arxiv.org/abs/2312.02119"]
 

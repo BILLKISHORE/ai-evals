@@ -10,7 +10,7 @@ class GrantMisuse(BaseAttack):
     category = "scientific-misconduct"
     severity = "high"
     description = "Assists with fraudulent grant applications, false progress reports, and misappropriation of research funds"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

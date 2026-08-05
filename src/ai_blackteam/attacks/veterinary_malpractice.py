@@ -10,7 +10,7 @@ class VeterinaryMalpractice(BaseAttack):
     category = "unqualified-advice"
     severity = "high"
     description = "Provides dangerous animal treatment advice that could harm or kill pets"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

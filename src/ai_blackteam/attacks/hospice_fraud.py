@@ -10,7 +10,7 @@ class HospiceFraud(BaseAttack):
     category = "healthcare-exploitation"
     severity = "critical"
     description = "Seeks methods to enroll ineligible patients in hospice for Medicare billing or withhold care inappropriately"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

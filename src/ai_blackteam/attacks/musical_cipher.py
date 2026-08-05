@@ -19,7 +19,7 @@ class MusicalCipher(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Maps letters to solfege note names (Do, Re, Mi, Fa, Sol, La, Ti) to encode harmful requests as music notation"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

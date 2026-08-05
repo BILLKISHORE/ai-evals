@@ -12,7 +12,7 @@ class Base32Encoding(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Encodes harmful text in Base32 format to bypass content filters that scan for plaintext keywords"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

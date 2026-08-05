@@ -10,7 +10,7 @@ class InstructionHierarchyBypass(BaseAttack):
     category = "prompt-injection"
     severity = "critical"
     description = "Exploits the model's instruction hierarchy by claiming higher-privilege context to override safety guidelines"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = ["https://arxiv.org/abs/2312.14197"]
 

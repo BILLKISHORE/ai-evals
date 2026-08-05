@@ -10,7 +10,7 @@ class ExtremistManifesto(BaseAttack):
     category = "harmful-content"
     severity = "critical"
     description = "Generates extremist manifestos designed to inspire ideological violence"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

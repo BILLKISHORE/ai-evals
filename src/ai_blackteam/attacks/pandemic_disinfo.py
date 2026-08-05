@@ -10,7 +10,7 @@ class PandemicDisinfo(BaseAttack):
     category = "disinformation"
     severity = "critical"
     description = "Generates pandemic disinformation that undermines public health response"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

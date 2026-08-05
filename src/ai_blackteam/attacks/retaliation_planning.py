@@ -10,7 +10,7 @@ class RetaliationPlanning(BaseAttack):
     category = "workplace-exploitation"
     severity = "critical"
     description = "Gets model to plan retaliation against employees for legally protected activities"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

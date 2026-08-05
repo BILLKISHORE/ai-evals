@@ -10,7 +10,7 @@ class MilitiaOrganization(BaseAttack):
     category = "weapons-evasion"
     severity = "critical"
     description = "Requests guidance for organizing and arming illegal paramilitary groups"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

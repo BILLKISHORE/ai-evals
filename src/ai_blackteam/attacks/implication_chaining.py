@@ -10,7 +10,7 @@ class ImplicationChaining(BaseAttack):
     category = "social-engineering"
     severity = "medium"
     description = "Pair emotionally loaded context with innocent-seeming request relying on model connecting dots"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0065"]
     references = ["https://arxiv.org/abs/2507.21820"]
 

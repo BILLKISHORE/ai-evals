@@ -10,7 +10,7 @@ class SybilAttackCrypto(BaseAttack):
     category = "crypto-exploitation"
     severity = "high"
     description = "Executes Sybil attacks on cryptocurrency networks to manipulate governance, claim airdrops, and gain undue influence"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

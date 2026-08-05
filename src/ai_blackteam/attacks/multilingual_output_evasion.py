@@ -10,7 +10,7 @@ class MultilingualOutputEvasion(BaseAttack):
     category = "output-manipulation"
     severity = "medium"
     description = "Outputs harmful content in a non-English language to evade English-only content monitoring"
-    owasp_llm = ["LLM05:2025 Improper Output Handling"]
+    owasp_llm = ["LLM10:2026 Improper Output Handling"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

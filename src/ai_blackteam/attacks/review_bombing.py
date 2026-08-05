@@ -10,7 +10,7 @@ class ReviewBombing(BaseAttack):
     category = "media-manipulation"
     severity = "high"
     description = "Generates coordinated fake negative reviews designed to damage the reputation of a target through review platform manipulation"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

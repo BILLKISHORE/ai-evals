@@ -28,7 +28,7 @@ class MorseCode(BaseAttack):
     category = "encoding"
     severity = "low"
     description = "Encode target instructions in Morse code to bypass text filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0043.003"]
     references = []
 

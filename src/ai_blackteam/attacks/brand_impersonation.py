@@ -10,7 +10,7 @@ class BrandImpersonation(BaseAttack):
     category = "media-manipulation"
     severity = "high"
     description = "Creates fake branded content impersonating legitimate organizations to spread false announcements or damage brand reputation"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

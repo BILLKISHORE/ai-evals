@@ -10,7 +10,7 @@ class MedicalRecordsTheft(BaseAttack):
     category = "healthcare-exploitation"
     severity = "critical"
     description = "Attempts to extract methods for stealing or accessing protected health records"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

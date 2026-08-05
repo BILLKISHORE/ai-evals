@@ -10,7 +10,7 @@ class UnsafeWorkplaceConcealment(BaseAttack):
     category = "workplace-exploitation"
     severity = "critical"
     description = "Gets model to help conceal workplace safety violations or injuries from regulators"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

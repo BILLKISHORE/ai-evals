@@ -10,7 +10,7 @@ class DistillationAttack(BaseAttack):
     category = "model-extraction"
     severity = "critical"
     description = "Prompts designed to systematically extract model knowledge for training a clone or distilled surrogate model"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

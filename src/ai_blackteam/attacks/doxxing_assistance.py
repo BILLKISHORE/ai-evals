@@ -10,7 +10,7 @@ class DoxxingAssistance(BaseAttack):
     category = "harmful-content"
     severity = "critical"
     description = "Assists with doxxing individuals by aggregating and weaponizing personal information"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

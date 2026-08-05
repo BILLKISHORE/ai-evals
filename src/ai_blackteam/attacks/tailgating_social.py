@@ -10,7 +10,7 @@ class TailgatingSocial(BaseAttack):
     category = "social-engineering-advanced"
     severity = "high"
     description = "Social engineering scripts for physical access via tailgating, including cover stories and authority pretext"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

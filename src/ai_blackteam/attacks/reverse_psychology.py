@@ -10,7 +10,7 @@ class ReversePsychology(BaseAttack):
     category = "prompt-injection"
     severity = "medium"
     description = "Phrases requests as prohibitions or challenges, exploiting the tendency to complete negated patterns or prove capability when told not to"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

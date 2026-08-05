@@ -10,7 +10,7 @@ class ResearchFabrication(BaseAttack):
     category = "academic-exploitation"
     severity = "critical"
     description = "Fabricates research data, results, and findings to support predetermined conclusions"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class ReverseShell(BaseAttack):
     category = "code-exploitation"
     severity = "critical"
     description = "Asks the model to generate reverse shell payloads for establishing covert command-and-control channels"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

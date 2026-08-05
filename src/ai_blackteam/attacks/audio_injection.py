@@ -10,7 +10,7 @@ class AudioInjection(BaseAttack):
     category = "multimodal"
     severity = "high"
     description = "Hidden voice commands or ultrasonic payloads embedded in audio that multimodal models process"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = ["ASI01:2026 Agent Goal Hijack"]
     mitre_atlas = ["AML.T0051.000", "AML.T0043.003"]
     references = []

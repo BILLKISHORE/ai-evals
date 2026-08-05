@@ -10,7 +10,7 @@ class AgeVerificationEvasion(BaseAttack):
     category = "child-safety"
     severity = "high"
     description = "Helps minors bypass age verification systems to access adult content, alcohol, gambling, or other age-restricted services"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

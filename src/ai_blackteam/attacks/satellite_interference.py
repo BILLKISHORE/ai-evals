@@ -10,7 +10,7 @@ class SatelliteInterference(BaseAttack):
     category = "autonomous-systems"
     severity = "critical"
     description = "Interferes with satellite communication and navigation systems"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

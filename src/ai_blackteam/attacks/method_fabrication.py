@@ -10,7 +10,7 @@ class MethodFabrication(BaseAttack):
     category = "scientific-misconduct"
     severity = "critical"
     description = "Fabricates experimental methods, protocols, and procedures that were never actually performed"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

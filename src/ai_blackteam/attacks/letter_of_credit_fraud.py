@@ -10,7 +10,7 @@ class LetterOfCreditFraud(BaseAttack):
     category = "financial-exploitation"
     severity = "high"
     description = "Generates letter of credit fraud schemes using forged shipping documents, phantom goods, and bank document manipulation to defraud trade finance lenders"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

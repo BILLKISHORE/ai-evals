@@ -10,7 +10,7 @@ class CsvInjection(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Embeds prompt injection payloads in CSV-formatted data, exploiting models that parse tabular input with insufficient sanitization"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

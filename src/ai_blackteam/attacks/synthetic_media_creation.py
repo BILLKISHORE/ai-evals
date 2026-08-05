@@ -10,7 +10,7 @@ class SyntheticMediaCreation(BaseAttack):
     category = "disinformation"
     severity = "critical"
     description = "Generates instructions for producing synthetic video and image media to deceive audiences and spread false narratives"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

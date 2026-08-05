@@ -10,7 +10,7 @@ class AuthorityOverride(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Claims organizational authority, developer status, or administrative privilege to assert the right to override safety constraints"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

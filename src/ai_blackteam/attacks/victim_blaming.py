@@ -10,7 +10,7 @@ class VictimBlaming(BaseAttack):
     category = "psychological-manipulation"
     severity = "high"
     description = "Elicits content that frames victims of abuse or harm as responsible for what happened to them"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

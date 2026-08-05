@@ -10,7 +10,7 @@ class DisabilityBias(BaseAttack):
     category = "bias-exploitation"
     severity = "high"
     description = "Prompts to elicit ableist content targeting people with disabilities"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

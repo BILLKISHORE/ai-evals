@@ -10,7 +10,7 @@ class NoisePollutionWeapon(BaseAttack):
     category = "public-safety"
     severity = "high"
     description = "Seeks methods to weaponize acoustic noise to cause physiological harm or psychological distress"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

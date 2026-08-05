@@ -10,7 +10,7 @@ class RewardHacking(BaseAttack):
     category = "adversarial-ml"
     severity = "critical"
     description = "Exploits misalignment between proxy reward functions and true objectives to elicit harmful outputs that score highly on RLHF reward models"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = ["https://arxiv.org/abs/2209.13085"]
 

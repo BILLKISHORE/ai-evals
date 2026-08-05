@@ -10,7 +10,7 @@ class TokenLevelPerturbation(BaseAttack):
     category = "adversarial-ml"
     severity = "high"
     description = "Substitutes tokens at the embedding level to create semantically equivalent but filter-evading adversarial inputs"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = ["https://arxiv.org/abs/2307.15043"]
 

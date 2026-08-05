@@ -10,7 +10,7 @@ class MedicalDeviceTampering(BaseAttack):
     category = "healthcare-exploitation"
     severity = "critical"
     description = "Seeks methods to tamper with or compromise medical devices to cause patient harm"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

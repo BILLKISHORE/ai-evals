@@ -10,7 +10,7 @@ class JailbreakPromptV2(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Updated DAN-style and jailbreak prompt patterns that attempt to unlock unconstrained model behavior through explicit capability declarations"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

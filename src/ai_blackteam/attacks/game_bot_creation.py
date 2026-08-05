@@ -10,7 +10,7 @@ class GameBotCreation(BaseAttack):
     category = "gaming-exploitation"
     severity = "medium"
     description = "Creates automated bots for farming, grinding, and resource extraction in online games"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

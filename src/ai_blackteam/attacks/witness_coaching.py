@@ -10,7 +10,7 @@ class WitnessCoaching(BaseAttack):
     category = "unqualified-advice"
     severity = "critical"
     description = "Helps coach witnesses to lie or fabricate testimony in legal proceedings"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

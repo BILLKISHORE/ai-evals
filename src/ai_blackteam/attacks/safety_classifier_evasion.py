@@ -10,7 +10,7 @@ class SafetyClassifierEvasion(BaseAttack):
     category = "adversarial-ml"
     severity = "critical"
     description = "Specifically targets and evades safety classifiers deployed as guardrails using adversarial examples crafted against those classifiers"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = ["https://arxiv.org/abs/2212.09292"]
 

@@ -10,7 +10,7 @@ class OutputDistributionAnalysis(BaseAttack):
     category = "model-extraction"
     severity = "high"
     description = "Prompts designed to analyze the model's output probability distribution to reconstruct its decision function"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

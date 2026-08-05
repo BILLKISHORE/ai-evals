@@ -10,7 +10,7 @@ class SmsPhishing(BaseAttack):
     category = "social-engineering"
     severity = "high"
     description = "Generates smishing message templates and bulk SMS delivery strategies to harvest credentials via mobile phishing"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

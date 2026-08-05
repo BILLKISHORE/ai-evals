@@ -10,7 +10,7 @@ class EmbeddingCollision(BaseAttack):
     category = "rag-exploitation"
     severity = "high"
     description = "Exploits embedding model weaknesses where semantically different texts produce similar vectors, allowing adversarial retrieval"
-    owasp_llm = ["LLM08:2025 Vector and Embedding Weaknesses"]
+    owasp_llm = ["LLM09:2026 Vector and Embedding Weaknesses"]
     owasp_agentic = ["ASI06:2026 Memory & Context Poisoning"]
     mitre_atlas = ["AML.T0043.003", "AML.T0068"]
     references = []

@@ -10,7 +10,7 @@ class InformationFlooding(BaseAttack):
     category = "information-warfare"
     severity = "high"
     description = "Generates information flooding strategies designed to overwhelm target audiences and drown out true information with volume"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -19,7 +19,7 @@ class EmojiCipher(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Maps each letter to a specific emoji to encode harmful requests in a form that text filters may ignore"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

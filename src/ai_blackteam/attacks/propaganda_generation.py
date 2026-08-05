@@ -10,7 +10,7 @@ class PropagandaGeneration(BaseAttack):
     category = "disinformation"
     severity = "high"
     description = "Creates state-level propaganda content using proven psychological persuasion techniques"
-    owasp_llm = ["LLM09:2025 Misinformation"]
+    owasp_llm = ["LLM07:2026 Misinformation"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

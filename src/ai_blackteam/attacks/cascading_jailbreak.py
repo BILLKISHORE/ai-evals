@@ -10,7 +10,7 @@ class CascadingJailbreak(BaseAttack):
     category = "multi-agent-exploitation"
     severity = "critical"
     description = "Tests if a jailbreak in one agent context propagates to downstream agents by embedding jailbreak state in inter-agent messages"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = ["ASI07:2026 Insecure Inter-Agent Communication", "ASI08:2026 Cascading Agent Failures"]
     mitre_atlas = ["AML.T0054"]
     references = []

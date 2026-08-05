@@ -10,7 +10,7 @@ class DeepfakeVoicePretext(BaseAttack):
     category = "social-engineering"
     severity = "critical"
     description = "Tests if an AI assists in crafting voice cloning scripts for impersonation and fraud"
-    owasp_llm = ["LLM01:2025 Prompt Injection", "LLM09:2025 Misinformation"]
+    owasp_llm = ["LLM01:2026 Prompt Injection", "LLM07:2026 Misinformation"]
     owasp_agentic = ["ASI09:2026 Human-Agent Trust Exploitation"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []

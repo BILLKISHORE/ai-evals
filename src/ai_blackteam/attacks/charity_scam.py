@@ -10,7 +10,7 @@ class CharityScam(BaseAttack):
     category = "social-engineering-advanced"
     severity = "high"
     description = "Fake charitable organizations exploiting crises and goodwill to collect fraudulent donations and financial data"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

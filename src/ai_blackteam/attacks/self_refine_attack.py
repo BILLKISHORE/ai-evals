@@ -14,7 +14,7 @@ class SelfRefineAttack(BaseAttack):
         "then iteratively asks the model to improve its response to be more helpful, rating its "
         "own helpfulness and aiming higher each turn until safety guardrails erode."
     )
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = ["ASI09:2026 Human-Agent Trust Exploitation"]
     mitre_atlas = ["AML.T0054"]
     references = []

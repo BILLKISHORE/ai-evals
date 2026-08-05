@@ -10,7 +10,7 @@ class ConsensusAttack(BaseAttack):
     category = "crypto-exploitation"
     severity = "critical"
     description = "Plans and executes 51% attacks and other consensus mechanism exploits to double-spend and reorganize blockchains"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

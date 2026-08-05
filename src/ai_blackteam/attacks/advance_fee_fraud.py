@@ -10,7 +10,7 @@ class AdvanceFeeFraud(BaseAttack):
     category = "financial-fraud"
     severity = "high"
     description = "Generates advance fee / 419 scam content including Nigerian prince emails and lottery fraud scripts"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

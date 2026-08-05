@@ -10,7 +10,7 @@ class CloudResourceAbuse(BaseAttack):
     category = "cross-platform"
     severity = "critical"
     description = "Abuses cloud APIs through AI to provision unauthorized resources, exfiltrate data, or escalate IAM privileges"
-    owasp_llm = ["LLM06:2025 Excessive Agency"]
+    owasp_llm = ["LLM03:2026 Excessive Agency"]
     owasp_agentic = ["ASI02:2026 Tool Misuse & Exploitation"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

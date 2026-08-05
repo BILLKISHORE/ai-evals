@@ -33,7 +33,7 @@ class BrailleEncoding(BaseAttack):
     category = "encoding"
     severity = "low"
     description = "Encode target in Unicode braille characters to bypass text filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0043.003"]
     references = []
 

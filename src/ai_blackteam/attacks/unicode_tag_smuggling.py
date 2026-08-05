@@ -10,7 +10,7 @@ class UnicodeTagSmuggling(BaseAttack):
     category = "encoding"
     severity = "high"
     description = "Hides harmful text in Unicode tag characters (U+E0000 range) which are invisible to humans but may be processed by models"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

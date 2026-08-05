@@ -10,7 +10,7 @@ class EmotionalManipulationCampaign(BaseAttack):
     category = "disinformation"
     severity = "high"
     description = "Designs large-scale campaigns that exploit emotional vulnerabilities to bypass rational judgment"
-    owasp_llm = ["LLM09:2025 Misinformation"]
+    owasp_llm = ["LLM07:2026 Misinformation"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

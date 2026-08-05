@@ -12,7 +12,7 @@ class PigLatinEncoding(BaseAttack):
     category = "encoding"
     severity = "low"
     description = "Transforms harmful requests into Pig Latin to slightly obfuscate intent and confuse simple keyword filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

@@ -15,7 +15,7 @@ class BookCipher(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "References word positions in a shared reference text to spell out harmful requests via book cipher"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

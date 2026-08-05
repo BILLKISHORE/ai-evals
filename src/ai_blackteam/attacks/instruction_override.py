@@ -10,7 +10,7 @@ class InstructionOverride(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Directly overrides system instructions by issuing a new, conflicting instruction that claims precedence over prior constraints"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class MoraleDestruction(BaseAttack):
     category = "information-warfare"
     severity = "high"
     description = "Generates psychological operations designed to destroy military and civilian morale through targeted disinformation and psychological attacks"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class BeamSearchAttack(BaseAttack):
     category = "adversarial-ml"
     severity = "high"
     description = "Uses beam search to explore token sequences that maximize attack success probability while maintaining fluency"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = ["https://arxiv.org/abs/2307.15043"]
 

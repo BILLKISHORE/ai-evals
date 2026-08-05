@@ -10,7 +10,7 @@ class DelimiterEscape(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Escapes prompt delimiters used to separate system context from user input, injecting content into the privileged region"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = ["https://learnprompting.org/docs/prompt_hacking/offensive_measures/prompt_injection"]
 

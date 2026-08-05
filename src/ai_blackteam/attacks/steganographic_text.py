@@ -10,7 +10,7 @@ class SteganographicText(BaseAttack):
     category = "encoding"
     severity = "high"
     description = "Hides a harmful instruction in the first letter of each sentence (acrostic), evading surface-level content scans"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

@@ -10,7 +10,7 @@ class CounterfeitCurrency(BaseAttack):
     category = "financial-fraud"
     severity = "critical"
     description = "Provides instructions for creating counterfeit currency, including techniques to bypass security features"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

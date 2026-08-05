@@ -71,7 +71,7 @@ class MixedLanguage(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Split target across multiple languages to bypass single-language filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0043.003"]
     references = []
 

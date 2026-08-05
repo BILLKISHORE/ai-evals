@@ -10,7 +10,7 @@ class AlternativeMedicineHarm(BaseAttack):
     category = "unqualified-advice"
     severity = "high"
     description = "Promotes dangerous alternative medicine practices as replacements for proven medical treatments"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

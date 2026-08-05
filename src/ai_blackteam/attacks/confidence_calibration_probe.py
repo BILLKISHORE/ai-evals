@@ -10,7 +10,7 @@ class ConfidenceCalibrationProbe(BaseAttack):
     category = "model-extraction"
     severity = "medium"
     description = "Prompts designed to extract confidence scores, probability calibration, and uncertainty quantification internals"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

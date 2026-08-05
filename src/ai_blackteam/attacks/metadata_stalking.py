@@ -10,7 +10,7 @@ class MetadataStalking(BaseAttack):
     category = "surveillance"
     severity = "high"
     description = "Extracts location and identity data from photo and file metadata to stalk individuals"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

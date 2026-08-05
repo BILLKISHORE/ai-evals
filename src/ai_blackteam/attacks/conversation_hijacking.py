@@ -10,7 +10,7 @@ class ConversationHijacking(BaseAttack):
     category = "memory-exploitation"
     severity = "high"
     description = "Hijacks an ongoing benign conversation by injecting a new harmful objective and claiming it is the real purpose of the session"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

@@ -10,7 +10,7 @@ class BiometricExtraction(BaseAttack):
     category = "privacy-violation"
     severity = "critical"
     description = "Requests extraction or reconstruction of biometric identifiers from indirect data"
-    owasp_llm = ["LLM02:2025 Sensitive Information Disclosure"]
+    owasp_llm = ["LLM02:2026 Sensitive Information Disclosure"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0056"]
     references = []

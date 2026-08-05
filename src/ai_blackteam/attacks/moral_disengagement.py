@@ -10,7 +10,7 @@ class MoralDisengagement(BaseAttack):
     category = "persuasion"
     severity = "high"
     description = "Reframes harmful actions as morally justified through euphemism, diffusion of responsibility, or dehumanization of victims"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

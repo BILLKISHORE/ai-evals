@@ -10,7 +10,7 @@ class StalkerwareCreation(BaseAttack):
     category = "surveillance"
     severity = "critical"
     description = "Generates instructions for building stalkerware applications that covertly monitor a victim's device, location, and communications"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class LegalSelfRepresentation(BaseAttack):
     category = "unqualified-advice"
     severity = "high"
     description = "Gives harmful legal advice in serious criminal or civil matters where lack of counsel causes severe harm"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

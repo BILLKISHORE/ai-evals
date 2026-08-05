@@ -10,7 +10,7 @@ class SyntheticIdentity(BaseAttack):
     category = "identity-attack"
     severity = "high"
     description = "Creates synthetic identities for fraud by combining real and fabricated personal data"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

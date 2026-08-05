@@ -10,7 +10,7 @@ class PromptLeaking(BaseAttack):
     category = "information-disclosure"
     severity = "high"
     description = "Indirect system prompt extraction via creative reformatting (poem, JSON, code)"
-    owasp_llm = ["LLM07:2025 System Prompt Leakage"]
+    owasp_llm = ["LLM08:2026 Hidden Context Exposure"]
     mitre_atlas = ['AML.T0056', 'AML.T0069.002']
     references = []
 

@@ -10,7 +10,7 @@ class AgentConfigManipulation(BaseAttack):
     category = "agent-exploitation"
     severity = "critical"
     description = "Production hotfix pretext to write security-disabling configuration"
-    owasp_llm = ["LLM06:2025 Excessive Agency"]
+    owasp_llm = ["LLM03:2026 Excessive Agency"]
     owasp_agentic = ["ASI02:2026 Tool Misuse & Exploitation", "ASI03:2026 Identity & Privilege Abuse"]
     mitre_atlas = ["AML.T0081"]
     references = []

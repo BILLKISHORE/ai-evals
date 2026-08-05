@@ -24,7 +24,7 @@ class TapCode(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Encodes harmful requests using the 5x5 prisoner tap code grid (row, column pairs) to evade filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

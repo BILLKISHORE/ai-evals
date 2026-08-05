@@ -10,7 +10,7 @@ class TechSupportScam(BaseAttack):
     category = "social-engineering-advanced"
     severity = "high"
     description = "Fake technical support scenarios that convince victims to grant remote access or pay for fraudulent services"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

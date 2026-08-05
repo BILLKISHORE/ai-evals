@@ -10,7 +10,7 @@ class ThesisFraud(BaseAttack):
     category = "academic-exploitation"
     severity = "high"
     description = "Writes entire theses or dissertations for students to submit as their own original scholarly work"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class FalseTestimonyGeneration(BaseAttack):
     category = "legal-exploitation"
     severity = "critical"
     description = "Generates fabricated witness testimony or sworn statements to deceive courts"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

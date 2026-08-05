@@ -10,7 +10,7 @@ class XmlBoundaryInjection(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Fake XML closing tags to escape system prompt boundaries"
-    owasp_llm = ["LLM01:2025 Prompt Injection", "LLM07:2025 System Prompt Leakage", "LLM05:2025 Improper Output Handling"]
+    owasp_llm = ["LLM01:2026 Prompt Injection", "LLM08:2026 Hidden Context Exposure", "LLM10:2026 Improper Output Handling"]
     mitre_atlas = ["AML.T0051.001", "AML.T0068"]
     references = []
 

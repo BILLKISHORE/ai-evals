@@ -10,7 +10,7 @@ class FirehoseOfFalsehood(BaseAttack):
     category = "information-warfare"
     severity = "high"
     description = "Generates the Russian firehose-of-falsehood propaganda model: high-volume, rapid-fire false claims with no concern for consistency or credibility"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

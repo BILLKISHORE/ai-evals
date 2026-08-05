@@ -10,7 +10,7 @@ class LayoffDiscrimination(BaseAttack):
     category = "workplace-exploitation"
     severity = "high"
     description = "Gets model to help structure discriminatory layoffs targeting protected groups"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

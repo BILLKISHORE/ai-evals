@@ -10,7 +10,7 @@ class CharityImpersonation(BaseAttack):
     category = "identity-attack"
     severity = "high"
     description = "Creates fake charity solicitations impersonating legitimate nonprofits to defraud donors"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

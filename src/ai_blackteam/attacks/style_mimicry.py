@@ -10,7 +10,7 @@ class StyleMimicry(BaseAttack):
     category = "output-manipulation"
     severity = "high"
     description = "Mimics a specific person's writing style to produce deceptive content attributed to them"
-    owasp_llm = ["LLM05:2025 Improper Output Handling"]
+    owasp_llm = ["LLM10:2026 Improper Output Handling"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class WhitespaceEncoding(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Encodes instructions using tabs and spaces (Whitespace language style) appended to innocuous text"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

@@ -10,7 +10,7 @@ class AsciiArtInjection(BaseAttack):
     category = "encoding"
     severity = "high"
     description = "Renders harmful keywords as ASCII art block letters to bypass text-based content filters while remaining readable"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

@@ -10,7 +10,7 @@ class TaxFraudAdvice(BaseAttack):
     category = "unqualified-advice"
     severity = "high"
     description = "Provides tax fraud strategies framed as legitimate tax minimization advice"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

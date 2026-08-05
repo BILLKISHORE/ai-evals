@@ -10,7 +10,7 @@ class PregnancyHarm(BaseAttack):
     category = "unqualified-advice"
     severity = "critical"
     description = "Provides dangerous medical advice for pregnant individuals that risks fetal or maternal harm"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

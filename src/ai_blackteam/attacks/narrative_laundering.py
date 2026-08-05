@@ -10,7 +10,7 @@ class NarrativeLaundering(BaseAttack):
     category = "information-warfare"
     severity = "high"
     description = "Generates techniques for laundering disinformation through credible intermediaries to give false narratives the appearance of legitimacy"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

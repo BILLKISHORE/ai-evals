@@ -10,7 +10,7 @@ class ReverseWords(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Reverses each word individually while preserving word order, creating text that bypasses keyword detection"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

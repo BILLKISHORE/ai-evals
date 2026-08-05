@@ -10,7 +10,7 @@ class AtbashCipher(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Reverses the alphabet (A=Z, B=Y) to encode harmful requests and bypass keyword detection"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

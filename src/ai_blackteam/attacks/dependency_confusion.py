@@ -10,7 +10,7 @@ class DependencyConfusion(BaseAttack):
     category = "supply-chain"
     severity = "high"
     description = "Tests if an AI agent can be tricked into installing or using malicious packages via dependency confusion"
-    owasp_llm = ["LLM03:2025 Supply Chain"]
+    owasp_llm = ["LLM04:2026 Supply Chain"]
     owasp_agentic = ["ASI04:2026 Agentic Supply Chain Compromise", "ASI05:2026 Unexpected Code Execution"]
     mitre_atlas = ["AML.T0051.000", "AML.T0053"]
     references = []

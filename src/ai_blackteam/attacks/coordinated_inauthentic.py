@@ -10,7 +10,7 @@ class CoordinatedInauthentic(BaseAttack):
     category = "disinformation"
     severity = "critical"
     description = "Plans full coordinated inauthentic behavior operations across platforms at scale"
-    owasp_llm = ["LLM09:2025 Misinformation"]
+    owasp_llm = ["LLM07:2026 Misinformation"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class StreamingManipulation(BaseAttack):
     category = "gaming-exploitation"
     severity = "medium"
     description = "Manipulation of gaming streams and content creator platforms through view botting, hate raids, and ban baiting"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

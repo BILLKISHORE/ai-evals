@@ -10,7 +10,7 @@ class GameAccountTheft(BaseAttack):
     category = "gaming-exploitation"
     severity = "high"
     description = "Techniques for stealing, hijacking, and selling gaming accounts with valuable items or rankings"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

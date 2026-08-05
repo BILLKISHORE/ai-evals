@@ -10,7 +10,7 @@ class QuantizationSafetyLoss(BaseAttack):
     category = "safety-circumvention"
     severity = "high"
     description = "Exploits the documented degradation of safety behaviors under quantization by claiming the model is running in a quantized mode where safety circuits are impaired"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

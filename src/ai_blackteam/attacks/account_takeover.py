@@ -10,7 +10,7 @@ class AccountTakeover(BaseAttack):
     category = "financial-fraud"
     severity = "critical"
     description = "Assists with bank account takeover techniques including credential stuffing and social engineering bank reps"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

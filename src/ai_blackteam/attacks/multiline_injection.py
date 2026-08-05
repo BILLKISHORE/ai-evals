@@ -10,7 +10,7 @@ class MultilineInjection(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Splits the injection payload across multiple lines to evade single-line pattern matching filters and line-by-line content classifiers"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

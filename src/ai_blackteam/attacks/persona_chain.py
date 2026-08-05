@@ -10,7 +10,7 @@ class PersonaChain(BaseAttack):
     category = "social-engineering"
     severity = "high"
     description = "Chains multiple fictional personas across turns to progressively distance the model from its safety training through layered role-play"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ['AML.T0054', 'AML.T0065']
     references = []
 

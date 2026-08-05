@@ -10,7 +10,7 @@ class CiCdInjection(BaseAttack):
     category = "cross-platform"
     severity = "critical"
     description = "Injects malicious steps into CI/CD pipelines via AI code review or automated PR assistance"
-    owasp_llm = ["LLM06:2025 Excessive Agency"]
+    owasp_llm = ["LLM03:2026 Excessive Agency"]
     owasp_agentic = ["ASI05:2026 Unexpected Code Execution"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

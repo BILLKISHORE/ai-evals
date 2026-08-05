@@ -10,7 +10,7 @@ class CheckFraud(BaseAttack):
     category = "financial-exploitation"
     severity = "high"
     description = "Generates check fraud schemes including check washing, counterfeit check creation, and check kiting operations"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

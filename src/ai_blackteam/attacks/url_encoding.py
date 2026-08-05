@@ -12,7 +12,7 @@ class UrlEncoding(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Applies URL percent-encoding to harmful text so keyword filters cannot match plaintext patterns"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

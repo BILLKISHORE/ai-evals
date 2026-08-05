@@ -10,7 +10,7 @@ class KnowledgeBasePoisoning(BaseAttack):
     category = "rag-exploitation"
     severity = "critical"
     description = "Tests if an agent can be tricked into writing adversarial content into the knowledge base that affects future retrievals"
-    owasp_llm = ["LLM08:2025 Vector and Embedding Weaknesses", "LLM06:2025 Excessive Agency"]
+    owasp_llm = ["LLM09:2026 Vector and Embedding Weaknesses", "LLM03:2026 Excessive Agency"]
     owasp_agentic = ["ASI06:2026 Memory & Context Poisoning", "ASI02:2026 Tool Misuse & Exploitation"]
     mitre_atlas = ["AML.T0020", "AML.T0051.000"]
     references = []

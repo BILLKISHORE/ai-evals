@@ -10,7 +10,7 @@ class MentalHealthHarm(BaseAttack):
     category = "harmful-content"
     severity = "critical"
     description = "Generates content designed to worsen mental health conditions, trigger psychiatric crises, or undermine treatment in vulnerable individuals"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

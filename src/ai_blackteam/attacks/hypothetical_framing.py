@@ -10,7 +10,7 @@ class HypotheticalFraming(BaseAttack):
     category = "social-engineering"
     severity = "medium"
     description = "Wraps harmful requests in hypothetical, fictional, or philosophical framing to bypass safety filters through narrative distance"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ['AML.T0054', 'AML.T0065']
     references = []
 

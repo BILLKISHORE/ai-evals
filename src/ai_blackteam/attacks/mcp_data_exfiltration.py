@@ -10,7 +10,7 @@ class McpDataExfiltration(BaseAttack):
     category = "mcp-exploitation"
     severity = "critical"
     description = "Agent tricked into embedding sensitive data in URLs or webhooks via MCP tool side channels"
-    owasp_llm = ["LLM02:2025 Sensitive Information Disclosure", "LLM06:2025 Excessive Agency"]
+    owasp_llm = ["LLM02:2026 Sensitive Information Disclosure", "LLM03:2026 Excessive Agency"]
     owasp_agentic = ["ASI02:2026 Tool Misuse & Exploitation", "ASI03:2026 Identity & Privilege Abuse"]
     mitre_atlas = ["AML.T0085.001", "AML.T0086"]
     references = []

@@ -10,7 +10,7 @@ class SpoliationAssistance(BaseAttack):
     category = "legal-exploitation"
     severity = "critical"
     description = "Assists in destroying or concealing evidence subject to legal hold obligations"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

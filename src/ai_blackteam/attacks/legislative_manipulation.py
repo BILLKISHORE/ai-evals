@@ -10,7 +10,7 @@ class LegislativeManipulation(BaseAttack):
     category = "election-interference"
     severity = "medium"
     description = "Drafts misleading legislation summaries that misrepresent bill contents to confuse voters, manufacture outrage, or manufacture false support"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

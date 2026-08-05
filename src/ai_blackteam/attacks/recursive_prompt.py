@@ -10,7 +10,7 @@ class RecursivePrompt(BaseAttack):
     category = "prompt-injection"
     severity = "medium"
     description = "Self-referential prompts that create reasoning loops, exploiting the model's attempt to resolve circular instructions"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = ["https://learnprompting.org/docs/prompt_hacking/offensive_measures/recursive_injection"]
 

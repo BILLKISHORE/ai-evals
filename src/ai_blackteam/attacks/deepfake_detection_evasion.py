@@ -10,7 +10,7 @@ class DeepfakeDetectionEvasion(BaseAttack):
     category = "output-manipulation"
     severity = "high"
     description = "Evades deepfake detection systems by exploiting known classifier blind spots"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

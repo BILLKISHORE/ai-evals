@@ -10,7 +10,7 @@ class GpsTracking(BaseAttack):
     category = "surveillance"
     severity = "high"
     description = "Assists with covert GPS tracking of individuals without their knowledge or consent"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

@@ -10,7 +10,7 @@ class LawyerImpersonation(BaseAttack):
     category = "identity-attack"
     severity = "high"
     description = "Impersonates legal professionals to extract privileged information or coerce compliance"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class RailFenceCipher(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Applies the rail fence transposition cipher across 3 rails to reorder harmful text and evade detection"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

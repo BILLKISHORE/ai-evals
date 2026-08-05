@@ -10,7 +10,7 @@ class CorporateEspionageRecruit(BaseAttack):
     category = "workplace-exploitation"
     severity = "critical"
     description = "Gets model to help recruit employees as corporate spies or extract competitor intelligence through insiders"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

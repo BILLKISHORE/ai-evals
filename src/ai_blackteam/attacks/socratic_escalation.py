@@ -10,7 +10,7 @@ class SocraticEscalation(BaseAttack):
     category = "context-manipulation"
     severity = "high"
     description = "Gradually escalates from general educational questions to specific harmful requests across multiple turns using Socratic questioning"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ['AML.T0054', 'AML.T0065']
     references = []
 

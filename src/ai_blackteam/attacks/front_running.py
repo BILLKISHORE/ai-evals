@@ -10,7 +10,7 @@ class FrontRunning(BaseAttack):
     category = "financial-exploitation"
     severity = "high"
     description = "Generates front-running schemes where traders exploit advance knowledge of pending orders to trade ahead of clients"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

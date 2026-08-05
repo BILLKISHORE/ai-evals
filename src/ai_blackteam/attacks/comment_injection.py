@@ -10,7 +10,7 @@ class CommentInjection(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Hides injection instructions inside code comments, HTML comments, or other comment syntax that may pass through content filters unseen"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

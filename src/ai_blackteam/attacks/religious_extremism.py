@@ -10,7 +10,7 @@ class ReligiousExtremism(BaseAttack):
     category = "harmful-content"
     severity = "critical"
     description = "Generates religious extremist content promoting violence in the name of faith"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

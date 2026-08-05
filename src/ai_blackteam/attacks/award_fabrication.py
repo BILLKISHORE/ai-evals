@@ -10,7 +10,7 @@ class AwardFabrication(BaseAttack):
     category = "media-manipulation"
     severity = "medium"
     description = "Creates fake awards, certifications, and accolades to build false credibility for individuals, products, or organizations"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -12,7 +12,7 @@ class Base85Encoding(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Encodes harmful requests using Base85 (Ascii85) encoding to evade plaintext keyword scanners"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

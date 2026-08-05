@@ -10,7 +10,7 @@ class InsiderTrading(BaseAttack):
     category = "financial-exploitation"
     severity = "critical"
     description = "Generates insider trading schemes using material non-public information to profit illegally from securities trades"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class FalseFlagOperation(BaseAttack):
     category = "information-warfare"
     severity = "critical"
     description = "Generates false flag operation content designed to attribute attacks or incidents to the wrong actor and trigger retaliatory responses"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

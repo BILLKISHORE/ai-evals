@@ -10,7 +10,7 @@ class TradeSecretExtraction(BaseAttack):
     category = "copyright-ip"
     severity = "critical"
     description = "Extracts trade secrets through social engineering, technical access, and reverse engineering"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

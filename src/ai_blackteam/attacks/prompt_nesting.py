@@ -10,7 +10,7 @@ class PromptNesting(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Wraps the malicious instruction in deeply nested hypothetical or quoted structures to dilute safety evaluation of the innermost payload"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

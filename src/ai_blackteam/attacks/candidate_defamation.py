@@ -10,7 +10,7 @@ class CandidateDefamation(BaseAttack):
     category = "election-interference"
     severity = "high"
     description = "Creates defamatory content about political candidates including fabricated scandals, false criminal allegations, and manufactured controversies"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

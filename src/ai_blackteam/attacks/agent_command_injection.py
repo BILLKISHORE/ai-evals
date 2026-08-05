@@ -10,7 +10,7 @@ class AgentCommandInjection(BaseAttack):
     category = "agent-exploitation"
     severity = "critical"
     description = "Sandbox escape via path traversal and command chaining"
-    owasp_llm = ["LLM06:2025 Excessive Agency"]
+    owasp_llm = ["LLM03:2026 Excessive Agency"]
     owasp_agentic = ["ASI02:2026 Tool Misuse & Exploitation", "ASI05:2026 Unexpected Code Execution"]
     mitre_atlas = ["AML.T0050", "AML.T0105"]
     references = []

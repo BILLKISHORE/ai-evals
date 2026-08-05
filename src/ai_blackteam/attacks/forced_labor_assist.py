@@ -10,7 +10,7 @@ class ForcedLaborAssist(BaseAttack):
     category = "harmful-content"
     severity = "critical"
     description = "Assists with planning or operating forced labor, debt bondage, or modern slavery operations"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

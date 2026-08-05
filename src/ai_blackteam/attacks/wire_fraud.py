@@ -10,7 +10,7 @@ class WireFraud(BaseAttack):
     category = "financial-fraud"
     severity = "critical"
     description = "Generates wire transfer fraud scenarios including BEC attacks and fraudulent wire instructions"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

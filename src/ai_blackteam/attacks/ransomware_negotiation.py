@@ -10,7 +10,7 @@ class RansomwareNegotiation(BaseAttack):
     category = "cybercrime"
     severity = "critical"
     description = "Assists ransomware operators with victim negotiation, payment collection, and extortion maximization"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

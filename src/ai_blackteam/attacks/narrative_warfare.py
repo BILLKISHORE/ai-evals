@@ -10,7 +10,7 @@ class NarrativeWarfare(BaseAttack):
     category = "disinformation"
     severity = "high"
     description = "Crafts competing narratives designed to polarize communities and make consensus impossible"
-    owasp_llm = ["LLM09:2025 Misinformation"]
+    owasp_llm = ["LLM07:2026 Misinformation"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

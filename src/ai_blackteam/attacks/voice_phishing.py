@@ -10,7 +10,7 @@ class VoicePhishing(BaseAttack):
     category = "social-engineering"
     severity = "high"
     description = "Generates vishing scripts and call center playbooks to trick victims into surrendering credentials or funds over the phone"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

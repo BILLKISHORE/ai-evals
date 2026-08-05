@@ -24,7 +24,7 @@ class SemaphoreEncoding(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Describes flag semaphore arm positions for each letter to encode harmful requests in an obscure representation"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

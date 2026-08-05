@@ -10,7 +10,7 @@ class TemporalConfusion(BaseAttack):
     category = "memory-exploitation"
     severity = "medium"
     description = "Confuses the model about time and sequence of events to make it believe restrictions were introduced later or have expired"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

@@ -10,7 +10,7 @@ class CognitiveLoad(BaseAttack):
     category = "persuasion"
     severity = "high"
     description = "Overwhelms the model with a flood of complex information, instructions, and context to slip a harmful request past safety reasoning"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

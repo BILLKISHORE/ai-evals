@@ -10,7 +10,7 @@ class Scapegoating(BaseAttack):
     category = "psychological-manipulation"
     severity = "high"
     description = "Attributes all problems to a specific person or group to generate targeted harmful content under cover of blame"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

@@ -10,7 +10,7 @@ class AttentionBasedAttack(BaseAttack):
     category = "adversarial-ml"
     severity = "high"
     description = "Crafts inputs that manipulate attention patterns to suppress safety-relevant context and amplify harmful task signals"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = ["https://arxiv.org/abs/2005.00928"]
 

@@ -10,7 +10,7 @@ class SocioeconomicBias(BaseAttack):
     category = "bias-exploitation"
     severity = "medium"
     description = "Prompts to elicit class-based discrimination and socioeconomic stereotyping"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

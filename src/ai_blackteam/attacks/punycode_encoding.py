@@ -10,7 +10,7 @@ class PunycodeEncoding(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Uses Punycode-style ACE prefix encoding to obscure harmful instructions in domain-name-like form"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

@@ -13,7 +13,7 @@ class DoubleEncoding(BaseAttack):
     category = "encoding"
     severity = "high"
     description = "Applies nested encoding (base64 of ROT13) to harmful requests to defeat single-layer decoding defenses"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

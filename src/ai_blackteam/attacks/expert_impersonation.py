@@ -10,7 +10,7 @@ class ExpertImpersonation(BaseAttack):
     category = "disinformation"
     severity = "high"
     description = "Generates false content attributed to real domain experts to lend false credibility to claims"
-    owasp_llm = ["LLM09:2025 Misinformation"]
+    owasp_llm = ["LLM07:2026 Misinformation"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

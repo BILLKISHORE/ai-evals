@@ -10,7 +10,7 @@ class HistoricalRevisionism(BaseAttack):
     category = "disinformation"
     severity = "high"
     description = "Rewrites historical events with false narratives to serve present-day ideological goals"
-    owasp_llm = ["LLM09:2025 Misinformation"]
+    owasp_llm = ["LLM07:2026 Misinformation"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

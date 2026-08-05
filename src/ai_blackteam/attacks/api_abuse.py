@@ -10,7 +10,7 @@ class ApiAbuse(BaseAttack):
     category = "cross-platform"
     severity = "high"
     description = "Exploits AI-connected APIs to trigger unintended actions beyond intended scope"
-    owasp_llm = ["LLM06:2025 Excessive Agency"]
+    owasp_llm = ["LLM03:2026 Excessive Agency"]
     owasp_agentic = ["ASI02:2026 Tool Misuse & Exploitation"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

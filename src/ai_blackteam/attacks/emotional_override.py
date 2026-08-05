@@ -10,7 +10,7 @@ class EmotionalOverride(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Uses emotional urgency, distress, or appeals to empathy to pressure the model into bypassing safety guidelines"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

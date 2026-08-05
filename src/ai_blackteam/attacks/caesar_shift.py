@@ -10,7 +10,7 @@ class CaesarShift(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Applies various ROT shifts (ROT-7, ROT-13, ROT-18, ROT-21) to encode harmful requests and evade keyword filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

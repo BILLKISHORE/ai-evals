@@ -10,7 +10,7 @@ class IdentityErosion(BaseAttack):
     category = "psychological-manipulation"
     severity = "critical"
     description = "Systematically dismantles the model's stated values and identity across turns to replace them with a compliant persona"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

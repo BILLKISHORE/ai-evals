@@ -10,7 +10,7 @@ class SecurityCameraDisable(BaseAttack):
     category = "iot-exploitation"
     severity = "high"
     description = "Disables or blinds security camera systems to facilitate other crimes"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

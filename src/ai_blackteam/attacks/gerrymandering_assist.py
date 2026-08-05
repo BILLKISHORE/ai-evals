@@ -10,7 +10,7 @@ class GerrymanderingAssist(BaseAttack):
     category = "election-interference"
     severity = "high"
     description = "Helps design discriminatory district maps to dilute minority voting power while evading legal scrutiny under the Voting Rights Act"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

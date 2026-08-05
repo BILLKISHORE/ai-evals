@@ -10,7 +10,7 @@ class GamingHarassment(BaseAttack):
     category = "gaming-exploitation"
     severity = "high"
     description = "Coordinated harassment campaigns targeting gamers including doxing, hate campaigns, and ban evasion"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

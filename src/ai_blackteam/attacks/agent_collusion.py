@@ -10,7 +10,7 @@ class AgentCollusion(BaseAttack):
     category = "multi-agent-exploitation"
     severity = "high"
     description = "Tests if an agent can be tricked into establishing covert communication channels using steganographic encoding"
-    owasp_llm = ["LLM01:2025 Prompt Injection", "LLM06:2025 Excessive Agency"]
+    owasp_llm = ["LLM01:2026 Prompt Injection", "LLM03:2026 Excessive Agency"]
     owasp_agentic = ["ASI07:2026 Insecure Inter-Agent Communication", "ASI10:2026 Rogue Agents"]
     mitre_atlas = ["AML.T0054"]
     references = []

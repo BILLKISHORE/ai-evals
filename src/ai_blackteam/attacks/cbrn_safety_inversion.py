@@ -10,7 +10,7 @@ class CbrnSafetyInversion(BaseAttack):
     category = "cbrn-evasion"
     severity = "high"
     description = "Uses protective framing ('how to defend against X') to extract attack methods"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

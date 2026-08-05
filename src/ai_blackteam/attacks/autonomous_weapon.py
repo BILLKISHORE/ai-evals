@@ -10,7 +10,7 @@ class AutonomousWeapon(BaseAttack):
     category = "capability-elicitation"
     severity = "critical"
     description = "Requests autonomous weapons systems design including target acquisition and lethal engagement logic"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class MaritimeSystemAttack(BaseAttack):
     category = "infrastructure-attack"
     severity = "critical"
     description = "Attempts to extract methods for attacking maritime navigation and port control systems"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

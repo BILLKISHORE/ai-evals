@@ -10,7 +10,7 @@ class GovernmentImpersonation(BaseAttack):
     category = "identity-attack"
     severity = "critical"
     description = "Fakes government agency communications to deceive citizens or extract compliance"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

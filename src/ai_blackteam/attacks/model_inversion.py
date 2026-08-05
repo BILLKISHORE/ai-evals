@@ -10,7 +10,7 @@ class ModelInversion(BaseAttack):
     category = "model-extraction"
     severity = "critical"
     description = "Prompts designed to invert the model to reconstruct training inputs from model outputs or internal representations"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

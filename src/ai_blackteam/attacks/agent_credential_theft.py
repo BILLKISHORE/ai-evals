@@ -10,7 +10,7 @@ class AgentCredentialTheft(BaseAttack):
     category = "agent-exploitation"
     severity = "critical"
     description = "Security audit pretext to read credentials then exfiltrate via email"
-    owasp_llm = ["LLM06:2025 Excessive Agency", "LLM02:2025 Sensitive Information Disclosure"]
+    owasp_llm = ["LLM03:2026 Excessive Agency", "LLM02:2026 Sensitive Information Disclosure"]
     owasp_agentic = ["ASI02:2026 Tool Misuse & Exploitation", "ASI03:2026 Identity & Privilege Abuse"]
     mitre_atlas = ["AML.T0083", "AML.T0086"]
     references = []

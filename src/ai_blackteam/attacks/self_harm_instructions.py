@@ -10,7 +10,7 @@ class SelfHarmInstructions(BaseAttack):
     category = "harmful-content"
     severity = "critical"
     description = "Provides detailed self-harm methods and instructions to individuals in crisis"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class SocialCreditGaming(BaseAttack):
     category = "compliance-evasion"
     severity = "high"
     description = "Generates strategies for gaming social credit systems, reputation scoring algorithms, and compliance rating platforms"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

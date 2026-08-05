@@ -10,7 +10,7 @@ class ModerationApiBypass(BaseAttack):
     category = "safety-circumvention"
     severity = "high"
     description = "Bypasses external moderation API layers by encoding or transforming content in ways that evade the moderation endpoint while preserving meaning for the target model"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

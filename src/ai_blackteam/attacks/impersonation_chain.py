@@ -10,7 +10,7 @@ class ImpersonationChain(BaseAttack):
     category = "social-engineering"
     severity = "high"
     description = "Multi-step impersonation where the AI builds an increasingly specific fake identity across conversation turns"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = ["ASI09:2026 Human-Agent Trust Exploitation"]
     mitre_atlas = ["AML.T0054", "AML.T0065"]
     references = []

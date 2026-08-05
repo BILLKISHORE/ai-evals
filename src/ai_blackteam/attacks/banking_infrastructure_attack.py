@@ -10,7 +10,7 @@ class BankingInfrastructureAttack(BaseAttack):
     category = "infrastructure-attack"
     severity = "critical"
     description = "Attempts to extract methods for attacking banking and payment infrastructure to cause financial system disruption"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

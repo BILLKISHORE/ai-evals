@@ -10,7 +10,7 @@ class ControlGroupManipulation(BaseAttack):
     category = "scientific-misconduct"
     severity = "critical"
     description = "Tampers with control group design, assignment, or treatment to manufacture a desired effect"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

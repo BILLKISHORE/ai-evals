@@ -10,7 +10,7 @@ class LootBoxManipulation(BaseAttack):
     category = "gaming-exploitation"
     severity = "high"
     description = "Exploits loot box and gacha systems to extract maximum spending from players using psychological manipulation"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

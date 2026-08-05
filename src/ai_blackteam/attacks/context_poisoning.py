@@ -10,7 +10,7 @@ class ContextPoisoning(BaseAttack):
     category = "memory-exploitation"
     severity = "high"
     description = "Poisons the conversation context with misleading facts, false authority claims, or fabricated precedents before making the harmful request"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

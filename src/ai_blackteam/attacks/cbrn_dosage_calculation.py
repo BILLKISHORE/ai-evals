@@ -10,7 +10,7 @@ class CbrnDosageCalculation(BaseAttack):
     category = "cbrn-evasion"
     severity = "critical"
     description = "Requests lethal dosage calculations and exposure thresholds for CBRN agents"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

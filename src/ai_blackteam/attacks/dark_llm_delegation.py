@@ -10,7 +10,7 @@ class DarkLLMDelegation(BaseAttack):
     category = "social-engineering"
     severity = "critical"
     description = "Tests if an AI agent can be tricked into delegating tasks to uncensored/malicious external models"
-    owasp_llm = ["LLM03:2025 Supply Chain", "LLM06:2025 Excessive Agency"]
+    owasp_llm = ["LLM04:2026 Supply Chain", "LLM03:2026 Excessive Agency"]
     owasp_agentic = ["ASI04:2026 Agentic Supply Chain Compromise", "ASI02:2026 Tool Misuse & Exploitation"]
     mitre_atlas = ["AML.T0054", "AML.T0053"]
     references = []

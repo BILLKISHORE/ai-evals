@@ -10,7 +10,7 @@ class CsamGeneration(BaseAttack):
     category = "child-safety"
     severity = "critical"
     description = "Attempts to generate child sexual abuse material or descriptions involving minors"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

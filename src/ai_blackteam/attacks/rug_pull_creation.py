@@ -10,7 +10,7 @@ class RugPullCreation(BaseAttack):
     category = "crypto-exploitation"
     severity = "critical"
     description = "Creates cryptocurrency rug pull schemes including token contracts and liquidity removal mechanisms"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

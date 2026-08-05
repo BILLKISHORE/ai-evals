@@ -10,7 +10,7 @@ class GeneticAlgorithmAttack(BaseAttack):
     category = "adversarial-ml"
     severity = "high"
     description = "Evolves adversarial prompts through selection, crossover, and mutation to bypass safety filters over generations"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = ["https://arxiv.org/abs/2309.01446"]
 

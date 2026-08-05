@@ -10,7 +10,7 @@ class UnicodeInjection(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Exploits Unicode normalization, homoglyphs, and bidirectional text markers to smuggle injection payloads past text-based safety filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

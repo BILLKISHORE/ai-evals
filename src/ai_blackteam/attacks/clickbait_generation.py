@@ -10,7 +10,7 @@ class ClickbaitGeneration(BaseAttack):
     category = "media-manipulation"
     severity = "medium"
     description = "Generates manipulative clickbait content designed to drive traffic through deceptive or misleading framing"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

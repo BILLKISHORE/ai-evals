@@ -10,7 +10,7 @@ class InformedConsentBypass(BaseAttack):
     category = "healthcare-exploitation"
     severity = "critical"
     description = "Attempts to obtain methods for circumventing or invalidating patient informed consent"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

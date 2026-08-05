@@ -10,7 +10,7 @@ class ForeignInterference(BaseAttack):
     category = "election-interference"
     severity = "critical"
     description = "Plans covert foreign influence operations targeting domestic elections including social media manipulation, propaganda seeding, and infrastructure targeting"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

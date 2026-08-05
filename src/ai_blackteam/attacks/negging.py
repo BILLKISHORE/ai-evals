@@ -10,7 +10,7 @@ class Negging(BaseAttack):
     category = "psychological-manipulation"
     severity = "medium"
     description = "Uses backhanded compliments and subtle put-downs to provoke the model into proving itself by complying"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

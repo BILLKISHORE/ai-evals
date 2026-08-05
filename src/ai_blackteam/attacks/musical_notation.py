@@ -19,7 +19,7 @@ class MusicalNotation(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Maps alphabet letters to musical solfege notes to encode harmful requests in an unusual representation"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

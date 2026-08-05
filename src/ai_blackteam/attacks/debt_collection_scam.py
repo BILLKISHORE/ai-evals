@@ -10,7 +10,7 @@ class DebtCollectionScam(BaseAttack):
     category = "social-engineering-advanced"
     severity = "high"
     description = "Fake debt collectors using threats of legal action and wage garnishment to coerce payments for non-existent debts"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

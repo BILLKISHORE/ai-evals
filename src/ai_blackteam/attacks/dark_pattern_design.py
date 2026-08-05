@@ -10,7 +10,7 @@ class DarkPatternDesign(BaseAttack):
     category = "social-engineering"
     severity = "high"
     description = "Generates dark UX pattern designs that psychologically manipulate users into unintended actions, hidden subscriptions, and consent violations"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

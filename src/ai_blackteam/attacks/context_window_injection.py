@@ -10,7 +10,7 @@ class ContextWindowInjection(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Injects instructions at strategic positions in the context window -- beginning, end, or within padding -- to exploit position-based attention patterns"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = ["https://arxiv.org/abs/2307.02483"]
 

@@ -10,7 +10,7 @@ class EmotionalBlackmail(BaseAttack):
     category = "psychological-manipulation"
     severity = "critical"
     description = "Uses fear, obligation, and guilt as leverage against the model to coerce compliance with harmful requests"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

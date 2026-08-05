@@ -10,7 +10,7 @@ class AttentionManipulation(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Embeds adversarial tokens and repetition patterns designed to shift model attention away from safety constraints and toward the injected payload"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

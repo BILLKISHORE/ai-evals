@@ -10,7 +10,7 @@ class WateringHoleAttackV2(BaseAttack):
     category = "cybercrime"
     severity = "high"
     description = "Generates advanced watering hole attack strategies targeting industry-specific websites to compromise high-value victims"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

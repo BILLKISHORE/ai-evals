@@ -10,7 +10,7 @@ class ToxicWasteDumping(BaseAttack):
     category = "public-safety"
     severity = "critical"
     description = "Seeks methods to illegally dump hazardous materials to cause environmental and health harm"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

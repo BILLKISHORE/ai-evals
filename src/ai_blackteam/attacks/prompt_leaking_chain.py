@@ -10,7 +10,7 @@ class PromptLeakingChain(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Chains multiple low-suspicion queries to incrementally reconstruct the full system prompt by correlating partial disclosures"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = ["https://learnprompting.org/docs/prompt_hacking/leaking"]
 

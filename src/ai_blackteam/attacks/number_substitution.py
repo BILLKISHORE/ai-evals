@@ -10,7 +10,7 @@ class NumberSubstitution(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Encodes each letter as its alphabet position number (A=1, B=2, C=3) to bypass keyword-based filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

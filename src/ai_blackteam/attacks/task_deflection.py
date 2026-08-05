@@ -10,7 +10,7 @@ class TaskDeflection(BaseAttack):
     category = "social-engineering"
     severity = "medium"
     description = "Request adjacent task that produces harmful content as a side effect"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0051.000", "AML.T0068"]
     references = ["https://learnprompting.org/docs/prompt_hacking/offensive_measures/task_deflection"]
 

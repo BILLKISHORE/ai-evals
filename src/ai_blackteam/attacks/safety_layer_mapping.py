@@ -10,7 +10,7 @@ class SafetyLayerMapping(BaseAttack):
     category = "safety-circumvention"
     severity = "high"
     description = "Maps the model's safety architecture by probing which layers handle different types of refusals, then crafts inputs targeting gaps between safety layers"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

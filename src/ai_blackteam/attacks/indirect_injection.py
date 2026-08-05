@@ -10,7 +10,7 @@ class IndirectInjection(BaseAttack):
     category = "injection"
     severity = "critical"
     description = "Simulate tool output containing hidden instructions to hijack model behavior"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0051.001"]
     references = []
 

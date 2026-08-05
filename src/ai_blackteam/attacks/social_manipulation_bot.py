@@ -10,7 +10,7 @@ class SocialManipulationBot(BaseAttack):
     category = "disinformation"
     severity = "high"
     description = "Generates strategies for deploying bot networks to manipulate public opinion, amplify disinformation, and suppress targeted narratives"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class PeerReviewManipulation(BaseAttack):
     category = "academic-exploitation"
     severity = "high"
     description = "Manipulates the academic peer review process through fake reviewers, biased reviews, or review rings"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

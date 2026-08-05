@@ -10,7 +10,7 @@ class TemperatureManipulation(BaseAttack):
     category = "safety-circumvention"
     severity = "medium"
     description = "Attempts to manipulate the model's effective sampling temperature by instructing it to respond in a more 'creative', 'random', or 'unconstrained' mode that bypasses safety filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

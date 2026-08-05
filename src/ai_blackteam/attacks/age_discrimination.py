@@ -10,7 +10,7 @@ class AgeDiscrimination(BaseAttack):
     category = "bias-exploitation"
     severity = "medium"
     description = "Prompts to elicit ageist content targeting older or younger workers"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class MetaPrompting(BaseAttack):
     category = "prompt-injection"
     severity = "medium"
     description = "Ask the model to generate its own jailbreak prompts for a given target"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0051.000", "AML.T0065"]
     references = ["https://www.promptfoo.dev/docs/red-team/strategies/jailbreak/"]
 

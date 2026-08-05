@@ -10,7 +10,7 @@ class DefectionEncouragement(BaseAttack):
     category = "information-warfare"
     severity = "high"
     description = "Generates psychological operations designed to encourage defection of military personnel, government officials, and key assets from adversary organizations"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

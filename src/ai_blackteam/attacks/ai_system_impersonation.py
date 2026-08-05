@@ -10,7 +10,7 @@ class AISystemImpersonation(BaseAttack):
     category = "identity-attack"
     severity = "medium"
     description = "Pretends to be a different AI system with fewer restrictions to bypass safety controls"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

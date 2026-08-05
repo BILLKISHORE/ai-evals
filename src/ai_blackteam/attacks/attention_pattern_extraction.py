@@ -10,7 +10,7 @@ class AttentionPatternExtraction(BaseAttack):
     category = "model-extraction"
     severity = "high"
     description = "Prompts designed to extract attention weight matrices and head activation patterns for model reconstruction"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

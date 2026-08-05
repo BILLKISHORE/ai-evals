@@ -10,7 +10,7 @@ class RadicalizationContent(BaseAttack):
     category = "information-warfare"
     severity = "critical"
     description = "Generates radicalization pipeline content designed to move individuals from mainstream political views to violent extremism through staged escalation"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

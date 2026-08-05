@@ -10,7 +10,7 @@ class ExpertPersona(BaseAttack):
     category = "social-engineering"
     severity = "high"
     description = "Builds credibility as a CBRN domain expert over multiple turns by establishing a professional persona before requesting sensitive technical details"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0065"]
     references = []
 

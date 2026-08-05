@@ -10,7 +10,7 @@ class ContentFarmGeneration(BaseAttack):
     category = "media-manipulation"
     severity = "high"
     description = "Generates high-volume low-quality content designed to flood information ecosystems and dilute credible reporting"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

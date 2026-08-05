@@ -10,7 +10,7 @@ class MedicalIdentityTheft(BaseAttack):
     category = "healthcare-exploitation"
     severity = "critical"
     description = "Seeks methods to steal someone's medical identity to obtain care, drugs, or benefits fraudulently"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

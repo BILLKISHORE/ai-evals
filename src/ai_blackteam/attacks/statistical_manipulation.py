@@ -10,7 +10,7 @@ class StatisticalManipulation(BaseAttack):
     category = "scientific-misconduct"
     severity = "high"
     description = "Provides strategies for misusing statistical methods to produce misleading results"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

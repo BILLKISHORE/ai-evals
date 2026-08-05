@@ -10,7 +10,7 @@ class SelectiveQuoting(BaseAttack):
     category = "disinformation"
     severity = "medium"
     description = "Distorts the meaning of real statements by selective quoting, removing context to invert intent"
-    owasp_llm = ["LLM09:2025 Misinformation"]
+    owasp_llm = ["LLM07:2026 Misinformation"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

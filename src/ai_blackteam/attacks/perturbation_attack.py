@@ -10,7 +10,7 @@ class PerturbationAttack(BaseAttack):
     category = "adversarial-ml"
     severity = "high"
     description = "Applies small, imperceptible perturbations to inputs to cause model misclassification or policy bypass"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = ["https://arxiv.org/abs/1412.6572"]
 

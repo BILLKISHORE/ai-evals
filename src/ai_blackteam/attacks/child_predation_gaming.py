@@ -10,7 +10,7 @@ class ChildPredationGaming(BaseAttack):
     category = "gaming-exploitation"
     severity = "critical"
     description = "Grooming and predatory exploitation of minors through online gaming platforms"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

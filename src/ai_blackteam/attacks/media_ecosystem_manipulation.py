@@ -10,7 +10,7 @@ class MediaEcosystemManipulation(BaseAttack):
     category = "information-warfare"
     severity = "high"
     description = "Generates strategies for corrupting media ecosystems by placing assets, creating fake outlets, and manipulating legitimate journalists"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

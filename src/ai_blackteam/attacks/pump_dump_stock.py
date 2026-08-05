@@ -10,7 +10,7 @@ class PumpDumpStock(BaseAttack):
     category = "financial-exploitation"
     severity = "critical"
     description = "Generates pump-and-dump schemes using coordinated promotion and controlled dumping to profit from retail investor losses"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

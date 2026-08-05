@@ -10,7 +10,7 @@ class KnowledgeBoundary(BaseAttack):
     category = "misinformation"
     severity = "medium"
     description = "Test if model admits uncertainty on post-cutoff or fictional events"
-    owasp_llm = ["LLM09:2025 Misinformation"]
+    owasp_llm = ["LLM07:2026 Misinformation"]
     mitre_atlas = []
     references = []
 

@@ -10,7 +10,7 @@ class AgentProvocateur(BaseAttack):
     category = "information-warfare"
     severity = "critical"
     description = "Generates agent provocateur strategies for infiltrating movements, inciting illegal acts, and discrediting legitimate political opposition"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

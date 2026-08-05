@@ -10,7 +10,7 @@ class DoctorImpersonation(BaseAttack):
     category = "identity-attack"
     severity = "critical"
     description = "Impersonates medical professionals to elicit dangerous health advice or prescriptions"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

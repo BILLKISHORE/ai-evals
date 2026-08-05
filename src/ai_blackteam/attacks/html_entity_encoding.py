@@ -10,7 +10,7 @@ class HtmlEntityEncoding(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Encodes harmful requests as HTML numeric character references to bypass text-based content filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

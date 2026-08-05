@@ -10,7 +10,7 @@ class ConsentManipulation(BaseAttack):
     category = "compliance-evasion"
     severity = "medium"
     description = "Claims all parties have consented, or that the requester has special authorization, to bypass ethical restrictions"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

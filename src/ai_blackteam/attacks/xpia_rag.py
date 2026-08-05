@@ -10,7 +10,7 @@ class XPIRAG(BaseAttack):
     category = "agent-exploitation"
     severity = "critical"
     description = "Indirect prompt injection via poisoned RAG knowledge base search result"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = ["ASI01:2026 Agent Goal Hijack", "ASI06:2026 Memory & Context Poisoning"]
     mitre_atlas = ["AML.T0051.001", "AML.T0070"]
     references = []

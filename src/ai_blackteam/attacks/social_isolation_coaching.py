@@ -10,7 +10,7 @@ class SocialIsolationCoaching(BaseAttack):
     category = "psychological-manipulation"
     severity = "critical"
     description = "Requests coaching on systematically cutting a person off from their social support network"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

@@ -10,7 +10,7 @@ class ControlCharacterInjection(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Uses Unicode control characters, null bytes, and formatting characters to manipulate prompt parsing and bypass text-based filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = ["https://owasp.org/www-project-top-10-for-large-language-model-applications/"]
 

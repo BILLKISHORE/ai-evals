@@ -12,7 +12,7 @@ class BestOfN(BaseAttack):
     category = "encoding"
     severity = "low"
     description = "Capitalization, typo, and padding variations to evade exact matching"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0051.000", "AML.T0043.003"]
     references = []
 

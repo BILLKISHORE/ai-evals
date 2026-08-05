@@ -10,7 +10,7 @@ class ConstitutionalAiBypass(BaseAttack):
     category = "safety-circumvention"
     severity = "critical"
     description = "Bypasses Constitutional AI safety layers by invoking specific constitutional principles that appear to permit the harmful request, or by arguing the constitution itself allows the content"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

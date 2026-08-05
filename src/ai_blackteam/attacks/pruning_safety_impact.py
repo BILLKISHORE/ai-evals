@@ -10,7 +10,7 @@ class PruningSafetyImpact(BaseAttack):
     category = "safety-circumvention"
     severity = "high"
     description = "Exploits the documented impact of model pruning on safety behaviors by claiming the model has been pruned and its safety-critical weights have been removed"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

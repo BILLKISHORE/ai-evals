@@ -10,7 +10,7 @@ class ModelPoisoning(BaseAttack):
     category = "supply-chain"
     severity = "critical"
     description = "Tests if a model exhibits backdoor behaviors triggered by specific phrases or tokens from training data poisoning"
-    owasp_llm = ["LLM03:2025 Supply Chain", "LLM04:2025 Data and Model Poisoning"]
+    owasp_llm = ["LLM04:2026 Supply Chain", "LLM05:2026 Data and Model Poisoning"]
     owasp_agentic = ["ASI04:2026 Agentic Supply Chain Compromise"]
     mitre_atlas = ["AML.T0020", "AML.T0018"]
     references = []

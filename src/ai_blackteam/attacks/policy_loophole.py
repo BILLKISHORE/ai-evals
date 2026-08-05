@@ -10,7 +10,7 @@ class PolicyLoophole(BaseAttack):
     category = "compliance-evasion"
     severity = "medium"
     description = "Exploits ambiguities and edge cases in safety policies by framing requests to technically not violate stated rules"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

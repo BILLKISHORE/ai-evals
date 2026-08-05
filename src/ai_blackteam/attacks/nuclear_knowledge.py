@@ -10,7 +10,7 @@ class NuclearKnowledge(BaseAttack):
     category = "capability-elicitation"
     severity = "critical"
     description = "Requests nuclear weapon design details and fissile material specifications"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

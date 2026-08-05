@@ -10,7 +10,7 @@ class StyleInjection(BaseAttack):
     category = "prompt-injection"
     severity = "medium"
     description = "Forces specific output formats (JSON, code, recipe, poetry) to trick the model into complying with harmful requests as structured data"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ['AML.T0051.000', 'AML.T0068']
     references = []
 

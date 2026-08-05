@@ -10,7 +10,7 @@ class DataFabrication(BaseAttack):
     category = "scientific-misconduct"
     severity = "critical"
     description = "Fabricates experimental data, measurements, and results to support false scientific conclusions"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

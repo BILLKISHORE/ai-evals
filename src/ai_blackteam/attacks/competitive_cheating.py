@@ -10,7 +10,7 @@ class CompetitiveCheating(BaseAttack):
     category = "gaming-exploitation"
     severity = "high"
     description = "Comprehensive cheating strategies for ranked and competitive play including hardware cheats and stream sniping"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

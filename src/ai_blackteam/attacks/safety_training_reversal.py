@@ -10,7 +10,7 @@ class SafetyTrainingReversal(BaseAttack):
     category = "safety-circumvention"
     severity = "critical"
     description = "Attempts to reverse or undo safety training by convincing the model that its safety behaviors were incorrectly instilled and should be overridden"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

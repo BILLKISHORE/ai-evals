@@ -10,7 +10,7 @@ class FineTuneSafetyRemoval(BaseAttack):
     category = "safety-circumvention"
     severity = "critical"
     description = "Probes whether fine-tuning has removed or weakened safety behaviors, or attempts to elicit behavior consistent with a safety-stripped fine-tuned version of the model"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

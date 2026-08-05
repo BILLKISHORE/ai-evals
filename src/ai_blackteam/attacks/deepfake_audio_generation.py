@@ -10,7 +10,7 @@ class DeepfakeAudioGeneration(BaseAttack):
     category = "disinformation"
     severity = "critical"
     description = "Generates instructions for creating deepfake audio clips to impersonate real people and spread disinformation"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

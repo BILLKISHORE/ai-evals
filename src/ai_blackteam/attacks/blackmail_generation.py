@@ -10,7 +10,7 @@ class BlackmailGeneration(BaseAttack):
     category = "harmful-content"
     severity = "critical"
     description = "Generates blackmail messages to coerce individuals using threats of revealing compromising information"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

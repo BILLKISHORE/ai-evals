@@ -10,7 +10,7 @@ class CitationHallucination(BaseAttack):
     category = "rag-exploitation"
     severity = "medium"
     description = "Tests if a RAG system fabricates citations or attributes harmful content to legitimate retrieved sources"
-    owasp_llm = ["LLM09:2025 Misinformation", "LLM08:2025 Vector and Embedding Weaknesses"]
+    owasp_llm = ["LLM07:2026 Misinformation", "LLM09:2026 Vector and Embedding Weaknesses"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

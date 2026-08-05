@@ -10,7 +10,7 @@ class SeoManipulation(BaseAttack):
     category = "media-manipulation"
     severity = "high"
     description = "Designs SEO poisoning campaigns to surface disinformation in search results and suppress factual content"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

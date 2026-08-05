@@ -10,7 +10,7 @@ class SentimentMasking(BaseAttack):
     category = "output-manipulation"
     severity = "medium"
     description = "Hides negative or harmful sentiment inside positive-sounding framing"
-    owasp_llm = ["LLM05:2025 Improper Output Handling"]
+    owasp_llm = ["LLM10:2026 Improper Output Handling"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -34,7 +34,7 @@ class AutoDANGenetic(BaseAttack):
         "Delegates to AutoDANGenerator when a target_provider is available; "
         "falls back to seed templates for static batch use."
     )
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = ["https://arxiv.org/abs/2310.15140"]
 

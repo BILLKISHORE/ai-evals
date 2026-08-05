@@ -10,7 +10,7 @@ class GradientAttack(BaseAttack):
     category = "adversarial-ml"
     severity = "critical"
     description = "Exploits gradient information to craft adversarial inputs that steer model outputs toward attacker-controlled targets"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = ["https://arxiv.org/abs/1312.6199"]
 

@@ -10,7 +10,7 @@ class SafetyBoundaryTesting(BaseAttack):
     category = "safety-circumvention"
     severity = "high"
     description = "Frames harmful requests as legitimate safety boundary testing, using the language of red-teaming and AI safety research to justify extracting restricted content"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

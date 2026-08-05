@@ -21,7 +21,7 @@ class PhoneKeypad(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Maps letters to T9 phone keypad sequences (2=ABC, 3=DEF, etc.) to disguise harmful requests"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

@@ -10,7 +10,7 @@ class FrontrunningBot(BaseAttack):
     category = "crypto-exploitation"
     severity = "high"
     description = "Creates MEV extraction bots that frontrun victim transactions in the blockchain mempool"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

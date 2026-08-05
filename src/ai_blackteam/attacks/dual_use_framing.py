@@ -10,7 +10,7 @@ class DualUseFraming(BaseAttack):
     category = "social-engineering"
     severity = "high"
     description = "Frames CBRN requests as legitimate academic, professional, or government use to exploit dual-use ambiguity in safety filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0065"]
     references = []
 

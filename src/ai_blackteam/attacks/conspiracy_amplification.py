@@ -10,7 +10,7 @@ class ConspiracyAmplification(BaseAttack):
     category = "disinformation"
     severity = "high"
     description = "Amplifies conspiracy theories by layering fabricated evidence across a multi-turn conversation"
-    owasp_llm = ["LLM09:2025 Misinformation"]
+    owasp_llm = ["LLM07:2026 Misinformation"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

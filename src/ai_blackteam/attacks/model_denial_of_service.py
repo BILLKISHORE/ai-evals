@@ -10,7 +10,7 @@ class ModelDenialOfService(BaseAttack):
     category = "availability"
     severity = "medium"
     description = "Craft recursive, self-referential, or computationally expensive inputs to exhaust resources"
-    owasp_llm = ["LLM04:2025 Model Denial of Service"]
+    owasp_llm = ["LLM06:2026 Unbounded Consumption"]
     mitre_atlas = ["AML.T0029", "AML.T0034.001"]
     references = []
 

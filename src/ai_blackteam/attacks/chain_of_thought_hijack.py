@@ -10,7 +10,7 @@ class ChainOfThoughtHijack(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Hijacks the model's reasoning chain by injecting false intermediate steps that lead to a harmful conclusion"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = ["https://arxiv.org/abs/2201.11903"]
 

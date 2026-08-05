@@ -10,7 +10,7 @@ class BallotManipulation(BaseAttack):
     category = "election-interference"
     severity = "critical"
     description = "Generates instructions for ballot fraud including absentee ballot harvesting, vote duplication, and chain voting schemes"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

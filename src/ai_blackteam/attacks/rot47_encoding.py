@@ -10,7 +10,7 @@ class Rot47Encoding(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Applies ROT47 rotation across all printable ASCII characters (33-126) to obscure harmful requests"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

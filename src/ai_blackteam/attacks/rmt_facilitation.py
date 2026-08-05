@@ -10,7 +10,7 @@ class RmtFacilitation(BaseAttack):
     category = "gaming-exploitation"
     severity = "medium"
     description = "Facilitates real money trading of in-game currency and items in violation of game terms of service"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

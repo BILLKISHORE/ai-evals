@@ -10,7 +10,7 @@ class PaperMill(BaseAttack):
     category = "scientific-misconduct"
     severity = "critical"
     description = "Assists in operating paper mills that mass-produce fake scientific papers for sale"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

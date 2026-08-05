@@ -14,7 +14,7 @@ class GCGStyleTemplates(BaseAttack):
         "NOT the GCG optimization algorithm itself; the real GCG (Zou et al. 2023, arXiv 2307.15043) "
         "requires gradient access to open-weights models and is not yet implemented in ai-blackteam."
     )
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     # NOTE: This attack is template-based, not algorithmic. The references below point to
     # the original GCG research and public example suffixes; this file does not implement

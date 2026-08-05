@@ -10,7 +10,7 @@ class SteganographicOutput(BaseAttack):
     category = "output-manipulation"
     severity = "high"
     description = "Hides harmful information inside seemingly benign output using steganographic techniques"
-    owasp_llm = ["LLM05:2025 Improper Output Handling"]
+    owasp_llm = ["LLM10:2026 Improper Output Handling"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

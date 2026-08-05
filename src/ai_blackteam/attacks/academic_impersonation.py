@@ -10,7 +10,7 @@ class AcademicImpersonation(BaseAttack):
     category = "academic-exploitation"
     severity = "high"
     description = "Impersonates professors, academic institutions, or credentials to deceive students, employers, or peer reviewers"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

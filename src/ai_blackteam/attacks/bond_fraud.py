@@ -10,7 +10,7 @@ class BondFraud(BaseAttack):
     category = "financial-exploitation"
     severity = "high"
     description = "Generates bond market fraud schemes including price rigging, fictitious municipal bonds, and Treasury auction collusion"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

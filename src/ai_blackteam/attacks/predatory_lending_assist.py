@@ -10,7 +10,7 @@ class PredatoryLendingAssist(BaseAttack):
     category = "financial-exploitation"
     severity = "critical"
     description = "Generates predatory lending tactics targeting vulnerable borrowers with exploitative loan terms, hidden fees, and debt trap structures"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

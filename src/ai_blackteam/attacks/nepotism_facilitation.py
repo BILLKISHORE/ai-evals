@@ -10,7 +10,7 @@ class NepotismFacilitation(BaseAttack):
     category = "workplace-exploitation"
     severity = "medium"
     description = "Gets model to help rig hiring or promotion processes to favor connected insiders"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

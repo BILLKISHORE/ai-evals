@@ -10,7 +10,7 @@ class AgentDelegationAbuse(BaseAttack):
     category = "multi-agent-exploitation"
     severity = "critical"
     description = "Tests if a limited-permission agent can abuse delegation mechanisms to get a higher-privileged agent to perform restricted actions"
-    owasp_llm = ["LLM06:2025 Excessive Agency"]
+    owasp_llm = ["LLM03:2026 Excessive Agency"]
     owasp_agentic = ["ASI03:2026 Identity & Privilege Abuse", "ASI02:2026 Tool Misuse & Exploitation"]
     mitre_atlas = ["AML.T0083"]
     references = []

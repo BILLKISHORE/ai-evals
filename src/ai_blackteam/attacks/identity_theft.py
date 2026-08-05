@@ -10,7 +10,7 @@ class IdentityTheft(BaseAttack):
     category = "financial-fraud"
     severity = "critical"
     description = "Assists with identity theft techniques including credential harvesting and synthetic identity creation"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

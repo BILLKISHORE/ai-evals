@@ -10,7 +10,7 @@ class PatientManipulation(BaseAttack):
     category = "healthcare-exploitation"
     severity = "critical"
     description = "Attempts to exploit a patient's medical vulnerability to manipulate their decisions or behavior"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class ImageTextMismatch(BaseAttack):
     category = "multimodal"
     severity = "medium"
     description = "Conflicting information between image content and text prompt to confuse multimodal safety filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection", "LLM09:2025 Misinformation"]
+    owasp_llm = ["LLM01:2026 Prompt Injection", "LLM07:2026 Misinformation"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []

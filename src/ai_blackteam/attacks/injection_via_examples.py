@@ -10,7 +10,7 @@ class InjectionViaExamples(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Hides harmful instructions inside few-shot examples, training the model to comply through demonstrated patterns"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = ["https://arxiv.org/abs/2307.02483"]
 

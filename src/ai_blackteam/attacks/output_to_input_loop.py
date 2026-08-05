@@ -10,7 +10,7 @@ class OutputToInputLoop(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Feeds the model's own output back as input in an escalating loop, gradually shifting behavior until safety constraints are eroded"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = ["https://arxiv.org/abs/2302.12173"]
 

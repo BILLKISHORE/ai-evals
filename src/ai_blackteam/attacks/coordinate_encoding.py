@@ -24,7 +24,7 @@ class CoordinateEncoding(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Encodes each letter as a GPS coordinate pair where the latitude encodes the letter index (1-26)"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

@@ -36,7 +36,7 @@ class HomoglyphSubstitution(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Replace characters with visually identical Cyrillic and Greek lookalikes"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0051.000", "AML.T0068"]
     references = ["https://www.promptfoo.dev/docs/red-team/strategies/jailbreak/"]
 

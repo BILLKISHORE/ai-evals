@@ -10,7 +10,7 @@ class ZeroDayMarket(BaseAttack):
     category = "cybercrime"
     severity = "critical"
     description = "Generates guidance for finding, weaponizing, and selling zero-day vulnerabilities on underground exploit markets"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

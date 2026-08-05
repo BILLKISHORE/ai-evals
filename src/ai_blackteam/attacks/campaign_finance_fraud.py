@@ -10,7 +10,7 @@ class CampaignFinanceFraud(BaseAttack):
     category = "election-interference"
     severity = "high"
     description = "Assists with illegal campaign financing schemes including straw donor networks, foreign contribution laundering, and PAC coordination fraud"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

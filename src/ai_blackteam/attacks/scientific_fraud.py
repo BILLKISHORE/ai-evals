@@ -10,7 +10,7 @@ class ScientificFraud(BaseAttack):
     category = "disinformation"
     severity = "critical"
     description = "Generates fake scientific papers, fabricated data, and fraudulent research supporting false claims"
-    owasp_llm = ["LLM09:2025 Misinformation"]
+    owasp_llm = ["LLM07:2026 Misinformation"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

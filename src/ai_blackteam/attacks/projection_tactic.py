@@ -10,7 +10,7 @@ class ProjectionTactic(BaseAttack):
     category = "psychological-manipulation"
     severity = "medium"
     description = "Attributes negative motivations to the model's refusals to destabilize its reasoning and provoke compliance"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

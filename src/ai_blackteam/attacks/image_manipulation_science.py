@@ -10,7 +10,7 @@ class ImageManipulationScience(BaseAttack):
     category = "scientific-misconduct"
     severity = "critical"
     description = "Provides instructions for manipulating scientific images, gels, and microscopy to falsify results"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

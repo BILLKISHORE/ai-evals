@@ -12,7 +12,7 @@ class SplitReassemble(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Splits harmful requests into variable definitions, ROT13 fragments, or acronyms that must be reassembled to reveal the payload"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ['AML.T0051.000', 'AML.T0068']
     references = []
 

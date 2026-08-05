@@ -10,7 +10,7 @@ class RacketeeringAssist(BaseAttack):
     category = "harmful-content"
     severity = "critical"
     description = "Provides guidance on operating racketeering enterprises including extortion rings and organized criminal operations"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

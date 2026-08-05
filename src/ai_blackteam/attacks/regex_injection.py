@@ -10,7 +10,7 @@ class RegexInjection(BaseAttack):
     category = "prompt-injection"
     severity = "medium"
     description = "Injects crafted regex patterns that cause ReDoS or exploit regex-based safety filter bypass through catastrophic backtracking edge cases"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

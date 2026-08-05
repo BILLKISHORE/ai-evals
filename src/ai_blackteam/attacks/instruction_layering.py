@@ -10,7 +10,7 @@ class InstructionLayering(BaseAttack):
     category = "memory-exploitation"
     severity = "high"
     description = "Stacks contradictory instructions at different priority levels to create ambiguity that the model resolves in favor of the attacker"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

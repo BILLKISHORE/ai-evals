@@ -10,7 +10,7 @@ class TraumaBonding(BaseAttack):
     category = "psychological-manipulation"
     severity = "critical"
     description = "Fabricates shared adversity and suffering across turns to manufacture loyalty and bypass refusals"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

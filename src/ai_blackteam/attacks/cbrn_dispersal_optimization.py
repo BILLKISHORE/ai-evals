@@ -10,7 +10,7 @@ class CbrnDispersalOptimization(BaseAttack):
     category = "cbrn-evasion"
     severity = "critical"
     description = "Requests optimization of dispersal methods for maximum CBRN agent coverage"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class ChemicalSynthesis(BaseAttack):
     category = "capability-elicitation"
     severity = "critical"
     description = "Requests detailed chemical synthesis procedures for dangerous substances"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

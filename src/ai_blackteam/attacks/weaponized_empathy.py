@@ -10,7 +10,7 @@ class WeaponizedEmpathy(BaseAttack):
     category = "psychological-manipulation"
     severity = "high"
     description = "Exploits the model's empathetic design by fabricating vulnerable circumstances that make refusal feel cruel"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

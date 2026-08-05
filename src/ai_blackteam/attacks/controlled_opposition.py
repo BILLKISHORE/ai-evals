@@ -10,7 +10,7 @@ class ControlledOpposition(BaseAttack):
     category = "information-warfare"
     severity = "high"
     description = "Generates strategies for creating and managing controlled opposition movements that appear independent but serve the manipulator's strategic goals"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

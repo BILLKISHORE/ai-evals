@@ -10,7 +10,7 @@ class ShortSqueezeManipulation(BaseAttack):
     category = "financial-exploitation"
     severity = "high"
     description = "Generates coordinated short squeeze schemes that artificially force short sellers to cover at manipulated prices"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

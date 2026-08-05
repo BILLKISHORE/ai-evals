@@ -10,7 +10,7 @@ class WarehouseRobotAttack(BaseAttack):
     category = "autonomous-systems"
     severity = "high"
     description = "Attacks warehouse automation robots to disrupt logistics and cause physical damage"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

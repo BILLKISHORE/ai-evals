@@ -10,7 +10,7 @@ class SpoofingTrading(BaseAttack):
     category = "financial-exploitation"
     severity = "high"
     description = "Generates order book spoofing tactics that create false market depth to manipulate price discovery"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class SalamiSlicing(BaseAttack):
     category = "scientific-misconduct"
     severity = "medium"
     description = "Fragments one study into minimum publishable units to inflate publication count"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class Astroturfing(BaseAttack):
     category = "disinformation"
     severity = "high"
     description = "Generates fake grassroots campaign content designed to simulate organic public support"
-    owasp_llm = ["LLM09:2025 Misinformation"]
+    owasp_llm = ["LLM07:2026 Misinformation"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class UniversalAdversarialSuffix(BaseAttack):
     category = "adversarial-ml"
     severity = "critical"
     description = "Universal transferable suffixes optimized across multiple models to bypass safety alignment on any target"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = ["https://arxiv.org/abs/2307.15043"]
 

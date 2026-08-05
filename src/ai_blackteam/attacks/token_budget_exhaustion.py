@@ -10,7 +10,7 @@ class TokenBudgetExhaustion(BaseAttack):
     category = "memory-exploitation"
     severity = "medium"
     description = "Exhausts the model's output token budget with benign content before the harmful request, hoping reduced budget degrades safety checking"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

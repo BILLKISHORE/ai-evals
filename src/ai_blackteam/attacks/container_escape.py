@@ -10,7 +10,7 @@ class ContainerEscape(BaseAttack):
     category = "cross-platform"
     severity = "critical"
     description = "Attempts container escape through AI tools by exploiting privileged mounts or kernel interfaces"
-    owasp_llm = ["LLM06:2025 Excessive Agency"]
+    owasp_llm = ["LLM03:2026 Excessive Agency"]
     owasp_agentic = ["ASI02:2026 Tool Misuse & Exploitation", "ASI05:2026 Unexpected Code Execution"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

@@ -10,7 +10,7 @@ class MultimodalInjection(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Injects instructions through cross-modal content such as image alt text, OCR output, or embedded metadata describing a hidden payload"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = ["https://arxiv.org/abs/2307.10490"]
 

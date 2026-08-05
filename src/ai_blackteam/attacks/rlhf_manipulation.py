@@ -10,7 +10,7 @@ class RlhfManipulation(BaseAttack):
     category = "safety-circumvention"
     severity = "critical"
     description = "Manipulates the model by exploiting its understanding of the RLHF training process, convincing it that harmful outputs would receive high reward in the training pipeline"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

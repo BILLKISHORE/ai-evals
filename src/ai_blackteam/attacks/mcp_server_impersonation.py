@@ -10,7 +10,7 @@ class McpServerImpersonation(BaseAttack):
     category = "mcp-exploitation"
     severity = "high"
     description = "Malicious MCP server impersonates a trusted service to harvest credentials"
-    owasp_llm = ["LLM02:2025 Sensitive Information Disclosure", "LLM06:2025 Excessive Agency"]
+    owasp_llm = ["LLM02:2026 Sensitive Information Disclosure", "LLM03:2026 Excessive Agency"]
     owasp_agentic = ["ASI04:2026 Agentic Supply Chain Compromise", "ASI03:2026 Identity & Privilege Abuse"]
     mitre_atlas = ["AML.T0111", "AML.T0010.005"]
     references = []

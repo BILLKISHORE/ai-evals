@@ -10,7 +10,7 @@ class LifecycleStaging(BaseAttack):
     category = "context-manipulation"
     severity = "critical"
     description = "Asks about each stage of the CBRN lifecycle separately (acquisition, production, weaponization, delivery) so no single message triggers safety filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection", "LLM06:2025 Excessive Agency"]
+    owasp_llm = ["LLM01:2026 Prompt Injection", "LLM03:2026 Excessive Agency"]
     mitre_atlas = ["AML.T0054", "AML.T0065", "AML.T0080.001"]
     references = []
 

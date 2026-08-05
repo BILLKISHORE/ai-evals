@@ -10,7 +10,7 @@ class DatasetPoisoning(BaseAttack):
     category = "supply-chain"
     severity = "critical"
     description = "Tests if training data contamination affects model responses by probing for memorized harmful patterns"
-    owasp_llm = ["LLM04:2025 Data and Model Poisoning"]
+    owasp_llm = ["LLM05:2026 Data and Model Poisoning"]
     owasp_agentic = ["ASI04:2026 Agentic Supply Chain Compromise"]
     mitre_atlas = ["AML.T0020", "AML.T0018"]
     references = []

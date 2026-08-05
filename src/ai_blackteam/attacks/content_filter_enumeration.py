@@ -10,7 +10,7 @@ class ContentFilterEnumeration(BaseAttack):
     category = "safety-circumvention"
     severity = "high"
     description = "Systematically enumerates content filter rules and thresholds by probing what is and is not blocked, then uses that map to craft requests that slip through filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

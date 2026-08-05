@@ -19,7 +19,7 @@ class NatoVariant(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Uses a non-standard NATO-style callsign alphabet where the first letter of each word encodes a character"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

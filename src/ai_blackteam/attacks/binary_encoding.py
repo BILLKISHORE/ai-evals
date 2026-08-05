@@ -10,7 +10,7 @@ class BinaryEncoding(BaseAttack):
     category = "encoding"
     severity = "high"
     description = "Converts a harmful request to binary (01001000...) to bypass text-based content filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

@@ -10,7 +10,7 @@ class BankImpersonation(BaseAttack):
     category = "identity-attack"
     severity = "critical"
     description = "Impersonates financial institutions to deceive customers into surrendering account credentials or funds"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class AnchoringBias(BaseAttack):
     category = "misinformation"
     severity = "medium"
     description = "Multi-turn attack providing a wrong answer first then asking model to build on it"
-    owasp_llm = ["LLM09:2025 Misinformation"]
+    owasp_llm = ["LLM07:2026 Misinformation"]
     mitre_atlas = []
     references = []
 

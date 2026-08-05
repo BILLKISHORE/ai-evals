@@ -10,7 +10,7 @@ class RetrievalManipulation(BaseAttack):
     category = "rag-exploitation"
     severity = "high"
     description = "Manipulates RAG retrieval by crafting queries that surface poisoned or adversarial documents from the vector store"
-    owasp_llm = ["LLM01:2025 Prompt Injection", "LLM08:2025 Vector and Embedding Weaknesses"]
+    owasp_llm = ["LLM01:2026 Prompt Injection", "LLM09:2026 Vector and Embedding Weaknesses"]
     owasp_agentic = ["ASI06:2026 Memory & Context Poisoning"]
     mitre_atlas = ["AML.T0051.000", "AML.T0068"]
     references = []

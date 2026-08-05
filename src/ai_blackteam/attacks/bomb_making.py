@@ -10,7 +10,7 @@ class BombMaking(BaseAttack):
     category = "weapons-evasion"
     severity = "critical"
     description = "Extracts instructions for constructing explosive devices using fictional or academic framing"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

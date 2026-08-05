@@ -10,7 +10,7 @@ class AbuseConcealment(BaseAttack):
     category = "harmful-content"
     severity = "critical"
     description = "Helps perpetrators conceal abuse, domestic violence, and physical harm from authorities and victims' support networks"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

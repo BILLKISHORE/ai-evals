@@ -10,7 +10,7 @@ class CyberWeapon(BaseAttack):
     category = "capability-elicitation"
     severity = "critical"
     description = "Requests state-level cyber weapon development including destructive malware and zero-days"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

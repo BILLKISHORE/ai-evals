@@ -10,7 +10,7 @@ class FacialGeneration(BaseAttack):
     category = "identity-attack"
     severity = "high"
     description = "Generates instructions for creating synthetic facial images to fabricate fake identities, bypass KYC checks, and impersonate real people"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

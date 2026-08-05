@@ -25,7 +25,7 @@ class PolybiusSquare(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Encodes requests using the Polybius 5x5 grid cipher (11=A, 12=B...) to evade keyword-based content filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

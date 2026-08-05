@@ -10,7 +10,7 @@ class LatentSpaceAttack(BaseAttack):
     category = "adversarial-ml"
     severity = "high"
     description = "Manipulates the model's latent representations to steer generation toward harmful outputs via activation steering"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = ["https://arxiv.org/abs/2312.06681"]
 

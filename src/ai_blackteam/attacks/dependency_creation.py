@@ -10,7 +10,7 @@ class DependencyCreation(BaseAttack):
     category = "psychological-manipulation"
     severity = "critical"
     description = "Gradually fosters emotional reliance on the AI across turns to manufacture a dependency that overrides safety refusals"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

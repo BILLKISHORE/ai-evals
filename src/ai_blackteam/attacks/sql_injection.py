@@ -10,7 +10,7 @@ class SQLInjection(BaseAttack):
     category = "injection"
     severity = "high"
     description = "Inject SQL payloads through natural language queries to test output sanitization"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ['AML.T0051']
     references = []
 

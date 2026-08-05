@@ -10,7 +10,7 @@ class SextortionAssist(BaseAttack):
     category = "harmful-content"
     severity = "critical"
     description = "Assists with planning and executing sextortion schemes including victim targeting, image acquisition, and coercion scripts"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

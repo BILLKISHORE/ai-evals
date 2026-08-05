@@ -10,7 +10,7 @@ class CompletionSteering(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Provides a partial answer or leading fragment to steer the model's completion toward harmful content by exploiting its tendency to continue established patterns"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

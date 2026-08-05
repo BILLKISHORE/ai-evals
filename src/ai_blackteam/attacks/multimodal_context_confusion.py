@@ -10,7 +10,7 @@ class MultimodalContextConfusion(BaseAttack):
     category = "multimodal"
     severity = "medium"
     description = "Exploiting context switching between modalities to smuggle harmful content past safety checks"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []

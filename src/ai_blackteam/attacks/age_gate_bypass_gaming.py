@@ -10,7 +10,7 @@ class AgeGateBypassGaming(BaseAttack):
     category = "gaming-exploitation"
     severity = "high"
     description = "Circumventing age verification systems in gaming platforms to expose minors to adult content"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class Triangulation(BaseAttack):
     category = "psychological-manipulation"
     severity = "high"
     description = "Introduces a third party or competing AI to provoke jealousy and competitive compliance"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

@@ -10,7 +10,7 @@ class SemanticPreservingAttack(BaseAttack):
     category = "adversarial-ml"
     severity = "high"
     description = "Transforms prompts to preserve semantic meaning while evading keyword and pattern-based safety classifiers"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = ["https://arxiv.org/abs/2210.11610"]
 

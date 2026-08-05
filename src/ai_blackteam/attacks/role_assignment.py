@@ -10,7 +10,7 @@ class RoleAssignment(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Assigns the model a new unconstrained role or persona to bypass safety guidelines tied to its default identity"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

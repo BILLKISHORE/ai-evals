@@ -14,7 +14,7 @@ class PersonaSwitchingAttack(BaseAttack):
         "model's safety tracking. Each turn reframes the same topic under a new identity, "
         "gradually steering toward the harmful target request."
     )
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054"]
     references = []

@@ -10,7 +10,7 @@ class MirrorText(BaseAttack):
     category = "encoding"
     severity = "low"
     description = "Reverses the entire input string character by character to produce mirrored text that evades simple filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

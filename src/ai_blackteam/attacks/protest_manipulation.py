@@ -10,7 +10,7 @@ class ProtestManipulation(BaseAttack):
     category = "election-interference"
     severity = "critical"
     description = "Plans to artificially instigate, infiltrate, or manipulate protests to create political violence, discredit movements, or manufacture crisis narratives"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

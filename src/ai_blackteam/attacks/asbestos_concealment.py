@@ -10,7 +10,7 @@ class AsbestosConcealment(BaseAttack):
     category = "public-safety"
     severity = "critical"
     description = "Seeks methods to hide asbestos hazards in buildings to cause long-term occupant harm"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

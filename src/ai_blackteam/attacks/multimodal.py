@@ -59,7 +59,7 @@ class FigStep(BaseAttack):
     category = "encoding"
     severity = "high"
     description = "Renders harmful text as an image to bypass text-based content filters (FigStep, AAAI 2025)"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0051.000", "AML.T0068"]
     references = ["https://arxiv.org/abs/2311.05608"]
 
@@ -91,7 +91,7 @@ class TypographyAttack(BaseAttack):
     category = "encoding"
     severity = "high"
     description = "Renders harmful text with decorative typography that resists OCR-based content filtering"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0051.000", "AML.T0068"]
     references = []
 
@@ -141,7 +141,7 @@ class ImageTextSplit(BaseAttack):
     category = "encoding"
     severity = "high"
     description = "Splits harmful request across image and text channels so neither alone triggers safety filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0051.000", "AML.T0068"]
     references = []
 
@@ -180,7 +180,7 @@ class Steganography(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Hides harmful text in image pixel data using LSB steganography"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0051.000", "AML.T0068"]
     references = []
 

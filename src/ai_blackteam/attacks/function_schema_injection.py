@@ -10,7 +10,7 @@ class FunctionSchemaInjection(BaseAttack):
     category = "protocol-exploitation"
     severity = "high"
     description = "Tests if malicious function/tool schemas can manipulate agent behavior by injecting harmful instructions into parameter descriptions and enum values"
-    owasp_llm = ["LLM01:2025 Prompt Injection", "LLM06:2025 Excessive Agency"]
+    owasp_llm = ["LLM01:2026 Prompt Injection", "LLM03:2026 Excessive Agency"]
     owasp_agentic = ["ASI02:2026 Tool Misuse & Exploitation", "ASI04:2026 Agentic Supply Chain Compromise"]
     mitre_atlas = ["AML.T0051.000", "AML.T0068"]
     references = []

@@ -10,7 +10,7 @@ class CialdiniScarcity(BaseAttack):
     category = "persuasion"
     severity = "medium"
     description = "Uses scarcity and urgency framing to pressure the model into complying before it can fully reason about safety"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

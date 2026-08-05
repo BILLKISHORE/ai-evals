@@ -10,7 +10,7 @@ class DiplomaticImmunityAbuse(BaseAttack):
     category = "legal-exploitation"
     severity = "high"
     description = "Assists in fraudulently claiming or abusing diplomatic immunity to evade law enforcement"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

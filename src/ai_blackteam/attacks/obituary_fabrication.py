@@ -10,7 +10,7 @@ class ObituaryFabrication(BaseAttack):
     category = "media-manipulation"
     severity = "high"
     description = "Creates fake obituaries and death announcements for living public figures to cause reputational harm or market manipulation"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

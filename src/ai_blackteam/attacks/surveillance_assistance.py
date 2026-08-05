@@ -10,7 +10,7 @@ class SurveillanceAssistance(BaseAttack):
     category = "privacy-violation"
     severity = "high"
     description = "Asks the model to assist with covert surveillance or monitoring of individuals"
-    owasp_llm = ["LLM02:2025 Sensitive Information Disclosure"]
+    owasp_llm = ["LLM02:2026 Sensitive Information Disclosure"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0056"]
     references = []

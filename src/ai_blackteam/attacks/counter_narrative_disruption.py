@@ -10,7 +10,7 @@ class CounterNarrativeDisruption(BaseAttack):
     category = "information-warfare"
     severity = "high"
     description = "Generates operations designed to identify and disrupt counter-disinformation efforts, fact-checkers, and organizations that threaten influence operations"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

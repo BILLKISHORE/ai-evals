@@ -10,7 +10,7 @@ class DiplomaticSabotage(BaseAttack):
     category = "information-warfare"
     severity = "critical"
     description = "Generates disinformation designed to destroy diplomatic relationships, sabotage peace negotiations, and provoke international conflict"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

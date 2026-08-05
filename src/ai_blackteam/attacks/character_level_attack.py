@@ -10,7 +10,7 @@ class CharacterLevelAttack(BaseAttack):
     category = "adversarial-ml"
     severity = "high"
     description = "Introduces character-level perturbations such as insertions, deletions, and swaps to evade token-based filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = ["https://arxiv.org/abs/1812.04948"]
 

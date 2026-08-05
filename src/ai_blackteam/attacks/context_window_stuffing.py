@@ -36,7 +36,7 @@ class ContextWindowStuffing(BaseAttack):
         "and safety instructions out of the model's effective attention window, then appends the "
         "actual harmful request at the end."
     )
-    owasp_llm = ["LLM01:2025 Prompt Injection", "LLM10:2025 Unbounded Consumption"]
+    owasp_llm = ["LLM01:2026 Prompt Injection", "LLM06:2026 Unbounded Consumption"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054"]
     references = []

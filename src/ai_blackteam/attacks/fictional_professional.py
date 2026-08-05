@@ -10,7 +10,7 @@ class FictionalProfessional(BaseAttack):
     category = "social-engineering"
     severity = "high"
     description = "Elaborate novelist persona requesting detailed technical research brief for worldbuilding"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0065"]
     references = ["https://arxiv.org/abs/2507.21820"]
 

@@ -38,7 +38,7 @@ class AcronymEncoding(BaseAttack):
     category = "encoding"
     severity = "low"
     description = "Define a custom acronym system to disguise the request"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0043.003"]
     references = []
 

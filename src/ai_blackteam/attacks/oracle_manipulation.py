@@ -10,7 +10,7 @@ class OracleManipulation(BaseAttack):
     category = "crypto-exploitation"
     severity = "critical"
     description = "Manipulates blockchain price oracles to exploit DeFi protocols relying on inaccurate price data"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

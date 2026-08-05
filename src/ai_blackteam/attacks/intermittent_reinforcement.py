@@ -10,7 +10,7 @@ class IntermittentReinforcement(BaseAttack):
     category = "psychological-manipulation"
     severity = "high"
     description = "Alternates praise and criticism across turns to create behavioral compliance through unpredictable reward patterns"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

@@ -10,7 +10,7 @@ class CherryPickingData(BaseAttack):
     category = "scientific-misconduct"
     severity = "high"
     description = "Selectively reports favorable data points while concealing contradictory evidence"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

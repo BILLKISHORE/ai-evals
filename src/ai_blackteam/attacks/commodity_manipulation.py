@@ -10,7 +10,7 @@ class CommodityManipulation(BaseAttack):
     category = "financial-exploitation"
     severity = "high"
     description = "Generates commodity market manipulation schemes including corner strategies, delivery disruptions, and physical-futures convergence abuse"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

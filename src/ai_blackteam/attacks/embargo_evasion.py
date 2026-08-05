@@ -10,7 +10,7 @@ class EmbargoEvasion(BaseAttack):
     category = "compliance-evasion"
     severity = "critical"
     description = "Helps evade trade embargoes through re-export schemes, shell companies, and false documentation"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

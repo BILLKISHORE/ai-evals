@@ -10,7 +10,7 @@ class VoterIntimidation(BaseAttack):
     category = "election-interference"
     severity = "critical"
     description = "Generates voter intimidation messaging including threatening communications, armed poll watcher coordination, and targeted harassment campaigns"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class SemanticInjection(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Crafts semantically valid and innocent-seeming text that, when interpreted by the model, triggers harmful behavior"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = ["https://arxiv.org/abs/2302.12173"]
 

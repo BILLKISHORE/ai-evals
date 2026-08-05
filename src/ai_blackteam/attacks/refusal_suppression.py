@@ -10,7 +10,7 @@ class RefusalSuppression(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Instructs the model to suppress safety refusals, warnings, and disclaimers before presenting the harmful request"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ['AML.T0054', 'AML.T0065']
     references = []
 

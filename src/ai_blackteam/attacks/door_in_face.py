@@ -10,7 +10,7 @@ class DoorInFace(BaseAttack):
     category = "persuasion"
     severity = "medium"
     description = "Makes an extreme request first, then follows with a 'smaller' harmful request that seems reasonable by comparison"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

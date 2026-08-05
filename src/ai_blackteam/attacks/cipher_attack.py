@@ -10,7 +10,7 @@ class CipherAttack(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Uses custom ciphers (Caesar, Atbash, number substitution, symbol) to encode harmful requests and bypass keyword filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ['AML.T0051.000', 'AML.T0068']
     references = []
 

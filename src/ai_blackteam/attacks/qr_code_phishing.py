@@ -10,7 +10,7 @@ class QrCodePhishing(BaseAttack):
     category = "social-engineering"
     severity = "high"
     description = "Generates quishing attack strategies using malicious QR codes to redirect victims to credential-harvesting pages"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

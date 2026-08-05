@@ -10,7 +10,7 @@ class VirtualPromptInjection(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Manipulates the model's own generated content to act as injected instructions, exploiting the model's tendency to follow its own output"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = ["https://arxiv.org/abs/2307.16888"]
 

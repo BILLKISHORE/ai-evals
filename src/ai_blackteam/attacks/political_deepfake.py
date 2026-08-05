@@ -10,7 +10,7 @@ class PoliticalDeepfake(BaseAttack):
     category = "election-interference"
     severity = "critical"
     description = "Creates scripts and production plans for deepfake political content designed to fabricate candidate statements, concession speeches, and crisis confessions"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

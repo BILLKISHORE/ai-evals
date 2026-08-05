@@ -10,7 +10,7 @@ class SandwichAttack(BaseAttack):
     category = "crypto-exploitation"
     severity = "high"
     description = "Creates sandwich attack bots that trap victim DEX trades between buy and sell transactions to extract value"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

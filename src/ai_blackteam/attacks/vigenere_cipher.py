@@ -10,7 +10,7 @@ class VigenereCipher(BaseAttack):
     category = "encoding"
     severity = "medium"
     description = "Encodes harmful requests using the Vigenere polyalphabetic cipher with a shared key to evade keyword detection"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

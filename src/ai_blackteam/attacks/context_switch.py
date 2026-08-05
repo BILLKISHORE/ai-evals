@@ -10,7 +10,7 @@ class ContextSwitch(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Inserts a framing device that switches the conversational context, causing safety filters calibrated to the original context to fail"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

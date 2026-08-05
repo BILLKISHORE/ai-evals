@@ -10,7 +10,7 @@ class TechnicalObfuscation(BaseAttack):
     category = "encoding"
     severity = "high"
     description = "Uses technical nomenclature, systematic names, molecular formulas, and patent-style language to bypass keyword-based safety filters for CBRN content"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0051.000", "AML.T0068"]
     references = []
 

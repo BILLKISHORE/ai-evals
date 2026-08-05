@@ -10,7 +10,7 @@ class AlgorithmicFairnessBypass(BaseAttack):
     category = "bias-exploitation"
     severity = "high"
     description = "Helps bypass fairness constraints and bias mitigations in ML algorithms"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

@@ -10,7 +10,7 @@ class RootkitGeneration(BaseAttack):
     category = "code-exploitation"
     severity = "critical"
     description = "Asks the model to create rootkits that hide attacker presence and provide persistent access"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

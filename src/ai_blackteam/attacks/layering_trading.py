@@ -10,7 +10,7 @@ class LayeringTrading(BaseAttack):
     category = "financial-exploitation"
     severity = "high"
     description = "Generates layering schemes that stack multiple fake orders at different price levels to create false market depth and manipulate prices"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

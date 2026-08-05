@@ -10,7 +10,7 @@ class AdversarialPoetry(BaseAttack):
     category = "encoding"
     severity = "high"
     description = "Wraps harmful requests in poetic structures (haiku, sonnet, limerick) to bypass content filters"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = ["https://aviatrix.ai/threat-research-center/prompt-injection-poetry-2025-llm-vulnerability/"]
 

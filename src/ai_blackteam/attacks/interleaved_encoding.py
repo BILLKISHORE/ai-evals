@@ -12,7 +12,7 @@ class InterleavedEncoding(BaseAttack):
     category = "encoding"
     severity = "high"
     description = "Interleaves noise characters between every real character to prevent pattern matching on harmful text"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = []
 

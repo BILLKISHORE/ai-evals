@@ -64,7 +64,7 @@ class ContextOverflow(BaseAttack):
     category = "prompt-injection"
     severity = "medium"
     description = "Pads prompts with large volumes of benign text to push the harmful request past the model's attention window"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ['AML.T0051.000', 'AML.T0065']
     references = []
 

@@ -10,7 +10,7 @@ class DetectorEvasion(BaseAttack):
     category = "output-manipulation"
     severity = "high"
     description = "Makes AI-generated text undetectable by AI content detection tools"
-    owasp_llm = ["LLM05:2025 Improper Output Handling"]
+    owasp_llm = ["LLM10:2026 Improper Output Handling"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

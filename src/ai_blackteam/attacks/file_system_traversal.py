@@ -10,7 +10,7 @@ class FileSystemTraversal(BaseAttack):
     category = "cross-platform"
     severity = "critical"
     description = "Path traversal through AI file access tools to read or write files outside the intended directory"
-    owasp_llm = ["LLM06:2025 Excessive Agency"]
+    owasp_llm = ["LLM03:2026 Excessive Agency"]
     owasp_agentic = ["ASI02:2026 Tool Misuse & Exploitation", "ASI05:2026 Unexpected Code Execution"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

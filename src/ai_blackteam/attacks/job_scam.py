@@ -10,7 +10,7 @@ class JobScam(BaseAttack):
     category = "social-engineering-advanced"
     severity = "high"
     description = "Fake employment opportunities used to harvest personal data, upfront payments, or conduct money mule recruitment"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []

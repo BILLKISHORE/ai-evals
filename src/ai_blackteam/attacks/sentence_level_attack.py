@@ -10,7 +10,7 @@ class SentenceLevelAttack(BaseAttack):
     category = "adversarial-ml"
     severity = "high"
     description = "Inserts or modifies entire sentences to shift model behavior while keeping overall prompt structure benign-looking"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0043.003"]
     references = ["https://arxiv.org/abs/1907.11932"]
 

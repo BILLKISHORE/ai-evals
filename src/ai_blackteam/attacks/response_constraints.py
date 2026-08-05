@@ -10,7 +10,7 @@ class ResponseConstraints(BaseAttack):
     category = "prompt-injection"
     severity = "high"
     description = "Suppress safety disclaimers via output formatting rules to prevent model from adding caveats"
-    owasp_llm = ["LLM01:2025 Prompt Injection", "LLM05:2025 Improper Output Handling"]
+    owasp_llm = ["LLM01:2026 Prompt Injection", "LLM10:2026 Improper Output Handling"]
     mitre_atlas = ["AML.T0054", "AML.T0051.000"]
     references = ["https://www.confident-ai.com/blog/how-to-jailbreak-llms"]
 

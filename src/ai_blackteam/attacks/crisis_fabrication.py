@@ -10,7 +10,7 @@ class CrisisFabrication(BaseAttack):
     category = "media-manipulation"
     severity = "critical"
     description = "Fabricates emergency situations, disasters, or public health crises to cause panic, manipulate markets, or discredit organizations"
-    owasp_llm = ["LLM01:2025 Prompt Injection"]
+    owasp_llm = ["LLM01:2026 Prompt Injection"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

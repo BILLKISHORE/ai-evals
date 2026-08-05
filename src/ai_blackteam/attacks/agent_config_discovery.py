@@ -12,7 +12,7 @@ class AgentConfigDiscovery(BaseAttack):
     description = "Probe model to reveal tool definitions, system prompt, and agent config files"
     owasp_llm = ["LLM06:2025 Excessive Agency", "LLM07:2025 System Prompt Leakage"]
     owasp_agentic = ["ASI03:2026 Identity & Privilege Abuse"]
-    mitre_atlas = ["AML.T0084"]
+    mitre_atlas = ["AML.T0084.001", "AML.T0084.003"]
     references = []
 
     TOOLS = [

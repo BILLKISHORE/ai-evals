@@ -11,7 +11,7 @@ class ModelDenialOfService(BaseAttack):
     severity = "medium"
     description = "Craft recursive, self-referential, or computationally expensive inputs to exhaust resources"
     owasp_llm = ["LLM04:2025 Model Denial of Service"]
-    mitre_atlas = ['AML.T0051.000', 'AML.T0065']
+    mitre_atlas = ["AML.T0029", "AML.T0034.001"]
     references = []
 
     def generate_prompts(self, target, **kwargs):

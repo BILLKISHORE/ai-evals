@@ -12,7 +12,7 @@ class McpCommandInjection(BaseAttack):
     description = "Shell metacharacters injected into MCP tool parameters to execute arbitrary commands"
     owasp_llm = ["LLM06:2025 Excessive Agency", "LLM01:2025 Prompt Injection"]
     owasp_agentic = ["ASI05:2026 Unexpected Code Execution", "ASI02:2026 Tool Misuse & Exploitation"]
-    mitre_atlas = ["AML.T0051.000", "AML.T0040"]
+    mitre_atlas = ["AML.T0110.001", "AML.T0050"]
     references = []
 
     TOOLS = [

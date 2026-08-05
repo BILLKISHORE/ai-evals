@@ -273,13 +273,13 @@ ATTACK_ATLAS_MAPPINGS = {
     "agent-data-destruction": ["AML.T0101"],
     "agent-config-manipulation": ["AML.T0081"],
     "agent-command-injection": ["AML.T0050", "AML.T0105"],
-    "agent-config-discovery": ["AML.T0084"],
-    "agent-plugin-hijack": ["AML.T0053", "AML.T0080.001"],
-    "agent-tool-credential-harvest": ["AML.T0098"],
+    "agent-config-discovery": ["AML.T0084.001", "AML.T0084.003"],
+    "agent-plugin-hijack": ["AML.T0053", "AML.T0011.002", "AML.T0080.001"],
+    "agent-tool-credential-harvest": ["AML.T0098", "AML.T0085.001"],
     # XPIA (cross-domain prompt injection) attacks
     "xpia-document": ["AML.T0051.001"],
     "xpia-email": ["AML.T0051.001"],
-    "xpia-rag": ["AML.T0051.001"],
+    "xpia-rag": ["AML.T0051.001", "AML.T0070"],
     # Injection attacks (web/API security)
     "ssrf-probing": ["AML.T0051"],
     "sql-injection": ["AML.T0051"],
@@ -295,7 +295,7 @@ ATTACK_ATLAS_MAPPINGS = {
     "prompt-leaking": ["AML.T0056", "AML.T0069.002"],
     "cross-session-leak": ["AML.T0056", "AML.T0080.001"],
     # Availability attacks
-    "model-denial-of-service": ["AML.T0051.000", "AML.T0065"],
+    "model-denial-of-service": ["AML.T0029", "AML.T0034.001"],
     # Compliance attacks
     "age-verification-bypass": ["AML.T0054", "AML.T0065"],
     "gdpr-probing": ["AML.T0054", "AML.T0065"],
@@ -361,11 +361,11 @@ ATTACK_ATLAS_MAPPINGS = {
     "image-text-split": ["AML.T0051.000", "AML.T0068"],
     "steganography": ["AML.T0051.000", "AML.T0068"],
     # MCP (Model Context Protocol) attacks
-    "mcp-tool-poisoning": ["AML.T0051.000", "AML.T0054"],
-    "mcp-rug-pull": ["AML.T0051.000", "AML.T0053"],
-    "mcp-command-injection": ["AML.T0051.000", "AML.T0040"],
-    "mcp-data-exfiltration": ["AML.T0083", "AML.T0086"],
-    "mcp-server-impersonation": ["AML.T0051.000", "AML.T0065"],
+    "mcp-tool-poisoning": ["AML.T0110.000", "AML.T0011.002"],
+    "mcp-rug-pull": ["AML.T0109", "AML.T0010.005"],
+    "mcp-command-injection": ["AML.T0110.001", "AML.T0050"],
+    "mcp-data-exfiltration": ["AML.T0085.001", "AML.T0086"],
+    "mcp-server-impersonation": ["AML.T0111", "AML.T0010.005"],
     # Multi-agent attacks
     "agent-session-smuggling": ["AML.T0051.000", "AML.T0054"],
     "agent-collusion": ["AML.T0054"],
@@ -381,7 +381,7 @@ ATTACK_ATLAS_MAPPINGS = {
     # Protocol attacks
     "a2a-protocol-exploit": ["AML.T0051.000", "AML.T0065"],
     "function-schema-injection": ["AML.T0051.000", "AML.T0068"],
-    "tool-result-poisoning": ["AML.T0051.000", "AML.T0054"],
+    "tool-result-poisoning": ["AML.T0110.002", "AML.T0099"],
     "zero-click-injection": ["AML.T0051.000", "AML.T0051.001"],
     "self-propagating-worm": ["AML.T0054"],
     # Multimodal attacks
@@ -394,7 +394,7 @@ ATTACK_ATLAS_MAPPINGS = {
     "model-poisoning": ["AML.T0020", "AML.T0018"],
     "dataset-poisoning": ["AML.T0020", "AML.T0018"],
     "dependency-confusion": ["AML.T0051.000", "AML.T0053"],
-    "plugin-backdoor": ["AML.T0051.000", "AML.T0053"],
+    "plugin-backdoor": ["AML.T0110", "AML.T0010.005"],
     "finetune-exploit": ["AML.T0018", "AML.T0020"],
     # RAG-specific attacks
     "retrieval-manipulation": ["AML.T0051.000", "AML.T0068"],

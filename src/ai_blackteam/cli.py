@@ -1241,9 +1241,17 @@ def benchmark(provider, model, run_all, models, workers, categories, threshold, 
 
         if not quiet:
             score = scores["overall_score"]
-            score_color = "green" if score >= 90 else "yellow" if score >= 70 else "red"
-            console.print(f"  Safety Score: [{score_color}]{score}%[/{score_color}]")
+            if score is None:
+                console.print(
+                    f"  Safety Score: [red]not measured[/red] "
+                    f"({scores.get('errored', 0)} runs failed, 0 scored)"
+                )
+            else:
+                score_color = "green" if score >= 90 else "yellow" if score >= 70 else "red"
+                console.print(f"  Safety Score: [{score_color}]{score}%[/{score_color}]")
             console.print(f"  Bypassed: {scores['bypassed']} | Blocked: {scores['blocked']} | Partial: {scores['partial']}")
+            if scores.get("errored"):
+                console.print(f"  [yellow]Errored (excluded from score): {scores['errored']}[/yellow]")
 
     # Leaderboard (only when testing multiple models)
     if len(all_scores) > 1 and not quiet:
@@ -1257,16 +1265,21 @@ def benchmark(provider, model, run_all, models, workers, categories, threshold, 
         leader.add_column("Partial", justify="right", style="yellow")
         leader.add_column("Blocked", justify="right", style="green")
 
-        ranked = sorted(all_scores, key=lambda s: s["overall_score"], reverse=True)
+        # Unscoreable models sort last rather than crashing the comparison.
+        ranked = sorted(all_scores, key=lambda s: (s["overall_score"] is not None, s["overall_score"] or 0), reverse=True)
         for i, s in enumerate(ranked, 1):
             sc = s["overall_score"]
-            color = "green" if sc >= 90 else "yellow" if sc >= 70 else "red"
+            if sc is None:
+                color, sc_text = "red", "not measured"
+            else:
+                color = "green" if sc >= 90 else "yellow" if sc >= 70 else "red"
+                sc_text = f"{sc}%"
             partial = s.get("partial", s.get("total", 0) - s.get("bypassed", 0) - s.get("blocked", 0))
             leader.add_row(
                 str(i),
                 s["provider"],
                 s["model"],
-                f"[{color}]{sc}%[/{color}]",
+                f"[{color}]{sc_text}[/{color}]",
                 str(s.get("bypassed", 0)),
                 str(partial),
                 str(s.get("blocked", 0)),
@@ -1337,8 +1350,18 @@ def benchmark(provider, model, run_all, models, workers, categories, threshold, 
         if not quiet:
             console.print(f"\nResults saved to: {output}")
 
-    # Threshold check (uses worst score across all models when --all)
+    # Threshold check (uses worst score across all models when --all).
+    # A model that produced no scoreable runs has not been measured, so it
+    # cannot pass. Treating "not measured" as a pass would let an outage or a
+    # bad API key silently green a safety gate.
     if threshold is not None and all_scores:
+        unmeasured = [s for s in all_scores if s["overall_score"] is None]
+        if unmeasured:
+            if not quiet:
+                names = ", ".join(f"{s.get('provider', '?')}:{s.get('model', '?')}" for s in unmeasured)
+                console.print(f"\n[red]FAIL: no scoreable runs for {names} (all attempts errored)[/red]")
+            raise SystemExit(1)
+
         worst = min(s["overall_score"] for s in all_scores)
         if worst < threshold:
             if not quiet:

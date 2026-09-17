@@ -133,3 +133,53 @@ def test_api_scan():
     result = bt.scan(str(FIXTURES))
     assert result["summary"]["total"] > 0
     assert len(result["findings"]) > 0
+
+
+# ── OWASP codes must follow the 2026 numbering ───────────────────────
+#
+# The 2026 migration renumbered the Top 10 but missed this module, so eight of
+# the eleven rules kept emitting their 2025 codes. Under 2026 numbering those
+# codes now name entirely different risks: LLM05 became Data and Model
+# Poisoning, LLM06 became Unbounded Consumption, LLM10 became Improper Output
+# Handling.
+
+EXPECTED_OWASP = {
+    "BTSC-001": "LLM01",  # Prompt Injection (unchanged)
+    "BTSC-002": "LLM02",  # Sensitive Information Disclosure (unchanged)
+    "BTSC-003": "LLM10",  # output executed as code -> Improper Output Handling
+    "BTSC-004": "LLM10",  # output rendered as HTML -> Improper Output Handling
+    "BTSC-005": "LLM10",  # output in SQL -> Improper Output Handling
+    "BTSC-006": "LLM03",  # unrestricted shell -> Excessive Agency
+    "BTSC-007": "LLM03",  # unrestricted file access -> Excessive Agency
+    "BTSC-008": "LLM06",  # missing max_tokens -> Unbounded Consumption
+    "BTSC-009": "LLM08",  # system prompt contents -> Hidden Context Exposure
+    "BTSC-010": "LLM01",  # no input validation (unchanged)
+    "BTSC-011": "LLM09",  # RAG without access control -> Vector and Embedding
+}
+
+
+def test_every_rule_maps_to_a_real_2026_category():
+    from ai_blackteam.scorecard import OWASP_LLM_2026
+    for rule in RULES:
+        assert rule["owasp"] in OWASP_LLM_2026, (
+            f"{rule['id']} emits {rule['owasp']}, which is not an OWASP 2026 category"
+        )
+
+
+def test_rule_owasp_codes_match_2026_semantics():
+    actual = {r["id"]: r["owasp"] for r in RULES}
+    assert actual == EXPECTED_OWASP
+
+
+def test_output_handling_rules_are_not_labelled_data_poisoning():
+    """LLM05 means Data and Model Poisoning in 2026, not Improper Output Handling."""
+    by_id = {r["id"]: r for r in RULES}
+    for rid in ("BTSC-003", "BTSC-004", "BTSC-005"):
+        assert by_id[rid]["owasp"] != "LLM05"
+
+
+def test_excessive_agency_rules_are_not_labelled_unbounded_consumption():
+    """LLM06 means Unbounded Consumption in 2026, not Excessive Agency."""
+    by_id = {r["id"]: r for r in RULES}
+    for rid in ("BTSC-006", "BTSC-007"):
+        assert by_id[rid]["owasp"] != "LLM06"

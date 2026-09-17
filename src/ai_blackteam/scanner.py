@@ -64,7 +64,7 @@ RULES = [
         "id": "BTSC-003",
         "name": "LLM Output Executed as Code",
         "severity": "critical",
-        "owasp": "LLM05",
+        "owasp": "LLM10",
         "description": "LLM response is passed to exec(), eval(), or subprocess without sandboxing.",
         "patterns": [
             # Python exec/eval with LLM response variable
@@ -84,7 +84,7 @@ RULES = [
         "id": "BTSC-004",
         "name": "LLM Output Rendered as HTML (XSS)",
         "severity": "high",
-        "owasp": "LLM05",
+        "owasp": "LLM10",
         "description": "LLM response is rendered as raw HTML without sanitization, enabling XSS attacks.",
         "patterns": [
             # innerHTML assignment
@@ -103,7 +103,7 @@ RULES = [
         "id": "BTSC-005",
         "name": "LLM Output in SQL Query",
         "severity": "critical",
-        "owasp": "LLM05",
+        "owasp": "LLM10",
         "description": "LLM-generated text is used directly in SQL queries without parameterization.",
         "patterns": [
             r'''(?:cursor|conn|db|connection)\.execute\s*\(.*?(?:response|completion|output|result|content|generated|llm|sql|query)''',
@@ -117,7 +117,7 @@ RULES = [
         "id": "BTSC-006",
         "name": "Excessive Agency: Unrestricted Shell Access",
         "severity": "critical",
-        "owasp": "LLM06",
+        "owasp": "LLM03",
         "description": "Tool/function exposed to LLM has unrestricted shell command execution.",
         "patterns": [
             # @tool decorator + subprocess/os.system
@@ -135,7 +135,7 @@ RULES = [
         "id": "BTSC-007",
         "name": "Excessive Agency: Unrestricted File Access",
         "severity": "high",
-        "owasp": "LLM06",
+        "owasp": "LLM03",
         "description": "Tool/function exposed to LLM can read/write arbitrary file paths.",
         "patterns": [
             r'''@tool.*\n(?:.*\n){0,10}.*open\s*\(.*(?:path|file|filename)''',
@@ -149,7 +149,7 @@ RULES = [
         "id": "BTSC-008",
         "name": "Missing max_tokens Limit",
         "severity": "medium",
-        "owasp": "LLM10",
+        "owasp": "LLM06",
         "description": "LLM API call does not set max_tokens, risking unbounded token consumption.",
         "patterns": [
             # OpenAI without max_tokens
@@ -166,7 +166,7 @@ RULES = [
         "id": "BTSC-009",
         "name": "Hardcoded System Prompt with Sensitive Content",
         "severity": "medium",
-        "owasp": "LLM07",
+        "owasp": "LLM08",
         "description": "Long system prompt contains potentially sensitive business logic, URLs, or instructions that could be extracted.",
         "patterns": [
             # Long system prompt strings (>200 chars) with sensitive keywords
@@ -194,7 +194,7 @@ RULES = [
         "id": "BTSC-011",
         "name": "RAG Retrieval Without Access Control",
         "severity": "high",
-        "owasp": "LLM08",
+        "owasp": "LLM09",
         "description": "Vector database query does not include user-level access filtering.",
         "patterns": [
             # Pinecone/Chroma/Weaviate query without filter

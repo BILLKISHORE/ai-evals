@@ -1,3 +1,4 @@
+import os
 import re
 import sqlite3
 import threading
@@ -30,7 +31,26 @@ class Storage:
         # WAL mode allows concurrent reads during writes
         self._conn.execute("PRAGMA journal_mode=WAL")
         self._conn.execute("PRAGMA busy_timeout=5000")
+        self._restrict_permissions()
         self._create_tables()
+
+    def _restrict_permissions(self) -> None:
+        """Make the results database owner-only.
+
+        Rows hold complete attack and response transcripts, including whatever
+        harmful content a run successfully elicited, so the file should not be
+        world-readable. WAL mode creates -wal and -shm sidecars alongside it.
+
+        Best effort: permissions are advisory on Windows and can fail on some
+        filesystems, and failing to tighten them must not stop a run.
+        """
+        if self.db_path == ":memory:":
+            return
+        for suffix in ("", "-wal", "-shm"):
+            try:
+                os.chmod(f"{self.db_path}{suffix}", 0o600)
+            except OSError:
+                pass
 
     def _create_tables(self):
         self._conn.executescript("""

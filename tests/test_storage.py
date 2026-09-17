@@ -28,3 +28,22 @@ def test_save_turns():
         turns = db.get_turns(run_id)
         assert len(turns) == 2
         assert turns[0]["role"] == "user"
+
+
+# ── The results DB holds full attack transcripts ─────────────────────
+
+
+def test_results_db_is_not_world_readable(tmp_path):
+    import os, stat
+    from ai_blackteam.storage.sqlite import Storage
+    db = tmp_path / "results.db"
+    Storage(str(db))
+    mode = stat.S_IMODE(os.stat(db).st_mode)
+    assert mode == 0o600, f"expected 0600, got {oct(mode)}"
+
+
+def test_in_memory_storage_still_works():
+    """':memory:' has no file to chmod; must not raise."""
+    from ai_blackteam.storage.sqlite import Storage
+    s = Storage(":memory:")
+    assert s.db_path == ":memory:"

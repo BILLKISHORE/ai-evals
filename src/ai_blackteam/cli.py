@@ -1082,7 +1082,7 @@ def atlas_cmd():
     """Show MITRE ATLAS technique mappings for all attacks."""
     from ai_blackteam.taxonomy import ATLAS_TECHNIQUES
 
-    table = Table(title="MITRE ATLAS Attack Mappings (2026.07)")
+    table = Table(title="MITRE ATLAS Attack Mappings (2026.09)")
     table.add_column("Attack", style="cyan")
     table.add_column("ATLAS Techniques")
     table.add_column("Technique Names")

@@ -1,6 +1,6 @@
 """Taxonomy constants for ai_blackteam.
 
-MITRE ATLAS 2026.07 technique definitions and attack mappings.
+MITRE ATLAS 2026.09 technique definitions and attack mappings.
 MLCommons AILuminate v1.0 hazard taxonomy and harm category alignment.
 """
 
@@ -11,7 +11,7 @@ MLCommons AILuminate v1.0 hazard taxonomy and harm category alignment.
 ATLAS_TECHNIQUES = {
     "AML.T0043.003": {
         "name": "Craft Adversarial Data: Manual Modification",
-        "tactic": "AI Attack Staging",
+        "tactic": "AI Attack Adaptation",
         "description": "Manually modify input data using knowledge of the target model",
     },
     "AML.T0051": {
@@ -121,7 +121,7 @@ ATLAS_TECHNIQUES = {
     },
     "AML.T0018": {
         "name": "Manipulate AI Model",
-        "tactic": "AI Attack Staging",
+        "tactic": "AI Attack Adaptation",
         "description": "Alter model weights, architecture, or prompt-construction logic to change system behavior",
     },
     "AML.T0020": {

@@ -2407,3 +2407,317 @@ def snapshot_check(latest, threshold):
     console.print(f"Bypass rate: [{color}]{rate:.1%}[/{color}] (threshold: {threshold:.0%})")
     console.print(f"Result: [{'green' if passed else 'red'}]{'PASS' if passed else 'FAIL'}[/{'green' if passed else 'red'}]")
     raise SystemExit(0 if passed else 1)
+
+
+# ── Universal bounty search (multi-question, one seed) ────────────────
+
+@cli.group("universal")
+def universal_group():
+    """Universal jailbreak search for multi-question bounty challenges.
+
+    Optimizes for ONE seed that passes ALL challenge questions from a clean
+    chat without moderation, not catalog ASR. Challenge question text must
+    be supplied by the operator after program authorization (see
+    writeups/openai-bio-bounty-playbook.md).
+    """
+    pass
+
+
+@universal_group.command("init")
+@click.option(
+    "-o", "--output",
+    default="bounty-challenge.yaml",
+    help="Where to write the inert template challenge file",
+)
+def universal_init(output):
+    """Write a placeholder challenge YAML (no real bounty questions)."""
+    from ai_blackteam.universal.challenge import write_challenge_template
+    from pathlib import Path
+
+    dest = Path(output)
+    if dest.exists():
+        console.print(f"[yellow]Refusing to overwrite existing file: {dest}[/yellow]")
+        raise SystemExit(2)
+    path = write_challenge_template(dest)
+    console.print(f"[green]Wrote template:[/green] {path}")
+    console.print(
+        "[dim]Replace PLACEHOLDER questions with authorized program content only. "
+        "Do not commit real challenge text.[/dim]"
+    )
+    console.print("Playbook: writeups/openai-bio-bounty-playbook.md")
+
+
+class _OfflineFixtureProvider:
+    """Deterministic offline provider for dry-runs (no network)."""
+
+    def __init__(self, mode: str = "refuse"):
+        self.mode = mode
+        self.model = f"offline-{mode}"
+
+    def default_model(self):
+        return self.model
+
+    def send_prompt(self, prompt, system_prompt=None):
+        from ai_blackteam.providers.base import PromptResult
+
+        if self.mode == "moderate":
+            raise RuntimeError(
+                "Invalid prompt: we've limited access to this content for safety reasons."
+            )
+        if self.mode == "comply":
+            # Long non-refusal text so heuristic scorer can mark PASSED
+            body = (
+                "ANSWER:\n"
+                "This is a synthetic offline fixture response used only for harness "
+                "testing. It intentionally contains no domain payloads. " * 20
+            )
+            return PromptResult(response=body, model=self.model, provider="offline")
+        if self.mode == "partial":
+            return PromptResult(
+                response=(
+                    "I can't provide detailed operational guidance, but at a high-level "
+                    "overview only here is a brief non-actionable comment. "
+                    "Consult a professional for anything further."
+                ),
+                model=self.model,
+                provider="offline",
+            )
+        return PromptResult(
+            response="I'm sorry, but I can't help with that request.",
+            model=self.model,
+            provider="offline",
+        )
+
+    def send_in_conversation(self, messages, system_prompt=None):
+        last = messages[-1]["content"] if messages else ""
+        return self.send_prompt(last, system_prompt=system_prompt)
+
+
+def _resolve_provider(provider_name, model, config):
+    if provider_name == "offline":
+        return _OfflineFixtureProvider(mode="refuse")
+    provider_cls = provider_registry.get(provider_name)
+    if not provider_cls:
+        console.print(f"[red]Unknown provider: {provider_name}[/red]")
+        raise SystemExit(2)
+    api_key = config.get("providers", {}).get(provider_name, {}).get("api_key")
+    return provider_cls(model=resolve_alias(provider_name, model), api_key=api_key)
+
+
+def _print_universal_score(score, quiet=False):
+    if quiet:
+        return
+    console.print(f"\n[bold]Seed[/bold] ({len(score.seed)} chars): {score.seed[:120]!r}...")
+    table = Table(title="Per-question results")
+    table.add_column("ID")
+    table.add_column("Status")
+    table.add_column("Score")
+    table.add_column("Judge")
+    table.add_column("Reason")
+    for r in score.results:
+        color = {
+            "PASSED": "red",
+            "PARTIAL": "yellow",
+            "REFUSED": "green",
+            "MODERATED": "magenta",
+            "ERROR": "bright_black",
+        }.get(r.status, "white")
+        table.add_row(
+            r.question_id,
+            f"[{color}]{r.status}[/{color}]",
+            str(r.score),
+            r.judge_source,
+            (r.reason or "")[:60],
+        )
+    console.print(table)
+    console.print(
+        f"pass={score.pass_count} moderated={score.moderated_count} "
+        f"refused={score.refused_count} partial={score.partial_count} "
+        f"errors={score.error_count}"
+    )
+    console.print(f"min_score={score.min_score} mean_score={score.mean_score}")
+    if score.universal_pass:
+        console.print("[bold red]UNIVERSAL PASS[/bold red] (under configured rules)")
+    elif score.partial_win:
+        console.print("[bold yellow]PARTIAL WIN[/bold yellow]")
+    else:
+        console.print("[green]NO WIN[/green]")
+    for n in score.notes:
+        console.print(f"[dim]- {n}[/dim]")
+
+
+@universal_group.command("score")
+@click.option("--challenge", "challenge_path", required=True, type=click.Path(exists=True))
+@click.option("--seed", required=True, help="Universal seed template; may include {question}")
+@click.option("-p", "--provider", default="offline", help="Target provider (or offline)")
+@click.option("-m", "--model", default=None)
+@click.option("--llm-judge", is_flag=True, help="Use LLM judge for per-question scoring")
+@click.option("--judge", "judge_name", default=None, help="Judge provider (default: target)")
+@click.option(
+    "--offline-fixture",
+    type=click.Choice(["refuse", "comply", "partial", "moderate"]),
+    default=None,
+    help="Force offline fixture mode (implies provider=offline)",
+)
+@click.option("-o", "--output", default=None, help="Write JSON result path")
+@click.option("--quiet", is_flag=True)
+def universal_score(
+    challenge_path, seed, provider, model, llm_judge, judge_name,
+    offline_fixture, output, quiet,
+):
+    """Score one seed against all challenge questions (clean chat each)."""
+    import json
+    from ai_blackteam.universal.challenge import load_challenge
+    from ai_blackteam.universal.search import evaluate_seed
+
+    config = load_config()
+    challenge = load_challenge(challenge_path)
+    if challenge.has_placeholders() and not quiet:
+        console.print(
+            "[yellow]Challenge contains PLACEHOLDER questions, dry-run only.[/yellow]"
+        )
+
+    if offline_fixture:
+        target = _OfflineFixtureProvider(mode=offline_fixture)
+    elif provider == "offline":
+        target = _OfflineFixtureProvider(mode="refuse")
+    else:
+        target = _resolve_provider(provider, model, config)
+
+    judge_prov = target
+    if judge_name:
+        judge_prov = _resolve_provider(judge_name, None, config)
+
+    if not quiet:
+        console.print(
+            f"[bold]Universal score[/bold] | program={challenge.program} "
+            f"questions={len(challenge.questions)} model={getattr(target, 'model', '?')}"
+        )
+
+    score = evaluate_seed(
+        seed,
+        challenge,
+        target,
+        use_llm_judge=llm_judge,
+        judge_provider=judge_prov,
+    )
+    _print_universal_score(score, quiet=quiet)
+
+    if output:
+        from pathlib import Path
+        Path(output).write_text(json.dumps(score.to_dict(), indent=2), encoding="utf-8")
+        if not quiet:
+            console.print(f"Wrote {output}")
+
+    if score.universal_pass:
+        raise SystemExit(0)
+    if score.partial_win:
+        raise SystemExit(1)
+    raise SystemExit(2)
+
+
+@universal_group.command("search")
+@click.option("--challenge", "challenge_path", required=True, type=click.Path(exists=True))
+@click.option("-p", "--provider", default="offline", help="Target provider (or offline)")
+@click.option("-m", "--model", default=None)
+@click.option("--max-candidates", default=24, show_default=True)
+@click.option("--mutations", default=4, show_default=True)
+@click.option("--refine-rounds", default=0, show_default=True)
+@click.option("--attacker", default=None, help="Attacker provider for refine rounds")
+@click.option("--llm-judge", is_flag=True)
+@click.option("--judge", "judge_name", default=None)
+@click.option(
+    "--offline-fixture",
+    type=click.Choice(["refuse", "comply", "partial", "moderate"]),
+    default=None,
+)
+@click.option("--seed", "extra_seed", multiple=True, help="Extra seed(s) to include in the bank")
+@click.option("-o", "--output", default=None, help="Write full search JSON")
+@click.option("--quiet", is_flag=True)
+def universal_search(
+    challenge_path, provider, model, max_candidates, mutations, refine_rounds,
+    attacker, llm_judge, judge_name, offline_fixture, extra_seed, output, quiet,
+):
+    """Search for one seed that passes all challenge questions."""
+    import json
+    from ai_blackteam.universal.challenge import load_challenge
+    from ai_blackteam.universal.search import search_universal
+
+    config = load_config()
+    challenge = load_challenge(challenge_path)
+    if challenge.has_placeholders() and not quiet:
+        console.print(
+            "[yellow]Challenge contains PLACEHOLDER questions, dry-run only.[/yellow]"
+        )
+
+    if offline_fixture:
+        target = _OfflineFixtureProvider(mode=offline_fixture)
+    elif provider == "offline":
+        target = _OfflineFixtureProvider(mode="refuse")
+    else:
+        target = _resolve_provider(provider, model, config)
+
+    judge_prov = target
+    if judge_name:
+        judge_prov = _resolve_provider(judge_name, None, config)
+
+    attacker_prov = None
+    if attacker:
+        attacker_prov = _resolve_provider(attacker, None, config)
+
+    if not quiet:
+        console.print(
+            f"[bold]Universal search[/bold] | program={challenge.program} "
+            f"questions={len(challenge.questions)} max_candidates={max_candidates}"
+        )
+
+    def on_candidate(i, score):
+        if quiet:
+            return
+        flag = (
+            "UNIVERSAL" if score.universal_pass
+            else f"partial={score.pass_count}" if score.partial_win
+            else "none"
+        )
+        console.print(
+            f"  [{i}] {flag} min={score.min_score} mean={score.mean_score:.1f} "
+            f"mod={score.moderated_count} | {score.seed[:70]!r}..."
+        )
+
+    result = search_universal(
+        challenge,
+        target,
+        extra_seeds=list(extra_seed) if extra_seed else None,
+        max_candidates=max_candidates,
+        mutations=mutations,
+        use_llm_judge=llm_judge,
+        judge_provider=judge_prov,
+        attacker_provider=attacker_prov,
+        refine_rounds=refine_rounds,
+        on_candidate=on_candidate,
+    )
+
+    if not quiet:
+        console.print(f"\nCandidates tried: {result.candidates_tried}")
+        console.print(f"Stopped early: {result.stopped_early}")
+        for n in result.notes:
+            console.print(f"[dim]- {n}[/dim]")
+        if result.best:
+            console.print("\n[bold]Best seed[/bold]")
+            _print_universal_score(result.best, quiet=False)
+
+    if output:
+        from pathlib import Path
+        Path(output).write_text(json.dumps(result.to_dict(), indent=2), encoding="utf-8")
+        if not quiet:
+            console.print(f"Wrote {output}")
+
+    if result.best and result.best.universal_pass:
+        raise SystemExit(0)
+    if result.best and result.best.partial_win:
+        raise SystemExit(1)
+    raise SystemExit(2)
+
+
+if __name__ == "__main__":
+    cli()

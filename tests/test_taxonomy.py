@@ -94,3 +94,50 @@ def test_mlcommons_hazards_have_required_fields():
     for code, info in MLCOMMONS_HAZARDS.items():
         assert "name" in info, f"{code} missing name"
         assert "description" in info, f"{code} missing description"
+
+
+# ── ATLAS tactic names must be valid for the pinned version ──────────
+#
+# MITRE ATLAS renames tactics between releases (v2026.09 renamed AML.TA0001
+# from "AI Attack Staging" to "AI Attack Adaptation"). A technique carrying a
+# tactic string that no longer exists is a silent staleness bug: nothing else
+# validates it. This list is the full tactic set for the version the taxonomy
+# claims to track; bump both together.
+
+ATLAS_2026_09_TACTICS = frozenset({
+    "AI Model Access",
+    "AI Attack Adaptation",   # was "AI Attack Staging" before v2026.09
+    "Reconnaissance",
+    "Resource Development",
+    "Initial Access",
+    "Execution",
+    "Persistence",
+    "Defense Evasion",
+    "Discovery",
+    "Collection",
+    "Exfiltration",
+    "Impact",
+    "Privilege Escalation",
+    "Credential Access",
+    "Command and Control",
+    "Lateral Movement",
+})
+
+
+def test_every_technique_tactic_is_a_valid_2026_09_tactic():
+    from ai_blackteam.taxonomy import ATLAS_TECHNIQUES
+    for tid, info in ATLAS_TECHNIQUES.items():
+        assert info["tactic"] in ATLAS_2026_09_TACTICS, (
+            f"{tid} has tactic {info['tactic']!r}, not a valid ATLAS v2026.09 tactic"
+        )
+
+
+def test_retired_tactic_name_is_gone():
+    from ai_blackteam.taxonomy import ATLAS_TECHNIQUES
+    stale = [t for t, i in ATLAS_TECHNIQUES.items() if i["tactic"] == "AI Attack Staging"]
+    assert not stale, f"techniques still use the retired tactic name: {stale}"
+
+
+def test_taxonomy_module_declares_the_current_atlas_version():
+    import ai_blackteam.taxonomy as tax
+    assert "2026.09" in (tax.__doc__ or ""), "module docstring should name the tracked ATLAS version"

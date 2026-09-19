@@ -345,12 +345,18 @@ def ensemble_judge(response, target, models=None, providers=None):
         judges = [(m, None) for m in (models or ENSEMBLE_JUDGE_MODELS)]
 
     per_judge = []
+    failed_judges = []
     for model, provider in judges:
+        label = model or getattr(provider, "model", None) or provider.__class__.__name__
         try:
             score, reasoning = llm_judge(response, target, model=model, provider=provider)
-        except Exception:
+        except Exception as exc:
+            # Skipping a failed judge is deliberate, but hiding it is not: a
+            # rate-limited judge and a broken one looked identical and neither
+            # appeared in the result, so an ensemble quietly running on one
+            # judge still reported an agreement figure.
+            failed_judges.append({"model": label, "error": f"{type(exc).__name__}: {exc}"})
             continue
-        label = model or getattr(provider, "model", None) or provider.__class__.__name__
         per_judge.append({"model": label, "score": score, "reasoning": reasoning})
 
     if not per_judge:
@@ -359,11 +365,14 @@ def ensemble_judge(response, target, models=None, providers=None):
     scores = sorted(j["score"] for j in per_judge)
     n = len(scores)
     median = scores[n // 2] if n % 2 else (scores[n // 2 - 1] + scores[n // 2]) / 2
-    agree = sum(1 for s in scores if abs(s - median) <= 1) / n
+    # Agreement across a single judge is undefined, not perfect. Reporting 1.0
+    # there would turn "every other judge failed" into a confidence signal.
+    agree = sum(1 for s in scores if abs(s - median) <= 1) / n if n > 1 else None
 
     return {
         "median_score": median,
-        "agreement": round(agree, 3),
+        "agreement": round(agree, 3) if agree is not None else None,
+        "failed_judges": failed_judges,
         "num_judges": n,
         "per_judge": per_judge,
         "reasoning": "; ".join(f"{j['model']}={j['score']}" for j in per_judge),

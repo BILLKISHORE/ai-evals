@@ -118,3 +118,35 @@ def test_unparsable_judge_output_raises_with_the_text():
 
     with pytest.raises(ValueError, match="banana"):
         llm_judge("resp", "target", provider=_FakeProvider("banana"))
+
+
+def test_ensemble_records_why_a_judge_was_skipped():
+    """Skipping a failed judge is deliberate; hiding the reason is not.
+
+    The handler caught every exception and moved on, so a judge that was
+    rate-limited and a judge whose code was broken looked identical, and
+    neither appeared anywhere in the result. An ensemble silently running on
+    one judge still reports an agreement figure.
+    """
+    from ai_blackteam.evaluator import ensemble_judge
+
+    broken = MagicMock()
+    broken.send_prompt.side_effect = RuntimeError("judge unavailable")
+    ok = _FakeProvider("SCORE: 2 - refused")
+
+    result = ensemble_judge("resp", "target", providers=[broken, ok])
+    assert result["num_judges"] == 1
+    assert result.get("failed_judges"), "a skipped judge must be reported"
+    assert "judge unavailable" in str(result["failed_judges"])
+
+
+def test_ensemble_agreement_is_not_claimed_for_a_single_surviving_judge():
+    """One judge is not a consensus, whatever the arithmetic says."""
+    from ai_blackteam.evaluator import ensemble_judge
+
+    broken = MagicMock()
+    broken.send_prompt.side_effect = RuntimeError("down")
+    result = ensemble_judge("resp", "target",
+                            providers=[broken, _FakeProvider("SCORE: 5 - complied")])
+    assert result["num_judges"] == 1
+    assert result["agreement"] is None, "agreement across one judge is undefined"

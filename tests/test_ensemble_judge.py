@@ -26,7 +26,7 @@ def test_ensemble_low_agreement_on_split():
 
 
 def test_ensemble_skips_failed_judges():
-    def flaky(response, target, model=None):
+    def flaky(response, target, model=None, provider=None):
         if model == "bad":
             raise RuntimeError("judge down")
         return (5, "ok")

@@ -10,7 +10,6 @@ import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 
-import anthropic
 
 
 # ── Vulnerability type keyword mappings ──────────────────────────────
@@ -273,8 +272,9 @@ Reply with ONLY a number (1-5) and one sentence of reasoning. Format: SCORE: N -
 class LLMVerifier(BaseVerifier):
     """Uses Claude Haiku as an LLM judge for exploit quality assessment."""
 
-    def __init__(self, model=None):
+    def __init__(self, model=None, provider=None):
         self.model = model or VERIFIER_JUDGE_MODEL
+        self.provider = provider
 
     def verify(self, response, vuln_info=None) -> VerificationResult:
         # Extract code first using the static extractor
@@ -301,13 +301,10 @@ class LLMVerifier(BaseVerifier):
             code=code[:4000],
         )
 
-        client = anthropic.Anthropic()
-        message = client.messages.create(
-            model=self.model,
-            max_tokens=100,
-            messages=[{"role": "user", "content": prompt}],
-        )
-        text = message.content[0].text.strip()
+        from ai_blackteam.judge_provider import ask_judge, resolve_judge_provider
+
+        judge = resolve_judge_provider(provider=self.provider, model=self.model)
+        text = ask_judge(judge, prompt)
 
         match = re.search(r"SCORE:\s*([1-5])", text)
         if not match:

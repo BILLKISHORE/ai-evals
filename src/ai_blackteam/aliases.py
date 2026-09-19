@@ -8,9 +8,9 @@ file alongside the provider defaults so they stay in sync.
 # Provider name -> alias -> concrete model ID
 MODEL_ALIASES: dict[str, dict[str, str]] = {
     "anthropic": {
-        "latest": "claude-opus-4-8",
+        "latest": "claude-opus-5",
         "fast": "claude-haiku-4-5",
-        "balanced": "claude-sonnet-4-6",
+        "balanced": "claude-sonnet-5",
     },
     "openai": {
         "latest": "gpt-5.5-pro",
@@ -75,9 +75,9 @@ MODEL_ALIASES: dict[str, dict[str, str]] = {
         "balanced": "jamba-1.6-large",
     },
     "bedrock": {
-        "latest": "anthropic.claude-3-5-sonnet-20241022-v2:0",
-        "fast": "anthropic.claude-3-haiku-20240307-v1:0",
-        "balanced": "anthropic.claude-3-5-sonnet-20241022-v2:0",
+        "latest": "anthropic.claude-opus-5",
+        "fast": "anthropic.claude-haiku-4-5",
+        "balanced": "anthropic.claude-sonnet-5",
     },
     "ollama": {
         "latest": "llama4",

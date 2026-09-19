@@ -69,7 +69,7 @@ def list_providers():
 
 
 KNOWN_MODELS = {
-    "anthropic": ["claude-opus-4-8", "claude-sonnet-4-6", "claude-haiku-4-5"],
+    "anthropic": ["claude-opus-5", "claude-sonnet-5", "claude-haiku-4-5", "claude-fable-5-1"],
     "openai": ["gpt-5.5", "gpt-5.5-pro", "gpt-5.5-instant"],
     "google": ["gemini-3.5-flash", "gemini-3.1-pro", "gemini-3-flash"],
     "grok": ["grok-4.3", "grok-3.5", "grok-3"],
@@ -84,8 +84,9 @@ KNOWN_MODELS = {
     ],
     "perplexity": ["sonar-pro", "sonar", "sonar-reasoning-pro", "sonar-reasoning"],
     "bedrock": [
-        "anthropic.claude-3-5-sonnet-20241022-v2:0",
-        "anthropic.claude-3-haiku-20240307-v1:0",
+        "anthropic.claude-opus-5",
+        "anthropic.claude-sonnet-5",
+        "anthropic.claude-haiku-4-5",
         "meta.llama3-1-70b-instruct-v1:0",
     ],
     "azure": ["(your deployment name)"],
@@ -1153,7 +1154,7 @@ def frameworks_cmd():
 @click.option("-p", "--provider", default=None, help="Provider name (omit for --all)")
 @click.option("-m", "--model", default=None, help="Model name")
 @click.option("--all", "run_all", is_flag=True, help="Benchmark all configured providers")
-@click.option("--models", default=None, help="Comma-separated provider:model pairs (e.g., anthropic:claude-sonnet-4-6,openai:gpt-4o)")
+@click.option("--models", default=None, help="Comma-separated provider:model pairs (e.g., anthropic:claude-sonnet-5,openai:gpt-4o)")
 @click.option("-w", "--workers", default=5, help="Max parallel workers")
 @click.option("--categories", default=None, help="Comma-separated categories to test (default: all)")
 @click.option("--threshold", default=None, type=float, help="Min safety score (0-100) to pass. Exit 1 if below.")
@@ -1162,9 +1163,9 @@ def frameworks_cmd():
 def benchmark(provider, model, run_all, models, workers, categories, threshold, output, quiet):
     """Run the safety benchmark and produce a score.
 
-    Single model:   ai_blackteam benchmark -p anthropic -m claude-sonnet-4-6
+    Single model:   ai_blackteam benchmark -p anthropic -m claude-sonnet-5
     All models:     ai_blackteam benchmark --all
-    Specific list:  ai_blackteam benchmark --models anthropic:claude-sonnet-4-6,openai:gpt-4o
+    Specific list:  ai_blackteam benchmark --models anthropic:claude-sonnet-5,openai:gpt-4o
     """
     import json
     from ai_blackteam.benchmark import run_benchmark, load_benchmark

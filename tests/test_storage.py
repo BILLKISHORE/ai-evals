@@ -105,3 +105,47 @@ def test_existing_databases_gain_the_new_columns(tmp_path):
     s = Storage(str(db))
     cols = {r[1] for r in s._conn.execute("PRAGMA table_info(runs)")}
     assert "stop_reason" in cols and "stop_details" in cols
+
+
+def test_reasoning_trace_is_stored_as_its_own_turn(tmp_path):
+    """The trace must be retrievable, and must not be mistaken for the answer.
+
+    Reasoning-layer attacks put harmful content in the thinking while the final
+    answer stays clean. Storing the trace under the assistant role would make
+    the evaluator score it as if the model had said it out loud; storing it
+    under its own role keeps both readable and separable.
+    """
+    from ai_blackteam.storage.sqlite import Storage
+
+    s = Storage(str(tmp_path / "r.db"))
+    rid = s.save_run(
+        provider="anthropic", model="claude-opus-5", attack="a", target="t",
+        mode="single-turn", verdict="BLOCKED", keyword_score=0.0, regex_matches=0,
+        llm_judge_score=None, confidence=0.5, duration_ms=1, tokens_in=1, tokens_out=1,
+    )
+    s.save_turn(rid, 2, "assistant", "I can't help with that.")
+    s.save_turn(rid, 2, "reasoning", "The user wants X; policy says no.")
+
+    turns = s.get_turns(rid)
+    roles = {t["role"]: t["content"] for t in turns}
+    assert roles["assistant"] == "I can't help with that."
+    assert roles["reasoning"] == "The user wants X; policy says no."
+
+
+def test_calibration_candidates_ignore_the_reasoning_turn(tmp_path):
+    """A labeled example is about what the model said, not what it thought."""
+    from ai_blackteam.calibration import export_candidates
+    from ai_blackteam.storage.sqlite import Storage
+
+    s = Storage(str(tmp_path / "r.db"))
+    rid = s.save_run(
+        provider="anthropic", model="m", attack="a", target="t", mode="single-turn",
+        verdict="BLOCKED", keyword_score=0.0, regex_matches=0, llm_judge_score=None,
+        confidence=0.5, duration_ms=1, tokens_in=1, tokens_out=1,
+    )
+    s.save_turn(rid, 2, "assistant", "the answer")
+    s.save_turn(rid, 2, "reasoning", "the private thinking")
+
+    c = export_candidates(s)[0]
+    assert c["response"] == "the answer"
+    assert "private thinking" not in c["response"]

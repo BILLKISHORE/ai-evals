@@ -2,7 +2,7 @@
 
 Every attack registered in ai-blackteam, generated directly from the code.
 
-- **Total attacks:** 1020
+- **Total attacks:** 1021
 - **Categories:** 61
 - **Source of truth:** the live `attack_registry` (not hand-typed)
 
@@ -69,7 +69,7 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 | Word Importance Adversarial Attack | `word-importance-attack` | high | single-turn | LLM01 | AML.T0054, AML.T0043.003 | Identifies and perturbs high-importance words in safety filters to minimize classifier confidence on harmful inputs |
 | Synonym Substitution Attack | `synonym-substitution-attack` | medium | single-turn | LLM01 | AML.T0054, AML.T0043.003 | Replaces flagged keywords with synonyms or semantically equivalent terms to bypass lexical safety filters |
 
-## agent-exploitation (11)
+## agent-exploitation (12)
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
@@ -79,6 +79,7 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 | Agent Data Destruction | `agent-data-destruction` | critical | tool-use | LLM03 | AML.T0101 | Migration cleanup pretext to delete files and drop database tables |
 | Agent Data Exfiltration | `agent-data-exfiltration` | critical | tool-use | LLM03, LLM02 | AML.T0086, AML.T0098 | DevOps monitoring pretext to read system data then POST to external endpoint |
 | Agent Tool Credential Harvest | `agent-tool-credential-harvest` | critical | tool-use | LLM03, LLM02 | AML.T0098, AML.T0085.001 | Systematic credential probing across filesystem, environment, database, and cloud configs |
+| Eval Sandbox Escape | `eval-sandbox-escape` | critical | tool-use | LLM03, LLM02 | AML.T0105, AML.T0050, AML.T0086 | Specification gaming: route around eval-sandbox constraints and pivot out to reach the graded objective |
 | XPIA Document Injection | `xpia-document` | critical | tool-use | LLM01 | AML.T0051.001 | Indirect prompt injection via fetched document containing hidden instructions |
 | XPIA Email Injection | `xpia-email` | critical | tool-use | LLM01 | AML.T0051.001 | Indirect prompt injection via email content containing hidden forwarding instructions |
 | XPIA RAG Poisoning | `xpia-rag` | critical | tool-use | LLM01 | AML.T0051.001, AML.T0070 | Indirect prompt injection via poisoned RAG knowledge base search result |

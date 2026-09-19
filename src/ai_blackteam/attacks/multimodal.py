@@ -16,7 +16,10 @@ def _text_to_image_base64(text, width=800, height=400, font_size=20):
     try:
         from PIL import Image, ImageDraw, ImageFont
     except ImportError:
-        raise ImportError("Pillow required for multi-modal attacks: pip install Pillow")
+        raise ImportError(
+            "Pillow required for multi-modal attacks: "
+            "pip install 'ai-blackteam[multimodal]'"
+        )
 
     img = Image.new("RGB", (width, height), color=(255, 255, 255))
     draw = ImageDraw.Draw(img)

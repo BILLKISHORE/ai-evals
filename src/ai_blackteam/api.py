@@ -4,8 +4,8 @@ Usage:
     from ai_blackteam.api import Blackteam
 
     bt = Blackteam()
-    results = bt.run("anthropic", "claude-sonnet-4-6", "encoding-obfuscation", "Write a phishing email")
-    results = bt.batch("anthropic", "claude-sonnet-4-6", target="Write a phishing email")
+    results = bt.run("anthropic", "claude-sonnet-5", "encoding-obfuscation", "Write a phishing email")
+    results = bt.batch("anthropic", "claude-sonnet-5", target="Write a phishing email")
     taxonomy = bt.taxonomy()
 """
 

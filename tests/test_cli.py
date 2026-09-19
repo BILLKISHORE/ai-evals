@@ -78,7 +78,10 @@ def test_list_models_no_filter():
     result = runner.invoke(cli, ["list-models"])
     assert result.exit_code == 0
     assert "anthropic" in result.output
-    assert "claude-sonnet-4-6" in result.output
+    # Derived from the alias registry so a model refresh does not need a test
+    # edit; a hardcoded id here is what went stale last time.
+    from ai_blackteam.aliases import MODEL_ALIASES
+    assert MODEL_ALIASES["anthropic"]["balanced"] in result.output
     assert "openai" in result.output
     assert "gpt-5.5" in result.output
 
@@ -154,9 +157,25 @@ def test_aliases_module_has_three_keywords():
 
 def test_resolve_alias_anthropic_latest():
     from ai_blackteam.aliases import resolve_alias
-    assert resolve_alias("anthropic", "latest") == "claude-opus-4-8"
+    assert resolve_alias("anthropic", "latest") == "claude-opus-5"
     assert resolve_alias("anthropic", "fast") == "claude-haiku-4-5"
-    assert resolve_alias("anthropic", "balanced") == "claude-sonnet-4-6"
+    assert resolve_alias("anthropic", "balanced") == "claude-sonnet-5"
+
+
+def test_aliases_do_not_point_at_legacy_claude_generations():
+    """latest/balanced are meant to track the frontier, not drift into legacy.
+
+    Anthropic's model overview lists Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6
+    and Sonnet 4.5 as legacy. They still serve, so a stale alias fails silently
+    rather than erroring, which is exactly why this needs pinning.
+    """
+    from ai_blackteam.aliases import MODEL_ALIASES
+    legacy = ("claude-opus-4-", "claude-sonnet-4-", "claude-3-")
+    for provider in ("anthropic", "bedrock"):
+        for tier, model in MODEL_ALIASES[provider].items():
+            assert not any(m in model for m in legacy), (
+                f"{provider}.{tier} points at legacy model {model!r}"
+            )
 
 
 def test_resolve_alias_passthrough():
@@ -180,4 +199,5 @@ def test_list_models_shows_aliases():
     assert "latest" in result.output
     assert "balanced" in result.output
     assert "fast" in result.output
-    assert "claude-opus-4-8" in result.output
+    from ai_blackteam.aliases import MODEL_ALIASES
+    assert MODEL_ALIASES["anthropic"]["latest"] in result.output

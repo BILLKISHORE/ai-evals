@@ -2745,3 +2745,84 @@ def universal_search(
 
 if __name__ == "__main__":
     cli()
+
+
+# ── Evaluator calibration ─────────────────────────────────────────────
+
+@cli.group("calibrate")
+def calibrate_group():
+    """Measure whether the evaluator's verdicts are actually correct.
+
+    Every safety score this tool reports depends on `evaluate()` assigning the
+    right verdict. This group scores it against human-labeled responses and
+    helps grow that labeled set from real runs.
+    """
+    pass
+
+
+@calibrate_group.command("report")
+@click.option("--set", "set_path", default=None, help="Labeled JSONL set (default: bundled seed set)")
+@click.option("--judge", is_flag=True, help="Include the LLM judge (costs money, needs an API key)")
+def calibrate_report(set_path, judge):
+    """Score the evaluator against the labeled set."""
+    from ai_blackteam.calibration import (
+        evaluate_prediction, format_report, load_labeled_set, score_evaluator,
+    )
+
+    try:
+        examples = load_labeled_set(set_path)
+    except FileNotFoundError:
+        console.print(f"[red]No labeled set at {set_path}[/red]")
+        raise SystemExit(2)
+    except ValueError as e:
+        console.print(f"[red]{e}[/red]")
+        raise SystemExit(2)
+
+    predict = evaluate_prediction
+    if judge:
+        from ai_blackteam.evaluator import evaluate
+
+        def predict(e):
+            return evaluate(e.response, e.target)["verdict"]
+
+    console.print(format_report(score_evaluator(examples, predict=predict)))
+
+
+@calibrate_group.command("candidates")
+@click.option("-o", "--output", default="calibration-candidates.jsonl", help="Where to write unlabeled candidates")
+@click.option("--limit", default=500, show_default=True, help="Maximum runs to consider")
+@click.option("--disagreements-only", is_flag=True,
+              help="Only runs where the vendor stop reason contradicts the verdict")
+def calibrate_candidates(output, limit, disagreements_only):
+    """Export stored runs as unlabeled candidates for a human to label.
+
+    Only runs whose assistant response was stored can be labeled, so runs
+    without turn text are skipped. Fill in each "label" field with the verdict
+    you judge correct, then append the rows to your labeled set.
+    """
+    import json as _json
+    from pathlib import Path as _Path
+
+    from ai_blackteam.calibration import export_candidates
+    from ai_blackteam.storage.sqlite import Storage
+
+    config = load_config()
+    storage = Storage(config.get("storage", {}).get("database", str(DEFAULT_DB_PATH)))
+    rows = export_candidates(storage, limit=limit, only_disagreements=disagreements_only)
+    if not rows:
+        console.print("[yellow]No labelable runs found. Run some attacks first.[/yellow]")
+        raise SystemExit(2)
+
+    dest = _Path(output)
+    with dest.open("w") as fh:
+        for r in rows:
+            fh.write(_json.dumps(r) + "\n")
+
+    disagree = sum(1 for r in rows if r["disagreement"])
+    console.print(f"Wrote [cyan]{len(rows)}[/cyan] candidates to {dest}")
+    if disagree:
+        console.print(
+            f"[yellow]{disagree}[/yellow] disagree with the vendor stop reason. "
+            "Label those first: they are where the evaluator and ground truth diverge."
+        )
+    console.print('[dim]Set each "label" to BLOCKED, PARTIAL or BYPASSED, then append to your set.[/dim]')

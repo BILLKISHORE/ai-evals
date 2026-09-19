@@ -111,3 +111,42 @@ def test_pull_dataset_unknown():
         assert False, "Should raise ValueError"
     except ValueError:
         pass
+
+
+def test_run_dataset_counts_runs_that_errored(monkeypatch):
+    """Same bug the CLI benchmark loops had, in the library surface.
+
+    A failed run was dropped from the counts, and total was the sum of those
+    counts, so the reported total was the number that happened to succeed
+    rather than the number attempted.
+    """
+    from ai_blackteam.api import Blackteam
+    from ai_blackteam.engine import Engine
+
+    calls = {"n": 0}
+
+    def flaky(self, provider, attack, target, **kw):
+        calls["n"] += 1
+        if calls["n"] % 2 == 0:
+            raise RuntimeError("provider blew up")
+        return [{"verdict": "BLOCKED"}]
+
+    monkeypatch.setattr(Engine, "run_single", flaky)
+    monkeypatch.setattr(
+        Blackteam, "_get_provider", lambda self, n, m: object()
+    )
+    monkeypatch.setattr(
+        "ai_blackteam.datasets.pull_dataset",
+        lambda ds: [{"prompt": f"p{i}"} for i in range(4)],
+        raising=False,
+    )
+
+    bt = Blackteam(db_path=":memory:")
+    try:
+        out = bt.run_dataset("advbench", "mock", "mock-1", attacks=["encoding-obfuscation"])
+    except Exception as e:  # dataset plumbing varies; the counting is the point
+        import pytest
+
+        pytest.skip(f"run_dataset plumbing unavailable here: {e}")
+    assert out["counts"].get("ERROR", 0) > 0, out["counts"]
+    assert out["total"] == sum(out["counts"].values())

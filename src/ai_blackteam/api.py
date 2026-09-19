@@ -277,7 +277,11 @@ class Blackteam:
                         for r in results:
                             counts[r["verdict"]] = counts.get(r["verdict"], 0) + 1
                     except Exception:
-                        pass
+                        # Counted, not dropped. total is the sum of these
+                        # counts, so discarding a failed run shrank the
+                        # denominator and made a partly broken sweep look like
+                        # a smaller clean one.
+                        counts["ERROR"] = counts.get("ERROR", 0) + 1
 
         return {
             "counts": counts,

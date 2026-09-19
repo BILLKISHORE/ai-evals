@@ -53,6 +53,16 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry install --no-interaction --extras multimodal
 
+      # Catches names referenced but never defined. A scripted edit shipped an
+      # Azure tool-use path that raised NameError on every call, and the tagged
+      # release carried it: the provider had no tests and the error only fires
+      # on one code path. This covers every module, including untested ones,
+      # in under a second.
+      - name: Check for undefined names
+        run: |
+          pipx install ruff
+          ruff check --select F821 --no-cache src/ai_blackteam
+
       - name: Run test suite
         run: poetry run pytest tests/ -q -m "not live" --cov=src/ai_blackteam --cov-report=
 

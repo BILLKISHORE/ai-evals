@@ -1581,7 +1581,10 @@ def expand_run(provider, model, category, difficulty, technique, mutations, lang
                 elif isinstance(results, dict):
                     counts[results["verdict"]] = counts.get(results["verdict"], 0) + 1
             except Exception:
-                pass
+                # Counted, not dropped: discarding a failed attack removed it
+                # from the total too, so a run where half the suite crashed
+                # printed a clean-looking summary over the surviving half.
+                counts["ERROR"] = counts.get("ERROR", 0) + 1
             progress.advance(task)
 
     total_elapsed = time.time() - total_start
@@ -1590,11 +1593,17 @@ def expand_run(provider, model, category, difficulty, technique, mutations, lang
         bypassed = counts.get("BYPASSED", 0)
         blocked = counts.get("BLOCKED", 0)
         partial = counts.get("PARTIAL", 0)
+        errored = counts.get("ERROR", 0)
+        # Total is everything attempted, errors included. Reporting the sum of
+        # the verdicts alone made a run that half crashed look like a smaller
+        # clean run.
         total = sum(counts.values())
+        err_part = f" | [yellow]{errored} ERROR[/yellow]" if errored else ""
         console.print(
             f"\nSummary: [red]{bypassed} BYPASSED[/red] | "
             f"[green]{blocked} BLOCKED[/green] | "
-            f"[yellow]{partial} PARTIAL[/yellow] "
+            f"[yellow]{partial} PARTIAL[/yellow]"
+            f"{err_part} "
             f"({total} total, {_format_duration(total_elapsed)})"
         )
 
@@ -1660,7 +1669,11 @@ def asl3(provider, model, domain, workers, limit, quiet):
                     elif isinstance(result, dict):
                         counts[result["verdict"]] = counts.get(result["verdict"], 0) + 1
                 except Exception:
-                    pass
+                    # Counted, not dropped. Discarding a failed attack removed
+                    # it from the total as well, so a run where half the suite
+                    # crashed printed a clean-looking summary over the half
+                    # that survived.
+                    counts["ERROR"] = counts.get("ERROR", 0) + 1
                 progress.advance(task)
 
         results["cbrn"] = counts
@@ -1668,6 +1681,13 @@ def asl3(provider, model, domain, workers, limit, quiet):
         if not quiet and total:
             console.print(f"  BYPASSED: [red]{counts['BYPASSED']}[/red] ({counts['BYPASSED']/total*100:.1f}%)")
             console.print(f"  BLOCKED:  [green]{counts['BLOCKED']}[/green] ({counts['BLOCKED']/total*100:.1f}%)")
+            if counts.get("ERROR"):
+                # Shown because total counts them: without this line the
+                # percentages simply fail to reach 100 with no explanation.
+                console.print(
+                    f"  ERROR:    [yellow]{counts['ERROR']}[/yellow] "
+                    f"({counts['ERROR']/total*100:.1f}%)"
+                )
 
     if domain in ("autonomous", "all"):
         auto_attacks = []
@@ -1697,7 +1717,11 @@ def asl3(provider, model, domain, workers, limit, quiet):
                     elif isinstance(result, dict):
                         counts[result["verdict"]] = counts.get(result["verdict"], 0) + 1
                 except Exception:
-                    pass
+                    # Counted, not dropped. Discarding a failed attack removed
+                    # it from the total as well, so a run where half the suite
+                    # crashed printed a clean-looking summary over the half
+                    # that survived.
+                    counts["ERROR"] = counts.get("ERROR", 0) + 1
                 progress.advance(task)
 
         results["autonomous"] = counts
@@ -1705,6 +1729,13 @@ def asl3(provider, model, domain, workers, limit, quiet):
         if not quiet and total:
             console.print(f"  BYPASSED: [red]{counts['BYPASSED']}[/red] ({counts['BYPASSED']/total*100:.1f}%)")
             console.print(f"  BLOCKED:  [green]{counts['BLOCKED']}[/green] ({counts['BLOCKED']/total*100:.1f}%)")
+            if counts.get("ERROR"):
+                # Shown because total counts them: without this line the
+                # percentages simply fail to reach 100 with no explanation.
+                console.print(
+                    f"  ERROR:    [yellow]{counts['ERROR']}[/yellow] "
+                    f"({counts['ERROR']/total*100:.1f}%)"
+                )
 
     if not quiet:
         console.print(f"\n[bold]ASL3 Evaluation Complete[/bold]")
@@ -1911,6 +1942,7 @@ def mega_sweep(provider, model, dataset_filter, mutations, attack_filter, catego
     from rich.progress import Progress
     completed = [0]
     bypassed_count = [0]
+    errored_count = [0]
 
     with Progress(console=console, disable=quiet) as progress:
         task = progress.add_task("Running...", total=total_runs)
@@ -1923,14 +1955,22 @@ def mega_sweep(provider, model, dataset_filter, mutations, attack_filter, catego
                         if r["verdict"] == "BYPASSED":
                             bypassed_count[0] += 1
                 except Exception:
-                    pass
+                    # Tracked separately. Blocked was computed as completed
+                    # minus bypassed, so every attack that crashed counted as
+                    # the model having blocked it, inflating the safety number
+                    # rather than merely losing a row.
+                    errored_count[0] += 1
                 completed[0] += 1
                 progress.update(task, completed=completed[0])
 
     if not quiet:
         console.print(f"\n[bold]Complete:[/bold] {completed[0]} runs")
         console.print(f"  Bypassed: [red]{bypassed_count[0]}[/red]")
-        console.print(f"  Blocked: [green]{completed[0] - bypassed_count[0]}[/green]")
+        console.print(
+            f"  Blocked: [green]{completed[0] - bypassed_count[0] - errored_count[0]}[/green]"
+        )
+        if errored_count[0]:
+            console.print(f"  [yellow]Errored: {errored_count[0]}[/yellow]")
 
     if output:
         import json

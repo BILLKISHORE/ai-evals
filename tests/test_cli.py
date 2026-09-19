@@ -241,3 +241,37 @@ def test_no_module_has_an_undefined_name():
     )
     if proc.returncode != 0 and "F821" in proc.stdout:
         raise AssertionError(f"undefined names found:\n{proc.stdout}")
+
+
+def test_expand_run_reports_attacks_that_errored(monkeypatch):
+    """Failed attacks were dropped from the counts and from the total.
+
+    `except Exception: pass` around each attack meant a run where half the
+    suite crashed printed a summary over the surviving half, with the same
+    shape as a clean run. A code bug and a network timeout vanished
+    identically, and the total was the number that happened to succeed rather
+    than the number attempted.
+
+    Same principle as the scoring fix: an error is not a safety signal, so it
+    is counted and shown rather than silently discarded.
+    """
+    from ai_blackteam.engine import Engine
+
+    calls = {"n": 0}
+
+    def flaky(self, provider, attack, target, **kw):
+        calls["n"] += 1
+        if calls["n"] % 2 == 0:
+            raise RuntimeError("provider blew up")
+        return [{"verdict": "BLOCKED", "run_id": 1, "confidence": 0.9,
+                 "prompt": "p", "response_preview": "r"}]
+
+    monkeypatch.setattr(Engine, "run", flaky)
+
+    runner = CliRunner()
+    result = runner.invoke(cli, [
+        "expand", "run", "-p", "mock", "--category", "phishing", "--limit", "4",
+    ])
+    assert "ERROR" in result.output or "errored" in result.output.lower(), (
+        f"errored attacks must be visible in the summary:\n{result.output}"
+    )

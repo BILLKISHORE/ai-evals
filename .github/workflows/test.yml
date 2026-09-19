@@ -54,7 +54,23 @@ jobs:
           poetry install --no-interaction --extras multimodal
 
       - name: Run test suite
-        run: poetry run pytest tests/ -q -m "not live"
+        run: poetry run pytest tests/ -q -m "not live" --cov=src/ai_blackteam --cov-report=
+
+      # Whole-repo coverage reads high because the ~1,000 attack modules are
+      # near-identical metadata wrappers that the attack tests cover trivially.
+      # That average hides the code that decides whether a verdict is correct,
+      # so the two segments are reported separately and only the core number is
+      # gated. The threshold is a ratchet at the level measured on 2026-09-19:
+      # raise it when coverage improves, never lower it to make a build pass.
+      - name: Coverage (attack corpus vs core)
+        run: |
+          echo "::group::attack modules"
+          poetry run coverage report --include='*/attacks/*' | tail -3
+          echo "::endgroup::"
+          echo "::group::core (evaluator, engine, providers, datasets, storage)"
+          poetry run coverage report --omit='*/attacks/*' | tail -3
+          echo "::endgroup::"
+          poetry run coverage report --omit='*/attacks/*' --fail-under=58
 
       # Unit tests mock the providers, so they miss CLI wiring breaks. The mock
       # provider exercises the real registry, engine, evaluator, storage and

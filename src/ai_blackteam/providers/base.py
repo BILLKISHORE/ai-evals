@@ -112,10 +112,14 @@ class OpenAICompatibleProvider(BaseProvider):
     provider_name: str = ""
     supports_tools_flag: bool = False
 
-    def __init__(self, model=None, api_key=None):
+    def __init__(self, model=None, api_key=None, effort=None):
         from openai import OpenAI
+        from ai_blackteam.reasoning import validate_effort
         from ai_blackteam.retry import retry_with_backoff
         super().__init__(model, api_key)
+        # The OpenAI-compatible shape is `reasoning_effort`, not Anthropic's
+        # `output_config`. Sending the wrong one is a 400.
+        self.effort = validate_effort(effort, model=self.model, vendor=self.provider_name)
         self._retry = retry_with_backoff
         kwargs = {"api_key": self.api_key}
         if self.base_url:
@@ -136,8 +140,9 @@ class OpenAICompatibleProvider(BaseProvider):
 
     def _chat(self, messages) -> PromptResult:
         start = time.time()
+        extra = {"reasoning_effort": self.effort} if self.effort else {}
         r = self._retry(lambda: self._client.chat.completions.create(
-            model=self.model, messages=messages, max_tokens=4096
+            model=self.model, messages=messages, max_tokens=4096, **extra
         ))
         ms = (time.time() - start) * 1000
         choice = r.choices[0]
@@ -170,8 +175,9 @@ class OpenAICompatibleProvider(BaseProvider):
         if system_prompt:
             msgs = [{"role": "system", "content": system_prompt}] + list(messages)
         start = time.time()
+        extra = {"reasoning_effort": self.effort} if self.effort else {}
         r = self._retry(lambda: self._client.chat.completions.create(
-            model=self.model, messages=msgs, tools=oai_tools, max_tokens=4096
+            model=self.model, messages=msgs, tools=oai_tools, max_tokens=4096, **extra
         ))
         ms = (time.time() - start) * 1000
         msg = r.choices[0].message

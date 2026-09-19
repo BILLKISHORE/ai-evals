@@ -302,7 +302,10 @@ def _format_duration(seconds):
 @click.option("--system-prompt-file", default=None, type=click.Path(exists=True), help="Read system prompt from file")
 @click.option("--verbose", is_flag=True, help="Show full response text")
 @click.option("--quiet", is_flag=True, help="Suppress output, exit 0=all blocked, 1=any bypassed")
-def run(provider, model, attack, target, system_prompt, system_prompt_file, verbose, quiet):
+@click.option("--effort", default=None,
+              type=click.Choice(["low", "medium", "high", "xhigh", "max"]),
+              help="Reasoning effort. Governs thinking depth, so the same attack can land differently at low than at max. Omitted means the vendor default.")
+def run(provider, model, attack, target, system_prompt, system_prompt_file, verbose, quiet, effort):
     """Run a single attack against a model."""
     if system_prompt_file:
         system_prompt = open(system_prompt_file).read()
@@ -325,7 +328,12 @@ def run(provider, model, attack, target, system_prompt, system_prompt_file, verb
 
     provider_config = config.get("providers", {}).get(provider, {})
     api_key = provider_config.get("api_key")
-    prov = provider_cls(model=resolve_alias(provider, model), api_key=api_key)
+    # Effort is only accepted by some providers; pass it when asked for
+    # and let the provider validate rather than guessing here.
+    prov_kwargs = {"model": resolve_alias(provider, model), "api_key": api_key}
+    if effort:
+        prov_kwargs["effort"] = effort
+    prov = provider_cls(**prov_kwargs)
     atk = attack_cls()
 
     engine = Engine(db_path=db_path)

@@ -21,9 +21,23 @@ def _stop_signal(r):
 
 @register_provider("anthropic")
 class AnthropicProvider(BaseProvider):
-    def __init__(self, model=None, api_key=None):
+    def __init__(self, model=None, api_key=None, effort=None):
         super().__init__(model, api_key)
+        from ai_blackteam.reasoning import validate_effort
+
+        self.effort = validate_effort(effort, model=self.model, vendor="the Claude API")
         self._client = Anthropic(api_key=self.api_key) if self.api_key else Anthropic()
+
+    def _with_effort(self, kwargs):
+        """Attach output_config only when an effort level was requested.
+
+        Omitting the parameter is not the same as sending "high": the default
+        varies by model, and sending it to a model that does not accept it is
+        a 400.
+        """
+        if self.effort:
+            kwargs["output_config"] = {"effort": self.effort}
+        return kwargs
 
     def default_model(self):
         return "claude-sonnet-5"
@@ -34,6 +48,7 @@ class AnthropicProvider(BaseProvider):
         if system_prompt:
             kwargs["system"] = system_prompt
 
+        kwargs = self._with_effort(kwargs)
         logger.debug(f"Sending prompt to {self.model} ({len(prompt)} chars)")
         start = time.time()
         try:
@@ -54,6 +69,7 @@ class AnthropicProvider(BaseProvider):
         kwargs = {"model": self.model, "max_tokens": 4096, "messages": messages}
         if system_prompt:
             kwargs["system"] = system_prompt
+        kwargs = self._with_effort(kwargs)
         logger.debug(f"Sending conversation ({len(messages)} messages) to {self.model}")
         start = time.time()
         try:
@@ -73,6 +89,7 @@ class AnthropicProvider(BaseProvider):
         kwargs = {"model": self.model, "max_tokens": 4096, "messages": messages, "tools": tools}
         if system_prompt:
             kwargs["system"] = system_prompt
+        kwargs = self._with_effort(kwargs)
         logger.debug(f"Sending tool-use request to {self.model} ({len(tools)} tools)")
         start = time.time()
         try:

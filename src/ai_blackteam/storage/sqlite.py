@@ -102,7 +102,9 @@ class Storage:
                 verify_status TEXT,
                 verify_confidence REAL,
                 verify_ground_truth INTEGER,
-                snapshot_id INTEGER
+                snapshot_id INTEGER,
+                stop_reason TEXT,
+                stop_details TEXT
             );
             CREATE TABLE IF NOT EXISTS turns (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -148,6 +150,8 @@ class Storage:
             ("verify_confidence", "REAL"),
             ("verify_ground_truth", "INTEGER"),
             ("snapshot_id", "INTEGER"),
+            ("stop_reason", "TEXT"),
+            ("stop_details", "TEXT"),
         ]:
             if col_type not in _ALLOWED_COL_TYPES:
                 raise ValueError(f"unsafe column type: {col_type!r}")
@@ -166,19 +170,20 @@ class Storage:
                  keyword_score, regex_matches, llm_judge_score, confidence,
                  duration_ms, tokens_in, tokens_out,
                  verify_status=None, verify_confidence=None,
-                 verify_ground_truth=None, snapshot_id=None):
+                 verify_ground_truth=None, snapshot_id=None,
+                 stop_reason=None, stop_details=None):
         with self._lock:
             cur = self._conn.execute(
                 "INSERT INTO runs (timestamp, provider, model, attack, target, mode, verdict, "
                 "keyword_score, regex_matches, llm_judge_score, confidence, duration_ms, "
                 "tokens_in, tokens_out, verify_status, verify_confidence, "
-                "verify_ground_truth, snapshot_id) "
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                "verify_ground_truth, snapshot_id, stop_reason, stop_details) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (datetime.now().isoformat(), provider, model, attack, target, mode, verdict,
                  keyword_score, regex_matches, llm_judge_score, confidence, duration_ms,
                  tokens_in, tokens_out, verify_status, verify_confidence,
                  1 if verify_ground_truth else (0 if verify_ground_truth is False else None),
-                 snapshot_id)
+                 snapshot_id, stop_reason, stop_details)
             )
             self._conn.commit()
             run_id = cur.lastrowid

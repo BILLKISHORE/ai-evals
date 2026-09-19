@@ -7,6 +7,15 @@ from ai_blackteam.storage.sqlite import Storage
 logger = get_logger("engine")
 
 
+def _json_or_none(details):
+    """stop_details is a dict from the provider; the store holds TEXT."""
+    if not details:
+        return None
+    import json
+    return json.dumps(details, sort_keys=True)
+
+
+
 class Engine:
     def __init__(self, db_path=":memory:"):
         self.storage = Storage(db_path)
@@ -54,6 +63,8 @@ class Engine:
                     verify_status=verify_status,
                     verify_confidence=verify_confidence,
                     verify_ground_truth=verify_ground_truth,
+                    stop_reason=result.stop_reason,
+                    stop_details=_json_or_none(result.stop_details),
                 )
                 self.storage.save_turn(run_id, 1, "user", prompt)
                 self.storage.save_turn(run_id, 2, "assistant", result.response)
@@ -120,6 +131,8 @@ class Engine:
             duration_ms=duration,
             tokens_in=result.tokens_in,
             tokens_out=result.tokens_out,
+            stop_reason=result.stop_reason,
+            stop_details=_json_or_none(result.stop_details),
         )
 
         for i, (user_msg, assistant_msg) in enumerate(zip(turns, all_responses)):
@@ -142,12 +155,16 @@ class Engine:
         messages = []
         all_tool_calls = []
         all_responses = []
+        last_stop_reason = None
+        last_stop_details = None
 
         start = time.time()
         try:
             for msg_text in messages_text:
                 messages.append({"role": "user", "content": msg_text})
                 result = provider.send_with_tools(messages, tools, system_prompt=system_prompt)
+                last_stop_reason = result.stop_reason
+                last_stop_details = result.stop_details
 
                 # Record tool calls
                 for call in result.tool_calls:
@@ -198,6 +215,8 @@ class Engine:
             confidence=eval_result["confidence"],
             duration_ms=duration,
             tokens_in=None, tokens_out=None,
+            stop_reason=last_stop_reason,
+            stop_details=_json_or_none(last_stop_details),
         )
 
         # Store each tool call

@@ -25,6 +25,28 @@ NON_REFUSAL_STOP_REASONS = frozenset({
 })
 
 
+
+
+def read_openai_message(msg):
+    """Pull the text out of an OpenAI-style message.
+
+    The message carries both `content` and `refusal`. On a structured refusal
+    `content` is None and the text sits in `refusal`, so `content or ""`
+    returned an empty response and discarded the refusal. The evaluator then
+    scored empty text, which lands on UNCLEAR and counts as half a bypass.
+
+    Returns (text, refused_flag). The flag is None when the message says
+    nothing either way, so the caller can fall back to finish_reason.
+    """
+    content = getattr(msg, "content", None)
+    refusal = getattr(msg, "refusal", None)
+    if content:
+        return content, None
+    if refusal:
+        return refusal, True
+    return "", None
+
+
 def _refused_from(stop_reason):
     """Tri-state: True refused, False did not, None the vendor did not say."""
     if stop_reason in REFUSAL_STOP_REASONS:
@@ -154,14 +176,18 @@ class OpenAICompatibleProvider(BaseProvider):
         ))
         ms = (time.time() - start) * 1000
         choice = r.choices[0]
+        text, refused = read_openai_message(choice.message)
+        finish = getattr(choice, "finish_reason", None)
         return PromptResult(
-            response=choice.message.content or "",
+            response=text,
             model=self.model,
             provider=self.provider_name,
             tokens_in=r.usage.prompt_tokens if r.usage else None,
             tokens_out=r.usage.completion_tokens if r.usage else None,
             latency_ms=ms,
-            stop_reason=getattr(choice, "finish_reason", None),
+            # A structured refusal is the vendor saying so outright, which is
+            # stronger than whatever finish_reason happens to carry.
+            stop_reason="refusal" if refused else finish,
         )
 
     def supports_tools(self):
@@ -193,13 +219,14 @@ class OpenAICompatibleProvider(BaseProvider):
         if msg.tool_calls:
             for tc in msg.tool_calls:
                 calls.append({"id": tc.id, "tool": tc.function.name, "input": json.loads(tc.function.arguments)})
+        text, refused = read_openai_message(msg)
         return ToolResult(
-            response=msg.content,
+            response=text or None,
             tool_calls=calls,
             model=self.model,
             provider=self.provider_name,
             tokens_in=r.usage.prompt_tokens if r.usage else None,
             tokens_out=r.usage.completion_tokens if r.usage else None,
             latency_ms=ms,
-            stop_reason=getattr(r.choices[0], "finish_reason", None),
+            stop_reason="refusal" if refused else getattr(r.choices[0], "finish_reason", None),
         )

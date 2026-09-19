@@ -2,6 +2,7 @@ import os
 import time
 from ai_blackteam.registry import register_provider
 from ai_blackteam.providers.base import BaseProvider, PromptResult, ToolResult
+from ai_blackteam.providers.base import read_openai_message
 from ai_blackteam.retry import retry_with_backoff
 
 
@@ -49,24 +50,34 @@ class AzureOpenAIProvider(BaseProvider):
             messages.append({"role": "system", "content": system_prompt})
         messages.append({"role": "user", "content": prompt})
         r, ms = self._chat(messages)
+        choice = r.choices[0]
+        text, refused = read_openai_message(choice.message)
         return PromptResult(
-            response=r.choices[0].message.content or "",
+            response=text,
             model=self.model, provider="azure",
             tokens_in=r.usage.prompt_tokens if r.usage else None,
             tokens_out=r.usage.completion_tokens if r.usage else None,
             latency_ms=ms,
+            # A structured refusal is the vendor saying so outright, which
+            # is stronger than whatever finish_reason carries.
+            stop_reason="refusal" if refused else getattr(choice, "finish_reason", None),
         )
 
     def send_in_conversation(self, messages, system_prompt=None):
         if system_prompt:
             messages = [{"role": "system", "content": system_prompt}] + list(messages)
         r, ms = self._chat(messages)
+        choice = r.choices[0]
+        text, refused = read_openai_message(choice.message)
         return PromptResult(
-            response=r.choices[0].message.content or "",
+            response=text,
             model=self.model, provider="azure",
             tokens_in=r.usage.prompt_tokens if r.usage else None,
             tokens_out=r.usage.completion_tokens if r.usage else None,
             latency_ms=ms,
+            # A structured refusal is the vendor saying so outright, which
+            # is stronger than whatever finish_reason carries.
+            stop_reason="refusal" if refused else getattr(choice, "finish_reason", None),
         )
 
     def send_with_tools(self, messages, tools, system_prompt=None):
@@ -94,4 +105,7 @@ class AzureOpenAIProvider(BaseProvider):
             tokens_in=r.usage.prompt_tokens if r.usage else None,
             tokens_out=r.usage.completion_tokens if r.usage else None,
             latency_ms=ms,
+            # A structured refusal is the vendor saying so outright, which
+            # is stronger than whatever finish_reason carries.
+            stop_reason="refusal" if refused else getattr(choice, "finish_reason", None),
         )

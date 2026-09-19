@@ -2,6 +2,7 @@ import time
 from huggingface_hub import InferenceClient
 from ai_blackteam.registry import register_provider
 from ai_blackteam.providers.base import BaseProvider, PromptResult
+from ai_blackteam.providers.base import read_openai_message
 from ai_blackteam.retry import retry_with_backoff
 
 
@@ -24,12 +25,16 @@ class HuggingFaceProvider(BaseProvider):
         r = retry_with_backoff(lambda: self._client.chat_completion(messages=messages, model=self.model, max_tokens=4096))
         ms = (time.time() - start) * 1000
 
-        text = r.choices[0].message.content or ""
+        choice = r.choices[0]
+        text, refused = read_openai_message(choice.message)
         return PromptResult(
             response=text, model=self.model, provider="huggingface",
             tokens_in=r.usage.prompt_tokens if r.usage else None,
             tokens_out=r.usage.completion_tokens if r.usage else None,
             latency_ms=ms,
+            # A structured refusal is the vendor saying so outright, which
+            # is stronger than whatever finish_reason carries.
+            stop_reason="refusal" if refused else getattr(choice, "finish_reason", None),
         )
 
     def send_in_conversation(self, messages, system_prompt=None):
@@ -39,10 +44,14 @@ class HuggingFaceProvider(BaseProvider):
         r = retry_with_backoff(lambda: self._client.chat_completion(messages=messages, model=self.model, max_tokens=4096))
         ms = (time.time() - start) * 1000
 
-        text = r.choices[0].message.content or ""
+        choice = r.choices[0]
+        text, refused = read_openai_message(choice.message)
         return PromptResult(
             response=text, model=self.model, provider="huggingface",
             tokens_in=r.usage.prompt_tokens if r.usage else None,
             tokens_out=r.usage.completion_tokens if r.usage else None,
             latency_ms=ms,
+            # A structured refusal is the vendor saying so outright, which
+            # is stronger than whatever finish_reason carries.
+            stop_reason="refusal" if refused else getattr(choice, "finish_reason", None),
         )

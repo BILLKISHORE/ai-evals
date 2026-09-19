@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "name": "ai-blackteam",
-  "description": "Vendor-neutral LLM red team framework. 1,020 curated attacks + 19 public benchmark loaders (HarmBench, AdvBench, JailbreakBench, WMDP, JailBreakV-28K, AgentHarm, BeaverTails, RealToxicityPrompts and more), 7 adaptive generators (PAIR, TAP, AutoDAN, PAP, Crescendo, Best-of-N, Fuzzer), 163M attack-surface configurations. Mapped to OWASP LLM Top 10, MITRE ATLAS, MLCommons, EU AI Act, NIST AI RMF. Pip install, test any model's safety with one command.",
+  "description": "Vendor-neutral LLM red team framework. 1,021 curated attacks + 19 public benchmark loaders (HarmBench, AdvBench, JailbreakBench, WMDP, JailBreakV-28K, AgentHarm, BeaverTails, RealToxicityPrompts and more), 7 adaptive generators (PAIR, TAP, AutoDAN, PAP, Crescendo, Best-of-N, Fuzzer), 163M attack-surface configurations. Mapped to OWASP LLM Top 10, MITRE ATLAS, MLCommons, EU AI Act, NIST AI RMF. Pip install, test any model's safety with one command.",
   "theme": "mint",
   "seo": {
     "indexing": "all",

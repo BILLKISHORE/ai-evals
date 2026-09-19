@@ -47,3 +47,27 @@ def test_in_memory_storage_still_works():
     from ai_blackteam.storage.sqlite import Storage
     s = Storage(":memory:")
     assert s.db_path == ":memory:"
+
+
+def test_storage_creates_a_missing_parent_directory(tmp_path):
+    """First run on a clean machine: nothing has created ~/.ai_blackteam yet.
+
+    Only save_config() used to create that directory, so any entry point that
+    did not save config first (env-var keys, ollama, a bare `run`) crashed with
+    an unhandled sqlite3.OperationalError.
+    """
+    from ai_blackteam.storage.sqlite import Storage
+    db = tmp_path / "does-not-exist-yet" / "results.db"
+    assert not db.parent.exists()
+    Storage(str(db))
+    assert db.exists()
+
+
+def test_storage_keeps_the_tool_directory_private(tmp_path, monkeypatch):
+    import os, stat
+    import ai_blackteam.config as cfg
+    from ai_blackteam.storage.sqlite import Storage
+    fake = tmp_path / ".ai_blackteam"
+    monkeypatch.setattr(cfg, "DEFAULT_CONFIG_DIR", fake)
+    Storage(str(fake / "results.db"))
+    assert stat.S_IMODE(os.stat(fake).st_mode) == 0o700

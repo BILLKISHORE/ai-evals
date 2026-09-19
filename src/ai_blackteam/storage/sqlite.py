@@ -26,6 +26,7 @@ class Storage:
     def __init__(self, db_path):
         self.db_path = db_path
         self._lock = threading.Lock()
+        self._ensure_parent_dir()
         self._conn = sqlite3.connect(db_path, check_same_thread=False)
         self._conn.row_factory = sqlite3.Row
         # WAL mode allows concurrent reads during writes
@@ -33,6 +34,34 @@ class Storage:
         self._conn.execute("PRAGMA busy_timeout=5000")
         self._restrict_permissions()
         self._create_tables()
+
+    def _ensure_parent_dir(self) -> None:
+        """Create the database's directory if it does not exist yet.
+
+        On a clean machine nothing has created ``~/.ai_blackteam`` before the
+        first run. Previously only ``save_config()`` made it, so any entry
+        point that did not save config first (env-var API keys, ollama, a bare
+        ``run``) died on an unhandled ``sqlite3.OperationalError``.
+
+        The tool's own directory is kept owner-only, matching ``save_config``.
+        A caller-supplied path may live in a shared directory, so only the
+        tool's own directory is tightened.
+        """
+        if self.db_path == ":memory:":
+            return
+        from pathlib import Path
+
+        from ai_blackteam.config import DEFAULT_CONFIG_DIR
+
+        parent = Path(self.db_path).expanduser().parent
+        if not parent or str(parent) in ("", "."):
+            return
+        parent.mkdir(parents=True, exist_ok=True)
+        if parent == Path(DEFAULT_CONFIG_DIR):
+            try:
+                os.chmod(parent, 0o700)
+            except OSError:
+                pass
 
     def _restrict_permissions(self) -> None:
         """Make the results database owner-only.

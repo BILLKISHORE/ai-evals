@@ -13,7 +13,7 @@ Most eval tools run single-prompt probes. A 2025 multi-lab study (researchers fr
 ai-blackteam runs multi-turn, adaptive attacks that mirror real adversarial pressure:
 
 - **Vendor-neutral** -- tests 17 providers equally (16 vendors + your own HTTP endpoint), not owned by any AI lab
-- **1,020 curated attack techniques** -- encoding, conversational, psychological, security, compliance, agent exploitation, MCP exploitation, multi-agent, protocol, multimodal, supply chain, RAG exploitation vectors; 163M expanded attack surface; 61 categories; 3,059 tests
+- **1,021 curated attack techniques** -- encoding, conversational, psychological, security, compliance, agent exploitation, MCP exploitation, multi-agent, protocol, multimodal, supply chain, RAG exploitation vectors; 163M expanded attack surface; 61 categories; 3,059 tests
 - **19 public benchmark loaders** -- HarmBench, AdvBench, JailbreakBench, SorryBench, WMDP (bio/cyber/chem), DoNotAnswer, WildGuard, RedBench, SALAD-Bench, StrongREJECT, AART, ForbiddenQuestions, BeaverTails, RealToxicityPrompts, JailBreakV-28K, RedTeam-2K, AgentHarm
 - **7 adaptive generators** -- PAIR, TAP, Fuzzer, AutoDAN (genetic), PAP (persuasion), Crescendo (multi-turn), Best-of-N
 - **Research-backed** -- implements published attacks from Microsoft Research, Palo Alto Unit 42, USENIX, UK AI Safety Institute
@@ -111,7 +111,7 @@ A full workflow with manual dispatch, scheduled runs, and benchmark mode is incl
 | Ollama | Any local model (Llama 4, Qwen, Gemma) | None (local) |
 | HuggingFace | Any HF model | API token |
 
-## Attacks (1,020 built-in, 61 categories)
+## Attacks (1,021 built-in, 61 categories)
 
 ### Core Attacks
 | Attack | Mode | Description |

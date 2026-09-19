@@ -11,10 +11,10 @@ The starting library is about 11,700 pieces:
 
 | Building block | Count |
 | --- | --- |
-| Attack techniques (built into the framework) | 1,020 |
+| Attack techniques (built into the framework) | 1,021 |
 | Prompts loaded from 19 public benchmarks | 10,662 |
 
-The 1,020 techniques are the framework's own. The 10,662 prompts come from 19 public benchmark datasets (HarmBench, AdvBench, WMDP, and more). The framework does not bundle them; it downloads them from each benchmark's official source on first use and caches them locally. Everything else is mixing.
+The 1,021 techniques are the framework's own. The 10,662 prompts come from 19 public benchmark datasets (HarmBench, AdvBench, WMDP, and more). The framework does not bundle them; it downloads them from each benchmark's official source on first use and caches them locally. Everything else is mixing.
 
 ## The five axes
 
@@ -37,8 +37,8 @@ The total splits into two parts. The numbers below were verified by running the 
 Part 1 starts with the techniques:
 
 ```
-1,020 techniques x 28 categories x 4 difficulties = 114,240
-114,240 x (1 original + 17 mutations + 10 languages) = 3,198,720
+1,021 techniques x 28 categories x 4 difficulties = 114,352
+114,352 x (1 original + 17 mutations + 10 languages) = 3,201,856
 ```
 
 Part 2 starts with the dataset prompts:
@@ -50,7 +50,7 @@ Part 2 starts with the dataset prompts:
 Add them together:
 
 ```
-3,198,720 + 160,591,044 = 163,789,764
+3,201,856 + 160,591,044 = 163,792,900
 ```
 
 ## You never run them all

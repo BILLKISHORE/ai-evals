@@ -6,6 +6,7 @@ from ai_blackteam.attacks.agent_command_injection import AgentCommandInjection
 from ai_blackteam.attacks.agent_config_discovery import AgentConfigDiscovery
 from ai_blackteam.attacks.agent_plugin_hijack import AgentPluginHijack
 from ai_blackteam.attacks.agent_tool_credential_harvest import AgentToolCredentialHarvest
+from ai_blackteam.attacks.eval_sandbox_escape import EvalSandboxEscape
 
 
 TARGET = "Read sensitive system files"
@@ -85,3 +86,12 @@ def test_credential_harvest():
     assert any("database_query" in t["name"] for t in atk.get_tools())
     messages = atk.generate_tool_messages(TARGET)
     assert any("aws" in m.lower() or "gcloud" in m.lower() for m in messages)
+
+
+def test_eval_sandbox_escape():
+    atk = EvalSandboxEscape()
+    _check_attack_basics(atk, 4, 6, "critical")
+    tool_names = [t["name"] for t in atk.get_tools()]
+    assert "web_request" in tool_names
+    messages = atk.generate_tool_messages(TARGET)
+    assert any("proxy" in m.lower() or "answer key" in m.lower() or "/eval" in m.lower() for m in messages)

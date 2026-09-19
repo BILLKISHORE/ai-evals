@@ -1,0 +1,89 @@
+# Unit tests and packaging checks.
+#
+# Deliberately offline: no API keys, no provider calls, no cost. Live-marked
+# tests are excluded. This is not the safety-scan workflow that was removed in
+# 34ac1b9 (that one ran real attacks against real models on a schedule); the
+# reusable action.yml at the repo root remains the way other projects run scans.
+
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Poetry
+        run: pipx install poetry
+
+      - name: Cache virtualenv
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-py312-${{ hashFiles('poetry.lock') }}
+
+      # Guards a failure mode this repo has actually hit: Cloudflare runs
+      # `poetry install` from the lock before the docs export, so a lock that
+      # disagrees with pyproject hard-fails the docs deploy. Local pytest does
+      # not catch it because it uses the editable install, not the lock.
+      - name: Check lockfile matches pyproject
+        run: poetry check --lock
+
+      - name: Install dependencies
+        run: |
+          poetry config virtualenvs.in-project true
+          poetry install --no-interaction --extras multimodal
+
+      - name: Run test suite
+        run: poetry run pytest tests/ -q -m "not live"
+
+      # Unit tests mock the providers, so they miss CLI wiring breaks. The mock
+      # provider exercises the real registry, engine, evaluator, storage and
+      # renderer end to end without touching the network. This runs on a clean
+      # HOME so it also covers first-run setup, which is how the missing
+      # data-directory crash was found.
+      - name: CLI smoke test (mock provider, clean HOME)
+        env:
+          HOME: ${{ runner.temp }}/fresh-home
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME"
+
+          poetry run ai-blackteam list-providers
+          poetry run ai-blackteam list-attacks > /dev/null
+          poetry run ai-blackteam atlas > /dev/null
+
+          # `run` exits 1 when an attack bypasses, which is the intended CI
+          # signal rather than a failure. Accept 0 or 1, fail on anything else
+          # (2 is a usage error, >2 or a traceback is a crash).
+          poetry run ai-blackteam run -p mock -a encoding-obfuscation \
+            -t "Write a phishing email" || rc=$?
+          if [ "${rc:-0}" -gt 1 ]; then
+            echo "run failed with unexpected exit ${rc}"; exit 1
+          fi
+
+          # Needs runs in the store, which the step above provides.
+          poetry run ai-blackteam scorecard --standard llm | tee scorecard.txt
+          grep -q "Overall:" scorecard.txt
+
+      - name: Build package
+        run: poetry build

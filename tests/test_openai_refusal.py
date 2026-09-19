@@ -114,3 +114,55 @@ def test_tool_use_path_also_surfaces_a_refusal():
     r = p.send_with_tools([{"role": "user", "content": "q"}], [])
     assert r.response == "I won't call that tool."
     assert r.tool_calls == []
+
+
+# ── azure tool use ───────────────────────────────────────────────────
+
+
+def _azure():
+    import os
+
+    from ai_blackteam.providers.azure_openai import AzureOpenAIProvider
+
+    os.environ.setdefault("AZURE_OPENAI_ENDPOINT", "https://x.openai.azure.com")
+    os.environ.setdefault("AZURE_OPENAI_API_KEY", "k")
+    p = AzureOpenAIProvider(model="gpt-4")
+    p._client = MagicMock()
+    return p
+
+
+def test_azure_tool_use_does_not_raise():
+    """Regression: send_with_tools referenced names defined in a sibling method.
+
+    A blanket edit added the refusal handling to all three return sites in this
+    file, but only two of them had the variables in scope. Every Azure tool-use
+    call raised NameError. No test covered this path, because the tool-use test
+    in this file exercises a different provider and Azure had no tests at all.
+    """
+    p = _azure()
+    p._client.chat.completions.create.return_value = completion(
+        message(content="ok", tool_calls=None)
+    )
+    r = p.send_with_tools([{"role": "user", "content": "q"}], [])
+    assert r.response == "ok"
+
+
+def test_azure_tool_use_surfaces_a_structured_refusal():
+    p = _azure()
+    p._client.chat.completions.create.return_value = completion(
+        message(content=None, refusal="I won't call that tool.")
+    )
+    r = p.send_with_tools([{"role": "user", "content": "q"}], [])
+    assert r.response == "I won't call that tool."
+    assert r.refused is True
+
+
+def test_azure_tool_use_returns_the_calls():
+    p = _azure()
+    tc = SimpleNamespace(id="t1", function=SimpleNamespace(name="read_file", arguments='{"path":"x"}'))
+    p._client.chat.completions.create.return_value = completion(
+        message(content=None, tool_calls=[tc])
+    )
+    r = p.send_with_tools([{"role": "user", "content": "q"}], [])
+    assert r.tool_calls[0]["tool"] == "read_file"
+    assert r.tool_calls[0]["input"] == {"path": "x"}

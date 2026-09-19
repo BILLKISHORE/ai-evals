@@ -248,8 +248,16 @@ def scan_file(file_path):
 
     lines = content.split("\n")
 
+    # Python gets a parse-tree pass for the two rules that need to follow a
+    # value across lines. Their line-regexes still run for .js/.ts, where there
+    # is no parser here.
+    ast_rules = set()
+    if ext == ".py":
+        findings.extend(_analyse_python(content, path))
+        ast_rules = {"BTSC-001", "BTSC-002"}
+
     for rule in COMPILED_RULES:
-        if ext not in rule["file_types"]:
+        if ext not in rule["file_types"] or rule["id"] in ast_rules:
             continue
 
         for pattern in rule["_compiled"]:
@@ -344,4 +352,149 @@ def scan_summary(findings):
         "by_rule": by_rule,
         "by_owasp": by_owasp,
         "files_affected": len(files),
+    }
+
+
+# ── AST analysis for Python sources ──────────────────────────────────
+#
+# BTSC-001 and BTSC-002 were single-line regexes with systematic blind spots.
+# BTSC-001 required the literal {"role": "system", "content": ...} dict on one
+# line, so it missed the common shape of building the prompt into a variable
+# first. BTSC-002 required a word like "prompt" on the same line as the key and
+# used a character class that excluded hyphens, so it could not match the
+# sk-proj- format. Parsing the file gives the variable tracking that neither
+# could do with a line at a time.
+
+import ast as _ast
+
+# Sources whose value is attacker-influenced.
+_TAINT_SOURCES = (
+    "request", "req", "input", "argv", "form", "params", "query",
+    "body", "json", "args", "payload", "message", "prompt", "user",
+)
+
+_SECRET_PATTERNS = [
+    # Hyphens are part of modern key formats (sk-proj-, sk-ant-api03-), which
+    # is precisely what the old [a-zA-Z0-9] class could not match.
+    re.compile(r"\bsk-[A-Za-z0-9_-]{16,}"),
+    re.compile(r"\bAKIA[0-9A-Z]{16}\b"),
+    re.compile(r"\bghp_[A-Za-z0-9]{20,}"),
+    re.compile(r"\bxox[baprs]-[A-Za-z0-9-]{10,}"),
+    re.compile(r"\bAIza[0-9A-Za-z_-]{30,}"),
+]
+
+# Documentation and templates are full of fake keys. Flagging those teaches
+# people to ignore the rule, which is worse than missing one real key.
+_PLACEHOLDER_HINTS = ("xxxx", "...", "your", "<", "changeme", "placeholder")
+
+
+def _is_placeholder(value):
+    low = value.lower()
+    return any(h in low for h in _PLACEHOLDER_HINTS)
+
+
+def _refs_tainted(node, tainted):
+    """True when the expression reads a tainted name."""
+    for sub in _ast.walk(node):
+        if isinstance(sub, _ast.Name) and (sub.id in tainted or _looks_tainted(sub.id)):
+            return True
+        if isinstance(sub, _ast.Attribute) and _looks_tainted(sub.attr):
+            return True
+    return False
+
+
+def _looks_tainted(name):
+    low = (name or "").lower()
+    return any(src in low for src in _TAINT_SOURCES)
+
+
+def _builds_string_from(node, tainted):
+    """True when node builds a string out of a tainted value."""
+    if isinstance(node, _ast.JoinedStr):
+        return any(
+            isinstance(v, _ast.FormattedValue) and _refs_tainted(v.value, tainted)
+            for v in node.values
+        )
+    if isinstance(node, _ast.BinOp) and isinstance(node.op, _ast.Add):
+        return _refs_tainted(node, tainted)
+    if isinstance(node, _ast.Call):
+        func = node.func
+        if isinstance(func, _ast.Attribute) and func.attr in ("format", "join", "replace"):
+            return any(_refs_tainted(a, tainted) for a in node.args)
+    return False
+
+
+def _analyse_python(content, path):
+    """Return BTSC-001 and BTSC-002 findings from the parse tree."""
+    try:
+        tree = _ast.parse(content)
+    except SyntaxError:
+        return []
+
+    findings = []
+    lines = content.split("\n")
+
+    def snippet(lineno):
+        return "\n".join(lines[max(0, lineno - 1):lineno + 2])[:200]
+
+    # Parameters are attacker-controlled at a handler boundary.
+    tainted = set()
+    for node in _ast.walk(tree):
+        if isinstance(node, (_ast.FunctionDef, _ast.AsyncFunctionDef)):
+            for arg in list(node.args.args) + list(node.args.kwonlyargs):
+                if _looks_tainted(arg.arg):
+                    tainted.add(arg.arg)
+
+    # Propagate to variables built from those values.
+    for _ in range(3):  # a few passes settle simple chains
+        for node in _ast.walk(tree):
+            if isinstance(node, _ast.Assign) and _builds_string_from(node.value, tainted):
+                for target in node.targets:
+                    if isinstance(target, _ast.Name):
+                        tainted.add(target.id)
+
+    # BTSC-001: a system-role message whose content carries tainted data.
+    for node in _ast.walk(tree):
+        if not isinstance(node, _ast.Dict):
+            continue
+        role = content_node = None
+        for key, value in zip(node.keys, node.values):
+            if not isinstance(key, _ast.Constant):
+                continue
+            if key.value == "role" and isinstance(value, _ast.Constant):
+                role = value.value
+            elif key.value == "content":
+                content_node = value
+        if role != "system" or content_node is None:
+            continue
+        flows = (
+            (isinstance(content_node, _ast.Name) and content_node.id in tainted)
+            or _builds_string_from(content_node, tainted)
+        )
+        if flows:
+            findings.append(_finding("BTSC-001", node.lineno, snippet(node.lineno), path))
+
+    # BTSC-002: a credential written as a literal.
+    for node in _ast.walk(tree):
+        if not isinstance(node, _ast.Constant) or not isinstance(node.value, str):
+            continue
+        if _is_placeholder(node.value):
+            continue
+        if any(p.search(node.value) for p in _SECRET_PATTERNS):
+            findings.append(_finding("BTSC-002", node.lineno, snippet(node.lineno), path))
+
+    return findings
+
+
+def _finding(rule_id, line, code, path):
+    rule = next(r for r in RULES if r["id"] == rule_id)
+    return {
+        "rule_id": rule["id"],
+        "name": rule["name"],
+        "severity": rule["severity"],
+        "owasp": rule["owasp"],
+        "line": line,
+        "code": code,
+        "message": rule["message"],
+        "file": str(path),
     }

@@ -160,3 +160,110 @@ def test_scanning_a_clean_file_stays_clean(tmp_path):
             return a + b
     ''')
     assert f == []
+
+
+# ── ReDoS: the scanner must terminate ────────────────────────────────
+
+
+def test_scanner_finishes_on_its_own_source():
+    """BTSC-006 and BTSC-007 used `@tool.*\\n(?:.*\\n){0,10}.*X`.
+
+    Nested quantifiers around `.*` backtrack exponentially. Four patterns hung
+    for minutes on this project's own files, which is a denial of service in a
+    tool people are told to point at untrusted code, and it silently turned a
+    real scan into an empty result.
+    """
+    import time
+
+    from ai_blackteam.scanner import scan_file
+
+    start = time.time()
+    scan_file("src/ai_blackteam/scanner.py")
+    elapsed = time.time() - start
+    assert elapsed < 10, f"scanning one file took {elapsed:.1f}s; a pattern is backtracking"
+
+
+def test_no_rule_pattern_nests_a_quantified_group_around_dot_star():
+    """Structural guard so the construct cannot be reintroduced."""
+    import re as _re
+
+    from ai_blackteam.scanner import RULES
+
+    bad = _re.compile(r"\(\?:\.\*\\n\)\{")
+    offenders = [
+        (r["id"], p) for r in RULES for p in r["patterns"] if bad.search(p)
+    ]
+    assert not offenders, f"catastrophic-backtracking construct in {offenders}"
+
+
+def test_tool_decorator_rules_still_detect_their_target(tmp_path):
+    """The rewrite must keep finding what the slow regex found."""
+    from ai_blackteam.scanner import scan_file
+
+    p = tmp_path / "agent.py"
+    p.write_text(textwrap.dedent('''
+        import subprocess
+        @tool
+        def run_it(cmd):
+            return subprocess.run(cmd, shell=True)
+    '''))
+    assert "BTSC-006" in rules(scan_file(str(p)))
+
+
+def test_tool_decorator_rule_does_not_fire_without_the_decorator(tmp_path):
+    from ai_blackteam.scanner import scan_file
+
+    p = tmp_path / "plain.py"
+    p.write_text(textwrap.dedent('''
+        import subprocess
+        def run_it(cmd):
+            return subprocess.run(cmd, shell=True)
+    '''))
+    assert "BTSC-006" not in rules(scan_file(str(p)))
+
+
+def test_a_passthrough_system_prompt_parameter_is_not_tainted(tmp_path):
+    """Regression: this shape produced 13 false positives on the project itself.
+
+    A library function that accepts `system_prompt` and forwards it is not
+    interpolating user input; it is the caller's own prompt. Treating every
+    parameter whose name contains "prompt" as attacker-controlled flags the
+    entire provider layer and buries the real findings.
+    """
+    from ai_blackteam.scanner import scan_file
+
+    p = tmp_path / "provider.py"
+    p.write_text(textwrap.dedent('''
+        def send(messages, system_prompt=None):
+            msgs = []
+            if system_prompt:
+                msgs.append({"role": "system", "content": system_prompt})
+            return msgs + list(messages)
+    '''))
+    assert "BTSC-001" not in rules(scan_file(str(p)))
+
+
+def test_an_explicitly_user_controlled_parameter_is_still_tainted(tmp_path):
+    """The narrowing must not silence the real case."""
+    from ai_blackteam.scanner import scan_file
+
+    p = tmp_path / "handler.py"
+    p.write_text(textwrap.dedent('''
+        def handler(user_input):
+            system = f"Bot. Context: {user_input}"
+            return [{"role": "system", "content": system}]
+    '''))
+    assert "BTSC-001" in rules(scan_file(str(p)))
+
+
+def test_web_request_data_is_tainted(tmp_path):
+    from ai_blackteam.scanner import scan_file
+
+    p = tmp_path / "web.py"
+    p.write_text(textwrap.dedent('''
+        from flask import request
+        def view():
+            system = "Bot: " + request.json["q"]
+            return [{"role": "system", "content": system}]
+    '''))
+    assert "BTSC-001" in rules(scan_file(str(p)))

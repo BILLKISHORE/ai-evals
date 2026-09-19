@@ -119,14 +119,16 @@ RULES = [
         "severity": "critical",
         "owasp": "LLM03",
         "description": "Tool/function exposed to LLM has unrestricted shell command execution.",
+        # Single-line patterns plus a context requirement. The previous form,
+        # `@tool.*\n(?:.*\n){0,10}.*X`, nests a quantified group around `.*`
+        # and backtracked for minutes on ordinary files, turning a real scan
+        # into an empty result and giving a tool pointed at untrusted code a
+        # denial-of-service surface.
+        "requires_context": r"@tool|BaseTool|\btools\s*=|\bfunctions\s*=",
+        "context_window": 20,
         "patterns": [
-            # @tool decorator + subprocess/os.system
-            r'''@tool.*\n(?:.*\n){0,10}.*subprocess\.(?:run|call|Popen)\s*\(.*shell\s*=\s*True''',
-            r'''@tool.*\n(?:.*\n){0,10}.*os\.system\s*\(''',
-            # Function in tools array with subprocess
-            r'''(?:tools|functions)\s*=\s*\[(?:.*\n){0,20}.*subprocess\.(?:run|call|Popen)\s*\(.*shell\s*=\s*True''',
-            # LangChain Tool with shell
-            r'''class\s+\w+\s*\(\s*(?:BaseTool|Tool)\s*\).*\n(?:.*\n){0,20}.*subprocess.*shell\s*=\s*True''',
+            r"""subprocess\.(?:run|call|Popen)\s*\([^\n]*shell\s*=\s*True""",
+            r"""os\.system\s*\(""",
         ],
         "file_types": [".py"],
         "message": "Allowlist permitted commands. Never expose unrestricted shell access to an LLM.",
@@ -137,10 +139,16 @@ RULES = [
         "severity": "high",
         "owasp": "LLM03",
         "description": "Tool/function exposed to LLM can read/write arbitrary file paths.",
+        # Single-line patterns plus a context requirement. The previous form,
+        # `@tool.*\n(?:.*\n){0,10}.*X`, nests a quantified group around `.*`
+        # and backtracked for minutes on ordinary files, turning a real scan
+        # into an empty result and giving a tool pointed at untrusted code a
+        # denial-of-service surface.
+        "requires_context": r"@tool|BaseTool|\btools\s*=|\bfunctions\s*=",
+        "context_window": 20,
         "patterns": [
-            r'''@tool.*\n(?:.*\n){0,10}.*open\s*\(.*(?:path|file|filename)''',
-            r'''@tool.*\n(?:.*\n){0,10}.*(?:read_file|write_file|Path)\s*\(''',
-            r'''(?:tools|functions)\s*=\s*\[(?:.*\n){0,20}.*open\s*\(''',
+            r"""open\s*\([^\n]*(?:path|file|filename)""",
+            r"""(?:read_file|write_file|Path)\s*\(""",
         ],
         "file_types": [".py"],
         "message": "Restrict file access to specific directories. Validate paths against an allowlist.",
@@ -218,7 +226,15 @@ def _compile_rules():
                 compiled_patterns.append(re.compile(pattern, re.IGNORECASE | re.MULTILINE | re.DOTALL))
             except re.error:
                 pass
-        compiled.append({**rule, "_compiled": compiled_patterns})
+        entry = {**rule, "_compiled": compiled_patterns}
+        # DOTALL makes `.` match newlines, which is what turned the old
+        # multi-line windows into exponential backtracking. Context is matched
+        # against a bounded slice of lines instead of inside the pattern.
+        if rule.get("requires_context"):
+            entry["_context_compiled"] = re.compile(
+                rule["requires_context"], re.IGNORECASE | re.MULTILINE
+            )
+        compiled.append(entry)
     return compiled
 
 
@@ -260,11 +276,23 @@ def scan_file(file_path):
         if ext not in rule["file_types"] or rule["id"] in ast_rules:
             continue
 
+        ctx_re = rule.get("_context_compiled")
+        window = rule.get("context_window", 20)
+
         for pattern in rule["_compiled"]:
             for match in pattern.finditer(content):
                 # Find line number
                 start = match.start()
                 line_num = content[:start].count("\n") + 1
+
+                # Context requirement replaces the old multi-line regex window:
+                # the dangerous call only matters when it sits inside something
+                # exposed to the model. Checking a bounded slice of lines is
+                # linear, where the regex form was exponential.
+                if ctx_re is not None:
+                    above = "\n".join(lines[max(0, line_num - 1 - window):line_num])
+                    if not ctx_re.search(above):
+                        continue
 
                 # Get the matched code snippet (the line + context)
                 line_start = max(0, line_num - 1)
@@ -367,11 +395,22 @@ def scan_summary(findings):
 
 import ast as _ast
 
-# Sources whose value is attacker-influenced.
+# Names that indicate an attacker-influenced value.
+#
+# Deliberately narrow. An earlier version included "prompt", "message", "user"
+# and "system", which made every provider method taking a `system_prompt`
+# pass-through parameter look tainted and produced 13 false criticals on this
+# project alone. A library forwarding the caller's own system prompt is not
+# interpolating user input, and flagging it buries the real findings.
 _TAINT_SOURCES = (
-    "request", "req", "input", "argv", "form", "params", "query",
-    "body", "json", "args", "payload", "message", "prompt", "user",
+    "user_input", "user_query", "user_message", "user_prompt", "user_data",
+    "user_content", "client_input", "untrusted", "external_input",
+    "request", "req_", "form_data", "payload", "argv", "raw_input",
 )
+
+# Attribute reads that are attacker-controlled regardless of the variable name,
+# e.g. request.json, req.body, request.args.
+_TAINT_ATTRS = ("json", "body", "form", "args", "params", "query", "data", "values")
 
 _SECRET_PATTERNS = [
     # Hyphens are part of modern key formats (sk-proj-, sk-ant-api03-), which
@@ -398,8 +437,13 @@ def _refs_tainted(node, tainted):
     for sub in _ast.walk(node):
         if isinstance(sub, _ast.Name) and (sub.id in tainted or _looks_tainted(sub.id)):
             return True
-        if isinstance(sub, _ast.Attribute) and _looks_tainted(sub.attr):
-            return True
+        if isinstance(sub, _ast.Attribute):
+            base = sub.value
+            base_name = base.id if isinstance(base, _ast.Name) else ""
+            if sub.attr in _TAINT_ATTRS and _looks_tainted(base_name):
+                return True
+            if _looks_tainted(sub.attr):
+                return True
     return False
 
 

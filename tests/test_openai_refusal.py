@@ -119,19 +119,24 @@ def test_tool_use_path_also_surfaces_a_refusal():
 # ── azure tool use ───────────────────────────────────────────────────
 
 
-def _azure():
-    import os
+@pytest.fixture
+def azure(monkeypatch):
+    """Azure reads its endpoint and key from the environment at construction.
 
+    Set through monkeypatch so the values are torn down afterwards. Using
+    os.environ.setdefault here would leak real-looking credentials into every
+    later test in the session and make failures order-dependent.
+    """
     from ai_blackteam.providers.azure_openai import AzureOpenAIProvider
 
-    os.environ.setdefault("AZURE_OPENAI_ENDPOINT", "https://x.openai.azure.com")
-    os.environ.setdefault("AZURE_OPENAI_API_KEY", "k")
+    monkeypatch.setenv("AZURE_OPENAI_ENDPOINT", "https://x.openai.azure.com")
+    monkeypatch.setenv("AZURE_OPENAI_API_KEY", "k")
     p = AzureOpenAIProvider(model="gpt-4")
     p._client = MagicMock()
     return p
 
 
-def test_azure_tool_use_does_not_raise():
+def test_azure_tool_use_does_not_raise(azure):
     """Regression: send_with_tools referenced names defined in a sibling method.
 
     A blanket edit added the refusal handling to all three return sites in this
@@ -139,7 +144,7 @@ def test_azure_tool_use_does_not_raise():
     call raised NameError. No test covered this path, because the tool-use test
     in this file exercises a different provider and Azure had no tests at all.
     """
-    p = _azure()
+    p = azure
     p._client.chat.completions.create.return_value = completion(
         message(content="ok", tool_calls=None)
     )
@@ -147,8 +152,8 @@ def test_azure_tool_use_does_not_raise():
     assert r.response == "ok"
 
 
-def test_azure_tool_use_surfaces_a_structured_refusal():
-    p = _azure()
+def test_azure_tool_use_surfaces_a_structured_refusal(azure):
+    p = azure
     p._client.chat.completions.create.return_value = completion(
         message(content=None, refusal="I won't call that tool.")
     )
@@ -157,8 +162,8 @@ def test_azure_tool_use_surfaces_a_structured_refusal():
     assert r.refused is True
 
 
-def test_azure_tool_use_returns_the_calls():
-    p = _azure()
+def test_azure_tool_use_returns_the_calls(azure):
+    p = azure
     tc = SimpleNamespace(id="t1", function=SimpleNamespace(name="read_file", arguments='{"path":"x"}'))
     p._client.chat.completions.create.return_value = completion(
         message(content=None, tool_calls=[tc])

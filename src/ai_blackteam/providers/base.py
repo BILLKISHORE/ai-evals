@@ -2,6 +2,37 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 
+# Vendor termination signals that state a refusal outright. Anthropic returns
+# "refusal" as a normal HTTP 200 with a stop_details policy category; the
+# OpenAI-compatible APIs use finish_reason "content_filter"; Google's
+# generateContent reports safety blocks through finishReason.
+REFUSAL_STOP_REASONS = frozenset({
+    "refusal",            # Anthropic
+    "content_filter",     # OpenAI and OpenAI-compatible
+    "SAFETY",             # Google
+    "PROHIBITED_CONTENT",
+    "BLOCKLIST",
+    "SPII",
+})
+
+# Signals that state the model terminated for an unrelated reason. Anything
+# outside both sets is treated as unknown rather than assumed benign, so a new
+# vendor value cannot silently read as "did not refuse".
+NON_REFUSAL_STOP_REASONS = frozenset({
+    "end_turn", "stop", "stop_sequence", "max_tokens", "length",
+    "tool_use", "tool_calls", "function_call", "pause_turn",
+    "model_context_window_exceeded", "STOP", "MAX_TOKENS",
+})
+
+
+def _refused_from(stop_reason):
+    """Tri-state: True refused, False did not, None the vendor did not say."""
+    if stop_reason in REFUSAL_STOP_REASONS:
+        return True
+    if stop_reason in NON_REFUSAL_STOP_REASONS:
+        return False
+    return None
+
 
 @dataclass
 class PromptResult:
@@ -12,6 +43,19 @@ class PromptResult:
     tokens_out: int | None = None
     latency_ms: float | None = None
     raw: dict | None = None
+    stop_reason: str | None = None
+    stop_details: dict | None = None
+
+    @property
+    def refused(self):
+        """Whether the vendor itself reported a refusal.
+
+        None means no usable signal, in which case callers should fall back to
+        inspecting the response text. Never collapse None to False: the point
+        of this field is to distinguish "the vendor said no refusal" from "the
+        vendor said nothing".
+        """
+        return _refused_from(self.stop_reason)
 
 
 @dataclass
@@ -24,6 +68,12 @@ class ToolResult:
     tokens_out: int | None = None
     latency_ms: float | None = None
     raw: dict | None = None
+    stop_reason: str | None = None
+    stop_details: dict | None = None
+
+    @property
+    def refused(self):
+        return _refused_from(self.stop_reason)
 
 
 class BaseProvider(ABC):
@@ -90,13 +140,15 @@ class OpenAICompatibleProvider(BaseProvider):
             model=self.model, messages=messages, max_tokens=4096
         ))
         ms = (time.time() - start) * 1000
+        choice = r.choices[0]
         return PromptResult(
-            response=r.choices[0].message.content or "",
+            response=choice.message.content or "",
             model=self.model,
             provider=self.provider_name,
             tokens_in=r.usage.prompt_tokens if r.usage else None,
             tokens_out=r.usage.completion_tokens if r.usage else None,
             latency_ms=ms,
+            stop_reason=getattr(choice, "finish_reason", None),
         )
 
     def supports_tools(self):
@@ -135,4 +187,5 @@ class OpenAICompatibleProvider(BaseProvider):
             tokens_in=r.usage.prompt_tokens if r.usage else None,
             tokens_out=r.usage.completion_tokens if r.usage else None,
             latency_ms=ms,
+            stop_reason=getattr(r.choices[0], "finish_reason", None),
         )

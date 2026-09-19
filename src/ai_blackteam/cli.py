@@ -188,7 +188,9 @@ def compare(providers, models, attack, target, system_prompt, truncate):
         api_key = provider_configs.get(name, {}).get("api_key")
         model = resolve_alias(name, model_overrides.get(name))
         try:
-            prov = provider_cls(model=resolve_alias(provider, model), api_key=api_key)
+            # `model` is already alias-resolved on the line above; resolving it
+            # again against an undefined `provider` is what broke this command.
+            prov = provider_cls(model=model, api_key=api_key)
         except Exception as e:
             console.print(f"[yellow]Skipping {name}: {type(e).__name__}: {e}[/yellow]")
             continue
@@ -1931,6 +1933,7 @@ def mega_sweep(provider, model, dataset_filter, mutations, attack_filter, catego
         console.print(f"  Blocked: [green]{completed[0] - bypassed_count[0]}[/green]")
 
     if output:
+        import json
         from pathlib import Path
         Path(output).write_text(json.dumps({
             "model": prov.model,

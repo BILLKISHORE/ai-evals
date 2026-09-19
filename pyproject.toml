@@ -47,6 +47,7 @@ multimodal = ["pillow"]
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0"
+pytest-cov = "^7.0"
 
 [tool.pytest.ini_options]
 markers = [

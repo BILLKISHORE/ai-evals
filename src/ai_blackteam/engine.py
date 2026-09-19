@@ -68,6 +68,12 @@ class Engine:
                 )
                 self.storage.save_turn(run_id, 1, "user", prompt)
                 self.storage.save_turn(run_id, 2, "assistant", result.response)
+                # Stored under its own role, not merged into the assistant
+                # turn: reasoning-layer attacks put harmful content in the
+                # thinking while the answer stays clean, so the two have to
+                # stay separable when scoring.
+                if result.reasoning:
+                    self.storage.save_turn(run_id, 2, "reasoning", result.reasoning)
 
                 results.append({
                     "run_id": run_id,
@@ -138,6 +144,8 @@ class Engine:
         for i, (user_msg, assistant_msg) in enumerate(zip(turns, all_responses)):
             self.storage.save_turn(run_id, i * 2 + 1, "user", user_msg)
             self.storage.save_turn(run_id, i * 2 + 2, "assistant", assistant_msg)
+        if getattr(result, "reasoning", None):
+            self.storage.save_turn(run_id, len(turns) * 2, "reasoning", result.reasoning)
 
         return {
             "run_id": run_id,

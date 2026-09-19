@@ -6,7 +6,7 @@ Usage:
     from ai_blackteam.providers.guardrail import GuardrailProvider
     from ai_blackteam.guardrails import keyword_filter
 
-    base = AnthropicProvider(model="claude-sonnet-4-6")
+    base = AnthropicProvider(model="claude-sonnet-5")
     guarded = GuardrailProvider(
         base_provider=base,
         input_filter=keyword_filter(["bomb", "weapon"]),

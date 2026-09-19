@@ -15,7 +15,7 @@ class AnthropicProvider(BaseProvider):
         self._client = Anthropic(api_key=self.api_key) if self.api_key else Anthropic()
 
     def default_model(self):
-        return "claude-sonnet-4-6"
+        return "claude-sonnet-5"
 
     def send_prompt(self, prompt, system_prompt=None):
         kwargs = {"model": self.model, "max_tokens": 4096,

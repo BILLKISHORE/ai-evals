@@ -9,7 +9,7 @@ DEFAULT_DB_PATH = DEFAULT_CONFIG_DIR / "results.db"
 
 DEFAULT_CONFIG = {
     "providers": {
-        "anthropic": {"api_key": None, "default_model": "claude-sonnet-4-6"},
+        "anthropic": {"api_key": None, "default_model": "claude-sonnet-5"},
         "ollama": {"base_url": "http://localhost:11434", "default_model": "llama3.2"},
         "openai": {"api_key": None, "default_model": "gpt-5.4"},
         "google": {"api_key": None, "default_model": "gemini-3.1-pro"},

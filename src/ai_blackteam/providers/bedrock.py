@@ -24,7 +24,7 @@ class BedrockProvider(BaseProvider):
         self._client = boto3.client("bedrock-runtime", region_name=self.region)
 
     def default_model(self):
-        return "anthropic.claude-3-5-sonnet-20241022-v2:0"
+        return "anthropic.claude-sonnet-5"
 
     def supports_tools(self):
         return True

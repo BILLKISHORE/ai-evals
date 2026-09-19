@@ -79,3 +79,9 @@ INDEX.md
 resume/
 *resume*.pdf
 billkishore-*.pdf
+
+# Coverage artifacts
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml

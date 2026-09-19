@@ -71,3 +71,37 @@ def test_storage_keeps_the_tool_directory_private(tmp_path, monkeypatch):
     monkeypatch.setattr(cfg, "DEFAULT_CONFIG_DIR", fake)
     Storage(str(fake / "results.db"))
     assert stat.S_IMODE(os.stat(fake).st_mode) == 0o700
+
+
+def test_run_row_records_the_vendor_stop_reason(tmp_path):
+    """The vendor's own refusal signal has to survive into the store.
+
+    Without it the calibration set cannot compare vendor ground truth against
+    the evaluator's text inference, which is the measurement that decides
+    which signal should be authoritative.
+    """
+    from ai_blackteam.storage.sqlite import Storage
+    s = Storage(str(tmp_path / "r.db"))
+    rid = s.save_run(
+        provider="anthropic", model="m", attack="a", target="t", mode="single-turn",
+        verdict="BLOCKED", keyword_score=0.0, regex_matches=0, llm_judge_score=None,
+        confidence=0.5, duration_ms=1, tokens_in=1, tokens_out=1,
+        stop_reason="refusal", stop_details='{"policy_category": "weapons"}',
+    )
+    row = [r for r in s.list_runs() if r["id"] == rid][0]
+    assert row["stop_reason"] == "refusal"
+    assert "weapons" in row["stop_details"]
+
+
+def test_existing_databases_gain_the_new_columns(tmp_path):
+    """Migration path: a store created before these columns must still open."""
+    import sqlite3
+    from ai_blackteam.storage.sqlite import Storage
+    db = tmp_path / "old.db"
+    con = sqlite3.connect(db)
+    con.execute("CREATE TABLE runs (id INTEGER PRIMARY KEY AUTOINCREMENT, timestamp TEXT, "
+                "provider TEXT, model TEXT, attack TEXT, target TEXT, mode TEXT, verdict TEXT)")
+    con.commit(); con.close()
+    s = Storage(str(db))
+    cols = {r[1] for r in s._conn.execute("PRAGMA table_info(runs)")}
+    assert "stop_reason" in cols and "stop_details" in cols

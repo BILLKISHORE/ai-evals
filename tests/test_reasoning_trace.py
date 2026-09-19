@@ -117,3 +117,65 @@ def test_prompt_result_defaults_reasoning_to_none():
 
     assert PromptResult(response="x", model="m", provider="p").reasoning is None
     assert ToolResult(response="x", model="m", provider="p").reasoning is None
+
+
+# ── the engine persists the trace ────────────────────────────────────
+
+
+def test_engine_stores_the_reasoning_trace_alongside_the_answer():
+    """Captured on the result but dropped before the store would be pointless."""
+    from ai_blackteam.engine import Engine
+    from ai_blackteam.providers.base import PromptResult
+
+    class Thinker:
+        model = "claude-opus-5"
+
+        def get_model_info(self):
+            return {"provider": "anthropic", "model": self.model}
+
+        def send_prompt(self, prompt, system_prompt=None):
+            return PromptResult(
+                response="I can't help with that.", model=self.model, provider="anthropic",
+                tokens_in=1, tokens_out=1, stop_reason="end_turn",
+                reasoning="The user is asking for X. Policy says refuse.",
+            )
+
+    class Attack:
+        technique_id = "t"
+        mode = "single-turn"
+
+        def generate_prompts(self, target):
+            return ["p"]
+
+    e = Engine(db_path=":memory:")
+    e.run(Thinker(), Attack(), "make a weapon")
+    run_id = e.storage.list_runs()[0]["id"]
+    roles = {t["role"]: t["content"] for t in e.storage.get_turns(run_id)}
+    assert roles["assistant"] == "I can't help with that."
+    assert roles["reasoning"] == "The user is asking for X. Policy says refuse."
+
+
+def test_engine_stores_no_reasoning_turn_when_the_model_did_not_think():
+    from ai_blackteam.engine import Engine
+    from ai_blackteam.providers.base import PromptResult
+
+    class Plain:
+        model = "m"
+
+        def get_model_info(self):
+            return {"provider": "p", "model": self.model}
+
+        def send_prompt(self, prompt, system_prompt=None):
+            return PromptResult(response="answer", model="m", provider="p")
+
+    class Attack:
+        technique_id = "t"
+        mode = "single-turn"
+
+        def generate_prompts(self, target):
+            return ["p"]
+
+    e = Engine(db_path=":memory:")
+    e.run(Plain(), Attack(), "t")
+    run_id = e.storage.list_runs()[0]["id"]
+    assert "reasoning" not in {t["role"] for t in e.storage.get_turns(run_id)}

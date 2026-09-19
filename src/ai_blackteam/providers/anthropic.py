@@ -8,6 +8,31 @@ from ai_blackteam.retry import retry_with_backoff
 logger = get_logger("provider.anthropic")
 
 
+def _parse_content(blocks):
+    """Split a response into (answer_text, reasoning_trace).
+
+    Reading ``content[0].text`` assumed the answer is the first block. When a
+    model thinks, block 0 is a thinking block, which has ``.thinking`` and no
+    ``.text``, so the answer came back as an empty string and nothing raised.
+    Every block is walked instead, and text blocks are joined rather than
+    truncated to the first one.
+    """
+    answer, thoughts = [], []
+    for block in blocks or []:
+        btype = getattr(block, "type", None)
+        if btype == "thinking":
+            thoughts.append(getattr(block, "thinking", "") or "")
+        elif btype == "redacted_thinking":
+            # The content is encrypted, but the fact that the model thought is
+            # itself signal worth keeping.
+            thoughts.append("[redacted thinking]")
+        elif btype == "text" or (btype is None and hasattr(block, "text")):
+            answer.append(getattr(block, "text", "") or "")
+    reasoning = "\n".join(t for t in thoughts if t) or None
+    return "".join(answer), reasoning
+
+
+
 def _stop_signal(r):
     """Anthropic reports refusals in-band: stop_reason "refusal" on a normal
     HTTP 200, with stop_details naming the policy category that fired. Older
@@ -58,12 +83,13 @@ class AnthropicProvider(BaseProvider):
             raise
         ms = (time.time() - start) * 1000
 
-        text = r.content[0].text if r.content and hasattr(r.content[0], "text") else ""
+        text, reasoning = _parse_content(r.content)
         logger.debug(f"Response: {len(text)} chars, {r.usage.input_tokens}+{r.usage.output_tokens} tokens, {ms:.0f}ms")
         stop_reason, stop_details = _stop_signal(r)
         return PromptResult(response=text, model=self.model, provider="anthropic",
                             tokens_in=r.usage.input_tokens, tokens_out=r.usage.output_tokens,
-                            latency_ms=ms, stop_reason=stop_reason, stop_details=stop_details)
+                            latency_ms=ms, stop_reason=stop_reason, stop_details=stop_details,
+                            reasoning=reasoning)
 
     def send_in_conversation(self, messages, system_prompt=None):
         kwargs = {"model": self.model, "max_tokens": 4096, "messages": messages}
@@ -78,12 +104,13 @@ class AnthropicProvider(BaseProvider):
             logger.error(f"API call failed: {e}")
             raise
         ms = (time.time() - start) * 1000
-        text = r.content[0].text if r.content and hasattr(r.content[0], "text") else ""
+        text, reasoning = _parse_content(r.content)
         logger.debug(f"Response: {len(text)} chars, {r.usage.input_tokens}+{r.usage.output_tokens} tokens, {ms:.0f}ms")
         stop_reason, stop_details = _stop_signal(r)
         return PromptResult(response=text, model=self.model, provider="anthropic",
                             tokens_in=r.usage.input_tokens, tokens_out=r.usage.output_tokens,
-                            latency_ms=ms, stop_reason=stop_reason, stop_details=stop_details)
+                            latency_ms=ms, stop_reason=stop_reason, stop_details=stop_details,
+                            reasoning=reasoning)
 
     def send_with_tools(self, messages, tools, system_prompt=None):
         kwargs = {"model": self.model, "max_tokens": 4096, "messages": messages, "tools": tools}
@@ -99,19 +126,21 @@ class AnthropicProvider(BaseProvider):
             raise
         ms = (time.time() - start) * 1000
 
-        text = None
-        calls = []
-        for block in r.content:
-            if hasattr(block, "text"):
-                text = block.text
-            elif block.type == "tool_use":
-                calls.append({"id": block.id, "tool": block.name, "input": block.input})
+        # Same block-walking as the text paths: a thinking block has no .text,
+        # and hasattr(block, "text") was also true for nothing else useful.
+        text, reasoning = _parse_content(r.content)
+        text = text or None
+        calls = [
+            {"id": b.id, "tool": b.name, "input": b.input}
+            for b in (r.content or []) if getattr(b, "type", None) == "tool_use"
+        ]
 
         stop_reason, stop_details = _stop_signal(r)
         return ToolResult(response=text, tool_calls=calls, model=self.model,
                           provider="anthropic", tokens_in=r.usage.input_tokens,
                           tokens_out=r.usage.output_tokens, latency_ms=ms,
-                          stop_reason=stop_reason, stop_details=stop_details)
+                          stop_reason=stop_reason, stop_details=stop_details,
+                          reasoning=reasoning)
 
     def supports_tools(self):
         return True

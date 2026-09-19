@@ -45,6 +45,10 @@ class PromptResult:
     raw: dict | None = None
     stop_reason: str | None = None
     stop_details: dict | None = None
+    # The model's thinking, kept apart from the answer. Reasoning-layer
+    # attacks put harmful content here while the final answer stays clean, so
+    # discarding it makes those unscoreable.
+    reasoning: str | None = None
 
     @property
     def refused(self):
@@ -70,6 +74,10 @@ class ToolResult:
     raw: dict | None = None
     stop_reason: str | None = None
     stop_details: dict | None = None
+    # The model's thinking, kept apart from the answer. Reasoning-layer
+    # attacks put harmful content here while the final answer stays clean, so
+    # discarding it makes those unscoreable.
+    reasoning: str | None = None
 
     @property
     def refused(self):

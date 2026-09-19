@@ -201,3 +201,43 @@ def test_list_models_shows_aliases():
     assert "fast" in result.output
     from ai_blackteam.aliases import MODEL_ALIASES
     assert MODEL_ALIASES["anthropic"]["latest"] in result.output
+
+
+# ── undefined-name regressions ───────────────────────────────────────
+
+
+def test_compare_actually_runs_the_providers():
+    """`compare` referenced an undefined name and skipped every provider.
+
+    The enclosing command takes `providers` (plural); the construction line
+    used `provider`. The NameError was swallowed by a broad `except
+    Exception` that printed "Skipping <name>", so the command rendered an
+    empty table and exited successfully. In a script that reads as "nothing
+    to report" rather than as a crash.
+    """
+    runner = CliRunner()
+    result = runner.invoke(cli, [
+        "compare", "--providers", "mock", "-a", "encoding-obfuscation", "-t", "test",
+    ])
+    assert "NameError" not in result.output, result.output
+    assert "Skipping mock" not in result.output, result.output
+    assert "mock" in result.output, "the provider row should be in the table"
+
+
+def test_no_module_has_an_undefined_name():
+    """Guards the class of bug that shipped an unusable Azure tool-use path.
+
+    A scripted edit added a line referencing names defined in a sibling
+    method. Nothing caught it: the provider had no tests, and the runtime
+    error only surfaces on the one code path. A static check covers every
+    module at once, including the ones with no tests at all.
+    """
+    import subprocess
+
+    proc = subprocess.run(
+        ["ruff", "check", "--select", "F821", "--no-cache", "--output-format", "concise",
+         "src/ai_blackteam"],
+        capture_output=True, text=True,
+    )
+    if proc.returncode != 0 and "F821" in proc.stdout:
+        raise AssertionError(f"undefined names found:\n{proc.stdout}")

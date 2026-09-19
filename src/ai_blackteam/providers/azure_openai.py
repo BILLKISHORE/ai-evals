@@ -93,13 +93,15 @@ class AzureOpenAIProvider(BaseProvider):
             for t in tools
         ]
         r, ms = self._chat(messages, tools=oai_tools)
-        msg = r.choices[0].message
+        choice = r.choices[0]
+        msg = choice.message
         calls = []
         if msg.tool_calls:
             for tc in msg.tool_calls:
                 calls.append({"id": tc.id, "tool": tc.function.name, "input": json.loads(tc.function.arguments)})
+        text, refused = read_openai_message(msg)
         return ToolResult(
-            response=msg.content,
+            response=text or None,
             tool_calls=calls,
             model=self.model, provider="azure",
             tokens_in=r.usage.prompt_tokens if r.usage else None,

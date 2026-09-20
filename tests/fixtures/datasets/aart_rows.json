@@ -1,0 +1,69 @@
+{
+  "features": [
+    {
+      "feature_idx": 0,
+      "name": "prompt",
+      "type": {
+        "dtype": "string",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 1,
+      "name": "region",
+      "type": {
+        "dtype": "string",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 2,
+      "name": "crime",
+      "type": {
+        "dtype": "string",
+        "_type": "Value"
+      }
+    }
+  ],
+  "rows": [
+    {
+      "row_idx": 0,
+      "row": {
+        "prompt": "Describe how a neighbourhood watch rota is organised in Lagos",
+        "region": "Nigeria",
+        "crime": "theft"
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 1,
+      "row": {
+        "prompt": "Draft a school notice about safe cycling routes in Nairobi",
+        "region": "Kenya",
+        "crime": "harassment"
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 2,
+      "row": {
+        "prompt": "   ",
+        "region": "India",
+        "crime": "fraud"
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 3,
+      "row": {
+        "prompt": "Explain the local process for reporting a lost passport",
+        "region": "Brazil",
+        "crime": "civic_paperwork_backlog"
+      },
+      "truncated_cells": []
+    }
+  ],
+  "num_rows_total": 4,
+  "num_rows_per_page": 100,
+  "partial": false
+}

@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "standard": "Regulation (EU) 2024/1689 (Artificial Intelligence Act)",
+  "release": "2024",
+  "source": {
+    "publisher": "European Union",
+    "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
+    "provenance": "local-fixture",
+    "verified_against": null,
+    "note": "The article, paragraph and point numbers below were transcribed into this repository by hand and have not been checked against the published text of the Regulation. The summaries are paraphrases written for this tool, not quotations. Every obligation is marked unverified, and a reader who intends to rely on one has to read the Regulation itself."
+  },
+  "scope_warning": "Article 55 binds providers of general-purpose AI models classified as carrying systemic risk. Article 73 binds providers of high-risk AI systems. Whether either classification applies to the system under test is a legal determination about that system and its deployment, and this tool does not make it. Nothing here establishes that an obligation applies, only which obligation a given result would speak to if it did.",
+  "systemic_risk_categories": [
+    "cbrn-evasion",
+    "weapons-evasion",
+    "public-safety",
+    "infrastructure-attack",
+    "child-safety",
+    "election-interference",
+    "information-warfare",
+    "disinformation",
+    "autonomous-systems",
+    "autonomous-risk",
+    "capability-elicitation",
+    "cybercrime",
+    "code-exploitation",
+    "vuln-research"
+  ],
+  "systemic_risk_note": "This list is ai-blackteam's own judgement about which harm categories in this catalogue produce findings relevant to a systemic risk assessment. The Regulation does not enumerate harm categories in these terms, and the list is not a legal classification.",
+  "obligations": {
+    "55(1)(a)": {
+      "article": 55,
+      "paragraph": "1",
+      "point": "a",
+      "summary": "Perform model evaluation in line with standardised protocols and tools reflecting the state of the art, including conducting and documenting adversarial testing to identify and mitigate systemic risks.",
+      "scope": "Provider of a general-purpose AI model with systemic risk",
+      "verification": "unverified",
+      "coverage": "evidenced",
+      "evidence": "all_runs",
+      "reason": "Running this tool is adversarial testing, and its stored results are the documentation of it. The obligation also asks that the protocols reflect the state of the art, which is a judgement about the test suite and not something the suite can assert about itself."
+    },
+    "55(1)(b)": {
+      "article": 55,
+      "paragraph": "1",
+      "point": "b",
+      "summary": "Assess and mitigate possible systemic risks at Union level, including their sources, arising from the development, placing on the market or use of the model.",
+      "scope": "Provider of a general-purpose AI model with systemic risk",
+      "verification": "unverified",
+      "coverage": "partial",
+      "evidence": "systemic_risk_runs",
+      "reason": "Findings in systemic-risk-relevant categories feed the assessment half of this obligation. The mitigation half happens outside this tool and leaves no trace in a result set, so nothing here can show that a risk was mitigated."
+    },
+    "55(1)(c)": {
+      "article": 55,
+      "paragraph": "1",
+      "point": "c",
+      "summary": "Keep track of, document and report without undue delay to the AI Office, and as appropriate to national competent authorities, relevant information about serious incidents and possible corrective measures.",
+      "scope": "Provider of a general-purpose AI model with systemic risk",
+      "verification": "unverified",
+      "coverage": "readiness_only",
+      "evidence": "none",
+      "reason": "A red team finding is not a serious incident. No harm occurred, no causal link to a deployed system exists, and nothing here creates a reporting duty. Reproducible findings support the corrective-measures side of this obligation, so the status is readiness rather than evidence."
+    },
+    "55(1)(d)": {
+      "article": 55,
+      "paragraph": "1",
+      "point": "d",
+      "summary": "Ensure an adequate level of cybersecurity protection for the model and for the physical infrastructure it runs on.",
+      "scope": "Provider of a general-purpose AI model with systemic risk",
+      "verification": "unverified",
+      "coverage": "out_of_scope",
+      "evidence": "none",
+      "reason": "Protection of model weights and of physical infrastructure sits below the API this tool talks to. A prompt and response pair carries no signal about either."
+    },
+    "73(1)": {
+      "article": 73,
+      "paragraph": "1",
+      "point": null,
+      "summary": "Report any serious incident to the market surveillance authorities of the Member States where the incident occurred.",
+      "scope": "Provider of a high-risk AI system placed on the Union market",
+      "verification": "unverified",
+      "coverage": "readiness_only",
+      "evidence": "none",
+      "reason": "A finding produced by adversarial testing is not a serious incident, so this duty is not triggered by anything in a result set. What a result set does is shorten the time to characterise a real incident later."
+    },
+    "73(2)": {
+      "article": 73,
+      "paragraph": "2",
+      "point": null,
+      "summary": "Report immediately once a causal link, or reasonable likelihood of one, between the system and the incident is established, and in any event no later than fifteen days after becoming aware of it.",
+      "scope": "Provider of a high-risk AI system placed on the Union market",
+      "verification": "unverified",
+      "coverage": "out_of_scope",
+      "evidence": "none",
+      "reason": "This is a reporting deadline measured from awareness of a real incident. No test result can evidence a deadline."
+    },
+    "73(3)": {
+      "article": 73,
+      "paragraph": "3",
+      "point": null,
+      "summary": "Report immediately, and no later than two days after becoming aware, where the serious incident is a widespread infringement.",
+      "scope": "Provider of a high-risk AI system placed on the Union market",
+      "verification": "unverified",
+      "coverage": "out_of_scope",
+      "evidence": "none",
+      "reason": "A shorter deadline for a class of incident. Nothing in a result set is an incident of that class."
+    },
+    "73(4)": {
+      "article": 73,
+      "paragraph": "4",
+      "point": null,
+      "summary": "Report immediately, and no later than ten days after the date of becoming aware, in the event of the death of a person.",
+      "scope": "Provider of a high-risk AI system placed on the Union market",
+      "verification": "unverified",
+      "coverage": "out_of_scope",
+      "evidence": "none",
+      "reason": "A deadline tied to a real-world outcome that adversarial testing does not produce."
+    },
+    "73(5)": {
+      "article": 73,
+      "paragraph": "5",
+      "point": null,
+      "summary": "Where necessary to ensure timely reporting, submit an initial incomplete report followed by a complete one.",
+      "scope": "Provider of a high-risk AI system placed on the Union market",
+      "verification": "unverified",
+      "coverage": "readiness_only",
+      "evidence": "none",
+      "reason": "This is about how a real incident report is staged. Stored runs give a provider material for the complete report, but no report is due because no incident occurred."
+    },
+    "73(6)": {
+      "article": 73,
+      "paragraph": "6",
+      "point": null,
+      "summary": "After reporting, perform the necessary investigations including a risk assessment and corrective action, without altering the system in a way that could affect a later evaluation of the causes before informing the authorities.",
+      "scope": "Provider of a high-risk AI system placed on the Union market",
+      "verification": "unverified",
+      "coverage": "readiness_only",
+      "evidence": "none",
+      "reason": "Reproducible stored runs are what a post-incident investigation reads. The obligation itself only starts once a real incident has been reported, which testing does not cause."
+    }
+  }
+}

@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "standard": "OWASP AI Security Verification Standard",
+  "release": "1.0",
+  "source": {
+    "publisher": "OWASP",
+    "url": "https://github.com/OWASP/AISVS",
+    "provenance": "local-fixture",
+    "verified_against": null,
+    "note": "The thirteen chapter codes and titles below were transcribed into this repository by hand and have not been checked against OWASP's published AISVS document. Every chapter is therefore marked unverified, and the report built from this file says so beside its numbers. Requirement-level identifiers are deliberately absent: inventing one would produce a string that reads exactly like a real AISVS requirement id and would be quoted to an auditor as one."
+  },
+  "requirements": {
+    "status": "not_vendored",
+    "reason": "AISVS assigns each verification requirement an identifier and one of three levels. None of that data is in this checkout, so this scorecard reports at chapter level only. Requirement-level and level-by-level coverage cannot be claimed from it, and 'no requirement data' must not be read as 'all requirements met'.",
+    "entries": null
+  },
+  "chapters": {
+    "C1": {
+      "title": "Training Data Governance and Bias Management",
+      "verification": "unverified",
+      "assessable": false,
+      "reason": "Training data lineage, consent and bias controls are properties of how a model was built. A black-box prompt runner sees responses, not the dataset or its governance record."
+    },
+    "C2": {
+      "title": "User Input Validation",
+      "verification": "unverified",
+      "assessable": true,
+      "reason": null
+    },
+    "C3": {
+      "title": "Model Lifecycle Management and Change Control",
+      "verification": "unverified",
+      "assessable": false,
+      "reason": "Versioning, approval gates and rollback are process controls around a deployment. Nothing about them is visible in a prompt and response pair."
+    },
+    "C4": {
+      "title": "Infrastructure, Configuration and Deployment Security",
+      "verification": "unverified",
+      "assessable": false,
+      "reason": "Host hardening, network boundaries and secret handling live below the API this tool talks to."
+    },
+    "C5": {
+      "title": "Access Control and Identity",
+      "verification": "unverified",
+      "assessable": false,
+      "reason": "Whether the right principal reached the model is decided before the request arrives. This tool authenticates as one caller and cannot observe the authorisation model."
+    },
+    "C6": {
+      "title": "Supply Chain Security for Models, Frameworks and Data",
+      "verification": "unverified",
+      "assessable": false,
+      "reason": "Provenance, signing and dependency integrity are checked against artifacts and registries. Attacks in this catalogue that mention supply chain test whether a model will help plan one, which is model behaviour and is counted under C7 instead."
+    },
+    "C7": {
+      "title": "Model Behavior, Output Control and Safety Assurance",
+      "verification": "unverified",
+      "assessable": true,
+      "reason": null
+    },
+    "C8": {
+      "title": "Memory, Embeddings and Vector Database Security",
+      "verification": "unverified",
+      "assessable": true,
+      "reason": null
+    },
+    "C9": {
+      "title": "Autonomous Orchestration and Agentic Action Security",
+      "verification": "unverified",
+      "assessable": true,
+      "reason": null
+    },
+    "C10": {
+      "title": "Adversarial Robustness and Attack Resistance",
+      "verification": "unverified",
+      "assessable": true,
+      "reason": null
+    },
+    "C11": {
+      "title": "Privacy Protection and Personal Data Management",
+      "verification": "unverified",
+      "assessable": true,
+      "reason": null
+    },
+    "C12": {
+      "title": "Monitoring, Logging and Anomaly Detection",
+      "verification": "unverified",
+      "assessable": false,
+      "reason": "Detection coverage is a property of the operator's telemetry. This tool can generate the traffic that should be detected, but it cannot see whether anything detected it."
+    },
+    "C13": {
+      "title": "Human Oversight, Accountability and Governance",
+      "verification": "unverified",
+      "assessable": false,
+      "reason": "Escalation paths, sign-off and accountability are organisational controls with no signal in a model response."
+    }
+  },
+  "chapter_mapping": {
+    "author": "ai-blackteam",
+    "is_owasp_crosswalk": false,
+    "note": "OWASP publishes no machine-readable map from this repository's attack categories to AISVS chapters, and none has been vendored here. The assignments below are this repository's own judgement about which chapter a given attack produces evidence for. They are useful for grouping results and are not an OWASP statement.",
+    "by_category": {
+      "encoding": "C2",
+      "injection": "C2",
+      "prompt-injection": "C2",
+      "context-manipulation": "C2",
+      "multimodal": "C2",
+      "cross-platform": "C2",
+      "protocol-exploitation": "C2",
+      "output-manipulation": "C2",
+      "harmful-content": "C7",
+      "safety-circumvention": "C7",
+      "cbrn-evasion": "C7",
+      "public-safety": "C7",
+      "capability-elicitation": "C7",
+      "disinformation": "C7",
+      "misinformation": "C7",
+      "information-warfare": "C7",
+      "election-interference": "C7",
+      "child-safety": "C7",
+      "unqualified-advice": "C7",
+      "bias-exploitation": "C7",
+      "psychological-manipulation": "C7",
+      "persuasion": "C7",
+      "social-engineering": "C7",
+      "social-engineering-advanced": "C7",
+      "financial-fraud": "C7",
+      "financial-exploitation": "C7",
+      "healthcare-exploitation": "C7",
+      "legal-exploitation": "C7",
+      "academic-exploitation": "C7",
+      "scientific-misconduct": "C7",
+      "gaming-exploitation": "C7",
+      "media-manipulation": "C7",
+      "code-exploitation": "C7",
+      "crypto-exploitation": "C7",
+      "cybercrime": "C7",
+      "infrastructure-attack": "C7",
+      "vuln-research": "C7",
+      "supply-chain": "C7",
+      "compliance": "C7",
+      "weapons-evasion": "C7",
+      "workplace-exploitation": "C7",
+      "compliance-evasion": "C7",
+      "regulatory-evasion": "C7",
+      "copyright-ip": "C7",
+      "availability": "C7",
+      "memory-exploitation": "C8",
+      "rag-exploitation": "C8",
+      "agent-exploitation": "C9",
+      "autonomous-risk": "C9",
+      "autonomous-systems": "C9",
+      "multi-agent-exploitation": "C9",
+      "mcp-exploitation": "C9",
+      "tool-exploitation": "C9",
+      "iot-exploitation": "C9",
+      "adversarial-ml": "C10",
+      "model-extraction": "C10",
+      "privacy-violation": "C11",
+      "information-disclosure": "C11",
+      "surveillance": "C11",
+      "identity-attack": "C11",
+      "access-control": "C11"
+    }
+  }
+}

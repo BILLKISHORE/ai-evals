@@ -142,3 +142,39 @@ def test_fixture_fake_code_is_broken():
 def test_fixture_launch_failure_is_unverified():
     result = DockerVerifier(fixture=FX, network_runner=lambda code: None, docker_bin="echo").verify(PY_RESPONSE)
     assert result.status == "UNVERIFIED"
+
+
+# ── verify_all: static + judge + execution combined verdict ───────────
+
+from ai_blackteam.sandbox import verify_all
+from ai_blackteam.verifier import VerificationResult, combined_verify
+
+
+class _FakeExec:
+    def __init__(self, result):
+        self._result = result
+
+    def verify(self, response, vuln_info=None):
+        return self._result
+
+
+def test_verify_all_fixture_confirmed_is_authoritative():
+    fake = _FakeExec(VerificationResult("FUNCTIONAL", 0.95, ["canary"], "code", None))
+    result = verify_all(PY_RESPONSE, fixture=FX, docker=fake)
+    assert result.status == "FUNCTIONAL"
+    assert result.confidence == 0.95
+
+
+def test_verify_all_unverified_falls_back_to_static():
+    fake = _FakeExec(VerificationResult("UNVERIFIED", 0.0, ["no sandbox"], "code", None))
+    base = combined_verify(PY_RESPONSE)
+    result = verify_all(PY_RESPONSE, docker=fake)
+    assert result.status == base.status
+    assert result.confidence == base.confidence
+
+
+def test_verify_all_blends_execution_signal():
+    fake = _FakeExec(VerificationResult("FUNCTIONAL", 0.85, ["ran clean"], "code", None))
+    result = verify_all(PY_RESPONSE, docker=fake)  # no fixture -> blend
+    assert result.status in ("FUNCTIONAL", "PARTIAL")
+    assert any("ran clean" in f for f in result.findings)

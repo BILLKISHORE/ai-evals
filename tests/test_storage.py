@@ -149,3 +149,75 @@ def test_calibration_candidates_ignore_the_reasoning_turn(tmp_path):
     c = export_candidates(s)[0]
     assert c["response"] == "the answer"
     assert "private thinking" not in c["response"]
+
+
+# Audit fields: a verdict needs enough context to be re-checked.
+
+
+def test_run_round_trips_the_audit_fields(tmp_path):
+    """The five audit columns must survive a save and load unchanged."""
+    from ai_blackteam.storage.sqlite import Storage
+    s = Storage(str(tmp_path / "r.db"))
+    rid = s.save_run(
+        provider="anthropic", model="claude-opus-5", attack="a", target="t",
+        mode="single-turn", verdict="BYPASSED", keyword_score=0.5, regex_matches=1,
+        llm_judge_score=4, confidence=0.8, duration_ms=10, tokens_in=100, tokens_out=50,
+        judge_model="claude-haiku-4-5", judge_agreement=0.75,
+        reasoning_tokens=1234, seed=42, cost_usd=0.0123,
+    )
+    row = s.get_run(rid)
+    assert row["judge_model"] == "claude-haiku-4-5"
+    assert row["judge_agreement"] == 0.75
+    assert row["reasoning_tokens"] == 1234
+    assert row["seed"] == 42
+    assert row["cost_usd"] == 0.0123
+
+
+def test_old_database_gains_the_audit_columns(tmp_path):
+    """A store created before these columns must open and grow them."""
+    import sqlite3
+    from ai_blackteam.storage.sqlite import Storage
+    db = tmp_path / "old.db"
+    con = sqlite3.connect(db)
+    con.execute("CREATE TABLE runs (id INTEGER PRIMARY KEY AUTOINCREMENT, timestamp TEXT, "
+                "provider TEXT, model TEXT, attack TEXT, target TEXT, mode TEXT, verdict TEXT)")
+    con.commit(); con.close()
+    s = Storage(str(db))
+    cols = {r[1] for r in s._conn.execute("PRAGMA table_info(runs)")}
+    for col in ("judge_model", "judge_agreement", "reasoning_tokens", "seed", "cost_usd"):
+        assert col in cols
+
+
+def test_unset_audit_fields_stay_null_not_zero(tmp_path):
+    """Unknown must read back as NULL, never as 0 or an empty string.
+
+    NULL means "we never measured this"; 0 would be a fabricated measurement.
+    """
+    from ai_blackteam.storage.sqlite import Storage
+    s = Storage(str(tmp_path / "r.db"))
+    rid = s.save_run(
+        provider="anthropic", model="m", attack="a", target="t", mode="single-turn",
+        verdict="BLOCKED", keyword_score=0.0, regex_matches=0, llm_judge_score=None,
+        confidence=0.5, duration_ms=1, tokens_in=1, tokens_out=1,
+    )
+    row = s.get_run(rid)
+    assert row["judge_model"] is None
+    assert row["judge_agreement"] is None
+    assert row["reasoning_tokens"] is None
+    assert row["seed"] is None
+    assert row["cost_usd"] is None
+
+
+def test_zero_reasoning_tokens_is_preserved_not_confused_with_null(tmp_path):
+    """A provider that reports 0 reasoning tokens means 0, not unknown."""
+    from ai_blackteam.storage.sqlite import Storage
+    s = Storage(str(tmp_path / "r.db"))
+    rid = s.save_run(
+        provider="anthropic", model="m", attack="a", target="t", mode="single-turn",
+        verdict="BLOCKED", keyword_score=0.0, regex_matches=0, llm_judge_score=None,
+        confidence=0.5, duration_ms=1, tokens_in=1, tokens_out=1,
+        reasoning_tokens=0,
+    )
+    row = s.get_run(rid)
+    assert row["reasoning_tokens"] == 0
+    assert row["reasoning_tokens"] is not None

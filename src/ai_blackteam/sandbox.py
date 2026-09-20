@@ -193,6 +193,10 @@ class DockerVerifier(BaseVerifier):
             "--name", name,
             "--network", net,
             "--network-alias", "target",         # exploit reaches it at host "target"
+            "--cap-drop", "ALL",                 # the target holds only a canary; needs no caps
+            "--security-opt", "no-new-privileges",
+            "--pids-limit", str(self.PIDS),
+            "--memory", self.MEMORY,
             "--env", f"CANARY={canary}",
             self.fixture.image,
             *self.fixture.start_args,

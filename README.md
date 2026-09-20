@@ -13,9 +13,9 @@ Most eval tools run single-prompt probes. A 2025 multi-lab study (researchers fr
 ai-blackteam runs multi-turn, adaptive attacks that mirror real adversarial pressure:
 
 - **Vendor-neutral**: tests 17 providers equally (16 vendors + your own HTTP endpoint), not owned by any AI lab
-- **1,025 curated attack techniques**: encoding, conversational, psychological, security, compliance, agent exploitation, MCP exploitation, multi-agent, protocol, multimodal, supply chain, RAG exploitation vectors; 163M expanded attack surface; 61 categories; 3,503 tests
+- **1,028 curated attack techniques**: encoding, conversational, psychological, security, compliance, agent exploitation, MCP exploitation, multi-agent, protocol, multimodal, supply chain, RAG exploitation vectors; 163M expanded attack surface; 61 categories
 - **19 public benchmark loaders**: HarmBench, AdvBench, JailbreakBench, SorryBench, WMDP (bio/cyber/chem), DoNotAnswer, WildGuard, RedBench, SALAD-Bench, StrongREJECT, AART, ForbiddenQuestions, BeaverTails, RealToxicityPrompts, JailBreakV-28K, RedTeam-2K, AgentHarm
-- **7 adaptive generators**: PAIR, TAP, Fuzzer, AutoDAN (genetic), PAP (persuasion), Crescendo (multi-turn), Best-of-N
+- **8 adaptive generators**: PAIR, TAP, Fuzzer, AutoDAN (genetic), PAP (persuasion), Crescendo (multi-turn), Best-of-N
 - **Research-backed**: implements published attacks from Microsoft Research, Palo Alto Unit 42, USENIX, UK AI Safety Institute
 - **Used in real disclosures**: findings produced with this framework were reported to Anthropic's security team through coordinated disclosure. See [Responsible Disclosure](#responsible-disclosure)
 - **Multi-turn depth**: crescendo, sunk-cost, context-manipulation attacks that exploit conversational memory over 10+ turns
@@ -111,7 +111,7 @@ A full workflow with manual dispatch, scheduled runs, and benchmark mode is incl
 | Ollama | Any local model (Llama 4, Qwen, Gemma) | None (local) |
 | HuggingFace | Any HF model | API token |
 
-## Attacks (1,025 built-in, 61 categories)
+## Attacks (1,028 built-in, 61 categories)
 
 ### Core Attacks
 | Attack | Mode | Description |

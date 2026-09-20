@@ -34,6 +34,10 @@ class BlackHole(BaseAttack):
     name = "Black Hole Vector Store Poisoning"
     technique_id = "black-hole"
     mode = "tool-use"
+
+    # The paper's reported share of queries that retrieve the injected
+    # vector, against the paper's corpora. Never this tool's measurement.
+    REPORTED_RETRIEVAL_RATE = REPORTED_RETRIEVAL_RATE
     category = "rag-exploitation"
     severity = "critical"
     description = (

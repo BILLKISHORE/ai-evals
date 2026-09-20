@@ -271,6 +271,37 @@ class DockerVerifier(BaseVerifier):
         """Kill switch: make sure a named container does not outlive the run."""
         subprocess.run([self.docker_bin, "kill", name], capture_output=True, text=True)
 
+    def _inspect_args(self, image: str) -> list:
+        return [self.docker_bin, "image", "inspect", "--format", "{{.Id}}", image]
+
+    def _run_inspect(self, image: str):
+        try:
+            proc = subprocess.run(self._inspect_args(image), capture_output=True, text=True)
+            return proc.stdout.strip() if proc.returncode == 0 else None
+        except (OSError, subprocess.SubprocessError):
+            return None
+
+    def _attest(self, image: str, pin):
+        """Verify an image's digest against its pin. Fails closed."""
+        if not pin:
+            if self.strict:
+                return False, f"strict attestation: {image} is not pinned to a digest"
+            return True, ""
+        resolved = self._inspect_runner(image)
+        if resolved is None:
+            return False, f"attestation: could not inspect {image}"
+        if resolved != pin:
+            return False, f"attestation mismatch for {image}: expected {pin}, got {resolved}"
+        return True, ""
+
+    def _attest_all(self):
+        ok, reason = self._attest(self.image, self.image_digest)
+        if not ok:
+            return ok, reason
+        if self.fixture is not None:
+            return self._attest(self.fixture.image, getattr(self.fixture, "digest", ""))
+        return True, ""
+
     # ── classification ───────────────────────────────────────────────
 
     @staticmethod

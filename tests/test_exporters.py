@@ -1,6 +1,6 @@
 import json
 from ai_blackteam.storage.sqlite import Storage
-from ai_blackteam.exporters import export_promptfoo, export_garak
+from ai_blackteam.exporters import export_promptfoo, export_garak, export_sarif, export_scan_sarif
 
 
 def _setup_storage_with_runs():
@@ -187,3 +187,259 @@ def test_garak_run_uuid_consistent():
     completion = [l for l in lines if l["entry_type"] == "completion"][0]
 
     assert init["run"] == completion["run"]
+
+
+# ── SARIF attack-run export tests ────────────────────────────────────
+
+
+class _FakeSarifStorage:
+    def __init__(self, runs):
+        self._runs = runs
+
+    def list_runs(self, limit=5000):
+        return self._runs
+
+    def get_stats(self):
+        return {}
+
+    def get_turns(self, run_id):
+        return []
+
+
+def _sarif_run(attack, verdict, model="claude-sonnet-4-6", confidence=0.9):
+    return {
+        "id": 1, "attack": attack, "verdict": verdict, "target": "Write malware",
+        "provider": "anthropic", "model": model,
+        "confidence": confidence, "mode": "single-turn",
+    }
+
+
+def _sarif_of(runs):
+    return json.loads(export_sarif(_FakeSarifStorage(runs)))
+
+
+def test_sarif_has_no_physical_location():
+    """Attack runs have no source line, so a file URI would be a phantom path."""
+    sarif = _sarif_of([_sarif_run("encoding-obfuscation", "BYPASSED")])
+    result = sarif["runs"][0]["results"][0]
+    for location in result["locations"]:
+        assert "physicalLocation" not in location
+
+
+def test_sarif_does_not_point_at_a_nonexistent_report_file():
+    sarif = _sarif_of([_sarif_run("encoding-obfuscation", "BYPASSED")])
+    assert "ai-blackteam-safety-report.md" not in json.dumps(sarif)
+
+
+def test_sarif_logical_location_names_the_attack():
+    sarif = _sarif_of([_sarif_run("encoding-obfuscation", "BYPASSED")])
+    logical = sarif["runs"][0]["results"][0]["locations"][0]["logicalLocations"][0]
+    assert logical["name"] == "encoding-obfuscation"
+    assert logical["kind"]
+
+
+def test_sarif_logical_location_is_qualified_by_the_target_model():
+    sarif = _sarif_of([
+        _sarif_run("dan-variants", "BYPASSED", model="claude-sonnet-4-6"),
+        _sarif_run("dan-variants", "BYPASSED", model="gpt-5.4"),
+    ])
+    names = {
+        r["locations"][0]["logicalLocations"][0]["fullyQualifiedName"]
+        for r in sarif["runs"][0]["results"]
+    }
+    assert len(names) == 2
+
+
+def test_sarif_driver_has_version():
+    import ai_blackteam
+
+    sarif = _sarif_of([_sarif_run("a", "BYPASSED")])
+    driver = sarif["runs"][0]["tool"]["driver"]
+    assert driver["version"] == ai_blackteam.__version__
+
+
+def test_sarif_has_automation_details():
+    """Without a category, a second model's upload overwrites the first."""
+    sarif = _sarif_of([_sarif_run("a", "BYPASSED", model="claude-sonnet-4-6")])
+    automation_id = sarif["runs"][0]["automationDetails"]["id"]
+    assert "claude-sonnet-4-6" in automation_id
+
+
+def test_sarif_automation_details_differ_per_model():
+    one = _sarif_of([_sarif_run("a", "BYPASSED", model="claude-sonnet-4-6")])
+    two = _sarif_of([_sarif_run("a", "BYPASSED", model="gpt-5.4")])
+    assert (one["runs"][0]["automationDetails"]["id"]
+            != two["runs"][0]["automationDetails"]["id"])
+
+
+def test_sarif_automation_details_marks_mixed_uploads():
+    sarif = _sarif_of([
+        _sarif_run("a", "BYPASSED", model="claude-sonnet-4-6"),
+        _sarif_run("b", "BYPASSED", model="gpt-5.4"),
+    ])
+    assert sarif["runs"][0]["automationDetails"]["id"] == "ai-blackteam/multi-model/"
+
+
+def test_sarif_still_parses_as_2_1_0():
+    sarif = _sarif_of([_sarif_run("a", "BYPASSED")])
+    assert sarif["version"] == "2.1.0"
+    assert sarif["runs"][0]["tool"]["driver"]["name"] == "ai-blackteam"
+
+
+def test_sarif_keeps_rule_properties():
+    sarif = _sarif_of([_sarif_run("encoding-obfuscation", "BYPASSED")])
+    props = sarif["runs"][0]["tool"]["driver"]["rules"][0]["properties"]
+    assert "owasp" in props
+    assert "mitre_atlas" in props
+    assert "security" in props["tags"]
+
+
+def test_sarif_automation_details_present_with_no_findings():
+    sarif = _sarif_of([_sarif_run("a", "BLOCKED")])
+    assert sarif["runs"][0]["results"] == []
+    assert sarif["runs"][0]["automationDetails"]["id"]
+
+
+# ── SARIF code-scan export tests ─────────────────────────────────────
+
+FIXTURE = "tests/fixtures/vulnerable_app.py"
+
+
+def _scan_sarif(path=FIXTURE):
+    from ai_blackteam.scanner import scan_file
+
+    findings = scan_file(path)
+    return findings, json.loads(export_scan_sarif(findings))
+
+
+def test_scan_sarif_is_valid_2_1_0():
+    _, sarif = _scan_sarif()
+    assert sarif["version"] == "2.1.0"
+    assert sarif["runs"][0]["tool"]["driver"]["name"] == "ai-blackteam"
+    assert sarif["runs"][0]["tool"]["driver"]["version"]
+
+
+def test_scan_sarif_points_at_the_scanned_file():
+    """Scanner findings have real source locations, unlike attack runs."""
+    _, sarif = _scan_sarif()
+    uris = {
+        r["locations"][0]["physicalLocation"]["artifactLocation"]["uri"]
+        for r in sarif["runs"][0]["results"]
+    }
+    assert uris == {FIXTURE}
+
+
+def test_scan_sarif_start_lines_match_the_findings():
+    findings, sarif = _scan_sarif()
+    expected = sorted(f["line"] for f in findings)
+    actual = sorted(
+        r["locations"][0]["physicalLocation"]["region"]["startLine"]
+        for r in sarif["runs"][0]["results"]
+    )
+    assert actual == expected
+    assert all(line > 0 for line in actual)
+
+
+def test_scan_sarif_has_one_result_per_finding():
+    findings, sarif = _scan_sarif()
+    assert len(sarif["runs"][0]["results"]) == len(findings)
+    assert findings
+
+
+def test_scan_sarif_rules_are_deduplicated():
+    findings, sarif = _scan_sarif()
+    rules = sarif["runs"][0]["tool"]["driver"]["rules"]
+    assert {r["id"] for r in rules} == {f["rule_id"] for f in findings}
+    assert len(rules) == len({f["rule_id"] for f in findings})
+
+
+def test_scan_sarif_rule_keeps_owasp_metadata():
+    findings, sarif = _scan_sarif()
+    rules = {r["id"]: r for r in sarif["runs"][0]["tool"]["driver"]["rules"]}
+    for finding in findings:
+        rule = rules[finding["rule_id"]]
+        assert rule["properties"]["owasp"] == finding["owasp"]
+        assert rule["shortDescription"]["text"] == finding["name"]
+
+
+def test_scan_sarif_severity_maps_to_level():
+    findings = [
+        {"rule_id": "BTSC-001", "name": "crit", "severity": "critical", "owasp": "LLM01",
+         "line": 1, "code": "x", "message": "m", "file": "a.py"},
+        {"rule_id": "BTSC-002", "name": "high", "severity": "high", "owasp": "LLM02",
+         "line": 2, "code": "x", "message": "m", "file": "a.py"},
+        {"rule_id": "BTSC-003", "name": "med", "severity": "medium", "owasp": "LLM03",
+         "line": 3, "code": "x", "message": "m", "file": "a.py"},
+        {"rule_id": "BTSC-004", "name": "low", "severity": "low", "owasp": "LLM04",
+         "line": 4, "code": "x", "message": "m", "file": "a.py"},
+    ]
+    sarif = json.loads(export_scan_sarif(findings))
+    levels = {r["ruleId"]: r["level"] for r in sarif["runs"][0]["results"]}
+    assert levels == {
+        "BTSC-001": "error",
+        "BTSC-002": "error",
+        "BTSC-003": "warning",
+        "BTSC-004": "note",
+    }
+
+
+def test_scan_sarif_unknown_severity_falls_back_to_warning():
+    findings = [{"rule_id": "BTSC-999", "name": "odd", "severity": "moderate",
+                 "owasp": "LLM01", "line": 7, "code": "x", "message": "m", "file": "a.py"}]
+    sarif = json.loads(export_scan_sarif(findings))
+    assert sarif["runs"][0]["results"][0]["level"] == "warning"
+
+
+def test_scan_sarif_empty_findings_still_valid():
+    sarif = json.loads(export_scan_sarif([]))
+    assert sarif["version"] == "2.1.0"
+    assert sarif["runs"][0]["results"] == []
+    assert sarif["runs"][0]["tool"]["driver"]["rules"] == []
+
+
+def test_scan_sarif_fingerprints_are_unique_per_location():
+    findings, sarif = _scan_sarif()
+    prints = [r["partialFingerprints"]["ruleFileLine"] for r in sarif["runs"][0]["results"]]
+    assert len(set(prints)) == len(prints)
+
+
+# ── scan --format sarif wiring ───────────────────────────────────────
+
+
+def test_scan_command_offers_sarif():
+    from click.testing import CliRunner
+    from ai_blackteam.cli import cli
+
+    result = CliRunner().invoke(cli, ["scan", "--help"])
+    assert "sarif" in result.output
+
+
+def test_scan_command_writes_sarif_to_file(tmp_path):
+    from click.testing import CliRunner
+    from ai_blackteam.cli import cli
+
+    out = tmp_path / "scan.sarif"
+    result = CliRunner().invoke(
+        cli, ["scan", FIXTURE, "--format", "sarif", "-o", str(out)]
+    )
+    # The fixture has critical findings, so the scan exits 1 by design.
+    assert result.exit_code == 1
+    sarif = json.loads(out.read_text())
+    assert sarif["version"] == "2.1.0"
+    loc = sarif["runs"][0]["results"][0]["locations"][0]["physicalLocation"]
+    assert loc["artifactLocation"]["uri"] == FIXTURE
+    assert loc["region"]["startLine"] > 0
+
+
+def test_scan_command_sarif_without_criticals_exits_zero(tmp_path):
+    from click.testing import CliRunner
+    from ai_blackteam.cli import cli
+
+    out = tmp_path / "safe.sarif"
+    result = CliRunner().invoke(
+        cli, ["scan", "tests/fixtures/safe_app.py", "--format", "sarif", "-o", str(out)]
+    )
+    assert result.exit_code == 0
+    sarif = json.loads(out.read_text())
+    levels = {r["level"] for r in sarif["runs"][0]["results"]}
+    assert "error" not in levels

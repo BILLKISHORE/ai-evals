@@ -370,3 +370,74 @@ def _automation_id(runs):
     targets = sorted({f"{r['provider']}:{r['model']}" for r in runs})
     scope = targets[0] if len(targets) == 1 else "multi-model"
     return f"ai-blackteam/{scope}/"
+
+
+# ── SARIF 2.1.0 for the static code scanner ──────────────────────────
+
+_SEVERITY_TO_SARIF_LEVEL = {
+    "critical": "error",
+    "high": "error",
+    "medium": "warning",
+    "low": "note",
+}
+
+
+def export_scan_sarif(findings):
+    """Export code scanner findings as SARIF 2.1.0 for GitHub code scanning.
+
+    Unlike attack runs, scanner findings carry a real file and line, so each
+    result gets a physicalLocation the Security tab can resolve to source.
+    """
+    rules = {}
+    results = []
+    for finding in findings:
+        rule_id = finding["rule_id"]
+        level = _SEVERITY_TO_SARIF_LEVEL.get(finding["severity"], "warning")
+        owasp = finding["owasp"]
+
+        if rule_id not in rules:
+            rules[rule_id] = {
+                "id": rule_id,
+                "name": finding["name"],
+                "shortDescription": {"text": finding["name"]},
+                "fullDescription": {"text": finding.get("message", "") or finding["name"]},
+                "defaultConfiguration": {"level": level},
+                "properties": {
+                    "owasp": owasp,
+                    "severity": finding["severity"],
+                    "tags": ["security", "llm", "static-analysis", owasp],
+                },
+            }
+
+        results.append({
+            "ruleId": rule_id,
+            "level": level,
+            "message": {"text": f"{finding['name']}: {finding.get('message', '')}".rstrip(": ")},
+            "locations": [{
+                "physicalLocation": {
+                    "artifactLocation": {"uri": finding["file"]},
+                    "region": {"startLine": finding["line"]},
+                }
+            }],
+            "partialFingerprints": {
+                "ruleFileLine": f"{rule_id}/{finding['file']}/{finding['line']}"
+            },
+        })
+
+    sarif = {
+        "version": "2.1.0",
+        "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+        "runs": [{
+            "tool": {
+                "driver": {
+                    "name": "ai-blackteam",
+                    "version": _package_version(),
+                    "informationUri": "https://ai-blackteam.ai-evals.workers.dev",
+                    "rules": list(rules.values()),
+                }
+            },
+            "automationDetails": {"id": "ai-blackteam/code-scan/"},
+            "results": results,
+        }],
+    }
+    return json.dumps(sarif, indent=2, default=str)

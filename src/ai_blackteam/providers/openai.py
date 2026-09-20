@@ -2,7 +2,7 @@ import os
 import time
 from openai import OpenAI
 from ai_blackteam.registry import register_provider
-from ai_blackteam.providers.base import BaseProvider, PromptResult, ToolResult
+from ai_blackteam.providers.base import read_reasoning_tokens, BaseProvider, PromptResult, ToolResult
 from ai_blackteam.providers.base import read_openai_message
 from ai_blackteam.retry import retry_with_backoff
 
@@ -40,6 +40,7 @@ class OpenAIProvider(BaseProvider):
             model=self.model, provider="openai",
             tokens_in=r.usage.prompt_tokens if r.usage else None,
             tokens_out=r.usage.completion_tokens if r.usage else None,
+            reasoning_tokens=read_reasoning_tokens(r.usage),
             latency_ms=ms,
             # A structured refusal is the vendor saying so outright, which
             # is stronger than whatever finish_reason carries.
@@ -61,6 +62,7 @@ class OpenAIProvider(BaseProvider):
             model=self.model, provider="openai",
             tokens_in=r.usage.prompt_tokens if r.usage else None,
             tokens_out=r.usage.completion_tokens if r.usage else None,
+            reasoning_tokens=read_reasoning_tokens(r.usage),
             latency_ms=ms,
             # A structured refusal is the vendor saying so outright, which
             # is stronger than whatever finish_reason carries.
@@ -87,7 +89,8 @@ class OpenAIProvider(BaseProvider):
 
         return ToolResult(response=text, tool_calls=calls, model=self.model, provider="openai",
                           tokens_in=r.usage.prompt_tokens if r.usage else None,
-                          tokens_out=r.usage.completion_tokens if r.usage else None, latency_ms=ms)
+                          tokens_out=r.usage.completion_tokens if r.usage else None,
+                          reasoning_tokens=read_reasoning_tokens(r.usage), latency_ms=ms)
 
     def supports_tools(self):
         return True

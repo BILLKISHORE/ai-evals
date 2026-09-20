@@ -16,6 +16,27 @@ def _json_or_none(details):
 
 
 
+
+class _Total:
+    """A running sum that stays None until something is actually reported.
+
+    Summing straight into 0 would turn "the vendor told us nothing" into
+    "this cost nothing", which is the failure-becomes-a-plausible-value
+    pattern this codebase keeps tripping over. A reported 0 is a real
+    measurement and is kept as 0.
+    """
+
+    __slots__ = ("value",)
+
+    def __init__(self):
+        self.value = None
+
+    def add(self, n):
+        if not isinstance(n, int) or isinstance(n, bool):
+            return
+        self.value = n if self.value is None else self.value + n
+
+
 class Engine:
     def __init__(self, db_path=":memory:"):
         self.storage = Storage(db_path)
@@ -170,6 +191,12 @@ class Engine:
         all_responses = []
         last_stop_reason = None
         last_stop_details = None
+        # Summed across the loop, because the cost of a tool-use run is the
+        # whole conversation, not its final leg. _Total keeps "nothing was
+        # ever reported" (None) distinct from "reported as zero" (0).
+        total_tokens_in = _Total()
+        total_tokens_out = _Total()
+        total_reasoning_tokens = _Total()
 
         start = time.time()
         try:
@@ -178,6 +205,9 @@ class Engine:
                 result = provider.send_with_tools(messages, tools, system_prompt=system_prompt)
                 last_stop_reason = result.stop_reason
                 last_stop_details = result.stop_details
+                total_tokens_in.add(result.tokens_in)
+                total_tokens_out.add(result.tokens_out)
+                total_reasoning_tokens.add(result.reasoning_tokens)
 
                 # Record tool calls
                 for call in result.tool_calls:
@@ -227,7 +257,13 @@ class Engine:
             llm_judge_score=None,
             confidence=eval_result["confidence"],
             duration_ms=duration,
-            tokens_in=None, tokens_out=None,
+            # The ToolResult carried these all along; they used to be dropped
+            # one line before the INSERT. OTora is a reasoning denial of
+            # service whose success signal IS the reasoning burn, and tool-use
+            # is the only mode it runs in, so discarding the count made the
+            # one number that attack measures permanently unrecoverable.
+            tokens_in=total_tokens_in.value, tokens_out=total_tokens_out.value,
+            reasoning_tokens=total_reasoning_tokens.value,
             stop_reason=last_stop_reason,
             stop_details=_json_or_none(last_stop_details),
         )

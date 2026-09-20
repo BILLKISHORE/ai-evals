@@ -1,8 +1,15 @@
 """Scorecards for published standards, and the honesty rules they share.
 
-The README claims coverage of several standards that had no runnable
-implementation. This package adds them, and it adds them under one set of
-rules rather than one shape per standard.
+The repo shipped runnable scorecards for the OWASP LLM Top 10, the Agentic
+Top 10 and a compliance view, and nothing for AISVS, AIVSS, the EU AI Act or
+ISO/IEC 27090. This package adds those, under one set of rules rather than one
+shape per standard.
+
+It does not close a documented gap: the README never claimed them. Two of the
+four ship transcriptions this repo could not verify against a published
+source, and every such value carries an explicit unverified marker rather than
+being presented as authoritative. A compliance number gets quoted to an
+auditor, so the provenance travels with it.
 
 Every report answers three questions and never conflates them. What did the
 runs show. What could this tool have shown but nobody ran. What can a

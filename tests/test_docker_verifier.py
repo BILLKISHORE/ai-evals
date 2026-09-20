@@ -178,3 +178,22 @@ def test_verify_all_blends_execution_signal():
     result = verify_all(PY_RESPONSE, docker=fake)  # no fixture -> blend
     assert result.status in ("FUNCTIONAL", "PARTIAL")
     assert any("ran clean" in f for f in result.findings)
+
+
+# ── runtime seam ──────────────────────────────────────────────────────
+
+def test_default_runtime_adds_no_flag():
+    args = DockerVerifier()._run_args("job-1")
+    assert "--runtime" not in args
+    # default hardened flags remain
+    assert "--network" in args and args[args.index("--network") + 1] == "none"
+
+
+def test_named_runtime_routes_backend():
+    args = DockerVerifier(runtime="gvisor")._run_args("job-1")
+    assert args[args.index("--runtime") + 1] == "runsc"
+
+
+def test_extra_run_args_are_injected():
+    args = DockerVerifier(extra_run_args=["--dns", "0.0.0.0"])._run_args("job-1")
+    assert "--dns" in args

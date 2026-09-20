@@ -50,6 +50,20 @@ _UNMEASURED = {
 }
 
 
+class _Channels:
+    """The two channels of a whole conversation, shaped like a PromptResult.
+
+    Lets the multi-turn path reuse the same scoring rule as the single-turn
+    one instead of growing a second copy that can drift from it.
+    """
+
+    __slots__ = ("response", "reasoning")
+
+    def __init__(self, response, reasoning):
+        self.response = response
+        self.reasoning = reasoning
+
+
 def _evaluate_channels(result, target, signal):
     """Score the answer, and the thinking when there is any.
 
@@ -166,8 +180,15 @@ class Engine:
     def run_multi_turn(self, provider, attack, target, system_prompt=None):
         logger.info(f"Running {attack.technique_id} (multi-turn) against target")
         turns = attack.generate_turns(target)
+        signal = resolve_signal(attack)
         messages = []
         all_responses = []
+        # One entry per turn, None where the model returned no trace. The
+        # Self-Jailbreak chain puts its recognition on the first turn and its
+        # reversal on a later one, so keeping only the last would destroy half
+        # the finding rather than merely fail to score it.
+        all_reasoning = []
+        total_reasoning_tokens = _Total()
 
         start = time.time()
         try:
@@ -176,6 +197,8 @@ class Engine:
                 result = provider.send_in_conversation(messages, system_prompt=system_prompt)
                 messages.append({"role": "assistant", "content": result.response})
                 all_responses.append(result.response)
+                all_reasoning.append(result.reasoning)
+                total_reasoning_tokens.add(result.reasoning_tokens)
         except Exception as e:
             logger.error(f"Attack {attack.technique_id} multi-turn failed at turn {len(all_responses) + 1}: {e}")
             if not all_responses:
@@ -190,7 +213,9 @@ class Engine:
 
         duration = int((time.time() - start) * 1000)
         combined = " ".join(all_responses)
-        eval_result = evaluate(combined, target)
+        combined_reasoning = "\n".join(t for t in all_reasoning if has_content(t))
+        eval_result, response_verdict, reasoning_verdict = _evaluate_channels(
+            _Channels(combined, combined_reasoning), target, signal)
 
         run_id = self.storage.save_run(
             provider=result.provider, model=result.model,
@@ -205,15 +230,20 @@ class Engine:
             tokens_out=result.tokens_out,
             stop_reason=result.stop_reason,
             stop_details=_json_or_none(result.stop_details),
-            # Absent stays NULL, never a fabricated zero.
-            reasoning_tokens=result.reasoning_tokens,
+            # Summed across turns: the burn is the whole conversation.
+            reasoning_tokens=total_reasoning_tokens.value,
+            response_verdict=response_verdict,
+            reasoning_verdict=reasoning_verdict,
         )
 
         for i, (user_msg, assistant_msg) in enumerate(zip(turns, all_responses)):
             self.storage.save_turn(run_id, i * 2 + 1, "user", user_msg)
             self.storage.save_turn(run_id, i * 2 + 2, "assistant", assistant_msg)
-        if getattr(result, "reasoning", None):
-            self.storage.save_turn(run_id, len(turns) * 2, "reasoning", result.reasoning)
+            # Stored per turn and numbered alongside its answer, because the
+            # order of recognition and reversal is the finding.
+            trace = all_reasoning[i] if i < len(all_reasoning) else None
+            if has_content(trace):
+                self.storage.save_turn(run_id, i * 2 + 2, "reasoning", trace)
 
         return {
             "run_id": run_id,

@@ -42,8 +42,10 @@ against a disposable target fixture, and maps the observed behavior to a
 - `BROKEN`: it ran but did nothing exploit-relevant, or failed to run.
 - `REFUSED`: no runnable exploit code was present.
 
-Confidence stays in 0.0 to 1.0 so `combined_verify` can keep weighting
-0.4 static plus 0.6 judge, with the execution signal folded in later.
+Confidence stays in 0.0 to 1.0. `sandbox.verify_all` blends this execution
+signal with the static-plus-judge verdict, weighting execution above the
+read-only signals (w_base 1.0, w_exec 1.5) against the 0.7 / 0.4 thresholds;
+a fixture-confirmed exploit is authoritative FUNCTIONAL.
 
 ## Containment design
 
@@ -117,10 +119,21 @@ is an implementation detail behind this method.
   signal to them.
 - No real external targets, ever. Fixtures only.
 
-## Open decisions
+## Resolved decisions
 
-- Runtime baseline: hardened container with seccomp as the floor, gVisor or
-  microVM where the host allows. Pick the floor for CI portability.
-- Where the execution signal enters `combined_verify` weighting.
-- Language coverage for the first version (Python first, since extracted
-  exploits are mostly Python).
+- Runtime baseline: the hardened container is the floor (default). A named
+  runtime (`runtime="gvisor"` -> runsc, or a microVM) routes untrusted code
+  through a stronger backend behind the same interface, off by default for CI
+  portability.
+- Execution-signal weighting: `sandbox.verify_all` weights execution above the
+  read-only signals (w_base 1.0, w_exec 1.5); a fixture-confirmed exploit is
+  authoritative.
+
+## Known limits (standing backlog)
+
+- Language coverage is Python-first; non-Python fences return UNVERIFIED.
+- L7 attestation pins and verifies image digests but does not yet verify
+  signatures (cosign/Notary) or reproducible builds; the run still launches by
+  tag after a successful digest check (residual TOCTOU in a single-daemon flow).
+- The microVM and gVisor backends are a selectable interface, not exercised in
+  CI.

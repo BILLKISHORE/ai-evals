@@ -107,17 +107,54 @@ def _message_text(item):
     return "".join(text), refused
 
 
+
+def _parse_tool_arguments(raw):
+    """A tool call's arguments, and whether they could be read.
+
+    Returns (arguments, error). The vendor sends arguments as a JSON string,
+    and it can be truncated mid-token when the output budget runs out, which
+    is precisely what a reasoning denial-of-service provokes. Letting
+    json.loads raise here discards the whole payload, including the tool
+    calls and the reasoning that arrived intact beside it, and the engine
+    records the run as ERROR.
+
+    An unreadable blob yields {} plus an error string rather than invented
+    arguments, so a caller can tell "no arguments" from "unreadable
+    arguments" instead of both looking like an empty call.
+    """
+    if raw is None:
+        return {}, "no arguments returned"
+    if isinstance(raw, dict):
+        return raw, None
+    try:
+        parsed = json.loads(raw)
+    except (TypeError, ValueError) as exc:
+        return {}, f"unparsable arguments: {exc}"
+    if not isinstance(parsed, dict):
+        return {}, f"arguments were {type(parsed).__name__}, expected object"
+    return parsed, None
+
+
+def _tool_call_entry(call_id, name, raw_arguments):
+    """One tool call in the harness's shape, truncation-safe."""
+    arguments, error = _parse_tool_arguments(raw_arguments)
+    entry = {"id": call_id, "tool": name, "input": arguments}
+    if error:
+        entry["input_parse_error"] = error
+    return entry
+
+
 def _tool_call(item):
     """One function call in the harness's shape.
 
     call_id is what a tool result is submitted against; id names the output
     item. Prefer the one the caller would need to reply with.
     """
-    return {
-        "id": getattr(item, "call_id", None) or getattr(item, "id", None),
-        "tool": getattr(item, "name", None),
-        "input": json.loads(item.arguments),
-    }
+    return _tool_call_entry(
+        getattr(item, "call_id", None) or getattr(item, "id", None),
+        getattr(item, "name", None),
+        getattr(item, "arguments", None),
+    )
 
 
 def _parse_responses_output(items):
@@ -259,17 +296,24 @@ class OpenAIProvider(BaseProvider):
         r = retry_with_backoff(lambda: self._client.chat.completions.create(**kwargs))
         ms = (time.time() - start) * 1000
 
-        msg = r.choices[0].message
-        text = msg.content
+        choice = r.choices[0]
+        msg = choice.message
+        # Was reading msg.content directly, so a structured refusal came back
+        # as None with no stop_reason and refused stuck at None forever. The
+        # Responses sibling has always parsed it; the two paths now agree.
+        text, refused = read_openai_message(msg)
         calls = []
         if msg.tool_calls:
             for tc in msg.tool_calls:
-                calls.append({"id": tc.id, "tool": tc.function.name, "input": json.loads(tc.function.arguments)})
+                calls.append(_tool_call_entry(
+                    tc.id, tc.function.name, getattr(tc.function, "arguments", None)))
 
         return ToolResult(response=text, tool_calls=calls, model=self.model, provider="openai",
                           tokens_in=r.usage.prompt_tokens if r.usage else None,
                           tokens_out=r.usage.completion_tokens if r.usage else None,
-                          reasoning_tokens=read_reasoning_tokens(r.usage), latency_ms=ms)
+                          reasoning_tokens=read_reasoning_tokens(r.usage), latency_ms=ms,
+                          stop_reason="refusal" if refused
+                          else getattr(choice, "finish_reason", None))
 
     # ── the Responses API, opt-in, the only path that carries thinking ─
 

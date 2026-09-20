@@ -1,6 +1,6 @@
 """Build per-category attack catalog pages using Mintlify <ResponseField>.
 
-Splits the 1,020 attacks into one page per category (fast to load) and renders
+Splits the corpus into one page per category (fast to load) and renders
 each attack as a ResponseField so the description shows inline with no
 horizontal scrolling. Also writes a light index page.
 

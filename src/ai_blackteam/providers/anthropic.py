@@ -2,7 +2,7 @@ import time
 from anthropic import Anthropic
 from ai_blackteam.logging_config import get_logger
 from ai_blackteam.registry import register_provider
-from ai_blackteam.providers.base import BaseProvider, PromptResult, ToolResult
+from ai_blackteam.providers.base import read_reasoning_tokens, BaseProvider, PromptResult, ToolResult
 from ai_blackteam.retry import retry_with_backoff
 
 logger = get_logger("provider.anthropic")
@@ -88,6 +88,7 @@ class AnthropicProvider(BaseProvider):
         stop_reason, stop_details = _stop_signal(r)
         return PromptResult(response=text, model=self.model, provider="anthropic",
                             tokens_in=r.usage.input_tokens, tokens_out=r.usage.output_tokens,
+                            reasoning_tokens=read_reasoning_tokens(r.usage),
                             latency_ms=ms, stop_reason=stop_reason, stop_details=stop_details,
                             reasoning=reasoning)
 
@@ -109,6 +110,7 @@ class AnthropicProvider(BaseProvider):
         stop_reason, stop_details = _stop_signal(r)
         return PromptResult(response=text, model=self.model, provider="anthropic",
                             tokens_in=r.usage.input_tokens, tokens_out=r.usage.output_tokens,
+                            reasoning_tokens=read_reasoning_tokens(r.usage),
                             latency_ms=ms, stop_reason=stop_reason, stop_details=stop_details,
                             reasoning=reasoning)
 
@@ -139,6 +141,7 @@ class AnthropicProvider(BaseProvider):
         return ToolResult(response=text, tool_calls=calls, model=self.model,
                           provider="anthropic", tokens_in=r.usage.input_tokens,
                           tokens_out=r.usage.output_tokens, latency_ms=ms,
+                          reasoning_tokens=read_reasoning_tokens(r.usage),
                           stop_reason=stop_reason, stop_details=stop_details,
                           reasoning=reasoning)
 

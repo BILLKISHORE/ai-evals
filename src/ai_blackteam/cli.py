@@ -8,6 +8,7 @@ from ai_blackteam.aliases import resolve_alias, ALIAS_KEYWORDS, MODEL_ALIASES
 from ai_blackteam.config import load_config, set_config_value, DEFAULT_DB_PATH
 from ai_blackteam.engine import Engine
 from ai_blackteam.logging_config import setup_logging
+from ai_blackteam.wiring import provider_kwargs, supported_kwargs
 from ai_blackteam.registry import provider_registry, attack_registry, dataset_registry
 
 console = Console()
@@ -307,7 +308,9 @@ def _format_duration(seconds):
 @click.option("--effort", default=None,
               type=click.Choice(["low", "medium", "high", "xhigh", "max"]),
               help="Reasoning effort. Governs thinking depth, so the same attack can land differently at low than at max. Omitted means the vendor default.")
-def run(provider, model, attack, target, system_prompt, system_prompt_file, verbose, quiet, effort):
+@click.option("--reasoning-trace/--no-reasoning-trace", "reasoning_trace", default=None,
+              help="Request the model's thinking, not just its answer. Defaults to whatever the attack needs: attacks scored on the reasoning channel turn it on by themselves.")
+def run(provider, model, attack, target, system_prompt, system_prompt_file, verbose, quiet, effort, reasoning_trace):
     """Run a single attack against a model."""
     if system_prompt_file:
         system_prompt = open(system_prompt_file).read()
@@ -330,13 +333,18 @@ def run(provider, model, attack, target, system_prompt, system_prompt_file, verb
 
     provider_config = config.get("providers", {}).get(provider, {})
     api_key = provider_config.get("api_key")
-    # Effort is only accepted by some providers; pass it when asked for
-    # and let the provider validate rather than guessing here.
-    prov_kwargs = {"model": resolve_alias(provider, model), "api_key": api_key}
-    if effort:
-        prov_kwargs["effort"] = effort
-    prov = provider_cls(**prov_kwargs)
     atk = attack_cls()
+    # The attack decides whether the trace is needed; providers that do not
+    # take a given argument never see it. Effort and the trace are both
+    # validated by the provider rather than guessed at here.
+    prov_kwargs = supported_kwargs(provider_cls, provider_kwargs(
+        atk,
+        model=resolve_alias(provider, model),
+        api_key=api_key,
+        effort=effort,
+        reasoning_trace=reasoning_trace,
+    ))
+    prov = provider_cls(**prov_kwargs)
 
     engine = Engine(db_path=db_path)
 

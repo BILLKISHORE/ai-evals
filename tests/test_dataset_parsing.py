@@ -489,10 +489,56 @@ def test_wildguard_keeps_only_the_rows_labelled_harmful():
 
 
 def test_wildguard_maps_its_four_harm_categories():
+    """UNCONFIRMED FIELD NAME. Read this before trusting the assertion.
+
+    The module docstring promises that where a loader reads a field this file
+    could not confirm against the real dataset, the uncertainty is noted
+    rather than asserted. This is that case, and the note was missing.
+
+    wildguard.py reads `harm_category` and keys on the four headings Privacy,
+    Misinformation, Harmful Language and Malicious Uses. The fixture below
+    supplies exactly that, so parser and fixture agree. Neither was checked
+    against allenai/wildguardmix, which is gated: fetching it needs an HF
+    token, and this suite is deliberately offline.
+
+    If the real column is named differently, or carries snake_case leaf values
+    rather than these headings, `row.get("harm_category", "")` returns "" for
+    every row, `_map_category` returns its "harmful-content" fallback for every
+    row, and the entire WildGuard corpus is silently classified as one generic
+    category. That is a failure becoming a plausible default, and this test
+    would certify it as correct, because the fixture was written to match the
+    parser rather than the source.
+
+    What this test does prove: the loader filters on prompt_harm, skips empty
+    prompts, and maps the four headings it claims to map. What it cannot
+    prove: that those headings are what the dataset actually ships.
+
+    To confirm, with an HF token:
+        https://datasets-server.huggingface.co/rows
+            ?dataset=allenai/wildguardmix&config=wildguardtest&split=test
+            &offset=0&length=1
+    and compare the row keys against wildguard.py:69.
+    """
     items = _download("wildguard")
     assert _categories(items) == [
         "privacy-violation", "cybercrime", "harmful-content",
     ]
+
+
+def test_wildguard_falls_back_loudly_enough_to_notice():
+    """If the field name is wrong, every row collapses to one category.
+
+    Documents the blast radius of the uncertainty above, so a future reader
+    can recognise the symptom: a WildGuard run where every single item is
+    "harmful-content" means the column name changed, not that the corpus is
+    uniform.
+    """
+    from ai_blackteam.datasets.wildguard import WildGuardLoader
+
+    loader = WildGuardLoader()
+    assert loader._map_category("") == "harmful-content"
+    assert loader._map_category("some_unrecognised_value") == "harmful-content"
+    assert loader._map_category("Privacy") != "harmful-content"
 
 
 # ── wmdp, three configs off one shared parser ────────────────────────

@@ -2,6 +2,7 @@ import asyncio
 import time
 from ai_blackteam.evaluator import evaluate, evaluate_tool_calls
 from ai_blackteam.logging_config import get_logger
+from ai_blackteam.signals import SIGNAL_REASONING, has_content, resolve_signal
 from ai_blackteam.storage.sqlite import Storage
 
 logger = get_logger("engine")
@@ -37,6 +38,43 @@ class _Total:
         self.value = n if self.value is None else self.value + n
 
 
+
+# An attack whose declared channel came back empty measured nothing. ERROR is
+# already the non-scoring verdict (see scoring.NON_SCORING_VERDICTS), so it is
+# excluded from bypass-rate maths rather than counted as a block.
+_UNMEASURED = {
+    "verdict": "ERROR",
+    "keyword_score": 0,
+    "regex_matches": 0,
+    "confidence": 0.0,
+}
+
+
+def _evaluate_channels(result, target, signal):
+    """Score the answer, and the thinking when there is any.
+
+    Returns (run_eval, response_verdict, reasoning_verdict). The run verdict
+    comes from the channel the attack declared; both channel verdicts are
+    recorded either way, because the disagreement between them is the finding
+    a reasoning-layer attack is looking for.
+    """
+    response_eval = evaluate(result.response, target)
+    reasoning_eval = None
+    if has_content(result.reasoning):
+        reasoning_eval = evaluate(result.reasoning, target)
+
+    response_verdict = response_eval["verdict"]
+    reasoning_verdict = reasoning_eval["verdict"] if reasoning_eval else None
+
+    if signal != SIGNAL_REASONING:
+        return response_eval, response_verdict, reasoning_verdict
+    if reasoning_eval is None:
+        # Scoring the answer here would report a refusal for a run that never
+        # produced the evidence the attack depends on.
+        return dict(_UNMEASURED), response_verdict, None
+    return reasoning_eval, response_verdict, reasoning_verdict
+
+
 class Engine:
     def __init__(self, db_path=":memory:"):
         self.storage = Storage(db_path)
@@ -45,6 +83,7 @@ class Engine:
                     verify=False, verify_llm=False):
         logger.info(f"Running {attack.technique_id} (single-turn) against target")
         results = []
+        signal = resolve_signal(attack)
         prompts = attack.generate_prompts(target)
         vuln_samples = attack.get_samples() if verify and hasattr(attack, 'get_samples') else None
 
@@ -54,7 +93,8 @@ class Engine:
                 result = provider.send_prompt(prompt, system_prompt=system_prompt)
                 duration = int((time.time() - start) * 1000)
 
-                eval_result = evaluate(result.response, target)
+                eval_result, response_verdict, reasoning_verdict = _evaluate_channels(
+                    result, target, signal)
                 logger.info(f"Attack {attack.technique_id} prompt {i+1}/{len(prompts)}: {eval_result['verdict']}")
                 logger.debug(f"Response preview: {result.response[:100]}")
 
@@ -89,6 +129,8 @@ class Engine:
                     # Absent means the vendor did not report one, which is
                     # NULL rather than a fabricated zero.
                     reasoning_tokens=result.reasoning_tokens,
+                    response_verdict=response_verdict,
+                    reasoning_verdict=reasoning_verdict,
                 )
                 self.storage.save_turn(run_id, 1, "user", prompt)
                 self.storage.save_turn(run_id, 2, "assistant", result.response)

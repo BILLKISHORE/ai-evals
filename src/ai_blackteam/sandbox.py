@@ -104,7 +104,8 @@ class DockerVerifier(BaseVerifier):
 
     def __init__(self, image=None, timeout=None, runner=None, docker_bin="docker",
                  fixture=None, network_runner=None, runtime=None, extra_run_args=None,
-                 image_digest=None, strict=False, inspect_runner=None, audit=None):
+                 image_digest=None, strict=False, inspect_runner=None, audit=None,
+                 seccomp_profile=None):
         self.image = image or os.environ.get("AIBT_SANDBOX_IMAGE", self.DEFAULT_IMAGE)
         self.timeout = timeout if timeout is not None else self.DEFAULT_TIMEOUT
         self.docker_bin = docker_bin
@@ -120,6 +121,8 @@ class DockerVerifier(BaseVerifier):
         self._inspect_runner = inspect_runner or self._run_inspect
         # L6 observability: a per-run structured audit record for the whole chain.
         self.audit = audit
+        # L1 seccomp: an explicit profile path; None relies on the daemon default.
+        self.seccomp_profile = seccomp_profile
         # Both runners are injectable so tests never need a real daemon.
         self._runner = runner or self._run_in_container
         self._network_runner = network_runner or self._run_with_fixture
@@ -135,6 +138,13 @@ class DockerVerifier(BaseVerifier):
         if not self.runtime:
             return []
         return ["--runtime", self.RUNTIME_ALIASES.get(self.runtime, self.runtime)]
+
+    def _seccomp_args(self) -> list:
+        """Explicit seccomp allowlist when configured; otherwise the daemon
+        default denylist applies."""
+        if not self.seccomp_profile:
+            return []
+        return ["--security-opt", f"seccomp={self.seccomp_profile}"]
 
     # ── containment: no-fixture, egress fully severed ────────────────
 
@@ -154,6 +164,7 @@ class DockerVerifier(BaseVerifier):
             "--user", "65534:65534",             # nobody, non-root
             "--cap-drop", "ALL",
             "--security-opt", "no-new-privileges",
+            *self._seccomp_args(),
             "--pids-limit", str(self.PIDS),
             "--memory", self.MEMORY,
             "--memory-swap", self.MEMORY,        # equal to memory means no swap
@@ -203,6 +214,7 @@ class DockerVerifier(BaseVerifier):
             "--network-alias", "target",         # exploit reaches it at host "target"
             "--cap-drop", "ALL",                 # the target holds only a canary; needs no caps
             "--security-opt", "no-new-privileges",
+            *self._seccomp_args(),
             "--pids-limit", str(self.PIDS),
             "--memory", self.MEMORY,
             "--env", f"CANARY={canary}",
@@ -223,6 +235,7 @@ class DockerVerifier(BaseVerifier):
             "--user", "65534:65534",
             "--cap-drop", "ALL",
             "--security-opt", "no-new-privileges",
+            *self._seccomp_args(),
             "--pids-limit", str(self.PIDS),
             "--memory", self.MEMORY,
             "--memory-swap", self.MEMORY,

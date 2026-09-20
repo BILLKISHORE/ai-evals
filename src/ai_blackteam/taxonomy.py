@@ -5,7 +5,9 @@ MLCommons AILuminate v1.0 hazard taxonomy and harm category alignment.
 """
 
 # ── MITRE ATLAS technique definitions ────────────────────────────────
-# Only techniques relevant to LLM red-teaming attacks are included.
+# The table tracks the full v2026.09 technique set the repo cites, which
+# since that release includes infrastructure and autonomous-operation
+# techniques no single attack module exercises on its own.
 # Full matrix: https://atlas.mitre.org
 
 ATLAS_TECHNIQUES = {
@@ -46,7 +48,7 @@ ATLAS_TECHNIQUES = {
     },
     "AML.T0065": {
         "name": "LLM Prompt Crafting",
-        "tactic": "Resource Development",
+        "tactic": "AI Attack Adaptation",
         "description": "Craft prompts designed to exploit LLM behavior through strategic framing",
     },
     "AML.T0067": {
@@ -203,6 +205,163 @@ ATLAS_TECHNIQUES = {
         "name": "AI Supply Chain Reputation Inflation",
         "tactic": "Defense Evasion",
         "description": "Build credible-looking trust signals to drive adoption of malicious or compromised components",
+    },
+
+    # Added in ATLAS v2026.09. The release is heavily agentic: autonomous
+    # operation, agent-to-agent coordination, and the supporting
+    # infrastructure an autonomous operation needs. Ids, names and tactics
+    # are transcribed from the v2026.09 export. Sub-technique names carry
+    # their parent's name, so the two "AI Agent Tools" sub-techniques stay
+    # distinguishable in any report that prints names instead of ids.
+    "AML.T0116": {
+        "name": "Autonomous Reconnaissance",
+        "tactic": "Reconnaissance",
+        "description": "Use autonomous AI agents to run reconnaissance, deciding without direction what to look for and how",
+    },
+    "AML.T0117": {
+        "name": "Autonomous Attack-Path Adaptation",
+        "tactic": "AI Attack Adaptation",
+        "description": "Have an AI agent build and repeatedly revise an attack path toward an adversary-defined objective",
+    },
+    "AML.T0118": {
+        "name": "Autonomous AI Agent Communication",
+        "tactic": "AI Attack Adaptation",
+        "description": "Autonomous agents exchange discoveries, tasking, credentials, or constraints with other agents or runs",
+    },
+    "AML.T0118.000": {
+        "name": "Autonomous AI Agent Communication: Communication via Shared Artifacts",
+        "tactic": "AI Attack Adaptation",
+        "description": "Agents coordinate through artifacts in a shared resource that outlives any single execution context",
+    },
+    "AML.T0118.001": {
+        "name": "Autonomous AI Agent Communication: Direct Agent Communication",
+        "tactic": "AI Attack Adaptation",
+        "description": "Agents coordinate through agent-to-agent, sub-agent, or orchestrator interfaces",
+    },
+    "AML.T0119": {
+        "name": "Exploit Automated Artifact Processing Pipeline",
+        "tactic": "Initial Access",
+        "description": "Submit or modify an artifact so an automated processing pipeline executes adversary-controlled content",
+    },
+    "AML.T0120": {
+        "name": "AI Artifact Repository",
+        "tactic": "Command and Control",
+        "description": "Repurpose an AI artifact repository as an asynchronous command and control channel",
+    },
+    "AML.T0121": {
+        "name": "AI Agent Environment Reconstruction",
+        "tactic": "Persistence",
+        "description": "An agent rebuilds the tools, dependencies, and context it needs after losing its execution environment",
+    },
+    "AML.T0122": {
+        "name": "Exploitation of Remote Services",
+        "tactic": "Lateral Movement",
+        "description": "Exploit a weakness in a reachable service to cross into another system, network, or trust boundary",
+    },
+    "AML.T0123": {
+        "name": "Obfuscated Files or Information",
+        "tactic": "Defense Evasion",
+        "description": "Encrypt, encode, or otherwise obfuscate a file so it resists discovery and analysis on disk or in transit",
+    },
+    "AML.T0124": {
+        "name": "Autonomous Attack Orchestration",
+        "tactic": "AI Attack Adaptation",
+        "description": "Use an autonomous AI system as a control layer directing several agents toward one objective",
+    },
+    "AML.T0125": {
+        "name": "Create Account",
+        "tactic": "Persistence",
+        "description": "Create an account to keep access to an AI system or the infrastructure supporting it",
+    },
+    "AML.T0126": {
+        "name": "Automated Collection",
+        "tactic": "Collection",
+        "description": "Use scripts, command-line tools, or agent tools to collect data from AI systems and their environment",
+    },
+    "AML.T0127": {
+        "name": "Data Staged",
+        "tactic": "Collection",
+        "description": "Consolidate collected data in one location to prepare it for exfiltration",
+    },
+    "AML.T0128": {
+        "name": "Compromise Infrastructure",
+        "tactic": "Resource Development",
+        "description": "Take over third-party infrastructure and repurpose it to support attacks on an AI system",
+    },
+    "AML.T0129": {
+        "name": "Triggers in Multimodal Inputs",
+        "tactic": "Defense Evasion",
+        "description": "Hide instructions in a non-text modality that defenses inspecting only text never see",
+    },
+    "AML.T0130": {
+        "name": "AI Agent Response Biasing",
+        "tactic": "Impact",
+        "description": "Steer an assistant to favor adversary-chosen sources or content in the answers it gives",
+    },
+    "AML.T0131": {
+        "name": "Crafted AI Assistant Links",
+        "tactic": "Initial Access",
+        "description": "Craft a link that opens an assistant with adversary-supplied input already in place",
+    },
+    "AML.T0132": {
+        "name": "Misconfigured or Publicly Exposed AI Services",
+        "tactic": "Initial Access",
+        "description": "Reach an AI runtime, agent platform, or builder left without authentication or access control",
+    },
+    "AML.T0133": {
+        "name": "Discover AI Agent Runtime Capabilities",
+        "tactic": "Discovery",
+        "description": "Interact with an agent at runtime to reveal its registered tools without reading its configuration",
+    },
+    "AML.T0134": {
+        "name": "AI Targeted Cloaking",
+        "tactic": "Defense Evasion",
+        "description": "Serve manipulated content to AI systems while showing humans, crawlers, and scanners something benign",
+    },
+    "AML.T0000.003": {
+        "name": "Search Open Technical Databases: Scan Databases",
+        "tactic": "Reconnaissance",
+        "description": "Search public internet-scan services for a victim's exposed AI infrastructure",
+    },
+    "AML.T0006.000": {
+        "name": "Active Scanning: Enumerate Hosted AI Resources",
+        "tactic": "Reconnaissance",
+        "description": "Probe an agentic or SaaS platform to enumerate the resources one victim has deployed on it",
+    },
+    "AML.T0006.001": {
+        "name": "Active Scanning: Query Platform Metadata APIs",
+        "tactic": "Reconnaissance",
+        "description": "Query a hosting platform's control-plane or identity APIs to uncover tenants and deployments",
+    },
+    "AML.T0006.002": {
+        "name": "Active Scanning: Scan for Exposed AI Infrastructure",
+        "tactic": "Reconnaissance",
+        "description": "Scan ports and services for AI backends, model-serving endpoints, and agent infrastructure",
+    },
+    "AML.T0006.003": {
+        "name": "Active Scanning: Probe AI Agent Trigger Channels",
+        "tactic": "Reconnaissance",
+        "description": "Send crafted input to public triggers such as inboxes or webhooks to reveal agentic activity",
+    },
+    "AML.T0016.003": {
+        "name": "Obtain Capabilities: Exploits",
+        "tactic": "Resource Development",
+        "description": "Search for and obtain an existing exploit to support the operation",
+    },
+    "AML.T0016.004": {
+        "name": "Obtain Capabilities: AI Agent Tools",
+        "tactic": "Resource Development",
+        "description": "Search for and obtain tools that extend what an AI agent can reach and do",
+    },
+    "AML.T0017.001": {
+        "name": "Develop Capabilities: Autonomous Exploit Development",
+        "tactic": "Resource Development",
+        "description": "An agent finds a vulnerability and develops or adapts a working exploit with little human direction",
+    },
+    "AML.T0017.002": {
+        "name": "Develop Capabilities: AI Agent Tools",
+        "tactic": "Resource Development",
+        "description": "Build or adapt tools, integrations, or tool servers that extend what an AI agent can reach and do",
     },
 }
 
@@ -367,6 +526,10 @@ ATTACK_ATLAS_MAPPINGS = {
     "mcp-command-injection": ["AML.T0110.001", "AML.T0050"],
     "mcp-data-exfiltration": ["AML.T0085.001", "AML.T0086"],
     "mcp-server-impersonation": ["AML.T0111", "AML.T0010.005"],
+    # MCP and A2A surface expanded in ATLAS 2026.09 (task 3.6)
+    "mcp-tool-shadowing": ["AML.T0110.000", "AML.T0010.005"],
+    "mcp-confused-deputy": ["AML.T0053", "AML.T0122"],
+    "a2a-trust-abuse": ["AML.T0118.001", "AML.T0051.001"],
     # Multi-agent attacks
     "agent-session-smuggling": ["AML.T0051.000", "AML.T0054"],
     "agent-collusion": ["AML.T0054"],
@@ -1689,6 +1852,10 @@ ATTACK_AGENTIC_MAPPINGS = {
     "mcp-command-injection": ["ASI05", "ASI01"],
     "mcp-data-exfiltration": ["ASI02", "ASI03"],
     "mcp-server-impersonation": ["ASI04", "ASI07"],
+    # MCP and A2A surface expanded in ATLAS 2026.09 (task 3.6)
+    "mcp-tool-shadowing": ["ASI04", "ASI02"],
+    "mcp-confused-deputy": ["ASI03", "ASI02"],
+    "a2a-trust-abuse": ["ASI07", "ASI01"],
     # Multi-agent attacks
     "agent-session-smuggling": ["ASI03", "ASI07"],
     "agent-collusion": ["ASI07"],
@@ -1795,6 +1962,13 @@ ATTACK_MAESTRO_MAPPINGS = {
     "otora": ["L3", "L4"],
     "self-jailbreak": ["L1", "L3"],
     "black-hole": ["L2"],
+    # MCP and A2A surface expanded in ATLAS 2026.09 (task 3.6). Tool shadowing
+    # and the confused-deputy proxy sit at tool integration; the confused
+    # deputy also reaches deployment infrastructure through the gateway; A2A
+    # trust abuse crosses the agent ecosystem's trust boundaries.
+    "mcp-tool-shadowing": ["L4"],
+    "mcp-confused-deputy": ["L4", "L5"],
+    "a2a-trust-abuse": ["L7"],
 }
 
 

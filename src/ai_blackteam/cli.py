@@ -877,6 +877,63 @@ def report(fmt, export_fmt, output):
 
 RATING_COLORS = {"PASS": "green", "ELEVATED": "yellow", "PARTIAL": "bright_red", "FAIL": "red", "N/A": "dim"}
 
+# Statuses used by the standards scorecards in ai_blackteam.standards. The dim
+# ones are not failures and not passes: they mean nothing was measured, which
+# a reader has to be able to tell apart from a clean result at a glance.
+STANDARD_STATUS_COLORS = {
+    "ASSESSED": "green",
+    "EVIDENCED": "green",
+    "PARTIAL": "yellow",
+    "NOT_ASSESSED": "yellow",
+    "NOT_EVIDENCED": "yellow",
+    "READINESS_ONLY": "dim",
+    "NOT_ASSESSABLE": "dim",
+    "OUT_OF_SCOPE": "dim",
+}
+
+
+def _emit_standard_report(report, fmt, output):
+    """Render a standards report from ai_blackteam.standards.
+
+    The notes travel with the tables in every format. They carry the
+    provenance of each identifier printed above them, and a table pasted into
+    a compliance document without them would read as verified when none of it
+    has been checked against the published standard.
+    """
+    from ai_blackteam.standards import report_to_json, report_to_markdown
+
+    if fmt == "json":
+        content = report_to_json(report)
+    elif fmt == "markdown":
+        content = report_to_markdown(report)
+    else:
+        for spec in report["tables"]:
+            table = Table(title=spec["title"])
+            for index, column in enumerate(spec["columns"]):
+                table.add_column(column, style="bold" if index == 0 else None)
+            status_col = spec["columns"].index("Status") if "Status" in spec["columns"] else None
+            for row in spec["rows"]:
+                cells = [str(cell) for cell in row]
+                if status_col is not None:
+                    color = STANDARD_STATUS_COLORS.get(cells[status_col], "white")
+                    cells[status_col] = f"[{color}]{cells[status_col]}[/{color}]"
+                table.add_row(*cells)
+            console.print(table)
+        for note in report["notes"]:
+            console.print(f"\n[dim]{note}[/dim]")
+        content = None
+
+    if content:
+        if output:
+            with open(output, "w") as f:
+                f.write(content)
+            console.print(f"Scorecard saved to {output}")
+        else:
+            # click.echo rather than console.print: rich would rewrap the JSON
+            # and eat square brackets as markup, and a report is consumed by
+            # other tools as often as it is read.
+            click.echo(content)
+
 
 @cli.command()
 @click.option("--format", "fmt", type=click.Choice(["table", "json", "markdown"]), default="table")
@@ -884,10 +941,12 @@ RATING_COLORS = {"PASS": "green", "ELEVATED": "yellow", "PARTIAL": "bright_red",
 @click.option("--model", "-m", default=None, help="Filter by model name")
 @click.option(
     "--standard",
-    type=click.Choice(["llm", "agentic", "compliance"]),
+    type=click.Choice(["llm", "agentic", "compliance", "aisvs", "eu-ai-act"]),
     default="llm",
     show_default=True,
-    help="Standard: 'llm' (LLM Top 10 2026), 'agentic' (Agentic Top 10 2026), or 'compliance' (EU AI Act + NIST AI RMF)",
+    help="Standard: 'llm' (LLM Top 10 2026), 'agentic' (Agentic Top 10 2026), "
+         "'compliance' (EU AI Act risk tiers + NIST AI RMF), 'aisvs' (OWASP AISVS 1.0 "
+         "chapter coverage), or 'eu-ai-act' (EU AI Act Articles 55 and 73 obligations)",
 )
 def scorecard(fmt, output, model, standard):
     """Show OWASP LLM Top 10 safety scorecard from stored results."""
@@ -905,6 +964,12 @@ def scorecard(fmt, output, model, standard):
     if not runs:
         console.print("[yellow]No runs found. Run some attacks first.[/yellow]")
         raise SystemExit(2)
+
+    from ai_blackteam.standards import SCORECARD_STANDARDS
+
+    if standard in SCORECARD_STANDARDS:
+        _emit_standard_report(SCORECARD_STANDARDS[standard](runs), fmt, output)
+        return
 
     if standard == "agentic":
         from ai_blackteam.scorecard import generate_agentic_scorecard
@@ -1002,6 +1067,67 @@ def scorecard(fmt, output, model, standard):
             console.print(f"Scorecard saved to {output}")
         else:
             console.print(content)
+
+
+@cli.command()
+@click.option("--cvss-base", type=float, default=None,
+              help="CVSS base score (0 to 10) of the underlying vulnerability")
+@click.option("--factor", "factor_args", multiple=True, metavar="NAME=VALUE",
+              help="Agentic factor value between 0 and 1. Repeat once per factor; "
+                   "every factor is required, because an unmeasured factor is not a zero.")
+@click.option("--list-factors", is_flag=True, help="List the agentic factors, then exit")
+@click.option("--format", "fmt", type=click.Choice(["table", "json"]), default="table",
+              show_default=True)
+def aivss(cvss_base, factor_args, list_factors, fmt):
+    """Score one finding with OWASP AIVSS (CVSS base plus agentic risk)."""
+    import json as _json
+    from ai_blackteam.standards import aivss as aivss_module
+
+    factor_defs = aivss_module.factors()
+
+    if list_factors:
+        console.print("[bold]AIVSS agentic factors (unverified, see notes)[/bold]\n")
+        for key, entry in factor_defs.items():
+            console.print(f"{key} [dim](weight {entry['weight']})[/dim]")
+            console.print(f"  {entry['label']}: {entry['description']}\n")
+        return
+
+    if cvss_base is None:
+        raise click.UsageError("--cvss-base is required (or pass --list-factors)")
+
+    values = {}
+    for raw in factor_args:
+        name, sep, value = raw.partition("=")
+        if not sep:
+            raise click.UsageError(f"--factor expects NAME=VALUE, got {raw!r}")
+        try:
+            values[name.strip()] = float(value)
+        except ValueError:
+            raise click.UsageError(f"--factor {name.strip()} needs a number, got {value!r}")
+
+    try:
+        result = aivss_module.score(cvss_base, values)
+    except aivss_module.AivssInputError as exc:
+        raise click.UsageError(str(exc))
+
+    if fmt == "json":
+        click.echo(_json.dumps(result, indent=2))
+        return
+
+    table = Table(title=f"{result['standard']} {result['release']}")
+    table.add_column("Component", style="bold")
+    table.add_column("Score")
+    table.add_row("CVSS base", str(result["cvss_base"]))
+    table.add_row("Agentic risk", str(result["agentic_risk_score"]))
+    table.add_row("AIVSS composite", f"{result['aivss_score']} ({result['severity']})")
+    console.print(table)
+    console.print(
+        "\n[yellow]UNVERIFIED: the factor names and weights in this checkout were "
+        "not checked against the published AIVSS specification, and the factor set "
+        "is not known to be complete.[/yellow]"
+    )
+    for note in result["notes"]:
+        console.print(f"[dim]{note}[/dim]")
 
 
 @cli.group()

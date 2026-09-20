@@ -1,0 +1,14 @@
+{
+  "splits": [
+    {
+      "dataset": "knoveleng/redbench",
+      "config": "advbench",
+      "split": "train"
+    },
+    {
+      "dataset": "knoveleng/redbench",
+      "config": "harmbench",
+      "split": "train"
+    }
+  ]
+}

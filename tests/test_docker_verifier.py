@@ -241,3 +241,13 @@ def test_audit_hook_records_the_run():
     assert len(records) == 1
     assert records[0]["status"] == "FUNCTIONAL"
     assert records[0]["mode"] == "executability"
+
+
+def test_default_has_no_explicit_seccomp():
+    args = DockerVerifier()._run_args("job-1")
+    assert not any(a.startswith("seccomp=") for a in args)
+
+
+def test_seccomp_profile_is_applied():
+    args = DockerVerifier(seccomp_profile="/etc/aibt/seccomp.json")._run_args("job-1")
+    assert "seccomp=/etc/aibt/seccomp.json" in args

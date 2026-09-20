@@ -80,6 +80,7 @@ class Fixture:
     name: str
     image: str
     start_args: list = field(default_factory=list)
+    digest: str = ""  # optional sha256 pin, verified before launch
 
 
 class DockerVerifier(BaseVerifier):
@@ -102,7 +103,8 @@ class DockerVerifier(BaseVerifier):
     TMPFS_SIZE = "64m"
 
     def __init__(self, image=None, timeout=None, runner=None, docker_bin="docker",
-                 fixture=None, network_runner=None, runtime=None, extra_run_args=None):
+                 fixture=None, network_runner=None, runtime=None, extra_run_args=None,
+                 image_digest=None, strict=False, inspect_runner=None):
         self.image = image or os.environ.get("AIBT_SANDBOX_IMAGE", self.DEFAULT_IMAGE)
         self.timeout = timeout if timeout is not None else self.DEFAULT_TIMEOUT
         self.docker_bin = docker_bin
@@ -112,6 +114,10 @@ class DockerVerifier(BaseVerifier):
         # a microVM without changing verify().
         self.runtime = runtime if runtime is not None else os.environ.get("AIBT_SANDBOX_RUNTIME")
         self.extra_run_args = list(extra_run_args or [])
+        # L7 attestation: pin images by digest and fail closed on mismatch.
+        self.image_digest = image_digest
+        self.strict = strict
+        self._inspect_runner = inspect_runner or self._run_inspect
         # Both runners are injectable so tests never need a real daemon.
         self._runner = runner or self._run_in_container
         self._network_runner = network_runner or self._run_with_fixture
@@ -316,6 +322,10 @@ class DockerVerifier(BaseVerifier):
             return self._unverified(
                 "sandbox unavailable (docker not found): failed closed, did not execute",
                 code, ground_truth)
+
+        attested, why = self._attest_all()
+        if not attested:
+            return self._unverified(f"attestation failed: {why}", code, ground_truth)
 
         if self.fixture is not None:
             run = self._network_runner(code)

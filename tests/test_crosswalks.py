@@ -24,15 +24,25 @@ attack_registry.discover(ai_blackteam.attacks)
 _REGISTERED = sorted(attack_registry.list())
 
 
+def _marked(categories):
+    """Default every category to unverified, as the vendored file does."""
+    return {
+        code: {**entry, "verification": entry.get("verification", "unverified")}
+        for code, entry in categories.items()
+    }
+
+
 def _write_crosswalk(path, release="2026", categories=None, extra=None):
     doc = {
         "schema_version": 1,
         "standard": "OWASP Top 10 for Large Language Model Applications",
         "release": release,
         "source": {"provenance": "local-fixture"},
-        "categories": categories
+        # Every category carries a verification marker: the loader refuses a
+        # file without one, so a fixture without one is not a valid crosswalk.
+        "categories": _marked(categories)
         if categories is not None
-        else {"LLM01": {"name": "Prompt Injection"}},
+        else {"LLM01": {"name": "Prompt Injection", "verification": "unverified"}},
         "framework_crosswalks": {"status": "not_vendored", "entries": None},
     }
     if extra:

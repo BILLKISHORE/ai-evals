@@ -90,6 +90,36 @@ def load_crosswalk():
     return doc
 
 
+
+# Mirrors standards/loader._check_verification_claims. A category id nobody
+# checked against OWASP must not be presented as checked: this file feeds the
+# OWASP citation on every one of the attack modules, so an unearned
+# "verified" marker would propagate into every report the tool produces.
+VERIFICATION_VALUES = ("verified", "unverified")
+
+
+def _check_verification_claims(doc, path):
+    verified_against = (doc.get("source") or {}).get("verified_against")
+    for code, entry in (doc.get("categories") or {}).items():
+        value = entry.get("verification")
+        if value is None:
+            raise CrosswalkUnavailable(
+                f"{path}: category {code} carries no verification marker; "
+                f"every category must declare one of {VERIFICATION_VALUES}"
+            )
+        if value not in VERIFICATION_VALUES:
+            raise CrosswalkUnavailable(
+                f"{path}: category {code} declares verification {value!r}, "
+                f"expected one of {VERIFICATION_VALUES}"
+            )
+        if value == "verified" and not verified_against:
+            raise CrosswalkUnavailable(
+                f"{path}: category {code} claims verification, but "
+                f"source.verified_against is empty. An identifier that nobody "
+                f"checked must not be presented as checked."
+            )
+
+
 def _validate(doc, path):
     if not isinstance(doc, dict):
         raise CrosswalkUnavailable(f"{path} is not a JSON object")
@@ -123,6 +153,8 @@ def _validate(doc, path):
             f"{path} carries vendored crosswalk entries but its provenance is local-fixture; "
             "entries that did not come from OWASP must not claim they did"
         )
+
+    _check_verification_claims(doc, path)
 
 
 def llm_categories():

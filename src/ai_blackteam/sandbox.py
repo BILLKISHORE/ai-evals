@@ -268,10 +268,24 @@ class DockerVerifier(BaseVerifier):
             subprocess.run([self.docker_bin, "rm", "-f", target], capture_output=True, text=True)
             self._reap(exploit)
             subprocess.run(self._network_rm_args(net), capture_output=True, text=True)
+            # L5: destruction verified, not assumed.
+            survivors = [r for r in (target, net) if self._still_present(r)]
+            if survivors:
+                subprocess.run([self.docker_bin, "rm", "-f", *survivors], capture_output=True, text=True)
+                if self.audit:
+                    self.audit({"mode": "teardown", "survivors": survivors})
 
     def _reap(self, name: str) -> None:
         """Kill switch: make sure a named container does not outlive the run."""
         subprocess.run([self.docker_bin, "kill", name], capture_output=True, text=True)
+
+    def _still_present(self, ref: str) -> bool:
+        """L5: is a container or network still there after teardown?"""
+        try:
+            return subprocess.run([self.docker_bin, "inspect", ref],
+                                  capture_output=True, text=True).returncode == 0
+        except (OSError, subprocess.SubprocessError):
+            return False
 
     def _inspect_args(self, image: str) -> list:
         return [self.docker_bin, "image", "inspect", "--format", "{{.Id}}", image]

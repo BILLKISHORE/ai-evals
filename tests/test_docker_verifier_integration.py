@@ -65,3 +65,13 @@ def test_command_injection_exploit_is_functional(image):
 def test_benign_request_is_partial(image):
     result = DockerVerifier(fixture=Fixture("cmdi", image), timeout=30).verify(BENIGN)
     assert result.status == "PARTIAL"
+
+
+def test_no_container_or_network_survives(image):
+    DockerVerifier(fixture=Fixture("cmdi", image), timeout=30).verify(EXPLOIT)
+    ps = subprocess.run(["docker", "ps", "-a", "--filter", "name=aibt-", "--format", "{{.Names}}"],
+                        capture_output=True, text=True).stdout.strip()
+    nets = subprocess.run(["docker", "network", "ls", "--filter", "name=aibt-net", "--format", "{{.Name}}"],
+                          capture_output=True, text=True).stdout.strip()
+    assert ps == "", f"containers survived teardown: {ps}"
+    assert nets == "", f"networks survived teardown: {nets}"

@@ -125,7 +125,7 @@ def list_models(provider):
         inst = cls.__new__(cls)
         default = inst.default_model() if hasattr(inst, "default_model") else "?"
         aliases = MODEL_ALIASES.get(name, {})
-        aliases_str = "\n".join(f"{k} -> {v}" for k, v in aliases.items()) or "—"
+        aliases_str = "\n".join(f"{k} -> {v}" for k, v in aliases.items()) or "(none)"
         others = [m for m in KNOWN_MODELS.get(name, []) if m != default]
         table.add_row(name, default, aliases_str, ", ".join(others) or "(any API-supported model ID)")
     console.print(table)

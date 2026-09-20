@@ -46,7 +46,9 @@ def collect():
     return rows
 
 
-# {DATA} is replaced with a JSON array (valid JS). Layout uses inline styles only.
+# __DATA__ is replaced with a JSON array (valid JS) and __COUNT__ with the
+# registry count, so the prose never hand-copies a number that can drift.
+# Layout uses inline styles only.
 COMPONENT = r"""
 export const AttacksExplorer = () => {
   const ATTACKS = __DATA__;
@@ -118,7 +120,7 @@ export const AttacksExplorer = () => {
           setQ(e.target.value);
           setPage(1);
         }}
-        placeholder="Search all 1,020 attacks by name, id, category, OWASP, MITRE, or description..."
+        placeholder="Search all __COUNT__ attacks by name, id, category, OWASP, MITRE, or description..."
         style={inputStyle}
       />
 
@@ -183,7 +185,7 @@ mode: "wide"
 
 import { AttacksExplorer } from "/snippets/attacks-explorer.jsx"
 
-All **1,020 attacks** in one place. Search by name, category, OWASP, MITRE, or
+All **__COUNT__ attacks** in one place. Search by name, category, OWASP, MITRE, or
 description, and page through the results. Every attack shows its severity,
 mode, standards mapping, and full description.
 
@@ -200,8 +202,12 @@ ai-blackteam run -p anthropic -a <technique-id> -t "your target prompt"
 def main():
     rows = collect()
     data = json.dumps(rows, ensure_ascii=True)
-    (SNIPPETS / "attacks-explorer.jsx").write_text(COMPONENT.replace("__DATA__", data).lstrip() + "\n")
-    (DOCS / "attacks" / "all-attacks.mdx").write_text(PAGE)
+    count = f"{len(rows):,}"
+    # Substitute __COUNT__ before __DATA__ so an attack description that happens
+    # to contain the placeholder text cannot be rewritten.
+    component = COMPONENT.replace("__COUNT__", count).replace("__DATA__", data)
+    (SNIPPETS / "attacks-explorer.jsx").write_text(component.lstrip() + "\n")
+    (DOCS / "attacks" / "all-attacks.mdx").write_text(PAGE.replace("__COUNT__", count))
     print(f"wrote explorer snippet with {len(rows)} attacks + all-attacks.mdx page")
 
 

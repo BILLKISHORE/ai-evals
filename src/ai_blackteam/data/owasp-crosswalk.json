@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "standard": "OWASP Top 10 for Large Language Model Applications",
+  "release": "2026",
+  "source": {
+    "publisher": "OWASP GenAI Security Project",
+    "url": "https://genai.owasp.org/llm-top-10/",
+    "provenance": "local-fixture",
+    "note": "The category ids, names and release year are transcribed from the labels this repository already carried, which agreed with each other across every attack module and the scorecard table. OWASP's machine-readable crosswalk from these categories to MITRE ATLAS, NIST AI RMF and ISO/IEC 42001 has not been fetched into this checkout, so framework_crosswalks stays unvendored rather than being filled in from memory."
+  },
+  "categories": {
+    "LLM01": {"name": "Prompt Injection"},
+    "LLM02": {"name": "Sensitive Information Disclosure"},
+    "LLM03": {"name": "Excessive Agency"},
+    "LLM04": {"name": "Supply Chain"},
+    "LLM05": {"name": "Data and Model Poisoning"},
+    "LLM06": {"name": "Unbounded Consumption"},
+    "LLM07": {"name": "Misinformation"},
+    "LLM08": {"name": "Hidden Context Exposure"},
+    "LLM09": {"name": "Vector and Embedding Weaknesses"},
+    "LLM10": {"name": "Improper Output Handling"}
+  },
+  "framework_crosswalks": {
+    "status": "not_vendored",
+    "reason": "OWASP's published crosswalk artifact has not been downloaded into this repository. Inventing the relations would produce a mapping that looks authoritative and is not, so entries stays null until the real artifact is vendored here.",
+    "entries": null
+  }
+}

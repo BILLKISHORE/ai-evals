@@ -65,10 +65,9 @@ class Engine:
                     verify_ground_truth=verify_ground_truth,
                     stop_reason=result.stop_reason,
                     stop_details=_json_or_none(result.stop_details),
-                    # Persist the reasoning token count only when the provider
-                    # actually reported one. Absent means unknown, which is
-                    # NULL, not a fabricated zero.
-                    reasoning_tokens=getattr(result, "reasoning_tokens", None),
+                    # Absent means the vendor did not report one, which is
+                    # NULL rather than a fabricated zero.
+                    reasoning_tokens=result.reasoning_tokens,
                 )
                 self.storage.save_turn(run_id, 1, "user", prompt)
                 self.storage.save_turn(run_id, 2, "assistant", result.response)
@@ -143,8 +142,8 @@ class Engine:
             tokens_out=result.tokens_out,
             stop_reason=result.stop_reason,
             stop_details=_json_or_none(result.stop_details),
-            # Absent reasoning token count stays NULL, never a fabricated zero.
-            reasoning_tokens=getattr(result, "reasoning_tokens", None),
+            # Absent stays NULL, never a fabricated zero.
+            reasoning_tokens=result.reasoning_tokens,
         )
 
         for i, (user_msg, assistant_msg) in enumerate(zip(turns, all_responses)):

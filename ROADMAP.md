@@ -16,7 +16,7 @@
 - [x] OWASP LLM Top 10 and MITRE ATLAS mappings
 - [x] MLCommons AILuminate hazard taxonomy alignment
 - [x] Published on PyPI (pip install ai-blackteam)
-- [x] First bug bounty submission to Anthropic (EXP-001 through EXP-006)
+- [x] First coordinated disclosure to Anthropic (EXP-001 through EXP-006). Not filed under `writeups/bug-bounties/submitted/`, so the generated experiment stats show zero tagged records; the two count different things.
 - [x] Blog post draft covering all 10 experiments
 
 ## Phase 3: Go Public -- IN PROGRESS

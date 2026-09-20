@@ -23,7 +23,11 @@ SIGNAL_RESPONSE = "response"
 # The model's thinking, kept apart from the answer by the provider layer.
 SIGNAL_REASONING = "reasoning"
 
-VALID_SIGNALS = frozenset({SIGNAL_RESPONSE, SIGNAL_REASONING})
+# How many reasoning tokens the model burned. A denial-of-service attack
+# targets cost rather than content, so its outcome is a number, not text.
+SIGNAL_REASONING_TOKENS = "reasoning_tokens"
+
+VALID_SIGNALS = frozenset({SIGNAL_RESPONSE, SIGNAL_REASONING, SIGNAL_REASONING_TOKENS})
 
 # What an attack that says nothing is scored on. Every pre-2026 attack.
 DEFAULT_SIGNAL = SIGNAL_RESPONSE

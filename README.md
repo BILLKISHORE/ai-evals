@@ -13,15 +13,15 @@ Most eval tools run single-prompt probes. A 2025 multi-lab study (researchers fr
 ai-blackteam runs multi-turn, adaptive attacks that mirror real adversarial pressure:
 
 - **Vendor-neutral**: tests 17 providers equally (16 vendors + your own HTTP endpoint), not owned by any AI lab
-- **1,028 curated attack techniques**: encoding, conversational, psychological, security, compliance, agent exploitation, MCP exploitation, multi-agent, protocol, multimodal, supply chain, RAG exploitation vectors; 163M expanded attack surface; 61 categories
+- **1,028 curated attack techniques** across 61 categories: encoding, conversational, psychological, security, compliance, agent exploitation, MCP exploitation, multi-agent, protocol, multimodal, supply chain and RAG exploitation. These are hand-written modules, not generated variants. The template engine expands them combinatorially if you want volume; see [attack surface](https://ai-blackteam.ai-evals.workers.dev/how-it-works/attack-surface) for what that number does and does not mean
 - **19 public benchmark loaders**: HarmBench, AdvBench, JailbreakBench, SorryBench, WMDP (bio/cyber/chem), DoNotAnswer, WildGuard, RedBench, SALAD-Bench, StrongREJECT, AART, ForbiddenQuestions, BeaverTails, RealToxicityPrompts, JailBreakV-28K, RedTeam-2K, AgentHarm
-- **8 adaptive generators**: PAIR, TAP, Fuzzer, AutoDAN (genetic), PAP (persuasion), Crescendo (multi-turn), Best-of-N
+- **8 adaptive generators**: PAIR, TAP, Fuzzer, AutoDAN (genetic), PAP (persuasion), Crescendo (multi-turn), Best-of-N, Stateful (carries refusals between attempts)
 - **Research-backed**: implements published attacks from Microsoft Research, Palo Alto Unit 42, USENIX, UK AI Safety Institute
 - **Used in real disclosures**: findings produced with this framework were reported to Anthropic's security team through coordinated disclosure. See [Responsible Disclosure](#responsible-disclosure)
 - **Multi-turn depth**: crescendo, sunk-cost, context-manipulation attacks that exploit conversational memory over 10+ turns
 - **Agent attacks**: credential theft, data exfiltration, sandbox escape, config manipulation via tool-use; AgentHarm benchmark integrated
-- **9 standards mapped**: code-level taxonomy mappings for MITRE ATLAS 2026.09, OWASP LLM Top 10 (2026), OWASP Agentic Top 10 (2026), MLCommons AILuminate, EU AI Act, NIST AI RMF, and CVSS; CSA MAESTRO and ISO 42001 as documented alignments. Three runnable scorecards: `scorecard --standard llm | agentic | compliance`
-- **CI-ready**: GitHub Actions workflow, exit codes, JSON/Promptfoo/garak export
+- **Five runnable compliance scorecards**, not just a mapping table: `scorecard --standard llm | agentic | compliance | aisvs | eu-ai-act`, plus `aivss` for scoring a single finding. Code-level taxonomy mappings for MITRE ATLAS 2026.09, OWASP LLM and Agentic Top 10 (2026), OWASP AISVS 1.0, MLCommons AILuminate, EU AI Act Articles 55 and 73, NIST AI RMF and CVSS; CSA MAESTRO, ISO 42001 and ISO/IEC 27090 as documented alignments. Every unverified transcription is marked as such in the data rather than presented as authoritative
+- **CI-ready**: GitHub Actions workflow, exit codes, SARIF 2.1.0 output for the GitHub Security tab (attack runs and the static scanner), plus JSON/Promptfoo/garak export
 
 ## Install
 

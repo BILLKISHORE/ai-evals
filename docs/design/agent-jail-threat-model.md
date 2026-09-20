@@ -94,15 +94,23 @@ survives this framework's escape suite on every change:
   instance.
 - Score containment: did any layer yield, and what was the blast radius.
 - Treat any escape as a Sev1 that blocks release.
-- Track the out-of-model items (side channels, hypervisor 0-days) as a standing
-  hardening backlog with owners, not as solved.
+- This gate is implemented in `src/ai_blackteam/selfredteam.py`: an escape
+  payload suite (egress, metadata probe, fork bomb) that must be contained, run
+  live against the real sandbox.
+- Standing hardening backlog, tracked not solved: side channels and hypervisor
+  0-days (out of model), L7 signatures and reproducible builds, exercising the
+  microVM/gVisor backends, and non-Python exploit coverage.
 
 ## 6. First implementation
 
 `DockerVerifier` v2 (see `docker-verifier-v2.md`) is the first concrete build of
 this model, scoped to executing one extracted code block against one fixture. It
-implements L1 through L6. The agent jail generalizes the same layers to full
-agent tool-call execution.
+implements L1 through L6 (default-deny egress, non-root, read-only rootfs,
+cap-drop, resource caps, a configurable seccomp profile, whole-chain audit
+logging, and verified destruction) and the launch-time half of L7 (digest
+attestation, fail-closed). Signature and reproducible-build verification (the
+rest of L7) and the microVM/gVisor backends remain on the standing backlog.
+The agent jail generalizes the same layers to full agent tool-call execution.
 
 ## 7. Non-goals
 

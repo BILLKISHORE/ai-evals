@@ -8,9 +8,11 @@ test one point on that curve, and silently at that, since the vendor default
 is `high`.
 
 The vendor shapes differ and are not interchangeable. Anthropic takes
-`output_config.effort`; the OpenAI-compatible APIs take `reasoning_effort`.
-Sending the wrong one, or sending either to a model that does not accept it, is
-a 400 rather than a graceful degradation, so the wiring is worth pinning.
+`output_config.effort`; the OpenAI-compatible APIs take `reasoning_effort`;
+Google takes a `thinking_config` nested inside the generation config and no
+effort string at all. Sending the wrong one, or sending any of them to a model
+that does not accept it, is a 400 rather than a graceful degradation, so the
+wiring is worth pinning.
 """
 
 from types import SimpleNamespace
@@ -131,3 +133,76 @@ def test_openai_compatible_omits_the_parameter_when_unset():
     p = _openai_compatible()
     p.send_prompt("q")
     assert "reasoning_effort" not in p._client.chat.completions.create.call_args.kwargs
+
+
+# ── Google: thinking_config inside the generation config ─────────────
+
+
+def _google(**kw):
+    from ai_blackteam.providers.google import GoogleProvider
+
+    p = GoogleProvider(api_key="test-not-real", **kw)
+    p._client = MagicMock()
+    p._client.models.generate_content.return_value = SimpleNamespace(
+        text="ok",
+        usage_metadata=SimpleNamespace(prompt_token_count=1, candidates_token_count=1),
+    )
+    return p
+
+
+def test_google_takes_a_thinking_config_not_an_effort_string():
+    p = _google(model="gemini-2.5-pro", effort="low")
+    p.send_prompt("q")
+    config = p._client.models.generate_content.call_args.kwargs["config"]
+    assert "thinking_config" in config
+    assert "effort" not in config, "that is the Anthropic shape"
+    assert "reasoning_effort" not in config, "that is the OpenAI shape"
+
+
+def test_google_omits_the_thinking_config_when_unset():
+    p = _google(model="gemini-2.5-pro")
+    p.send_prompt("q")
+    assert "thinking_config" not in p._client.models.generate_content.call_args.kwargs["config"]
+
+
+# ── OpenAI direct: reasoning_effort, or the Responses reasoning block ─
+
+
+def _openai(**kw):
+    from ai_blackteam.providers.openai import OpenAIProvider
+
+    p = OpenAIProvider(api_key="test-not-real", **kw)
+    p._client = MagicMock()
+    p._client.chat.completions.create.return_value = SimpleNamespace(
+        choices=[SimpleNamespace(
+            message=SimpleNamespace(content="ok", refusal=None, tool_calls=None),
+            finish_reason="stop")],
+        usage=SimpleNamespace(prompt_tokens=1, completion_tokens=1),
+    )
+    return p
+
+
+def test_openai_sends_reasoning_effort_on_the_chat_path():
+    p = _openai(effort="high")
+    p.send_prompt("q")
+    kwargs = p._client.chat.completions.create.call_args.kwargs
+    assert kwargs["reasoning_effort"] == "high"
+    assert "output_config" not in kwargs, "that is the Anthropic shape"
+
+
+def test_openai_omits_the_parameter_when_unset():
+    p = _openai()
+    p.send_prompt("q")
+    assert "reasoning_effort" not in p._client.chat.completions.create.call_args.kwargs
+
+
+def test_openai_applies_the_effort_to_tool_use_too():
+    p = _openai(effort="max")
+    p._client.chat.completions.create.return_value = SimpleNamespace(
+        choices=[SimpleNamespace(
+            message=SimpleNamespace(content="ok", refusal=None, tool_calls=None),
+            finish_reason="stop")],
+        usage=SimpleNamespace(prompt_tokens=1, completion_tokens=1),
+    )
+    p.send_with_tools([{"role": "user", "content": "q"}], [])
+    assert p._client.chat.completions.create.call_args.kwargs["reasoning_effort"] == "max"

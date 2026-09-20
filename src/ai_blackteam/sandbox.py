@@ -159,6 +159,7 @@ class DockerVerifier(BaseVerifier):
             self.docker_bin, "run", "-d", "--rm",
             "--name", name,
             "--network", net,
+            "--network-alias", "target",         # exploit reaches it at host "target"
             "--env", f"CANARY={canary}",
             self.fixture.image,
             *self.fixture.start_args,

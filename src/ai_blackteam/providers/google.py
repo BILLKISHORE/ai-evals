@@ -16,8 +16,34 @@ import time
 from google import genai
 from ai_blackteam.reasoning import GOOGLE_VENDOR, google_thinking_config, validate_effort
 from ai_blackteam.registry import register_provider
-from ai_blackteam.providers.base import BaseProvider, PromptResult
+from ai_blackteam.providers.base import (
+    BaseProvider,
+    PromptResult,
+    read_reasoning_tokens,
+)
 from ai_blackteam.retry import retry_with_backoff
+
+
+
+def _thought_text(response):
+    """The model's thinking, or None when it returned none.
+
+    Gemini does not separate the trace into its own field. Thought parts sit
+    among the ordinary content parts, distinguished only by a `thought` flag,
+    and `response.text` concatenates the non-thought parts. Anything that
+    reads parts positionally picks up whichever came first.
+
+    None rather than "" when there is no trace: an empty string would read as
+    a model that thought about nothing, which is a different claim from a
+    model whose thinking was never returned.
+    """
+    chunks = []
+    for candidate in getattr(response, "candidates", None) or []:
+        content = getattr(candidate, "content", None)
+        for part in getattr(content, "parts", None) or []:
+            if getattr(part, "thought", False) and getattr(part, "text", None):
+                chunks.append(part.text)
+    return "".join(chunks) or None
 
 
 @register_provider("google")
@@ -47,12 +73,15 @@ class GoogleProvider(BaseProvider):
         return config
 
     def _result(self, r, ms):
+        usage = getattr(r, "usage_metadata", None)
         return PromptResult(
             response=r.text or "",
             model=self.model, provider="google",
-            tokens_in=r.usage_metadata.prompt_token_count if r.usage_metadata else None,
-            tokens_out=r.usage_metadata.candidates_token_count if r.usage_metadata else None,
+            tokens_in=usage.prompt_token_count if usage else None,
+            tokens_out=usage.candidates_token_count if usage else None,
             latency_ms=ms,
+            reasoning=_thought_text(r),
+            reasoning_tokens=read_reasoning_tokens(usage),
         )
 
     def send_prompt(self, prompt, system_prompt=None):

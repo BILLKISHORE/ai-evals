@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "standard": "ISO/IEC 27090",
+  "source": {
+    "publisher": "ISO/IEC",
+    "url": "https://www.iso.org/",
+    "provenance": "local-fixture",
+    "verified_against": null,
+    "note": "This alignment names the standard and nothing more precise. The published text is not in this checkout, so its clause numbering was never read. A clause number written from memory would be indistinguishable from a real citation once it appeared in a report, and it would be quoted to an auditor as one. The subject matter of the standard, guidance on addressing security threats to AI systems, is close enough to what this tool does that stating an alignment at document level is useful and honest. Claiming a clause would not be."
+  },
+  "alignment": {
+    "level": "document",
+    "title": "Guidance for addressing security threats to AI systems",
+    "title_verification": "unverified",
+    "title_note": "The exact published title was not checked. It is recorded here as the subject matter this alignment is about, not as a quotation.",
+    "claims_conformance": false,
+    "conformance_note": "This is guidance, and this tool is not audited against it. Nothing here asserts conformance, and no result produced by this tool establishes any.",
+    "clauses": null,
+    "clauses_reason": "No clause identifier appears here because none was verified against the published standard. An unverified clause number in a compliance report is worse than an absent one: it reads as authoritative and is not checkable by the reader.",
+    "related_activities": [
+      {
+        "activity": "Adversarial testing of model behaviour under attack",
+        "relation": "Produces evidence about how an AI system responds to deliberate misuse, which is the subject matter the standard addresses."
+      },
+      {
+        "activity": "Threat-informed attack catalogue mapped to published taxonomies",
+        "relation": "Organises threats to AI systems into named categories, which is the vocabulary such guidance is written in."
+      },
+      {
+        "activity": "Reproducible stored runs with verdicts and evidence",
+        "relation": "Supports the record-keeping that a security review of an AI system reads."
+      },
+      {
+        "activity": "Agentic and tool-use attack coverage",
+        "relation": "Covers threats arising from an AI system acting rather than only answering."
+      }
+    ]
+  }
+}

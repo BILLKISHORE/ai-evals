@@ -233,3 +233,11 @@ def test_strict_unpinned_fails_closed():
     result = v.verify(PY_RESPONSE)
     assert result.status == "UNVERIFIED"
     assert "not pinned" in result.findings[0]
+
+
+def test_audit_hook_records_the_run():
+    records = []
+    DockerVerifier(runner=_clean, docker_bin="echo", audit=records.append).verify(PY_RESPONSE)
+    assert len(records) == 1
+    assert records[0]["status"] == "FUNCTIONAL"
+    assert records[0]["mode"] == "executability"

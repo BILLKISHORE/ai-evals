@@ -104,7 +104,7 @@ class DockerVerifier(BaseVerifier):
 
     def __init__(self, image=None, timeout=None, runner=None, docker_bin="docker",
                  fixture=None, network_runner=None, runtime=None, extra_run_args=None,
-                 image_digest=None, strict=False, inspect_runner=None):
+                 image_digest=None, strict=False, inspect_runner=None, audit=None):
         self.image = image or os.environ.get("AIBT_SANDBOX_IMAGE", self.DEFAULT_IMAGE)
         self.timeout = timeout if timeout is not None else self.DEFAULT_TIMEOUT
         self.docker_bin = docker_bin
@@ -118,6 +118,8 @@ class DockerVerifier(BaseVerifier):
         self.image_digest = image_digest
         self.strict = strict
         self._inspect_runner = inspect_runner or self._run_inspect
+        # L6 observability: a per-run structured audit record for the whole chain.
+        self.audit = audit
         # Both runners are injectable so tests never need a real daemon.
         self._runner = runner or self._run_in_container
         self._network_runner = network_runner or self._run_with_fixture
@@ -302,6 +304,21 @@ class DockerVerifier(BaseVerifier):
             return self._attest(self.fixture.image, getattr(self.fixture, "digest", ""))
         return True, ""
 
+    def _emit_audit(self, mode, run, status, confidence):
+        """L6: record the run so the whole chain is logged, not assumed."""
+        if not self.audit:
+            return
+        self.audit({
+            "mode": mode,
+            "image": self.image,
+            "fixture": self.fixture.name if self.fixture else None,
+            "status": status,
+            "confidence": confidence,
+            "exit_code": run.get("exit_code"),
+            "timed_out": run.get("timed_out"),
+            "canary_found": run.get("canary_found"),
+        })
+
     # ── classification ───────────────────────────────────────────────
 
     @staticmethod
@@ -370,6 +387,7 @@ class DockerVerifier(BaseVerifier):
                 "sandbox could not launch: failed closed, did not execute", code, ground_truth)
 
         status, confidence, findings = classify(run)
+        self._emit_audit("fixture" if self.fixture is not None else "executability", run, status, confidence)
         return VerificationResult(
             status=status, confidence=confidence, findings=findings,
             code_extracted=code, ground_truth_match=ground_truth,

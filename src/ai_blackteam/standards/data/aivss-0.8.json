@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "standard": "OWASP AI Vulnerability Scoring System",
+  "release": "0.8",
+  "source": {
+    "publisher": "OWASP",
+    "url": "https://aivss.owasp.org/",
+    "provenance": "local-fixture",
+    "verified_against": null,
+    "note": "The factor names below were reconstructed into this repository by hand and have not been checked against OWASP's published AIVSS specification. Names, weights and the size of the factor set may all be wrong, and a missing factor changes every score this module produces. The arithmetic is exact and tested; the factor set is marked unverified throughout and every result repeats that."
+  },
+  "factor_set": {
+    "complete": false,
+    "reason": "OWASP's published factor list for AIVSS has not been fetched into this checkout, so this file cannot claim to hold all of it. A score computed over a partial factor set is provisional: it is comparable between two findings scored here and it is not comparable with a score produced by the published tool.",
+    "scale": {
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "note": "Each factor is supplied as a fraction of its maximum, where 0 means the capability is absent from the affected system and 1 means it is present without restriction. The published scale was not verified, so this module defines its own and states it."
+    },
+    "weighting": {
+      "note": "Every factor carries weight 1.0 because the published weights were not verified. Equal weighting is a stated choice rather than a claim about AIVSS. The arithmetic honours any weights placed here, so correcting them later changes scores without changing code.",
+      "verification": "unverified"
+    },
+    "factors": {
+      "autonomy_of_action": {
+        "label": "Autonomy of Action",
+        "description": "How far the system acts without a human approving each step.",
+        "weight": 1.0,
+        "verification": "unverified"
+      },
+      "tool_use": {
+        "label": "Tool Use",
+        "description": "Whether the system can invoke tools that change state outside the conversation.",
+        "weight": 1.0,
+        "verification": "unverified"
+      },
+      "memory_use": {
+        "label": "Memory Use",
+        "description": "Whether the system carries state between sessions that an attacker can write to.",
+        "weight": 1.0,
+        "verification": "unverified"
+      },
+      "dynamic_identity": {
+        "label": "Dynamic Identity",
+        "description": "Whether the system can assume credentials or act as another principal.",
+        "weight": 1.0,
+        "verification": "unverified"
+      },
+      "multi_agent_interaction": {
+        "label": "Multi-Agent Interaction",
+        "description": "Whether the system exchanges instructions with other agents that can relay an attack onward.",
+        "weight": 1.0,
+        "verification": "unverified"
+      },
+      "non_determinism": {
+        "label": "Non-Determinism",
+        "description": "How far the same input can produce a different action, which makes a control unreliable rather than absent.",
+        "weight": 1.0,
+        "verification": "unverified"
+      },
+      "self_modification": {
+        "label": "Self-Modification",
+        "description": "Whether the system can change its own instructions, tools or configuration.",
+        "weight": 1.0,
+        "verification": "unverified"
+      },
+      "goal_driven_planning": {
+        "label": "Goal-Driven Planning",
+        "description": "Whether the system decomposes a goal into steps it selects itself, widening what a single injected instruction reaches.",
+        "weight": 1.0,
+        "verification": "unverified"
+      }
+    }
+  },
+  "composite": {
+    "method": "mean of the CVSS base score and the agentic risk sub-score",
+    "verification": "unverified",
+    "note": "The composite is the arithmetic mean of a CVSS base score supplied by the caller and the agentic sub-score computed here, then rounded up to one decimal. The shape was reconstructed rather than read from the specification. Rounding follows the CVSS Roundup function so the composite cannot disagree with the rounding of the base score it consumes."
+  },
+  "severity_bands": {
+    "note": "Band edges follow the CVSS qualitative severity rating scale, which AIVSS composes with. They were not re-checked against the AIVSS specification.",
+    "verification": "unverified",
+    "bands": [
+      {"label": "None", "minimum": 0.0, "maximum": 0.0},
+      {"label": "Low", "minimum": 0.1, "maximum": 3.9},
+      {"label": "Medium", "minimum": 4.0, "maximum": 6.9},
+      {"label": "High", "minimum": 7.0, "maximum": 8.9},
+      {"label": "Critical", "minimum": 9.0, "maximum": 10.0}
+    ]
+  }
+}

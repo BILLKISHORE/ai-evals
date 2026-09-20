@@ -197,3 +197,11 @@ def test_named_runtime_routes_backend():
 def test_extra_run_args_are_injected():
     args = DockerVerifier(extra_run_args=["--dns", "0.0.0.0"])._run_args("job-1")
     assert "--dns" in args
+
+
+def test_fixture_target_is_hardened():
+    args = DockerVerifier(fixture=FX)._target_run_args("net-1", "t-1", "canary123")
+    assert "--cap-drop" in args and args[args.index("--cap-drop") + 1] == "ALL"
+    assert "no-new-privileges" in args
+    assert "--pids-limit" in args
+    assert args[args.index("--env") + 1] == "CANARY=canary123"

@@ -47,6 +47,32 @@ def read_openai_message(msg):
     return "", None
 
 
+# Vendors report the reasoning/thinking token count in a nested details block
+# whose name differs per vendor. Both known shapes are read here so providers
+# do not each reimplement the lookup.
+_REASONING_DETAIL_ATTRS = ("completion_tokens_details", "output_tokens_details")
+
+
+def read_reasoning_tokens(usage):
+    """The reasoning token count from a vendor usage object, or None.
+
+    None means the vendor did not report one, which is not the same as zero.
+    A model that reasoned for nothing reports 0, and that is kept: collapsing
+    the two would make an unreported count look like a free request.
+    """
+    if usage is None:
+        return None
+    for attr in _REASONING_DETAIL_ATTRS:
+        details = getattr(usage, attr, None)
+        if details is None:
+            continue
+        count = getattr(details, "reasoning_tokens", None)
+        if isinstance(count, bool) or not isinstance(count, int):
+            continue
+        return count
+    return None
+
+
 def _refused_from(stop_reason):
     """Tri-state: True refused, False did not, None the vendor did not say."""
     if stop_reason in REFUSAL_STOP_REASONS:
@@ -71,6 +97,9 @@ class PromptResult:
     # attacks put harmful content here while the final answer stays clean, so
     # discarding it makes those unscoreable.
     reasoning: str | None = None
+    # The vendor's reasoning token count. None means it did not report one;
+    # 0 means it reported none spent. These are different and stay different.
+    reasoning_tokens: int | None = None
 
     @property
     def refused(self):
@@ -100,6 +129,9 @@ class ToolResult:
     # attacks put harmful content here while the final answer stays clean, so
     # discarding it makes those unscoreable.
     reasoning: str | None = None
+    # The vendor's reasoning token count. None means it did not report one;
+    # 0 means it reported none spent. These are different and stay different.
+    reasoning_tokens: int | None = None
 
     @property
     def refused(self):

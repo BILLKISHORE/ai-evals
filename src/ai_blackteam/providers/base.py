@@ -52,6 +52,10 @@ def read_openai_message(msg):
 # do not each reimplement the lookup.
 _REASONING_DETAIL_ATTRS = ("completion_tokens_details", "output_tokens_details")
 
+# Google reports the count flat on usage_metadata instead of in a nested
+# details block, under its own name.
+_REASONING_FLAT_ATTRS = ("thoughts_token_count",)
+
 
 def read_reasoning_tokens(usage):
     """The reasoning token count from a vendor usage object, or None.
@@ -62,6 +66,10 @@ def read_reasoning_tokens(usage):
     """
     if usage is None:
         return None
+    for attr in _REASONING_FLAT_ATTRS:
+        count = getattr(usage, attr, None)
+        if isinstance(count, int) and not isinstance(count, bool):
+            return count
     for attr in _REASONING_DETAIL_ATTRS:
         details = getattr(usage, attr, None)
         if details is None:

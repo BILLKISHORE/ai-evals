@@ -59,7 +59,7 @@ def test_sarif_results_have_required_fields():
     assert result["ruleId"]
     assert result["level"]
     assert result["message"]["text"]
-    assert result["locations"][0]["physicalLocation"]["artifactLocation"]["uri"]
+    assert result["locations"][0]["logicalLocations"][0]["name"]
 
 
 def test_sarif_empty_when_all_blocked():

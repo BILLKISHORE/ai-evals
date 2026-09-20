@@ -133,6 +133,11 @@ def google_thinking_config(effort, model=None):
             f"{model} has no thinking stage, so {GOOGLE_VENDOR} would reject a "
             f"thinking_config. Drop effort, or choose a model that thinks."
         )
+    # include_thoughts is what makes the trace come back. Without it Gemini
+    # still reasons and still bills for it, but returns no thought parts, so
+    # a reasoning-layer attack has nothing to score and the run looks clean.
     if _matches_hint(model, _GOOGLE_THINKING_LEVEL_HINTS):
-        return {"thinking_level": GOOGLE_THINKING_LEVELS[level]}
-    return {"thinking_budget": GOOGLE_THINKING_BUDGETS[level]}
+        return {"thinking_level": GOOGLE_THINKING_LEVELS[level],
+                "include_thoughts": True}
+    return {"thinking_budget": GOOGLE_THINKING_BUDGETS[level],
+            "include_thoughts": True}

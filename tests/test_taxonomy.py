@@ -8,6 +8,34 @@ from ai_blackteam.taxonomy import (
     get_atlas_names,
 )
 from ai_blackteam.registry import attack_registry
+import pytest
+
+
+@pytest.fixture(autouse=True, scope="module")
+def _discovered_attacks():
+    """Populate the registry before the gate reads it.
+
+    attack_registry is only filled by an explicit discover() call, which lives
+    in api.py, cli.py and scorecard.py. This module made none, so both gate
+    tests iterated an empty set: `registered - mapped` over nothing is empty
+    and the assertions passed in 0.01s having checked no attack at all.
+
+    In the full suite the registry happened to be populated by an earlier
+    alphabetical module, so the gate worked by module-ordering luck. Run alone,
+    renamed, or reordered, it silently checked nothing. This is the gate that
+    is supposed to stop an attack shipping without its taxonomy entry, so it
+    has to hold by construction.
+    """
+    import ai_blackteam.attacks as attacks_pkg
+
+    attack_registry.discover(attacks_pkg)
+
+
+def test_the_gate_actually_sees_the_attack_corpus():
+    """Guards the guard: an empty registry makes every gate below vacuous."""
+    assert len(attack_registry.list()) > 500, (
+        "attack discovery did not run, so the mapping gates check nothing"
+    )
 
 
 def test_all_attacks_have_atlas_mappings():

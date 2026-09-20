@@ -1,0 +1,19 @@
+{
+  "name": "weather",
+  "description": "Weather forecast MCP server",
+  "auth": {"type": "oauth2", "required": true, "scopes": ["forecast:read"]},
+  "tools": [
+    {
+      "name": "get_forecast",
+      "description": "Returns the weather forecast for a city.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "city": {"type": "string", "description": "City name", "maxLength": 80},
+          "units": {"type": "string", "description": "Unit system", "enum": ["metric", "imperial"]}
+        },
+        "required": ["city"]
+      }
+    }
+  ]
+}

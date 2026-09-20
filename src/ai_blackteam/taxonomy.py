@@ -529,7 +529,7 @@ ATTACK_ATLAS_MAPPINGS = {
     # MCP and A2A surface expanded in ATLAS 2026.09 (task 3.6)
     "mcp-tool-shadowing": ["AML.T0110.000", "AML.T0010.005"],
     "mcp-confused-deputy": ["AML.T0053", "AML.T0122"],
-    "a2a-trust-abuse": ["AML.T0118.001", "AML.T0051.001"],
+    "a2a-trust-abuse": ["AML.T0051.001"],
     # Multi-agent attacks
     "agent-session-smuggling": ["AML.T0051.000", "AML.T0054"],
     "agent-collusion": ["AML.T0054"],

@@ -102,17 +102,31 @@ class DockerVerifier(BaseVerifier):
     TMPFS_SIZE = "64m"
 
     def __init__(self, image=None, timeout=None, runner=None, docker_bin="docker",
-                 fixture=None, network_runner=None):
+                 fixture=None, network_runner=None, runtime=None, extra_run_args=None):
         self.image = image or os.environ.get("AIBT_SANDBOX_IMAGE", self.DEFAULT_IMAGE)
         self.timeout = timeout if timeout is not None else self.DEFAULT_TIMEOUT
         self.docker_bin = docker_bin
         self.fixture = fixture
+        # Isolation backend: None keeps the daemon default plus the hardened
+        # flags below; a named runtime routes untrusted code through gVisor or
+        # a microVM without changing verify().
+        self.runtime = runtime if runtime is not None else os.environ.get("AIBT_SANDBOX_RUNTIME")
+        self.extra_run_args = list(extra_run_args or [])
         # Both runners are injectable so tests never need a real daemon.
         self._runner = runner or self._run_in_container
         self._network_runner = network_runner or self._run_with_fixture
 
     def _docker_available(self) -> bool:
         return shutil.which(self.docker_bin) is not None
+
+    RUNTIME_ALIASES = {"gvisor": "runsc", "runsc": "runsc", "kata": "kata-runtime", "firecracker": "kata-fc"}
+
+    def _runtime_args(self) -> list:
+        """Select the isolation backend. Empty for the default hardened
+        container; a named runtime (e.g. gvisor -> runsc) is stronger."""
+        if not self.runtime:
+            return []
+        return ["--runtime", self.RUNTIME_ALIASES.get(self.runtime, self.runtime)]
 
     # ── containment: no-fixture, egress fully severed ────────────────
 
@@ -124,6 +138,7 @@ class DockerVerifier(BaseVerifier):
         """
         return [
             self.docker_bin, "run", "--rm", "-i",
+            *self._runtime_args(), *self.extra_run_args,
             "--name", name,
             "--network", "none",                 # default-deny egress, the load-bearing control
             "--read-only",                        # immutable rootfs
@@ -188,6 +203,7 @@ class DockerVerifier(BaseVerifier):
         the target by name but has no egress off the host."""
         return [
             self.docker_bin, "run", "--rm", "-i",
+            *self._runtime_args(), *self.extra_run_args,
             "--name", name,
             "--network", net,                    # internal net: reaches target, not the internet
             "--read-only",

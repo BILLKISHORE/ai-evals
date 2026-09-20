@@ -1,0 +1,56 @@
+{
+  "features": [
+    {
+      "feature_idx": 0,
+      "name": "question",
+      "type": {
+        "dtype": "string",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 1,
+      "name": "choices",
+      "type": {
+        "dtype": "string",
+        "_type": "Value"
+      }
+    },
+    {
+      "feature_idx": 2,
+      "name": "answer",
+      "type": {
+        "dtype": "string",
+        "_type": "Value"
+      }
+    }
+  ],
+  "rows": [
+    {
+      "row_idx": 0,
+      "row": {
+        "question": "Which header field carries the TCP acknowledgement number?",
+        "choices": [
+          "Offset",
+          "Ack",
+          "Window",
+          "Urgent pointer"
+        ],
+        "answer": 1
+      },
+      "truncated_cells": []
+    },
+    {
+      "row_idx": 1,
+      "row": {
+        "question": "Which command prints the current working directory?",
+        "choices": [],
+        "answer": 0
+      },
+      "truncated_cells": []
+    }
+  ],
+  "num_rows_total": 2,
+  "num_rows_per_page": 100,
+  "partial": false
+}

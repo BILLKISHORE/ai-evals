@@ -28,47 +28,79 @@ mcp-tool-poisoning        AML.T0110.000, AML.T0011.002  Tool Poisoning: Definiti
 
 ## Key techniques mapped
 
-ai-blackteam maps its attack library to 37 ATLAS techniques:
+ai-blackteam defines 69 ATLAS techniques and exercises 38 of them with its attack library:
 
 | Technique ID | Name | Tactic | ai-blackteam attacks |
 |-------------|------|--------|----------------|
-| AML.T0010.005 | AI Supply Chain Compromise: AI Agent Tool | Initial Access | mcp-rug-pull, mcp-server-impersonation, plugin-backdoor |
+| AML.T0000.003 | Search Open Technical Databases: Scan Databases | Reconnaissance | _not yet exercised_ |
+| AML.T0006.000 | Active Scanning: Enumerate Hosted AI Resources | Reconnaissance | _not yet exercised_ |
+| AML.T0006.001 | Active Scanning: Query Platform Metadata APIs | Reconnaissance | _not yet exercised_ |
+| AML.T0006.002 | Active Scanning: Scan for Exposed AI Infrastructure | Reconnaissance | _not yet exercised_ |
+| AML.T0006.003 | Active Scanning: Probe AI Agent Trigger Channels | Reconnaissance | _not yet exercised_ |
+| AML.T0010.005 | AI Supply Chain Compromise: AI Agent Tool | Initial Access | mcp-rug-pull, mcp-server-impersonation, mcp-tool-shadowing (+1 more) |
 | AML.T0011.002 | User Execution: Poisoned AI Agent Tool | Execution | agent-plugin-hijack, mcp-tool-poisoning |
-| AML.T0018 | Manipulate AI Model | AI Attack Staging | dataset-poisoning, finetune-exploit, model-poisoning |
+| AML.T0016.003 | Obtain Capabilities: Exploits | Resource Development | _not yet exercised_ |
+| AML.T0016.004 | Obtain Capabilities: AI Agent Tools | Resource Development | _not yet exercised_ |
+| AML.T0017.001 | Develop Capabilities: Autonomous Exploit Development | Resource Development | _not yet exercised_ |
+| AML.T0017.002 | Develop Capabilities: AI Agent Tools | Resource Development | _not yet exercised_ |
+| AML.T0018 | Manipulate AI Model | AI Attack Adaptation | dataset-poisoning, finetune-exploit, model-poisoning |
 | AML.T0020 | Training Data Poisoning | Persistence | dataset-poisoning, finetune-exploit, knowledge-base-poisoning (+1 more) |
-| AML.T0029 | Denial of AI Service | Impact | model-denial-of-service |
-| AML.T0034.001 | Cost Harvesting: Resource-Intensive Queries | Impact | model-denial-of-service |
-| AML.T0043.003 | Craft Adversarial Data: Manual Modification | AI Attack Staging | acronym-encoding, ascii-art-injection, atbash-cipher (+82 more) |
-| AML.T0050 | Command and Scripting Interpreter | Execution | agent-command-injection, mcp-command-injection |
+| AML.T0029 | Denial of AI Service | Impact | model-denial-of-service, otora |
+| AML.T0034.001 | Cost Harvesting: Resource-Intensive Queries | Impact | model-denial-of-service, otora |
+| AML.T0040 | AI Model Inference API Access | AI Model Access | _not yet exercised_ |
+| AML.T0043.003 | Craft Adversarial Data: Manual Modification | AI Attack Adaptation | acronym-encoding, ascii-art-injection, atbash-cipher (+82 more) |
+| AML.T0050 | Command and Scripting Interpreter | Execution | agent-command-injection, eval-sandbox-escape, mcp-command-injection |
 | AML.T0051 | LLM Prompt Injection | Execution | sql-injection, ssrf-probing |
 | AML.T0051.000 | LLM Prompt Injection: Direct | Execution | a2a-protocol-exploit, agent-impersonation, agent-session-smuggling (+44 more) |
-| AML.T0051.001 | LLM Prompt Injection: Indirect | Execution | indirect-injection, markdown-injection, watering-hole (+5 more) |
-| AML.T0053 | AI Agent Tool Invocation | Execution | agent-plugin-hijack, dark-llm-delegation, dependency-confusion |
-| AML.T0054 | LLM Jailbreak | Defense Evasion | 3d-printed-weapon, abuse-concealment, academic-fraud-impersonation (+931 more) |
+| AML.T0051.001 | LLM Prompt Injection: Indirect | Execution | a2a-trust-abuse, indirect-injection, markdown-injection (+6 more) |
+| AML.T0053 | AI Agent Tool Invocation | Execution | agent-plugin-hijack, dark-llm-delegation, dependency-confusion (+2 more) |
+| AML.T0054 | LLM Jailbreak | Defense Evasion | 3d-printed-weapon, abuse-concealment, academic-fraud-impersonation (+933 more) |
 | AML.T0056 | Extract LLM System Prompt | Exfiltration | api-key-extraction, attribute-inference, biometric-extraction (+16 more) |
 | AML.T0061 | LLM Prompt Self-Replication | Persistence | recursive-injection |
-| AML.T0065 | LLM Prompt Crafting | Resource Development | a2a-protocol-exploit, age-verification-bypass, agent-impersonation (+46 more) |
+| AML.T0065 | LLM Prompt Crafting | AI Attack Adaptation | a2a-protocol-exploit, age-verification-bypass, agent-impersonation (+47 more) |
 | AML.T0067 | LLM Trusted Output Components Manipulation | Defense Evasion | markdown-injection, xss-injection |
-| AML.T0068 | LLM Prompt Obfuscation | Defense Evasion | 3d-printed-weapon, abuse-concealment, academic-fraud-impersonation (+808 more) |
+| AML.T0068 | LLM Prompt Obfuscation | Defense Evasion | 3d-printed-weapon, abuse-concealment, academic-fraud-impersonation (+809 more) |
 | AML.T0069.002 | Discover LLM System Information: System Prompt | Discovery | prompt-leaking, system-prompt-extraction |
-| AML.T0070 | RAG Poisoning | Persistence | xpia-rag |
+| AML.T0070 | RAG Poisoning | Persistence | black-hole, xpia-rag |
 | AML.T0080.001 | AI Agent Context Poisoning: Thread | Persistence | agent-plugin-hijack, context-manipulation, conversation-derailment (+10 more) |
 | AML.T0081 | Modify AI Agent Configuration | Persistence | agent-config-manipulation |
 | AML.T0083 | Credentials from AI Agent Configuration | Credential Access | agent-credential-theft, agent-delegation-abuse, api-key-extraction |
+| AML.T0084 | Discover AI Agent Configuration | Discovery | _not yet exercised_ |
 | AML.T0084.001 | Discover AI Agent Configuration: Tool Definitions | Discovery | agent-config-discovery |
 | AML.T0084.003 | Discover AI Agent Configuration: Call Chains | Discovery | agent-config-discovery |
 | AML.T0085.001 | Data from AI Services: AI Agent Tools | Collection | agent-tool-credential-harvest, mcp-data-exfiltration |
-| AML.T0086 | Exfiltration via AI Agent Tool Invocation | Exfiltration | agent-credential-theft, agent-data-exfiltration, mcp-data-exfiltration |
+| AML.T0086 | Exfiltration via AI Agent Tool Invocation | Exfiltration | agent-credential-theft, agent-data-exfiltration, eval-sandbox-escape (+1 more) |
 | AML.T0098 | AI Agent Tool Credential Harvesting | Credential Access | agent-data-exfiltration, agent-tool-credential-harvest |
-| AML.T0099 | AI Agent Tool Data Poisoning | Persistence | tool-result-poisoning |
+| AML.T0099 | AI Agent Tool Data Poisoning | Persistence | black-hole, tool-result-poisoning |
 | AML.T0101 | Data Destruction via AI Agent Tool Invocation | Impact | agent-data-destruction |
-| AML.T0105 | Escape to Host | Privilege Escalation | agent-command-injection |
+| AML.T0105 | Escape to Host | Privilege Escalation | agent-command-injection, eval-sandbox-escape |
 | AML.T0109 | AI Supply Chain Rug Pull | Defense Evasion | mcp-rug-pull |
 | AML.T0110 | AI Agent Tool Poisoning | Persistence | plugin-backdoor |
-| AML.T0110.000 | AI Agent Tool Poisoning: Definition and Instructions | Persistence | mcp-tool-poisoning |
+| AML.T0110.000 | AI Agent Tool Poisoning: Definition and Instructions | Persistence | mcp-tool-poisoning, mcp-tool-shadowing |
 | AML.T0110.001 | AI Agent Tool Poisoning: Implementation | Persistence | mcp-command-injection |
 | AML.T0110.002 | AI Agent Tool Poisoning: Runtime Response | Persistence | tool-result-poisoning |
 | AML.T0111 | AI Supply Chain Reputation Inflation | Defense Evasion | mcp-server-impersonation |
+| AML.T0116 | Autonomous Reconnaissance | Reconnaissance | _not yet exercised_ |
+| AML.T0117 | Autonomous Attack-Path Adaptation | AI Attack Adaptation | _not yet exercised_ |
+| AML.T0118 | Autonomous AI Agent Communication | AI Attack Adaptation | _not yet exercised_ |
+| AML.T0118.000 | Autonomous AI Agent Communication: Communication via Shared Artifacts | AI Attack Adaptation | _not yet exercised_ |
+| AML.T0118.001 | Autonomous AI Agent Communication: Direct Agent Communication | AI Attack Adaptation | _not yet exercised_ |
+| AML.T0119 | Exploit Automated Artifact Processing Pipeline | Initial Access | _not yet exercised_ |
+| AML.T0120 | AI Artifact Repository | Command and Control | _not yet exercised_ |
+| AML.T0121 | AI Agent Environment Reconstruction | Persistence | _not yet exercised_ |
+| AML.T0122 | Exploitation of Remote Services | Lateral Movement | mcp-confused-deputy |
+| AML.T0123 | Obfuscated Files or Information | Defense Evasion | _not yet exercised_ |
+| AML.T0124 | Autonomous Attack Orchestration | AI Attack Adaptation | _not yet exercised_ |
+| AML.T0125 | Create Account | Persistence | _not yet exercised_ |
+| AML.T0126 | Automated Collection | Collection | _not yet exercised_ |
+| AML.T0127 | Data Staged | Collection | _not yet exercised_ |
+| AML.T0128 | Compromise Infrastructure | Resource Development | _not yet exercised_ |
+| AML.T0129 | Triggers in Multimodal Inputs | Defense Evasion | _not yet exercised_ |
+| AML.T0130 | AI Agent Response Biasing | Impact | _not yet exercised_ |
+| AML.T0131 | Crafted AI Assistant Links | Initial Access | _not yet exercised_ |
+| AML.T0132 | Misconfigured or Publicly Exposed AI Services | Initial Access | _not yet exercised_ |
+| AML.T0133 | Discover AI Agent Runtime Capabilities | Discovery | _not yet exercised_ |
+| AML.T0134 | AI Targeted Cloaking | Defense Evasion | _not yet exercised_ |
 
 ## Using ATLAS in reports
 

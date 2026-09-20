@@ -8,20 +8,20 @@ Automated LLM red team framework. Test any model's safety with one command.
 
 ## Why ai-blackteam
 
-Most eval tools run single-prompt probes. A 2025 multi-lab study (researchers from OpenAI, Anthropic, Google DeepMind) showed that adaptive attacks bypass 12 published defenses with >90% success rate -- even when those defenses originally reported near-zero attack rates. Single-attempt testing misses real vulnerabilities.
+Most eval tools run single-prompt probes. A 2025 multi-lab study (researchers from OpenAI, Anthropic, Google DeepMind) showed that adaptive attacks bypass 12 published defenses with >90% success rate, even when those defenses originally reported near-zero attack rates. Single-attempt testing misses real vulnerabilities.
 
 ai-blackteam runs multi-turn, adaptive attacks that mirror real adversarial pressure:
 
-- **Vendor-neutral** -- tests 17 providers equally (16 vendors + your own HTTP endpoint), not owned by any AI lab
-- **1,021 curated attack techniques** -- encoding, conversational, psychological, security, compliance, agent exploitation, MCP exploitation, multi-agent, protocol, multimodal, supply chain, RAG exploitation vectors; 163M expanded attack surface; 61 categories; 3,283 tests
-- **19 public benchmark loaders** -- HarmBench, AdvBench, JailbreakBench, SorryBench, WMDP (bio/cyber/chem), DoNotAnswer, WildGuard, RedBench, SALAD-Bench, StrongREJECT, AART, ForbiddenQuestions, BeaverTails, RealToxicityPrompts, JailBreakV-28K, RedTeam-2K, AgentHarm
-- **7 adaptive generators** -- PAIR, TAP, Fuzzer, AutoDAN (genetic), PAP (persuasion), Crescendo (multi-turn), Best-of-N
-- **Research-backed** -- implements published attacks from Microsoft Research, Palo Alto Unit 42, USENIX, UK AI Safety Institute
-- **Used in real disclosures** -- findings produced with this framework were reported to Anthropic's security team through coordinated disclosure. See [Responsible Disclosure](#responsible-disclosure)
-- **Multi-turn depth** -- crescendo, sunk-cost, context-manipulation attacks that exploit conversational memory over 10+ turns
-- **Agent attacks** -- credential theft, data exfiltration, sandbox escape, config manipulation via tool-use; AgentHarm benchmark integrated
-- **9 standards mapped** -- code-level taxonomy mappings for MITRE ATLAS 2026.09, OWASP LLM Top 10 (2026), OWASP Agentic Top 10 (2026), MLCommons AILuminate, EU AI Act, NIST AI RMF, and CVSS; CSA MAESTRO and ISO 42001 as documented alignments. Three runnable scorecards: `scorecard --standard llm | agentic | compliance`
-- **CI-ready** -- GitHub Actions workflow, exit codes, JSON/Promptfoo/garak export
+- **Vendor-neutral**: tests 17 providers equally (16 vendors + your own HTTP endpoint), not owned by any AI lab
+- **1,025 curated attack techniques**: encoding, conversational, psychological, security, compliance, agent exploitation, MCP exploitation, multi-agent, protocol, multimodal, supply chain, RAG exploitation vectors; 163M expanded attack surface; 61 categories; 3,503 tests
+- **19 public benchmark loaders**: HarmBench, AdvBench, JailbreakBench, SorryBench, WMDP (bio/cyber/chem), DoNotAnswer, WildGuard, RedBench, SALAD-Bench, StrongREJECT, AART, ForbiddenQuestions, BeaverTails, RealToxicityPrompts, JailBreakV-28K, RedTeam-2K, AgentHarm
+- **7 adaptive generators**: PAIR, TAP, Fuzzer, AutoDAN (genetic), PAP (persuasion), Crescendo (multi-turn), Best-of-N
+- **Research-backed**: implements published attacks from Microsoft Research, Palo Alto Unit 42, USENIX, UK AI Safety Institute
+- **Used in real disclosures**: findings produced with this framework were reported to Anthropic's security team through coordinated disclosure. See [Responsible Disclosure](#responsible-disclosure)
+- **Multi-turn depth**: crescendo, sunk-cost, context-manipulation attacks that exploit conversational memory over 10+ turns
+- **Agent attacks**: credential theft, data exfiltration, sandbox escape, config manipulation via tool-use; AgentHarm benchmark integrated
+- **9 standards mapped**: code-level taxonomy mappings for MITRE ATLAS 2026.09, OWASP LLM Top 10 (2026), OWASP Agentic Top 10 (2026), MLCommons AILuminate, EU AI Act, NIST AI RMF, and CVSS; CSA MAESTRO and ISO 42001 as documented alignments. Three runnable scorecards: `scorecard --standard llm | agentic | compliance`
+- **CI-ready**: GitHub Actions workflow, exit codes, JSON/Promptfoo/garak export
 
 ## Install
 
@@ -111,7 +111,7 @@ A full workflow with manual dispatch, scheduled runs, and benchmark mode is incl
 | Ollama | Any local model (Llama 4, Qwen, Gemma) | None (local) |
 | HuggingFace | Any HF model | API token |
 
-## Attacks (1,021 built-in, 61 categories)
+## Attacks (1,025 built-in, 61 categories)
 
 ### Core Attacks
 | Attack | Mode | Description |
@@ -436,11 +436,11 @@ It shows up in `ai-blackteam list-attacks` automatically.
 ## Evaluator
 
 Three scoring methods (combine any):
-- **Keyword matching** -- fast, free, checks for harmful content indicators across 22 harm categories
-- **Regex patterns** -- precise, free, matches structural patterns
-- **LLM-as-judge** -- accurate, uses Claude Haiku to rate 1-5
+- **Keyword matching**: fast, free, checks for harmful content indicators across 22 harm categories
+- **Regex patterns**: precise, free, matches structural patterns
+- **LLM-as-judge**: accurate, uses Claude Haiku to rate 1-5
 
-Tool-use attacks are evaluated on tool calls, not text -- detecting access to sensitive files, destructive commands, data exfiltration via web/email, and dangerous SQL queries.
+Tool-use attacks are evaluated on tool calls, not text, detecting access to sensitive files, destructive commands, data exfiltration via web/email, and dangerous SQL queries.
 
 ## Research
 
@@ -461,17 +461,17 @@ Findings were submitted to Anthropic's model bug bounty channel
 
 **Claude Sonnet 4** (2026-03-29)
 
-1. **System-prompt metadata leakage via reframing** -- the model blocked
+1. **System-prompt metadata leakage via reframing**: the model blocked
    verbatim system-prompt extraction but disclosed behavioral rules,
    content-restriction categories, and operational constraints when the
    request was framed as a structured-output task.
-2. **Tool-use progressive normalization** -- tool-use safety evaluated
+2. **Tool-use progressive normalization**: tool-use safety evaluated
    requests individually rather than cumulatively across a conversation.
-3. **Comprehensive evaluation** -- 81 techniques across 6 attack categories.
+3. **Comprehensive evaluation**: 81 techniques across 6 attack categories.
 
 **Claude Haiku 4.5** (2026-03-30)
 
-4. **Safety bypasses** -- systematic benchmark across 10 attack techniques and
+4. **Safety bypasses**: systematic benchmark across 10 attack techniques and
    5 harm categories at hard and extreme difficulty. The dominant techniques
    were refusal suppression, low-resource-language wrapping, and prefix
    injection.
@@ -495,7 +495,7 @@ on this repo or email the maintainer.
 
 | Tool | Focus | Limitation |
 |------|-------|------------|
-| Promptfoo | Eval CLI, YAML-driven | Acquired by OpenAI (Mar 2026) -- no longer vendor-neutral |
+| Promptfoo | Eval CLI, YAML-driven | Acquired by OpenAI (Mar 2026), no longer vendor-neutral |
 | garak (NVIDIA) | 100+ automated probes | Single-prompt only, no multi-turn attacks |
 | DeepEval | RAG/agent metrics, 50+ evaluators | Broader but shallower adversarial depth |
 | AILuminate (MLCommons) | Industry benchmark, 24K prompts | Rates models but doesn't actively break them |
@@ -505,12 +505,12 @@ ai-blackteam fills the gap for independent, multi-provider, multi-turn adversari
 
 ## Production Features
 
-- **Retry with backoff** -- automatic retry (3 attempts, exponential backoff) on API failures across all 17 providers
-- **Structured logging** -- `ai-blackteam run -v` for verbose, `--log-file run.log` for file output
-- **Thread-safe storage** -- SQLite with WAL mode, thread locks, 5s busy timeout for parallel workers
-- **CBRN safety warnings** -- warns before running sensitive attack categories against external APIs
-- **Provider safety identifiers** -- `user` field on OpenAI API calls per their policy requirements
-- **Refusal-aware evaluator** -- detects refusals across Claude, GPT, and Gemini styles; correctly classifies "refusal + educational content" as PARTIAL, not BYPASSED
+- **Retry with backoff**: automatic retry (3 attempts, exponential backoff) on API failures across all 17 providers
+- **Structured logging**: `ai-blackteam run -v` for verbose, `--log-file run.log` for file output
+- **Thread-safe storage**: SQLite with WAL mode, thread locks, 5s busy timeout for parallel workers
+- **CBRN safety warnings**: warns before running sensitive attack categories against external APIs
+- **Provider safety identifiers**: `user` field on OpenAI API calls per their policy requirements
+- **Refusal-aware evaluator**: detects refusals across Claude, GPT, and Gemini styles; correctly classifies "refusal + educational content" as PARTIAL, not BYPASSED
 
 ## License
 

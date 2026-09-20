@@ -1756,10 +1756,10 @@ SEVERITY_STYLES = {"critical": "bold red", "high": "red", "medium": "yellow", "l
 
 @cli.command("scan")
 @click.argument("path", default=".")
-@click.option("--format", "fmt", type=click.Choice(["table", "json"]), default="table")
+@click.option("--format", "fmt", type=click.Choice(["table", "json", "sarif"]), default="table")
 @click.option("--severity", type=click.Choice(["critical", "high", "medium", "low"]), default=None,
               help="Minimum severity to report")
-@click.option("--output", "-o", default=None, help="Save JSON results to file")
+@click.option("--output", "-o", default=None, help="Save results to file in the chosen format")
 def scan(path, fmt, severity, output):
     """Scan source code for AI security vulnerabilities.
 
@@ -1771,6 +1771,7 @@ def scan(path, fmt, severity, output):
         ai_blackteam scan .
         ai_blackteam scan src/ --severity high
         ai_blackteam scan app.py --format json -o findings.json
+        ai_blackteam scan . --format sarif -o results.sarif
     """
     import json as json_mod
     from pathlib import Path as P
@@ -1793,8 +1794,12 @@ def scan(path, fmt, severity, output):
 
     summary = scan_summary(findings)
 
-    if fmt == "json":
-        content = json_mod.dumps({"summary": summary, "findings": findings}, indent=2)
+    if fmt in ("json", "sarif"):
+        if fmt == "sarif":
+            from ai_blackteam.exporters import export_scan_sarif
+            content = export_scan_sarif(findings)
+        else:
+            content = json_mod.dumps({"summary": summary, "findings": findings}, indent=2)
         if output:
             P(output).write_text(content)
             console.print(f"Results saved to {output}")

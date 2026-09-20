@@ -38,6 +38,10 @@ TARGETS = [
     "docs/guide/use-cases/owasp-llm-top-10-testing.mdx",
     "docs/guide/use-cases/red-team-commercial-models.mdx",
     "docs/how-it-works/what-it-is.mdx",
+    "docs/guide/compare/vs-garak.mdx",
+    "docs/guide/compare/vs-pyrit.mdx",
+    "docs/guide/compare/vs-promptfoo.mdx",
+    "docs/guide/compare/vs-deepteam.mdx",
 ]
 
 
@@ -86,6 +90,10 @@ def substitutions(counts):
         (re.compile(r"\b[\d,]+ attacks across"), f"{grouped} attacks across"),
         (re.compile(r"\b[\d,]+ techniques by mode"), f"{grouped} techniques by mode"),
         (re.compile(r"same [\d,]+ attacks"), f"same {grouped} attacks"),
+        # The comparison tables quote the count in a bare cell.
+        (re.compile(r"\| [\d,]+ ready to run"), f"| {grouped} ready to run"),
+        (re.compile(r"\| Curated attacks \| [\d,]+ \|"),
+         f"| Curated attacks | {grouped} |"),
         (re.compile(r"\(([\d,]+) built-in"), f"({grouped} built-in"),
         (re.compile(r"Attacks\[[\d,]+ curated attacks"), f"Attacks[{grouped} curated attacks"),
         (re.compile(r"\b[\d,]+ adaptive generators"), f"{counts['generators']} adaptive generators"),

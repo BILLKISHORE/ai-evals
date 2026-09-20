@@ -11,7 +11,7 @@ New to the project? Start with [What ai-blackteam Is](/how-it-works/what-it-is) 
 flowchart TB
     User([User]) -->|run / batch / benchmark| CLI[CLI or Python API]
     CLI --> Engine[Engine]
-    Engine -->|pick attacks| Attacks[(Attacks<br/>1,021 plugins + 19 dataset loaders + 7 generators)]
+    Engine -->|pick attacks| Attacks[(Attacks<br/>1,025 plugins + 19 dataset loaders + 7 generators)]
     Engine -->|send prompts| Providers[Providers<br/>anthropic, openai, azure, google, grok,<br/>mistral, deepseek, groq, together,<br/>perplexity, cohere, fireworks, ai21,<br/>bedrock, ollama, huggingface, http, mock]
     Providers <-->|HTTPS or local| Model[Target LLM]
     Engine --> Evaluator[Evaluator<br/>keyword + regex + LLM judge]
@@ -31,7 +31,7 @@ The same picture with kitchen-restaurant labels for the non-technical reader:
 |---|---|---|
 | **CLI / Python API** | Entry point: parses your command, dispatches to the engine | The waiter taking your order |
 | **Engine + Evaluator** | Orchestrates the attack, scores the response | The kitchen cooking and tasting |
-| **Attacks (plugins)** | 1,021 curated techniques + 19 dataset loaders + 7 adaptive generators | The ingredients |
+| **Attacks (plugins)** | 1,025 curated techniques + 19 dataset loaders + 7 adaptive generators | The ingredients |
 | **Providers (plugins)** | 17 integrations (16 vendors + generic HTTP) plus a mock | The stoves |
 | **SQLite** | Per-run + per-turn audit trail | The receipt book |
 | **Reports / Scorecards** | Roll-ups into OWASP / MITRE / MLCommons formats | The customer reviews
@@ -40,7 +40,7 @@ The same picture with kitchen-restaurant labels for the non-technical reader:
 
 | Metric | Count |
 |--------|-------|
-| Curated attack techniques | 1,021 |
+| Curated attack techniques | 1,025 |
 | Public benchmark loaders | 19 |
 | Adaptive generators | 7 |
 | Tests | 3,059 |
@@ -52,7 +52,7 @@ The same picture with kitchen-restaurant labels for the non-technical reader:
 
 ## Attack surface
 
-The framework multiplies a small set of building blocks (1,021 techniques, plus prompts loaded from 19 public benchmarks) across harm categories, difficulty levels, mutations, and languages to reach a search space of about 163 million configurations. You sample from it, you never run it all. The full breakdown and exact math live in [The 163 Million Attack Surface](/how-it-works/attack-surface).
+The framework multiplies a small set of building blocks (1,025 techniques, plus prompts loaded from 19 public benchmarks) across harm categories, difficulty levels, mutations, and languages to reach a search space of about 163 million configurations. You sample from it, you never run it all. The full breakdown and exact math live in [The 163 Million Attack Surface](/how-it-works/attack-surface).
 
 ## Design philosophy
 

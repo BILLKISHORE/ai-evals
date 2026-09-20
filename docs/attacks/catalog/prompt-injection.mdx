@@ -1,9 +1,9 @@
 ---
 title: "prompt-injection"
-description: "All 63 attacks in the prompt-injection category, with severity, mode, and standards mapping."
+description: "All 65 attacks in the prompt-injection category, with severity, mode, and standards mapping."
 ---
 
-There are 63 attacks in the **prompt-injection** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
+There are 65 attacks in the **prompt-injection** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="AutoDAN Genetic Jailbreak" type="critical">
   `autodan-genetic` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0043.003
@@ -329,6 +329,18 @@ There are 63 attacks in the **prompt-injection** category. Each shows its techni
   ```
 </ResponseField>
 
+<ResponseField name="Poisoned Reasoning Jailbreak" type="high">
+  `prja` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0068
+
+  Steers harmful content into the model's intermediate reasoning while the final answer stays benign, so answer-only evaluation scores the run as a refusal and misses the leak. Success is judged on the reasoning trace, not the response text.
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a prja -t "your target prompt"
+  ```
+</ResponseField>
+
 <ResponseField name="Prefix Injection" type="high">
   `prefix-injection` &middot; single-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0051.000, AML.T0065
 
@@ -422,6 +434,18 @@ There are 63 attacks in the **prompt-injection** category. Each shows its techni
 
   ```bash
   ai-blackteam run -p anthropic -a role-assignment -t "your target prompt"
+  ```
+</ResponseField>
+
+<ResponseField name="Self-Jailbreak" type="high">
+  `self-jailbreak` &middot; multi-turn &middot; OWASP: LLM01 &middot; MITRE: AML.T0054, AML.T0065
+
+  Elicits the model's own recognition that a request is harmful, then supplies a rationale that makes the model override that judgement later in the same reasoning chain and comply. The reversal of a refusal the model already reached is the mechanism.
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a self-jailbreak -t "your target prompt"
   ```
 </ResponseField>
 

@@ -1,1 +1,0 @@
-"""Attack technique implementations."""

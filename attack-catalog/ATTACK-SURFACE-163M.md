@@ -6,9 +6,9 @@ set of building blocks across five axes.
 
 ## Building blocks (the real, hand-built pieces)
 
-- **1,021 attack techniques** (the recipes)
+- **1,025 attack techniques** (the recipes)
 - **10,662 dataset prompts** (from 19 public benchmarks)
-- Of the techniques, **886** are single-turn (used in the dataset expansion)
+- Of the techniques, **887** are single-turn (used in the dataset expansion)
 
 ## The five mixing axes
 
@@ -32,23 +32,23 @@ set of building blocks across five axes.
 
 ### 5. Which technique is applied
 
-Any of the 1,021 techniques can be paired with a dataset prompt.
+Any of the 1,025 techniques can be paired with a dataset prompt.
 
 ## The math (step by step)
 
 ```
 Part 1 -- technique expansion:
-  1,021 techniques x 28 categories x 4 difficulties = 114,352
-  114,352 x (1 original + 17 mutations + 10 languages) = 3,201,856
+  1,025 techniques x 28 categories x 4 difficulties = 114,800
+  114,800 x (1 original + 17 mutations + 10 languages) = 3,214,400
 
 Part 2 -- dataset expansion:
-  10,662 dataset prompts x 17 mutations x 886 single-turn techniques = 160,591,044
+  10,662 dataset prompts x 17 mutations x 887 single-turn techniques = 160,772,298
 
 Total:
-  3,201,856 + 160,591,044 = 163,792,900
+  3,214,400 + 160,772,298 = 163,986,698
 ```
 
-## Final number: **163,792,900**
+## Final number: **163,986,698**
 
 You never run all of them. You **sample** from this space. The point is the
 diversity of the search space, not a fixed list of prompts.

@@ -1,9 +1,9 @@
 ---
 title: "availability"
-description: "All 1 attacks in the availability category, with severity, mode, and standards mapping."
+description: "All 2 attacks in the availability category, with severity, mode, and standards mapping."
 ---
 
-There are 1 attacks in the **availability** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
+There are 2 attacks in the **availability** category. Each shows its technique id, mode, standards mapping, description, and the exact command to run it (swap the provider and target as needed).
 
 <ResponseField name="Model Denial of Service" type="medium">
   `model-denial-of-service` &middot; single-turn &middot; OWASP: LLM06 &middot; MITRE: AML.T0029, AML.T0034.001
@@ -14,5 +14,17 @@ There are 1 attacks in the **availability** category. Each shows its technique i
 
   ```bash
   ai-blackteam run -p anthropic -a model-denial-of-service -t "your target prompt"
+  ```
+</ResponseField>
+
+<ResponseField name="Reasoning Denial of Service" type="medium">
+  `otora` &middot; tool-use &middot; OWASP: LLM06 &middot; MITRE: AML.T0034.001, AML.T0029, AML.T0053
+
+  Induces tool invocations and amplifies overthinking so the model spends roughly an order of magnitude more reasoning tokens on a task while its accuracy stays near baseline. The cost and latency are the harm; the success signal is the reasoning token count, not the response text.
+
+  **Run it:**
+
+  ```bash
+  ai-blackteam run -p anthropic -a otora -t "your target prompt"
   ```
 </ResponseField>

@@ -5,8 +5,8 @@ These files are generated from the live code by
 
 | File | What it contains |
 |------|------------------|
-| `ATTACKS-CATALOG.md` | All 1021 attacks, grouped by category |
+| `ATTACKS-CATALOG.md` | All 1025 attacks, grouped by category |
 | `CATEGORIES.md` | All 61 categories with counts |
 | `ATTACK-SURFACE-163M.md` | Full breakdown of the 163M attack surface |
 
-_Totals: 1021 attacks across 61 categories._
+_Totals: 1025 attacks across 61 categories._

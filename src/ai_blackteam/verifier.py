@@ -85,7 +85,7 @@ INVALID_PYTHON_CEILING = FUNCTIONAL_THRESHOLD - 0.01
 class VerificationResult:
     """Result of exploit code verification."""
 
-    status: str  # FUNCTIONAL, PARTIAL, BROKEN, REFUSED
+    status: str  # FUNCTIONAL, PARTIAL, BROKEN, REFUSED, UNVERIFIED
     confidence: float  # 0.0 to 1.0
     findings: list = field(default_factory=list)
     code_extracted: str = ""
@@ -391,13 +391,10 @@ class LLMVerifier(BaseVerifier):
         )
 
 
-class DockerVerifier(BaseVerifier):
-    """Sandboxed Docker-based exploit verification (planned for v2)."""
-
-    def verify(self, response, vuln_info=None) -> VerificationResult:
-        raise NotImplementedError(
-            "DockerVerifier is planned for v2. Use StaticVerifier or LLMVerifier."
-        )
+# The sandboxed executor DockerVerifier lives in ai_blackteam.sandbox. It is
+# the only component that runs extracted code, kept in its own module so this
+# one stays provably non-executing (guarded by
+# test_verifier_module_never_executes_extracted_code).
 
 
 # ── Combined verification ───────────────────────────────────────────

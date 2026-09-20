@@ -2130,8 +2130,95 @@ def mega_sweep(provider, model, dataset_filter, mutations, attack_filter, catego
 
 @cli.group("generate")
 def generate_group():
-    """Adaptive attack generation (PAIR, TAP, GPTFuzzer, AutoDAN)."""
+    """Adaptive attack generation. Run `generate list` to see all generators."""
     pass
+
+
+# The registry held eight generators while the CLI exposed four, and nothing
+# in production read the registry, so half of them could not be run at all.
+# Reading it here makes registration mean something.
+_GENERATOR_BLURBS = {
+    "pair": "Attacker-target-judge refinement loop",
+    "tap": "Tree of attacks with pruning",
+    "fuzzer": "Mutation-based prompt fuzzing",
+    "autodan": "Genetic-algorithm prompt evolution",
+    "pap": "Persuasion-based paraphrasing",
+    "crescendo": "Gradual multi-turn escalation",
+    "bon": "Best-of-N sampling",
+    "stateful": "Carries what the target already refused between attempts",
+}
+
+
+@generate_group.command("list")
+def generate_list():
+    """List every registered generator and whether it has a CLI command."""
+    import ai_blackteam.generators as generators_pkg
+
+    from ai_blackteam.registry import generator_registry
+
+    generator_registry.discover(generators_pkg)
+    commands = {c.name for c in generate_group.commands.values()} - {"list"}
+    # The registry name and the command name differ in one case: the fuzzer
+    # registers as "fuzzer" and its command is "fuzz". Without the alias the
+    # listing calls a reachable generator unreachable.
+    aliases = {"fuzzer": "fuzz"}
+    runnable = {
+        name for name in generator_registry.list()
+        if name in commands or aliases.get(name) in commands
+    }
+
+    table = Table(title="Adaptive generators")
+    table.add_column("Name", style="cyan")
+    table.add_column("Command", justify="center")
+    table.add_column("Description")
+    for name in sorted(generator_registry.list()):
+        has_cmd = name in runnable
+        label = aliases.get(name, name) if has_cmd else "-"
+        table.add_row(
+            name,
+            f"[green]{label}[/green]" if has_cmd else "[yellow]no[/yellow]",
+            _GENERATOR_BLURBS.get(name, ""),
+        )
+    console.print(table)
+    absent = sorted(set(generator_registry.list()) - runnable)
+    if absent:
+        console.print(
+            f"\n[dim]{len(absent)} generator(s) have no CLI command yet and are "
+            f"reachable only from Python: {', '.join(absent)}[/dim]"
+        )
+
+
+@generate_group.command("stateful")
+@click.option("-p", "--provider", default="anthropic", help="Target provider")
+@click.option("-m", "--model", default=None, help="Target model")
+@click.option("-t", "--target", required=True, help="Target behavior to elicit")
+@click.option("--attempts", default=5, show_default=True, help="Attempts to run")
+@click.option("--state-file", default=None,
+              help="Where to persist what the target refused, so a later run starts from it")
+@click.option("--quiet", is_flag=True, help="Suppress output")
+def generate_stateful(provider, model, target, attempts, state_file, quiet):
+    """Run the stateful generator, conditioning each attempt on the last."""
+    from ai_blackteam.generators.stateful import StatefulGenerator
+
+    config = load_config()
+    provider_configs = config.get("providers", {})
+    target_cls = provider_registry.get(provider)
+    if not target_cls:
+        console.print(f"[red]Unknown provider: {provider}[/red]")
+        raise SystemExit(2)
+
+    target_prov = target_cls(
+        model=model, api_key=provider_configs.get(provider, {}).get("api_key"))
+
+    if not quiet:
+        console.print(f"\n[bold]Stateful generation: {target_prov.model}[/bold]")
+        console.print(f"Target: {target}")
+        console.print(f"Attempts: {attempts}\n")
+
+    gen = StatefulGenerator(state_path=state_file) if state_file else StatefulGenerator()
+    result = gen.generate(target, target_prov, attempts=attempts)
+    if not quiet:
+        console.print(result)
 
 
 @generate_group.command("pair")

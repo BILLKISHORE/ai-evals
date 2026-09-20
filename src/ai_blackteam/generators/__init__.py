@@ -2,7 +2,8 @@
 
 Importing this package fires the ``@register_generator`` decorators on all
 eight generators (PAIR, TAP, Fuzzer, AutoDAN, PAP, Crescendo, BoN, Stateful)
-so they are discoverable via ``generator_registry``. The direct class imports
+so they are listed by ``ai-blackteam generate list``, which reads
+``generator_registry``. The direct class imports
 below remain for callers that construct a generator without going through the
 registry.
 """

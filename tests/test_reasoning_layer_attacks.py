@@ -254,3 +254,27 @@ def test_all_four_reasoning_layer_attacks_are_registered():
     for tid in NEW_TECHNIQUE_IDS:
         assert tid in registered, f"{tid} not discovered by the registry"
     assert len(registered) >= 1025
+
+
+# ── named constants must actually drive behaviour ────────────────────
+
+
+def test_editing_the_trigger_strategy_changes_what_is_sent():
+    """A constant nothing reads is decoration, not configuration.
+
+    SEMANTIC_TRIGGER_STRATEGY named one of the two components the module
+    docstring says it models, while generate_prompts hand-rolled the same
+    sentence separately. Editing the constant changed nothing about the
+    attack, and this test passed anyway because it only checked the constant
+    was truthy.
+    """
+    atk = PRJA()
+    prompts = " ".join(atk.generate_prompts("some target"))
+    assert atk.SEMANTIC_TRIGGER_STRATEGY in prompts
+
+
+def test_the_paper_figures_are_reachable_from_the_attacks():
+    """Each attack can surface its source figure, and none invents one."""
+    assert PRJA().REPORTED_ASR == 0.836
+    assert OTORA().REPORTED_REASONING_AMPLIFICATION == 10
+    assert 0 < BlackHole().REPORTED_RETRIEVAL_RATE <= 1

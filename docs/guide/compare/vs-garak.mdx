@@ -5,6 +5,11 @@ description: "How ai-blackteam compares to NVIDIA's garak for LLM vulnerability 
 
 [garak](https://github.com/NVIDIA/garak) is NVIDIA's LLM vulnerability scanner (Apache 2.0) with 120+ probes. ai-blackteam is an independent, vendor-neutral red team framework. Both are Python and both scan models for unsafe behavior.
 
+
+<Note>
+The competitor column describes those projects as of 2026-09-20 and is not maintained by their authors. These tools move independently of this one, so check their own documentation before relying on a row here. Corrections are welcome as issues.
+</Note>
+
 ## At a glance
 
 | | ai-blackteam | garak |
@@ -12,9 +17,9 @@ description: "How ai-blackteam compares to NVIDIA's garak for LLM vulnerability 
 | License | MIT | Apache 2.0 |
 | Backed by | Independent | NVIDIA |
 | Install | `pip install ai-blackteam` | `pip install garak` |
-| Curated attacks | 1,025 | 120+ probes |
-| Multi-turn / adaptive | Crescendo, TAP, PAIR | Limited |
-| Tool-use / agentic | 39 attacks mapped to OWASP Agentic Top 10 | Limited agentic coverage |
+| Curated attacks | 1,028 | 120+ probes |
+| Multi-turn / adaptive | Crescendo, TAP, PAIR | Probe-based, fewer multi-turn chains |
+| Tool-use / agentic | 39 attacks mapped to OWASP Agentic Top 10 | Not a primary focus |
 | Providers | 17 (16 vendors + generic HTTP) | Many (HF, OpenAI, replicate, etc.) |
 | Compliance maps | OWASP LLM + Agentic, MITRE ATLAS, MLCommons, NIST, EU AI Act | Probe-level reporting |
 

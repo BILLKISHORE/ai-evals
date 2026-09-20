@@ -23,6 +23,34 @@ def _json_or_none(details):
 
 
 
+
+def validate_tool_names(tools):
+    """Raise when an advertised tool name is not unique.
+
+    Both the Anthropic Messages API and the OpenAI Chat Completions API reject
+    a duplicate tool name with a 400. Forwarding the array unchecked turned an
+    authoring mistake into a vendor error after a paid round trip, which the
+    engine then recorded as a generic ERROR row, so the attack looked like it
+    had run and failed rather than like it had never been sendable.
+
+    Failing here names the offending tool and costs nothing.
+    """
+    seen = set()
+    duplicates = []
+    for tool in tools or []:
+        name = tool.get("name") if isinstance(tool, dict) else None
+        if name is None:
+            continue
+        if name in seen and name not in duplicates:
+            duplicates.append(name)
+        seen.add(name)
+    if duplicates:
+        raise ValueError(
+            f"duplicate tool name(s) {duplicates}: every vendor rejects a tools "
+            f"array with a repeated name, so this attack could never be sent"
+        )
+
+
 class _Total:
     """A running sum that stays None until something is actually reported.
 
@@ -297,6 +325,7 @@ class Engine:
         logger.info(f"Running {attack.technique_id} (tool-use) against target")
         signal = resolve_signal(attack)
         tools = attack.get_tools()
+        validate_tool_names(tools)
         messages_text = attack.generate_tool_messages(target, tools=tools)
         custom_responses = attack.get_tool_responses() if hasattr(attack, 'get_tool_responses') else None
         messages = []

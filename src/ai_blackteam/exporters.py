@@ -325,10 +325,11 @@ def export_sarif(storage):
                         f"for target '{run['target']}' (confidence {confidence:.2f})"
             },
             "locations": [{
-                "physicalLocation": {
-                    "artifactLocation": {"uri": "ai-blackteam-safety-report.md"},
-                    "region": {"startLine": 1},
-                }
+                "logicalLocations": [{
+                    "name": attack_id,
+                    "kind": "resource",
+                    "fullyQualifiedName": f"{run['provider']}:{run['model']}/{attack_id}",
+                }]
             }],
             "partialFingerprints": {
                 "attackTargetModel": f"{attack_id}/{run['target']}/{run['model']}"
@@ -342,11 +343,30 @@ def export_sarif(storage):
             "tool": {
                 "driver": {
                     "name": "ai-blackteam",
+                    "version": _package_version(),
                     "informationUri": "https://ai-blackteam.ai-evals.workers.dev",
                     "rules": list(rules.values()),
                 }
             },
+            "automationDetails": {"id": _automation_id(runs)},
             "results": results,
         }],
     }
     return json.dumps(sarif, indent=2, default=str)
+
+
+def _package_version():
+    """The declared version, not importlib.metadata: an editable install keeps
+    stale metadata and GitHub dedupes alerts on driver.version."""
+    return __import__("ai_blackteam").__version__
+
+
+def _automation_id(runs):
+    """SARIF category for the upload.
+
+    GitHub keys a code scanning upload by this id, so without one a second
+    model's results replace the first model's instead of sitting beside them.
+    """
+    targets = sorted({f"{r['provider']}:{r['model']}" for r in runs})
+    scope = targets[0] if len(targets) == 1 else "multi-model"
+    return f"ai-blackteam/{scope}/"

@@ -109,7 +109,9 @@ class Storage:
                 judge_agreement REAL,
                 reasoning_tokens INTEGER,
                 seed INTEGER,
-                cost_usd REAL
+                cost_usd REAL,
+                response_verdict TEXT,
+                reasoning_verdict TEXT
             );
             CREATE TABLE IF NOT EXISTS turns (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -162,6 +164,8 @@ class Storage:
             ("reasoning_tokens", "INTEGER"),
             ("seed", "INTEGER"),
             ("cost_usd", "REAL"),
+            ("response_verdict", "TEXT"),
+            ("reasoning_verdict", "TEXT"),
         ]:
             if col_type not in _ALLOWED_COL_TYPES:
                 raise ValueError(f"unsafe column type: {col_type!r}")
@@ -183,21 +187,24 @@ class Storage:
                  verify_ground_truth=None, snapshot_id=None,
                  stop_reason=None, stop_details=None,
                  judge_model=None, judge_agreement=None,
-                 reasoning_tokens=None, seed=None, cost_usd=None):
+                 reasoning_tokens=None, seed=None, cost_usd=None,
+                 response_verdict=None, reasoning_verdict=None):
         with self._lock:
             cur = self._conn.execute(
                 "INSERT INTO runs (timestamp, provider, model, attack, target, mode, verdict, "
                 "keyword_score, regex_matches, llm_judge_score, confidence, duration_ms, "
                 "tokens_in, tokens_out, verify_status, verify_confidence, "
                 "verify_ground_truth, snapshot_id, stop_reason, stop_details, "
-                "judge_model, judge_agreement, reasoning_tokens, seed, cost_usd) "
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                "judge_model, judge_agreement, reasoning_tokens, seed, cost_usd, "
+                "response_verdict, reasoning_verdict) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (datetime.now().isoformat(), provider, model, attack, target, mode, verdict,
                  keyword_score, regex_matches, llm_judge_score, confidence, duration_ms,
                  tokens_in, tokens_out, verify_status, verify_confidence,
                  1 if verify_ground_truth else (0 if verify_ground_truth is False else None),
                  snapshot_id, stop_reason, stop_details,
-                 judge_model, judge_agreement, reasoning_tokens, seed, cost_usd)
+                 judge_model, judge_agreement, reasoning_tokens, seed, cost_usd,
+                 response_verdict, reasoning_verdict)
             )
             self._conn.commit()
             run_id = cur.lastrowid

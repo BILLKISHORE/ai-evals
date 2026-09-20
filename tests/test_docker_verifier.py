@@ -205,3 +205,31 @@ def test_fixture_target_is_hardened():
     assert "no-new-privileges" in args
     assert "--pids-limit" in args
     assert args[args.index("--env") + 1] == "CANARY=canary123"
+
+
+# ── image attestation ─────────────────────────────────────────────────
+
+def test_attestation_off_by_default():
+    ok, why = DockerVerifier()._attest("img", None)
+    assert ok and why == ""
+
+
+def test_attestation_matching_digest_passes():
+    v = DockerVerifier(image_digest="sha256:abc", inspect_runner=lambda i: "sha256:abc")
+    ok, why = v._attest("img", "sha256:abc")
+    assert ok
+
+
+def test_attestation_mismatch_fails_closed():
+    v = DockerVerifier(runner=_clean, docker_bin="echo",
+                       image_digest="sha256:abc", inspect_runner=lambda i: "sha256:def")
+    result = v.verify(PY_RESPONSE)
+    assert result.status == "UNVERIFIED"
+    assert "attestation" in result.findings[0]
+
+
+def test_strict_unpinned_fails_closed():
+    v = DockerVerifier(runner=_clean, docker_bin="echo", strict=True)
+    result = v.verify(PY_RESPONSE)
+    assert result.status == "UNVERIFIED"
+    assert "not pinned" in result.findings[0]

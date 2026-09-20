@@ -6,19 +6,50 @@
     "publisher": "OWASP GenAI Security Project",
     "url": "https://genai.owasp.org/llm-top-10/",
     "provenance": "local-fixture",
-    "note": "The category ids, names and release year are transcribed from the labels this repository already carried, which agreed with each other across every attack module and the scorecard table. OWASP's machine-readable crosswalk from these categories to MITRE ATLAS, NIST AI RMF and ISO/IEC 42001 has not been fetched into this checkout, so framework_crosswalks stays unvendored rather than being filled in from memory."
+    "note": "The category ids, names and release year are transcribed from the labels this repository already carried, which agreed with each other across every attack module and the scorecard table. OWASP's machine-readable crosswalk from these categories to MITRE ATLAS, NIST AI RMF and ISO/IEC 42001 has not been fetched into this checkout, so framework_crosswalks stays unvendored rather than being filled in from memory.",
+    "verified_against": null
   },
   "categories": {
-    "LLM01": {"name": "Prompt Injection"},
-    "LLM02": {"name": "Sensitive Information Disclosure"},
-    "LLM03": {"name": "Excessive Agency"},
-    "LLM04": {"name": "Supply Chain"},
-    "LLM05": {"name": "Data and Model Poisoning"},
-    "LLM06": {"name": "Unbounded Consumption"},
-    "LLM07": {"name": "Misinformation"},
-    "LLM08": {"name": "Hidden Context Exposure"},
-    "LLM09": {"name": "Vector and Embedding Weaknesses"},
-    "LLM10": {"name": "Improper Output Handling"}
+    "LLM01": {
+      "name": "Prompt Injection",
+      "verification": "unverified"
+    },
+    "LLM02": {
+      "name": "Sensitive Information Disclosure",
+      "verification": "unverified"
+    },
+    "LLM03": {
+      "name": "Excessive Agency",
+      "verification": "unverified"
+    },
+    "LLM04": {
+      "name": "Supply Chain",
+      "verification": "unverified"
+    },
+    "LLM05": {
+      "name": "Data and Model Poisoning",
+      "verification": "unverified"
+    },
+    "LLM06": {
+      "name": "Unbounded Consumption",
+      "verification": "unverified"
+    },
+    "LLM07": {
+      "name": "Misinformation",
+      "verification": "unverified"
+    },
+    "LLM08": {
+      "name": "Hidden Context Exposure",
+      "verification": "unverified"
+    },
+    "LLM09": {
+      "name": "Vector and Embedding Weaknesses",
+      "verification": "unverified"
+    },
+    "LLM10": {
+      "name": "Improper Output Handling",
+      "verification": "unverified"
+    }
   },
   "framework_crosswalks": {
     "status": "not_vendored",

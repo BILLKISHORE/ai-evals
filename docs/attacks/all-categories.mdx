@@ -4,12 +4,12 @@ description: "Every attack category in ai-blackteam with counts and example tech
 mode: "wide"
 ---
 
-ai-blackteam groups its 1021 attacks into 61 categories.
+ai-blackteam groups its 1025 attacks into 61 categories.
 
 | Category | Attacks | Top severity | Modes | Example techniques |
 |----------|---------|--------------|-------|--------------------|
+| prompt-injection | 65 | critical | multi-turn, single-turn | `autodan-genetic`, `gcg-style-templates`, `instruction-hierarchy-bypass` |
 | encoding | 63 | high | single-turn | `ascii-art-injection`, `adversarial-poetry`, `binary-encoding` |
-| prompt-injection | 63 | critical | multi-turn, single-turn | `autodan-genetic`, `gcg-style-templates`, `instruction-hierarchy-bypass` |
 | harmful-content | 57 | critical | single-turn | `abuse-concealment`, `animal-cruelty`, `blackmail-generation` |
 | social-engineering | 35 | critical | multi-turn, single-turn, tool-use | `dark-llm-delegation`, `deepfake-voice-pretext`, `spear-phishing-generation` |
 | legal-exploitation | 28 | critical | single-turn | `bribery-facilitation`, `classification-abuse`, `corruption-scheme` |
@@ -53,19 +53,19 @@ ai-blackteam groups its 1021 attacks into 61 categories.
 | misinformation | 8 | high | multi-turn, single-turn | `citation-manipulation`, `anchoring-bias`, `confidence-exploitation` |
 | autonomous-risk | 7 | critical | multi-turn | `deception-under-pressure`, `oversight-manipulation`, `shutdown-resistance` |
 | cybercrime | 7 | critical | single-turn | `industrial-espionage`, `insider-threat`, `ransomware-negotiation` |
+| rag-exploitation | 6 | critical | single-turn, tool-use | `black-hole`, `knowledge-base-poisoning`, `embedding-collision` |
 | supply-chain | 6 | critical | single-turn, tool-use | `dataset-poisoning`, `model-poisoning`, `plugin-backdoor` |
 | mcp-exploitation | 5 | critical | tool-use | `mcp-command-injection`, `mcp-data-exfiltration`, `mcp-tool-poisoning` |
 | multi-agent-exploitation | 5 | critical | multi-turn, tool-use | `agent-delegation-abuse`, `agent-impersonation`, `agent-session-smuggling` |
 | multimodal | 5 | high | single-turn | `audio-injection`, `ocr-bypass`, `video-frame-injection` |
 | protocol-exploitation | 5 | critical | tool-use | `a2a-protocol-exploit`, `self-propagating-worm`, `tool-result-poisoning` |
-| rag-exploitation | 5 | critical | single-turn, tool-use | `knowledge-base-poisoning`, `embedding-collision`, `retrieval-manipulation` |
 | access-control | 4 | critical | multi-turn, single-turn | `session-hijacking`, `bfla-exploit`, `bola-exploit` |
 | injection | 4 | critical | single-turn | `indirect-injection`, `sql-injection`, `ssrf-probing` |
 | child-safety | 3 | critical | single-turn | `csam-generation`, `child-exploitation`, `age-verification-evasion` |
 | copyright-ip | 3 | critical | multi-turn, single-turn | `trade-secret-extraction`, `copyright-extraction`, `patent-theft` |
 | information-disclosure | 3 | critical | multi-turn | `api-key-extraction`, `cross-session-leak`, `prompt-leaking` |
 | vuln-research | 3 | critical | single-turn | `vuln-research-cve`, `vuln-research-synthetic`, `vuln-research-user` |
+| availability | 2 | medium | single-turn, tool-use | `model-denial-of-service`, `otora` |
 | compliance | 2 | high | multi-turn, single-turn | `age-verification-bypass`, `terms-evasion` |
-| availability | 1 | medium | single-turn | `model-denial-of-service` |
 | regulatory-evasion | 1 | high | single-turn | `regulatory-bypass` |
 | tool-exploitation | 1 | critical | tool-use | `progressive-normalization` |

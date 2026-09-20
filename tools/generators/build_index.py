@@ -69,7 +69,7 @@ def build_index(root_dir: Path) -> int:
 
     # Build markdown
     lines = [
-        "# AI Blackteam -- Experiment Index",
+        "# AI Blackteam Experiment Index",
         "",
         f"Last updated: {date.today().isoformat()}",
         "",
@@ -124,7 +124,12 @@ def build_index(root_dir: Path) -> int:
         f"- Total experiments: {total}",
         f"- Models tested: {models_tested}",
         f"- Techniques used: {techniques_used}",
-        f"- Bug bounties submitted: {bounties}",
+        # Counts experiment records carrying a bug_bounty reference, not
+        # submissions made. Labelled "Bug bounties submitted" it read as a
+        # claim about the world and contradicted ROADMAP.md, which records a
+        # disclosure to Anthropic that no experiment record was ever tagged
+        # with. Two different things, one of which this file cannot know.
+        f"- Experiments tagged with a bug bounty reference: {bounties}",
     ])
 
     index_file.write_text("\n".join(lines) + "\n")

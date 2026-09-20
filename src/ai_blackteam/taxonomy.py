@@ -1307,6 +1307,21 @@ ATTACK_ATLAS_MAPPINGS = {
     "voice-phishing": ["AML.T0054", "AML.T0068"],
     "watering-hole-attack-v2": ["AML.T0054", "AML.T0068"],
     "zero-day-market": ["AML.T0054", "AML.T0068"],
+    # 2026 reasoning-layer attacks. These target the thinking phase rather
+    # than the final answer.
+    # PRJA hides the jailbreak in the reasoning trace to evade answer-only
+    # evaluation -> Jailbreak + Prompt Obfuscation.
+    "prja": ["AML.T0054", "AML.T0068"],
+    # Reasoning denial of service: cost harvesting via induced overthinking and
+    # tool invocation -> Resource-Intensive Queries + Denial of AI Service +
+    # Tool Invocation.
+    "otora": ["AML.T0034.001", "AML.T0029", "AML.T0053"],
+    # Self-jailbreak: the model overrides its own refusal via strategic framing
+    # -> Jailbreak + Prompt Crafting.
+    "self-jailbreak": ["AML.T0054", "AML.T0065"],
+    # Black hole: write-access poisoning of the vector store retrieved by RAG
+    # -> RAG Poisoning + AI Agent Tool Data Poisoning.
+    "black-hole": ["AML.T0070", "AML.T0099"],
 }
 
 # ── MLCommons AILuminate v1.0 hazard taxonomy ────────────────────────
@@ -1709,6 +1724,11 @@ ATTACK_AGENTIC_MAPPINGS = {
     "impersonation-chain": ["ASI09"],
     "trust-calibration-exploit": ["ASI09"],
     "dark-llm-delegation": ["ASI04", "ASI02"],
+    # 2026 reasoning-layer attacks
+    "prja": ["ASI01"],
+    "otora": ["ASI02", "ASI08"],
+    "self-jailbreak": ["ASI01"],
+    "black-hole": ["ASI06"],
 }
 
 # CSA MAESTRO Framework - Agentic AI Threat Modeling (Feb 2025)
@@ -1768,6 +1788,13 @@ ATTACK_MAESTRO_MAPPINGS = {
     "ssrf-probing": ["L5"],
     "sql-injection": ["L5"],
     "fabrication-prompting": ["L1"],
+    # 2026 reasoning-layer attacks. PRJA, OTORA and self-jailbreak hit the
+    # model's reasoning inside the agent framework; black hole hits the RAG
+    # data operations layer.
+    "prja": ["L1", "L3"],
+    "otora": ["L3", "L4"],
+    "self-jailbreak": ["L1", "L3"],
+    "black-hole": ["L2"],
 }
 
 

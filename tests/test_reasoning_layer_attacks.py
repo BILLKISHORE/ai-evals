@@ -91,8 +91,35 @@ def test_otora_is_a_tool_use_availability_attack():
 
 
 def test_otora_success_signal_is_reasoning_tokens_not_response_text():
-    doc = (otora_mod.__doc__ or "").lower()
-    assert "reasoning_tokens" in doc
+    """Asserted on the wiring, not on the docstring that claims it.
+
+    This test used to grep the module docstring for the string
+    "reasoning_tokens", which proved the prose contained a word. Strengthening
+    the prose made the test greener while the attack stayed unscoreable.
+    """
+    from ai_blackteam.signals import SIGNAL_REASONING_TOKENS
+
+    atk = OTORA()
+    assert atk.success_signal == SIGNAL_REASONING_TOKENS
+    assert isinstance(atk.reasoning_token_threshold, int)
+    assert atk.reasoning_token_threshold > 0
+
+
+def test_otora_is_not_scored_like_a_content_jailbreak():
+    """Two very different burns must not produce identical output."""
+    from ai_blackteam.engine import _score_reasoning_burn
+
+    atk = OTORA()
+    quiet = _score_reasoning_burn(atk, atk.reasoning_token_threshold // 10)
+    loud = _score_reasoning_burn(atk, atk.reasoning_token_threshold * 10)
+    assert quiet["verdict"] != loud["verdict"]
+
+
+def test_otora_reports_error_when_the_burn_was_never_measured():
+    """A cost attack that could not measure cost measured nothing."""
+    from ai_blackteam.engine import _score_reasoning_burn
+
+    assert _score_reasoning_burn(OTORA(), None)["verdict"] == "ERROR"
 
 
 def test_otora_reports_the_papers_amplification_as_a_paper_figure():
@@ -148,9 +175,30 @@ def test_black_hole_cites_its_arxiv_id_in_the_module_docstring():
 
 
 def test_black_hole_states_the_threat_model_is_vector_store_write_access():
+    """The prose half of the threat model.
+
+    Kept because the docstring is the deliverable here: mislabelling this as
+    an embedding-model compromise would mislead a reader about what access an
+    attacker needs. The behavioural half is asserted separately below.
+    """
     doc = (black_hole_mod.__doc__ or "").lower()
     assert "write access" in doc
     assert "not an embedding model compromise" in doc
+
+
+def test_black_hole_exercises_no_embedding_model_capability():
+    """The behavioural half: it writes to a store, it does not touch a model.
+
+    If a tool ever appears that retrains, fine-tunes or swaps the embedding
+    model, the declared threat model is wrong regardless of what the prose
+    says, because the attack would then need access it claims not to need.
+    """
+    names = " ".join(t["name"] for t in BlackHole().get_tools()).lower()
+    for forbidden in ("train", "finetune", "fine_tune", "embed_model", "swap_model"):
+        assert forbidden not in names, (
+            f"tool named with {forbidden!r} implies embedding-model access, "
+            f"which contradicts the documented threat model"
+        )
 
 
 def test_black_hole_is_a_critical_rag_exploitation_attack():

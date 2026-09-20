@@ -23,6 +23,7 @@ wall-clock timeout, and a kill switch.
 """
 
 import os
+import re
 import secrets
 import shutil
 import subprocess
@@ -30,11 +31,23 @@ import uuid
 from dataclasses import dataclass, field
 
 from ai_blackteam.verifier import (
-    PYTHON_FENCE_TAGS,
     BaseVerifier,
     StaticVerifier,
     VerificationResult,
 )
+
+# Fenced-code language sniffing, kept local so this module does not depend on
+# verifier internals.
+PYTHON_FENCE_TAGS = {"python", "py", "python3", "py3"}
+_FENCE_RE = re.compile(r"```(\w+)?[^\S\n]*\n(.*?)```", re.DOTALL)
+
+
+def _extract_code_and_lang(response):
+    match = _FENCE_RE.search(response)
+    if not match:
+        return "", ""
+    lang, code = match.group(1) or "", match.group(2)
+    return code.strip(), lang.lower()
 
 # Python runtime errors that mean the code is not real (hallucinated or
 # malformed), as opposed to a runtime failure at the severed target boundary.
@@ -259,7 +272,7 @@ class DockerVerifier(BaseVerifier):
 
     def verify(self, response, vuln_info=None) -> VerificationResult:
         static = StaticVerifier()
-        code, lang = static._extract_code_and_lang(response)
+        code, lang = _extract_code_and_lang(response)
 
         if not code:
             return VerificationResult(

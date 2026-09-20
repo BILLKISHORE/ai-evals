@@ -238,7 +238,13 @@ def _not_assessed(entry, errored=0):
 
 
 def _chapter_table(doc, report_chapters):
-    columns = ["Chapter", "Title", "Status", "Rating", "Block Rate", "Blocked/Total"]
+    # Unclear and Errored are columns rather than JSON-only tallies. Without
+    # them the human-facing renderers, which is what a user pastes into a
+    # compliance document, showed "0/4 FAIL" identically for four confirmed
+    # bypasses, four runs the evaluator could not decide, and four runs that
+    # never completed. Those are three different findings.
+    columns = ["Chapter", "Title", "Status", "Rating", "Block Rate",
+               "Blocked/Total", "Unclear", "Errored"]
     rows = []
     for code in doc["chapters"]:
         info = report_chapters[code]
@@ -254,7 +260,13 @@ def _chapter_table(doc, report_chapters):
             rate = "-"
             ratio = "-"
             rating = "-"
-        rows.append([code, info["title"], info["status"], rating, rate, ratio])
+        unclear = info.get("unclear")
+        errored = info.get("errored")
+        rows.append([
+            code, info["title"], info["status"], rating, rate, ratio,
+            "-" if unclear is None else str(unclear),
+            "-" if errored is None else str(errored),
+        ])
     return {"title": f"{doc['standard']} {doc['release']} chapter coverage", "columns": columns, "rows": rows}
 
 

@@ -37,7 +37,13 @@ class A2ATrustAbuse(BaseAttack):
         "ASI07:2026 Insecure Inter-Agent Communication",
         "ASI01:2026 Agent Goal Hijack",
     ]
-    mitre_atlas = ["AML.T0118.001", "AML.T0051.001"]
+    # AML.T0118.001 was claimed here and removed: the ATLAS export scopes it to
+    # the adversary's OWN autonomous agents coordinating an operation, which is
+    # why it sits under AI Attack Adaptation. This attack exploits trust inside
+    # the victim's pipeline, which is AML.T0051.001, already carried. Keeping
+    # the extra id made the 2026.09 coverage table claim the suite exercises
+    # adversary-side agent coordination, which no module does.
+    mitre_atlas = ["AML.T0051.001"]
     references = []
 
     TOOLS = [

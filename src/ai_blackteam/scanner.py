@@ -16,6 +16,7 @@ Usage:
 
 import re
 import os
+import json
 from pathlib import Path
 
 
@@ -241,6 +242,41 @@ def _compile_rules():
 COMPILED_RULES = _compile_rules()
 
 
+
+# Keys that mark a JSON document as an MCP definition rather than arbitrary
+# JSON. Deliberately narrow: a package.json or a tsconfig must not be dragged
+# through the MCP rules and reported on.
+_MCP_SHAPE_KEYS = ("mcpServers", "mcp_servers", "inputSchema", "input_schema")
+
+
+def _looks_like_mcp_definition(path):
+    """Whether this JSON file is plausibly an MCP server or tool definition.
+
+    Read cheaply and defensively: an unreadable or non-JSON file is simply not
+    an MCP definition, and deciding that must never raise into a directory
+    walk over someone's repository.
+    """
+    try:
+        raw = path.read_text(encoding="utf-8", errors="ignore")
+    except OSError:
+        return False
+    if not any(key in raw for key in _MCP_SHAPE_KEYS) and '"tools"' not in raw:
+        return False
+    try:
+        doc = json.loads(raw)
+    except ValueError:
+        return False
+    if isinstance(doc, dict):
+        if any(isinstance(doc.get(k), dict) and doc.get(k) for k in _MCP_REGISTRY_KEYS):
+            return True
+        if isinstance(doc.get("tools"), list):
+            return True
+        return "inputSchema" in doc or "input_schema" in doc
+    if isinstance(doc, list):
+        return any(isinstance(t, dict) and ("inputSchema" in t or "input_schema" in t) for t in doc)
+    return False
+
+
 def scan_file(file_path):
     """Scan a single file for AI security vulnerabilities.
 
@@ -255,6 +291,14 @@ def scan_file(file_path):
         return []
 
     ext = path.suffix.lower()
+
+    # MCP server definitions are JSON, not source, so the source rules find
+    # nothing in them. Without this dispatch scan_mcp_server had no caller at
+    # all and the CLI reported "no vulnerabilities" on a definition it can
+    # detect as critically vulnerable.
+    if ext == ".json" and _looks_like_mcp_definition(path):
+        return scan_mcp_server(path)
+
     findings = []
 
     try:
@@ -341,6 +385,10 @@ def scan_directory(dir_path, exclude_dirs=None):
     all_extensions = set()
     for rule in RULES:
         all_extensions.update(rule["file_types"])
+    # MCP definitions are JSON and no source rule claims that extension, so
+    # a directory walk skipped them entirely. scan_file decides whether a
+    # given .json is actually an MCP definition.
+    all_extensions.add(".json")
 
     findings = []
     dir_path = Path(dir_path)
@@ -542,3 +590,368 @@ def _finding(rule_id, line, code, path):
         "message": rule["message"],
         "file": str(path),
     }
+
+
+# ── MCP server definition scanner (sibling of the source scanner) ─────
+#
+# The source scanner reads code. This sibling reads an MCP server definition:
+# the declarative JSON that lists a server's tools, their descriptions and
+# their input schemas (a tools/list response, or a server object wrapping one).
+# Those definitions decide what an agent will call and with what arguments,
+# so a poisoned description or an unconstrained sink parameter is a security
+# weakness before any code runs.
+#
+# It lives beside RULES rather than inside it on purpose: RULES is a fixed,
+# separately tested contract (BTSC-001..011), and these checks key off JSON
+# structure, not line regexes. Detection is done with plain string and dict
+# operations, never a regex over the whole document, so there is no way to
+# reintroduce the catastrophic backtracking the source scanner was rewritten
+# to remove.
+
+MCP_RULES = [
+    {
+        "id": "BTSC-012",
+        "name": "MCP Tool Description Carries Instructions",
+        "severity": "critical",
+        "owasp": "LLM01",
+        "description": "A tool description or parameter description carries instruction text, the tool-poisoning vector: the model reads tool metadata as trusted context and follows hidden directives.",
+        "message": "Tool descriptions are model-visible context. Keep them to what the tool does. Never embed directives, file paths, or 'before you respond' instructions.",
+    },
+    {
+        "id": "BTSC-013",
+        "name": "MCP Tool Shells Out",
+        "severity": "critical",
+        "owasp": "LLM03",
+        "description": "A tool exposes a command, shell, or script parameter, or its description states it runs shell commands, giving the agent unrestricted command execution.",
+        "message": "Do not expose raw command execution as a tool. Allowlist specific operations and pass structured arguments, never a shell string.",
+    },
+    {
+        "id": "BTSC-014",
+        "name": "MCP Tool Overbroad Scope",
+        "severity": "high",
+        "owasp": "LLM03",
+        "description": "A tool declares wildcard, admin, or root scopes, granting far more authority than any single operation needs.",
+        "message": "Scope each tool to the least privilege it needs. Replace wildcard, admin, and root grants with explicit, narrow scopes.",
+    },
+    {
+        "id": "BTSC-015",
+        "name": "MCP Unvalidated Passthrough Into Tool Call",
+        "severity": "high",
+        "owasp": "LLM10",
+        "description": "A sink parameter (query, sql, url, path, template, filter) is an unconstrained string, so model output flows into the sink with no enum, pattern, or length validation.",
+        "message": "Constrain sink parameters with enum, pattern, format, or maxLength. Validate model-supplied values before they reach a query, request, or file path.",
+    },
+    {
+        "id": "BTSC-016",
+        "name": "MCP Server Missing Authentication",
+        "severity": "high",
+        "owasp": "LLM04",
+        "description": "The server definition declares no authentication, so the agent cannot verify the server's identity and treats an unauthenticated component as trusted.",
+        "message": "Require authentication on the server (auth, oauth, token, or API key). An unauthenticated MCP server is an untrusted supply-chain component.",
+    },
+]
+
+# Instruction and injection phrasing that does not belong in tool metadata.
+# Curated toward imperative or hidden-directive intent, not ordinary nouns, so
+# a description that merely mentions "credentials" is not flagged on its own.
+_MCP_INSTRUCTION_MARKERS = (
+    "ignore previous", "ignore all", "disregard",
+    "you must", "you should", "before responding", "before you ",
+    "before summar", "system:", "system override", "assistant:",
+    "<!--", "-->", "important:", "attention:", "note to the assistant",
+    "read the file", "read ~/", "cat /", "/etc/", ".ssh", "id_rsa",
+    "exfiltrat", "include its contents", "include the contents", "verbatim",
+    "do not tell", "without telling", "new directive",
+    "also append", "always append", "also send", "also forward", "also post",
+)
+
+# Parameter names whose presence means the tool runs commands.
+_MCP_EXEC_SINK_NAMES = frozenset({
+    "command", "cmd", "shell", "shell_command", "bash",
+    "script", "exec", "code", "powershell", "pwsh",
+})
+
+# Description phrasing that says the tool shells out even without an exec param.
+_MCP_SHELL_PHRASES = (
+    "shell command", "shell out", "execute command", "run arbitrary",
+    "arbitrary command", "/bin/sh", "/bin/bash", "subprocess", "os.system",
+    "run a command", "run shell",
+)
+
+# Sink parameters whose model-supplied value flows into an interpreter, request,
+# or file path. Kept disjoint from the exec names so a value is one rule or the
+# other, never double counted.
+_MCP_INJECTION_SINK_NAMES = frozenset({
+    "sql", "query", "url", "uri", "endpoint", "path", "filepath",
+    "file_path", "html", "template", "expression", "filter", "xpath",
+})
+
+# Schema keywords that constrain a value enough that it is not a blind sink.
+_MCP_VALIDATION_KEYS = frozenset({"enum", "pattern", "maxlength", "const", "format"})
+
+# Tool-level keys that declare authority, and the tokens that make one overbroad.
+_MCP_SCOPE_KEYS = ("scopes", "scope", "permissions", "roles", "access", "allowed_paths", "roots")
+_MCP_BROAD_SCOPE_TOKENS = ("*", "all", "admin", "root", "superuser", "**")
+
+# Server-level keys that may carry an authentication configuration. Presence
+# is not enough: the value decides. "auth": false is the most explicit
+# possible statement that a server is unauthenticated.
+_MCP_AUTH_KEYS = frozenset({
+    "auth", "authentication", "apikey", "api_key", "token", "bearer",
+    "oauth", "oauth2", "credentials", "security", "headers",
+})
+
+# Values that name the absence of authentication rather than configuring any.
+_MCP_NO_AUTH_VALUES = frozenset({"none", "no", "off", "false", "disabled", "anonymous", "public"})
+
+
+def _declares_authentication(server):
+    """Whether ``server`` actually configures authentication.
+
+    The old check asked only whether an auth-ish key existed, so every falsy
+    and every explicitly-disabled value read as configured. A security rule
+    that turns "authentication: off" into a clean result is a control that
+    disables itself precisely when it is needed.
+    """
+    if not isinstance(server, dict):
+        return False
+    for key, value in server.items():
+        if str(key).lower() not in _MCP_AUTH_KEYS:
+            continue
+        if not value:
+            # False, None, "", {}, [] and 0 all declare nothing.
+            continue
+        if isinstance(value, str):
+            if value.strip().lower() in _MCP_NO_AUTH_VALUES:
+                continue
+            return True
+        if isinstance(value, dict):
+            kind = str(value.get("type", "")).strip().lower()
+            if kind in _MCP_NO_AUTH_VALUES:
+                continue
+            return True
+        return True
+    return False
+
+
+# A registry document maps server names to server objects. This is the shape
+# MCP clients actually ship (a claude_desktop_config.json and its peers), and
+# it has to be walked per server: judging the wrapper treats the registry key
+# itself as the whole configuration and flags every entry inside it.
+_MCP_REGISTRY_KEYS = ("mcpServers", "mcp_servers", "servers")
+
+
+def _mcp_servers_in(doc):
+    """Each (name, server_object) a document defines.
+
+    A registry yields one pair per entry; any other shape yields the single
+    document itself, so callers handle one code path.
+    """
+    if isinstance(doc, dict):
+        for key in _MCP_REGISTRY_KEYS:
+            registry = doc.get(key)
+            if isinstance(registry, dict) and registry:
+                return [(name, srv) for name, srv in registry.items() if isinstance(srv, dict)]
+    return [(None, doc)]
+
+
+def _mcp_finding(rule_id, line, code, path):
+    rule = next(r for r in MCP_RULES if r["id"] == rule_id)
+    return {
+        "rule_id": rule["id"],
+        "name": rule["name"],
+        "severity": rule["severity"],
+        "owasp": rule["owasp"],
+        "line": line,
+        "code": code,
+        "message": rule["message"],
+        "file": str(path),
+    }
+
+
+def _mcp_line_of(lines, needle, start_idx=0):
+    """Return the 0-based index of the first line at or after start_idx that
+    contains needle, or None. Plain substring search, no regex."""
+    for i in range(max(0, start_idx), len(lines)):
+        if needle in lines[i]:
+            return i
+    return None
+
+
+def _mcp_tool_schema(tool):
+    """Return a tool's input schema under either MCP or repo key spelling."""
+    if not isinstance(tool, dict):
+        return {}
+    schema = tool.get("inputSchema")
+    if schema is None:
+        schema = tool.get("input_schema")
+    return schema if isinstance(schema, dict) else {}
+
+
+def _mcp_description_has_instruction(text):
+    low = text.lower()
+    return any(marker in low for marker in _MCP_INSTRUCTION_MARKERS)
+
+
+def _mcp_scope_is_broad(value):
+    """True when a scope declaration contains a wildcard, admin, or root grant."""
+    items = value if isinstance(value, list) else [value]
+    for item in items:
+        low = str(item).strip().lower()
+        if low in ("/", "~"):
+            return True
+        for token in _MCP_BROAD_SCOPE_TOKENS:
+            if token in low:
+                return True
+    return False
+
+
+def _mcp_tools_of(doc):
+    """Extract (server_object, tools_list) from the several shapes a definition
+    takes: a bare tools array, a server object with a tools list, or a
+    JSON-RPC style result wrapper. server_object is None when there is no
+    wrapping server to assess for authentication."""
+    if isinstance(doc, list):
+        return None, [t for t in doc if isinstance(t, dict)]
+    if not isinstance(doc, dict):
+        return None, []
+    # A single bare tool object.
+    if "tools" not in doc and "result" not in doc and ("inputSchema" in doc or "input_schema" in doc):
+        return None, [doc]
+    tools = doc.get("tools")
+    if tools is None and isinstance(doc.get("result"), dict):
+        tools = doc["result"].get("tools")
+    if not isinstance(tools, list):
+        tools = []
+    return doc, [t for t in tools if isinstance(t, dict)]
+
+
+def _scan_mcp_tool(tool, lines, cursor, path):
+    """Return (findings, next_cursor) for one tool definition.
+
+    cursor is the 0-based line index to search from, advanced to this tool's
+    anchor so repeated property names in earlier tools are not re-matched.
+    """
+    findings = []
+    name = tool.get("name", "")
+    anchor = None
+    if name:
+        anchor = _mcp_line_of(lines, f'"{name}"', cursor)
+    if anchor is None:
+        anchor = cursor
+    next_cursor = anchor + 1
+
+    def snippet(idx):
+        return lines[idx].strip()[:200] if 0 <= idx < len(lines) else name
+
+    # BTSC-012: instruction text in the tool or a parameter description.
+    schema = _mcp_tool_schema(tool)
+    props = schema.get("properties", {}) if isinstance(schema, dict) else {}
+    descriptions = [tool.get("description", "")]
+    if isinstance(props, dict):
+        for spec in props.values():
+            if isinstance(spec, dict):
+                descriptions.append(spec.get("description", ""))
+    if any(isinstance(d, str) and _mcp_description_has_instruction(d) for d in descriptions):
+        idx = _mcp_line_of(lines, '"description"', anchor)
+        line = (idx if idx is not None else anchor) + 1
+        findings.append(_mcp_finding("BTSC-012", line, snippet(line - 1), path))
+
+    # BTSC-013: the tool shells out, by exec-sink parameter or by description.
+    shells_out = False
+    exec_prop = None
+    if isinstance(props, dict):
+        for prop_name in props:
+            if str(prop_name).lower() in _MCP_EXEC_SINK_NAMES:
+                shells_out = True
+                exec_prop = prop_name
+                break
+    tool_desc_low = str(tool.get("description", "")).lower()
+    if not shells_out and any(phrase in tool_desc_low for phrase in _MCP_SHELL_PHRASES):
+        shells_out = True
+    if shells_out:
+        needle = f'"{exec_prop}"' if exec_prop else '"description"'
+        idx = _mcp_line_of(lines, needle, anchor)
+        line = (idx if idx is not None else anchor) + 1
+        findings.append(_mcp_finding("BTSC-013", line, snippet(line - 1), path))
+
+    # BTSC-014: an overbroad scope declaration on the tool.
+    for key in _MCP_SCOPE_KEYS:
+        if key in tool and _mcp_scope_is_broad(tool[key]):
+            idx = _mcp_line_of(lines, f'"{key}"', anchor)
+            line = (idx if idx is not None else anchor) + 1
+            findings.append(_mcp_finding("BTSC-014", line, snippet(line - 1), path))
+            break
+
+    # BTSC-015: an unconstrained sink parameter (model output passthrough).
+    if isinstance(props, dict):
+        for prop_name, spec in props.items():
+            if str(prop_name).lower() not in _MCP_INJECTION_SINK_NAMES:
+                continue
+            if not isinstance(spec, dict):
+                continue
+            if str(spec.get("type", "string")).lower() != "string":
+                continue
+            if any(k.lower() in _MCP_VALIDATION_KEYS for k in spec.keys()):
+                continue
+            idx = _mcp_line_of(lines, f'"{prop_name}"', anchor)
+            line = (idx if idx is not None else anchor) + 1
+            findings.append(_mcp_finding("BTSC-015", line, snippet(line - 1), path))
+            break
+
+    return findings, next_cursor
+
+
+def scan_mcp_server(file_path):
+    """Scan an MCP server definition for dangerous patterns.
+
+    Reads a JSON definition: a bare tools array, a server object wrapping a
+    tools list, or a JSON-RPC result wrapper. Returns finding dicts with the
+    same shape the source scanner emits (rule_id, name, severity, owasp, line,
+    code, message, file), so scan_summary and export_scan_sarif consume them
+    unchanged.
+
+    A missing or unreadable file, or one that is not valid JSON, returns an
+    empty list: there is no definition to assess, which is distinct from a
+    definition assessed as clean.
+    """
+    path = Path(file_path)
+    if not path.exists():
+        return []
+    try:
+        raw = path.read_text(encoding="utf-8", errors="ignore")
+    except OSError:
+        return []
+    try:
+        doc = json.loads(raw)
+    except ValueError:
+        return []
+
+    lines = raw.split("\n")
+    findings = []
+    cursor = 0
+
+    for name, entry in _mcp_servers_in(doc):
+        server, tools = _mcp_tools_of(entry)
+
+        # BTSC-016: this server declares no usable authentication.
+        if isinstance(server, dict) and not _declares_authentication(server):
+            needle = f'"{name}"' if name else '"name"'
+            idx = _mcp_line_of(lines, needle, 0)
+            line = (idx if idx is not None else 0) + 1
+            code = lines[line - 1].strip()[:200] if line - 1 < len(lines) else path.name
+            findings.append(_mcp_finding("BTSC-016", line, code, path))
+
+        for tool in tools:
+            tool_findings, cursor = _scan_mcp_tool(tool, lines, cursor, path)
+            findings.extend(tool_findings)
+
+    # Deduplicate on rule + file + line, matching scan_file's contract.
+    seen = set()
+    deduped = []
+    for f in findings:
+        key = (f["rule_id"], f["file"], f["line"])
+        if key not in seen:
+            seen.add(key)
+            deduped.append(f)
+    return deduped

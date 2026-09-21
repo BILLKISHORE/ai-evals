@@ -41,6 +41,25 @@ def _qualify_model(model):
     return f"{DEFAULT_NAMESPACE}/{model}"
 
 
+def _reasoning_from_output(response):
+    """The reasoning summary from a Responses payload, or None.
+
+    The trace arrives as a reasoning output item whose summary is a list of
+    summary_text parts, sitting beside the message item in a flat output list.
+    Reading it positionally would pick up whichever came first, so the item is
+    found by type.
+    """
+    for item in getattr(response, "output", None) or []:
+        if getattr(item, "type", None) != "reasoning":
+            continue
+        parts = getattr(item, "summary", None) or []
+        chunks = [getattr(pt, "text", "") for pt in parts if getattr(pt, "text", None)]
+        joined = "".join(chunks).strip()
+        if joined:
+            return joined
+    return None
+
+
 @register_provider("perplexity")
 class PerplexityProvider(BaseProvider):
     base_url = "https://api.perplexity.ai/v1"
@@ -57,6 +76,7 @@ class PerplexityProvider(BaseProvider):
 
     def default_model(self):
         return "sonar-pro"
+
 
     def send_prompt(self, prompt, system_prompt=None):
         return self._respond(prompt, system_prompt=system_prompt)
@@ -92,9 +112,7 @@ class PerplexityProvider(BaseProvider):
             tokens_in=getattr(usage, "input_tokens", None) if usage else None,
             tokens_out=getattr(usage, "output_tokens", None) if usage else None,
             latency_ms=ms,
-            # sonar-reasoning models report a reasoning token count; the trace
-            # itself arrives as a Responses reasoning output item, which this
-            # provider does not yet walk (tracked separately).
+            reasoning=_reasoning_from_output(r),
             reasoning_tokens=read_reasoning_tokens(usage),
         )
 

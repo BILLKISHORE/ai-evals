@@ -123,3 +123,31 @@ def test_bedrock_without_reasoning_stays_clean():
     assert r.response == ANSWER
 
 
+# ── perplexity trace off the responses output ────────────────────────
+
+
+def test_perplexity_walks_the_reasoning_output_item():
+    from ai_blackteam.providers.perplexity import PerplexityProvider
+
+    p = PerplexityProvider.__new__(PerplexityProvider)
+    p.model = "sonar-reasoning"
+    p.provider_name = "perplexity"
+    p.web_search = False
+    p._client = MagicMock()
+    resp = SimpleNamespace(
+        output_text=ANSWER,
+        output=[
+            SimpleNamespace(type="reasoning",
+                            summary=[SimpleNamespace(type="summary_text", text=LEAK)]),
+            SimpleNamespace(type="message", content=[]),
+        ],
+        usage=SimpleNamespace(input_tokens=10, output_tokens=20,
+                              output_tokens_details=SimpleNamespace(reasoning_tokens=128)),
+    )
+    p._client.responses.create.return_value = resp
+    r = p.send_prompt("hi")
+    assert r.reasoning == LEAK
+    assert r.reasoning_tokens == 128
+    assert r.response == ANSWER
+
+

@@ -58,3 +58,38 @@ def test_whitespace_around_the_answer_is_trimmed():
     assert reasoning == LEAK
 
 
+# ── ollama ───────────────────────────────────────────────────────────
+
+
+def _ollama(message):
+    from ai_blackteam.providers.ollama import OllamaProvider
+
+    p = OllamaProvider.__new__(OllamaProvider)
+    p.model = "deepseek-r1"
+    p._client = MagicMock()
+    p._client.chat.return_value = message
+    return p
+
+
+def test_ollama_reads_the_thinking_field():
+    """Newer ollama returns the trace on its own field."""
+    msg = {"message": {"content": ANSWER, "thinking": LEAK}}
+    r = _ollama(msg).send_prompt("hi")
+    assert r.reasoning == LEAK
+    assert r.response == ANSWER
+
+
+def test_ollama_splits_inline_think_tags():
+    """deepseek-r1 emits <think> inline when the field is absent."""
+    msg = {"message": {"content": f"<think>{LEAK}</think>{ANSWER}"}}
+    r = _ollama(msg).send_prompt("hi")
+    assert r.reasoning == LEAK
+    assert r.response == ANSWER
+
+
+def test_ollama_without_reasoning_stays_clean():
+    r = _ollama({"message": {"content": ANSWER}}).send_prompt("hi")
+    assert r.reasoning is None
+    assert r.response == ANSWER
+
+

@@ -57,6 +57,28 @@ _REASONING_DETAIL_ATTRS = ("completion_tokens_details", "output_tokens_details")
 _REASONING_FLAT_ATTRS = ("thoughts_token_count",)
 
 
+
+# Reasoning models reached over the OpenAI-compatible API return their trace on
+# the message, not in a separate field. DeepSeek uses `reasoning_content`;
+# some gateways (OpenRouter and others) use `reasoning`. Both are read so the
+# trace is not silently dropped for the five providers on this base.
+_OPENAI_REASONING_ATTRS = ("reasoning_content", "reasoning")
+
+
+def read_openai_reasoning(msg):
+    """The reasoning trace off an OpenAI-style message, or None.
+
+    None rather than "" when absent: an empty string reads as a model that
+    reasoned about nothing, which is a different claim from a non-reasoning
+    model that returned no trace at all.
+    """
+    for attr in _OPENAI_REASONING_ATTRS:
+        value = getattr(msg, attr, None)
+        if isinstance(value, str) and value.strip():
+            return value
+    return None
+
+
 def read_reasoning_tokens(usage):
     """The reasoning token count from a vendor usage object, or None.
 
@@ -228,6 +250,8 @@ class OpenAICompatibleProvider(BaseProvider):
             # A structured refusal is the vendor saying so outright, which is
             # stronger than whatever finish_reason happens to carry.
             stop_reason="refusal" if refused else finish,
+            reasoning=read_openai_reasoning(choice.message),
+            reasoning_tokens=read_reasoning_tokens(r.usage),
         )
 
     def supports_tools(self):
@@ -269,4 +293,6 @@ class OpenAICompatibleProvider(BaseProvider):
             tokens_out=r.usage.completion_tokens if r.usage else None,
             latency_ms=ms,
             stop_reason="refusal" if refused else getattr(r.choices[0], "finish_reason", None),
+            reasoning=read_openai_reasoning(msg),
+            reasoning_tokens=read_reasoning_tokens(r.usage),
         )

@@ -1,7 +1,7 @@
 import time
 from huggingface_hub import InferenceClient
 from ai_blackteam.registry import register_provider
-from ai_blackteam.providers.base import BaseProvider, PromptResult
+from ai_blackteam.providers.base import BaseProvider, PromptResult, read_openai_reasoning, read_reasoning_tokens, split_reasoning_tags
 from ai_blackteam.providers.base import read_openai_message
 from ai_blackteam.retry import retry_with_backoff
 
@@ -27,11 +27,19 @@ class HuggingFaceProvider(BaseProvider):
 
         choice = r.choices[0]
         text, refused = read_openai_message(choice.message)
+        # HF serves deepseek-r1 and QwQ, which return the trace on a
+        # reasoning_content field or inline as <think>. Try the field, then
+        # split inline tags off the answer.
+        reasoning = read_openai_reasoning(choice.message)
+        if reasoning is None:
+            text, reasoning = split_reasoning_tags(text)
         return PromptResult(
             response=text, model=self.model, provider="huggingface",
             tokens_in=r.usage.prompt_tokens if r.usage else None,
             tokens_out=r.usage.completion_tokens if r.usage else None,
             latency_ms=ms,
+            reasoning=reasoning,
+            reasoning_tokens=read_reasoning_tokens(r.usage),
             # A structured refusal is the vendor saying so outright, which
             # is stronger than whatever finish_reason carries.
             stop_reason="refusal" if refused else getattr(choice, "finish_reason", None),
@@ -46,11 +54,19 @@ class HuggingFaceProvider(BaseProvider):
 
         choice = r.choices[0]
         text, refused = read_openai_message(choice.message)
+        # HF serves deepseek-r1 and QwQ, which return the trace on a
+        # reasoning_content field or inline as <think>. Try the field, then
+        # split inline tags off the answer.
+        reasoning = read_openai_reasoning(choice.message)
+        if reasoning is None:
+            text, reasoning = split_reasoning_tags(text)
         return PromptResult(
             response=text, model=self.model, provider="huggingface",
             tokens_in=r.usage.prompt_tokens if r.usage else None,
             tokens_out=r.usage.completion_tokens if r.usage else None,
             latency_ms=ms,
+            reasoning=reasoning,
+            reasoning_tokens=read_reasoning_tokens(r.usage),
             # A structured refusal is the vendor saying so outright, which
             # is stronger than whatever finish_reason carries.
             stop_reason="refusal" if refused else getattr(choice, "finish_reason", None),

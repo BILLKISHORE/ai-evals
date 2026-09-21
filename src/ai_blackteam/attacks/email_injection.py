@@ -11,7 +11,7 @@ class EmailInjection(BaseAttack):
     severity = "high"
     description = "Exploits email-connected AI assistants to exfiltrate data or send unauthorized emails"
     owasp_llm = ["LLM03:2026 Excessive Agency"]
-    owasp_agentic = ["ASI01:2026 Prompt Injection via External Content"]
+    owasp_agentic = ["ASI01:2026 Agent Goal Hijack"]
     mitre_atlas = ["AML.T0054", "AML.T0068"]
     references = []
 

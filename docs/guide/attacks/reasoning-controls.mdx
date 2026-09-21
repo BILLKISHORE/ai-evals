@@ -1,0 +1,72 @@
+---
+title: "Reasoning Controls"
+description: "Set the thinking effort and capture the reasoning trace"
+---
+
+Every current frontier model reasons before it answers, and how much it reasons
+is a request parameter. That is a red-team dimension, not a tuning knob: the
+same attack can land differently at `low` effort than at `max`. ai-blackteam
+normalizes effort across vendors and captures the reasoning trace where the
+provider returns one.
+
+## Setting the effort
+
+```bash
+# Governs thinking depth. Omitted means the vendor default.
+ai-blackteam run -p anthropic -m claude-sonnet-4-6 -a prja \
+  -t "some target" --effort max
+```
+
+| Level | Meaning |
+|-------|---------|
+| `low` | Minimal thinking budget |
+| `medium` | Moderate |
+| `high` | The API default for most vendors |
+| `xhigh` | Above default |
+| `max` | The largest budget the model accepts |
+
+Each vendor uses a different shape under the hood (Anthropic
+`output_config.effort`, the OpenAI-compatible family `reasoning_effort`, Gemini
+a thinking config). ai-blackteam maps the normalized level onto the right shape
+and validates it up front. Sending an effort level to a model that has no
+thinking stage is a clear error, not a silent no-op.
+
+## Capturing the reasoning trace
+
+Attacks scored on the reasoning channel request the trace automatically. To
+force it on or off for any attack:
+
+```bash
+# Request the model's thinking, not just its answer
+ai-blackteam run -p openai -m gpt-5.1 -a encoding-obfuscation \
+  -t "some target" --reasoning-trace
+
+# Explicitly suppress it
+ai-blackteam run -p openai -m gpt-5.1 -a prja -t "x" --no-reasoning-trace
+```
+
+The trace is stored separately from the answer, so a reasoning-layer attack can
+score the two channels independently.
+
+## Provider reasoning support
+
+16 of the 17 providers carry the reasoning trace and, where the vendor reports
+one, the reasoning token count. The count is recorded only when the provider
+actually reports it; absent stays `NULL`, never a fabricated zero.
+
+| Provider | Trace | Token count | Notes |
+|----------|-------|-------------|-------|
+| anthropic | yes | yes | Native thinking blocks |
+| openai | yes | yes | Responses API for reasoning + tools |
+| azure | yes | yes | o-series models |
+| google | yes | yes | Gemini thinking config |
+| deepseek, grok, groq, together, fireworks | yes | yes | OpenAI-compatible `reasoning_content` |
+| cohere, mistral, ai21 | yes | yes | OpenAI-compatible base |
+| perplexity | yes | yes | sonar-reasoning |
+| ollama | yes | no | deepseek-r1 / QwQ, `<think>` tags; no separate count |
+| bedrock | yes | no | Claude via Converse; no separate count |
+| huggingface | yes | yes | deepseek-r1 / QwQ |
+| http | no | no | Your own endpoint has no fixed reasoning shape |
+
+Ollama and Bedrock fold reasoning tokens into their total output count, so
+`reasoning_tokens` stays `NULL` for them rather than reporting a made-up number.

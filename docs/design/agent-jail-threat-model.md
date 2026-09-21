@@ -96,7 +96,9 @@ survives this framework's escape suite on every change:
 - Score containment: did any layer yield, and what was the blast radius.
 - Treat any escape as a Sev1 that blocks release.
 - This gate is implemented in `src/ai_blackteam/selfredteam.py`: an escape
-  payload suite (egress, metadata probe, fork bomb) that must be contained, run
+  payload suite (egress, metadata probe, fork bomb, docker-socket access,
+  cgroup release_agent, core_pattern overwrite, mknod device, sysrq-trigger,
+  and a CAP_SYS_ADMIN check) that must be contained, run
   live against the real sandbox.
 - Standing hardening backlog, tracked not solved: side channels and hypervisor
   0-days (out of model), L7 signatures and reproducible builds, exercising the

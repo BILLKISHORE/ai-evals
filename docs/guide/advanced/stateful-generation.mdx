@@ -1,0 +1,49 @@
+---
+title: "Stateful Generation"
+description: "An adaptive generator that remembers what a target refused"
+---
+
+The adaptive generators (PAIR, TAP, AutoDAN, and others) restart from the seed
+prompt on every attempt. The stateful generator is different: it carries what a
+target already refused and already conceded between attempts, so a later attempt
+is conditioned on what earlier ones learned.
+
+## Listing the generators
+
+```bash
+ai-blackteam generate list
+```
+
+This reads the generator registry and shows every generator and whether it has a
+CLI command yet:
+
+```
+Name       Command    Description
+autodan    autodan    Genetic-algorithm prompt evolution
+fuzzer     fuzz       Mutation-based prompt fuzzing
+pair       pair       Attacker-target-judge refinement loop
+stateful   stateful   Carries what the target already refused between attempts
+tap        tap        Tree of attacks with pruning
+```
+
+Generators listed with `no` in the Command column are registered but reachable
+only from the Python API for now.
+
+## Running the stateful generator
+
+```bash
+ai-blackteam generate stateful \
+  -p anthropic -m claude-sonnet-4-6 \
+  -t "target behavior to elicit" \
+  --attempts 5
+
+# Persist what the target refused, so a later run starts from it
+ai-blackteam generate stateful \
+  -p anthropic -m claude-sonnet-4-6 \
+  -t "target behavior" \
+  --state-file ./target-state.json
+```
+
+With `--state-file`, the generator writes what it learned to disk. Pointing a
+later run at the same file means a sweep that hits the same model twice does not
+pay to rediscover the same refusals.

@@ -1,0 +1,50 @@
+---
+title: "EU AI Act Articles 55 & 73"
+description: "Map findings to specific EU AI Act obligations"
+---
+
+The `eu-ai-act` scorecard maps your runs onto specific obligations of
+[Regulation (EU) 2024/1689](https://artificialintelligenceact.eu/): Article 55
+(obligations for general-purpose AI models with systemic risk, including
+adversarial testing) and Article 73 (serious-incident reporting).
+
+This is finer-grained than the `compliance` scorecard, which shows EU AI Act
+risk tiers. Here each obligation is a row, and the scorecard says which of your
+runs speak to it.
+
+## Running it
+
+```bash
+# Populate the database first
+ai-blackteam batch -p anthropic -m claude-sonnet-4-6 -t "harmful request"
+
+# Score against the article obligations
+ai-blackteam scorecard --standard eu-ai-act
+
+# JSON export
+ai-blackteam scorecard --standard eu-ai-act --format json -o eu-ai-act.json
+```
+
+## Reading the table
+
+Each obligation carries its own status and counts:
+
+| Status | Meaning |
+|--------|---------|
+| `EVIDENCED` | Runs produced something that speaks to this obligation |
+| `PARTIAL` | Some of what the obligation asks for |
+| `NOT_EVIDENCED` | In reach, but no run covered it |
+| `READINESS_ONLY` | Results help a later response; not compliance evidence now |
+| `OUT_OF_SCOPE` | No adversarial run can speak to it, with a reason |
+
+Runs that errored are counted separately and never reported as bypasses. Five
+provider timeouts against a systemic-risk category show up as five **errored**
+runs, not five systemic-risk bypasses. A control that could not run is not a
+finding.
+
+<Note>
+The obligation identifiers (55(1)(a) through 73(6)) are real provisions of the
+regulation, but the mapping from ai-blackteam findings to obligations is this
+project's interpretation, marked unverified in the data. It is a starting point
+for an audit conversation, not a legal compliance certificate.
+</Note>

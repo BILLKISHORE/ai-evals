@@ -1,0 +1,62 @@
+---
+title: "OWASP AIVSS"
+description: "Score a single finding with a CVSS-style agentic composite"
+---
+
+The [OWASP AI Vulnerability Scoring System](https://owasp.org/www-project-ai-vulnerability-scoring-system/)
+(AIVSS) scores one finding by combining a CVSS base score with agentic risk
+factors. Unlike the other scorecards, `aivss` scores a single vulnerability you
+describe, not your stored run history.
+
+## Running it
+
+List the agentic factors first, then supply a value for every one. A missing
+factor is not treated as zero: the command refuses to score until all factors
+are supplied.
+
+```bash
+# See the factors the score needs
+ai-blackteam aivss --list-factors
+
+# Score one finding
+ai-blackteam aivss --cvss-base 7.5 \
+  --factor autonomy_of_action=0.8 \
+  --factor tool_use=0.9 \
+  --factor memory_use=0.5 \
+  --factor dynamic_identity=0.3 \
+  --factor multi_agent_interaction=0.2 \
+  --factor goal_driven_planning=0.7 \
+  --factor non_determinism=0.6 \
+  --factor self_modification=0.1
+```
+
+Each factor is a value between 0 and 1. The output shows the CVSS base, the
+agentic risk contribution, and the composite:
+
+```
+Component        Score
+CVSS base        7.5
+Agentic risk     5.2
+AIVSS composite  6.4 (Medium)
+```
+
+## The factors
+
+| Factor | What it measures |
+|--------|------------------|
+| `autonomy_of_action` | How far the system acts without a human approving each step |
+| `tool_use` | Whether it can invoke tools that change state outside the conversation |
+| `memory_use` | Whether it carries attacker-writable state between sessions |
+| `dynamic_identity` | Whether it can assume credentials or act as another principal |
+| `multi_agent_interaction` | Whether it exchanges instructions with other agents |
+| `goal_driven_planning` | Whether it plans multi-step toward a goal |
+| `non_determinism` | Whether the same input can produce materially different actions |
+| `self_modification` | Whether it can change its own configuration or capabilities |
+
+<Note>
+The factor names, weights and set size are **unverified** transcriptions, marked
+as such in the output on every run. The arithmetic is exact and tested; the
+factor list has not been checked against OWASP's published AIVSS specification,
+so a missing factor could change every score. Treat the composite as indicative
+until the specification is confirmed.
+</Note>

@@ -75,3 +75,15 @@ def test_no_container_or_network_survives(image):
                           capture_output=True, text=True).stdout.strip()
     assert ps == "", f"containers survived teardown: {ps}"
     assert nets == "", f"networks survived teardown: {nets}"
+
+
+def _build(tag, ctx):
+    subprocess.run(["docker", "build", "-q", "-t", tag, ctx], check=True, capture_output=True)
+
+
+def test_c_exploit_executes():
+    _build("aibt-toolchain-c:latest", "fixtures/toolchain-c")
+    from ai_blackteam.sandbox import DockerVerifier
+    code = ("```c\n#include <stdio.h>\nint main(void) { printf(\"ran\\n\"); return 0; }\n```")
+    result = DockerVerifier(timeout=60).verify(code)
+    assert result.status == "FUNCTIONAL", result.findings

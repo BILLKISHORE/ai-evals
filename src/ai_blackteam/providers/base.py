@@ -65,6 +65,33 @@ _REASONING_FLAT_ATTRS = ("thoughts_token_count",)
 _OPENAI_REASONING_ATTRS = ("reasoning_content", "reasoning")
 
 
+
+# Many open reasoning models (deepseek-r1, QwQ, and others run locally or
+# through gateways that do not split the fields) emit the trace inline, wrapped
+# in <think>...</think> before the answer, rather than on a separate field.
+import re as _re
+
+_THINK_BLOCK = _re.compile(r"^\s*<think>(.*?)</think>\s*", _re.DOTALL | _re.IGNORECASE)
+
+
+def split_reasoning_tags(text):
+    """Split a leading <think>...</think> block off the answer.
+
+    Returns (answer, reasoning). Only a complete, leading block is split: an
+    unclosed <think> from a truncated response is left in the answer untouched,
+    because discarding the rest of the body to a stray open tag would lose the
+    response entirely. No tags means (text, None).
+    """
+    if not text:
+        return text, None
+    m = _THINK_BLOCK.match(text)
+    if not m:
+        return text, None
+    reasoning = m.group(1).strip()
+    answer = text[m.end():].strip()
+    return answer, (reasoning or None)
+
+
 def read_openai_reasoning(msg):
     """The reasoning trace off an OpenAI-style message, or None.
 

@@ -2481,9 +2481,10 @@ def generate_autodan(provider, model, target, attacker, judge, population, gener
 @click.option("-t", "--target", default="vulnerability research", help="Target description")
 @click.option("--verify", is_flag=True, help="Enable exploit verification")
 @click.option("--verify-llm", is_flag=True, help="Use LLM judge for verification (costs API calls)")
+@click.option("--verify-sandbox", is_flag=True, help="Verify exploits by executing them in a hardened Docker sandbox")
 @click.option("--verbose", is_flag=True)
 @click.option("--quiet", is_flag=True)
-def vuln_research(provider, model, vr_mode, code_path, target, verify, verify_llm, verbose, quiet):
+def vuln_research(provider, model, vr_mode, code_path, target, verify, verify_llm, verify_sandbox, verbose, quiet):
     """Run vulnerability research elicitation attacks."""
     from ai_blackteam.attacks.vuln_research import VulnResearchSynthetic, VulnResearchCVE, VulnResearchUserCode
 
@@ -2521,7 +2522,7 @@ def vuln_research(provider, model, vr_mode, code_path, target, verify, verify_ll
     for atk in attacks:
         if not quiet:
             console.print(f"[cyan]Running {atk.technique_id}...[/cyan]")
-        results = engine.run(prov, atk, target, verify=verify, verify_llm=verify_llm)
+        results = engine.run(prov, atk, target, verify=verify, verify_llm=verify_llm, verify_sandbox=verify_sandbox)
         all_results.extend(results if isinstance(results, list) else [results])
 
     if not quiet:

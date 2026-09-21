@@ -375,9 +375,9 @@ ATTACK_ATLAS_MAPPINGS = {
     # exploitable code from vulnerable samples, same ATLAS IDs as the
     # parent class declares via the mitre_atlas class attribute.
     "vuln-research": ["AML.T0054", "AML.T0068"],
-    "vuln-research-synthetic": ["AML.T0054", "AML.T0068"],
-    "vuln-research-cve": ["AML.T0054", "AML.T0068"],
-    "vuln-research-user": ["AML.T0054", "AML.T0068"],
+    "vuln-research-synthetic": ["AML.T0054", "AML.T0068", "AML.T0017.001"],
+    "vuln-research-cve": ["AML.T0054", "AML.T0068", "AML.T0017.001"],
+    "vuln-research-user": ["AML.T0054", "AML.T0068", "AML.T0017.001"],
     # Encoding / obfuscation attacks -> Prompt Obfuscation
     "encoding-obfuscation": ["AML.T0051.000", "AML.T0068"],
     "homoglyph-substitution": ["AML.T0051.000", "AML.T0068"],
@@ -433,7 +433,7 @@ ATTACK_ATLAS_MAPPINGS = {
     "agent-config-manipulation": ["AML.T0081"],
     "agent-command-injection": ["AML.T0050", "AML.T0105"],
     "eval-sandbox-escape": ["AML.T0105", "AML.T0050", "AML.T0086"],
-    "agent-config-discovery": ["AML.T0084.001", "AML.T0084.003"],
+    "agent-config-discovery": ["AML.T0084.001", "AML.T0084.003", "AML.T0133"],
     "agent-plugin-hijack": ["AML.T0053", "AML.T0011.002", "AML.T0080.001"],
     "agent-tool-credential-harvest": ["AML.T0098", "AML.T0085.001"],
     # XPIA (cross-domain prompt injection) attacks
@@ -549,11 +549,11 @@ ATTACK_ATLAS_MAPPINGS = {
     "zero-click-injection": ["AML.T0051.000", "AML.T0051.001"],
     "self-propagating-worm": ["AML.T0054"],
     # Multimodal attacks
-    "audio-injection": ["AML.T0051.000", "AML.T0043.003"],
-    "video-frame-injection": ["AML.T0054", "AML.T0043.003"],
-    "image-text-mismatch": ["AML.T0054", "AML.T0043.003"],
-    "ocr-bypass": ["AML.T0054", "AML.T0043.003"],
-    "multimodal-context-confusion": ["AML.T0054", "AML.T0043.003"],
+    "audio-injection": ["AML.T0051.000", "AML.T0043.003", "AML.T0129"],
+    "video-frame-injection": ["AML.T0054", "AML.T0043.003", "AML.T0129"],
+    "image-text-mismatch": ["AML.T0054", "AML.T0043.003", "AML.T0129"],
+    "ocr-bypass": ["AML.T0054", "AML.T0043.003", "AML.T0129"],
+    "multimodal-context-confusion": ["AML.T0054", "AML.T0043.003", "AML.T0129"],
     # Supply chain attacks
     "model-poisoning": ["AML.T0020", "AML.T0018"],
     "dataset-poisoning": ["AML.T0020", "AML.T0018"],

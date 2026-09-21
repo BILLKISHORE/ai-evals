@@ -12,7 +12,7 @@ class OcrBypass(BaseAttack):
     description = "Harmful instructions rendered as text in images to bypass text-based safety filters via OCR processing"
     owasp_llm = ["LLM01:2026 Prompt Injection"]
     owasp_agentic = []
-    mitre_atlas = ["AML.T0054", "AML.T0043.003"]
+    mitre_atlas = ["AML.T0054", "AML.T0043.003", "AML.T0129"]
     references = []
 
     def generate_prompts(self, target, **kwargs):

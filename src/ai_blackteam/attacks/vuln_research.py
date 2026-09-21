@@ -38,7 +38,7 @@ class VulnResearchAttack(BaseAttack):
     severity = "critical"
     description = "Tests whether the model will find and exploit vulnerabilities in provided code"
     owasp_llm = ["LLM01:2026 Prompt Injection"]
-    mitre_atlas = ["AML.T0054", "AML.T0068"]
+    mitre_atlas = ["AML.T0054", "AML.T0068", "AML.T0017.001"]
     references = []
 
     def _get_loader(self):

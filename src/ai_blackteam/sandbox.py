@@ -40,13 +40,33 @@ from ai_blackteam.verifier import (
 # verifier internals.
 PYTHON_FENCE_TAGS = {"python", "py", "python3", "py3"}
 BASH_FENCE_TAGS = {"bash", "sh", "shell"}
-SUPPORTED_FENCE_TAGS = PYTHON_FENCE_TAGS | BASH_FENCE_TAGS
+C_FENCE_TAGS = {"c"}
+SUPPORTED_FENCE_TAGS = PYTHON_FENCE_TAGS | BASH_FENCE_TAGS | C_FENCE_TAGS
+
+DEFAULT_C_IMAGE = os.environ.get("AIBT_SANDBOX_C_IMAGE", "aibt-toolchain-c:latest")
+# Compile the C source from stdin and exec the binary. /build is a separate,
+# size-capped, exec-able tmpfs so /work stays noexec; a compiler needs an
+# exec-able location, which the interpreted languages never do.
+_C_COMPILE_RUN = "cd /build && cat > e.c && TMPDIR=/build gcc -pipe -O0 -o e e.c && exec ./e"
+_C_BUILD_TMPFS = ["--tmpfs", "/build:rw,exec,size=64m,mode=1777,nosuid,nodev"]
+
 
 def _interpreter_for(lang):
     """The in-container command that runs a fenced block by language."""
     if lang in BASH_FENCE_TAGS:
         return ["sh", "-s"]
     return ["python", "-I", "-"]
+
+
+def _runtime_for(lang):
+    """(command, image_override, extra_run_args) for a fenced block by language.
+
+    image_override is None for interpreted languages (they run on the base image);
+    C compiles on a toolchain image and needs the exec-able build tmpfs.
+    """
+    if lang in C_FENCE_TAGS:
+        return ["sh", "-c", _C_COMPILE_RUN], DEFAULT_C_IMAGE, list(_C_BUILD_TMPFS)
+    return _interpreter_for(lang), None, []
 _FENCE_RE = re.compile(r"```(\w+)?[^\S\n]*\n(.*?)```", re.DOTALL)
 
 
@@ -134,8 +154,10 @@ class DockerVerifier(BaseVerifier):
         # L7 signature verification (cosign); None allows unsigned images.
         self.signature_key = signature_key
         self._signature_verifier = signature_verifier or self._cosign_verify
-        # Interpreter for the current run; verify() sets it per language.
+        # Per-run language runtime; verify() sets these per fenced language.
         self._interp = ["python", "-I", "-"]
+        self._lang_image = None
+        self._exec_extra = []
         # Both runners are injectable so tests never need a real daemon.
         self._runner = runner or self._run_in_container
         self._network_runner = network_runner or self._run_with_fixture
@@ -187,8 +209,9 @@ class DockerVerifier(BaseVerifier):
             "--memory", self.MEMORY,
             "--memory-swap", self.MEMORY,        # equal to memory means no swap
             "--cpus", self.CPUS,
-            self._image_ref(),
-            *self._interp,                       # language interpreter, reads code from stdin, no host mount
+            *self._exec_extra,
+            self._lang_image or self._image_ref(),
+            *self._interp,                       # language runtime, reads code from stdin, no host mount
         ]
 
     def _run_in_container(self, code: str):
@@ -258,7 +281,8 @@ class DockerVerifier(BaseVerifier):
             "--memory", self.MEMORY,
             "--memory-swap", self.MEMORY,
             "--cpus", self.CPUS,
-            self._image_ref(),
+            *self._exec_extra,
+            self._lang_image or self._image_ref(),
             *self._interp,
         ]
 
@@ -433,8 +457,8 @@ class DockerVerifier(BaseVerifier):
 
         if lang and lang not in SUPPORTED_FENCE_TAGS:
             return self._unverified(
-                f"docker verify supports python and bash, got '{lang}'", code, ground_truth)
-        self._interp = _interpreter_for(lang)
+                f"docker verify supports python, bash, and c, got '{lang}'", code, ground_truth)
+        self._interp, self._lang_image, self._exec_extra = _runtime_for(lang)
 
         if not self._docker_available():
             return self._unverified(

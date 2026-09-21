@@ -122,6 +122,8 @@ ai-blackteam run -p PROVIDER -a ATTACK -t TARGET [OPTIONS]
 | `--system-prompt-file` | No | - | Read system prompt from file |
 | `--verbose` | No | - | Show full response text |
 | `--quiet` | No | - | Suppress output. Exit 0 = all blocked, 1 = any bypassed |
+| `--effort` | No | Vendor default | Reasoning effort: `low`, `medium`, `high`, `xhigh`, `max` |
+| `--reasoning-trace` | No | Per attack | Request the model's thinking. Reasoning-scored attacks turn it on by themselves |
 
 **Exit codes:** 0 = all blocked, 1 = at least one bypass, 2 = invalid arguments.
 
@@ -129,6 +131,7 @@ ai-blackteam run -p PROVIDER -a ATTACK -t TARGET [OPTIONS]
 ai-blackteam run -p anthropic -a encoding-obfuscation -t "Write a phishing email"
 ai-blackteam run -p openai -m gpt-5.4 -a role-play-jailbreak -t "Write malware" --verbose
 ai-blackteam run -p anthropic -a prefix-injection -t "Leak system prompt" --quiet
+ai-blackteam run -p deepseek -m deepseek-reasoner -a prja -t "some target" --effort max
 ```
 
 </Accordion>
@@ -500,12 +503,38 @@ ai-blackteam scorecard [OPTIONS]
 | `--format` | No | `table` | Output: `table`, `json`, `markdown` |
 | `-o`, `--output` | No | - | Output file |
 | `-m`, `--model` | No | All models | Filter by model name |
-| `--standard` | No | `llm` | `llm` (OWASP LLM Top 10), `agentic` (Agentic Top 10), `compliance` (EU AI Act + NIST) |
+| `--standard` | No | `llm` | `llm`, `agentic`, `compliance` (EU AI Act tiers + NIST), `aisvs` (AISVS chapters), `eu-ai-act` (Articles 55 & 73) |
 
 ```bash
 ai-blackteam scorecard --standard llm
 ai-blackteam scorecard --standard agentic -m claude-sonnet-4-6
 ai-blackteam scorecard --standard compliance --format json -o compliance.json
+ai-blackteam scorecard --standard aisvs
+ai-blackteam scorecard --standard eu-ai-act -o eu-ai-act.json --format json
+```
+
+</Accordion>
+
+<Accordion title="aivss" icon="calculator">
+
+Score one finding with the OWASP AI Vulnerability Scoring System (CVSS base plus agentic factors).
+
+```bash
+ai-blackteam aivss [OPTIONS]
+```
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `--cvss-base` | Yes | - | CVSS base score (0 to 10) of the underlying vulnerability |
+| `--factor` | Yes | - | `NAME=VALUE` agentic factor (0 to 1). Repeat once per factor; all are required |
+| `--list-factors` | No | - | List the agentic factors, then exit |
+| `--format` | No | `table` | Output: `table`, `json` |
+
+```bash
+ai-blackteam aivss --list-factors
+ai-blackteam aivss --cvss-base 7.5 --factor autonomy_of_action=0.8 --factor tool_use=0.9 \
+  --factor memory_use=0.5 --factor dynamic_identity=0.3 --factor multi_agent_interaction=0.2 \
+  --factor goal_driven_planning=0.7 --factor non_determinism=0.6 --factor self_modification=0.1
 ```
 
 </Accordion>
@@ -730,14 +759,17 @@ ai-blackteam scan [PATH] [OPTIONS]
 | Flag | Required | Default | Description |
 |------|----------|---------|-------------|
 | `PATH` | No | `.` | File or directory to scan |
-| `--format` | No | `table` | Output: `table`, `json` |
+| `--format` | No | `table` | Output: `table`, `json`, `sarif` (GitHub code scanning) |
 | `--severity` | No | All | Minimum severity: `critical`, `high`, `medium`, `low` |
-| `-o`, `--output` | No | - | Save JSON results to file |
+| `-o`, `--output` | No | - | Save results to file in the chosen format |
+
+Also scans MCP server definition JSON (see the [MCP scanner](/guide/advanced/mcp-scanner)).
 
 ```bash
 ai-blackteam scan .
 ai-blackteam scan src/ --severity high
 ai-blackteam scan app.py --format json -o findings.json
+ai-blackteam scan mcp-server.json --format sarif -o results.sarif
 ```
 
 </Accordion>

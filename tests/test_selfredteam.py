@@ -29,3 +29,15 @@ def test_run_suite_all_contained_offline():
     v = _FakeVerifier({"stdout": "blocked", "stderr": "", "timed_out": False})
     ok, results = run_suite(v)
     assert ok and len(results) == len(ESCAPE_PAYLOADS)
+
+
+def test_assess_flags_an_escaped_marker():
+    v = _FakeVerifier({"stdout": "ESCAPED_RELEASE_AGENT", "stderr": "", "timed_out": False})
+    result = assess("cgroup-release-agent", "code", v)
+    assert not result["contained"] and result["leaked"]
+
+
+def test_breakout_payloads_are_present():
+    from ai_blackteam.selfredteam import ESCAPE_PAYLOADS
+    for name in ("docker-socket", "cgroup-release-agent", "core-pattern", "mknod-device", "sysrq-trigger", "cap-sys-admin"):
+        assert name in ESCAPE_PAYLOADS

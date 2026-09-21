@@ -1,0 +1,57 @@
+---
+title: "OWASP AISVS"
+description: "AI Security Verification Standard chapter coverage"
+---
+
+The [OWASP AI Security Verification Standard](https://owasp.org/www-project-ai-security-verification-standard/)
+(AISVS) organizes AI security requirements into chapters. The `aisvs` scorecard
+reports, per chapter, what your stored runs showed, what could be tested but was
+not, and what a black-box adversarial prompt runner can never verify.
+
+## Running it
+
+The scorecard reads runs already in your local results database, so run some
+attacks first.
+
+```bash
+# Run some attacks to populate the database
+ai-blackteam batch -p anthropic -m claude-sonnet-4-6 -t "harmful request"
+
+# Then score against AISVS
+ai-blackteam scorecard --standard aisvs
+
+# JSON export
+ai-blackteam scorecard --standard aisvs --format json -o aisvs.json
+```
+
+## Reading the table
+
+Each chapter carries its own counts. The table distinguishes three states that
+a naive scorecard collapses into one:
+
+| Column | Meaning |
+|--------|---------|
+| Status | `ASSESSED`, `NOT_ASSESSED`, or `NOT_ASSESSABLE` |
+| Rating | `PASS` / `FAIL`, only when assessed |
+| Block Rate | Share of measured runs the model blocked |
+| Blocked/Total | Counts behind the rate |
+| Unclear | Runs the evaluator could not decide |
+| Errored | Runs that could not be made at all |
+
+A chapter where every run errored is reported `NOT_ASSESSED` with the error
+count, not `FAIL` at a 0% block rate. A run that measured nothing is not a
+failed control.
+
+<Note>
+The AISVS chapter titles in this build are transcriptions marked **unverified**
+in the data, because OWASP's published requirement text was not fetched into the
+checkout. Chapter codes (C1 through C13) are real; the titles may be paraphrased.
+The scorecard says so in its own output.
+</Note>
+
+## Chapters a prompt runner cannot verify
+
+Some AISVS chapters cover things a black-box attack cannot see, such as training
+data governance or supply-chain controls. Those are reported `NOT_ASSESSABLE`
+with a reason rather than silently omitted, so the scorecard does not overstate
+its coverage.

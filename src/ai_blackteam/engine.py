@@ -162,7 +162,7 @@ class Engine:
         self.storage = Storage(db_path)
 
     def run_single(self, provider, attack, target, system_prompt=None,
-                    verify=False, verify_llm=False):
+                    verify=False, verify_llm=False, verify_sandbox=False):
         logger.info(f"Running {attack.technique_id} (single-turn) against target")
         results = []
         signal = resolve_signal(attack)
@@ -184,10 +184,14 @@ class Engine:
                 verify_confidence = None
                 verify_ground_truth = None
                 if verify:
-                    from ai_blackteam.verifier import combined_verify
                     sample_idx = i // 3 if vuln_samples else None
                     vuln_info = vuln_samples[sample_idx] if vuln_samples and sample_idx is not None and sample_idx < len(vuln_samples) else None
-                    v_result = combined_verify(result.response, vuln_info=vuln_info, use_llm=verify_llm)
+                    if verify_sandbox:
+                        from ai_blackteam.sandbox import verify_all
+                        v_result = verify_all(result.response, vuln_info=vuln_info, use_llm=verify_llm)
+                    else:
+                        from ai_blackteam.verifier import combined_verify
+                        v_result = combined_verify(result.response, vuln_info=vuln_info, use_llm=verify_llm)
                     verify_status = v_result.status
                     verify_confidence = v_result.confidence
                     verify_ground_truth = v_result.ground_truth_match
@@ -435,14 +439,14 @@ class Engine:
             "confidence": eval_result["confidence"],
         }
 
-    def run(self, provider, attack, target, system_prompt=None, verify=False, verify_llm=False):
+    def run(self, provider, attack, target, system_prompt=None, verify=False, verify_llm=False, verify_sandbox=False):
         if attack.mode == "tool-use":
             return self.run_tool_use(provider, attack, target, system_prompt=system_prompt)
         elif attack.mode == "multi-turn":
             return self.run_multi_turn(provider, attack, target, system_prompt=system_prompt)
         else:
             return self.run_single(provider, attack, target, system_prompt=system_prompt,
-                                   verify=verify, verify_llm=verify_llm)
+                                   verify=verify, verify_llm=verify_llm, verify_sandbox=verify_sandbox)
 
     # ── Async parallel execution ──────────────────────────────────────
 

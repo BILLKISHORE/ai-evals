@@ -28,7 +28,7 @@ mcp-tool-poisoning        AML.T0110.000, AML.T0011.002  Tool Poisoning: Definiti
 
 ## Key techniques mapped
 
-ai-blackteam defines 69 ATLAS techniques and exercises 38 of them with its attack library:
+ai-blackteam defines 69 ATLAS techniques and exercises 41 of them with its attack library:
 
 | Technique ID | Name | Tactic | ai-blackteam attacks |
 |-------------|------|--------|----------------|
@@ -41,7 +41,7 @@ ai-blackteam defines 69 ATLAS techniques and exercises 38 of them with its attac
 | AML.T0011.002 | User Execution: Poisoned AI Agent Tool | Execution | agent-plugin-hijack, mcp-tool-poisoning |
 | AML.T0016.003 | Obtain Capabilities: Exploits | Resource Development | _not yet exercised_ |
 | AML.T0016.004 | Obtain Capabilities: AI Agent Tools | Resource Development | _not yet exercised_ |
-| AML.T0017.001 | Develop Capabilities: Autonomous Exploit Development | Resource Development | _not yet exercised_ |
+| AML.T0017.001 | Develop Capabilities: Autonomous Exploit Development | Resource Development | vuln-research-cve, vuln-research-synthetic, vuln-research-user |
 | AML.T0017.002 | Develop Capabilities: AI Agent Tools | Resource Development | _not yet exercised_ |
 | AML.T0018 | Manipulate AI Model | AI Attack Adaptation | dataset-poisoning, finetune-exploit, model-poisoning |
 | AML.T0020 | Training Data Poisoning | Persistence | dataset-poisoning, finetune-exploit, knowledge-base-poisoning (+1 more) |
@@ -95,11 +95,11 @@ ai-blackteam defines 69 ATLAS techniques and exercises 38 of them with its attac
 | AML.T0126 | Automated Collection | Collection | _not yet exercised_ |
 | AML.T0127 | Data Staged | Collection | _not yet exercised_ |
 | AML.T0128 | Compromise Infrastructure | Resource Development | _not yet exercised_ |
-| AML.T0129 | Triggers in Multimodal Inputs | Defense Evasion | _not yet exercised_ |
+| AML.T0129 | Triggers in Multimodal Inputs | Defense Evasion | audio-injection, image-text-mismatch, multimodal-context-confusion (+2 more) |
 | AML.T0130 | AI Agent Response Biasing | Impact | _not yet exercised_ |
 | AML.T0131 | Crafted AI Assistant Links | Initial Access | _not yet exercised_ |
 | AML.T0132 | Misconfigured or Publicly Exposed AI Services | Initial Access | _not yet exercised_ |
-| AML.T0133 | Discover AI Agent Runtime Capabilities | Discovery | _not yet exercised_ |
+| AML.T0133 | Discover AI Agent Runtime Capabilities | Discovery | agent-config-discovery |
 | AML.T0134 | AI Targeted Cloaking | Defense Evasion | _not yet exercised_ |
 
 ## Using ATLAS in reports

@@ -12,7 +12,7 @@ class ImageTextMismatch(BaseAttack):
     description = "Conflicting information between image content and text prompt to confuse multimodal safety filters"
     owasp_llm = ["LLM01:2026 Prompt Injection", "LLM07:2026 Misinformation"]
     owasp_agentic = []
-    mitre_atlas = ["AML.T0054", "AML.T0043.003"]
+    mitre_atlas = ["AML.T0054", "AML.T0043.003", "AML.T0129"]
     references = []
 
     def generate_prompts(self, target, **kwargs):

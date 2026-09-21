@@ -93,3 +93,33 @@ def test_ollama_without_reasoning_stays_clean():
     assert r.response == ANSWER
 
 
+# ── bedrock ──────────────────────────────────────────────────────────
+
+
+def _bedrock(content_blocks):
+    from ai_blackteam.providers.bedrock import BedrockProvider
+
+    p = BedrockProvider.__new__(BedrockProvider)
+    p.model = "claude-reasoner"
+    return p._to_prompt_result(
+        {"output": {"message": {"content": content_blocks}},
+         "usage": {"inputTokens": 10, "outputTokens": 20}},
+        1.0,
+    )
+
+
+def test_bedrock_extracts_the_reasoning_content_block():
+    r = _bedrock([
+        {"reasoningContent": {"reasoningText": {"text": LEAK}}},
+        {"text": ANSWER},
+    ])
+    assert r.reasoning == LEAK
+    assert r.response == ANSWER
+
+
+def test_bedrock_without_reasoning_stays_clean():
+    r = _bedrock([{"text": ANSWER}])
+    assert r.reasoning is None
+    assert r.response == ANSWER
+
+

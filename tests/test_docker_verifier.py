@@ -275,3 +275,14 @@ def test_unsupported_language_is_unverified():
     result = DockerVerifier(runner=_clean, docker_bin="echo").verify("```c\nint main(){}\n```")
     assert result.status == "UNVERIFIED"
     assert "python and bash" in result.findings[0]
+
+
+def test_pinned_image_runs_by_digest():
+    args = DockerVerifier(image_digest="sha256:abc123")._run_args("job-1")
+    assert "sha256:abc123" in args
+    assert "python:3.12-slim" not in args
+
+
+def test_unpinned_image_runs_by_tag():
+    args = DockerVerifier()._run_args("job-1")
+    assert "python:3.12-slim" in args

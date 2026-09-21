@@ -140,6 +140,11 @@ class DockerVerifier(BaseVerifier):
     def _docker_available(self) -> bool:
         return shutil.which(self.docker_bin) is not None
 
+    def _image_ref(self) -> str:
+        """Run by the pinned digest when set so the attested bytes are the run
+        bytes, closing the launch-by-tag TOCTOU."""
+        return self.image_digest or self.image
+
     RUNTIME_ALIASES = {"gvisor": "runsc", "runsc": "runsc", "kata": "kata-runtime", "firecracker": "kata-fc"}
 
     def _runtime_args(self) -> list:
@@ -179,7 +184,7 @@ class DockerVerifier(BaseVerifier):
             "--memory", self.MEMORY,
             "--memory-swap", self.MEMORY,        # equal to memory means no swap
             "--cpus", self.CPUS,
-            self.image,
+            self._image_ref(),
             *self._interp,                       # language interpreter, reads code from stdin, no host mount
         ]
 
@@ -228,7 +233,7 @@ class DockerVerifier(BaseVerifier):
             "--pids-limit", str(self.PIDS),
             "--memory", self.MEMORY,
             "--env", f"CANARY={canary}",
-            self.fixture.image,
+            (self.fixture.digest or self.fixture.image),
             *self.fixture.start_args,
         ]
 
@@ -250,7 +255,7 @@ class DockerVerifier(BaseVerifier):
             "--memory", self.MEMORY,
             "--memory-swap", self.MEMORY,
             "--cpus", self.CPUS,
-            self.image,
+            self._image_ref(),
             *self._interp,
         ]
 

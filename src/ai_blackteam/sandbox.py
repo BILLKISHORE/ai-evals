@@ -113,7 +113,7 @@ class DockerVerifier(BaseVerifier):
     def __init__(self, image=None, timeout=None, runner=None, docker_bin="docker",
                  fixture=None, network_runner=None, runtime=None, extra_run_args=None,
                  image_digest=None, strict=False, inspect_runner=None, audit=None,
-                 seccomp_profile=None):
+                 seccomp_profile=None, signature_key=None, signature_verifier=None):
         self.image = image or os.environ.get("AIBT_SANDBOX_IMAGE", self.DEFAULT_IMAGE)
         self.timeout = timeout if timeout is not None else self.DEFAULT_TIMEOUT
         self.docker_bin = docker_bin
@@ -131,6 +131,9 @@ class DockerVerifier(BaseVerifier):
         self.audit = audit
         # L1 seccomp: an explicit profile path; None relies on the daemon default.
         self.seccomp_profile = seccomp_profile
+        # L7 signature verification (cosign); None allows unsigned images.
+        self.signature_key = signature_key
+        self._signature_verifier = signature_verifier or self._cosign_verify
         # Interpreter for the current run; verify() sets it per language.
         self._interp = ["python", "-I", "-"]
         # Both runners are injectable so tests never need a real daemon.
@@ -338,12 +341,36 @@ class DockerVerifier(BaseVerifier):
             return False, f"attestation mismatch for {image}: expected {pin}, got {resolved}"
         return True, ""
 
+    def _cosign_verify(self, image):
+        if shutil.which("cosign") is None:
+            return False, "signature verification requested but cosign is not installed"
+        try:
+            proc = subprocess.run(["cosign", "verify", "--key", self.signature_key, image],
+                                  capture_output=True, text=True, timeout=30)
+            if proc.returncode != 0:
+                return False, f"signature verification failed for {image}"
+            return True, ""
+        except (OSError, subprocess.SubprocessError):
+            return False, f"signature verification error for {image}"
+
+    def _verify_signature(self, image):
+        """Verify an image signature when a key is configured. Fails closed."""
+        if not self.signature_key:
+            return True, ""
+        return self._signature_verifier(image)
+
     def _attest_all(self):
         ok, reason = self._attest(self.image, self.image_digest)
         if not ok:
             return ok, reason
+        ok, reason = self._verify_signature(self.image)
+        if not ok:
+            return ok, reason
         if self.fixture is not None:
-            return self._attest(self.fixture.image, getattr(self.fixture, "digest", ""))
+            ok, reason = self._attest(self.fixture.image, getattr(self.fixture, "digest", ""))
+            if not ok:
+                return ok, reason
+            return self._verify_signature(self.fixture.image)
         return True, ""
 
     def _emit_audit(self, mode, run, status, confidence):

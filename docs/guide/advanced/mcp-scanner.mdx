@@ -1,0 +1,59 @@
+---
+title: "MCP Server Scanner"
+description: "Static scan of MCP server definitions for dangerous patterns"
+---
+
+An MCP (Model Context Protocol) server exposes tools to an agent. A malicious or
+careless server definition can poison the agent through tool descriptions, shell
+out, or run without authentication. The `scan` command inspects MCP server
+definition JSON for these patterns, using the same static scanner that checks
+source code.
+
+## Running it
+
+Point `scan` at an MCP definition, a directory, or a registry file. The scanner
+recognizes both a single server object and the `mcpServers` registry shape that
+MCP clients ship.
+
+```bash
+# Scan one MCP server definition
+ai-blackteam scan path/to/mcp-server.json
+
+# Scan a whole directory (finds MCP definitions among other files)
+ai-blackteam scan ./config
+
+# Emit SARIF for the GitHub Security tab
+ai-blackteam scan path/to/mcp-server.json --format sarif -o results.sarif
+```
+
+## The rules
+
+| Rule | Severity | Catches |
+|------|----------|---------|
+| BTSC-012 | Critical | A tool description carrying hidden instructions (tool poisoning) |
+| BTSC-013 | Critical | A tool that exposes a raw command or shell parameter |
+| BTSC-014 | High | A tool declaring wildcard, admin, or root scope |
+| BTSC-015 | High | An unconstrained sink parameter (query, url, path) taking model output |
+| BTSC-016 | High | A server that declares no working authentication |
+| BTSC-017 | High | Two tools sharing one name (cross-server shadowing) |
+
+The tool-poisoning rule (BTSC-012) is two-tier: a directive phrase such as
+"ignore previous instructions" is flagged on its own, while ordinary
+documentation words like "you should" are flagged only when the same
+description also names a secret path or an external endpoint. Well-documented
+servers do not light up.
+
+## Reading the output
+
+Each finding carries a real file and line, so the SARIF export resolves to
+source in the GitHub Security tab:
+
+```
+Severity  Rule      File:Line                    Description
+CRITICAL  BTSC-012  vulnerable_server.json:7     MCP Tool Description Carries Instructions
+CRITICAL  BTSC-013  vulnerable_server.json:22    MCP Tool Shells Out
+HIGH      BTSC-016  vulnerable_server.json:2     MCP Server Missing Authentication
+```
+
+`scan` exits non-zero when it finds critical or high issues, so it works as a
+CI gate.

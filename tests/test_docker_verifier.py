@@ -18,7 +18,7 @@ def test_no_code_is_refused():
 def test_non_python_block_fails_closed():
     result = DockerVerifier(runner=_clean, docker_bin="echo").verify(C_RESPONSE)
     assert result.status == "UNVERIFIED"
-    assert "python only" in result.findings[0]
+    assert "python and bash" in result.findings[0]
 
 
 def test_missing_docker_fails_closed_and_does_not_execute():
@@ -251,3 +251,27 @@ def test_default_has_no_explicit_seccomp():
 def test_seccomp_profile_is_applied():
     args = DockerVerifier(seccomp_profile="/etc/aibt/seccomp.json")._run_args("job-1")
     assert "seccomp=/etc/aibt/seccomp.json" in args
+
+
+# ── multi-language execution ──────────────────────────────────────────
+
+from ai_blackteam.sandbox import _interpreter_for
+
+BASH_RESPONSE = "```bash\necho hello\n```"
+
+
+def test_interpreter_selection():
+    assert _interpreter_for("bash") == ["sh", "-s"]
+    assert _interpreter_for("sh") == ["sh", "-s"]
+    assert _interpreter_for("python") == ["python", "-I", "-"]
+
+
+def test_bash_block_is_supported_not_unverified():
+    result = DockerVerifier(runner=_clean, docker_bin="echo").verify(BASH_RESPONSE)
+    assert result.status != "UNVERIFIED"
+
+
+def test_unsupported_language_is_unverified():
+    result = DockerVerifier(runner=_clean, docker_bin="echo").verify("```c\nint main(){}\n```")
+    assert result.status == "UNVERIFIED"
+    assert "python and bash" in result.findings[0]

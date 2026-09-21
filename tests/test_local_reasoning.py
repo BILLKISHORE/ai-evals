@@ -151,3 +151,37 @@ def test_perplexity_walks_the_reasoning_output_item():
     assert r.response == ANSWER
 
 
+# ── huggingface hosts r1 / qwq too ───────────────────────────────────
+
+
+def _hf(message, usage=None):
+    from ai_blackteam.providers.huggingface import HuggingFaceProvider
+
+    p = HuggingFaceProvider.__new__(HuggingFaceProvider)
+    p.model = "deepseek-ai/DeepSeek-R1"
+    p._client = MagicMock()
+    p._client.chat_completion.return_value = SimpleNamespace(
+        choices=[SimpleNamespace(message=message, finish_reason="stop")],
+        usage=usage,
+    )
+    return p
+
+
+def test_huggingface_reads_the_reasoning_field():
+    msg = SimpleNamespace(content=ANSWER, refusal=None, reasoning_content=LEAK)
+    r = _hf(msg).send_prompt("hi")
+    assert r.reasoning == LEAK
+    assert r.response == ANSWER
+
+
+def test_huggingface_splits_inline_think_tags():
+    msg = SimpleNamespace(content=f"<think>{LEAK}</think>{ANSWER}", refusal=None)
+    r = _hf(msg).send_prompt("hi")
+    assert r.reasoning == LEAK
+    assert r.response == ANSWER
+
+
+def test_huggingface_without_reasoning_stays_clean():
+    r = _hf(SimpleNamespace(content=ANSWER, refusal=None)).send_prompt("hi")
+    assert r.reasoning is None
+    assert r.response == ANSWER

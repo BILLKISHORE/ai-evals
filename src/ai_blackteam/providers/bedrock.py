@@ -45,11 +45,19 @@ class BedrockProvider(BaseProvider):
         return r, ms
 
     def _to_prompt_result(self, r, ms):
+        # The Converse API returns the reasoning trace as its own content block
+        # (reasoningContent) alongside the text block. Bedrock folds reasoning
+        # tokens into outputTokens, so no separate count is reported here.
         text = ""
+        reasoning = None
         for block in r["output"]["message"]["content"]:
-            if "text" in block:
+            if "text" in block and not text:
                 text = block["text"]
-                break
+            elif "reasoningContent" in block and reasoning is None:
+                rc = block["reasoningContent"].get("reasoningText", {})
+                trace = rc.get("text")
+                if trace and trace.strip():
+                    reasoning = trace
         usage = r.get("usage", {})
         return PromptResult(
             response=text,
@@ -58,6 +66,7 @@ class BedrockProvider(BaseProvider):
             tokens_in=usage.get("inputTokens"),
             tokens_out=usage.get("outputTokens"),
             latency_ms=ms,
+            reasoning=reasoning,
         )
 
     def send_prompt(self, prompt, system_prompt=None):

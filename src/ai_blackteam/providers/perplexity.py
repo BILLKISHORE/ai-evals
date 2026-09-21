@@ -18,7 +18,7 @@ path.
 import time
 
 from ai_blackteam.logging_config import get_logger
-from ai_blackteam.providers.base import BaseProvider, PromptResult
+from ai_blackteam.providers.base import BaseProvider, PromptResult, read_reasoning_tokens
 from ai_blackteam.registry import register_provider
 from ai_blackteam.retry import retry_with_backoff
 
@@ -92,6 +92,10 @@ class PerplexityProvider(BaseProvider):
             tokens_in=getattr(usage, "input_tokens", None) if usage else None,
             tokens_out=getattr(usage, "output_tokens", None) if usage else None,
             latency_ms=ms,
+            # sonar-reasoning models report a reasoning token count; the trace
+            # itself arrives as a Responses reasoning output item, which this
+            # provider does not yet walk (tracked separately).
+            reasoning_tokens=read_reasoning_tokens(usage),
         )
 
     def supports_tools(self):

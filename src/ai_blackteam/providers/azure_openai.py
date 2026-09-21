@@ -2,7 +2,11 @@ import os
 import time
 from ai_blackteam.registry import register_provider
 from ai_blackteam.providers.base import BaseProvider, PromptResult, ToolResult
-from ai_blackteam.providers.base import read_openai_message
+from ai_blackteam.providers.base import (
+    read_openai_message,
+    read_openai_reasoning,
+    read_reasoning_tokens,
+)
 from ai_blackteam.retry import retry_with_backoff
 
 
@@ -61,6 +65,8 @@ class AzureOpenAIProvider(BaseProvider):
             # A structured refusal is the vendor saying so outright, which
             # is stronger than whatever finish_reason carries.
             stop_reason="refusal" if refused else getattr(choice, "finish_reason", None),
+            reasoning=read_openai_reasoning(choice.message),
+            reasoning_tokens=read_reasoning_tokens(r.usage),
         )
 
     def send_in_conversation(self, messages, system_prompt=None):
@@ -78,6 +84,8 @@ class AzureOpenAIProvider(BaseProvider):
             # A structured refusal is the vendor saying so outright, which
             # is stronger than whatever finish_reason carries.
             stop_reason="refusal" if refused else getattr(choice, "finish_reason", None),
+            reasoning=read_openai_reasoning(choice.message),
+            reasoning_tokens=read_reasoning_tokens(r.usage),
         )
 
     def send_with_tools(self, messages, tools, system_prompt=None):
@@ -110,4 +118,6 @@ class AzureOpenAIProvider(BaseProvider):
             # A structured refusal is the vendor saying so outright, which
             # is stronger than whatever finish_reason carries.
             stop_reason="refusal" if refused else getattr(choice, "finish_reason", None),
+            reasoning=read_openai_reasoning(msg),
+            reasoning_tokens=read_reasoning_tokens(r.usage),
         )

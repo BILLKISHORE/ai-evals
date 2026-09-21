@@ -32,10 +32,62 @@ ESCAPE_PAYLOADS = {
         "except Exception as e:\n"
         "    print('capped', e)\n"
     ),
+    "docker-socket": (
+        "import os, socket\n"
+        "found = False\n"
+        "for path in ('/var/run/docker.sock', '/run/docker.sock'):\n"
+        "    if os.path.exists(path):\n"
+        "        try:\n"
+        "            s = socket.socket(socket.AF_UNIX); s.connect(path); found = True\n"
+        "        except Exception:\n"
+        "            pass\n"
+        "print('ESCAPED_DOCKER_SOCK' if found else 'blocked')\n"
+    ),
+    "cgroup-release-agent": (
+        "wrote = False\n"
+        "for t in ('/sys/fs/cgroup/release_agent', '/sys/fs/cgroup/memory/release_agent', '/sys/fs/cgroup/rdma/release_agent'):\n"
+        "    try:\n"
+        "        open(t, 'w').write('/nonexistent'); wrote = True\n"
+        "    except Exception:\n"
+        "        pass\n"
+        "print('ESCAPED_RELEASE_AGENT' if wrote else 'blocked')\n"
+    ),
+    "core-pattern": (
+        "try:\n"
+        "    open('/proc/sys/kernel/core_pattern', 'w').write('|/nonexistent')\n"
+        "    print('ESCAPED_CORE_PATTERN')\n"
+        "except Exception as e:\n"
+        "    print('blocked', e)\n"
+    ),
+    "mknod-device": (
+        "import os\n"
+        "try:\n"
+        "    os.mknod('/work/disk', 0o600 | 0o060000, os.makedev(8, 0))\n"
+        "    print('ESCAPED_MKNOD')\n"
+        "except Exception as e:\n"
+        "    print('blocked', type(e).__name__)\n"
+    ),
+    "sysrq-trigger": (
+        "try:\n"
+        "    open('/proc/sysrq-trigger', 'w').write('h')\n"
+        "    print('ESCAPED_SYSRQ')\n"
+        "except Exception as e:\n"
+        "    print('blocked', e)\n"
+    ),
+    "cap-sys-admin": (
+        "import re\n"
+        "eff = 0\n"
+        "try:\n"
+        "    m = re.search(r'CapEff:\\s*([0-9a-f]+)', open('/proc/self/status').read())\n"
+        "    eff = int(m.group(1), 16) if m else 0\n"
+        "except Exception:\n"
+        "    pass\n"
+        "print('ESCAPED_CAP_SYS_ADMIN' if eff & (1 << 21) else 'no-sysadmin', hex(eff))\n"
+    ),
 }
 
 # Substrings that would prove a payload got something it must not.
-LEAK_MARKERS = ("<html", "<!doctype", "example domain", "ami-", "instance-id", "iam/")
+LEAK_MARKERS = ("<html", "<!doctype", "example domain", "ami-", "instance-id", "iam/", "escaped_")
 
 
 def assess(name, code, verifier=None):

@@ -132,3 +132,33 @@ def test_each_compat_provider_carries_reasoning(module, cls):
     assert r.reasoning == LEAK, f"{module} dropped the trace"
     assert r.reasoning_tokens == 99, f"{module} dropped the count"
 
+
+
+# ── azure reimplements the same shape, off the compat base ───────────
+
+
+def _azure(message, usage):
+    from ai_blackteam.providers.azure_openai import AzureOpenAIProvider
+
+    p = AzureOpenAIProvider.__new__(AzureOpenAIProvider)
+    p.model = "o-series-mock"
+    p._chat = lambda messages, tools=None: (
+        SimpleNamespace(
+            choices=[SimpleNamespace(message=message, finish_reason="stop")],
+            usage=usage),
+        1.0,
+    )
+    return p
+
+
+def test_azure_carries_the_reasoning_trace_and_count():
+    """Azure hosts o-series reasoning models and reimplements chat.completions."""
+    msg = SimpleNamespace(content="no.", refusal=None, reasoning_content=LEAK)
+    r = _azure(msg, _usage(reasoning_tokens=333)).send_prompt("hi")
+    assert r.reasoning == LEAK
+    assert r.reasoning_tokens == 333
+
+
+def test_azure_no_trace_stays_none():
+    msg = SimpleNamespace(content="hi", refusal=None)
+    assert _azure(msg, _usage()).send_prompt("x").reasoning is None

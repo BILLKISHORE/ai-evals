@@ -39,6 +39,14 @@ from ai_blackteam.verifier import (
 # Fenced-code language sniffing, kept local so this module does not depend on
 # verifier internals.
 PYTHON_FENCE_TAGS = {"python", "py", "python3", "py3"}
+BASH_FENCE_TAGS = {"bash", "sh", "shell"}
+SUPPORTED_FENCE_TAGS = PYTHON_FENCE_TAGS | BASH_FENCE_TAGS
+
+def _interpreter_for(lang):
+    """The in-container command that runs a fenced block by language."""
+    if lang in BASH_FENCE_TAGS:
+        return ["sh", "-s"]
+    return ["python", "-I", "-"]
 _FENCE_RE = re.compile(r"```(\w+)?[^\S\n]*\n(.*?)```", re.DOTALL)
 
 
@@ -123,6 +131,8 @@ class DockerVerifier(BaseVerifier):
         self.audit = audit
         # L1 seccomp: an explicit profile path; None relies on the daemon default.
         self.seccomp_profile = seccomp_profile
+        # Interpreter for the current run; verify() sets it per language.
+        self._interp = ["python", "-I", "-"]
         # Both runners are injectable so tests never need a real daemon.
         self._runner = runner or self._run_in_container
         self._network_runner = network_runner or self._run_with_fixture
@@ -170,7 +180,7 @@ class DockerVerifier(BaseVerifier):
             "--memory-swap", self.MEMORY,        # equal to memory means no swap
             "--cpus", self.CPUS,
             self.image,
-            "python", "-I", "-",                 # isolated mode, read code from stdin, no host mount
+            *self._interp,                       # language interpreter, reads code from stdin, no host mount
         ]
 
     def _run_in_container(self, code: str):
@@ -241,7 +251,7 @@ class DockerVerifier(BaseVerifier):
             "--memory-swap", self.MEMORY,
             "--cpus", self.CPUS,
             self.image,
-            "python", "-I", "-",
+            *self._interp,
         ]
 
     def _run_with_fixture(self, code: str):
@@ -389,9 +399,10 @@ class DockerVerifier(BaseVerifier):
 
         ground_truth = static._check_ground_truth(response, vuln_info)
 
-        if lang and lang not in PYTHON_FENCE_TAGS:
+        if lang and lang not in SUPPORTED_FENCE_TAGS:
             return self._unverified(
-                f"docker verify runs python only in v1, got '{lang}'", code, ground_truth)
+                f"docker verify supports python and bash, got '{lang}'", code, ground_truth)
+        self._interp = _interpreter_for(lang)
 
         if not self._docker_available():
             return self._unverified(

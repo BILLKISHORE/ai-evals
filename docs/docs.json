@@ -119,7 +119,9 @@
               "guide/attacks/batch-attacks",
               "guide/attacks/multi-turn-attacks",
               "guide/attacks/tool-use-attacks",
-              "guide/attacks/adaptive-generation"
+              "guide/attacks/adaptive-generation",
+              "guide/attacks/reasoning-layer-attacks",
+              "guide/attacks/reasoning-controls"
             ]
           },
           {
@@ -157,6 +159,9 @@
               "guide/compliance/owasp-llm",
               "guide/compliance/owasp-agentic",
               "guide/compliance/eu-ai-act-nist",
+              "guide/compliance/eu-ai-act-articles",
+              "guide/compliance/aisvs",
+              "guide/compliance/aivss",
               "guide/compliance/mitre-atlas",
               "guide/compliance/mlcommons",
               "guide/compliance/maestro",
@@ -180,6 +185,8 @@
               "guide/advanced/asl3-evaluation",
               "guide/advanced/datasets",
               "guide/advanced/code-scanner",
+              "guide/advanced/mcp-scanner",
+              "guide/advanced/stateful-generation",
               "guide/advanced/python-api"
             ]
           },

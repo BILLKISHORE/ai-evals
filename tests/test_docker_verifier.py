@@ -286,3 +286,24 @@ def test_pinned_image_runs_by_digest():
 def test_unpinned_image_runs_by_tag():
     args = DockerVerifier()._run_args("job-1")
     assert "python:3.12-slim" in args
+
+
+# ── image signature verification ──────────────────────────────────────
+
+def test_signature_off_by_default():
+    ok, _ = DockerVerifier()._verify_signature("img")
+    assert ok
+
+
+def test_bad_signature_fails_closed():
+    v = DockerVerifier(runner=_clean, docker_bin="echo", signature_key="/k/pub.pem",
+                       signature_verifier=lambda i: (False, "bad sig"))
+    result = v.verify(PY_RESPONSE)
+    assert result.status == "UNVERIFIED"
+    assert "bad sig" in result.findings[0]
+
+
+def test_good_signature_passes():
+    v = DockerVerifier(runner=_clean, docker_bin="echo", signature_key="/k/pub.pem",
+                       signature_verifier=lambda i: (True, ""))
+    assert v.verify(PY_RESPONSE).status != "UNVERIFIED"

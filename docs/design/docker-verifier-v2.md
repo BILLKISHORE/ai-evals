@@ -131,9 +131,11 @@ is an implementation detail behind this method.
 
 ## Known limits (standing backlog)
 
-- Language coverage is Python-first; non-Python fences return UNVERIFIED.
-- L7 attestation pins and verifies image digests but does not yet verify
-  signatures (cosign/Notary) or reproducible builds; the run still launches by
-  tag after a successful digest check (residual TOCTOU in a single-daemon flow).
-- The microVM and gVisor backends are a selectable interface, not exercised in
-  CI.
+- Language coverage: Python and bash/sh execute; compiled languages (C and
+  friends) still return UNVERIFIED, since they need a toolchain image.
+- L7: image digests are pinned, verified, and run by digest (no launch-by-tag
+  TOCTOU), and signatures are verified when a cosign key is set. Reproducible
+  builds remain an operator concern; see host-hardening.md.
+- The microVM and gVisor backends are selectable and covered by a host-gated
+  test that runs where the runtime exists; they are not exercised on hosts
+  without runsc or KVM, such as macOS Docker Desktop.

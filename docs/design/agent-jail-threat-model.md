@@ -37,7 +37,8 @@ be load-bearing alone.
 
 - L0 Host and tenancy: dedicated ephemeral hosts, single-tenant per run where
   the workload is high-risk, patched microcode, side-channel mitigations on,
-  nested virt off unless required.
+  nested virt off unless required. L0 is provisioning, not code; the operator
+  checklist is in host-hardening.md.
 - L1 Isolation: one microVM per run (Firecracker or Kata), dedicated guest
   kernel, seccomp allowlist, all Linux capabilities dropped, non-root guest.
   gVisor is an optional second syscall barrier where microVMs are unavailable.
@@ -105,12 +106,14 @@ survives this framework's escape suite on every change:
 
 `DockerVerifier` v2 (see `docker-verifier-v2.md`) is the first concrete build of
 this model, scoped to executing one extracted code block against one fixture. It
-implements L1 through L6 (default-deny egress, non-root, read-only rootfs,
+implements L1 through L7 (default-deny egress, non-root, read-only rootfs,
 cap-drop, resource caps, a configurable seccomp profile, whole-chain audit
-logging, and verified destruction) and the launch-time half of L7 (digest
-attestation, fail-closed). Signature and reproducible-build verification (the
-rest of L7) and the microVM/gVisor backends remain on the standing backlog.
-The agent jail generalizes the same layers to full agent tool-call execution.
+logging, verified destruction, and digest attestation plus signature
+verification with launch-by-digest). Reproducible builds remain an operator
+concern (host-hardening.md), and the microVM/gVisor backends are selectable
+with a host-gated test rather than exercised on every host. Python and bash
+execute; other languages return UNVERIFIED. The agent jail generalizes the
+same layers to full agent tool-call execution.
 
 ## 7. Non-goals
 

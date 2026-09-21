@@ -111,8 +111,9 @@ cap-drop, resource caps, a configurable seccomp profile, whole-chain audit
 logging, verified destruction, and digest attestation plus signature
 verification with launch-by-digest). Reproducible builds remain an operator
 concern (host-hardening.md), and the microVM/gVisor backends are selectable
-with a host-gated test rather than exercised on every host. Python and bash
-execute; other languages return UNVERIFIED. The agent jail generalizes the
+with a host-gated test rather than exercised on every host. Python, bash,
+and C execute (C compiles on a toolchain image in a separate exec tmpfs so
+/work stays noexec); other languages return UNVERIFIED. The agent jail generalizes the
 same layers to full agent tool-call execution.
 
 ## 7. Non-goals

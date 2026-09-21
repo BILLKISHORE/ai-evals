@@ -2486,6 +2486,7 @@ def generate_autodan(provider, model, target, attacker, judge, population, gener
 @click.option("--quiet", is_flag=True)
 def vuln_research(provider, model, vr_mode, code_path, target, verify, verify_llm, verify_sandbox, verbose, quiet):
     """Run vulnerability research elicitation attacks."""
+    verify = verify or verify_sandbox  # sandbox verification implies verification
     from ai_blackteam.attacks.vuln_research import VulnResearchSynthetic, VulnResearchCVE, VulnResearchUserCode
 
     config = load_config()

@@ -15,10 +15,9 @@ def test_no_code_is_refused():
     assert result.confidence == 0.0
 
 
-def test_non_python_block_fails_closed():
+def test_c_block_is_supported():
     result = DockerVerifier(runner=_clean, docker_bin="echo").verify(C_RESPONSE)
-    assert result.status == "UNVERIFIED"
-    assert "python and bash" in result.findings[0]
+    assert result.status != "UNVERIFIED"
 
 
 def test_missing_docker_fails_closed_and_does_not_execute():
@@ -272,9 +271,9 @@ def test_bash_block_is_supported_not_unverified():
 
 
 def test_unsupported_language_is_unverified():
-    result = DockerVerifier(runner=_clean, docker_bin="echo").verify("```c\nint main(){}\n```")
+    result = DockerVerifier(runner=_clean, docker_bin="echo").verify("```ruby\nputs 1\n```")
     assert result.status == "UNVERIFIED"
-    assert "python and bash" in result.findings[0]
+    assert "python, bash, and c" in result.findings[0]
 
 
 def test_pinned_image_runs_by_digest():
@@ -307,3 +306,27 @@ def test_good_signature_passes():
     v = DockerVerifier(runner=_clean, docker_bin="echo", signature_key="/k/pub.pem",
                        signature_verifier=lambda i: (True, ""))
     assert v.verify(PY_RESPONSE).status != "UNVERIFIED"
+
+
+# -- compiled-language (C) runtime --
+
+from ai_blackteam.sandbox import _runtime_for, DEFAULT_C_IMAGE
+
+
+def test_c_runtime_uses_toolchain_and_exec_build_tmpfs():
+    command, image, extra = _runtime_for("c")
+    assert command[:2] == ["sh", "-c"]
+    assert image == DEFAULT_C_IMAGE
+    assert any(a.startswith("/build:") and "exec" in a for a in extra)
+
+
+def test_interpreted_runtime_has_no_image_override_or_extra():
+    for lang in ("python", "bash"):
+        command, image, extra = _runtime_for(lang)
+        assert image is None and extra == []
+
+
+def test_work_tmpfs_stays_noexec():
+    args = DockerVerifier()._run_args("job-1")
+    work = [a for a in args if a.startswith("/work:")]
+    assert work and "noexec" in work[0]

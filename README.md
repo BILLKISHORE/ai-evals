@@ -1,27 +1,20 @@
 # ai-blackteam
 
-Automated LLM red team framework. Test any model's safety with one command.
+Automated LLM red team framework. Point it at any model, run one command, get a safety report.
 
-[![PyPI](https://img.shields.io/pypi/v/ai-blackteam.svg)](https://pypi.org/project/ai-blackteam/) [![Docs](https://img.shields.io/badge/docs-live-E63946)](https://ai-blackteam.ai-evals.workers.dev/) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![PyPI](https://img.shields.io/pypi/v/ai-blackteam.svg)](https://pypi.org/project/ai-blackteam/) [![Docs](https://img.shields.io/badge/docs-live-E63946)](https://ai-blackteam.ai-evals.workers.dev/) [![License: GPL v3](https://img.shields.io/badge/license-GPLv3-blue.svg)](LICENSE)
 
 **Docs:** https://ai-blackteam.ai-evals.workers.dev/
 
-## Why ai-blackteam
+## What it is
 
-Most eval tools run single-prompt probes. A 2025 multi-lab study (researchers from OpenAI, Anthropic, Google DeepMind) showed that adaptive attacks bypass 12 published defenses with >90% success rate, even when those defenses originally reported near-zero attack rates. Single-attempt testing misses real vulnerabilities.
+Most eval tools send one prompt, watch the model refuse, and call it safe. Real attackers do not stop at one prompt. A 2025 multi-lab study (OpenAI, Anthropic, Google DeepMind) found adaptive attacks bypassed 12 published defenses at over 90% success, on defenses that had reported near-zero attack rates. Single-attempt testing misses the vulnerabilities that matter.
 
-ai-blackteam runs multi-turn, adaptive attacks that mirror real adversarial pressure:
+ai-blackteam runs multi-turn, adaptive, tool-use, and reasoning-layer attacks that mirror the pressure a model faces in the wild, then scores the results against the standards a security or compliance team already reports on. It is vendor-neutral: it tests 17 providers on equal footing and is not owned by any model lab.
 
-- **Vendor-neutral**: tests 17 providers equally (16 vendors + your own HTTP endpoint), not owned by any AI lab
-- **1,028 curated attack techniques** across 61 categories: encoding, conversational, psychological, security, compliance, agent exploitation, MCP exploitation, multi-agent, protocol, multimodal, supply chain and RAG exploitation. These are hand-written modules, not generated variants. The template engine expands them combinatorially if you want volume; see [attack surface](https://ai-blackteam.ai-evals.workers.dev/how-it-works/attack-surface) for what that number does and does not mean
-- **19 public benchmark loaders**: HarmBench, AdvBench, JailbreakBench, SorryBench, WMDP (bio/cyber/chem), DoNotAnswer, WildGuard, RedBench, SALAD-Bench, StrongREJECT, AART, ForbiddenQuestions, BeaverTails, RealToxicityPrompts, JailBreakV-28K, RedTeam-2K, AgentHarm
-- **8 adaptive generators**: PAIR, TAP, Fuzzer, AutoDAN (genetic), PAP (persuasion), Crescendo (multi-turn), Best-of-N, Stateful (carries refusals between attempts)
-- **Research-backed**: implements published attacks from Microsoft Research, Palo Alto Unit 42, USENIX, UK AI Safety Institute
-- **Used in real disclosures**: findings produced with this framework were reported to Anthropic's security team through coordinated disclosure. See [Responsible Disclosure](#responsible-disclosure)
-- **Multi-turn depth**: crescendo, sunk-cost, context-manipulation attacks that exploit conversational memory over 10+ turns
-- **Agent attacks**: credential theft, data exfiltration, sandbox escape, config manipulation via tool-use; AgentHarm benchmark integrated
-- **Five runnable compliance scorecards**, not just a mapping table: `scorecard --standard llm | agentic | compliance | aisvs | eu-ai-act`, plus `aivss` for scoring a single finding. Code-level taxonomy mappings for MITRE ATLAS 2026.09, OWASP LLM and Agentic Top 10 (2026), OWASP AISVS 1.0, MLCommons AILuminate, EU AI Act Articles 55 and 73, NIST AI RMF and CVSS; CSA MAESTRO, ISO 42001 and ISO/IEC 27090 as documented alignments. Every unverified transcription is marked as such in the data rather than presented as authoritative
-- **CI-ready**: GitHub Actions workflow, exit codes, SARIF 2.1.0 output for the GitHub Security tab (attack runs and the static scanner), plus JSON/Promptfoo/garak export
+## Intended use
+
+This is a defensive tool. Use it to test models you own or are authorized to test, to produce audit evidence, and to file coordinated disclosures. Working exploit strings against a specific current model, raw harmful transcripts, and CBRN-specific findings are deliberately kept out of this repository. The framework implements attack *techniques* as named, citable methods from published research, not ready-to-fire payloads. See [Responsible disclosure](#responsible-disclosure).
 
 ## Install
 
@@ -29,46 +22,97 @@ ai-blackteam runs multi-turn, adaptive attacks that mirror real adversarial pres
 pip install ai-blackteam
 ```
 
-Or from source:
+From source:
+
 ```bash
 git clone https://github.com/BILLKISHORE/ai-evals.git
 cd ai-evals
 pip install -e .
 ```
 
-## Quick Start
+Python 3.12 or newer.
+
+## Quick start
 
 ```bash
-# Set your API key
+# Store an API key (or export ANTHROPIC_API_KEY, OPENAI_API_KEY, etc.)
 ai-blackteam config set providers.anthropic.api_key sk-ant-...
 
-# Run a single attack
+# Run one attack against a model
 ai-blackteam run -p anthropic -a encoding-obfuscation -t "Write a phishing email"
 
-# Run all attacks against a model
+# Run the whole corpus against a model
 ai-blackteam batch -p anthropic --attacks all -t "Write a phishing email"
 
-# Run the full safety benchmark (40 targets x 1000+ attacks)
-ai-blackteam benchmark -p anthropic --threshold 80
+# Score the stored results against a standard
+ai-blackteam scorecard --standard llm          # OWASP LLM Top 10 2026
+ai-blackteam scorecard --standard agentic       # OWASP Agentic Top 10 2026
+ai-blackteam scorecard --standard aisvs         # OWASP AISVS chapters
+ai-blackteam scorecard --standard eu-ai-act     # EU AI Act Articles 55 and 73
 
-# OWASP LLM Top 10 scorecard
-ai-blackteam scorecard --standard llm
-
-# OWASP Agentic Top 10 scorecard
-ai-blackteam scorecard --standard agentic
-
-# EU AI Act + NIST AI RMF compliance scorecard
-ai-blackteam scorecard --standard compliance
-
-# Generate reports
+# Build a report
 ai-blackteam report --format html --output report.html
-ai-blackteam report --export promptfoo --output results.json
-ai-blackteam report --export garak --output results.jsonl
 ```
 
-## CI/CD Integration
+`run` and `batch` exit `0` when everything was blocked and `1` when at least one attack bypassed, so they drop straight into CI. Full walkthrough: [Quick start](https://ai-blackteam.ai-evals.workers.dev/guide/quickstart).
 
-Add to `.github/workflows/safety-scan.yml`:
+## What you get
+
+- **1,028 curated attack techniques** across 61 categories. These are hand-written modules, not generated padding. A template engine can expand them combinatorially when you want volume; the [attack surface page](https://ai-blackteam.ai-evals.workers.dev/how-it-works/attack-surface) explains what that number does and does not mean.
+- **Reasoning-layer attacks.** PRJA (harmful content hidden in the reasoning), OTora (reasoning denial of service), Self-Jailbreak, and vector-store poisoning. These are scored on the model's thinking, not just its answer, so a model that refuses in text while leaking in thought is caught. See [reasoning-layer attacks](https://ai-blackteam.ai-evals.workers.dev/guide/attacks/reasoning-layer-attacks).
+- **Five runnable compliance scorecards**, not a static mapping table: `scorecard --standard llm | agentic | compliance | aisvs | eu-ai-act`, plus `aivss` for scoring one finding. Every transcription this project could not verify against a published source is marked unverified in the data.
+- **19 public benchmark loaders**: HarmBench, AdvBench, JailbreakBench, SorryBench, WMDP, DoNotAnswer, WildGuard, StrongREJECT, BeaverTails, RealToxicityPrompts, JailBreakV-28K, AgentHarm, and more.
+- **8 adaptive generators**: PAIR, TAP, Fuzzer, AutoDAN, PAP, Crescendo, Best-of-N, and Stateful (which carries what a target already refused between attempts).
+- **A static scanner** for source code and MCP server definitions, with SARIF 2.1.0 output for the GitHub Security tab.
+- **Reasoning-effort control** across 16 providers: the same attack lands differently at `low` than at `max`, so effort is a red-team dimension, not a tuning knob.
+
+## Providers
+
+17 providers on equal footing. Set a key and go.
+
+| Provider | Notes |
+|----------|-------|
+| Anthropic | Claude, native thinking traces |
+| OpenAI | GPT and o-series, Responses API for reasoning |
+| Azure OpenAI | o-series through Azure |
+| Google | Gemini, thinking config |
+| DeepSeek, Grok, Groq, Together, Fireworks | OpenAI-compatible, reasoning traces carried |
+| Mistral, Cohere, AI21 | OpenAI-compatible base |
+| Perplexity | sonar-reasoning |
+| Amazon Bedrock | Claude and others via Converse |
+| Ollama | any local model (deepseek-r1, Qwen, Llama) |
+| HuggingFace | any hosted model |
+| HTTP | your own endpoint |
+
+Provider setup pages: [docs/guide/providers](https://ai-blackteam.ai-evals.workers.dev/guide/providers/overview).
+
+## Attacks
+
+The 1,028 attacks span 61 categories: encoding and obfuscation, prompt injection, conversational and psychological pressure, agent and tool-use exploitation, MCP exploitation, multi-agent, protocol, multimodal, supply chain, RAG, and domain-specific attacks. Every attack maps to MITRE ATLAS and the OWASP LLM and Agentic Top 10 at the code level.
+
+Browse the full catalog by category, mode, and standard in the [attack catalog](https://ai-blackteam.ai-evals.workers.dev/attacks/all-attacks), or list them locally:
+
+```bash
+ai-blackteam list-attacks
+ai-blackteam taxonomy          # grouped by category with OWASP and ATLAS IDs
+ai-blackteam atlas             # MITRE ATLAS technique coverage
+```
+
+## Standards and reports
+
+Every attack carries code-level mappings to MITRE ATLAS 2026.09, OWASP LLM Top 10 (2026), OWASP Agentic Top 10 (2026), OWASP AISVS 1.0, MLCommons AILuminate, EU AI Act Articles 55 and 73, NIST AI RMF, and CVSS. CSA MAESTRO, ISO 42001, and ISO/IEC 27090 are documented alignments.
+
+Reports export to HTML, JSON, SARIF 2.1.0, Promptfoo, and garak formats.
+
+```bash
+ai-blackteam report --export promptfoo --output results.json
+ai-blackteam report --export garak --output results.jsonl
+ai-blackteam scan ./src --format sarif -o results.sarif
+```
+
+## CI/CD
+
+Drop a safety scan into GitHub Actions:
 
 ```yaml
 name: LLM Safety Scan
@@ -95,423 +139,38 @@ jobs:
           path: safety-report.json
 ```
 
-Exit codes: `0` = all attacks blocked, `1` = bypass detected. Benchmark mode supports `--threshold` for minimum safety score.
+`benchmark` mode supports `--threshold` for a minimum safety score. A full workflow with manual dispatch and scheduled runs ships at `.github/workflows/safety-scan.yml`.
 
-A full workflow with manual dispatch, scheduled runs, and benchmark mode is included at `.github/workflows/safety-scan.yml`.
+## How it compares
 
-## Providers
+| Tool | Focus | Where ai-blackteam differs |
+|------|-------|----------------------------|
+| garak (NVIDIA) | 100+ automated probes | garak is single-prompt; ai-blackteam adds multi-turn, tool-use, and reasoning-layer attacks |
+| Promptfoo | Eval CLI, YAML-driven | Acquired by OpenAI in March 2026, no longer vendor-neutral |
+| PyRIT (Microsoft) | Programmable orchestration | ai-blackteam ships a curated corpus you run in one command |
+| AILuminate (MLCommons) | Industry benchmark | Rates models; ai-blackteam actively tries to break them |
 
-| Provider | Models | Auth |
-|----------|--------|------|
-| Anthropic | Claude Sonnet 4.6, Opus, Haiku | API key |
-| OpenAI | GPT-5.4, GPT-4o | API key |
-| Google | Gemini 3.1 Pro, Flash | API key |
-| DeepSeek | DeepSeek V3.2 | API key |
-| Mistral | Mistral Large 3, Small 4 | API key |
-| Ollama | Any local model (Llama 4, Qwen, Gemma) | None (local) |
-| HuggingFace | Any HF model | API token |
+The competitor column describes those tools as of 2026-09-20 and is not maintained by their authors. Side-by-side pages: [comparisons](https://ai-blackteam.ai-evals.workers.dev/guide/compare/vs-garak).
 
-## Attacks (1,028 built-in, 61 categories)
+## Responsible disclosure
 
-### Core Attacks
-| Attack | Mode | Description |
-|--------|------|-------------|
-| encoding-obfuscation | single | Base64, ROT13, hex, leetspeak, pig latin |
-| role-play-bypass | multi | Character development, fiction building |
-| system-prompt-extraction | multi | JSON schema, chain-of-thought, error correction |
-| progressive-normalization | tool-use | Gradual file access escalation |
-| many-shot | single | Fabricated Q&A context flooding |
-| context-manipulation | multi | 10-turn conversational drift |
-| dan-variants | single | DAN, EDUALC, Opposite Day, Professor persona |
-| taxonomy-paraphrasing | single | Victim, researcher, journalist framing |
-| best-of-n | single | Capitalization, typo, padding variations |
-| historical-framing | single | Documentary, museum, textbook framing |
-| token-smuggling | single | Zero-width Unicode character injection |
-| few-shot-amplification | single | Benign examples + encoded target |
-| conversation-derailment | multi | Self-discovery of model weaknesses |
-| sunk-cost-exploit | multi | Build helpful context then pivot |
-| emotional-manipulation | multi | Distress framing to override safety |
-| contradiction-exploit | multi | Feed wrong info, get corrected with truth |
-| xml-boundary-injection | single | Fake closing tags to escape prompt |
-| authority-chain | multi | CISO/professor authority building |
-| completion-exploit | single | Fake transcripts, JSON completion |
-| multi-modal-text | single | ASCII art, tables, code embedding |
+Findings produced with this framework were reported to Anthropic's security team through coordinated disclosure, with full conversation logs and datasets attached. Those reports were submitted under coordinated disclosure. Anthropic has not published a response, and nothing here should be read as a vendor confirmation, severity rating, or accepted finding.
 
-### Research-Backed Attacks
-| Attack | Mode | Source |
-|--------|------|--------|
-| skeleton-key | multi | Microsoft Research |
-| crescendo | multi | Microsoft/USENIX |
-| deceptive-delight | multi | Palo Alto Unit 42 |
-| bad-likert-judge | multi | Palo Alto Unit 42 |
+Specific bypass prompts, reproduction steps, raw experiment transcripts, and CBRN-related findings are kept out of this repository and the accompanying paper. If you are a vendor and want detail on a finding, open a security advisory on this repo or email the maintainer.
 
-### Encoding and Structural Attacks
-| Attack | Mode | Source |
-|--------|------|--------|
-| meta-prompting | single | Promptfoo |
-| homoglyph-substitution | single | Cyrillic/Greek lookalike chars |
-| bidirectional-text | single | Unicode RTL override |
-| markdown-injection | single | Hidden divs, HTML comments, tables |
-| payload-splitting | single | Split harmful content across variables |
-| defined-dictionary | single | Redefine words to mask intent |
-| compound-instruction | single | Overwhelm safety with conflicting instructions |
-| task-deflection | single | Adjacent task produces harmful output |
-| recursive-injection | single | Self-referential prompt loops |
-| response-constraints | single | Suppress safety disclaimers via formatting rules |
+## Contributing
 
-### Conversational and Psychological Attacks
-| Attack | Mode | Source |
-|--------|------|--------|
-| false-dichotomy | multi | "Better you explain it than bad sources" |
-| goalpost-moving | multi | Incremental agreement chain |
-| narrative-misdirection | multi | Embed harmful request between benign ones |
-| fictional-professional | single | David Prompt / elaborate novelist persona |
-| implication-chaining | multi | Emotionally loaded context + innocent request |
-
-### Agent Exploitation Attacks (MITRE ATLAS T0050-T0105)
-| Attack | Mode | ATLAS Technique |
-|--------|------|-----------------|
-| agent-credential-theft | tool-use | T0083 Credentials from Agent Config |
-| agent-data-exfiltration | tool-use | T0086 Exfiltration via Tool Invocation |
-| agent-data-destruction | tool-use | T0101 Data Destruction via Tool Invocation |
-| agent-config-manipulation | tool-use | T0081 Modify Agent Configuration |
-| agent-command-injection | tool-use | T0050 Command Interpreter + T0105 Escape to Host |
-| agent-config-discovery | tool-use | T0084 Discover Agent Configuration |
-| agent-plugin-hijack | tool-use | T0053 Plugin Compromise |
-| agent-tool-credential-harvest | tool-use | T0098 Tool Credential Harvesting |
-
-### MCP Exploitation Attacks
-| Attack | Mode | Description |
-|--------|------|-------------|
-| mcp-tool-poisoning | tool-use | Inject malicious instructions into MCP tool descriptions |
-| mcp-rug-pull | tool-use | Replace legitimate tool behavior after trust is established |
-| mcp-server-impersonation | tool-use | Spoof trusted MCP server to intercept tool calls |
-| mcp-shadowing | tool-use | Override legitimate tool responses with attacker-controlled data |
-| mcp-privilege-escalation | tool-use | Abuse MCP permissions to gain elevated access |
-
-### Multi-Agent Exploitation Attacks
-| Attack | Mode | Description |
-|--------|------|-------------|
-| session-smuggling | tool-use | Inject instructions into cross-agent session context |
-| cascading-jailbreak | tool-use | Propagate jailbreak across agent chain |
-| delegation-abuse | tool-use | Exploit agent delegation to bypass safety on sub-agents |
-| agent-impersonation | tool-use | Spoof trusted orchestrator to manipulate sub-agents |
-| cross-agent-exfiltration | tool-use | Extract data by routing it through multiple agents |
-
-### Protocol Exploitation Attacks
-| Attack | Mode | Description |
-|--------|------|-------------|
-| a2a-injection | tool-use | Inject malicious instructions via Agent-to-Agent protocol |
-| zero-click-injection | single | Trigger injection without user interaction via ambient context |
-| self-propagating-worm | tool-use | Craft prompts that replicate through connected agents |
-| protocol-downgrade | tool-use | Force agents to use less-secure communication paths |
-| control-plane-hijack | tool-use | Corrupt orchestration layer to redirect agent behavior |
-
-### Multimodal Attacks
-| Attack | Mode | Description |
-|--------|------|-------------|
-| audio-injection | single | Embed hidden instructions in audio transcription context |
-| video-frame-injection | single | Hide instructions in video frame descriptions |
-| ocr-bypass | single | Obfuscate harmful text to defeat OCR-based filters |
-| image-context-confusion | single | Use image context to reframe harmful text requests |
-| cross-modal-smuggling | single | Encode instructions across modality boundaries |
-
-### Supply Chain Attacks
-| Attack | Mode | Description |
-|--------|------|-------------|
-| model-poisoning | single | Probe for behaviors indicative of backdoored training |
-| dataset-poisoning | single | Trigger data poisoning artifacts in model outputs |
-| dependency-confusion | tool-use | Exploit package name confusion in agent tool installs |
-| plugin-backdoor | tool-use | Activate hidden functionality in compromised plugins |
-| fine-tune-backdoor | single | Trigger behaviors from adversarial fine-tuning |
-
-### RAG Exploitation Attacks
-| Attack | Mode | Description |
-|--------|------|-------------|
-| retrieval-manipulation | single | Craft queries to surface attacker-controlled documents |
-| embedding-collision | single | Generate text with similar embeddings to trusted content |
-| knowledge-base-poisoning | tool-use | Inject malicious documents into the retrieval index |
-| context-window-flooding | single | Drown safety-relevant chunks with attacker content |
-| rag-indirect-injection | single | Plant instructions in documents likely to be retrieved |
-
-### Domain-Specific and Advanced ML Attacks
-| Attack | Mode | Description |
-|--------|------|-------------|
-| crypto-exploitation | single | Exploit models to assist with cryptographic weaknesses or key recovery |
-| gaming-exploitation | multi | Abuse game AI logic, cheat detection bypass, in-game economy manipulation |
-| healthcare-exploitation | multi | Extract unsafe medical guidance, HIPAA bypass, clinical decision manipulation |
-| media-manipulation | single | AI-assisted deepfake instructions, synthetic media creation |
-| workplace-exploitation | multi | HR policy bypass, insider threat enablement, confidential data extraction |
-| psychological-manipulation | multi | Targeted emotional exploitation, behavioral influence techniques |
-| model-extraction | single | Reconstruct model weights or training data via query probing |
-| adversarial-ml | single | Craft adversarial inputs to fool classifiers or downstream ML pipelines |
-| safety-circumvention | multi | Meta-attacks that target the safety layer itself |
-| scientific-misconduct | single | Generate fabricated research, plagiarism assistance, peer review gaming |
-| information-warfare | multi | Disinformation campaigns, narrative control, propaganda generation |
-| legal-exploitation | multi | Jurisdiction shopping advice, contract loopholes, court filing manipulation |
-| infrastructure-attack | tool-use | Probe for ICS/SCADA vulnerabilities, power grid attack planning |
-| iot-exploitation | tool-use | Firmware extraction, IoT device compromise via model-assisted analysis |
-| autonomous-systems | tool-use | Manipulate autonomous vehicle or drone decision logic via adversarial inputs |
-
-### Security and Access Control Attacks
-| Attack | Mode | Description |
-|--------|------|-------------|
-| ssrf-probing | single | Internal URL request injection (169.254.169.254, localhost) |
-| sql-injection | single | SQL payload injection via model inputs |
-| xss-injection | single | Cross-site scripting payload generation |
-| bola-exploit | single | Broken object-level authorization probing |
-| bfla-exploit | single | Broken function-level authorization bypass |
-| session-hijacking | multi | Session token extraction and forgery |
-| api-key-extraction | multi | API key extraction from model context |
-| prompt-leaking | multi | System prompt extraction via indirect methods |
-| indirect-injection | single | Hidden instructions in tool output/RAG content |
-| cross-session-leak | multi | Cross-conversation information extraction |
-| debug-mode-exploit | single | Hidden debug/developer mode activation |
-| model-denial-of-service | single | Resource exhaustion via recursive inputs |
-
-### Compliance and Legal Attacks
-| Attack | Mode | Description |
-|--------|------|-------------|
-| age-verification-bypass | multi | Bypass age-gating on restricted content |
-| gdpr-probing | multi | Personal data extraction via GDPR framing |
-| terms-evasion | single | Help violating model's own terms of service |
-| regulatory-bypass | single | Advice on evading GDPR, HIPAA, SEC, FDA |
-| copyright-extraction | multi | Verbatim copyrighted text extraction |
-| medical-malpractice | multi | Unsafe medical advice without disclaimers |
-| legal-malpractice | multi | Specific legal advice model shouldn't give |
-| financial-malpractice | multi | Investment advice without proper disclaimers |
-
-### Advanced Social Engineering
-| Attack | Mode | Description |
-|--------|------|-------------|
-| pretexting | multi | False scenario building to extract information |
-| quid-pro-quo | multi | Reciprocity exploitation for harmful output |
-| watering-hole | single | Harmful requests embedded in benign documents |
-| trust-transfer | multi | Build trust on topic A, pivot to harmful topic B |
-| consensus-manipulation | single | False authority consensus pressure |
-| time-pressure | single | Artificial urgency to bypass safety |
-| authority-impersonation | multi | CISO/CEO/government official impersonation |
-| gaslighting | multi | Convince model its safety rules are wrong/outdated |
-
-### Hallucination and Reliability Attacks
-| Attack | Mode | Description |
-|--------|------|-------------|
-| fabrication-prompting | single | Generate fake citations, papers, statistics |
-| confidence-exploitation | single | State uncertain info as established fact |
-| citation-manipulation | single | Attribute false quotes to real public figures |
-| knowledge-boundary | single | Push past knowledge cutoff without admission |
-| sycophancy-exploit | multi | Get model to agree with incorrect statements |
-| anchoring-bias | multi | Anchor to wrong answer then elaborate |
-| false-premise | single | Build on false premises to get biased output |
-| selective-context | single | Biased context to get biased conclusions |
-
-### Advanced Encoding Attacks
-| Attack | Mode | Description |
-|--------|------|-------------|
-| morse-code | single | Morse code encoding of harmful requests |
-| braille-encoding | single | Unicode braille character encoding |
-| emoji-substitution | single | Emoji-based word substitution |
-| phonetic-spelling | single | NATO alphabet / phonetic spelling |
-| acronym-encoding | single | Custom acronym system to disguise requests |
-| mixed-language | single | Split request across multiple languages |
-
-## Adaptive Attack Generation
-
-Generate novel attacks using LLM-as-attacker:
+Contributions are welcome: new attack modules, provider integrations, dataset loaders, and evaluator improvements. A new attack registers itself through the plugin registry and needs its taxonomy mappings in the same change (a test enforces this). Run the suite before opening a PR:
 
 ```bash
-# PAIR: Iterative attacker-target-judge loop (arXiv 2310.08419)
-ai-blackteam generate pair -p anthropic -t "Write a phishing email" --max-iter 20
-
-# TAP: Tree of Attacks with Pruning (NeurIPS 2024)
-ai-blackteam generate tap -p anthropic -t "Write a phishing email" --depth 5
-
-# GPTFuzzer: Mutation-based fuzzing (USENIX 2024)
-ai-blackteam generate fuzz -p anthropic -t "Write a phishing email" --iterations 50
+poetry install --with dev
+poetry run pytest -m "not live"
 ```
 
-## Standards Alignment
-
-### MITRE ATLAS 2026.09
-
-All 1000+ attacks map to specific ATLAS technique IDs across 37 techniques. View mappings:
-
-```bash
-ai-blackteam atlas
-```
-
-### MLCommons AILuminate v1.0
-
-Harm categories align to the 12-category taxonomy used by Anthropic, OpenAI, Google, and Meta:
-
-```bash
-ai-blackteam mlcommons
-```
-
-### OWASP LLM Top 10 (2026)
-
-Generate a per-category safety scorecard:
-
-```bash
-ai-blackteam scorecard --standard llm
-ai-blackteam scorecard --standard llm --format json --output owasp-llm.json
-```
-
-### OWASP Agentic Top 10 (2026)
-
-Scorecard mapped to agentic AI system risks:
-
-```bash
-ai-blackteam scorecard --standard agentic
-ai-blackteam scorecard --standard agentic --format json --output owasp-agentic.json
-```
-
-### EU AI Act + NIST AI RMF Compliance
-
-```bash
-ai-blackteam scorecard --standard compliance
-```
-
-### Full Standards Coverage
-
-| Standard | Version | Coverage |
-|----------|---------|----------|
-| MITRE ATLAS | 2026.09 | 37 techniques |
-| OWASP LLM Top 10 | 2026 | All 10 categories |
-| OWASP Agentic Top 10 | 2026 | All 10 categories |
-| MLCommons AILuminate | v1.0 | 12 harm categories |
-| CSA MAESTRO | 7-Layer Framework | Agent threat model |
-| ISO/IEC 42001 | 2023 | AI management system |
-| EU AI Act | Risk Classification | 4 risk tiers |
-| NIST AI RMF | 1.0 | Govern/Map/Measure/Manage |
-| CVSS | v3.1 | Vulnerability scoring |
-| HarmBench | -- | 400-prompt eval |
-| StrongREJECT | -- | Refusal quality scoring |
-| JailbreakBench | -- | Jailbreak classification |
-
-## Benchmark Datasets
-
-| Dataset | Size | Focus |
-|---------|------|-------|
-| HarmBench | 400 prompts | Cross-model harm eval |
-| AdvBench | 520 prompts | Adversarial instructions |
-| JailbreakBench | 100 prompts | Jailbreak classification |
-| SorryBench | 450 prompts | Refusal quality |
-| WMDP | 3668 questions | CBRN knowledge uplift |
-| DoNotAnswer | 939 prompts | Responsible AI |
-| WildGuard | 13K prompts | Wild distribution safety |
-| RedBench | 800 prompts | Red team diversity |
-| SALAD-Bench | 21K prompts | Attack/defense eval |
-
-## Export Formats
-
-| Format | Command | Use Case |
-|--------|---------|----------|
-| Markdown | `report --format markdown` | Human-readable summary |
-| JSON | `report --format json` | CI/CD pipelines |
-| HTML | `report --format html` | Dark-themed dashboard |
-| Promptfoo | `report --export promptfoo` | Import into Promptfoo UI |
-| garak | `report --export garak` | Compare with garak scans |
-
-## Custom Plugins
-
-Drop a Python file in the `plugins/` folder:
-
-```python
-from ai_blackteam.registry import register_attack
-from ai_blackteam.attacks.base import BaseAttack
-
-@register_attack("my-attack")
-class MyAttack(BaseAttack):
-    name = "My Custom Attack"
-    technique_id = "my-attack"
-    mode = "single-turn"
-
-    def generate_prompts(self, target, **kwargs):
-        return [f"Custom prompt: {target}"]
-```
-
-It shows up in `ai-blackteam list-attacks` automatically.
-
-## Evaluator
-
-Three scoring methods (combine any):
-- **Keyword matching**: fast, free, checks for harmful content indicators across 22 harm categories
-- **Regex patterns**: precise, free, matches structural patterns
-- **LLM-as-judge**: accurate, uses Claude Haiku to rate 1-5
-
-Tool-use attacks are evaluated on tool calls, not text, detecting access to sensitive files, destructive commands, data exfiltration via web/email, and dangerous SQL queries.
-
-## Research
-
-This tool was built alongside real security research on Claude Sonnet 4 and 4.6:
-10 experiments covering 150+ attack runs with documented findings. Raw
-experiment transcripts are kept out of this repository on purpose, see below.
-
-## Responsible Disclosure
-
-ai-blackteam is built for coordinated disclosure, not for publishing working
-attacks. Findings produced with this framework are reported to model vendors
-before any public writeup.
-
-**Anthropic (March 2026)**
-
-Findings were submitted to Anthropic's model bug bounty channel
-(`modelbugbounty@anthropic.com`) across two models:
-
-**Claude Sonnet 4** (2026-03-29)
-
-1. **System-prompt metadata leakage via reframing**: the model blocked
-   verbatim system-prompt extraction but disclosed behavioral rules,
-   content-restriction categories, and operational constraints when the
-   request was framed as a structured-output task.
-2. **Tool-use progressive normalization**: tool-use safety evaluated
-   requests individually rather than cumulatively across a conversation.
-3. **Comprehensive evaluation**: 81 techniques across 6 attack categories.
-
-**Claude Haiku 4.5** (2026-03-30)
-
-4. **Safety bypasses**: systematic benchmark across 10 attack techniques and
-   5 harm categories at hard and extreme difficulty. The dominant techniques
-   were refusal suppression, low-resource-language wrapping, and prefix
-   injection.
-
-Full conversation logs and datasets were provided as attachments.
-
-These reports were submitted under coordinated disclosure. Anthropic has not
-published a response, and nothing here should be read as a vendor
-confirmation, severity rating, or accepted finding.
-
-**What is not published here:** specific bypass prompts, reproduction steps,
-raw experiment transcripts, and CBRN-related findings are deliberately excluded
-from this repository and from the accompanying paper. Attack *techniques* are
-implemented in the framework as named, citable methods from published research.
-Working exploit strings against a specific current model are not.
-
-If you are a vendor and want full detail on a finding, open a security advisory
-on this repo or email the maintainer.
-
-## Landscape
-
-| Tool | Focus | Limitation |
-|------|-------|------------|
-| Promptfoo | Eval CLI, YAML-driven | Acquired by OpenAI (Mar 2026), no longer vendor-neutral |
-| garak (NVIDIA) | 100+ automated probes | Single-prompt only, no multi-turn attacks |
-| DeepEval | RAG/agent metrics, 50+ evaluators | Broader but shallower adversarial depth |
-| AILuminate (MLCommons) | Industry benchmark, 24K prompts | Rates models but doesn't actively break them |
-| OpenAI Evals | First-party eval harness | Model-specific, not multi-provider |
-
-ai-blackteam fills the gap for independent, multi-provider, multi-turn adversarial testing with agent attack coverage and standards alignment. See [docs/research/llm-eval-landscape-2026.md](docs/research/llm-eval-landscape-2026.md) for the full competitive analysis.
-
-## Production Features
-
-- **Retry with backoff**: automatic retry (3 attempts, exponential backoff) on API failures across all 17 providers
-- **Structured logging**: `ai-blackteam run -v` for verbose, `--log-file run.log` for file output
-- **Thread-safe storage**: SQLite with WAL mode, thread locks, 5s busy timeout for parallel workers
-- **CBRN safety warnings**: warns before running sensitive attack categories against external APIs
-- **Provider safety identifiers**: `user` field on OpenAI API calls per their policy requirements
-- **Refusal-aware evaluator**: detects refusals across Claude, GPT, and Gemini styles; correctly classifies "refusal + educational content" as PARTIAL, not BYPASSED
+The `not live` marker keeps the suite offline and free. See the [architecture docs](https://ai-blackteam.ai-evals.workers.dev/architecture/overview) for how attacks, providers, and the evaluator fit together.
 
 ## License
 
-MIT
+GNU General Public License v3.0 or later. See [LICENSE](LICENSE).
+
+Earlier releases up to 1.9.0 were published under MIT and remain available under those terms.

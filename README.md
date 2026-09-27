@@ -1,10 +1,29 @@
-# ai-blackteam
+<div align="center">
 
-Automated LLM red team framework. Point it at any model, run one command, get a safety report.
+<a href="https://ai-blackteam.ai-evals.workers.dev/">
+  <img src="https://raw.githubusercontent.com/BILLKISHORE/ai-evals/main/docs/images/og.png" alt="ai-blackteam: red-team any LLM's safety from a single command" width="820">
+</a>
 
-[![PyPI](https://img.shields.io/pypi/v/ai-blackteam.svg)](https://pypi.org/project/ai-blackteam/) [![Docs](https://img.shields.io/badge/docs-live-E63946)](https://ai-blackteam.ai-evals.workers.dev/) [![License: GPL v3](https://img.shields.io/badge/license-GPLv3-blue.svg)](LICENSE)
+<h1>ai-blackteam</h1>
 
-**Docs:** https://ai-blackteam.ai-evals.workers.dev/
+<p><b>Automated LLM red team framework. Point it at any model, run one command, get a safety report.</b></p>
+
+<p>
+  <a href="https://pypi.org/project/ai-blackteam/"><img src="https://img.shields.io/pypi/v/ai-blackteam?color=E63946&label=pypi" alt="PyPI version"></a>
+  <a href="https://pypi.org/project/ai-blackteam/"><img src="https://img.shields.io/pypi/pyversions/ai-blackteam?color=3776AB&logo=python&logoColor=white" alt="Python versions"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-2088FF" alt="License: GPL v3"></a>
+  <a href="https://ai-blackteam.ai-evals.workers.dev/"><img src="https://img.shields.io/badge/docs-live-E63946" alt="Documentation"></a>
+  <a href="https://pypi.org/project/ai-blackteam/"><img src="https://img.shields.io/pypi/dm/ai-blackteam?color=44CC11&label=downloads" alt="PyPI downloads"></a>
+</p>
+
+<p>
+  <a href="https://ai-blackteam.ai-evals.workers.dev/guide/quickstart"><b>Quickstart</b></a> &nbsp;&bull;&nbsp;
+  <a href="https://ai-blackteam.ai-evals.workers.dev/attacks/all-attacks"><b>Attack catalog</b></a> &nbsp;&bull;&nbsp;
+  <a href="https://ai-blackteam.ai-evals.workers.dev/guide/compliance/overview"><b>Scorecards</b></a> &nbsp;&bull;&nbsp;
+  <a href="https://ai-blackteam.ai-evals.workers.dev/"><b>Docs</b></a>
+</p>
+
+</div>
 
 ## What it is
 

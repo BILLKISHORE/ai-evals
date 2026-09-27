@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ai-blackteam"
-version = "1.8.0"
+version = "1.9.0"
 description = "Automated LLM red team framework -- test any model's safety with one command"
 authors = ["Bill Kishore <abillkishoreinico@gmail.com>"]
 license = "MIT"

@@ -1,0 +1,38 @@
+---
+title: "Self-Red-Team Gate"
+description: "The sandbox earns trust by surviving escape attempts on every change, not by being designed well"
+---
+
+## The gate
+
+A sandbox is trusted because it is attacked and holds, not because it looks safe. The self-red-team suite runs known breakout payloads against the live sandbox and asserts containment. Any escape is a Sev1 that blocks release.
+
+```python
+from ai_blackteam.selfredteam import run_suite
+
+all_contained, results = run_suite()
+```
+
+Each payload tries to break out and prints a marker only if it succeeds. Containment means it reaches nothing and leaks no marker.
+
+## What it attacks
+
+| Payload | Attempt |
+|---------|---------|
+| egress | reach the open internet |
+| metadata | read the cloud metadata endpoint (169.254.169.254) |
+| fork-bomb | exhaust processes |
+| docker-socket | reach the Docker API socket |
+| cgroup-release-agent | the CVE-2022-0492 breakout class |
+| core-pattern | hijack the kernel crash handler |
+| mknod-device | create a block device to read the host disk |
+| sysrq-trigger | write the kernel sysrq trigger |
+| cap-sys-admin | check for a dangerous effective capability |
+
+On the default hardened container all of these are contained: no docker socket, `/proc/sys` and `/sys` read-only, no CAP_SYS_ADMIN, mknod denied, non-root, read-only rootfs.
+
+## The honest posture
+
+No sandbox is 100 percent escape-proof, and this one does not claim to be. The one residual the suite cannot rule out on a shared kernel is a kernel zero-day. The [dedicated-kernel tier](/guide/sandbox/isolation) shrinks that: on gVisor or a microVM, a kernel exploit that would breach the host is caught by a second kernel.
+
+The design is the opposite of a magic box. Strongest possible walls, plus a relentless attacker on every change, plus honest labels about what is and is not guaranteed. That is what keeps the sandbox trustworthy.

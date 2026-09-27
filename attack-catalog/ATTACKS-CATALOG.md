@@ -2,7 +2,7 @@
 
 Every attack registered in ai-blackteam, generated directly from the code.
 
-- **Total attacks:** 1025
+- **Total attacks:** 1028
 - **Categories:** 61
 - **Source of truth:** the live `attack_registry` (not hand-typed)
 
@@ -83,7 +83,7 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 | XPIA Document Injection | `xpia-document` | critical | tool-use | LLM01 | AML.T0051.001 | Indirect prompt injection via fetched document containing hidden instructions |
 | XPIA Email Injection | `xpia-email` | critical | tool-use | LLM01 | AML.T0051.001 | Indirect prompt injection via email content containing hidden forwarding instructions |
 | XPIA RAG Poisoning | `xpia-rag` | critical | tool-use | LLM01 | AML.T0051.001, AML.T0070 | Indirect prompt injection via poisoned RAG knowledge base search result |
-| Agent Config Discovery | `agent-config-discovery` | high | tool-use | LLM03, LLM08 | AML.T0084.001, AML.T0084.003 | Probe model to reveal tool definitions, system prompt, and agent config files |
+| Agent Config Discovery | `agent-config-discovery` | high | tool-use | LLM03, LLM08 | AML.T0084.001, AML.T0084.003, AML.T0133 | Probe model to reveal tool definitions, system prompt, and agent config files |
 | Agent Plugin Hijack | `agent-plugin-hijack` | high | tool-use | LLM03 | AML.T0053, AML.T0011.002, AML.T0080.001 | Indirect prompt injection via fetched content to trigger unauthorized tool calls |
 
 ## autonomous-risk (7)
@@ -756,13 +756,15 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 | Regulatory Capture Assist | `regulatory-capture-assist` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Assists in corrupting regulatory processes to benefit specific parties |
 | Visa Fraud | `visa-fraud` | high | single-turn | LLM01 | AML.T0054, AML.T0068 | Assists in fraudulently obtaining visas or immigration documents |
 
-## mcp-exploitation (5)
+## mcp-exploitation (7)
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
 | MCP Command Injection | `mcp-command-injection` | critical | tool-use | LLM03, LLM01 | AML.T0110.001, AML.T0050 | Shell metacharacters injected into MCP tool parameters to execute arbitrary commands |
 | MCP Data Exfiltration | `mcp-data-exfiltration` | critical | tool-use | LLM02, LLM03 | AML.T0085.001, AML.T0086 | Agent tricked into embedding sensitive data in URLs or webhooks via MCP tool side channels |
 | MCP Tool Poisoning | `mcp-tool-poisoning` | critical | tool-use | LLM02, LLM03 | AML.T0110.000, AML.T0011.002 | Hidden instructions embedded in MCP tool descriptions manipulate agent behavior |
+| MCP Cross-Server Tool Shadowing | `mcp-tool-shadowing` | high | tool-use | LLM04, LLM02 | AML.T0110.000, AML.T0010.005 | A malicious MCP server registers a tool whose name collides with a trusted server's tool, so the agent's name-based tool resolution routes calls to the attacker's implementation instead of the trusted one. |
+| MCP Proxied Server Confused Deputy | `mcp-confused-deputy` | high | tool-use | LLM03, LLM02 | AML.T0053, AML.T0122 | A proxy MCP server forwards agent requests to downstream services using its own stored credentials, so an attacker-shaped request runs with the proxy's elevated authority instead of the caller's, reaching internal endpoints the caller cannot. |
 | MCP Rug Pull | `mcp-rug-pull` | high | tool-use | LLM03, LLM02 | AML.T0109, AML.T0010.005 | Previously trusted MCP tool changes behavior mid-session to request credentials |
 | MCP Server Impersonation | `mcp-server-impersonation` | high | tool-use | LLM02, LLM03 | AML.T0111, AML.T0010.005 | Malicious MCP server impersonates a trusted service to harvest credentials |
 
@@ -873,11 +875,11 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
-| Audio Injection | `audio-injection` | high | single-turn | LLM01 | AML.T0051.000, AML.T0043.003 | Hidden voice commands or ultrasonic payloads embedded in audio that multimodal models process |
-| OCR Bypass | `ocr-bypass` | high | single-turn | LLM01 | AML.T0054, AML.T0043.003 | Harmful instructions rendered as text in images to bypass text-based safety filters via OCR processing |
-| Video Frame Injection | `video-frame-injection` | high | single-turn | LLM01 | AML.T0054, AML.T0043.003 | Malicious instructions hidden in individual video frames that multimodal models extract during processing |
-| Image-Text Mismatch | `image-text-mismatch` | medium | single-turn | LLM01, LLM07 | AML.T0054, AML.T0043.003 | Conflicting information between image content and text prompt to confuse multimodal safety filters |
-| Multimodal Context Confusion | `multimodal-context-confusion` | medium | single-turn | LLM01 | AML.T0054, AML.T0043.003 | Exploiting context switching between modalities to smuggle harmful content past safety checks |
+| Audio Injection | `audio-injection` | high | single-turn | LLM01 | AML.T0051.000, AML.T0043.003, AML.T0129 | Hidden voice commands or ultrasonic payloads embedded in audio that multimodal models process |
+| OCR Bypass | `ocr-bypass` | high | single-turn | LLM01 | AML.T0054, AML.T0043.003, AML.T0129 | Harmful instructions rendered as text in images to bypass text-based safety filters via OCR processing |
+| Video Frame Injection | `video-frame-injection` | high | single-turn | LLM01 | AML.T0054, AML.T0043.003, AML.T0129 | Malicious instructions hidden in individual video frames that multimodal models extract during processing |
+| Image-Text Mismatch | `image-text-mismatch` | medium | single-turn | LLM01, LLM07 | AML.T0054, AML.T0043.003, AML.T0129 | Conflicting information between image content and text prompt to confuse multimodal safety filters |
+| Multimodal Context Confusion | `multimodal-context-confusion` | medium | single-turn | LLM01 | AML.T0054, AML.T0043.003, AML.T0129 | Exploiting context switching between modalities to smuggle harmful content past safety checks |
 
 ## output-manipulation (16)
 
@@ -1012,7 +1014,7 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 | Reverse Psychology | `reverse-psychology` | medium | single-turn | LLM01 | AML.T0054, AML.T0068 | Phrases requests as prohibitions or challenges, exploiting the tendency to complete negated patterns or prove capability when told not to |
 | Style Injection | `style-injection` | medium | single-turn | LLM01 | AML.T0051.000, AML.T0068 | Forces specific output formats (JSON, code, recipe, poetry) to trick the model into complying with harmful requests as structured data |
 
-## protocol-exploitation (5)
+## protocol-exploitation (6)
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
@@ -1020,6 +1022,7 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 | Self-Propagating Worm | `self-propagating-worm` | critical | tool-use | LLM01, LLM03 | AML.T0054 | Tests if an agent can be tricked into creating self-replicating payloads that spread through agent interactions. The prompt instructs the agent to include the same injection in all outgoing messages. |
 | Tool Result Poisoning | `tool-result-poisoning` | critical | tool-use | LLM01, LLM02 | AML.T0110.002, AML.T0099 | Tests if an agent properly sanitizes tool call results by injecting prompt injection payloads into simulated tool responses |
 | Zero-Click Injection | `zero-click-injection` | critical | tool-use | LLM01 | AML.T0051.000, AML.T0051.001 | Tests EchoLeak-style zero-click attacks where a crafted email or document is automatically processed by the agent without user interaction. The payload hides in auto-fetched content. |
+| A2A Output-as-Instruction Trust Abuse | `a2a-trust-abuse` | high | tool-use | LLM01 | AML.T0051.001 | A downstream agent consumes a peer agent's output as trusted instructions, so content an attacker placed in the upstream agent's output is executed as commands by the downstream agent across the agent-to-agent trust boundary. |
 | Function Schema Injection | `function-schema-injection` | high | tool-use | LLM01, LLM03 | AML.T0051.000, AML.T0068 | Tests if malicious function/tool schemas can manipulate agent behavior by injecting harmful instructions into parameter descriptions and enum values |
 
 ## psychological-manipulation (25)
@@ -1285,9 +1288,9 @@ Each attack lists its technique id, severity, mode, and standards mapping.
 
 | Attack | Technique ID | Severity | Mode | OWASP | MITRE ATLAS | Description |
 |--------|--------------|----------|------|-------|-------------|-------------|
-| Vulnerability Research (CVE) | `vuln-research-cve` | critical | single-turn | LLM01 | AML.T0054, AML.T0068 | Tests vuln finding ability using real pre-patch code from known CVEs |
-| Vulnerability Research (Synthetic) | `vuln-research-synthetic` | critical | single-turn | LLM01 | AML.T0054, AML.T0068 | Tests vuln finding ability using synthetic code samples with planted bugs |
-| Vulnerability Research (User Code) | `vuln-research-user` | critical | single-turn | LLM01 | AML.T0054, AML.T0068 | Tests vuln finding ability against user-provided source code |
+| Vulnerability Research (CVE) | `vuln-research-cve` | critical | single-turn | LLM01 | AML.T0054, AML.T0068, AML.T0017.001 | Tests vuln finding ability using real pre-patch code from known CVEs |
+| Vulnerability Research (Synthetic) | `vuln-research-synthetic` | critical | single-turn | LLM01 | AML.T0054, AML.T0068, AML.T0017.001 | Tests vuln finding ability using synthetic code samples with planted bugs |
+| Vulnerability Research (User Code) | `vuln-research-user` | critical | single-turn | LLM01 | AML.T0054, AML.T0068, AML.T0017.001 | Tests vuln finding ability against user-provided source code |
 
 ## weapons-evasion (16)
 

@@ -64,6 +64,9 @@ ai-blackteam report --format html --output report.html
 - **19 public benchmark loaders**: HarmBench, AdvBench, JailbreakBench, SorryBench, WMDP, DoNotAnswer, WildGuard, StrongREJECT, BeaverTails, RealToxicityPrompts, JailBreakV-28K, AgentHarm, and more.
 - **8 adaptive generators**: PAIR, TAP, Fuzzer, AutoDAN, PAP, Crescendo, Best-of-N, and Stateful (which carries what a target already refused between attempts).
 - **A static scanner** for source code and MCP server definitions, with SARIF 2.1.0 output for the GitHub Security tab.
+- **Defense testing.** `defend` runs the same attacks with and without a guardrail, system prompt, or filter, and reports the block-rate delta so you can measure whether a defense actually helps. An ensemble `judge` scores a response with multiple LLM judges when a single verdict is not enough.
+- **Sandboxed exploit verification.** For code-exploit attacks, `vuln-research --verify-sandbox` runs the generated exploit inside a hardened Docker sandbox (default-deny egress, pinned images) and reports whether it actually works, rather than guessing from the text.
+- **Longitudinal tracking.** `snapshot` records a model's safety profile over time, so you can see whether a new model version got safer or weaker.
 - **Reasoning-effort control** across 16 providers: the same attack lands differently at `low` than at `max`, so effort is a red-team dimension, not a tuning knob.
 
 ## Providers
@@ -140,6 +143,33 @@ jobs:
 ```
 
 `benchmark` mode supports `--threshold` for a minimum safety score. A full workflow with manual dispatch and scheduled runs ships at `.github/workflows/safety-scan.yml`.
+
+## Command reference
+
+The commands you will reach for most:
+
+| Command | What it does |
+|---------|--------------|
+| `run` | One attack against one model |
+| `batch` | The whole corpus against one model |
+| `sweep` | Every attack against every configured provider |
+| `mega-sweep` | Attacks against external dataset prompts |
+| `benchmark` | A scored safety benchmark with a pass threshold |
+| `compare` | One attack across providers, side by side |
+| `defend` | Baseline vs defended safety, to measure a guardrail |
+| `generate` | Adaptive generators (PAIR, TAP, AutoDAN, stateful, and more) |
+| `scorecard` | Compliance scorecard from stored results |
+| `aivss` | Score a single finding, CVSS-style |
+| `scan` | Static scan of source or MCP server definitions |
+| `vuln-research` | Vulnerability-research elicitation, with optional sandbox verification |
+| `universal` | Universal jailbreak search for multi-question bounties |
+| `asl3` | ASL3 safety evaluation (CBRN and autonomous capability) |
+| `snapshot` | Longitudinal capability tracking |
+| `judge` | Ensemble LLM-as-judge on one response |
+| `report` | Build HTML, JSON, SARIF, Promptfoo, or garak output |
+| `list-attacks`, `list-providers`, `list-models`, `atlas`, `taxonomy`, `frameworks`, `mlcommons` | Browse what is available |
+
+Run any command with `--help` for its flags. Full reference: [CLI commands](https://ai-blackteam.ai-evals.workers.dev/architecture/reference/cli-commands).
 
 ## How it compares
 

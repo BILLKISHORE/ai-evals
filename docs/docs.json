@@ -135,6 +135,15 @@
             ]
           },
           {
+            "group": "Sandbox Verification",
+            "pages": [
+              "guide/sandbox/overview",
+              "guide/sandbox/fixtures",
+              "guide/sandbox/isolation",
+              "guide/sandbox/self-red-team"
+            ]
+          },
+          {
             "group": "Defense Testing",
             "pages": [
               "guide/defense/system-prompts",

@@ -1,10 +1,8 @@
 <div align="center">
 
 <a href="https://ai-blackteam.ai-evals.workers.dev/">
-  <img src="https://raw.githubusercontent.com/BILLKISHORE/ai-evals/main/docs/images/og.png" alt="ai-blackteam: red-team any LLM's safety from a single command" width="820">
+  <img src="https://raw.githubusercontent.com/BILLKISHORE/ai-evals/main/docs/images/hero.png" alt="ai-blackteam: test any model's safety with a single command" width="880">
 </a>
-
-<h1>ai-blackteam</h1>
 
 <p><b>Automated LLM red team framework. Point it at any model, run one command, get a safety report.</b></p>
 

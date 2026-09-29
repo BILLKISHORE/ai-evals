@@ -207,7 +207,9 @@ Specific bypass prompts, reproduction steps, raw experiment transcripts, and CBR
 
 ## Contributing
 
-Contributions are welcome: new attack modules, provider integrations, dataset loaders, and evaluator improvements. A new attack registers itself through the plugin registry and needs its taxonomy mappings in the same change (a test enforces this). Run the suite before opening a PR:
+Outside pull requests are not being accepted right now. They will be closed without review until a contributor license agreement is in place. Bug reports, attack ideas, and feature requests are welcome as [issues](https://github.com/BILLKISHORE/ai-evals/issues).
+
+If you are working on a fork: a new attack registers itself through the plugin registry and needs its taxonomy mappings in the same change (a test enforces this). Run the suite with:
 
 ```bash
 poetry install --with dev

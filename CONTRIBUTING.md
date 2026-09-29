@@ -1,5 +1,9 @@
 # Contributing to ai-blackteam
 
+**Outside pull requests are not being accepted right now.** They will be closed without review until a contributor license agreement is in place. Bug reports, attack ideas, and feature requests are welcome as [issues](https://github.com/BILLKISHORE/ai-evals/issues).
+
+The notes below document how the codebase is extended, for the maintainer and for anyone working on a fork.
+
 ## Adding a New Provider
 
 1. Create `src/ai-blackteam/providers/your_provider.py`
